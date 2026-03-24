@@ -1,4 +1,4 @@
-<![CDATA[# CLAUDE.md - AI Assistant Instructions
+# CLAUDE.md - AI Assistant Instructions
 
 This file provides context for AI coding assistants working on the Nextra
 project. Read this before making any changes.
@@ -202,4 +202,3 @@ cd frontend && npm run dev
 - Skip accessibility attributes on interactive components.
 - Use raw SQL queries in controllers (use the services layer).
 - Commit `.env` files or secrets.
-]]>

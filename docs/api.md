@@ -1,4 +1,4 @@
-<![CDATA[# API Reference
+# API Reference
 
 Base URL: `http://localhost:8080/api`
 
@@ -666,4 +666,3 @@ Service health check.
 ```
 
 **Auth required:** No
-]]>

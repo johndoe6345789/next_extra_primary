@@ -1,4 +1,4 @@
-<![CDATA[# Deployment Guide (CapRover)
+# Deployment Guide (CapRover)
 
 This guide covers deploying the Nextra application to a CapRover server.
 The frontend and backend are deployed as two separate CapRover apps.
@@ -250,4 +250,3 @@ jobs:
 6. Verify HTTPS is active on both apps.
 7. Check CORS is configured correctly (frontend can call backend).
 8. Monitor logs: CapRover UI > app > "App Logs".
-]]>
