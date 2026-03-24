@@ -45,8 +45,14 @@ struct JwtClaims {
 
 /**
  * @brief Retrieve the JWT signing secret.
- * @return Secret string from env JWT_SECRET or config.
+ * @return Secret from custom_config, JWT_SECRET env, or dev default.
  */
 [[nodiscard]] auto getSecret() -> std::string;
+
+/**
+ * @brief Retrieve the JWT issuer string.
+ * @return Issuer from custom_config or "next-extra" default.
+ */
+[[nodiscard]] auto getIssuer() -> std::string;
 
 } // namespace utils
