@@ -35,3 +35,13 @@ export type { ChatPanelProps } from './ChatPanel';
 
 export { AiChatMessage } from './AiChatMessage';
 export type { AiChatMessageProps } from './AiChatMessage';
+
+export { DashboardShortcuts } from './DashboardShortcuts';
+export type {
+  DashboardShortcutsProps,
+} from './DashboardShortcuts';
+
+export { ShortcutCheatSheet } from './ShortcutCheatSheet';
+export type {
+  ShortcutCheatSheetProps,
+} from './ShortcutCheatSheet';

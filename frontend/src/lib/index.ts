@@ -6,3 +6,4 @@
 export * from './api';
 export * from './validators';
 export * from './formatters';
+export * from './shortcutLabel';

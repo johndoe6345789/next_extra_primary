@@ -48,6 +48,7 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
           icon={<NotificationsIcon />}
           ariaLabel={label}
           onClick={onClick}
+          tooltip="Notifications (⌘⇧N)"
           testId={`${testId}-button`}
         />
       </Badge>

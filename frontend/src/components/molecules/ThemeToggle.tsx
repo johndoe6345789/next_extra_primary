@@ -30,7 +30,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
 
   const isDark = mode === 'dark';
   const label = isDark ? 'Toggle light mode' : 'Toggle dark mode';
-  const tip = isDark ? 'Dark mode' : 'Light mode';
+  const tip = isDark ? 'Dark mode (⌘⇧D)' : 'Light mode (⌘⇧D)';
 
   return (
     <div data-testid={testId}>

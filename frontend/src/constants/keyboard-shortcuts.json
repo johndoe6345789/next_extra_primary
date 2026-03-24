@@ -29,6 +29,11 @@
       "key": "Escape",
       "description": "Close modal or popover",
       "modifiers": []
+    },
+    "showShortcuts": {
+      "key": "?",
+      "description": "Show keyboard shortcuts",
+      "modifiers": []
     }
   },
   "chat": {
