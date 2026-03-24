@@ -152,8 +152,8 @@ class GamificationService
      * @param points  Accumulated point total.
      * @return Level number (1-based).
      */
-    [[nodiscard]] auto getLevelForPoints(std::int64_t points) const
-        -> std::int32_t;
+    [[nodiscard]] auto
+    getLevelForPoints(std::int64_t points) const -> std::int32_t;
 
     /**
      * @brief Get the title string for a given level.
@@ -169,8 +169,8 @@ class GamificationService
      * @param currentPoints  Current total.
      * @return Points remaining, or 0 if at max level.
      */
-    [[nodiscard]] auto pointsToNextLevel(std::int64_t currentPoints) const
-        -> std::int64_t;
+    [[nodiscard]] auto
+    pointsToNextLevel(std::int64_t currentPoints) const -> std::int64_t;
 
   private:
     /// Convenience accessor for the default DB client.

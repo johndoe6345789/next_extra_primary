@@ -49,8 +49,8 @@ inline auto jsonCreated(const json& data) -> HttpResponsePtr
  * @param message Human-readable error message.
  * @return Ready-to-send HTTP response.
  */
-inline auto jsonError(drogon::HttpStatusCode status, const std::string& message)
-    -> HttpResponsePtr
+inline auto jsonError(drogon::HttpStatusCode status,
+                      const std::string& message) -> HttpResponsePtr
 {
     json body = {{"error", message}};
     auto resp = drogon::HttpResponse::newHttpResponse();
@@ -69,8 +69,8 @@ inline auto jsonError(drogon::HttpStatusCode status, const std::string& message)
  * @return Ready-to-send HTTP response.
  */
 inline auto jsonPaginated(const json& data, std::int64_t total,
-                          std::int64_t page, std::int64_t perPage)
-    -> HttpResponsePtr
+                          std::int64_t page,
+                          std::int64_t perPage) -> HttpResponsePtr
 {
     json body = {{"data", data},
                  {"pagination",

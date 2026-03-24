@@ -29,8 +29,8 @@ auto getSecret() -> std::string
     return "dev-secret-change-in-production";
 }
 
-auto generateAccessToken(const std::string& userId, const std::string& role)
-    -> std::string
+auto generateAccessToken(const std::string& userId,
+                         const std::string& role) -> std::string
 {
     auto now = std::chrono::system_clock::now();
 

@@ -34,8 +34,8 @@ auto toHex(const unsigned char* data, std::size_t len) -> std::string
     return oss.str();
 }
 
-auto fromHex(const std::string& hex, unsigned char* out, std::size_t maxLen)
-    -> std::size_t
+auto fromHex(const std::string& hex, unsigned char* out,
+             std::size_t maxLen) -> std::size_t
 {
     std::size_t count = 0;
     for (std::size_t i = 0; i + 1 < hex.size() && count < maxLen;

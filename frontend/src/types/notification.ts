@@ -5,11 +5,12 @@
 
 /** Notification category. */
 export type NotificationType =
-  | 'achievement'
+  | 'badge_earned'
+  | 'level_up'
+  | 'streak_milestone'
   | 'system'
   | 'social'
-  | 'chat'
-  | 'streak';
+  | 'chat';
 
 /** A single notification record. */
 export interface Notification {
@@ -20,4 +21,11 @@ export interface Notification {
   read: boolean;
   createdAt: string;
   link?: string;
+}
+
+/** Redux state shape for notifications. */
+export interface NotificationState {
+  items: Notification[];
+  unreadCount: number;
+  isLoading: boolean;
 }
