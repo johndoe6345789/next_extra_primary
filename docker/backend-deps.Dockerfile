@@ -1,24 +1,26 @@
 # docker/backend-deps.Dockerfile
 #
-# Pre-bakes gcc 13, cmake, conan 2, clang-tidy, and all
-# Conan dependencies. Conan cache lives at /root/.conan2.
+# Multi-arch base for the C++ backend build toolchain.
+# Uses debian:sid for riscv64 + ppc64le support.
+# Pre-installs gcc-13, cmake, conan 2, clang-tidy,
+# and all Conan dependencies.
 #
-# Built and pushed to GHCR by base-images.yml when
-# backend/conanfile.py changes.
+# Platforms: amd64, arm64, riscv64, ppc64le
 
-FROM gcc:13
+FROM debian:sid
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        cmake \
-        python3 \
-        python3-pip \
-        python3-venv \
-        pkg-config \
-        libpq-dev \
-        libssl-dev \
-        zlib1g-dev \
-        clang-tidy && \
+        gcc-13 g++-13 make cmake \
+        python3 python3-pip python3-venv \
+        pkg-config clang-tidy ca-certificates \
+        libpq-dev libssl-dev zlib1g-dev && \
+    update-alternatives --install \
+        /usr/bin/gcc gcc /usr/bin/gcc-13 100 && \
+    update-alternatives --install \
+        /usr/bin/g++ g++ /usr/bin/g++-13 100 && \
+    update-alternatives --install \
+        /usr/bin/cc cc /usr/bin/gcc-13 100 && \
     rm -rf /var/lib/apt/lists/*
 
 RUN python3 -m pip install --break-system-packages \
@@ -28,8 +30,7 @@ RUN python3 -m pip install --break-system-packages \
 WORKDIR /deps
 COPY backend/conanfile.py .
 
-# Install all Conan packages into the cache.
-# This is the slow step (~3 min) that gets cached.
+# Pre-build all Conan packages (~3 min, cached).
 RUN conan install . \
         --build=missing \
         -s build_type=Release \
