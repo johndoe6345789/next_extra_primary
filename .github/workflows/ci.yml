@@ -100,8 +100,7 @@ jobs:
                 -s compiler.cppstd=20 \
                 --output-folder=build &&
               cmake -B build \
-                -DCMAKE_TOOLCHAIN_FILE=\
-          build/conan_toolchain.cmake \
+                -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake \
                 -DCMAKE_BUILD_TYPE=Release \
                 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON &&
               find src -name "*.cpp" \
@@ -212,11 +211,10 @@ jobs:
 
       - name: Configure CMake
         working-directory: backend
-        run: |
-          cmake -B build \
-            -DCMAKE_TOOLCHAIN_FILE=\
-          build/conan_toolchain.cmake \
-            -DCMAKE_BUILD_TYPE=Release
+        run: >-
+          cmake -B build
+          -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake
+          -DCMAKE_BUILD_TYPE=Release
 
       - name: Build backend binary
         working-directory: backend
@@ -326,12 +324,11 @@ jobs:
 
       - name: Configure CMake with testing
         working-directory: backend
-        run: |
-          cmake -B build \
-            -DCMAKE_TOOLCHAIN_FILE=\
-          build/conan_toolchain.cmake \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DBUILD_TESTING=ON
+        run: >-
+          cmake -B build
+          -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake
+          -DCMAKE_BUILD_TYPE=Release
+          -DBUILD_TESTING=ON
 
       - name: Build with tests
         working-directory: backend
