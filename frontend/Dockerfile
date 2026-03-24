@@ -16,7 +16,11 @@ RUN command -v node >/dev/null 2>&1 || { \
         nodejs npm ca-certificates \
         curl python3 make gcc g++ && \
     rm -rf /var/lib/apt/lists/* && \
-    npm install -g n && n 22 && \
+    npm install -g n && \
+    case "$(uname -m)" in \
+        x86_64|aarch64) n 22 ;; \
+        *) n --build 22 ;; \
+    esac && \
     npm install -g npm@latest && hash -r; }
 
 WORKDIR /app

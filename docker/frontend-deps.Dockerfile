@@ -22,9 +22,13 @@ RUN apt-get update && \
 
 # Use `n` to install Node 22 LTS. On amd64/arm64 this
 # downloads a prebuilt binary (~5s). On riscv64/ppc64le
-# it compiles from source (~10 min, cached in image).
+# `--build` compiles from source (~10 min, cached).
 ENV N_PREFIX=/usr/local
-RUN npm install -g n && n 22 && \
+RUN npm install -g n && \
+    case "$(uname -m)" in \
+        x86_64|aarch64) n 22 ;; \
+        *) n --build 22 ;; \
+    esac && \
     npm install -g npm@latest && \
     hash -r
 
