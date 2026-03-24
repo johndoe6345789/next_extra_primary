@@ -18,16 +18,12 @@ export const REG_RULES: ValidationRules = {
       message: 'Invalid email',
     },
   ],
-  displayName: [
-    { required: true, message: 'Required' },
-  ],
+  displayName: [{ required: true, message: 'Required' }],
   password: [
     { required: true, message: 'Required' },
     { minLength: 8, message: 'Min 8 chars' },
   ],
-  confirmPassword: [
-    { required: true, message: 'Required' },
-  ],
+  confirmPassword: [{ required: true, message: 'Required' }],
 };
 
 /** Form field values shape. */
@@ -40,10 +36,7 @@ export interface RegFields {
 }
 
 /** Change event type shorthand. */
-export type CE = React.ChangeEvent<
-  HTMLInputElement | HTMLTextAreaElement
->;
+export type CE = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
 /** Error map type shorthand. */
-export type Errs =
-  Record<string, string | undefined>;
+export type Errs = Record<string, string | undefined>;

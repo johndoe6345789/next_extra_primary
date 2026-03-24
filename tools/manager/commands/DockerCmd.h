@@ -9,14 +9,16 @@
 
 #include <string>
 
-namespace manager {
+namespace manager
+{
 
 /**
  * @class DockerCmd
  * @brief Constructs and executes docker compose commands.
  */
-class DockerCmd {
-public:
+class DockerCmd
+{
+  public:
     /**
      * @brief Execute a docker compose action.
      *

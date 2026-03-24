@@ -3,8 +3,7 @@
 import React, { useRef, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import CircularProgress
-  from '@mui/material/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 import { AiChatMessage } from './AiChatMessage';
 import type { ChatMessage } from '@/types/chat';
 
@@ -22,9 +21,10 @@ export interface ChatMessageListProps {
  * Scrollable message list with auto-scroll,
  * empty state, and streaming indicator.
  */
-export const ChatMessageList: React.FC<
-  ChatMessageListProps
-> = ({ messages, isStreaming }) => {
+export const ChatMessageList: React.FC<ChatMessageListProps> = ({
+  messages,
+  isStreaming,
+}) => {
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -42,18 +42,12 @@ export const ChatMessageList: React.FC<
       sx={{ flex: 1, overflow: 'auto', p: 2 }}
     >
       {messages.length === 0 && (
-        <Typography
-          color="text.secondary"
-          textAlign="center"
-        >
+        <Typography color="text.secondary" textAlign="center">
           Start a conversation
         </Typography>
       )}
       {messages.map((m) => (
-        <AiChatMessage
-          key={m.id} message={m}
-          testId={`msg-${m.id}`}
-        />
+        <AiChatMessage key={m.id} message={m} testId={`msg-${m.id}`} />
       ))}
       {isStreaming && (
         <Box sx={{ textAlign: 'center', py: 1 }}>

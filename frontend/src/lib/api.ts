@@ -50,8 +50,7 @@ export async function apiFetch<T>(
     const body = await res.json().catch(() => ({}));
     const error: ApiError = {
       status: res.status,
-      message:
-        body.message ?? res.statusText,
+      message: body.message ?? res.statusText,
       code: body.code,
       details: body.details,
     };

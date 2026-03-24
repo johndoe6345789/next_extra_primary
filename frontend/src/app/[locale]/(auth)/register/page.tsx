@@ -1,10 +1,9 @@
-import { setRequestLocale } from "next-intl/server";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import { RegisterForm } from
-  "@/components/organisms/RegisterForm";
+import { setRequestLocale } from 'next-intl/server';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import { RegisterForm } from '@/components/organisms/RegisterForm';
 
 /** Props for the register page. */
 interface RegisterPageProps {
@@ -33,17 +32,14 @@ export default async function RegisterPage({
       role="main"
       aria-label="Create account"
       sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
         px: 2,
       }}
     >
-      <Card
-        sx={{ maxWidth: 480, width: "100%" }}
-        elevation={3}
-      >
+      <Card sx={{ maxWidth: 480, width: '100%' }} elevation={3}>
         <CardContent sx={{ p: 4 }}>
           <Typography
             variant="h4"

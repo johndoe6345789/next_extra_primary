@@ -1,9 +1,9 @@
-import { setRequestLocale } from "next-intl/server";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
+import { setRequestLocale } from 'next-intl/server';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 
 /** Props for the notifications page. */
 interface NotificationsPageProps {
@@ -29,21 +29,14 @@ export default async function NotificationsPage({
 
   return (
     <Box aria-label="Notifications">
-      <Typography
-        variant="h4"
-        component="h1"
-        gutterBottom
-      >
+      <Typography variant="h4" component="h1" gutterBottom>
         Notifications
       </Typography>
       <List aria-label="Notification list">
         <ListItem>
           <ListItemText
             primary="No notifications yet"
-            secondary={
-              "Your alerts and updates"
-              + " will appear here."
-            }
+            secondary={'Your alerts and updates' + ' will appear here.'}
           />
         </ListItem>
       </List>

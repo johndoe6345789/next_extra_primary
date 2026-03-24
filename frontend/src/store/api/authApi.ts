@@ -25,10 +25,7 @@ export const authApi = baseApi.injectEndpoints({
     }),
 
     /** Register a new account. */
-    register: build.mutation<
-      LoginResponse,
-      RegisterRequest
-    >({
+    register: build.mutation<LoginResponse, RegisterRequest>({
       query: (body) => ({
         url: '/auth/register',
         method: 'POST',

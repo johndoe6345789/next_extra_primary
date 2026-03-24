@@ -3,11 +3,7 @@
  * @module store/api/chatApi
  */
 import { baseApi } from './baseApi';
-import type {
-  ChatMessage,
-  ChatProvider,
-  AiResponse,
-} from '../../types/chat';
+import type { ChatMessage, ChatProvider, AiResponse } from '../../types/chat';
 import type { PaginatedResponse } from '../../types/api';
 
 /** Send message payload. */
@@ -20,10 +16,7 @@ interface SendMessageRequest {
 export const chatApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     /** Send a message to the AI provider. */
-    sendMessage: build.mutation<
-      AiResponse,
-      SendMessageRequest
-    >({
+    sendMessage: build.mutation<AiResponse, SendMessageRequest>({
       query: (body) => ({
         url: '/chat/send',
         method: 'POST',

@@ -6,16 +6,14 @@
 
 #include <drogon/HttpController.h>
 
-namespace controllers {
-
-class HealthController
-    : public drogon::HttpController<HealthController>
+namespace controllers
 {
-public:
+
+class HealthController : public drogon::HttpController<HealthController>
+{
+  public:
     METHOD_LIST_BEGIN
-    ADD_METHOD_TO(HealthController::check,
-                  "/api/health",
-                  drogon::Get);
+    ADD_METHOD_TO(HealthController::check, "/api/health", drogon::Get);
     METHOD_LIST_END
 
     /**
@@ -23,10 +21,8 @@ public:
      * @param req  Incoming HTTP request.
      * @param cb   Response callback.
      */
-    void check(
-        const drogon::HttpRequestPtr &req,
-        std::function<void(const drogon::HttpResponsePtr &)>
-            &&cb);
+    void check(const drogon::HttpRequestPtr& req,
+               std::function<void(const drogon::HttpResponsePtr&)>&& cb);
 };
 
-}  // namespace controllers
+} // namespace controllers

@@ -43,10 +43,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   const clamped = Math.min(100, Math.max(0, value));
 
   return (
-    <Box
-      sx={{ display: 'flex', alignItems: 'center' }}
-      data-testid={testId}
-    >
+    <Box sx={{ display: 'flex', alignItems: 'center' }} data-testid={testId}>
       <Box sx={{ flexGrow: 1, mr: showPercentage ? 1 : 0 }}>
         <LinearProgress
           variant="determinate"

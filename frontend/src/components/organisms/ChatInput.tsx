@@ -2,10 +2,8 @@
 
 import React from 'react';
 import Box from '@mui/material/Box';
-import ToggleButtonGroup
-  from '@mui/material/ToggleButtonGroup';
-import ToggleButton
-  from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import ToggleButton from '@mui/material/ToggleButton';
 import { TextField, Button } from '../atoms';
 import { ChatProvider } from '@/types/chat';
 
@@ -29,11 +27,13 @@ export interface ChatInputProps {
  * Chat input bar with provider toggle, text
  * field, and send button.
  */
-export const ChatInput: React.FC<
-  ChatInputProps
-> = ({
-  value, onChange, onSend,
-  provider, onProvider, disabled,
+export const ChatInput: React.FC<ChatInputProps> = ({
+  value,
+  onChange,
+  onSend,
+  provider,
+  onProvider,
+  disabled,
 }) => {
   const onKey = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -42,39 +42,39 @@ export const ChatInput: React.FC<
     }
   };
   return (
-    <Box sx={{
-      display: 'flex', gap: 1, p: 2,
-      borderTop: 1, borderColor: 'divider',
-      alignItems: 'flex-end',
-    }}>
+    <Box
+      sx={{
+        display: 'flex',
+        gap: 1,
+        p: 2,
+        borderTop: 1,
+        borderColor: 'divider',
+        alignItems: 'flex-end',
+      }}
+    >
       <ToggleButtonGroup
-        value={provider} exclusive
-        size="small" aria-label="AI provider"
-        onChange={(_, v) =>
-          v && onProvider(v as ChatProvider)
-        }
+        value={provider}
+        exclusive
+        size="small"
+        aria-label="AI provider"
+        onChange={(_, v) => v && onProvider(v as ChatProvider)}
       >
-        <ToggleButton
-          value={ChatProvider.Anthropic}
-        >
-          Claude
-        </ToggleButton>
-        <ToggleButton
-          value={ChatProvider.OpenAI}
-        >
-          OpenAI
-        </ToggleButton>
+        <ToggleButton value={ChatProvider.Anthropic}>Claude</ToggleButton>
+        <ToggleButton value={ChatProvider.OpenAI}>OpenAI</ToggleButton>
       </ToggleButtonGroup>
       <Box sx={{ flex: 1 }} onKeyDown={onKey}>
         <TextField
-          label="Message" value={value}
+          label="Message"
+          value={value}
           onChange={(e) => onChange(e.target.value)}
-          multiline rows={1}
+          multiline
+          rows={1}
           testId="chat-input"
         />
       </Box>
       <Button
-        onClick={onSend} disabled={disabled}
+        onClick={onSend}
+        disabled={disabled}
         testId="chat-send"
         ariaLabel="Send message"
       >

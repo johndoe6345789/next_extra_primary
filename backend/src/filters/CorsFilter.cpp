@@ -9,48 +9,44 @@
 #include <string>
 #include <vector>
 
-namespace filters {
-
-namespace {
-
-auto getAllowedOrigin(
-    const std::string &requestOrigin) -> std::string
+namespace filters
 {
-    auto &cfg = drogon::app().getCustomConfig();
-    if (cfg.isMember("cors_origins")
-        && cfg["cors_origins"].isArray())
-    {
-        for (const auto &o : cfg["cors_origins"]) {
+
+namespace
+{
+
+auto getAllowedOrigin(const std::string& requestOrigin) -> std::string
+{
+    auto& cfg = drogon::app().getCustomConfig();
+    if (cfg.isMember("cors_origins") && cfg["cors_origins"].isArray()) {
+        for (const auto& o : cfg["cors_origins"]) {
             if (o.asString() == requestOrigin) {
                 return requestOrigin;
             }
         }
-        return {};  // Origin not in allowlist.
+        return {}; // Origin not in allowlist.
     }
     // No config -> allow all (dev mode).
     return "*";
 }
 
-void setCorsHeaders(
-    const drogon::HttpResponsePtr &resp,
-    const std::string &origin)
+void setCorsHeaders(const drogon::HttpResponsePtr& resp,
+                    const std::string& origin)
 {
     resp->addHeader("Access-Control-Allow-Origin", origin);
     resp->addHeader("Access-Control-Allow-Methods",
                     "GET, POST, PUT, PATCH, DELETE, OPTIONS");
     resp->addHeader("Access-Control-Allow-Headers",
                     "Content-Type, Authorization");
-    resp->addHeader("Access-Control-Allow-Credentials",
-                    "true");
+    resp->addHeader("Access-Control-Allow-Credentials", "true");
     resp->addHeader("Access-Control-Max-Age", "86400");
 }
 
-}  // namespace
+} // namespace
 
-void CorsFilter::doFilter(
-    const drogon::HttpRequestPtr &req,
-    drogon::FilterCallback &&cb,
-    drogon::FilterChainCallback &&ccb)
+void CorsFilter::doFilter(const drogon::HttpRequestPtr& req,
+                          drogon::FilterCallback&& cb,
+                          drogon::FilterChainCallback&& ccb)
 {
     auto origin = req->getHeader("Origin");
     auto allowed = getAllowedOrigin(origin);
@@ -77,4 +73,4 @@ void CorsFilter::doFilter(
     ccb();
 }
 
-}  // namespace filters
+} // namespace filters

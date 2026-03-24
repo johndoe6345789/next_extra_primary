@@ -1,8 +1,7 @@
-import { setRequestLocale } from "next-intl/server";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import { LeaderboardTable } from
-  "@/components/organisms/LeaderboardTable";
+import { setRequestLocale } from 'next-intl/server';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { LeaderboardTable } from '@/components/organisms/LeaderboardTable';
 
 /** Props for the leaderboard page. */
 interface LeaderboardPageProps {
@@ -27,11 +26,7 @@ export default async function LeaderboardPage({
 
   return (
     <Box aria-label="Leaderboard">
-      <Typography
-        variant="h4"
-        component="h1"
-        gutterBottom
-      >
+      <Typography variant="h4" component="h1" gutterBottom>
         Leaderboard
       </Typography>
       <LeaderboardTable />

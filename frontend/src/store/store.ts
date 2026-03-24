@@ -33,14 +33,9 @@ const rootReducer = combineReducers({
 });
 
 /** Shape of the combined root reducer. */
-export type RootReducerState = ReturnType<
-  typeof rootReducer
->;
+export type RootReducerState = ReturnType<typeof rootReducer>;
 
-const persistedReducer = persistReducer(
-  persistConfig,
-  rootReducer,
-);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 /** Configured Redux store instance. */
 export const store = configureStore({
@@ -48,22 +43,13 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [
-          FLUSH,
-          REHYDRATE,
-          PAUSE,
-          PERSIST,
-          PURGE,
-          REGISTER,
-        ],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }).concat(baseApi.middleware),
 });
 
 /** Inferred root state type. */
-export type RootState = ReturnType<
-  typeof store.getState
->;
+export type RootState = ReturnType<typeof store.getState>;
 
 /** Inferred dispatch type. */
 export type AppDispatch = typeof store.dispatch;

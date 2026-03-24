@@ -6,18 +6,15 @@
 #include "HealthController.h"
 #include "../utils/JsonResponse.h"
 
-namespace controllers {
+namespace controllers
+{
 
 void HealthController::check(
-    const drogon::HttpRequestPtr & /*req*/,
-    std::function<void(const drogon::HttpResponsePtr &)>
-        &&cb)
+    const drogon::HttpRequestPtr& /*req*/,
+    std::function<void(const drogon::HttpResponsePtr&)>&& cb)
 {
-    nlohmann::json body = {
-        {"status",  "ok"},
-        {"version", "1.0.0"}
-    };
+    nlohmann::json body = {{"status", "ok"}, {"version", "1.0.0"}};
     cb(utils::jsonOk(body));
 }
 
-}  // namespace controllers
+} // namespace controllers

@@ -10,24 +10,22 @@
 #include <string>
 
 using json = nlohmann::json;
-using Cb   = std::function<void(const drogon::HttpResponsePtr &)>;
+using Cb = std::function<void(const drogon::HttpResponsePtr&)>;
 
-namespace controllers {
-
-void UserController::list(
-    const drogon::HttpRequestPtr &req, Cb &&cb)
+namespace controllers
 {
-    auto role = req->attributes()->get<std::string>(
-        "user_role");
+
+void UserController::list(const drogon::HttpRequestPtr& req, Cb&& cb)
+{
+    auto role = req->attributes()->get<std::string>("user_role");
     if (role != "admin") {
-        cb(utils::jsonError(drogon::k403Forbidden,
-                            "Admin access required"));
+        cb(utils::jsonError(drogon::k403Forbidden, "Admin access required"));
         return;
     }
 
-    auto pageStr    = req->getParameter("page");
+    auto pageStr = req->getParameter("page");
     auto perPageStr = req->getParameter("per_page");
-    int64_t page    = pageStr.empty()    ? 1  : std::stoll(pageStr);
+    int64_t page = pageStr.empty() ? 1 : std::stoll(pageStr);
     int64_t perPage = perPageStr.empty() ? 20 : std::stoll(perPageStr);
 
     // TODO: query database with LIMIT/OFFSET.
@@ -36,27 +34,22 @@ void UserController::list(
 }
 
 // ----------------------------------------------------------
-void UserController::getProfile(
-    const drogon::HttpRequestPtr & /*req*/, Cb &&cb,
-    const std::string &id)
+void UserController::getProfile(const drogon::HttpRequestPtr& /*req*/, Cb&& cb,
+                                const std::string& id)
 {
     // TODO: look up user by id in database.
-    json user = {
-        {"id",           id},
-        {"username",     "placeholder"},
-        {"display_name", "Placeholder User"},
-        {"created_at",   "2025-01-01T00:00:00Z"}
-    };
+    json user = {{"id", id},
+                 {"username", "placeholder"},
+                 {"display_name", "Placeholder User"},
+                 {"created_at", "2025-01-01T00:00:00Z"}};
     cb(utils::jsonOk(user));
 }
 
 // ----------------------------------------------------------
-void UserController::updateProfile(
-    const drogon::HttpRequestPtr &req, Cb &&cb,
-    const std::string &id)
+void UserController::updateProfile(const drogon::HttpRequestPtr& req, Cb&& cb,
+                                   const std::string& id)
 {
-    auto callerId = req->attributes()->get<std::string>(
-        "user_id");
+    auto callerId = req->attributes()->get<std::string>("user_id");
     if (callerId != id) {
         cb(utils::jsonError(drogon::k403Forbidden,
                             "Can only update own profile"));
@@ -64,47 +57,34 @@ void UserController::updateProfile(
     }
 
     auto body = json::parse(
-        req->bodyData(),
-        req->bodyData() + req->bodyLength(),
-        nullptr, false);
+        req->bodyData(), req->bodyData() + req->bodyLength(), nullptr, false);
     if (body.is_discarded()) {
-        cb(utils::jsonError(drogon::k400BadRequest,
-                            "Invalid JSON body"));
+        cb(utils::jsonError(drogon::k400BadRequest, "Invalid JSON body"));
         return;
     }
 
     // TODO: apply partial update to database.
-    json updated = {
-        {"id", id},
-        {"message", "Profile updated"}
-    };
+    json updated = {{"id", id}, {"message", "Profile updated"}};
     cb(utils::jsonOk(updated));
 }
 
 // ----------------------------------------------------------
-void UserController::getBadges(
-    const drogon::HttpRequestPtr & /*req*/, Cb &&cb,
-    const std::string &id)
+void UserController::getBadges(const drogon::HttpRequestPtr& /*req*/, Cb&& cb,
+                               const std::string& id)
 {
     // TODO: fetch badges from database.
     json badges = json::array();
-    cb(utils::jsonOk({{"user_id", id},
-                      {"badges",  badges}}));
+    cb(utils::jsonOk({{"user_id", id}, {"badges", badges}}));
 }
 
 // ----------------------------------------------------------
-void UserController::getStats(
-    const drogon::HttpRequestPtr & /*req*/, Cb &&cb,
-    const std::string &id)
+void UserController::getStats(const drogon::HttpRequestPtr& /*req*/, Cb&& cb,
+                              const std::string& id)
 {
     // TODO: fetch gamification stats from database.
     json stats = {
-        {"user_id",      id},
-        {"total_points", 0},
-        {"level",        1},
-        {"streak_days",  0}
-    };
+        {"user_id", id}, {"total_points", 0}, {"level", 1}, {"streak_days", 0}};
     cb(utils::jsonOk(stats));
 }
 
-}  // namespace controllers
+} // namespace controllers

@@ -1,8 +1,7 @@
 'use client';
 
 import React from 'react';
-import NotificationsIcon
-  from '@mui/icons-material/Notifications';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import { IconButton } from '../atoms';
 import { Badge } from '../atoms';
 import { useNotifications } from '@/hooks';
@@ -26,14 +25,16 @@ export interface NotificationBellProps {
  * @param props - Component props.
  * @returns The notification bell element.
  */
-export const NotificationBell: React.FC<
-  NotificationBellProps
-> = ({ onClick, testId = 'notification-bell' }) => {
+export const NotificationBell: React.FC<NotificationBellProps> = ({
+  onClick,
+  testId = 'notification-bell',
+}) => {
   const { unreadCount } = useNotifications();
 
-  const label = unreadCount > 0
-    ? `${unreadCount} unread notifications`
-    : 'No unread notifications';
+  const label =
+    unreadCount > 0
+      ? `${unreadCount} unread notifications`
+      : 'No unread notifications';
 
   return (
     <div data-testid={testId}>

@@ -1,9 +1,7 @@
-import { setRequestLocale } from "next-intl/server";
-import Box from "@mui/material/Box";
-import { HeroSection } from
-  "@/components/organisms/HeroSection";
-import { FeatureGrid } from
-  "@/components/organisms/FeatureGrid";
+import { setRequestLocale } from 'next-intl/server';
+import Box from '@mui/material/Box';
+import { HeroSection } from '@/components/organisms/HeroSection';
+import { FeatureGrid } from '@/components/organisms/FeatureGrid';
 
 /** Props for the landing page. */
 interface LandingPageProps {
@@ -31,7 +29,7 @@ export default async function LandingPage({
       component="main"
       role="main"
       aria-label="Landing page"
-      sx={{ minHeight: "100vh" }}
+      sx={{ minHeight: '100vh' }}
     >
       <HeroSection />
       <FeatureGrid />

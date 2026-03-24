@@ -8,10 +8,7 @@
  * @param iso  - ISO 8601 date string
  * @param locale - BCP 47 locale tag
  */
-export function formatDate(
-  iso: string,
-  locale = 'en-US',
-): string {
+export function formatDate(iso: string, locale = 'en-US'): string {
   return new Date(iso).toLocaleDateString(locale, {
     year: 'numeric',
     month: 'short',
@@ -24,9 +21,7 @@ export function formatDate(
  * (e.g. "3 minutes ago", "2 days ago").
  * @param iso - ISO 8601 date string
  */
-export function formatRelativeTime(
-  iso: string,
-): string {
+export function formatRelativeTime(iso: string): string {
   const now = Date.now();
   const then = new Date(iso).getTime();
   const diffSec = Math.floor((now - then) / 1000);
@@ -49,10 +44,7 @@ export function formatRelativeTime(
  * @param n - number to format
  * @param locale - BCP 47 locale tag
  */
-export function formatNumber(
-  n: number,
-  locale = 'en-US',
-): string {
+export function formatNumber(n: number, locale = 'en-US'): string {
   return n.toLocaleString(locale);
 }
 
@@ -60,9 +52,7 @@ export function formatNumber(
  * Format points with a suffix (e.g. "1,200 pts").
  * @param points - numeric point value
  */
-export function formatPoints(
-  points: number,
-): string {
+export function formatPoints(points: number): string {
   return `${formatNumber(points)} pts`;
 }
 
@@ -72,10 +62,7 @@ export function formatPoints(
  * @param text - source string
  * @param max  - max characters (default 100)
  */
-export function truncateText(
-  text: string,
-  max = 100,
-): string {
+export function truncateText(text: string, max = 100): string {
   if (text.length <= max) return text;
   return text.slice(0, max).trimEnd() + '\u2026';
 }

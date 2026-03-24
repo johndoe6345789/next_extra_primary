@@ -9,14 +9,10 @@ export * from './authSlice';
 export { default as themeReducer } from './themeSlice';
 export * from './themeSlice';
 
-export {
-  default as notificationReducer,
-} from './notificationSlice';
+export { default as notificationReducer } from './notificationSlice';
 export * from './notificationSlice';
 
-export {
-  default as gamificationReducer,
-} from './gamificationSlice';
+export { default as gamificationReducer } from './gamificationSlice';
 export * from './gamificationSlice';
 
 export { default as chatReducer } from './chatSlice';
