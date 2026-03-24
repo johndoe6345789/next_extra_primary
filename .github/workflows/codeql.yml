@@ -94,14 +94,9 @@ jobs:
       - name: Build backend for analysis
         working-directory: backend
         run: |
-          conan install . \
-            --build=missing \
-            --output-folder=build
-          cmake -B build \
-            -DCMAKE_TOOLCHAIN_FILE=\
-          build/conan_toolchain.cmake \
-            -DCMAKE_BUILD_TYPE=Release
-          cmake --build build -j$(nproc)
+          conan install . --build=missing
+          cmake --preset conan-release
+          cmake --build --preset conan-release -j$(nproc)
 
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v3

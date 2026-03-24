@@ -205,26 +205,19 @@ jobs:
       - name: Install dependencies via Conan
         working-directory: backend
         run: >-
-          conan install .
-          --build=missing
-          --output-folder=build
-
-      - name: Configure CMake
-        working-directory: backend
-        run: >-
-          cmake -B build
-          -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake
-          -DCMAKE_BUILD_TYPE=Release
+          conan install . --build=missing
 
       - name: Build backend binary
         working-directory: backend
-        run: cmake --build build -j$(nproc)
+        run: |
+          cmake --preset conan-release
+          cmake --build --preset conan-release -j$(nproc)
 
       - name: Upload backend binary artifact
         uses: actions/upload-artifact@v4
         with:
           name: backend-binary
-          path: backend/build/nextra-api
+          path: backend/build/Release/nextra-api
           retention-days: 7
 
   # ----------------------------------------------------------
@@ -318,24 +311,16 @@ jobs:
       - name: Install dependencies via Conan
         working-directory: backend
         run: >-
-          conan install .
-          --build=missing
-          --output-folder=build
-
-      - name: Configure CMake with testing
-        working-directory: backend
-        run: >-
-          cmake -B build
-          -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake
-          -DCMAKE_BUILD_TYPE=Release
-          -DBUILD_TESTING=ON
+          conan install . --build=missing
 
       - name: Build with tests
         working-directory: backend
-        run: cmake --build build -j$(nproc)
+        run: |
+          cmake --preset conan-release -DBUILD_TESTING=ON
+          cmake --build --preset conan-release -j$(nproc)
 
       - name: Run tests via CTest
         working-directory: backend
         run: >-
-          ctest --test-dir build
+          ctest --test-dir build/Release
           --output-on-failure
