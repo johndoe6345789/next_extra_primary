@@ -1,60 +1,53 @@
 ##
 ## Dockerfile -- multi-stage build for nextra-api
 ##
-## Stage 1 (builder):
-##   gcc:13 base, installs Conan 2 + CMake, compiles a
-##   fully-static release binary.
+## Uses GHCR-hosted backend-deps image (built by
+## base-images.yml) for pre-cached Conan packages.
+## Falls back to gcc:13 if DEPS_IMAGE not provided.
 ##
-## Stage 2 (runtime):
-##   Minimal Debian Bookworm image with only the binary,
-##   config, migrations, and seed data.  Runs as a
-##   non-root user.
+## Stage 1 (builder): Conan install + CMake build
+## Stage 2 (runtime): Minimal Debian with binary only
 ##
 
-# =============================================================
+# ==========================================================
 # Stage 1 -- build
-# =============================================================
-FROM gcc:13 AS builder
+# ==========================================================
+ARG DEPS_IMAGE=gcc:13
+FROM ${DEPS_IMAGE} AS builder
 
-# Install build tooling
-RUN apt-get update && \
+# If using raw gcc:13 (no base image), install build tools.
+# These are no-ops if the base image already has them.
+RUN command -v conan >/dev/null 2>&1 || { \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
-        cmake \
-        python3 \
-        python3-pip \
-        python3-venv \
-        pkg-config \
-        libpq-dev \
-        libssl-dev \
-        zlib1g-dev && \
-    rm -rf /var/lib/apt/lists/*
-
-# Install Conan 2
-RUN python3 -m pip install --break-system-packages \
-    conan==2.* && \
-    conan profile detect --force
+        cmake python3 python3-pip python3-venv \
+        pkg-config libpq-dev libssl-dev zlib1g-dev && \
+    rm -rf /var/lib/apt/lists/* && \
+    python3 -m pip install --break-system-packages \
+        conan==2.* && \
+    conan profile detect --force; }
 
 WORKDIR /build
 
-# -- Dependency layer (cached unless conanfile changes) -------
+# -- Dependency layer (instant if Conan cache warm) --------
 COPY conanfile.py .
 RUN conan install . \
     --build=missing \
     -s build_type=Release \
     -s compiler.cppstd=20
 
-# -- Source layer ----------------------------------------------
+# -- Source layer -------------------------------------------
 COPY CMakeLists.txt .
 COPY src/ src/
 
-# -- Build -----------------------------------------------------
+# -- Build --------------------------------------------------
 RUN cmake --preset conan-release \
         -DCMAKE_BUILD_TYPE=Release && \
     cmake --build --preset conan-release --parallel
 
-# =============================================================
+# ==========================================================
 # Stage 2 -- runtime
-# =============================================================
+# ==========================================================
 FROM debian:bookworm-slim AS runtime
 
 RUN apt-get update && \

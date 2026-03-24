@@ -1,5 +1,6 @@
-<![CDATA[# Stage 1: Install dependencies
-FROM node:22-alpine AS deps
+# Stage 1: Install dependencies
+ARG DEPS_IMAGE=node:22-alpine
+FROM ${DEPS_IMAGE} AS deps
 
 WORKDIR /app
 
@@ -31,8 +32,12 @@ RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
 COPY --from=build /app/public ./public
-COPY --from=build --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=build --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=build \
+    --chown=nextjs:nodejs \
+    /app/.next/standalone ./
+COPY --from=build \
+    --chown=nextjs:nodejs \
+    /app/.next/static ./.next/static
 
 USER nextjs
 
@@ -42,4 +47,3 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
 CMD ["node", "server.js"]
-]]>

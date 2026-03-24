@@ -1,15 +1,15 @@
-# =============================================================================
+# ============================================================
 # CI Pipeline — Lint, Build, and Test
-# =============================================================================
+# ============================================================
 # Triggers on pushes to main and pull requests targeting main.
-# The pipeline is split into six jobs with explicit dependencies:
 #
 #   lint-frontend ──► build-frontend ──► test-frontend
 #   lint-backend  ──► build-backend  ──► test-backend
 #
-# Each job runs on ubuntu-latest and caches dependencies aggressively
-# to keep iteration times short.
-# =============================================================================
+# Build jobs pull pre-baked dependency images from GHCR
+# (built by base-images.yml) for fast dep installation.
+# Falls back to from-scratch installs if images are missing.
+# ============================================================
 
 name: CI
 
@@ -23,10 +23,15 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  REGISTRY: ghcr.io
+  BE_DEPS: ghcr.io/${{ github.repository }}/backend-deps:latest
+  FE_DEPS: ghcr.io/${{ github.repository }}/frontend-deps:latest
+
 jobs:
-  # ---------------------------------------------------------------------------
+  # ----------------------------------------------------------
   # Frontend Linting — ESLint + Prettier
-  # ---------------------------------------------------------------------------
+  # ----------------------------------------------------------
   lint-frontend:
     name: Lint Frontend
     runs-on: ubuntu-latest
@@ -53,9 +58,9 @@ jobs:
       - name: Run Prettier check
         run: npx prettier --check .
 
-  # ---------------------------------------------------------------------------
+  # ----------------------------------------------------------
   # Backend Linting — clang-format + clang-tidy
-  # ---------------------------------------------------------------------------
+  # ----------------------------------------------------------
   lint-backend:
     name: Lint Backend
     runs-on: ubuntu-latest
@@ -68,12 +73,50 @@ jobs:
 
       - name: Check formatting with clang-format
         run: |
-          find backend/src tools -name '*.cpp' -o -name '*.h' \
+          find backend/src tools \
+            -name '*.cpp' -o -name '*.h' \
             | xargs clang-format --dry-run --Werror
 
-  # ---------------------------------------------------------------------------
+      - name: Pull backend deps image
+        id: deps
+        continue-on-error: true
+        env:
+          IMG: ${{ env.BE_DEPS }}
+        run: docker pull "$IMG"
+
+      - name: Run clang-tidy (advisory)
+        if: steps.deps.outcome == 'success'
+        continue-on-error: true
+        env:
+          IMG: ${{ env.BE_DEPS }}
+        run: |
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE":/src \
+            -w /src/backend \
+            "$IMG" \
+            sh -c '
+              conan install . --build=missing \
+                -s build_type=Release \
+                -s compiler.cppstd=20 \
+                --output-folder=build &&
+              cmake -B build \
+                -DCMAKE_TOOLCHAIN_FILE=\
+          build/conan_toolchain.cmake \
+                -DCMAKE_BUILD_TYPE=Release \
+                -DCMAKE_EXPORT_COMPILE_COMMANDS=ON &&
+              find src -name "*.cpp" \
+                | xargs clang-tidy -p build
+            '
+
+      - name: Clang-tidy skipped (no base image)
+        if: steps.deps.outcome != 'success'
+        run: |
+          echo "::notice::Backend deps image unavailable."
+          echo "::notice::Run base-images workflow first."
+
+  # ----------------------------------------------------------
   # Frontend Build
-  # ---------------------------------------------------------------------------
+  # ----------------------------------------------------------
   build-frontend:
     name: Build Frontend
     needs: lint-frontend
@@ -92,6 +135,23 @@ jobs:
           cache: npm
           cache-dependency-path: frontend/package.json
 
+      - name: Pull frontend deps image
+        id: pull-deps
+        continue-on-error: true
+        env:
+          IMG: ${{ env.FE_DEPS }}
+        run: docker pull "$IMG"
+
+      - name: Extract cached node_modules
+        if: steps.pull-deps.outcome == 'success'
+        env:
+          IMG: ${{ env.FE_DEPS }}
+        run: |
+          CID=$(docker create "$IMG")
+          docker cp "$CID:/deps/node_modules" \
+            ./node_modules
+          docker rm "$CID"
+
       - name: Install dependencies
         run: npm install
 
@@ -105,9 +165,9 @@ jobs:
           path: frontend/.next/standalone
           retention-days: 7
 
-  # ---------------------------------------------------------------------------
+  # ----------------------------------------------------------
   # Backend Build
-  # ---------------------------------------------------------------------------
+  # ----------------------------------------------------------
   build-backend:
     name: Build Backend
     needs: lint-backend
@@ -116,20 +176,41 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Conan 2 and CMake
+      - name: Pull backend deps image
+        id: pull-deps
+        continue-on-error: true
+        env:
+          IMG: ${{ env.BE_DEPS }}
+        run: docker pull "$IMG"
+
+      - name: Extract Conan cache from base image
+        if: steps.pull-deps.outcome == 'success'
+        env:
+          IMG: ${{ env.BE_DEPS }}
+        run: |
+          CID=$(docker create "$IMG")
+          docker cp "$CID:/root/.conan2" \
+            "$HOME/.conan2"
+          docker rm "$CID"
+
+      - name: Install Conan 2
         run: |
           pip install conan
           conan profile detect --force
 
       - name: Install dependencies via Conan
         working-directory: backend
-        run: conan install . --build=missing --output-folder=build
+        run: >-
+          conan install .
+          --build=missing
+          --output-folder=build
 
       - name: Configure CMake
         working-directory: backend
         run: |
           cmake -B build \
-            -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake \
+            -DCMAKE_TOOLCHAIN_FILE=\
+          build/conan_toolchain.cmake \
             -DCMAKE_BUILD_TYPE=Release
 
       - name: Build backend binary
@@ -143,9 +224,9 @@ jobs:
           path: backend/build/nextra-api
           retention-days: 7
 
-  # ---------------------------------------------------------------------------
+  # ----------------------------------------------------------
   # Frontend Tests
-  # ---------------------------------------------------------------------------
+  # ----------------------------------------------------------
   test-frontend:
     name: Test Frontend
     needs: build-frontend
@@ -164,20 +245,38 @@ jobs:
           cache: npm
           cache-dependency-path: frontend/package.json
 
+      - name: Pull frontend deps image
+        id: pull-deps
+        continue-on-error: true
+        env:
+          IMG: ${{ env.FE_DEPS }}
+        run: docker pull "$IMG"
+
+      - name: Extract cached node_modules
+        if: steps.pull-deps.outcome == 'success'
+        env:
+          IMG: ${{ env.FE_DEPS }}
+        run: |
+          CID=$(docker create "$IMG")
+          docker cp "$CID:/deps/node_modules" \
+            ./node_modules
+          docker rm "$CID"
+
       - name: Install dependencies
         run: npm install
 
       - name: Run tests
         run: |
-          if npm run test --if-present 2>/dev/null; then
+          if npm run test --if-present 2>/dev/null
+          then
             echo "Tests completed."
           else
-            echo "::notice::No test script found — skipping."
+            echo "::notice::No test script — skipping."
           fi
 
-  # ---------------------------------------------------------------------------
+  # ----------------------------------------------------------
   # Backend Tests (GTest via CTest)
-  # ---------------------------------------------------------------------------
+  # ----------------------------------------------------------
   test-backend:
     name: Test Backend
     needs: build-backend
@@ -186,20 +285,41 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Conan 2 and CMake
+      - name: Pull backend deps image
+        id: pull-deps
+        continue-on-error: true
+        env:
+          IMG: ${{ env.BE_DEPS }}
+        run: docker pull "$IMG"
+
+      - name: Extract Conan cache from base image
+        if: steps.pull-deps.outcome == 'success'
+        env:
+          IMG: ${{ env.BE_DEPS }}
+        run: |
+          CID=$(docker create "$IMG")
+          docker cp "$CID:/root/.conan2" \
+            "$HOME/.conan2"
+          docker rm "$CID"
+
+      - name: Install Conan 2
         run: |
           pip install conan
           conan profile detect --force
 
       - name: Install dependencies via Conan
         working-directory: backend
-        run: conan install . --build=missing --output-folder=build
+        run: >-
+          conan install .
+          --build=missing
+          --output-folder=build
 
-      - name: Configure CMake with testing enabled
+      - name: Configure CMake with testing
         working-directory: backend
         run: |
           cmake -B build \
-            -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake \
+            -DCMAKE_TOOLCHAIN_FILE=\
+          build/conan_toolchain.cmake \
             -DCMAKE_BUILD_TYPE=Release \
             -DBUILD_TESTING=ON
 
@@ -209,4 +329,6 @@ jobs:
 
       - name: Run tests via CTest
         working-directory: backend
-        run: ctest --test-dir build --output-on-failure
+        run: >-
+          ctest --test-dir build
+          --output-on-failure

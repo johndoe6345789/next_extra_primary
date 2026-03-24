@@ -1,0 +1,120 @@
+name: Base Images
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/conanfile.py'
+      - 'frontend/package.json'
+      - 'frontend/package-lock.json'
+      - 'docker/backend-deps.Dockerfile'
+      - 'docker/frontend-deps.Dockerfile'
+  schedule:
+    - cron: '0 4 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  # -------------------------------------------------------
+  # Backend deps: gcc + cmake + conan + all packages
+  # -------------------------------------------------------
+  backend-deps:
+    name: Backend Deps Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Compute dep file hash
+        id: hash
+        run: |
+          H=$(sha256sum backend/conanfile.py \
+            | cut -c1-12)
+          echo "short=$H" >> "$GITHUB_OUTPUT"
+
+      - name: Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ${{ env.REGISTRY }}/${{ github.repository }}/backend-deps
+          tags: |
+            type=raw,value=latest
+            type=raw,value=sha-${{ steps.hash.outputs.short }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          file: docker/backend-deps.Dockerfile
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,scope=backend-deps
+          cache-to: >-
+            type=gha,mode=max,scope=backend-deps
+
+  # -------------------------------------------------------
+  # Frontend deps: node 22 + npm ci
+  # -------------------------------------------------------
+  frontend-deps:
+    name: Frontend Deps Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Compute dep file hash
+        id: hash
+        run: |
+          H=$(sha256sum frontend/package.json \
+            | cut -c1-12)
+          echo "short=$H" >> "$GITHUB_OUTPUT"
+
+      - name: Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ${{ env.REGISTRY }}/${{ github.repository }}/frontend-deps
+          tags: |
+            type=raw,value=latest
+            type=raw,value=sha-${{ steps.hash.outputs.short }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          file: docker/frontend-deps.Dockerfile
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,scope=frontend-deps
+          cache-to: >-
+            type=gha,mode=max,scope=frontend-deps
