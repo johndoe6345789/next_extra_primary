@@ -4,6 +4,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { LeaderboardTable } from '@/components/organisms/LeaderboardTable';
 
+/** Skip static prerendering for this page. */
+export const dynamic = 'force-dynamic';
 /** Props for the leaderboard page. */
 interface LeaderboardPageProps {
   /** Route params containing the locale. */

@@ -34,7 +34,8 @@ void AuthController::registerUser(const drogon::HttpRequestPtr& req, Cb&& cb)
         req->bodyData(), req->bodyData() + req->bodyLength(), nullptr, false);
     if (body.is_discarded() || !body.contains("email") ||
         !body.contains("username") || !body.contains("password")) {
-        cb(utils::jsonError(drogon::k400BadRequest, "Missing required fields"));
+        cb(::utils::jsonError(drogon::k400BadRequest,
+                              "Missing required fields"));
         return;
     }
 
@@ -42,20 +43,20 @@ void AuthController::registerUser(const drogon::HttpRequestPtr& req, Cb&& cb)
     auto username = body["username"].get<std::string>();
     auto password = body["password"].get<std::string>();
 
-    if (!utils::isValidEmail(email)) {
-        cb(utils::jsonError(drogon::k400BadRequest, "Invalid email format"));
+    if (!::utils::isValidEmail(email)) {
+        cb(::utils::jsonError(drogon::k400BadRequest, "Invalid email format"));
         return;
     }
-    if (!utils::isValidUsername(username)) {
-        cb(utils::jsonError(drogon::k400BadRequest, "Invalid username"));
+    if (!::utils::isValidUsername(username)) {
+        cb(::utils::jsonError(drogon::k400BadRequest, "Invalid username"));
         return;
     }
-    if (!utils::isValidPassword(password)) {
-        cb(utils::jsonError(drogon::k400BadRequest, "Password too weak"));
+    if (!::utils::isValidPassword(password)) {
+        cb(::utils::jsonError(drogon::k400BadRequest, "Password too weak"));
         return;
     }
 
-    auto hashed = utils::hashPassword(password);
+    auto hashed = ::utils::hashPassword(password);
     auto displayName = body.value("display_name", username);
 
     // TODO: persist user to database.
@@ -63,7 +64,7 @@ void AuthController::registerUser(const drogon::HttpRequestPtr& req, Cb&& cb)
                  {"email", email},
                  {"username", username},
                  {"display_name", displayName}};
-    cb(utils::jsonCreated(user));
+    cb(::utils::jsonCreated(user));
 }
 
 // ----------------------------------------------------------
@@ -73,8 +74,8 @@ void AuthController::login(const drogon::HttpRequestPtr& req, Cb&& cb)
         req->bodyData(), req->bodyData() + req->bodyLength(), nullptr, false);
     if (body.is_discarded() || !body.contains("email") ||
         !body.contains("password")) {
-        cb(utils::jsonError(drogon::k400BadRequest,
-                            "Email and password required"));
+        cb(::utils::jsonError(drogon::k400BadRequest,
+                              "Email and password required"));
         return;
     }
 
@@ -82,14 +83,14 @@ void AuthController::login(const drogon::HttpRequestPtr& req, Cb&& cb)
     auto userId = std::string{"user-uuid"};
     auto role = std::string{"user"};
 
-    auto access = utils::generateAccessToken(userId, role);
-    auto refresh = utils::generateRefreshToken(userId);
+    auto access = ::utils::generateAccessToken(userId, role);
+    auto refresh = ::utils::generateRefreshToken(userId);
 
     json result = {
         {"access_token", access},
         {"refresh_token", refresh},
         {"user", {{"id", userId}, {"email", body["email"]}, {"role", role}}}};
-    cb(utils::jsonOk(result));
+    cb(::utils::jsonOk(result));
 }
 
 // ----------------------------------------------------------
@@ -103,7 +104,7 @@ void AuthController::logout(const drogon::HttpRequestPtr& req, Cb&& cb)
         gBlockedTokens.insert(token);
     }
 
-    cb(utils::jsonOk({{"message", "Logged out"}}));
+    cb(::utils::jsonOk({{"message", "Logged out"}}));
 }
 
 // ----------------------------------------------------------
@@ -112,22 +113,23 @@ void AuthController::refresh(const drogon::HttpRequestPtr& req, Cb&& cb)
     auto body = json::parse(
         req->bodyData(), req->bodyData() + req->bodyLength(), nullptr, false);
     if (body.is_discarded() || !body.contains("refresh_token")) {
-        cb(utils::jsonError(drogon::k400BadRequest, "refresh_token required"));
+        cb(::utils::jsonError(drogon::k400BadRequest,
+                              "refresh_token required"));
         return;
     }
 
     try {
         auto claims =
-            utils::verifyToken(body["refresh_token"].get<std::string>());
+            ::utils::verifyToken(body["refresh_token"].get<std::string>());
         if (!claims.isRefresh) {
-            cb(utils::jsonError(drogon::k401Unauthorized,
-                                "Not a refresh token"));
+            cb(::utils::jsonError(drogon::k401Unauthorized,
+                                  "Not a refresh token"));
             return;
         }
-        auto access = utils::generateAccessToken(claims.userId, claims.role);
-        cb(utils::jsonOk({{"access_token", access}}));
+        auto access = ::utils::generateAccessToken(claims.userId, claims.role);
+        cb(::utils::jsonOk({{"access_token", access}}));
     } catch (const std::exception& ex) {
-        cb(utils::jsonError(drogon::k401Unauthorized, ex.what()));
+        cb(::utils::jsonError(drogon::k401Unauthorized, ex.what()));
     }
 }
 
@@ -139,7 +141,7 @@ void AuthController::me(const drogon::HttpRequestPtr& req, Cb&& cb)
     json user = {{"id", userId},
                  {"email", "user@example.com"},
                  {"role", req->attributes()->get<std::string>("user_role")}};
-    cb(utils::jsonOk(user));
+    cb(::utils::jsonOk(user));
 }
 
 // ----------------------------------------------------------
@@ -148,11 +150,11 @@ void AuthController::forgotPassword(const drogon::HttpRequestPtr& req, Cb&& cb)
     auto body = json::parse(
         req->bodyData(), req->bodyData() + req->bodyLength(), nullptr, false);
     if (body.is_discarded() || !body.contains("email")) {
-        cb(utils::jsonError(drogon::k400BadRequest, "Email required"));
+        cb(::utils::jsonError(drogon::k400BadRequest, "Email required"));
         return;
     }
     // TODO: generate token and send email.
-    cb(utils::jsonOk(
+    cb(::utils::jsonOk(
         {{"message", "If the email exists, a reset link was sent"}}));
 }
 
@@ -163,15 +165,15 @@ void AuthController::resetPassword(const drogon::HttpRequestPtr& req, Cb&& cb,
     auto body = json::parse(
         req->bodyData(), req->bodyData() + req->bodyLength(), nullptr, false);
     if (body.is_discarded() || !body.contains("password")) {
-        cb(utils::jsonError(drogon::k400BadRequest, "New password required"));
+        cb(::utils::jsonError(drogon::k400BadRequest, "New password required"));
         return;
     }
-    if (!utils::isValidPassword(body["password"].get<std::string>())) {
-        cb(utils::jsonError(drogon::k400BadRequest, "Password too weak"));
+    if (!::utils::isValidPassword(body["password"].get<std::string>())) {
+        cb(::utils::jsonError(drogon::k400BadRequest, "Password too weak"));
         return;
     }
     // TODO: validate token and update password in DB.
-    cb(utils::jsonOk({{"message", "Password has been reset"}}));
+    cb(::utils::jsonOk({{"message", "Password has been reset"}}));
 }
 
 // ----------------------------------------------------------
@@ -179,7 +181,7 @@ void AuthController::confirmEmail(const drogon::HttpRequestPtr& /*req*/,
                                   Cb&& cb, const std::string& token)
 {
     // TODO: validate confirmation token in DB.
-    cb(utils::jsonOk({{"message", "Email confirmed successfully"}}));
+    cb(::utils::jsonOk({{"message", "Email confirmed successfully"}}));
 }
 
 } // namespace controllers

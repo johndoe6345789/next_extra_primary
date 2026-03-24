@@ -6,6 +6,8 @@ import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 
+/** Skip static prerendering for this page. */
+export const dynamic = 'force-dynamic';
 /** Props for the dashboard home page. */
 interface DashboardPageProps {
   /** Route params containing the locale. */

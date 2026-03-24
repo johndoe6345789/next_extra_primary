@@ -14,7 +14,7 @@ void HealthController::check(
     std::function<void(const drogon::HttpResponsePtr&)>&& cb)
 {
     nlohmann::json body = {{"status", "ok"}, {"version", "1.0.0"}};
-    cb(utils::jsonOk(body));
+    cb(::utils::jsonOk(body));
 }
 
 } // namespace controllers

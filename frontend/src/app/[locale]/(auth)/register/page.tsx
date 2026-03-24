@@ -6,6 +6,8 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { RegisterForm } from '@/components/organisms/RegisterForm';
 
+/** Skip static prerendering for this page. */
+export const dynamic = 'force-dynamic';
 /** Props for the register page. */
 interface RegisterPageProps {
   /** Route params containing the locale. */

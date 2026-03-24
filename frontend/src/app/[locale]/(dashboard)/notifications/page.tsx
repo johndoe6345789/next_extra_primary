@@ -1,5 +1,8 @@
 import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
+
+/** Skip static prerendering for this page. */
+export const dynamic = 'force-dynamic';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';

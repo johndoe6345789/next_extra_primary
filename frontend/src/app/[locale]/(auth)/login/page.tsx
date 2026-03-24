@@ -6,6 +6,8 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { LoginForm } from '@/components/organisms/LoginForm';
 
+/** Skip static prerendering for this page. */
+export const dynamic = 'force-dynamic';
 /** Props for the login page. */
 interface LoginPageProps {
   /** Route params containing the locale. */

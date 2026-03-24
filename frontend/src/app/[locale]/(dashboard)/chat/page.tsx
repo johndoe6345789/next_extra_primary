@@ -4,6 +4,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { ChatPanel } from '@/components/organisms/ChatPanel';
 
+/** Skip static prerendering for this page. */
+export const dynamic = 'force-dynamic';
 /** Props for the AI chat page. */
 interface ChatPageProps {
   /** Route params containing the locale. */

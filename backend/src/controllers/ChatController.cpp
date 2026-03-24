@@ -22,7 +22,8 @@ void ChatController::sendMessage(const drogon::HttpRequestPtr& req, Cb&& cb)
     auto body = json::parse(
         req->bodyData(), req->bodyData() + req->bodyLength(), nullptr, false);
     if (body.is_discarded() || !body.contains("message")) {
-        cb(utils::jsonError(drogon::k400BadRequest, "message field required"));
+        cb(::utils::jsonError(drogon::k400BadRequest,
+                              "message field required"));
         return;
     }
 
@@ -30,7 +31,8 @@ void ChatController::sendMessage(const drogon::HttpRequestPtr& req, Cb&& cb)
     auto provider = body.value("provider", "default");
 
     if (message.empty()) {
-        cb(utils::jsonError(drogon::k400BadRequest, "message cannot be empty"));
+        cb(::utils::jsonError(drogon::k400BadRequest,
+                              "message cannot be empty"));
         return;
     }
 
@@ -41,7 +43,7 @@ void ChatController::sendMessage(const drogon::HttpRequestPtr& req, Cb&& cb)
                    {"provider", provider},
                    {"response", "AI response placeholder"},
                    {"created_at", "2025-01-01T00:00:00Z"}};
-    cb(utils::jsonCreated(result));
+    cb(::utils::jsonCreated(result));
 }
 
 // ----------------------------------------------------------
@@ -55,7 +57,7 @@ void ChatController::history(const drogon::HttpRequestPtr& req, Cb&& cb)
 
     // TODO: query chat history from database.
     json messages = json::array();
-    cb(utils::jsonPaginated(messages, 0, page, perPage));
+    cb(::utils::jsonPaginated(messages, 0, page, perPage));
 }
 
 // ----------------------------------------------------------
@@ -63,7 +65,7 @@ void ChatController::clearHistory(const drogon::HttpRequestPtr& req, Cb&& cb)
 {
     auto userId = req->attributes()->get<std::string>("user_id");
     // TODO: delete all chat records for userId from DB.
-    cb(utils::jsonOk({{"message", "Chat history cleared"}}));
+    cb(::utils::jsonOk({{"message", "Chat history cleared"}}));
 }
 
 } // namespace controllers
