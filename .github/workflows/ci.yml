@@ -99,7 +99,7 @@ jobs:
         run: npm run build
 
       - name: Upload standalone build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: frontend-standalone
           path: frontend/.next/standalone
@@ -137,7 +137,7 @@ jobs:
         run: cmake --build build -j$(nproc)
 
       - name: Upload backend binary artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: backend-binary
           path: backend/build/nextra-api
