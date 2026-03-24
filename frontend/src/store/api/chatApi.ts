@@ -8,8 +8,8 @@ import type { PaginatedResponse } from '../../types/api';
 
 /** Send message payload. */
 interface SendMessageRequest {
-  content: string;
-  provider: ChatProvider;
+  message: string;
+  provider?: ChatProvider;
 }
 
 /** Chat send/history/clear endpoints. */
@@ -18,7 +18,7 @@ export const chatApi = baseApi.injectEndpoints({
     /** Send a message to the AI provider. */
     sendMessage: build.mutation<AiResponse, SendMessageRequest>({
       query: (body) => ({
-        url: '/chat/send',
+        url: '/chat/messages',
         method: 'POST',
         body,
       }),
@@ -31,7 +31,7 @@ export const chatApi = baseApi.injectEndpoints({
       { page?: number; perPage?: number }
     >({
       query: ({ page = 1, perPage = 50 }) =>
-        `/chat/history?page=${page}&perPage=${perPage}`,
+        `/chat/history?page=${page}&per_page=${perPage}`,
       providesTags: ['Chat'],
     }),
 

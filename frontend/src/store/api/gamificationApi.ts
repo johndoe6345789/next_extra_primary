@@ -27,13 +27,13 @@ export const gamificationApi = baseApi.injectEndpoints({
 
     /** Get the current user's streak info. */
     getMyStreak: build.query<StreakInfo, void>({
-      query: () => '/gamification/streak',
+      query: () => '/gamification/streaks/me',
       providesTags: ['Gamification'],
     }),
 
     /** Get the current user's level progress. */
     getMyProgress: build.query<ProgressInfo, void>({
-      query: () => '/gamification/progress',
+      query: () => '/gamification/progress/me',
       providesTags: ['Gamification'],
     }),
   }),

@@ -24,7 +24,7 @@ interface ThemeProviderProps {
 export function ThemeProvider({ children }: ThemeProviderProps): JSX.Element {
   return (
     <MuiThemeProvider theme={theme}>
-      <InitColorSchemeScript attribute="data-color-scheme" />
+      <InitColorSchemeScript attribute="class" />
       <CssBaseline enableColorScheme />
       {children}
     </MuiThemeProvider>

@@ -20,10 +20,13 @@ export const userApi = baseApi.injectEndpoints({
       providesTags: (_r, _e, id) => [{ type: 'User', id }],
     }),
 
-    /** Update the current user's profile. */
-    updateUser: build.mutation<UserProfile, UpdateProfileRequest>({
-      query: (body) => ({
-        url: '/users/me',
+    /** Update a user profile by ID. */
+    updateUser: build.mutation<
+      UserProfile,
+      UpdateProfileRequest & { id: string }
+    >({
+      query: ({ id, ...body }) => ({
+        url: `/users/${id}`,
         method: 'PATCH',
         body,
       }),
@@ -48,7 +51,7 @@ export const userApi = baseApi.injectEndpoints({
       { page?: number; perPage?: number }
     >({
       query: ({ page = 1, perPage = 20 }) =>
-        `/users?page=${page}&perPage=${perPage}`,
+        `/users?page=${page}&per_page=${perPage}`,
       providesTags: ['User'],
     }),
   }),

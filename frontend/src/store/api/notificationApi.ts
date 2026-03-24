@@ -15,15 +15,14 @@ export const notificationApi = baseApi.injectEndpoints({
       { page?: number; perPage?: number }
     >({
       query: ({ page = 1, perPage = 20 }) =>
-        `/notifications?page=${page}&perPage=${perPage}`,
+        `/notifications?page=${page}&per_page=${perPage}`,
       providesTags: ['Notification'],
     }),
 
     /** Get unread notification count (polls). */
-    getUnreadCount: build.query<{ count: number }, void>({
+    getUnreadCount: build.query<{ unread_count: number }, void>({
       query: () => '/notifications/unread-count',
       providesTags: ['Notification'],
-      pollingInterval: 30_000,
     }),
 
     /** Mark a single notification as read. */
@@ -38,8 +37,8 @@ export const notificationApi = baseApi.injectEndpoints({
     /** Mark every notification as read. */
     markAllAsRead: build.mutation<void, void>({
       query: () => ({
-        url: '/notifications/read-all',
-        method: 'PATCH',
+        url: '/notifications/mark-all-read',
+        method: 'POST',
       }),
       invalidatesTags: ['Notification'],
     }),

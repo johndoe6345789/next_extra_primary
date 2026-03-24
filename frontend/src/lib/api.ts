@@ -9,6 +9,7 @@ const BASE = process.env.NEXT_PUBLIC_API_URL ?? '/api';
 
 /**
  * Build a full API URL with optional query params.
+ * Handles both absolute and relative base URLs.
  * @param path  - API path (e.g. "/users")
  * @param params - key-value query parameters
  */
@@ -16,13 +17,31 @@ export function buildUrl(
   path: string,
   params?: Record<string, string | number>,
 ): string {
-  const url = new URL(path, BASE);
-  if (params) {
-    for (const [k, v] of Object.entries(params)) {
-      url.searchParams.set(k, String(v));
+  const isAbsolute = /^https?:\/\//i.test(BASE);
+  let fullPath: string;
+
+  if (isAbsolute) {
+    const url = new URL(path, BASE);
+    if (params) {
+      for (const [k, v] of Object.entries(params)) {
+        url.searchParams.set(k, String(v));
+      }
     }
+    return url.toString();
   }
-  return url.toString();
+
+  const sep = BASE.endsWith('/') || path.startsWith('/') ? '' : '/';
+  fullPath = `${BASE}${sep}${path}`;
+
+  if (params) {
+    const qs = new URLSearchParams();
+    for (const [k, v] of Object.entries(params)) {
+      qs.set(k, String(v));
+    }
+    fullPath += `?${qs.toString()}`;
+  }
+
+  return fullPath;
 }
 
 /**
