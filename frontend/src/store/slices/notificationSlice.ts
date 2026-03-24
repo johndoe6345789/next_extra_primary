@@ -25,8 +25,9 @@ const notificationSlice = createSlice({
     /** Remove a notification by ID. */
     removeNotification(state, action: PayloadAction<string>) {
       const idx = state.items.findIndex((n) => n.id === action.payload);
-      if (idx !== -1) {
-        if (!state.items[idx].read) {
+      const item = state.items[idx];
+      if (idx !== -1 && item) {
+        if (!item.read) {
           state.unreadCount = Math.max(0, state.unreadCount - 1);
         }
         state.items.splice(idx, 1);

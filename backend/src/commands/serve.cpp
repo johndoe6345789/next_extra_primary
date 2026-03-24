@@ -40,11 +40,11 @@ void registerCorsAdvice()
     drogon::app().registerPreSendingAdvice(
         [](const drogon::HttpRequestPtr& req,
            const drogon::HttpResponsePtr& resp) {
-            auto* origin = req->attributes()->find<std::string>("cors_origin");
-            if (origin == nullptr || origin->empty()) {
+            auto origin = req->attributes()->get<std::string>("cors_origin");
+            if (origin.empty()) {
                 return;
             }
-            resp->addHeader("Access-Control-Allow-Origin", *origin);
+            resp->addHeader("Access-Control-Allow-Origin", origin);
             resp->addHeader("Access-Control-Allow-Methods",
                             "GET, POST, PUT, PATCH, DELETE, OPTIONS");
             resp->addHeader("Access-Control-Allow-Headers",
