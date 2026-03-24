@@ -1,0 +1,90 @@
+[
+  {
+    "name": "early_adopter",
+    "description": "Joined during the platform's early access period.",
+    "icon_url": "/icons/badges/early_adopter.svg",
+    "category": "special",
+    "points_required": 0,
+    "criteria_json": {
+      "type": "registration",
+      "before": "2026-06-01T00:00:00Z"
+    }
+  },
+  {
+    "name": "streak_master_7",
+    "description": "Maintained a 7-day activity streak.",
+    "icon_url": "/icons/badges/streak_7.svg",
+    "category": "streak",
+    "points_required": 0,
+    "criteria_json": {
+      "type": "streak",
+      "days": 7
+    }
+  },
+  {
+    "name": "streak_master_30",
+    "description": "Maintained a 30-day activity streak.",
+    "icon_url": "/icons/badges/streak_30.svg",
+    "category": "streak",
+    "points_required": 0,
+    "criteria_json": {
+      "type": "streak",
+      "days": 30
+    }
+  },
+  {
+    "name": "chatterbox",
+    "description": "Sent over 100 chat messages.",
+    "icon_url": "/icons/badges/chatterbox.svg",
+    "category": "chat",
+    "points_required": 0,
+    "criteria_json": {
+      "type": "chat_count",
+      "min_messages": 100
+    }
+  },
+  {
+    "name": "first_chat",
+    "description": "Sent your very first chat message.",
+    "icon_url": "/icons/badges/first_chat.svg",
+    "category": "chat",
+    "points_required": 0,
+    "criteria_json": {
+      "type": "chat_count",
+      "min_messages": 1
+    }
+  },
+  {
+    "name": "level_5",
+    "description": "Reached level 5.",
+    "icon_url": "/icons/badges/level_5.svg",
+    "category": "level",
+    "points_required": 500,
+    "criteria_json": {
+      "type": "level",
+      "min_level": 5
+    }
+  },
+  {
+    "name": "level_10",
+    "description": "Reached level 10.",
+    "icon_url": "/icons/badges/level_10.svg",
+    "category": "level",
+    "points_required": 2000,
+    "criteria_json": {
+      "type": "level",
+      "min_level": 10
+    }
+  },
+  {
+    "name": "points_1000",
+    "description": "Accumulated 1 000 total points.",
+    "icon_url": "/icons/badges/points_1000.svg",
+    "category": "points",
+    "points_required": 1000,
+    "criteria_json": {
+      "type": "total_points",
+      "min_points": 1000
+    }
+  }
+]

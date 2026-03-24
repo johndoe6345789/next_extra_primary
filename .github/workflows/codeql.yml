@@ -1,0 +1,87 @@
+# =============================================================================
+# CodeQL Security Scanning
+# =============================================================================
+# Runs GitHub CodeQL analysis for JavaScript/TypeScript and C++ to detect
+# security vulnerabilities, bugs, and code quality issues.
+#
+# Schedule: weekly on Monday at 06:15 UTC (off-peak) plus on every push
+# and pull request to main.
+# =============================================================================
+
+name: CodeQL
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Weekly scan: Monday at 06:15 UTC
+    - cron: "15 6 * * 1"
+
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # CodeQL Analysis — JavaScript/TypeScript
+  # ---------------------------------------------------------------------------
+  analyze-javascript:
+    name: Analyze JavaScript/TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+          # Use the default query suite for broad coverage
+          queries: security-extended
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript-typescript"
+
+  # ---------------------------------------------------------------------------
+  # CodeQL Analysis — C++
+  # ---------------------------------------------------------------------------
+  analyze-cpp:
+    name: Analyze C++
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          pip install conan
+          conan profile detect --force
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: cpp
+          queries: security-extended
+
+      # Manual build instead of autobuild for Conan/CMake projects
+      - name: Build backend for analysis
+        working-directory: backend
+        run: |
+          conan install . --build=missing --output-folder=build
+          cmake -B build \
+            -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake \
+            -DCMAKE_BUILD_TYPE=Release
+          cmake --build build -j$(nproc)
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:cpp"

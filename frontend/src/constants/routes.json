@@ -1,0 +1,18 @@
+{
+  "home": "/",
+  "dashboard": "/dashboard",
+  "leaderboard": "/leaderboard",
+  "profile": "/profile",
+  "profileEdit": "/profile/edit",
+  "chat": "/chat",
+  "notifications": "/notifications",
+  "about": "/about",
+  "contact": "/contact",
+  "settings": "/settings",
+  "login": "/login",
+  "register": "/register",
+  "forgotPassword": "/forgot-password",
+  "resetPassword": "/reset-password",
+  "badges": "/badges",
+  "notFound": "/404"
+}

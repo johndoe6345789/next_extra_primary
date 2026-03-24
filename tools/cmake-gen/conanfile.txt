@@ -1,0 +1,11 @@
+[requires]
+nlohmann_json/3.11.3
+cli11/2.4.2
+inja/3.4.0
+
+[generators]
+CMakeDeps
+CMakeToolchain
+
+[layout]
+cmake_layout

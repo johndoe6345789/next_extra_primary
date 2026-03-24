@@ -1,0 +1,91 @@
+{
+  "common": {
+    "appName": "NextExtra",
+    "loading": "Cargando...",
+    "error": "Algo sali\u00f3 mal",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "search": "Buscar",
+    "close": "Cerrar",
+    "confirm": "Confirmar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "submit": "Enviar",
+    "edit": "Editar",
+    "view": "Ver",
+    "retry": "Reintentar"
+  },
+  "auth": {
+    "login": "Iniciar sesi\u00f3n",
+    "register": "Crear cuenta",
+    "logout": "Cerrar sesi\u00f3n",
+    "email": "Correo electr\u00f3nico",
+    "password": "Contrase\u00f1a",
+    "forgotPassword": "\u00bfOlvidaste tu contrase\u00f1a?",
+    "resetPassword": "Restablecer contrase\u00f1a",
+    "confirmPassword": "Confirmar contrase\u00f1a",
+    "rememberMe": "Recordarme",
+    "noAccount": "\u00bfNo tienes una cuenta?",
+    "hasAccount": "\u00bfYa tienes una cuenta?",
+    "loginSuccess": "Sesi\u00f3n iniciada correctamente",
+    "logoutSuccess": "Sesi\u00f3n cerrada correctamente",
+    "registerSuccess": "Cuenta creada correctamente",
+    "invalidCredentials": "Correo o contrase\u00f1a inv\u00e1lidos",
+    "passwordMismatch": "Las contrase\u00f1as no coinciden",
+    "emailRequired": "El correo es obligatorio",
+    "passwordRequired": "La contrase\u00f1a es obligatoria"
+  },
+  "nav": {
+    "home": "Inicio",
+    "dashboard": "Panel",
+    "leaderboard": "Clasificaci\u00f3n",
+    "profile": "Perfil",
+    "chat": "Chat",
+    "notifications": "Notificaciones",
+    "about": "Acerca de",
+    "contact": "Contacto",
+    "settings": "Configuraci\u00f3n"
+  },
+  "hero": {
+    "title": "Sube de nivel en tu camino de aprendizaje",
+    "subtitle": "Participa, compite y crece con nuestra plataforma gamificada",
+    "cta": "Comenzar",
+    "features": "Explorar funciones"
+  },
+  "gamification": {
+    "points": "Puntos",
+    "level": "Nivel",
+    "streak": "Racha",
+    "badges": "Insignias",
+    "leaderboard": "Clasificaci\u00f3n",
+    "xpEarned": "{amount} XP ganados",
+    "levelUp": "\u00a1Subiste de nivel!",
+    "newBadge": "\u00a1Nueva insignia desbloqueada!",
+    "dailyStreak": "Racha de {count} d\u00edas",
+    "rank": "Puesto #{position}"
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "markAllRead": "Marcar todo como le\u00eddo",
+    "noNotifications": "Sin notificaciones nuevas",
+    "clearAll": "Borrar todo"
+  },
+  "chat": {
+    "placeholder": "Escribe un mensaje...",
+    "send": "Enviar",
+    "switchProvider": "Cambiar proveedor",
+    "noMessages": "A\u00fan no hay mensajes",
+    "typing": "Escribiendo..."
+  },
+  "a11y": {
+    "skipToContent": "Ir al contenido principal",
+    "openMenu": "Abrir men\u00fa de navegaci\u00f3n",
+    "closeMenu": "Cerrar men\u00fa de navegaci\u00f3n",
+    "toggleTheme": "Cambiar tema de color",
+    "switchLanguage": "Cambiar idioma",
+    "loading": "El contenido se est\u00e1 cargando",
+    "expandSection": "Expandir secci\u00f3n",
+    "collapseSection": "Contraer secci\u00f3n"
+  }
+}

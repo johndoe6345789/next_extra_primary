@@ -1,0 +1,14 @@
+---
+Checks: >
+  -*,
+  bugprone-*,
+  cppcoreguidelines-pro-*,
+  modernize-*,
+  performance-*,
+  readability-*,
+  -modernize-use-trailing-return-type,
+  -readability-magic-numbers
+
+HeaderFilterRegex: 'src/.*'
+
+WarningsAsErrors: ''

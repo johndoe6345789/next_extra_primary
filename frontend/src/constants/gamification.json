@@ -1,0 +1,33 @@
+{
+  "xpPerAction": {
+    "login": 5,
+    "completeProfile": 50,
+    "dailyVisit": 10,
+    "sendMessage": 2,
+    "receiveBadge": 25,
+    "streakBonus": 15,
+    "referral": 100
+  },
+  "levels": [
+    { "level": 1, "xpRequired": 0, "title": "Newcomer" },
+    { "level": 2, "xpRequired": 100, "title": "Explorer" },
+    { "level": 3, "xpRequired": 300, "title": "Contributor" },
+    { "level": 4, "xpRequired": 600, "title": "Achiever" },
+    { "level": 5, "xpRequired": 1000, "title": "Expert" },
+    { "level": 6, "xpRequired": 1500, "title": "Master" },
+    { "level": 7, "xpRequired": 2500, "title": "Legend" },
+    { "level": 8, "xpRequired": 4000, "title": "Champion" },
+    { "level": 9, "xpRequired": 6000, "title": "Grandmaster" },
+    { "level": 10, "xpRequired": 10000, "title": "Transcendent" }
+  ],
+  "streakMilestones": [3, 7, 14, 30, 60, 90, 180, 365],
+  "leaderboard": {
+    "pageSize": 25,
+    "refreshIntervalMs": 60000
+  },
+  "animations": {
+    "xpGainDurationMs": 800,
+    "levelUpDurationMs": 2000,
+    "badgeUnlockDurationMs": 1500
+  }
+}

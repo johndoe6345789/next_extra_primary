@@ -1,0 +1,40 @@
+import { setRequestLocale } from "next-intl/server";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { LeaderboardTable } from
+  "@/components/organisms/LeaderboardTable";
+
+/** Props for the leaderboard page. */
+interface LeaderboardPageProps {
+  /** Route params containing the locale. */
+  readonly params: Promise<{ locale: string }>;
+}
+
+/**
+ * Leaderboard page displaying user rankings.
+ *
+ * Renders the `LeaderboardTable` organism with
+ * sortable columns for points, streaks, and rank.
+ *
+ * @param props - Page props with locale params.
+ * @returns Leaderboard page UI.
+ */
+export default async function LeaderboardPage({
+  params,
+}: LeaderboardPageProps): Promise<JSX.Element> {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  return (
+    <Box aria-label="Leaderboard">
+      <Typography
+        variant="h4"
+        component="h1"
+        gutterBottom
+      >
+        Leaderboard
+      </Typography>
+      <LeaderboardTable />
+    </Box>
+  );
+}
