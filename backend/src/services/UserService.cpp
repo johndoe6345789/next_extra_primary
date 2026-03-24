@@ -192,7 +192,7 @@ void UserService::updateUser(const std::string& id, const json& fields,
             spdlog::error("updateUser DB error: {}", e.base().what());
             onError(k500InternalServerError, "Internal server error");
         },
-        std::move(params));
+        cParams.size(), cParams.data(), lengths.data(), formats.data());
 }
 
 // ----------------------------------------------------------------
