@@ -106,8 +106,8 @@ class MigrationService
     [[nodiscard]] static auto extractUp(const std::string& sql) -> std::string;
 
     /// Extract the DOWN portion (after `-- DOWN`).
-    [[nodiscard]] static auto extractDown(const std::string& sql)
-        -> std::string;
+    [[nodiscard]] static auto
+    extractDown(const std::string& sql) -> std::string;
 
     std::string migrationsDir_;
 };

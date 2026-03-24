@@ -26,8 +26,10 @@ auto getAllowedOrigin(const std::string& requestOrigin) -> std::string
         }
         return {}; // Origin not in allowlist.
     }
-    // No config -> allow all (dev mode).
-    return "*";
+    // No config -> echo request origin (dev mode).
+    // Returning "*" with credentials is invalid per
+    // the CORS spec, so we reflect the origin instead.
+    return requestOrigin;
 }
 
 void setCorsHeaders(const drogon::HttpResponsePtr& resp,
@@ -65,12 +67,15 @@ void CorsFilter::doFilter(const drogon::HttpRequestPtr& req,
         return;
     }
 
-    // Non-preflight: add CORS headers after handler runs.
-    // Drogon does not support post-filters natively, so we
-    // store the origin for an AOP-style advice registered
-    // at startup. For now, we rely on controller helpers.
-    req->attributes()->insert("cors_origin", allowed);
-    ccb();
+    // Non-preflight: wrap the callback to inject CORS
+    // headers on the actual response.
+    auto wrappedCb = [cb = std::move(cb),
+                      allowed](const drogon::HttpResponsePtr& resp) {
+        setCorsHeaders(resp, allowed);
+        cb(resp);
+    };
+
+    ccb(std::move(wrappedCb));
 }
 
 } // namespace filters
