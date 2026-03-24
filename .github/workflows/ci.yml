@@ -120,6 +120,7 @@ jobs:
   build-frontend:
     name: Build Frontend
     needs: lint-frontend
+    if: always()
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -171,6 +172,7 @@ jobs:
   build-backend:
     name: Build Backend
     needs: lint-backend
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -230,6 +232,7 @@ jobs:
   test-frontend:
     name: Test Frontend
     needs: build-frontend
+    if: always()
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -280,6 +283,7 @@ jobs:
   test-backend:
     name: Test Backend
     needs: build-backend
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

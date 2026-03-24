@@ -2,8 +2,7 @@ import { ReactNode } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import Box from '@mui/material/Box';
 import { Navbar } from '@/components/organisms/Navbar';
-import { DashboardShortcuts } from
-  '@/components/organisms/DashboardShortcuts';
+import { DashboardShortcuts } from '@/components/organisms/DashboardShortcuts';
 
 /** Props for the dashboard layout. */
 interface DashboardLayoutProps {

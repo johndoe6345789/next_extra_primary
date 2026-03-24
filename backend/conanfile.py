@@ -26,7 +26,7 @@ class NextraBackend(ConanFile):
 
     def build_requirements(self):
         """Declare test-only dependencies."""
-        self.test_requires("gtest/1.15.2")
+        self.test_requires("gtest/1.14.0")
 
     def layout(self):
         """Use standard CMake layout."""
