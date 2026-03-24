@@ -27,7 +27,7 @@ const themeSlice = createSlice({
     toggleMode(state) {
       const cycle: ThemeMode[] = ['light', 'dark', 'system'];
       const idx = cycle.indexOf(state.mode);
-      state.mode = cycle[(idx + 1) % cycle.length];
+      state.mode = cycle[(idx + 1) % cycle.length] ?? 'light';
     },
   },
 });
