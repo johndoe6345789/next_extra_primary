@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -23,7 +24,7 @@ interface NotificationsPageProps {
  */
 export default async function NotificationsPage({
   params,
-}: NotificationsPageProps): Promise<JSX.Element> {
+}: NotificationsPageProps): Promise<ReactElement> {
   const { locale } = await params;
   setRequestLocale(locale);
 

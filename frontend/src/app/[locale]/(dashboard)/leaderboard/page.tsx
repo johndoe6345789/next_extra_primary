@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -20,7 +21,7 @@ interface LeaderboardPageProps {
  */
 export default async function LeaderboardPage({
   params,
-}: LeaderboardPageProps): Promise<JSX.Element> {
+}: LeaderboardPageProps): Promise<ReactElement> {
   const { locale } = await params;
   setRequestLocale(locale);
 

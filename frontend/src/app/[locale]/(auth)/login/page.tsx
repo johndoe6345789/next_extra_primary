@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -22,7 +23,7 @@ interface LoginPageProps {
  */
 export default async function LoginPage({
   params,
-}: LoginPageProps): Promise<JSX.Element> {
+}: LoginPageProps): Promise<ReactElement> {
   const { locale } = await params;
   setRequestLocale(locale);
 

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, type ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import Box from '@mui/material/Box';
 import { Navbar } from '@/components/organisms/Navbar';
@@ -25,7 +25,7 @@ interface DashboardLayoutProps {
 export default async function DashboardLayout({
   children,
   params,
-}: DashboardLayoutProps): Promise<JSX.Element> {
+}: DashboardLayoutProps): Promise<ReactElement> {
   const { locale } = await params;
   setRequestLocale(locale);
 

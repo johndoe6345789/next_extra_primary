@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, type ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import { IntlProvider } from '@/components/providers/IntlProvider';
 import { AuthGate } from '@/components/providers/AuthGate';
@@ -38,7 +38,7 @@ export function generateStaticParams(): Array<{
 export default async function LocaleLayout({
   children,
   params,
-}: LocaleLayoutProps): Promise<JSX.Element> {
+}: LocaleLayoutProps): Promise<ReactElement> {
   const { locale } = await params;
   setRequestLocale(locale);
 

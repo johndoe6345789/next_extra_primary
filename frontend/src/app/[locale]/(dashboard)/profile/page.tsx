@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -22,7 +23,7 @@ interface ProfilePageProps {
  */
 export default async function ProfilePage({
   params,
-}: ProfilePageProps): Promise<JSX.Element> {
+}: ProfilePageProps): Promise<ReactElement> {
   const { locale } = await params;
   setRequestLocale(locale);
 
