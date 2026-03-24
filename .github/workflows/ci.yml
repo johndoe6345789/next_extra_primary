@@ -195,8 +195,11 @@ jobs:
             "$HOME/.conan2"
           docker rm "$CID"
 
-      - name: Install Conan 2
+      - name: Install build tools and Conan 2
         run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake libpq-dev libssl-dev
           pip install conan
           conan profile detect --force
 
@@ -306,8 +309,11 @@ jobs:
             "$HOME/.conan2"
           docker rm "$CID"
 
-      - name: Install Conan 2
+      - name: Install build tools and Conan 2
         run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake libpq-dev libssl-dev
           pip install conan
           conan profile detect --force
 
