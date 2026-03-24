@@ -197,6 +197,23 @@ static void cmd_serve(std::uint16_t port, const std::string& config)
     // CLI --port overrides the config value.
     drogon::app().addListener("0.0.0.0", port);
 
+    // Inject CORS headers on every response when the
+    // CorsFilter stored an origin in the request attrs.
+    drogon::app().registerPreSendingAdvice(
+        [](const drogon::HttpRequestPtr& req,
+           const drogon::HttpResponsePtr& resp) {
+            auto* origin = req->attributes()->find<std::string>("cors_origin");
+            if (origin == nullptr || origin->empty()) {
+                return;
+            }
+            resp->addHeader("Access-Control-Allow-Origin", *origin);
+            resp->addHeader("Access-Control-Allow-Methods",
+                            "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+            resp->addHeader("Access-Control-Allow-Headers",
+                            "Content-Type, Authorization");
+            resp->addHeader("Access-Control-Allow-Credentials", "true");
+        });
+
     spdlog::info("Starting nextra-api on port {}", port);
     drogon::app().run();
 
