@@ -56,7 +56,9 @@ function matches(e: KeyboardEvent, p: ParsedCombo): boolean {
     : !e.ctrlKey && !(isMac && e.metaKey);
   const shiftOk = p.shift === e.shiftKey;
   const altOk = p.alt === e.altKey;
-  const metaOk = p.meta ? e.metaKey : isMac ? true : !e.metaKey;
+  const metaOk = p.meta
+    ? e.metaKey
+    : !e.metaKey || (isMac && p.ctrl && e.metaKey && !e.ctrlKey);
   return ctrlOk && shiftOk && altOk && metaOk && e.key.toLowerCase() === p.key;
 }
 
