@@ -3,20 +3,13 @@
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '@/store/store';
-import {
-  clearCredentials,
-  setCredentials,
-} from '@/store/slices/authSlice';
+import { clearCredentials, setCredentials } from '@/store/slices/authSlice';
 import {
   useLoginMutation,
   useRegisterMutation,
   useLogoutMutation,
 } from '@/store/api/authApi';
-import type {
-  User,
-  LoginRequest,
-  RegisterRequest,
-} from '@/types/auth';
+import type { User, LoginRequest, RegisterRequest } from '@/types/auth';
 
 /** Return type for the useAuth hook. */
 interface UseAuthReturn {
@@ -43,8 +36,9 @@ interface UseAuthReturn {
  */
 export function useAuth(): UseAuthReturn {
   const dispatch = useDispatch();
-  const { user, isAuthenticated, isLoading } =
-    useSelector((s: RootState) => s.auth);
+  const { user, isAuthenticated, isLoading } = useSelector(
+    (s: RootState) => s.auth,
+  );
 
   const [loginMut] = useLoginMutation();
   const [registerMut] = useRegisterMutation();

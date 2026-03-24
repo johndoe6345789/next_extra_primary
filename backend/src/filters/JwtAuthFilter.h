@@ -9,12 +9,12 @@
 
 #include <drogon/HttpFilter.h>
 
-namespace filters {
-
-class JwtAuthFilter
-    : public drogon::HttpFilter<JwtAuthFilter>
+namespace filters
 {
-public:
+
+class JwtAuthFilter : public drogon::HttpFilter<JwtAuthFilter>
+{
+  public:
     JwtAuthFilter() = default;
 
     /**
@@ -23,10 +23,9 @@ public:
      * @param cb   Callback to invoke on auth failure.
      * @param ccb  Chain callback to invoke on auth success.
      */
-    void doFilter(
-        const drogon::HttpRequestPtr &req,
-        drogon::FilterCallback &&cb,
-        drogon::FilterChainCallback &&ccb) override;
+    void doFilter(const drogon::HttpRequestPtr& req,
+                  drogon::FilterCallback&& cb,
+                  drogon::FilterChainCallback&& ccb) override;
 };
 
-}  // namespace filters
+} // namespace filters

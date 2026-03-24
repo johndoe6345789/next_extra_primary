@@ -10,30 +10,29 @@
 #include <string>
 
 using json = nlohmann::json;
-using Cb   = std::function<void(const drogon::HttpResponsePtr &)>;
+using Cb = std::function<void(const drogon::HttpResponsePtr&)>;
 
-namespace controllers {
+namespace controllers
+{
 
-void GamificationController::listBadges(
-    const drogon::HttpRequestPtr & /*req*/, Cb &&cb)
+void GamificationController::listBadges(const drogon::HttpRequestPtr& /*req*/,
+                                        Cb&& cb)
 {
     // TODO: fetch from database.
-    json badges = json::array({
-        {{"id", "early_adopter"},
-         {"name", "Early Adopter"},
-         {"description", "Joined during beta"},
-         {"icon", "star"}},
-        {{"id", "first_chat"},
-         {"name", "First Chat"},
-         {"description", "Completed first AI chat"},
-         {"icon", "chat"}}
-    });
+    json badges = json::array({{{"id", "early_adopter"},
+                                {"name", "Early Adopter"},
+                                {"description", "Joined during beta"},
+                                {"icon", "star"}},
+                               {{"id", "first_chat"},
+                                {"name", "First Chat"},
+                                {"description", "Completed first AI chat"},
+                                {"icon", "chat"}}});
     cb(utils::jsonOk({{"badges", badges}}));
 }
 
 // ----------------------------------------------------------
-void GamificationController::leaderboard(
-    const drogon::HttpRequestPtr &req, Cb &&cb)
+void GamificationController::leaderboard(const drogon::HttpRequestPtr& req,
+                                         Cb&& cb)
 {
     auto period = req->getParameter("period");
     auto limitStr = req->getParameter("limit");
@@ -44,77 +43,60 @@ void GamificationController::leaderboard(
 
     // TODO: query database for top users.
     json entries = json::array();
-    cb(utils::jsonOk({
-        {"period",      period},
-        {"limit",       limit},
-        {"leaderboard", entries}
-    }));
+    cb(utils::jsonOk(
+        {{"period", period}, {"limit", limit}, {"leaderboard", entries}}));
 }
 
 // ----------------------------------------------------------
-void GamificationController::myStreaks(
-    const drogon::HttpRequestPtr &req, Cb &&cb)
+void GamificationController::myStreaks(const drogon::HttpRequestPtr& req,
+                                       Cb&& cb)
 {
-    auto userId = req->attributes()->get<std::string>(
-        "user_id");
+    auto userId = req->attributes()->get<std::string>("user_id");
     // TODO: fetch streaks from database.
-    json streaks = {
-        {"user_id",         userId},
-        {"current_streak",  0},
-        {"longest_streak",  0},
-        {"last_activity",   nullptr}
-    };
+    json streaks = {{"user_id", userId},
+                    {"current_streak", 0},
+                    {"longest_streak", 0},
+                    {"last_activity", nullptr}};
     cb(utils::jsonOk(streaks));
 }
 
 // ----------------------------------------------------------
-void GamificationController::awardPoints(
-    const drogon::HttpRequestPtr &req, Cb &&cb)
+void GamificationController::awardPoints(const drogon::HttpRequestPtr& req,
+                                         Cb&& cb)
 {
-    auto role = req->attributes()->get<std::string>(
-        "user_role");
+    auto role = req->attributes()->get<std::string>("user_role");
     if (role != "admin") {
-        cb(utils::jsonError(drogon::k403Forbidden,
-                            "Admin access required"));
+        cb(utils::jsonError(drogon::k403Forbidden, "Admin access required"));
         return;
     }
 
     auto body = json::parse(
-        req->bodyData(),
-        req->bodyData() + req->bodyLength(),
-        nullptr, false);
-    if (body.is_discarded()
-        || !body.contains("user_id")
-        || !body.contains("points"))
-    {
+        req->bodyData(), req->bodyData() + req->bodyLength(), nullptr, false);
+    if (body.is_discarded() || !body.contains("user_id") ||
+        !body.contains("points")) {
         cb(utils::jsonError(drogon::k400BadRequest,
                             "user_id and points required"));
         return;
     }
 
     // TODO: persist to database.
-    cb(utils::jsonOk({
-        {"message", "Points awarded"},
-        {"user_id", body["user_id"]},
-        {"points",  body["points"]}
-    }));
+    cb(utils::jsonOk({{"message", "Points awarded"},
+                      {"user_id", body["user_id"]},
+                      {"points", body["points"]}}));
 }
 
 // ----------------------------------------------------------
-void GamificationController::myProgress(
-    const drogon::HttpRequestPtr &req, Cb &&cb)
+void GamificationController::myProgress(const drogon::HttpRequestPtr& req,
+                                        Cb&& cb)
 {
-    auto userId = req->attributes()->get<std::string>(
-        "user_id");
+    auto userId = req->attributes()->get<std::string>("user_id");
     // TODO: aggregate progress from database.
-    json progress = {
-        {"user_id",       userId},
-        {"level",         1},
-        {"total_points",  0},
-        {"next_level_at", 100},
-        {"badges_earned", 0}
-    };
+    json progress = {{"user_id", userId},
+                     {"level", 1},
+                     {"total_points", 0},
+                     {"next_level_at", 100},
+                     {"badges_earned", 0}};
     cb(utils::jsonOk(progress));
 }
 
-}  // namespace controllers
+} // namespace controllers

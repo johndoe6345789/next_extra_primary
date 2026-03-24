@@ -6,7 +6,8 @@
 
 #include <string>
 
-namespace utils {
+namespace utils
+{
 
 /**
  * @brief Generate a short-lived access token (15 min).
@@ -14,17 +15,16 @@ namespace utils {
  * @param role    User role (e.g. "user", "admin").
  * @return Signed JWT string.
  */
-[[nodiscard]] auto generateAccessToken(
-    const std::string &userId,
-    const std::string &role) -> std::string;
+[[nodiscard]] auto generateAccessToken(const std::string& userId,
+                                       const std::string& role) -> std::string;
 
 /**
  * @brief Generate a long-lived refresh token (30 days).
  * @param userId  Unique user identifier.
  * @return Signed JWT string.
  */
-[[nodiscard]] auto generateRefreshToken(
-    const std::string &userId) -> std::string;
+[[nodiscard]] auto generateRefreshToken(const std::string& userId)
+    -> std::string;
 
 /**
  * @brief Decoded JWT claims.
@@ -41,8 +41,7 @@ struct JwtClaims {
  * @return Decoded claims.
  * @throws std::runtime_error on invalid / expired token.
  */
-[[nodiscard]] auto verifyToken(
-    const std::string &token) -> JwtClaims;
+[[nodiscard]] auto verifyToken(const std::string& token) -> JwtClaims;
 
 /**
  * @brief Retrieve the JWT signing secret.
@@ -50,4 +49,4 @@ struct JwtClaims {
  */
 [[nodiscard]] auto getSecret() -> std::string;
 
-}  // namespace utils
+} // namespace utils

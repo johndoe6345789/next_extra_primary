@@ -16,18 +16,22 @@ export interface NavLinksProps {
  * Desktop horizontal nav link bar.
  * Hidden on xs screens.
  */
-export const NavLinks: React.FC<
-  NavLinksProps
-> = ({ links }) => (
-  <Box sx={{
-    display: { xs: 'none', sm: 'flex' },
-    gap: 2, ml: 2,
-  }}>
+export const NavLinks: React.FC<NavLinksProps> = ({ links }) => (
+  <Box
+    sx={{
+      display: { xs: 'none', sm: 'flex' },
+      gap: 2,
+      ml: 2,
+    }}
+  >
     {links.map((l) => (
       <MuiLink
-        key={l.href} component={Link}
-        href={l.href} color="inherit"
-        underline="hover" tabIndex={0}
+        key={l.href}
+        component={Link}
+        href={l.href}
+        color="inherit"
+        underline="hover"
+        tabIndex={0}
       >
         {l.label}
       </MuiLink>

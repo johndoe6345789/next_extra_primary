@@ -28,12 +28,11 @@ interface UseNotificationsReturn {
  *
  * @returns Notification state and actions.
  */
-export function useNotifications():
-  UseNotificationsReturn {
-  const { data, isLoading: listLoading } =
-    useGetNotificationsQuery({ page: 1 });
-  const { data: countData } =
-    useGetUnreadCountQuery();
+export function useNotifications(): UseNotificationsReturn {
+  const { data, isLoading: listLoading } = useGetNotificationsQuery({
+    page: 1,
+  });
+  const { data: countData } = useGetUnreadCountQuery();
 
   const [markRead] = useMarkAsReadMutation();
   const [markAll] = useMarkAllAsReadMutation();
@@ -41,8 +40,12 @@ export function useNotifications():
   return {
     notifications: data?.data ?? [],
     unreadCount: countData?.count ?? 0,
-    markAsRead: (id: string) => { markRead(id); },
-    markAllAsRead: () => { markAll(); },
+    markAsRead: (id: string) => {
+      markRead(id);
+    },
+    markAllAsRead: () => {
+      markAll();
+    },
     isLoading: listLoading,
   };
 }

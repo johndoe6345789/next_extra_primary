@@ -8,65 +8,47 @@
 #include <drogon/HttpController.h>
 #include <string>
 
-namespace controllers {
-
-class UserController
-    : public drogon::HttpController<UserController>
+namespace controllers
 {
-public:
+
+class UserController : public drogon::HttpController<UserController>
+{
+  public:
     METHOD_LIST_BEGIN
-    ADD_METHOD_TO(UserController::list,
-                  "/api/users",
-                  drogon::Get,
+    ADD_METHOD_TO(UserController::list, "/api/users", drogon::Get,
                   "filters::JwtAuthFilter");
-    ADD_METHOD_TO(UserController::getProfile,
-                  "/api/users/{id}",
+    ADD_METHOD_TO(UserController::getProfile, "/api/users/{id}", drogon::Get);
+    ADD_METHOD_TO(UserController::updateProfile, "/api/users/{id}",
+                  drogon::Patch, "filters::JwtAuthFilter");
+    ADD_METHOD_TO(UserController::getBadges, "/api/users/{id}/badges",
                   drogon::Get);
-    ADD_METHOD_TO(UserController::updateProfile,
-                  "/api/users/{id}",
-                  drogon::Patch,
-                  "filters::JwtAuthFilter");
-    ADD_METHOD_TO(UserController::getBadges,
-                  "/api/users/{id}/badges",
-                  drogon::Get);
-    ADD_METHOD_TO(UserController::getStats,
-                  "/api/users/{id}/stats",
+    ADD_METHOD_TO(UserController::getStats, "/api/users/{id}/stats",
                   drogon::Get);
     METHOD_LIST_END
 
     /** @brief List users with pagination (admin only). */
-    void list(
-        const drogon::HttpRequestPtr &req,
-        std::function<void(const drogon::HttpResponsePtr &)>
-            &&cb);
+    void list(const drogon::HttpRequestPtr& req,
+              std::function<void(const drogon::HttpResponsePtr&)>&& cb);
 
     /** @brief Get a user's public profile by ID. */
-    void getProfile(
-        const drogon::HttpRequestPtr &req,
-        std::function<void(const drogon::HttpResponsePtr &)>
-            &&cb,
-        const std::string &id);
+    void getProfile(const drogon::HttpRequestPtr& req,
+                    std::function<void(const drogon::HttpResponsePtr&)>&& cb,
+                    const std::string& id);
 
     /** @brief Update own profile (JWT, owner only). */
-    void updateProfile(
-        const drogon::HttpRequestPtr &req,
-        std::function<void(const drogon::HttpResponsePtr &)>
-            &&cb,
-        const std::string &id);
+    void updateProfile(const drogon::HttpRequestPtr& req,
+                       std::function<void(const drogon::HttpResponsePtr&)>&& cb,
+                       const std::string& id);
 
     /** @brief Get badges earned by a user. */
-    void getBadges(
-        const drogon::HttpRequestPtr &req,
-        std::function<void(const drogon::HttpResponsePtr &)>
-            &&cb,
-        const std::string &id);
+    void getBadges(const drogon::HttpRequestPtr& req,
+                   std::function<void(const drogon::HttpResponsePtr&)>&& cb,
+                   const std::string& id);
 
     /** @brief Get gamification stats for a user. */
-    void getStats(
-        const drogon::HttpRequestPtr &req,
-        std::function<void(const drogon::HttpResponsePtr &)>
-            &&cb,
-        const std::string &id);
+    void getStats(const drogon::HttpRequestPtr& req,
+                  std::function<void(const drogon::HttpResponsePtr&)>&& cb,
+                  const std::string& id);
 };
 
-}  // namespace controllers
+} // namespace controllers

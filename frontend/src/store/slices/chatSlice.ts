@@ -2,10 +2,7 @@
  * Chat slice — messages, streaming state, provider.
  * @module store/slices/chatSlice
  */
-import {
-  createSlice,
-  type PayloadAction,
-} from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import {
   ChatProvider,
   type ChatMessage,
@@ -23,24 +20,15 @@ const chatSlice = createSlice({
   initialState,
   reducers: {
     /** Append a chat message. */
-    addMessage(
-      state,
-      action: PayloadAction<ChatMessage>,
-    ) {
+    addMessage(state, action: PayloadAction<ChatMessage>) {
       state.messages.push(action.payload);
     },
     /** Set whether a response is streaming. */
-    setStreaming(
-      state,
-      action: PayloadAction<boolean>,
-    ) {
+    setStreaming(state, action: PayloadAction<boolean>) {
       state.isStreaming = action.payload;
     },
     /** Switch the active AI provider. */
-    setProvider(
-      state,
-      action: PayloadAction<ChatProvider>,
-    ) {
+    setProvider(state, action: PayloadAction<ChatProvider>) {
       state.activeProvider = action.payload;
     },
     /** Clear all messages from state. */
@@ -50,11 +38,7 @@ const chatSlice = createSlice({
   },
 });
 
-export const {
-  addMessage,
-  setStreaming,
-  setProvider,
-  clearMessages,
-} = chatSlice.actions;
+export const { addMessage, setStreaming, setProvider, clearMessages } =
+  chatSlice.actions;
 
 export default chatSlice.reducer;

@@ -36,9 +36,7 @@ export interface PointsDisplayProps {
  * @param props - Component props.
  * @returns The points display element.
  */
-export const PointsDisplay: React.FC<
-  PointsDisplayProps
-> = ({
+export const PointsDisplay: React.FC<PointsDisplayProps> = ({
   points,
   animate = false,
   testId = 'points-display',
@@ -52,9 +50,7 @@ export const PointsDisplay: React.FC<
       role="status"
       style={{
         display: 'inline-flex',
-        animation: animate
-          ? 'pulse 0.4s ease-in-out'
-          : undefined,
+        animation: animate ? 'pulse 0.4s ease-in-out' : undefined,
       }}
     >
       <Chip

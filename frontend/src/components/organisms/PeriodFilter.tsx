@@ -1,10 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import ToggleButtonGroup
-  from '@mui/material/ToggleButtonGroup';
-import ToggleButton
-  from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import ToggleButton from '@mui/material/ToggleButton';
 
 /** Props for PeriodFilter. */
 export interface PeriodFilterProps {
@@ -15,27 +13,23 @@ export interface PeriodFilterProps {
 /**
  * Weekly / Monthly / All Time toggle filter.
  */
-export const PeriodFilter: React.FC<
-  PeriodFilterProps
-> = ({ testId = 'period-filter' }) => {
+export const PeriodFilter: React.FC<PeriodFilterProps> = ({
+  testId = 'period-filter',
+}) => {
   const [per, setPer] = useState('all-time');
   return (
     <ToggleButtonGroup
-      value={per} exclusive
+      value={per}
+      exclusive
       onChange={(_, v) => v && setPer(v)}
-      size="small" aria-label="Period"
+      size="small"
+      aria-label="Period"
       data-testid={testId}
       sx={{ mb: 2 }}
     >
-      <ToggleButton value="weekly">
-        Weekly
-      </ToggleButton>
-      <ToggleButton value="monthly">
-        Monthly
-      </ToggleButton>
-      <ToggleButton value="all-time">
-        All Time
-      </ToggleButton>
+      <ToggleButton value="weekly">Weekly</ToggleButton>
+      <ToggleButton value="monthly">Monthly</ToggleButton>
+      <ToggleButton value="all-time">All Time</ToggleButton>
     </ToggleButtonGroup>
   );
 };

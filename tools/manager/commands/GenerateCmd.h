@@ -10,14 +10,16 @@
 
 #include <string>
 
-namespace manager {
+namespace manager
+{
 
 /**
  * @class GenerateCmd
  * @brief Dispatches code generation tasks.
  */
-class GenerateCmd {
-public:
+class GenerateCmd
+{
+  public:
     /**
      * @brief Execute a generation target.
      *

@@ -1,9 +1,9 @@
-import { setRequestLocale } from "next-intl/server";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import { setRequestLocale } from 'next-intl/server';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 /** Props for the contact page. */
 interface ContactPageProps {
@@ -34,19 +34,15 @@ export default async function ContactPage({
       sx={{ py: 6 }}
       aria-label="Contact us"
     >
-      <Typography
-        variant="h3"
-        component="h1"
-        gutterBottom
-      >
+      <Typography variant="h3" component="h1" gutterBottom>
         Contact Us
       </Typography>
       <Box
         component="form"
         aria-label="Contact form"
         sx={{
-          display: "flex",
-          flexDirection: "column",
+          display: 'flex',
+          flexDirection: 'column',
           gap: 3,
         }}
       >
@@ -56,7 +52,7 @@ export default async function ContactPage({
           required
           fullWidth
           autoComplete="name"
-          inputProps={{ "aria-required": true }}
+          inputProps={{ 'aria-required': true }}
         />
         <TextField
           label="Email"
@@ -65,7 +61,7 @@ export default async function ContactPage({
           required
           fullWidth
           autoComplete="email"
-          inputProps={{ "aria-required": true }}
+          inputProps={{ 'aria-required': true }}
         />
         <TextField
           label="Message"
@@ -74,7 +70,7 @@ export default async function ContactPage({
           fullWidth
           multiline
           rows={5}
-          inputProps={{ "aria-required": true }}
+          inputProps={{ 'aria-required': true }}
         />
         <Button
           type="submit"

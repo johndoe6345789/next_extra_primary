@@ -32,18 +32,14 @@ export interface LocaleSwitcherProps {
  * @param props - Component props.
  * @returns The locale switcher element.
  */
-export const LocaleSwitcher: React.FC<
-  LocaleSwitcherProps
-> = ({ testId = 'locale-switcher' }) => {
+export const LocaleSwitcher: React.FC<LocaleSwitcherProps> = ({
+  testId = 'locale-switcher',
+}) => {
   const { locale, setLocale, locales } = useLocale();
 
   const handleChange = useCallback(
     (e: SelectChangeEvent<string>) => {
-      setLocale(
-        e.target.value as Parameters<
-          typeof setLocale
-        >[0],
-      );
+      setLocale(e.target.value as Parameters<typeof setLocale>[0]);
     },
     [setLocale],
   );
@@ -58,11 +54,7 @@ export const LocaleSwitcher: React.FC<
       sx={{ minWidth: 120 }}
     >
       {locales.map((loc) => (
-        <MenuItem
-          key={loc}
-          value={loc}
-          data-testid={`${testId}-${loc}`}
-        >
+        <MenuItem key={loc} value={loc} data-testid={`${testId}-${loc}`}>
           {LOCALE_LABELS[loc] ?? loc}
         </MenuItem>
       ))}

@@ -13,7 +13,8 @@
 
 namespace fs = std::filesystem;
 
-namespace manager {
+namespace manager
+{
 
 /**
  * @brief Run a shell command, printing it first.
@@ -21,7 +22,8 @@ namespace manager {
  * @param cmd The command string to execute.
  * @return int The process exit code.
  */
-static int run(const std::string& cmd) {
+static int run(const std::string& cmd)
+{
     fmt::print("[generate] $ {}\n", cmd);
     return std::system(cmd.c_str());
 }
@@ -34,37 +36,29 @@ static int run(const std::string& cmd) {
  *
  * @return int 0 on success, non-zero on failure.
  */
-static int generate_cmake() {
-    fmt::print(
-        "[generate] Generating CMakeLists.txt...\n"
-    );
+static int generate_cmake()
+{
+    fmt::print("[generate] Generating CMakeLists.txt...\n");
 
     // Locate cmake-gen binary.
     std::string cmake_gen_bin = "cmake-gen";
     if (fs::exists("tools/cmake-gen/build/cmake-gen")) {
-        cmake_gen_bin =
-            "tools/cmake-gen/build/cmake-gen";
+        cmake_gen_bin = "tools/cmake-gen/build/cmake-gen";
     }
 
     // Locate project.json.
     std::string project_json = "project.json";
-    if (fs::exists(
-            "tools/cmake-gen/project.json")) {
-        project_json =
-            "tools/cmake-gen/project.json";
+    if (fs::exists("tools/cmake-gen/project.json")) {
+        project_json = "tools/cmake-gen/project.json";
     }
 
-    std::string cmd = fmt::format(
-        "{} --input {} --output . "
-        "--templates tools/cmake-gen/templates",
-        cmake_gen_bin, project_json
-    );
+    std::string cmd = fmt::format("{} --input {} --output . "
+                                  "--templates tools/cmake-gen/templates",
+                                  cmake_gen_bin, project_json);
 
     int rc = run(cmd);
     if (rc == 0) {
-        fmt::print(
-            "[generate] CMakeLists.txt generated.\n"
-        );
+        fmt::print("[generate] CMakeLists.txt generated.\n");
     }
     return rc;
 }
@@ -77,32 +71,24 @@ static int generate_cmake() {
  *
  * @return int 0 on success, non-zero on failure.
  */
-static int generate_models() {
-    fmt::print(
-        "[generate] Generating Drogon models...\n"
-    );
+static int generate_models()
+{
+    fmt::print("[generate] Generating Drogon models...\n");
 
     std::string models_dir = "src/models";
     fs::create_directories(models_dir);
 
-    std::string cmd = fmt::format(
-        "drogon_ctl create model {}",
-        models_dir
-    );
+    std::string cmd = fmt::format("drogon_ctl create model {}", models_dir);
 
     int rc = run(cmd);
     if (rc == 0) {
-        fmt::print(
-            "[generate] Models generated in {}\n",
-            models_dir
-        );
+        fmt::print("[generate] Models generated in {}\n", models_dir);
     }
     return rc;
 }
 
-int GenerateCmd::execute(
-    const std::string& target
-) {
+int GenerateCmd::execute(const std::string& target)
+{
     if (target == "cmake") {
         return generate_cmake();
     }
@@ -110,11 +96,9 @@ int GenerateCmd::execute(
         return generate_models();
     }
 
-    fmt::print(
-        "[generate] Unknown target: '{}'\n"
-        "[generate] Valid targets: cmake, models\n",
-        target
-    );
+    fmt::print("[generate] Unknown target: '{}'\n"
+               "[generate] Valid targets: cmake, models\n",
+               target);
     return 1;
 }
 

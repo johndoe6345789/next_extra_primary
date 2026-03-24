@@ -10,31 +10,28 @@
 #include <string>
 #include <string_view>
 
-namespace filters {
+namespace filters
+{
 
-namespace {
+namespace
+{
 constexpr std::string_view kBearerPrefix = "Bearer ";
 }
 
-void JwtAuthFilter::doFilter(
-    const drogon::HttpRequestPtr &req,
-    drogon::FilterCallback &&cb,
-    drogon::FilterChainCallback &&ccb)
+void JwtAuthFilter::doFilter(const drogon::HttpRequestPtr& req,
+                             drogon::FilterCallback&& cb,
+                             drogon::FilterChainCallback&& ccb)
 {
     auto authHeader = req->getHeader("Authorization");
     if (authHeader.empty()) {
-        cb(utils::jsonError(
-            drogon::k401Unauthorized,
-            "Missing Authorization header"));
+        cb(utils::jsonError(drogon::k401Unauthorized,
+                            "Missing Authorization header"));
         return;
     }
 
-    if (authHeader.substr(0, kBearerPrefix.size())
-        != kBearerPrefix)
-    {
-        cb(utils::jsonError(
-            drogon::k401Unauthorized,
-            "Invalid Authorization format"));
+    if (authHeader.substr(0, kBearerPrefix.size()) != kBearerPrefix) {
+        cb(utils::jsonError(drogon::k401Unauthorized,
+                            "Invalid Authorization format"));
         return;
     }
 
@@ -43,21 +40,17 @@ void JwtAuthFilter::doFilter(
     try {
         auto claims = utils::verifyToken(token);
         if (claims.isRefresh) {
-            cb(utils::jsonError(
-                drogon::k401Unauthorized,
-                "Refresh tokens cannot be used here"));
+            cb(utils::jsonError(drogon::k401Unauthorized,
+                                "Refresh tokens cannot be used here"));
             return;
         }
-        req->attributes()->insert("user_id",
-                                  claims.userId);
-        req->attributes()->insert("user_role",
-                                  claims.role);
+        req->attributes()->insert("user_id", claims.userId);
+        req->attributes()->insert("user_role", claims.role);
         ccb();
-    } catch (const std::exception &ex) {
-        cb(utils::jsonError(
-            drogon::k401Unauthorized,
-            std::string{"Invalid token: "} + ex.what()));
+    } catch (const std::exception& ex) {
+        cb(utils::jsonError(drogon::k401Unauthorized,
+                            std::string{"Invalid token: "} + ex.what()));
     }
 }
 
-}  // namespace filters
+} // namespace filters

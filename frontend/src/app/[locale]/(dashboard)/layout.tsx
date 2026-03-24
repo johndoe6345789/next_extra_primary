@@ -1,8 +1,7 @@
-import { ReactNode } from "react";
-import { setRequestLocale } from "next-intl/server";
-import Box from "@mui/material/Box";
-import { Navbar } from
-  "@/components/organisms/Navbar";
+import { ReactNode } from 'react';
+import { setRequestLocale } from 'next-intl/server';
+import Box from '@mui/material/Box';
+import { Navbar } from '@/components/organisms/Navbar';
 
 /** Props for the dashboard layout. */
 interface DashboardLayoutProps {
@@ -32,9 +31,9 @@ export default async function DashboardLayout({
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
       }}
     >
       <Navbar />

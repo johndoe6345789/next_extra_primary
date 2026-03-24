@@ -9,14 +9,16 @@
 
 #include <string>
 
-namespace manager {
+namespace manager
+{
 
 /**
  * @class TestCmd
  * @brief Builds the test target and runs ctest.
  */
-class TestCmd {
-public:
+class TestCmd
+{
+  public:
     /**
      * @brief Build tests and run ctest.
      *
@@ -24,9 +26,7 @@ public:
      *               Passed to ctest --tests-regex.
      * @return int 0 on success, non-zero on failure.
      */
-    static int execute(
-        const std::string& filter = ""
-    );
+    static int execute(const std::string& filter = "");
 };
 
 } // namespace manager

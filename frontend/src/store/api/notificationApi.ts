@@ -20,10 +20,7 @@ export const notificationApi = baseApi.injectEndpoints({
     }),
 
     /** Get unread notification count (polls). */
-    getUnreadCount: build.query<
-      { count: number },
-      void
-    >({
+    getUnreadCount: build.query<{ count: number }, void>({
       query: () => '/notifications/unread-count',
       providesTags: ['Notification'],
       pollingInterval: 30_000,

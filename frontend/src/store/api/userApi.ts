@@ -17,16 +17,11 @@ export const userApi = baseApi.injectEndpoints({
     /** Get a user profile by ID. */
     getUser: build.query<UserProfile, string>({
       query: (id) => `/users/${id}`,
-      providesTags: (_r, _e, id) => [
-        { type: 'User', id },
-      ],
+      providesTags: (_r, _e, id) => [{ type: 'User', id }],
     }),
 
     /** Update the current user's profile. */
-    updateUser: build.mutation<
-      UserProfile,
-      UpdateProfileRequest
-    >({
+    updateUser: build.mutation<UserProfile, UpdateProfileRequest>({
       query: (body) => ({
         url: '/users/me',
         method: 'PATCH',
@@ -44,9 +39,7 @@ export const userApi = baseApi.injectEndpoints({
     /** Get aggregated stats for a user. */
     getUserStats: build.query<UserStats, string>({
       query: (id) => `/users/${id}/stats`,
-      providesTags: (_r, _e, id) => [
-        { type: 'User', id },
-      ],
+      providesTags: (_r, _e, id) => [{ type: 'User', id }],
     }),
 
     /** List users with pagination. */

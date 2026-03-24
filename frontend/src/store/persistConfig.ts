@@ -8,9 +8,7 @@ import type { PersistConfig } from 'redux-persist';
 import type { RootReducerState } from './store';
 
 /** Persist config — whitelists auth & theme. */
-export const persistConfig: PersistConfig<
-  RootReducerState
-> = {
+export const persistConfig: PersistConfig<RootReducerState> = {
   key: 'nextra-root',
   storage,
   whitelist: ['auth', 'theme'],

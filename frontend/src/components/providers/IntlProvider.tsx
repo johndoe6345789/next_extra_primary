@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { NextIntlClientProvider } from "next-intl";
+import { ReactNode } from 'react';
+import { NextIntlClientProvider } from 'next-intl';
 
 /** Props for the internationalisation provider. */
 interface IntlProviderProps {
@@ -27,10 +27,7 @@ export function IntlProvider({
   locale,
 }: IntlProviderProps): JSX.Element {
   return (
-    <NextIntlClientProvider
-      locale={locale}
-      messages={messages}
-    >
+    <NextIntlClientProvider locale={locale} messages={messages}>
       {children}
     </NextIntlClientProvider>
   );

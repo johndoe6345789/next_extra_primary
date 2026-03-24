@@ -7,19 +7,19 @@
  * "rate_limit_rpm" (requests per minute). Default: 60.
  */
 
-#include <drogon/HttpFilter.h>
 #include <chrono>
+#include <drogon/HttpFilter.h>
 #include <mutex>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
-namespace filters {
-
-class RateLimitFilter
-    : public drogon::HttpFilter<RateLimitFilter>
+namespace filters
 {
-public:
+
+class RateLimitFilter : public drogon::HttpFilter<RateLimitFilter>
+{
+  public:
     RateLimitFilter() = default;
 
     /**
@@ -28,13 +28,12 @@ public:
      * @param cb   Callback to invoke on rate limit exceeded.
      * @param ccb  Chain callback to continue the pipeline.
      */
-    void doFilter(
-        const drogon::HttpRequestPtr &req,
-        drogon::FilterCallback &&cb,
-        drogon::FilterChainCallback &&ccb) override;
+    void doFilter(const drogon::HttpRequestPtr& req,
+                  drogon::FilterCallback&& cb,
+                  drogon::FilterChainCallback&& ccb) override;
 
-private:
-    using Clock     = std::chrono::steady_clock;
+  private:
+    using Clock = std::chrono::steady_clock;
     using TimePoint = Clock::time_point;
 
     struct Bucket {
@@ -51,4 +50,4 @@ private:
     [[nodiscard]] static auto getLimit() -> int;
 };
 
-}  // namespace filters
+} // namespace filters

@@ -2,9 +2,7 @@
 
 import React from 'react';
 import { TextField } from '../atoms';
-import type {
-  RegFields, CE, Errs,
-} from './registerRules';
+import type { RegFields, CE, Errs } from './registerRules';
 
 /** Props for RegisterFormFields. */
 export interface RegisterFieldsProps {
@@ -17,40 +15,48 @@ export interface RegisterFieldsProps {
  * Five registration text fields extracted
  * from RegisterForm for the 100-LOC limit.
  */
-export const RegisterFormFields: React.FC<
-  RegisterFieldsProps
-> = ({ f, set, errors }) => {
-  const mm =
-    f.confirmPassword.length > 0
-    && f.password !== f.confirmPassword;
+export const RegisterFormFields: React.FC<RegisterFieldsProps> = ({
+  f,
+  set,
+  errors,
+}) => {
+  const mm = f.confirmPassword.length > 0 && f.password !== f.confirmPassword;
   return (
     <>
       <TextField
-        label="Username" value={f.username}
-        onChange={set('username')} required
+        label="Username"
+        value={f.username}
+        onChange={set('username')}
+        required
         error={!!errors.username}
         helperText={errors.username}
         testId="register-username"
       />
       <TextField
-        label="Email" value={f.email}
-        onChange={set('email')} type="email"
-        required error={!!errors.email}
+        label="Email"
+        value={f.email}
+        onChange={set('email')}
+        type="email"
+        required
+        error={!!errors.email}
         helperText={errors.email}
         testId="register-email"
       />
       <TextField
         label="Display Name"
         value={f.displayName}
-        onChange={set('displayName')} required
+        onChange={set('displayName')}
+        required
         error={!!errors.displayName}
         helperText={errors.displayName}
         testId="register-displayname"
       />
       <TextField
-        label="Password" value={f.password}
+        label="Password"
+        value={f.password}
         onChange={set('password')}
-        type="password" required
+        type="password"
+        required
         error={!!errors.password}
         helperText={errors.password}
         testId="register-password"
@@ -59,11 +65,11 @@ export const RegisterFormFields: React.FC<
         label="Confirm Password"
         value={f.confirmPassword}
         onChange={set('confirmPassword')}
-        type="password" required
+        type="password"
+        required
         error={!!errors.confirmPassword || mm}
         helperText={
-          errors.confirmPassword
-          ?? (mm ? 'Passwords must match' : '')
+          errors.confirmPassword ?? (mm ? 'Passwords must match' : '')
         }
         testId="register-confirm"
       />

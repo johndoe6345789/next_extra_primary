@@ -14,10 +14,8 @@ export interface ValidationResult {
  * Check whether a string is a valid email address.
  * @param email - value to validate
  */
-export function isValidEmail(
-  email: string,
-): ValidationResult {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export function isValidEmail(email: string): ValidationResult {
+  const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   if (!email) {
     return { valid: false, message: 'Email is required.' };
   }
@@ -35,9 +33,7 @@ export function isValidEmail(
  * 3-30 chars, alphanumeric + underscores.
  * @param username - value to validate
  */
-export function isValidUsername(
-  username: string,
-): ValidationResult {
+export function isValidUsername(username: string): ValidationResult {
   if (!username) {
     return {
       valid: false,
@@ -48,8 +44,7 @@ export function isValidUsername(
     return {
       valid: false,
       message:
-        'Username must be 3-30 alphanumeric ' +
-        'characters or underscores.',
+        'Username must be 3-30 alphanumeric ' + 'characters or underscores.',
     };
   }
   return { valid: true };
@@ -60,9 +55,7 @@ export function isValidUsername(
  * Min 8 chars, 1 upper, 1 lower, 1 digit.
  * @param password - value to validate
  */
-export function isValidPassword(
-  password: string,
-): ValidationResult {
+export function isValidPassword(password: string): ValidationResult {
   if (!password) {
     return {
       valid: false,

@@ -52,9 +52,7 @@ export const Avatar: React.FC<AvatarProps> = ({
       onClick={onClick}
       data-testid={testId}
     >
-      {!src && fallbackText
-        ? fallbackText.charAt(0).toUpperCase()
-        : undefined}
+      {!src && fallbackText ? fallbackText.charAt(0).toUpperCase() : undefined}
     </MuiAvatar>
   );
 };

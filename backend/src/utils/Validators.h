@@ -6,15 +6,15 @@
 
 #include <string>
 
-namespace utils {
+namespace utils
+{
 
 /**
  * @brief Check if a string is a valid email address.
  * @param str  Input to validate.
  * @return True if the input matches a basic email pattern.
  */
-[[nodiscard]] auto isValidEmail(
-    const std::string &str) -> bool;
+[[nodiscard]] auto isValidEmail(const std::string& str) -> bool;
 
 /**
  * @brief Check if a string is a valid username.
@@ -24,8 +24,7 @@ namespace utils {
  * @param str  Input to validate.
  * @return True if the input is a valid username.
  */
-[[nodiscard]] auto isValidUsername(
-    const std::string &str) -> bool;
+[[nodiscard]] auto isValidUsername(const std::string& str) -> bool;
 
 /**
  * @brief Check if a string is a valid password.
@@ -36,7 +35,6 @@ namespace utils {
  * @param str  Input to validate.
  * @return True if the input meets password requirements.
  */
-[[nodiscard]] auto isValidPassword(
-    const std::string &str) -> bool;
+[[nodiscard]] auto isValidPassword(const std::string& str) -> bool;
 
-}  // namespace utils
+} // namespace utils
