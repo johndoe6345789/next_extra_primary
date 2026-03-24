@@ -1,4 +1,4 @@
-<![CDATA[# System Architecture
+# System Architecture
 
 ---
 
@@ -403,4 +403,3 @@ Browser              Next.js           Drogon API          External AI
 Each service runs in its own Docker container managed by CapRover.
 The Nginx reverse proxy handles SSL termination and routes requests
 to the appropriate container based on the subdomain.
-]]>

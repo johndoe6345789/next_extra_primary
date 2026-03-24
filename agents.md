@@ -1,4 +1,4 @@
-<![CDATA[# AI Agent Configurations
+# AI Agent Configurations
 
 This file defines specialized AI agent roles for automated tasks in the
 Nextra project. Each agent has a specific responsibility and set of
@@ -134,4 +134,3 @@ describe('ComponentName', () => {
 
 **Output format**: Markdown report listing issues grouped by severity
 (Critical, Major, Minor) with file locations and remediation steps.
-]]>

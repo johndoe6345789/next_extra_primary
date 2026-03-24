@@ -1,4 +1,4 @@
-<![CDATA[# Nextra Feature Roadmap
+# Nextra Feature Roadmap
 
 ---
 
@@ -119,4 +119,3 @@ The foundation release covering all core features.
 - GraphQL API layer alongside REST.
 - Redis caching layer for leaderboard and session data.
 - Kubernetes Helm chart for large-scale deployment.
-]]>

@@ -1,4 +1,4 @@
-<![CDATA[# Nextra (Next.js + C++ Extra)
+# Nextra (Next.js + C++ Extra)
 
 [![CI](https://github.com/<OWNER>/<REPO>/actions/workflows/ci.yml/badge.svg)](https://github.com/<OWNER>/<REPO>/actions/workflows/ci.yml)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
@@ -321,4 +321,3 @@ variables, and CI/CD with GitHub Actions.
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE)
 for details.
-]]>
