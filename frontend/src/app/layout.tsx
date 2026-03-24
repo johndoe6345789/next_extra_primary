@@ -10,6 +10,9 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
+/** Disable static prerender (Redux provider tree). */
+export const dynamic = 'force-dynamic';
+
 /** Global metadata for the application. */
 export const metadata: Metadata = {
   title: {
