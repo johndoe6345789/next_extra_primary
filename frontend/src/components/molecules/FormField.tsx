@@ -2,7 +2,10 @@
 
 import React, { useCallback } from 'react';
 import { TextField } from '../atoms';
-import { useFormValidation, type ValidationRule } from '@/hooks';
+import {
+  useFormValidation,
+  type ValidationRule,
+} from '@/hooks';
 
 /**
  * Props for the FormField component.
@@ -16,7 +19,9 @@ export interface FormFieldProps {
   value: string;
   /** Change handler for the field. */
   onChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement
+    >,
   ) => void;
   /** Validation rules applied on blur. */
   validationRules?: ValidationRule[];
@@ -65,7 +70,10 @@ export const FormField: React.FC<FormFieldProps> = ({
   const errorId = `${fieldId}-error`;
 
   return (
-    <div data-testid={testId} onBlur={handleBlur}>
+    <div
+      data-testid={testId}
+      onBlur={handleBlur}
+    >
       <TextField
         id={fieldId}
         label={label}
@@ -77,7 +85,9 @@ export const FormField: React.FC<FormFieldProps> = ({
         required={required}
         testId={`${testId}-input`}
         inputProps={{
-          'aria-describedby': hasError ? errorId : undefined,
+          'aria-describedby': hasError
+            ? errorId
+            : undefined,
           'aria-invalid': hasError,
         }}
       />

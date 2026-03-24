@@ -7,17 +7,15 @@
 #ifndef MANAGER_COMMANDS_BUILD_CMD_H
 #define MANAGER_COMMANDS_BUILD_CMD_H
 
-namespace manager
-{
+namespace manager {
 
 /**
  * @class BuildCmd
  * @brief Handles the full build pipeline: conan install,
  *        CMake configure, and CMake build.
  */
-class BuildCmd
-{
-  public:
+class BuildCmd {
+public:
     /**
      * @brief Execute the build pipeline.
      *

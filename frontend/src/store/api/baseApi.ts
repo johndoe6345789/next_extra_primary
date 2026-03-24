@@ -3,7 +3,10 @@
  * Handles token attachment and 401 refresh logic.
  * @module store/api/baseApi
  */
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import {
+  createApi,
+  fetchBaseQuery,
+} from '@reduxjs/toolkit/query/react';
 import type {
   BaseQueryFn,
   FetchArgs,
@@ -16,7 +19,8 @@ import type { TokenPair, User } from '../../types/auth';
 const rawBaseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '/api',
   prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootState).auth.accessToken;
+    const token =
+      (getState() as RootState).auth.accessToken;
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }
@@ -55,8 +59,14 @@ const baseQueryWithReauth: BaseQueryFn<
           user: User;
           tokens: TokenPair;
         };
-        api.dispatch(setCredentials({ user, ...tokens }));
-        result = await rawBaseQuery(args, api, extraOptions);
+        api.dispatch(
+          setCredentials({ user, ...tokens }),
+        );
+        result = await rawBaseQuery(
+          args,
+          api,
+          extraOptions,
+        );
       } else {
         api.dispatch(clearCredentials());
       }
@@ -72,6 +82,12 @@ const baseQueryWithReauth: BaseQueryFn<
 export const baseApi = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Auth', 'User', 'Notification', 'Gamification', 'Chat'],
+  tagTypes: [
+    'Auth',
+    'User',
+    'Notification',
+    'Gamification',
+    'Chat',
+  ],
   endpoints: () => ({}),
 });

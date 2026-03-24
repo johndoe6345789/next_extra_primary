@@ -1,10 +1,12 @@
-import { ReactNode } from 'react';
-import { setRequestLocale } from 'next-intl/server';
-import { IntlProvider } from '@/components/providers/IntlProvider';
-import { AuthGate } from '@/components/providers/AuthGate';
+import { ReactNode } from "react";
+import { setRequestLocale } from "next-intl/server";
+import { IntlProvider } from
+  "@/components/providers/IntlProvider";
+import { AuthGate } from
+  "@/components/providers/AuthGate";
 
 /** Supported application locales. */
-const LOCALES = ['en', 'es', 'fr', 'de'] as const;
+const LOCALES = ["en", "es", "fr", "de"] as const;
 
 /** Props for the locale layout. */
 interface LocaleLayoutProps {
@@ -44,14 +46,18 @@ export default async function LocaleLayout({
 
   let messages: Record<string, unknown> = {};
   try {
-    messages = (await import(`@/i18n/messages/${locale}.json`)).default;
+    messages = (
+      await import(`@/i18n/messages/${locale}.json`)
+    ).default;
   } catch {
     /* Falls back to empty messages. */
   }
 
   return (
     <IntlProvider locale={locale} messages={messages}>
-      <AuthGate>{children}</AuthGate>
+      <AuthGate>
+        {children}
+      </AuthGate>
     </IntlProvider>
   );
 }

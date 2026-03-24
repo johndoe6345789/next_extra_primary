@@ -9,9 +9,15 @@ import MuiLink from '@mui/material/Link';
 import Link from 'next/link';
 import { useAuth } from '@/hooks';
 import { SearchBar } from '../molecules/SearchBar';
-import { NotificationBell } from '../molecules/NotificationBell';
-import { ThemeToggle } from '../molecules/ThemeToggle';
-import { LocaleSwitcher } from '../molecules/LocaleSwitcher';
+import {
+  NotificationBell,
+} from '../molecules/NotificationBell';
+import {
+  ThemeToggle,
+} from '../molecules/ThemeToggle';
+import {
+  LocaleSwitcher,
+} from '../molecules/LocaleSwitcher';
 import { AvatarMenu } from './AvatarMenu';
 import { MobileDrawer } from './MobileDrawer';
 import { NavLinks } from './NavLinks';
@@ -60,21 +66,27 @@ export const Navbar: React.FC<NavbarProps> = ({
         <Toolbar sx={{ gap: 1 }}>
           <MobileDrawer links={LINKS} />
           <MuiLink
-            component={Link}
-            href="/"
-            underline="none"
-            color="inherit"
+            component={Link} href="/"
+            underline="none" color="inherit"
             data-testid="navbar-logo"
           >
-            <Typography variant="h6">NextExtra</Typography>
+            <Typography variant="h6">
+              NextExtra
+            </Typography>
           </MuiLink>
           <NavLinks links={LINKS} />
           <Box sx={{ flexGrow: 1 }} />
-          <SearchBar onSearch={onSearch ?? (() => {})} />
-          <NotificationBell onClick={onNotificationClick} />
+          <SearchBar
+            onSearch={onSearch ?? (() => {})}
+          />
+          <NotificationBell
+            onClick={onNotificationClick}
+          />
           <ThemeToggle />
           <LocaleSwitcher />
-          <AvatarMenu user={user} onLogout={logout} />
+          <AvatarMenu
+            user={user} onLogout={logout}
+          />
         </Toolbar>
       </AppBar>
     </>

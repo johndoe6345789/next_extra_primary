@@ -7,17 +7,15 @@
 #ifndef MANAGER_COMMANDS_LINT_CMD_H
 #define MANAGER_COMMANDS_LINT_CMD_H
 
-namespace manager
-{
+namespace manager {
 
 /**
  * @class LintCmd
  * @brief Discovers .cpp and .h files and runs static
  *        analysis / formatting tools on them.
  */
-class LintCmd
-{
-  public:
+class LintCmd {
+public:
     /**
      * @brief Run clang-format --dry-run and clang-tidy.
      *

@@ -23,31 +23,23 @@ export interface LoginFieldsProps {
  * Email and password fields for login form.
  * Extracted sub-component.
  */
-export const LoginFormFields: React.FC<LoginFieldsProps> = ({
-  email,
-  pw,
-  setEmail,
-  setPw,
-  errors,
-}) => (
+export const LoginFormFields: React.FC<
+  LoginFieldsProps
+> = ({ email, pw, setEmail, setPw, errors }) => (
   <>
     <TextField
-      label="Email"
-      value={email}
+      label="Email" value={email}
       onChange={(e) => setEmail(e.target.value)}
-      type="email"
-      required
+      type="email" required
       error={!!errors.email}
       helperText={errors.email}
       autoComplete="email"
       testId="login-email"
     />
     <TextField
-      label="Password"
-      value={pw}
+      label="Password" value={pw}
       onChange={(e) => setPw(e.target.value)}
-      type="password"
-      required
+      type="password" required
       error={!!errors.password}
       helperText={errors.password}
       autoComplete="current-password"

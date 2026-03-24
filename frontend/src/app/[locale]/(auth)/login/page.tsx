@@ -1,9 +1,10 @@
-import { setRequestLocale } from 'next-intl/server';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import { LoginForm } from '@/components/organisms/LoginForm';
+import { setRequestLocale } from "next-intl/server";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import { LoginForm } from
+  "@/components/organisms/LoginForm";
 
 /** Props for the login page. */
 interface LoginPageProps {
@@ -32,14 +33,17 @@ export default async function LoginPage({
       role="main"
       aria-label="Login"
       sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
         px: 2,
       }}
     >
-      <Card sx={{ maxWidth: 440, width: '100%' }} elevation={3}>
+      <Card
+        sx={{ maxWidth: 440, width: "100%" }}
+        elevation={3}
+      >
         <CardContent sx={{ p: 4 }}>
           <Typography
             variant="h4"

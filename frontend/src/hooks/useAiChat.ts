@@ -6,7 +6,10 @@ import {
   useGetChatHistoryQuery,
   useClearHistoryMutation,
 } from '@/store/api/chatApi';
-import type { ChatMessage, ChatProvider } from '@/types/chat';
+import type {
+  ChatMessage,
+  ChatProvider,
+} from '@/types/chat';
 
 /** Return type for the useAiChat hook. */
 interface UseAiChatReturn {
@@ -35,12 +38,13 @@ interface UseAiChatReturn {
  * @returns Chat state and action helpers.
  */
 export function useAiChat(): UseAiChatReturn {
-  const [provider, setProvider] = useState<ChatProvider>(
-    'openai' as ChatProvider,
-  );
+  const [provider, setProvider] =
+    useState<ChatProvider>('openai' as ChatProvider);
 
-  const { data, isLoading } = useGetChatHistoryQuery({ page: 1 });
-  const [sendMut, { isLoading: sending }] = useSendMessageMutation();
+  const { data, isLoading } =
+    useGetChatHistoryQuery({ page: 1 });
+  const [sendMut, { isLoading: sending }] =
+    useSendMessageMutation();
   const [clearMut] = useClearHistoryMutation();
 
   const sendMessage = useCallback(

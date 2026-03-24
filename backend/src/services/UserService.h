@@ -16,13 +16,14 @@
 #include <optional>
 #include <string>
 
-namespace services
-{
+namespace services {
 
 using json = nlohmann::json;
 using DbClientPtr = drogon::orm::DbClientPtr;
 using Callback = std::function<void(json)>;
-using ErrCallback = std::function<void(drogon::HttpStatusCode, std::string)>;
+using ErrCallback =
+    std::function<void(drogon::HttpStatusCode,
+                       std::string)>;
 
 /**
  * @brief Aggregate statistics for a single user.
@@ -40,9 +41,8 @@ struct UserStats {
  * @class UserService
  * @brief User profile operations.
  */
-class UserService
-{
-  public:
+class UserService {
+public:
     UserService() = default;
     ~UserService() = default;
 
@@ -57,8 +57,10 @@ class UserService
      * @param onSuccess Callback with user JSON or `null`.
      * @param onError   Callback on DB error.
      */
-    void getUserById(const std::string& id, Callback onSuccess,
-                     ErrCallback onError);
+    void getUserById(
+        const std::string &id,
+        Callback onSuccess,
+        ErrCallback onError);
 
     /**
      * @brief Fetch a user by email address.
@@ -67,8 +69,10 @@ class UserService
      * @param onSuccess Callback with user JSON or `null`.
      * @param onError   Callback on DB error.
      */
-    void getUserByEmail(const std::string& email, Callback onSuccess,
-                        ErrCallback onError);
+    void getUserByEmail(
+        const std::string &email,
+        Callback onSuccess,
+        ErrCallback onError);
 
     // -------------------------------------------------------
     // Update
@@ -85,8 +89,11 @@ class UserService
      * @param onSuccess Callback with updated user JSON.
      * @param onError   Callback on failure.
      */
-    void updateUser(const std::string& id, const json& fields,
-                    Callback onSuccess, ErrCallback onError);
+    void updateUser(
+        const std::string &id,
+        const json &fields,
+        Callback onSuccess,
+        ErrCallback onError);
 
     // -------------------------------------------------------
     // Listing
@@ -100,8 +107,11 @@ class UserService
      * @param onSuccess Callback with paginated result.
      * @param onError   Callback on failure.
      */
-    void listUsers(std::int32_t page, std::int32_t perPage, Callback onSuccess,
-                   ErrCallback onError);
+    void listUsers(
+        std::int32_t page,
+        std::int32_t perPage,
+        Callback onSuccess,
+        ErrCallback onError);
 
     // -------------------------------------------------------
     // Badges
@@ -114,8 +124,10 @@ class UserService
      * @param onSuccess Callback with badge array.
      * @param onError   Callback on failure.
      */
-    void getUserBadges(const std::string& userId, Callback onSuccess,
-                       ErrCallback onError);
+    void getUserBadges(
+        const std::string &userId,
+        Callback onSuccess,
+        ErrCallback onError);
 
     // -------------------------------------------------------
     // Stats
@@ -128,20 +140,26 @@ class UserService
      * @param onSuccess Callback with UserStats JSON.
      * @param onError   Callback on failure.
      */
-    void getUserStats(const std::string& userId, Callback onSuccess,
-                      ErrCallback onError);
+    void getUserStats(
+        const std::string &userId,
+        Callback onSuccess,
+        ErrCallback onError);
 
-  private:
+private:
     /// Convenience DB accessor.
     [[nodiscard]] static auto db() -> DbClientPtr;
 
     /// Map a result row to a public-facing user JSON
     /// (excludes sensitive fields like password_hash).
-    [[nodiscard]] static auto rowToJson(const drogon::orm::Row& row) -> json;
+    [[nodiscard]] static auto rowToJson(
+        const drogon::orm::Row &row) -> json;
 
     /// Whitelist of columns that may be updated.
-    static inline const std::vector<std::string> kEditableFields = {
-        "display_name", "username", "avatar_url", "bio"};
+    static inline const std::vector<std::string>
+        kEditableFields = {
+            "display_name", "username",
+            "avatar_url", "bio"
+    };
 };
 
-} // namespace services
+}  // namespace services

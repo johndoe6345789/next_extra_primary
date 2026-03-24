@@ -26,7 +26,9 @@ export interface BadgeShowcaseProps {
  *
  * @param props - Component props.
  */
-export const BadgeShowcase: React.FC<BadgeShowcaseProps> = ({
+export const BadgeShowcase: React.FC<
+  BadgeShowcaseProps
+> = ({
   badges,
   earnedBadgeIds,
   testId = 'badge-showcase',
@@ -35,13 +37,30 @@ export const BadgeShowcase: React.FC<BadgeShowcaseProps> = ({
   const earnedCount = earnedSet.size;
 
   return (
-    <Box data-testid={testId} aria-label="Badge collection" role="region">
-      <Typography variant="subtitle1" gutterBottom data-testid="badge-count">
+    <Box
+      data-testid={testId}
+      aria-label="Badge collection"
+      role="region"
+    >
+      <Typography
+        variant="subtitle1"
+        gutterBottom
+        data-testid="badge-count"
+      >
         {earnedCount} of {badges.length} earned
       </Typography>
-      <Grid container spacing={2} role="list" aria-label="Badges">
+      <Grid
+        container
+        spacing={2}
+        role="list"
+        aria-label="Badges"
+      >
         {badges.map((badge) => (
-          <Grid key={badge.id} size={{ xs: 4, sm: 3, md: 2 }} role="listitem">
+          <Grid
+            key={badge.id}
+            size={{ xs: 4, sm: 3, md: 2 }}
+            role="listitem"
+          >
             <UserBadge
               badge={badge}
               earned={earnedSet.has(badge.id)}

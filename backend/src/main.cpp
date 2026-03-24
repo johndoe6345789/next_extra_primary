@@ -33,7 +33,10 @@ namespace fs = std::filesystem;
  * @param port      TCP port to listen on.
  * @param config    Path to the Drogon JSON config file.
  */
-static void cmd_serve(std::uint16_t port, const std::string& config);
+static void cmd_serve(
+    std::uint16_t port,
+    const std::string &config
+);
 
 /**
  * @brief Run database migrations.
@@ -41,21 +44,27 @@ static void cmd_serve(std::uint16_t port, const std::string& config);
  * @param down   Roll back the most recent migration.
  * @param status Print current migration state.
  */
-static void cmd_migrate(bool up, bool down, bool status);
+static void cmd_migrate(
+    bool up,
+    bool down,
+    bool status
+);
 
 /**
  * @brief Load seed data into the database.
  * @param file  Optional path to a specific seed file.
  */
-static void cmd_seed(const std::string& file);
+static void cmd_seed(const std::string &file);
 
 /**
  * @brief Create an administrator user.
  * @param email    Admin e-mail address.
  * @param password Plain-text password (will be hashed).
  */
-static void cmd_create_admin(const std::string& email,
-                             const std::string& password);
+static void cmd_create_admin(
+    const std::string &email,
+    const std::string &password
+);
 
 // -----------------------------------------------------------
 // Signal handling
@@ -64,14 +73,17 @@ static void cmd_create_admin(const std::string& email,
 /// @brief Gracefully shut down Drogon on SIGINT / SIGTERM.
 static void signal_handler(int signum)
 {
-    spdlog::info("Received signal {} -- shutting down gracefully.", signum);
+    spdlog::info(
+        "Received signal {} -- shutting down gracefully.",
+        signum
+    );
     drogon::app().quit();
 }
 
 /// @brief Register POSIX signal handlers.
 static void install_signal_handlers()
 {
-    std::signal(SIGINT, signal_handler);
+    std::signal(SIGINT,  signal_handler);
     std::signal(SIGTERM, signal_handler);
 }
 
@@ -90,27 +102,36 @@ static void install_signal_handlers()
  * @return EXIT_SUCCESS on clean shutdown; EXIT_FAILURE
  *         on error.
  */
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
     // --------------------------------------------------
     // Root CLI app
     // --------------------------------------------------
-    CLI::App app{"nextra-api -- backend service for Nextra"};
+    CLI::App app{
+        "nextra-api -- backend service for Nextra"
+    };
     app.require_subcommand(0, 1);
 
     // --------------------------------------------------
     // serve (default sub-command)
     // --------------------------------------------------
     std::uint16_t serve_port{8080};
-    std::string serve_config{"config/config.json"};
+    std::string   serve_config{"config/config.json"};
 
-    auto* serve_cmd =
-        app.add_subcommand("serve", "Start the HTTP server (default)");
-    serve_cmd->add_option("-p,--port", serve_port, "TCP port to listen on")
-        ->default_val(8080);
-    serve_cmd
-        ->add_option("-c,--config", serve_config, "Path to Drogon JSON config")
-        ->default_val("config/config.json");
+    auto *serve_cmd = app.add_subcommand(
+        "serve",
+        "Start the HTTP server (default)"
+    );
+    serve_cmd->add_option(
+        "-p,--port",
+        serve_port,
+        "TCP port to listen on"
+    )->default_val(8080);
+    serve_cmd->add_option(
+        "-c,--config",
+        serve_config,
+        "Path to Drogon JSON config"
+    )->default_val("config/config.json");
 
     // --------------------------------------------------
     // migrate
@@ -119,22 +140,37 @@ int main(int argc, char* argv[])
     bool migrate_down{false};
     bool migrate_status{false};
 
-    auto* migrate_cmd =
-        app.add_subcommand("migrate", "Run database migrations");
-    migrate_cmd->add_flag("--up", migrate_up, "Apply all pending migrations");
-    migrate_cmd->add_flag("--down", migrate_down,
-                          "Roll back the most recent migration");
-    migrate_cmd->add_flag("--status", migrate_status,
-                          "Show current migration state");
+    auto *migrate_cmd = app.add_subcommand(
+        "migrate",
+        "Run database migrations"
+    );
+    migrate_cmd->add_flag(
+        "--up",    migrate_up,
+        "Apply all pending migrations"
+    );
+    migrate_cmd->add_flag(
+        "--down",  migrate_down,
+        "Roll back the most recent migration"
+    );
+    migrate_cmd->add_flag(
+        "--status", migrate_status,
+        "Show current migration state"
+    );
 
     // --------------------------------------------------
     // seed
     // --------------------------------------------------
     std::string seed_file;
 
-    auto* seed_cmd = app.add_subcommand("seed", "Load seed / fixture data");
-    seed_cmd->add_option("-f,--file", seed_file,
-                         "Path to a specific seed JSON file");
+    auto *seed_cmd = app.add_subcommand(
+        "seed",
+        "Load seed / fixture data"
+    );
+    seed_cmd->add_option(
+        "-f,--file",
+        seed_file,
+        "Path to a specific seed JSON file"
+    );
 
     // --------------------------------------------------
     // create-admin
@@ -142,14 +178,20 @@ int main(int argc, char* argv[])
     std::string admin_email;
     std::string admin_password;
 
-    auto* admin_cmd =
-        app.add_subcommand("create-admin", "Create an administrator account");
-    admin_cmd->add_option("--email", admin_email, "Admin e-mail address")
-        ->required();
-    admin_cmd
-        ->add_option("--password", admin_password,
-                     "Admin password (will be hashed)")
-        ->required();
+    auto *admin_cmd = app.add_subcommand(
+        "create-admin",
+        "Create an administrator account"
+    );
+    admin_cmd->add_option(
+        "--email",
+        admin_email,
+        "Admin e-mail address"
+    )->required();
+    admin_cmd->add_option(
+        "--password",
+        admin_password,
+        "Admin password (will be hashed)"
+    )->required();
 
     // --------------------------------------------------
     // Parse
@@ -161,16 +203,23 @@ int main(int argc, char* argv[])
     // --------------------------------------------------
     try {
         if (*migrate_cmd) {
-            cmd_migrate(migrate_up, migrate_down, migrate_status);
+            cmd_migrate(
+                migrate_up,
+                migrate_down,
+                migrate_status
+            );
         } else if (*seed_cmd) {
             cmd_seed(seed_file);
         } else if (*admin_cmd) {
-            cmd_create_admin(admin_email, admin_password);
+            cmd_create_admin(
+                admin_email,
+                admin_password
+            );
         } else {
             // Default: serve
             cmd_serve(serve_port, serve_config);
         }
-    } catch (const std::exception& ex) {
+    } catch (const std::exception &ex) {
         spdlog::error("Fatal: {}", ex.what());
         return EXIT_FAILURE;
     }
@@ -182,28 +231,40 @@ int main(int argc, char* argv[])
 // Sub-command implementations
 // -----------------------------------------------------------
 
-static void cmd_serve(std::uint16_t port, const std::string& config)
+static void cmd_serve(
+    std::uint16_t port,
+    const std::string &config
+)
 {
     install_signal_handlers();
 
     if (!fs::exists(config)) {
-        throw std::runtime_error(
-            fmt::format("Config file not found: {}", config));
+        throw std::runtime_error(fmt::format(
+            "Config file not found: {}", config
+        ));
     }
 
-    spdlog::info("Loading configuration from: {}", config);
+    spdlog::info(
+        "Loading configuration from: {}", config
+    );
     drogon::app().loadConfigFile(config);
 
     // CLI --port overrides the config value.
     drogon::app().addListener("0.0.0.0", port);
 
-    spdlog::info("Starting nextra-api on port {}", port);
+    spdlog::info(
+        "Starting nextra-api on port {}", port
+    );
     drogon::app().run();
 
     spdlog::info("Server stopped.");
 }
 
-static void cmd_migrate(bool up, bool down, bool status)
+static void cmd_migrate(
+    bool up,
+    bool down,
+    bool status
+)
 {
     if (status) {
         spdlog::info("Checking migration status...");
@@ -230,19 +291,22 @@ static void cmd_migrate(bool up, bool down, bool status)
         return;
     }
 
-    fmt::print("No action specified.  "
-               "Use --up, --down, or --status.\n");
+    fmt::print(
+        "No action specified.  "
+        "Use --up, --down, or --status.\n"
+    );
 }
 
-static void cmd_seed(const std::string& file)
+static void cmd_seed(const std::string &file)
 {
     if (file.empty()) {
         spdlog::info("Loading all seed files from seed/");
         /// @todo Iterate seed/*.json and insert rows.
     } else {
         if (!fs::exists(file)) {
-            throw std::runtime_error(
-                fmt::format("Seed file not found: {}", file));
+            throw std::runtime_error(fmt::format(
+                "Seed file not found: {}", file
+            ));
         }
         spdlog::info("Loading seed file: {}", file);
         /// @todo Parse JSON and insert rows.
@@ -250,13 +314,19 @@ static void cmd_seed(const std::string& file)
     fmt::print("Seed: not yet implemented\n");
 }
 
-static void cmd_create_admin(const std::string& email,
-                             const std::string& password)
+static void cmd_create_admin(
+    const std::string &email,
+    const std::string &password
+)
 {
-    spdlog::info("Creating admin account for: {}", email);
+    spdlog::info(
+        "Creating admin account for: {}", email
+    );
 
     /// @todo Hash password with bcrypt / argon2,
     ///       insert user row with role = 'admin'.
 
-    fmt::print("create-admin: not yet implemented\n");
+    fmt::print(
+        "create-admin: not yet implemented\n"
+    );
 }

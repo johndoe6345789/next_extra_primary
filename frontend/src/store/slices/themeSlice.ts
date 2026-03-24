@@ -2,7 +2,10 @@
  * Theme slice — manages light/dark/system mode.
  * @module store/slices/themeSlice
  */
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  type PayloadAction,
+} from '@reduxjs/toolkit';
 
 /** Possible theme modes. */
 export type ThemeMode = 'light' | 'dark' | 'system';
@@ -20,18 +23,26 @@ const themeSlice = createSlice({
   initialState,
   reducers: {
     /** Explicitly set the theme mode. */
-    setMode(state, action: PayloadAction<ThemeMode>) {
+    setMode(
+      state,
+      action: PayloadAction<ThemeMode>,
+    ) {
       state.mode = action.payload;
     },
     /** Cycle light -> dark -> system -> light. */
     toggleMode(state) {
-      const cycle: ThemeMode[] = ['light', 'dark', 'system'];
+      const cycle: ThemeMode[] = [
+        'light',
+        'dark',
+        'system',
+      ];
       const idx = cycle.indexOf(state.mode);
       state.mode = cycle[(idx + 1) % cycle.length];
     },
   },
 });
 
-export const { setMode, toggleMode } = themeSlice.actions;
+export const { setMode, toggleMode } =
+  themeSlice.actions;
 
 export default themeSlice.reducer;

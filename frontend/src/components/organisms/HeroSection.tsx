@@ -24,14 +24,14 @@ export interface HeroSectionProps {
  *
  * @param props - Component props.
  */
-export const HeroSection: React.FC<HeroSectionProps> = ({
-  onGetStarted,
-  onLearnMore,
+export const HeroSection: React.FC<
+  HeroSectionProps
+> = ({
+  onGetStarted, onLearnMore,
   testId = 'hero-section',
 }) => (
   <Box
-    component="section"
-    data-testid={testId}
+    component="section" data-testid={testId}
     aria-label="Hero section"
     sx={(t) => ({
       py: { xs: 8, md: 12 },
@@ -47,10 +47,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   >
     <Container maxWidth="md">
       <Typography
-        variant="h2"
-        component="h1"
-        gutterBottom
-        data-testid="hero-heading"
+        variant="h2" component="h1"
+        gutterBottom data-testid="hero-heading"
         sx={{
           fontWeight: 700,
           fontSize: { xs: '2rem', md: '3rem' },
@@ -59,31 +57,30 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         NextExtra
       </Typography>
       <Typography
-        variant="h5"
-        component="p"
+        variant="h5" component="p"
         data-testid="hero-subtitle"
         sx={{
-          mb: 4,
-          opacity: 0.9,
+          mb: 4, opacity: 0.9,
           fontSize: { xs: '1rem', md: '1.4rem' },
         }}
       >
-        AI-powered learning with gamification, real-time chat, and i18n support.
+        AI-powered learning with gamification,
+        real-time chat, and i18n support.
       </Typography>
-      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+      <Stack
+        direction={{ xs: 'column', sm: 'row' }}
+        spacing={2}
+      >
         <Button
-          size="large"
-          onClick={onGetStarted}
+          size="large" onClick={onGetStarted}
           testId="hero-cta-start"
           ariaLabel="Get started"
         >
           Get Started
         </Button>
         <Button
-          variant="outlined"
-          size="large"
-          color="inherit"
-          onClick={onLearnMore}
+          variant="outlined" size="large"
+          color="inherit" onClick={onLearnMore}
           testId="hero-cta-learn"
           ariaLabel="Learn more"
         >

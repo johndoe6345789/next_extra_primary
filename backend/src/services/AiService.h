@@ -15,13 +15,14 @@
 #include <functional>
 #include <string>
 
-namespace services
-{
+namespace services {
 
 using json = nlohmann::json;
 using DbClientPtr = drogon::orm::DbClientPtr;
 using Callback = std::function<void(json)>;
-using ErrCallback = std::function<void(drogon::HttpStatusCode, std::string)>;
+using ErrCallback =
+    std::function<void(drogon::HttpStatusCode,
+                       std::string)>;
 
 /**
  * @brief Supported AI provider backends.
@@ -37,7 +38,8 @@ enum class AiProvider : std::uint8_t {
  * @param s  "claude" or "openai" (case-insensitive).
  * @return Matching enum value; defaults to CLAUDE.
  */
-[[nodiscard]] inline auto parseProvider(const std::string& s) -> AiProvider
+[[nodiscard]] inline auto parseProvider(
+    const std::string &s) -> AiProvider
 {
     if (s == "openai" || s == "OPENAI") {
         return AiProvider::OPENAI;
@@ -61,9 +63,8 @@ struct AiResponse {
  * @brief Sends chat messages to an LLM and stores the
  *        conversation.
  */
-class AiService
-{
-  public:
+class AiService {
+public:
     AiService();
     ~AiService() = default;
 
@@ -81,37 +82,52 @@ class AiService
      * @param onSuccess Callback with AiResponse JSON.
      * @param onError   Callback on failure.
      */
-    void chat(const std::string& userId, const std::string& message,
-              AiProvider provider, Callback onSuccess, ErrCallback onError);
+    void chat(
+        const std::string &userId,
+        const std::string &message,
+        AiProvider provider,
+        Callback onSuccess,
+        ErrCallback onError);
 
-  private:
+private:
     /// Convenience DB accessor.
     [[nodiscard]] static auto db() -> DbClientPtr;
 
     /// Send request to Anthropic Claude.
-    void callClaude(const json& messages, Callback onSuccess,
-                    ErrCallback onError);
+    void callClaude(
+        const json &messages,
+        Callback onSuccess,
+        ErrCallback onError);
 
     /// Send request to OpenAI.
-    void callOpenAi(const json& messages, Callback onSuccess,
-                    ErrCallback onError);
+    void callOpenAi(
+        const json &messages,
+        Callback onSuccess,
+        ErrCallback onError);
 
     /// Persist a single chat message row.
-    void storeMessage(const std::string& userId, const std::string& role,
-                      const std::string& content, const std::string& provider,
-                      const std::string& model);
+    void storeMessage(
+        const std::string &userId,
+        const std::string &role,
+        const std::string &content,
+        const std::string &provider,
+        const std::string &model);
 
     /// Load the last N messages for context.
-    void loadHistory(const std::string& userId, std::size_t limit,
-                     std::function<void(json)> callback);
+    void loadHistory(
+        const std::string &userId,
+        std::size_t limit,
+        std::function<void(json)> callback);
 
     /// API keys loaded from environment.
     std::string claudeApiKey_;
     std::string openaiApiKey_;
 
     /// Model identifiers.
-    static constexpr const char* kClaudeModel = "claude-sonnet-4-20250514";
-    static constexpr const char* kOpenAiModel = "gpt-4o";
+    static constexpr const char *kClaudeModel =
+        "claude-sonnet-4-20250514";
+    static constexpr const char *kOpenAiModel =
+        "gpt-4o";
 
     /// Max tokens for a single completion.
     static constexpr std::int32_t kMaxTokens = 1024;
@@ -120,4 +136,4 @@ class AiService
     static constexpr std::size_t kHistoryLimit = 20;
 };
 
-} // namespace services
+}  // namespace services

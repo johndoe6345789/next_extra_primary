@@ -1,7 +1,8 @@
-import { setRequestLocale } from 'next-intl/server';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { ChatPanel } from '@/components/organisms/ChatPanel';
+import { setRequestLocale } from "next-intl/server";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { ChatPanel } from
+  "@/components/organisms/ChatPanel";
 
 /** Props for the AI chat page. */
 interface ChatPageProps {
@@ -28,12 +29,16 @@ export default async function ChatPage({
     <Box
       aria-label="AI Chat"
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: 'calc(100vh - 128px)',
+        display: "flex",
+        flexDirection: "column",
+        height: "calc(100vh - 128px)",
       }}
     >
-      <Typography variant="h4" component="h1" gutterBottom>
+      <Typography
+        variant="h4"
+        component="h1"
+        gutterBottom
+      >
         AI Tutor
       </Typography>
       <Box sx={{ flex: 1, minHeight: 0 }}>

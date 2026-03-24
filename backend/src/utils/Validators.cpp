@@ -8,34 +8,36 @@
 #include <algorithm>
 #include <regex>
 
-namespace utils
-{
+namespace utils {
 
-auto isValidEmail(const std::string& str) -> bool
+auto isValidEmail(const std::string &str) -> bool
 {
     if (str.empty() || str.size() > 254) {
         return false;
     }
     // Basic RFC-5322-ish pattern; not exhaustive.
-    static const std::regex kEmailRe{R"(^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+)"
-                                     R"(@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61})"
-                                     R"([a-zA-Z0-9])?)"
-                                     R"((?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61})"
-                                     R"([a-zA-Z0-9])?)*$)"};
+    static const std::regex kEmailRe{
+        R"(^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+)"
+        R"(@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61})"
+        R"([a-zA-Z0-9])?)"
+        R"((?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61})"
+        R"([a-zA-Z0-9])?)*$)"
+    };
     return std::regex_match(str, kEmailRe);
 }
 
-auto isValidUsername(const std::string& str) -> bool
+auto isValidUsername(const std::string &str) -> bool
 {
     if (str.size() < 3 || str.size() > 30) {
         return false;
     }
     return std::ranges::all_of(str, [](char c) {
-        return std::isalnum(static_cast<unsigned char>(c)) || c == '_';
+        return std::isalnum(static_cast<unsigned char>(c))
+               || c == '_';
     });
 }
 
-auto isValidPassword(const std::string& str) -> bool
+auto isValidPassword(const std::string &str) -> bool
 {
     if (str.size() < 8) {
         return false;
@@ -52,4 +54,4 @@ auto isValidPassword(const std::string& str) -> bool
     return hasUpper && hasLower && hasDigit;
 }
 
-} // namespace utils
+}  // namespace utils

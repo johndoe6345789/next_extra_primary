@@ -1,8 +1,11 @@
 # =============================================================================
 # CodeQL Security Scanning
 # =============================================================================
-# Runs GitHub CodeQL analysis for JavaScript/TypeScript on every push/PR.
-# C++ analysis runs weekly only (Conan builds are too slow for PR checks).
+# Runs GitHub CodeQL analysis for JavaScript/TypeScript and C++ to detect
+# security vulnerabilities, bugs, and code quality issues.
+#
+# Schedule: weekly on Monday at 06:15 UTC (off-peak) plus on every push
+# and pull request to main.
 # =============================================================================
 
 name: CodeQL
@@ -30,12 +33,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: javascript-typescript
+          # Use the default query suite for broad coverage
           queries: security-extended
 
       - name: Autobuild
@@ -47,28 +51,19 @@ jobs:
           category: "/language:javascript-typescript"
 
   # ---------------------------------------------------------------------------
-  # CodeQL Analysis — C++ (weekly schedule only)
+  # CodeQL Analysis — C++
   # ---------------------------------------------------------------------------
   analyze-cpp:
     name: Analyze C++
     runs-on: ubuntu-latest
-    if: github.event_name == 'schedule'
-    timeout-minutes: 60
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Install build dependencies
         run: |
           pip install conan
           conan profile detect --force
-
-      - name: Cache Conan packages
-        uses: actions/cache@v5
-        with:
-          path: ~/.conan2
-          key: conan-codeql-${{ hashFiles('backend/conanfile.txt') }}
-          restore-keys: conan-codeql-
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
@@ -76,6 +71,7 @@ jobs:
           languages: cpp
           queries: security-extended
 
+      # Manual build instead of autobuild for Conan/CMake projects
       - name: Build backend for analysis
         working-directory: backend
         run: |

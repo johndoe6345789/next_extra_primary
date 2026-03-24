@@ -25,7 +25,9 @@ export interface ButtonProps {
   /** Whether the button is disabled. */
   disabled?: boolean;
   /** Click handler. */
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler<
+    HTMLButtonElement
+  >;
   /** HTML button type attribute. */
   type?: 'button' | 'submit' | 'reset';
   /** Whether the button spans full width. */

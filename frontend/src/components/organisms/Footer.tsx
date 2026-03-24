@@ -24,27 +24,23 @@ export interface FooterProps {
  *
  * @param props - Component props.
  */
-export const Footer: React.FC<FooterProps> = ({ testId = 'footer' }) => (
+export const Footer: React.FC<FooterProps> = ({
+  testId = 'footer',
+}) => (
   <Box
-    component="footer"
-    role="contentinfo"
+    component="footer" role="contentinfo"
     data-testid={testId}
     sx={{
-      py: 3,
-      px: 2,
-      mt: 'auto',
-      borderTop: 1,
-      borderColor: 'divider',
+      py: 3, px: 2, mt: 'auto',
+      borderTop: 1, borderColor: 'divider',
     }}
   >
     <Container
       maxWidth="lg"
       sx={{
-        display: 'flex',
-        flexWrap: 'wrap',
+        display: 'flex', flexWrap: 'wrap',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        gap: 2,
+        alignItems: 'center', gap: 2,
       }}
     >
       <Typography
@@ -61,14 +57,14 @@ export const Footer: React.FC<FooterProps> = ({ testId = 'footer' }) => (
       >
         {LINKS.map((l) => (
           <MuiLink
-            key={l.href}
-            component={Link}
+            key={l.href} component={Link}
             href={l.href}
             color="text.secondary"
-            underline="hover"
-            variant="body2"
+            underline="hover" variant="body2"
             tabIndex={0}
-            data-testid={`footer-${l.label.toLowerCase()}`}
+            data-testid={
+              `footer-${l.label.toLowerCase()}`
+            }
           >
             {l.label}
           </MuiLink>

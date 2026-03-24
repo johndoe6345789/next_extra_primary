@@ -10,12 +10,12 @@
 
 #include <drogon/HttpFilter.h>
 
-namespace filters
-{
+namespace filters {
 
-class CorsFilter : public drogon::HttpFilter<CorsFilter>
+class CorsFilter
+    : public drogon::HttpFilter<CorsFilter>
 {
-  public:
+public:
     CorsFilter() = default;
 
     /**
@@ -24,9 +24,10 @@ class CorsFilter : public drogon::HttpFilter<CorsFilter>
      * @param cb   Callback to invoke for preflight responses.
      * @param ccb  Chain callback to continue the pipeline.
      */
-    void doFilter(const drogon::HttpRequestPtr& req,
-                  drogon::FilterCallback&& cb,
-                  drogon::FilterChainCallback&& ccb) override;
+    void doFilter(
+        const drogon::HttpRequestPtr &req,
+        drogon::FilterCallback &&cb,
+        drogon::FilterChainCallback &&ccb) override;
 };
 
-} // namespace filters
+}  // namespace filters

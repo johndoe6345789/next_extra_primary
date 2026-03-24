@@ -5,7 +5,9 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import Box from '@mui/material/Box';
 import { Avatar } from '../atoms';
-import type { LeaderboardEntry } from '@/types/gamification';
+import type {
+  LeaderboardEntry,
+} from '@/types/gamification';
 
 /** Props for LeaderboardRow. */
 export interface LeaderboardRowProps {
@@ -17,18 +19,23 @@ export interface LeaderboardRowProps {
  * Single leaderboard table row with rank,
  * avatar, username, points, and level.
  */
-export const LeaderboardRow: React.FC<LeaderboardRowProps> = ({ entry: e }) => (
-  <TableRow tabIndex={0} data-testid={`lb-${e.userId}`}>
+export const LeaderboardRow: React.FC<
+  LeaderboardRowProps
+> = ({ entry: e }) => (
+  <TableRow
+    tabIndex={0}
+    data-testid={`lb-${e.userId}`}
+  >
     <TableCell>{e.rank}</TableCell>
     <TableCell>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1,
-        }}
-      >
-        <Avatar alt={e.username} src={e.avatarUrl} size="sm" />
+      <Box sx={{
+        display: 'flex',
+        alignItems: 'center', gap: 1,
+      }}>
+        <Avatar
+          alt={e.username}
+          src={e.avatarUrl} size="sm"
+        />
         {e.username}
       </Box>
     </TableCell>

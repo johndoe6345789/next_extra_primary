@@ -26,8 +26,12 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     /** Store user + tokens after login/refresh. */
-    setCredentials(state, action: PayloadAction<CredentialsPayload>) {
-      const { user, accessToken, refreshToken } = action.payload;
+    setCredentials(
+      state,
+      action: PayloadAction<CredentialsPayload>,
+    ) {
+      const { user, accessToken, refreshToken } =
+        action.payload;
       state.user = user;
       state.accessToken = accessToken;
       state.refreshToken = refreshToken;
@@ -47,31 +51,46 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addMatcher(authApi.endpoints.login.matchPending, (state) => {
-        state.isLoading = true;
-      })
+      .addMatcher(
+        authApi.endpoints.login.matchPending,
+        (state) => {
+          state.isLoading = true;
+        },
+      )
       .addMatcher(
         authApi.endpoints.login.matchFulfilled,
         (state, { payload }) => {
           state.user = payload.user;
-          state.accessToken = payload.tokens.accessToken;
-          state.refreshToken = payload.tokens.refreshToken;
+          state.accessToken =
+            payload.tokens.accessToken;
+          state.refreshToken =
+            payload.tokens.refreshToken;
           state.isAuthenticated = true;
           state.isLoading = false;
         },
       )
-      .addMatcher(authApi.endpoints.login.matchRejected, (state) => {
-        state.isLoading = false;
-      })
-      .addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
-        state.user = null;
-        state.accessToken = null;
-        state.refreshToken = null;
-        state.isAuthenticated = false;
-      });
+      .addMatcher(
+        authApi.endpoints.login.matchRejected,
+        (state) => {
+          state.isLoading = false;
+        },
+      )
+      .addMatcher(
+        authApi.endpoints.logout.matchFulfilled,
+        (state) => {
+          state.user = null;
+          state.accessToken = null;
+          state.refreshToken = null;
+          state.isAuthenticated = false;
+        },
+      );
   },
 });
 
-export const { setCredentials, clearCredentials, setUser } = authSlice.actions;
+export const {
+  setCredentials,
+  clearCredentials,
+  setUser,
+} = authSlice.actions;
 
 export default authSlice.reducer;

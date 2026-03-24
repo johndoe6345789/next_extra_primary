@@ -13,7 +13,9 @@ export interface TextFieldProps {
   value: string;
   /** Change handler */
   onChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement
+    >
   ) => void;
   /** Whether the field is in an error state */
   error?: boolean;
@@ -36,7 +38,9 @@ export interface TextFieldProps {
   /** data-testid attribute for testing */
   testId?: string;
   /** Additional input element props */
-  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
+  inputProps?: React.InputHTMLAttributes<
+    HTMLInputElement
+  >;
 }
 
 /**
@@ -78,7 +82,9 @@ export const TextField: React.FC<TextFieldProps> = ({
       rows={rows}
       autoComplete={autoComplete}
       inputProps={{
-        'aria-describedby': helperText ? helperId : undefined,
+        'aria-describedby': helperText
+          ? helperId
+          : undefined,
         ...inputProps,
       }}
       FormHelperTextProps={{

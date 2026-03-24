@@ -9,7 +9,6 @@ const BASE = process.env.NEXT_PUBLIC_API_URL ?? '/api';
 
 /**
  * Build a full API URL with optional query params.
- * Handles both absolute and relative base URLs.
  * @param path  - API path (e.g. "/users")
  * @param params - key-value query parameters
  */
@@ -17,31 +16,13 @@ export function buildUrl(
   path: string,
   params?: Record<string, string | number>,
 ): string {
-  const isAbsolute = /^https?:\/\//i.test(BASE);
-  let fullPath: string;
-
-  if (isAbsolute) {
-    const url = new URL(path, BASE);
-    if (params) {
-      for (const [k, v] of Object.entries(params)) {
-        url.searchParams.set(k, String(v));
-      }
-    }
-    return url.toString();
-  }
-
-  const sep = BASE.endsWith('/') || path.startsWith('/') ? '' : '/';
-  fullPath = `${BASE}${sep}${path}`;
-
+  const url = new URL(path, BASE);
   if (params) {
-    const qs = new URLSearchParams();
     for (const [k, v] of Object.entries(params)) {
-      qs.set(k, String(v));
+      url.searchParams.set(k, String(v));
     }
-    fullPath += `?${qs.toString()}`;
   }
-
-  return fullPath;
+  return url.toString();
 }
 
 /**
@@ -69,7 +50,8 @@ export async function apiFetch<T>(
     const body = await res.json().catch(() => ({}));
     const error: ApiError = {
       status: res.status,
-      message: body.message ?? res.statusText,
+      message:
+        body.message ?? res.statusText,
       code: body.code,
       details: body.details,
     };

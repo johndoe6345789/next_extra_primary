@@ -20,20 +20,24 @@ export const gamificationApi = baseApi.injectEndpoints({
     }),
 
     /** Get the global leaderboard. */
-    getLeaderboard: build.query<LeaderboardEntry[], { limit?: number }>({
-      query: ({ limit = 25 }) => `/gamification/leaderboard?limit=${limit}`,
+    getLeaderboard: build.query<
+      LeaderboardEntry[],
+      { limit?: number }
+    >({
+      query: ({ limit = 25 }) =>
+        `/gamification/leaderboard?limit=${limit}`,
       providesTags: ['Gamification'],
     }),
 
     /** Get the current user's streak info. */
     getMyStreak: build.query<StreakInfo, void>({
-      query: () => '/gamification/streaks/me',
+      query: () => '/gamification/streak',
       providesTags: ['Gamification'],
     }),
 
     /** Get the current user's level progress. */
     getMyProgress: build.query<ProgressInfo, void>({
-      query: () => '/gamification/progress/me',
+      query: () => '/gamification/progress',
       providesTags: ['Gamification'],
     }),
   }),

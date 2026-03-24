@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useTranslations } from 'next-intl';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import Link from "next/link";
+import { useTranslations } from "next-intl";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 
 /**
  * Custom 404 page for locale-scoped routes.
@@ -16,39 +16,46 @@ import Button from '@mui/material/Button';
  * @returns Not-found UI with navigation link.
  */
 export default function NotFound(): JSX.Element {
-  const t = useTranslations('NotFound');
+  const t = useTranslations("NotFound");
 
   return (
     <Box
       component="main"
       role="alert"
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
         gap: 3,
         px: 2,
-        textAlign: 'center',
+        textAlign: "center",
       }}
     >
       <Typography
         variant="h1"
         component="h1"
-        sx={{ fontSize: '6rem', fontWeight: 700 }}
-        aria-label={t('statusCode', { defaultValue: '404' })}
+        sx={{ fontSize: "6rem", fontWeight: 700 }}
+        aria-label={
+          t("statusCode", { defaultValue: "404" })
+        }
       >
         404
       </Typography>
       <Typography variant="h5" component="p">
-        {t('title', {
-          defaultValue: 'Page not found',
+        {t("title", {
+          defaultValue: "Page not found",
         })}
       </Typography>
-      <Typography variant="body1" color="text.secondary">
-        {t('description', {
-          defaultValue: 'The page you are looking for' + ' does not exist.',
+      <Typography
+        variant="body1"
+        color="text.secondary"
+      >
+        {t("description", {
+          defaultValue:
+            "The page you are looking for"
+            + " does not exist.",
         })}
       </Typography>
       <Button
@@ -56,12 +63,12 @@ export default function NotFound(): JSX.Element {
         href="/"
         variant="contained"
         size="large"
-        aria-label={t('homeLink', {
-          defaultValue: 'Return to home page',
+        aria-label={t("homeLink", {
+          defaultValue: "Return to home page",
         })}
       >
-        {t('homeLink', {
-          defaultValue: 'Go Home',
+        {t("homeLink", {
+          defaultValue: "Go Home",
         })}
       </Button>
     </Box>

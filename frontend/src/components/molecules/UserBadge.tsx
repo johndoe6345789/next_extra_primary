@@ -55,7 +55,9 @@ export const UserBadge: React.FC<UserBadgeProps> = ({
           flexDirection: 'column',
           alignItems: 'center',
           gap: 0.5,
-          filter: earned ? 'none' : 'grayscale(100%)',
+          filter: earned
+            ? 'none'
+            : 'grayscale(100%)',
           opacity: earned ? 1 : 0.5,
         }}
       >
@@ -65,12 +67,21 @@ export const UserBadge: React.FC<UserBadgeProps> = ({
           alt={badge.name}
           sx={{ width: px, height: px }}
         />
-        <Typography variant="caption" noWrap sx={{ maxWidth: px + 16 }}>
+        <Typography
+          variant="caption"
+          noWrap
+          sx={{ maxWidth: px + 16 }}
+        >
           {badge.name}
         </Typography>
         {earned && badge.earnedAt && (
-          <Typography variant="caption" color="text.secondary">
-            {new Date(badge.earnedAt).toLocaleDateString()}
+          <Typography
+            variant="caption"
+            color="text.secondary"
+          >
+            {new Date(
+              badge.earnedAt,
+            ).toLocaleDateString()}
           </Typography>
         )}
       </Box>

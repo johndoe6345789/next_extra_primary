@@ -1,4 +1,6 @@
-import type { TypographyVariantsOptions } from '@mui/material/styles';
+import type {
+  TypographyVariantsOptions,
+} from '@mui/material/styles';
 
 /**
  * MD3-inspired typography scale.

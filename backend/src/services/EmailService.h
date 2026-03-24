@@ -14,8 +14,7 @@
 #include <cstdint>
 #include <string>
 
-namespace services
-{
+namespace services {
 
 using json = nlohmann::json;
 
@@ -26,9 +25,8 @@ using json = nlohmann::json;
  * All heavy I/O is performed on background threads so the
  * Drogon event loop is never blocked.
  */
-class EmailService
-{
-  public:
+class EmailService {
+public:
     EmailService();
     ~EmailService() = default;
 
@@ -45,9 +43,10 @@ class EmailService
      * @return `true` if the message was accepted by the
      *         SMTP server.
      */
-    [[nodiscard]] auto sendEmail(const std::string& to,
-                                 const std::string& subject,
-                                 const std::string& htmlBody) -> bool;
+    [[nodiscard]] auto sendEmail(
+        const std::string &to,
+        const std::string &subject,
+        const std::string &htmlBody) -> bool;
 
     // -------------------------------------------------------
     // Templated convenience methods
@@ -60,8 +59,10 @@ class EmailService
      * @param username     Display name for the greeting.
      * @param confirmToken URL-safe confirmation token.
      */
-    void sendWelcomeEmail(const std::string& email, const std::string& username,
-                          const std::string& confirmToken);
+    void sendWelcomeEmail(
+        const std::string &email,
+        const std::string &username,
+        const std::string &confirmToken);
 
     /**
      * @brief Send a password-reset email.
@@ -69,8 +70,9 @@ class EmailService
      * @param email      Recipient address.
      * @param resetToken URL-safe reset token.
      */
-    void sendPasswordResetEmail(const std::string& email,
-                                const std::string& resetToken);
+    void sendPasswordResetEmail(
+        const std::string &email,
+        const std::string &resetToken);
 
     /**
      * @brief Notify the user of a newly earned badge.
@@ -78,17 +80,19 @@ class EmailService
      * @param email     Recipient address.
      * @param badgeName Human-readable badge title.
      */
-    void sendBadgeEarnedEmail(const std::string& email,
-                              const std::string& badgeName);
+    void sendBadgeEarnedEmail(
+        const std::string &email,
+        const std::string &badgeName);
 
-  private:
+private:
     /// Load and cache email templates from JSON.
     void loadTemplates();
 
     /// Render an HTML template by replacing `{{key}}`
     /// placeholders with values from @p vars.
-    [[nodiscard]] auto renderTemplate(const std::string& templateHtml,
-                                      const json& vars) const -> std::string;
+    [[nodiscard]] auto renderTemplate(
+        const std::string &templateHtml,
+        const json &vars) const -> std::string;
 
     /// Base URL for links embedded in emails (from env).
     std::string baseUrl_;
@@ -105,4 +109,4 @@ class EmailService
     json templates_;
 };
 
-} // namespace services
+}  // namespace services

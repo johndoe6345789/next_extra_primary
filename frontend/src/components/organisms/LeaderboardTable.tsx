@@ -4,10 +4,12 @@ import React, { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
+import TableContainer
+  from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
+import TableSortLabel
+  from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import { useGamification } from '@/hooks';
@@ -26,9 +28,9 @@ export interface LeaderboardTableProps {
  *
  * @param props - Component props.
  */
-export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
-  testId = 'leaderboard-table',
-}) => {
+export const LeaderboardTable: React.FC<
+  LeaderboardTableProps
+> = ({ testId = 'leaderboard-table' }) => {
   const { leaderboard } = useGamification();
   const [sk, setSk] = useState<SK>('rank');
   const [asc, setAsc] = useState(true);
@@ -37,10 +39,7 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
   );
   const tog = (k: SK) => {
     if (sk === k) setAsc(!asc);
-    else {
-      setSk(k);
-      setAsc(true);
-    }
+    else { setSk(k); setAsc(true); }
   };
   const hdr = (k: SK) => (
     <TableCell key={k}>
@@ -58,7 +57,9 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
     <Box data-testid={testId}>
       <PeriodFilter />
       <TableContainer component={Paper}>
-        <Table aria-label="Leaderboard" role="grid">
+        <Table
+          aria-label="Leaderboard" role="grid"
+        >
           <TableHead>
             <TableRow>
               {hdr('rank')}
@@ -69,7 +70,9 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
           </TableHead>
           <TableBody>
             {rows.map((e) => (
-              <LeaderboardRow key={e.userId} entry={e} />
+              <LeaderboardRow
+                key={e.userId} entry={e}
+              />
             ))}
           </TableBody>
         </Table>

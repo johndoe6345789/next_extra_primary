@@ -17,16 +17,18 @@ export const userApi = baseApi.injectEndpoints({
     /** Get a user profile by ID. */
     getUser: build.query<UserProfile, string>({
       query: (id) => `/users/${id}`,
-      providesTags: (_r, _e, id) => [{ type: 'User', id }],
+      providesTags: (_r, _e, id) => [
+        { type: 'User', id },
+      ],
     }),
 
-    /** Update a user profile by ID. */
+    /** Update the current user's profile. */
     updateUser: build.mutation<
       UserProfile,
-      UpdateProfileRequest & { id: string }
+      UpdateProfileRequest
     >({
-      query: ({ id, ...body }) => ({
-        url: `/users/${id}`,
+      query: (body) => ({
+        url: '/users/me',
         method: 'PATCH',
         body,
       }),
@@ -42,7 +44,9 @@ export const userApi = baseApi.injectEndpoints({
     /** Get aggregated stats for a user. */
     getUserStats: build.query<UserStats, string>({
       query: (id) => `/users/${id}/stats`,
-      providesTags: (_r, _e, id) => [{ type: 'User', id }],
+      providesTags: (_r, _e, id) => [
+        { type: 'User', id },
+      ],
     }),
 
     /** List users with pagination. */
@@ -51,7 +55,7 @@ export const userApi = baseApi.injectEndpoints({
       { page?: number; perPage?: number }
     >({
       query: ({ page = 1, perPage = 20 }) =>
-        `/users?page=${page}&per_page=${perPage}`,
+        `/users?page=${page}&perPage=${perPage}`,
       providesTags: ['User'],
     }),
   }),

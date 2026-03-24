@@ -29,10 +29,12 @@ interface UseThemeModeReturn {
 export function useThemeMode(): UseThemeModeReturn {
   const { mode, setMode } = useColorScheme();
 
-  const resolved: Mode = (mode as Mode | undefined) ?? 'light';
+  const resolved: Mode =
+    (mode as Mode | undefined) ?? 'light';
 
   const toggleMode = useCallback(() => {
-    const next = resolved === 'dark' ? 'light' : 'dark';
+    const next =
+      resolved === 'dark' ? 'light' : 'dark';
     setMode(next);
   }, [resolved, setMode]);
 

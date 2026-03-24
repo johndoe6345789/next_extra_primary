@@ -1,9 +1,9 @@
-import { setRequestLocale } from 'next-intl/server';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid2';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
+import { setRequestLocale } from "next-intl/server";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
 
 /** Props for the dashboard home page. */
 interface DashboardPageProps {
@@ -27,26 +27,44 @@ export default async function DashboardPage({
   setRequestLocale(locale);
 
   const cards = [
-    { title: 'Current Streak', value: '--' },
-    { title: 'Total Points', value: '--' },
-    { title: 'Badges Earned', value: '--' },
-    { title: 'Rank', value: '--' },
+    { title: "Current Streak", value: "--" },
+    { title: "Total Points", value: "--" },
+    { title: "Badges Earned", value: "--" },
+    { title: "Rank", value: "--" },
   ] as const;
 
   return (
     <Box aria-label="Dashboard overview">
-      <Typography variant="h4" component="h1" gutterBottom>
+      <Typography
+        variant="h4"
+        component="h1"
+        gutterBottom
+      >
         Dashboard
       </Typography>
-      <Grid container spacing={3} role="list" aria-label="User statistics">
+      <Grid
+        container
+        spacing={3}
+        role="list"
+        aria-label="User statistics"
+      >
         {cards.map((card) => (
-          <Grid key={card.title} size={{ xs: 12, sm: 6, md: 3 }}>
+          <Grid
+            key={card.title}
+            size={{ xs: 12, sm: 6, md: 3 }}
+          >
             <Card role="listitem" elevation={2}>
               <CardContent>
-                <Typography variant="subtitle2" color="text.secondary">
+                <Typography
+                  variant="subtitle2"
+                  color="text.secondary"
+                >
                   {card.title}
                 </Typography>
-                <Typography variant="h4" component="p">
+                <Typography
+                  variant="h4"
+                  component="p"
+                >
                   {card.value}
                 </Typography>
               </CardContent>

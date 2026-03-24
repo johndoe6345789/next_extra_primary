@@ -37,14 +37,24 @@ interface UseGamificationReturn {
  *
  * @returns Gamification state for the current user.
  */
-export function useGamification(): UseGamificationReturn {
-  const { data: badges, isLoading: badgesLoading } = useGetBadgesQuery();
-  const { data: leaderboard, isLoading: lbLoading } = useGetLeaderboardQuery({
-    limit: 25,
-  });
-  const { data: streak, isLoading: streakLoading } = useGetMyStreakQuery();
-  const { data: progress, isLoading: progressLoading } =
-    useGetMyProgressQuery();
+export function useGamification():
+  UseGamificationReturn {
+  const {
+    data: badges,
+    isLoading: badgesLoading,
+  } = useGetBadgesQuery();
+  const {
+    data: leaderboard,
+    isLoading: lbLoading,
+  } = useGetLeaderboardQuery({ limit: 25 });
+  const {
+    data: streak,
+    isLoading: streakLoading,
+  } = useGetMyStreakQuery();
+  const {
+    data: progress,
+    isLoading: progressLoading,
+  } = useGetMyProgressQuery();
 
   return {
     points: progress?.currentPoints ?? 0,
@@ -53,7 +63,11 @@ export function useGamification(): UseGamificationReturn {
     streak: streak ?? null,
     leaderboard: leaderboard ?? [],
     progress: progress ?? null,
-    isLoading: badgesLoading || lbLoading || streakLoading || progressLoading,
+    isLoading:
+      badgesLoading
+      || lbLoading
+      || streakLoading
+      || progressLoading,
   };
 }
 

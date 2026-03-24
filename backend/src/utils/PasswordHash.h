@@ -9,15 +9,15 @@
 
 #include <string>
 
-namespace utils
-{
+namespace utils {
 
 /**
  * @brief Hash a plaintext password with a random salt.
  * @param plain  The raw password string.
  * @return String in the format "salt$hash" (hex-encoded).
  */
-[[nodiscard]] auto hashPassword(const std::string& plain) -> std::string;
+[[nodiscard]] auto hashPassword(
+    const std::string &plain) -> std::string;
 
 /**
  * @brief Verify a plaintext password against a stored hash.
@@ -25,7 +25,8 @@ namespace utils
  * @param hash   The stored "salt$hash" string.
  * @return True if the password matches.
  */
-[[nodiscard]] auto verifyPassword(const std::string& plain,
-                                  const std::string& hash) -> bool;
+[[nodiscard]] auto verifyPassword(
+    const std::string &plain,
+    const std::string &hash) -> bool;
 
-} // namespace utils
+}  // namespace utils

@@ -17,13 +17,14 @@
 #include <string>
 #include <vector>
 
-namespace services
-{
+namespace services {
 
 using json = nlohmann::json;
 using DbClientPtr = drogon::orm::DbClientPtr;
 using Callback = std::function<void(json)>;
-using ErrCallback = std::function<void(drogon::HttpStatusCode, std::string)>;
+using ErrCallback =
+    std::function<void(drogon::HttpStatusCode,
+                       std::string)>;
 
 /**
  * @brief Lightweight value object returned by
@@ -51,9 +52,8 @@ struct LeaderboardEntry {
  * @class GamificationService
  * @brief Manages the full gamification lifecycle.
  */
-class GamificationService
-{
-  public:
+class GamificationService {
+public:
     GamificationService();
     ~GamificationService() = default;
 
@@ -75,9 +75,13 @@ class GamificationService
      * @param onSuccess Callback with `{newTotal}`.
      * @param onError   Callback on failure.
      */
-    void awardPoints(const std::string& userId, std::int64_t amount,
-                     const std::string& reason, const std::string& source,
-                     Callback onSuccess, ErrCallback onError);
+    void awardPoints(
+        const std::string &userId,
+        std::int64_t amount,
+        const std::string &reason,
+        const std::string &source,
+        Callback onSuccess,
+        ErrCallback onError);
 
     // -------------------------------------------------------
     // Badges
@@ -93,8 +97,10 @@ class GamificationService
      * @param onSuccess Callback with badge JSON array.
      * @param onError   Callback on failure.
      */
-    void checkAndAwardBadges(const std::string& userId, Callback onSuccess,
-                             ErrCallback onError);
+    void checkAndAwardBadges(
+        const std::string &userId,
+        Callback onSuccess,
+        ErrCallback onError);
 
     // -------------------------------------------------------
     // Streaks
@@ -109,8 +115,10 @@ class GamificationService
      * @param onSuccess Callback with StreakInfo JSON.
      * @param onError   Callback on failure.
      */
-    void updateStreak(const std::string& userId, Callback onSuccess,
-                      ErrCallback onError);
+    void updateStreak(
+        const std::string &userId,
+        Callback onSuccess,
+        ErrCallback onError);
 
     // -------------------------------------------------------
     // Leaderboard
@@ -125,8 +133,11 @@ class GamificationService
      * @param onSuccess Callback with entry array.
      * @param onError   Callback on failure.
      */
-    void getLeaderboard(const std::string& period, std::int32_t limit,
-                        Callback onSuccess, ErrCallback onError);
+    void getLeaderboard(
+        const std::string &period,
+        std::int32_t limit,
+        Callback onSuccess,
+        ErrCallback onError);
 
     // -------------------------------------------------------
     // Progress
@@ -139,8 +150,10 @@ class GamificationService
      * @param onSuccess Callback with progress JSON.
      * @param onError   Callback on failure.
      */
-    void getUserProgress(const std::string& userId, Callback onSuccess,
-                         ErrCallback onError);
+    void getUserProgress(
+        const std::string &userId,
+        Callback onSuccess,
+        ErrCallback onError);
 
     // -------------------------------------------------------
     // Level calculation
@@ -152,8 +165,8 @@ class GamificationService
      * @param points  Accumulated point total.
      * @return Level number (1-based).
      */
-    [[nodiscard]] auto
-    getLevelForPoints(std::int64_t points) const -> std::int32_t;
+    [[nodiscard]] auto getLevelForPoints(
+        std::int64_t points) const -> std::int32_t;
 
     /**
      * @brief Get the title string for a given level.
@@ -161,7 +174,8 @@ class GamificationService
      * @param level  Level number.
      * @return Human-readable title (e.g. "Expert").
      */
-    [[nodiscard]] auto getLevelTitle(std::int32_t level) const -> std::string;
+    [[nodiscard]] auto getLevelTitle(
+        std::int32_t level) const -> std::string;
 
     /**
      * @brief Points needed to reach the next level.
@@ -169,10 +183,11 @@ class GamificationService
      * @param currentPoints  Current total.
      * @return Points remaining, or 0 if at max level.
      */
-    [[nodiscard]] auto
-    pointsToNextLevel(std::int64_t currentPoints) const -> std::int64_t;
+    [[nodiscard]] auto pointsToNextLevel(
+        std::int64_t currentPoints) const
+        -> std::int64_t;
 
-  private:
+private:
     /// Convenience accessor for the default DB client.
     [[nodiscard]] static auto db() -> DbClientPtr;
 
@@ -191,4 +206,4 @@ class GamificationService
     std::vector<std::int32_t> milestones_;
 };
 
-} // namespace services
+}  // namespace services

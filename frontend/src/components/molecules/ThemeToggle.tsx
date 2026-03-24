@@ -1,8 +1,10 @@
 'use client';
 
 import React from 'react';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon
+  from '@mui/icons-material/LightMode';
+import DarkModeIcon
+  from '@mui/icons-material/DarkMode';
 import { IconButton } from '../atoms';
 import { useThemeMode } from '@/hooks';
 
@@ -23,19 +25,25 @@ export interface ThemeToggleProps {
  * @param props - Component props.
  * @returns The theme toggle element.
  */
-export const ThemeToggle: React.FC<ThemeToggleProps> = ({
-  testId = 'theme-toggle',
-}) => {
+export const ThemeToggle: React.FC<
+  ThemeToggleProps
+> = ({ testId = 'theme-toggle' }) => {
   const { mode, toggleMode } = useThemeMode();
 
   const isDark = mode === 'dark';
-  const label = isDark ? 'Toggle light mode' : 'Toggle dark mode';
+  const label = isDark
+    ? 'Toggle light mode'
+    : 'Toggle dark mode';
   const tip = isDark ? 'Dark mode' : 'Light mode';
 
   return (
     <div data-testid={testId}>
       <IconButton
-        icon={isDark ? <DarkModeIcon /> : <LightModeIcon />}
+        icon={
+          isDark
+            ? <DarkModeIcon />
+            : <LightModeIcon />
+        }
         ariaLabel={label}
         onClick={toggleMode}
         tooltip={tip}

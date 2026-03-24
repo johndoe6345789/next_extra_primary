@@ -3,41 +3,45 @@
     "id": "ntf_001",
     "type": "badge_earned",
     "title": "Badge Earned!",
-    "body": "You earned the Welcome Aboard badge.",
+    "message": "You earned the Welcome Aboard badge.",
     "read": false,
+    "data": { "badgeId": "bdg_first_login" },
     "createdAt": "2026-03-20T10:00:00Z"
   },
   {
     "id": "ntf_002",
     "type": "level_up",
     "title": "Level Up!",
-    "body": "You reached Level 5. Keep it up!",
+    "message": "You reached Level 5. Keep it up!",
     "read": false,
+    "data": { "newLevel": 5 },
     "createdAt": "2026-03-19T15:30:00Z"
   },
   {
     "id": "ntf_003",
     "type": "streak_milestone",
     "title": "Streak Milestone",
-    "body": "7-day streak! You earned Week Warrior.",
+    "message": "7-day streak! You earned Week Warrior.",
     "read": true,
+    "data": { "streakDays": 7 },
     "createdAt": "2026-03-18T08:00:00Z"
   },
   {
     "id": "ntf_004",
-    "type": "system",
+    "type": "system_alert",
     "title": "Scheduled Maintenance",
-    "body": "The platform will be briefly unavailable on March 25 at 2 AM UTC.",
+    "message": "The platform will be briefly unavailable on March 25 at 2 AM UTC.",
     "read": true,
+    "data": {},
     "createdAt": "2026-03-17T12:00:00Z"
   },
   {
     "id": "ntf_005",
-    "type": "chat",
+    "type": "mentioned_in_chat",
     "title": "You Were Mentioned",
-    "body": "Carol mentioned you in the general chat.",
+    "message": "Carol mentioned you in the general chat.",
     "read": false,
-    "link": "/chat",
+    "data": { "chatId": "chat_42", "mentionedBy": "usr_003" },
     "createdAt": "2026-03-20T11:15:00Z"
   }
 ]

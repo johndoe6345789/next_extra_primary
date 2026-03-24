@@ -17,7 +17,9 @@ export interface ValidationRule {
 }
 
 /** Map of field names to their validation rules. */
-export type ValidationRules = Record<string, ValidationRule[]>;
+export type ValidationRules = Record<
+  string, ValidationRule[]
+>;
 
 /** Map of field names to error messages. */
 type ErrorMap = Record<string, string | undefined>;
@@ -37,9 +39,12 @@ interface UseFormValidationReturn {
 /** Check one rule against a value. */
 function fails(rule: ValidationRule, v: string) {
   if (rule.required && !v.trim()) return true;
-  if (rule.minLength != null && v.length < rule.minLength) return true;
-  if (rule.maxLength != null && v.length > rule.maxLength) return true;
-  if (rule.pattern && !new RegExp(rule.pattern).test(v)) return true;
+  if (rule.minLength != null
+    && v.length < rule.minLength) return true;
+  if (rule.maxLength != null
+    && v.length > rule.maxLength) return true;
+  if (rule.pattern
+    && !new RegExp(rule.pattern).test(v)) return true;
   return false;
 }
 
@@ -62,23 +67,25 @@ export function useFormValidation(
       for (const rule of list) {
         if (fails(rule, value)) {
           setErrors((p) => ({
-            ...p,
-            [name]: rule.message,
+            ...p, [name]: rule.message,
           }));
           return false;
         }
       }
       setErrors((p) => ({
-        ...p,
-        [name]: undefined,
+        ...p, [name]: undefined,
       }));
       return true;
     },
     [rules],
   );
 
-  const isValid = Object.values(errors).every((e) => e === undefined);
-  const clearErrors = useCallback(() => setErrors({}), []);
+  const isValid = Object.values(errors).every(
+    (e) => e === undefined,
+  );
+  const clearErrors = useCallback(
+    () => setErrors({}), [],
+  );
 
   return { validate, errors, isValid, clearErrors };
 }

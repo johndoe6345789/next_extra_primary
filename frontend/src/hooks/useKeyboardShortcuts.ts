@@ -6,7 +6,11 @@ import { useEffect } from 'react';
 type ShortcutMap = Record<string, () => void>;
 
 /** Tags where shortcuts should be suppressed. */
-const IGNORED_TAGS = new Set(['INPUT', 'TEXTAREA', 'SELECT']);
+const IGNORED_TAGS = new Set([
+  'INPUT',
+  'TEXTAREA',
+  'SELECT',
+]);
 
 /**
  * Registers global keyboard shortcuts that fire on
@@ -18,10 +22,13 @@ const IGNORED_TAGS = new Set(['INPUT', 'TEXTAREA', 'SELECT']);
  *
  * @param shortcuts - Map of key names to handlers.
  */
-export function useKeyboardShortcuts(shortcuts: ShortcutMap): void {
+export function useKeyboardShortcuts(
+  shortcuts: ShortcutMap,
+): void {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      const tag = (e.target as HTMLElement)?.tagName ?? '';
+      const tag =
+        (e.target as HTMLElement)?.tagName ?? '';
       if (IGNORED_TAGS.has(tag)) return;
 
       const fn = shortcuts[e.key];
@@ -33,7 +40,10 @@ export function useKeyboardShortcuts(shortcuts: ShortcutMap): void {
 
     document.addEventListener('keydown', handler);
     return () => {
-      document.removeEventListener('keydown', handler);
+      document.removeEventListener(
+        'keydown',
+        handler,
+      );
     };
   }, [shortcuts]);
 }

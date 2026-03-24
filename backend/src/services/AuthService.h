@@ -14,13 +14,13 @@
 #include <optional>
 #include <string>
 
-namespace services
-{
+namespace services {
 
 using json = nlohmann::json;
 using DbClientPtr = drogon::orm::DbClientPtr;
 using Callback = std::function<void(json /*result*/)>;
-using ErrCallback = std::function<void(drogon::HttpStatusCode, std::string)>;
+using ErrCallback =
+    std::function<void(drogon::HttpStatusCode, std::string)>;
 
 /**
  * @class AuthService
@@ -30,9 +30,8 @@ using ErrCallback = std::function<void(drogon::HttpStatusCode, std::string)>;
  * it can be invoked from Drogon controller handlers without
  * blocking the event loop.
  */
-class AuthService
-{
-  public:
+class AuthService {
+public:
     AuthService() = default;
     ~AuthService() = default;
 
@@ -53,10 +52,13 @@ class AuthService
      * @param onSuccess   Callback with the created user JSON.
      * @param onError     Callback on validation / DB error.
      */
-    void registerUser(const std::string& email, const std::string& username,
-                      const std::string& password,
-                      const std::string& displayName, Callback onSuccess,
-                      ErrCallback onError);
+    void registerUser(
+        const std::string &email,
+        const std::string &username,
+        const std::string &password,
+        const std::string &displayName,
+        Callback onSuccess,
+        ErrCallback onError);
 
     // -------------------------------------------------------
     // Login / Logout
@@ -73,8 +75,11 @@ class AuthService
      * @param onSuccess Callback with auth payload.
      * @param onError   Callback on bad credentials / error.
      */
-    void loginUser(const std::string& email, const std::string& password,
-                   Callback onSuccess, ErrCallback onError);
+    void loginUser(
+        const std::string &email,
+        const std::string &password,
+        Callback onSuccess,
+        ErrCallback onError);
 
     /**
      * @brief Refresh an expired access token.
@@ -83,8 +88,10 @@ class AuthService
      * @param onSuccess    Callback with `{accessToken}`.
      * @param onError      Callback on invalid / blocked token.
      */
-    void refreshAccessToken(const std::string& refreshToken, Callback onSuccess,
-                            ErrCallback onError);
+    void refreshAccessToken(
+        const std::string &refreshToken,
+        Callback onSuccess,
+        ErrCallback onError);
 
     /**
      * @brief Log the user out by blocking the token's JTI.
@@ -93,8 +100,10 @@ class AuthService
      * @param onSuccess Callback on success (empty JSON).
      * @param onError   Callback on failure.
      */
-    void logoutUser(const std::string& jti, Callback onSuccess,
-                    ErrCallback onError);
+    void logoutUser(
+        const std::string &jti,
+        Callback onSuccess,
+        ErrCallback onError);
 
     // -------------------------------------------------------
     // Email confirmation
@@ -107,8 +116,10 @@ class AuthService
      * @param onSuccess Callback with `{confirmed: true}`.
      * @param onError   Callback on invalid / expired token.
      */
-    void confirmEmail(const std::string& token, Callback onSuccess,
-                      ErrCallback onError);
+    void confirmEmail(
+        const std::string &token,
+        Callback onSuccess,
+        ErrCallback onError);
 
     // -------------------------------------------------------
     // Password reset
@@ -125,8 +136,10 @@ class AuthService
      * @param onSuccess Callback (always fires).
      * @param onError   Callback on internal error only.
      */
-    void requestPasswordReset(const std::string& email, Callback onSuccess,
-                              ErrCallback onError);
+    void requestPasswordReset(
+        const std::string &email,
+        Callback onSuccess,
+        ErrCallback onError);
 
     /**
      * @brief Reset password using a valid reset token.
@@ -136,8 +149,11 @@ class AuthService
      * @param onSuccess   Callback with `{reset: true}`.
      * @param onError     Callback on invalid / expired token.
      */
-    void resetPassword(const std::string& token, const std::string& newPassword,
-                       Callback onSuccess, ErrCallback onError);
+    void resetPassword(
+        const std::string &token,
+        const std::string &newPassword,
+        Callback onSuccess,
+        ErrCallback onError);
 
     // -------------------------------------------------------
     // Token blocklist
@@ -149,27 +165,29 @@ class AuthService
      * @param jti       The JWT ID to check.
      * @param callback  Receives `true` if blocked.
      */
-    void isTokenBlocked(const std::string& jti,
-                        std::function<void(bool)> callback);
+    void isTokenBlocked(
+        const std::string &jti,
+        std::function<void(bool)> callback);
 
-  private:
+private:
     /// Convenience accessor for the default DB client.
     [[nodiscard]] static auto db() -> DbClientPtr;
 
     /// Validate email format with a simple regex.
-    [[nodiscard]] static auto isValidEmail(const std::string& email) -> bool;
+    [[nodiscard]] static auto isValidEmail(
+        const std::string &email) -> bool;
 
     /// Validate username (3-30 alphanumeric / underscore).
-    [[nodiscard]] static auto
-    isValidUsername(const std::string& username) -> bool;
+    [[nodiscard]] static auto isValidUsername(
+        const std::string &username) -> bool;
 
     /// Validate password strength.
-    [[nodiscard]] static auto
-    isStrongPassword(const std::string& password) -> bool;
+    [[nodiscard]] static auto isStrongPassword(
+        const std::string &password) -> bool;
 
     /// Generate a cryptographically random hex token.
-    [[nodiscard]] static auto
-    generateRandomToken(std::size_t bytes = 32) -> std::string;
+    [[nodiscard]] static auto generateRandomToken(
+        std::size_t bytes = 32) -> std::string;
 };
 
-} // namespace services
+}  // namespace services

@@ -26,9 +26,12 @@ interface UseApiReturn<T> {
  * @param fetchFn - Async function that returns data.
  * @returns API call state and refetch helper.
  */
-export function useApi<T>(fetchFn: () => Promise<T>): UseApiReturn<T> {
+export function useApi<T>(
+  fetchFn: () => Promise<T>,
+): UseApiReturn<T> {
   const [data, setData] = useState<T | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] =
+    useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const refetch = useCallback(async () => {
@@ -38,7 +41,10 @@ export function useApi<T>(fetchFn: () => Promise<T>): UseApiReturn<T> {
       const result = await fetchFn();
       setData(result);
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Unknown error';
+      const msg =
+        err instanceof Error
+          ? err.message
+          : 'Unknown error';
       setError(msg);
     } finally {
       setIsLoading(false);

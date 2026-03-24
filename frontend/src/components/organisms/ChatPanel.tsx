@@ -18,11 +18,13 @@ export interface ChatPanelProps {
  *
  * @param props - Component props.
  */
-export const ChatPanel: React.FC<ChatPanelProps> = ({
-  testId = 'chat-panel',
-}) => {
-  const { messages, sendMessage, isStreaming, provider, setProvider } =
-    useAiChat();
+export const ChatPanel: React.FC<
+  ChatPanelProps
+> = ({ testId = 'chat-panel' }) => {
+  const {
+    messages, sendMessage, isStreaming,
+    provider, setProvider,
+  } = useAiChat();
   const [input, setInput] = useState('');
 
   const send = async () => {
@@ -42,7 +44,10 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
         height: '100%',
       }}
     >
-      <ChatMessageList messages={messages} isStreaming={isStreaming} />
+      <ChatMessageList
+        messages={messages}
+        isStreaming={isStreaming}
+      />
       <ChatInput
         value={input}
         onChange={setInput}

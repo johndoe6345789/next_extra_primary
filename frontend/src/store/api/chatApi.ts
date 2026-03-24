@@ -3,22 +3,29 @@
  * @module store/api/chatApi
  */
 import { baseApi } from './baseApi';
-import type { ChatMessage, ChatProvider, AiResponse } from '../../types/chat';
+import type {
+  ChatMessage,
+  ChatProvider,
+  AiResponse,
+} from '../../types/chat';
 import type { PaginatedResponse } from '../../types/api';
 
 /** Send message payload. */
 interface SendMessageRequest {
-  message: string;
-  provider?: ChatProvider;
+  content: string;
+  provider: ChatProvider;
 }
 
 /** Chat send/history/clear endpoints. */
 export const chatApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     /** Send a message to the AI provider. */
-    sendMessage: build.mutation<AiResponse, SendMessageRequest>({
+    sendMessage: build.mutation<
+      AiResponse,
+      SendMessageRequest
+    >({
       query: (body) => ({
-        url: '/chat/messages',
+        url: '/chat/send',
         method: 'POST',
         body,
       }),
@@ -31,7 +38,7 @@ export const chatApi = baseApi.injectEndpoints({
       { page?: number; perPage?: number }
     >({
       query: ({ page = 1, perPage = 50 }) =>
-        `/chat/history?page=${page}&per_page=${perPage}`,
+        `/chat/history?page=${page}&perPage=${perPage}`,
       providesTags: ['Chat'],
     }),
 

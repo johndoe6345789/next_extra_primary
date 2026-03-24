@@ -1,8 +1,13 @@
 'use client';
 
 import { useCallback } from 'react';
-import { useLocale as useNextIntlLocale } from 'next-intl';
-import { useRouter, usePathname } from 'next/navigation';
+import {
+  useLocale as useNextIntlLocale,
+} from 'next-intl';
+import {
+  useRouter,
+  usePathname,
+} from 'next/navigation';
 
 /** Supported application locales. */
 const LOCALES = ['en', 'es', 'fr', 'de', 'ja'] as const;
@@ -34,7 +39,10 @@ export function useLocale(): UseLocaleReturn {
 
   const setLocale = useCallback(
     (next: Locale) => {
-      const stripped = pathname.replace(/^\/[a-z]{2}(?:-[A-Z]{2})?/, '');
+      const stripped = pathname.replace(
+        /^\/[a-z]{2}(?:-[A-Z]{2})?/,
+        '',
+      );
       router.push(`/${next}${stripped || '/'}`);
     },
     [pathname, router],
