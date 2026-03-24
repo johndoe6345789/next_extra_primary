@@ -1,0 +1,23 @@
+{
+  "levels": [
+    {"level": 1, "min_points": 0, "title": "Newcomer"},
+    {"level": 2, "min_points": 100, "title": "Explorer"},
+    {"level": 3, "min_points": 250, "title": "Contributor"},
+    {"level": 4, "min_points": 500, "title": "Achiever"},
+    {"level": 5, "min_points": 1000, "title": "Expert"},
+    {"level": 6, "min_points": 2000, "title": "Master"},
+    {"level": 7, "min_points": 5000, "title": "Legend"},
+    {"level": 8, "min_points": 10000, "title": "Mythic"}
+  ],
+  "points": {
+    "login": 10,
+    "chat_message": 5,
+    "badge_earned": 50,
+    "streak_7": 100,
+    "streak_30": 500,
+    "profile_complete": 25
+  },
+  "streaks": {
+    "milestones": [3, 7, 14, 30, 60, 100, 365]
+  }
+}

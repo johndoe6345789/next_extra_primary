@@ -1,0 +1,54 @@
+{
+  "email": {
+    "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$",
+    "maxLength": 254,
+    "messages": {
+      "required": "Email is required",
+      "invalid": "Enter a valid email address",
+      "tooLong": "Email must be 254 characters or fewer"
+    }
+  },
+  "password": {
+    "minLength": 8,
+    "maxLength": 128,
+    "requireUppercase": true,
+    "requireLowercase": true,
+    "requireDigit": true,
+    "requireSpecial": false,
+    "messages": {
+      "required": "Password is required",
+      "tooShort": "Password must be at least 8 characters",
+      "tooLong": "Password must be 128 characters or fewer",
+      "missingUppercase": "Include at least one uppercase letter",
+      "missingLowercase": "Include at least one lowercase letter",
+      "missingDigit": "Include at least one number"
+    }
+  },
+  "username": {
+    "minLength": 3,
+    "maxLength": 30,
+    "pattern": "^[a-zA-Z0-9_-]+$",
+    "messages": {
+      "required": "Username is required",
+      "tooShort": "Username must be at least 3 characters",
+      "tooLong": "Username must be 30 characters or fewer",
+      "invalid": "Only letters, numbers, hyphens, and underscores"
+    }
+  },
+  "displayName": {
+    "minLength": 1,
+    "maxLength": 50,
+    "messages": {
+      "required": "Display name is required",
+      "tooLong": "Display name must be 50 characters or fewer"
+    }
+  },
+  "message": {
+    "minLength": 1,
+    "maxLength": 4000,
+    "messages": {
+      "required": "Message cannot be empty",
+      "tooLong": "Message must be 4000 characters or fewer"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "auth": {
+    "login": "/api/auth/login",
+    "register": "/api/auth/register",
+    "logout": "/api/auth/logout",
+    "refresh": "/api/auth/refresh",
+    "forgotPassword": "/api/auth/forgot-password",
+    "resetPassword": "/api/auth/reset-password",
+    "me": "/api/auth/me"
+  },
+  "users": {
+    "list": "/api/users",
+    "detail": "/api/users/:id",
+    "update": "/api/users/:id",
+    "avatar": "/api/users/:id/avatar"
+  },
+  "gamification": {
+    "points": "/api/gamification/points",
+    "leaderboard": "/api/gamification/leaderboard",
+    "badges": "/api/gamification/badges",
+    "streaks": "/api/gamification/streaks",
+    "levelUp": "/api/gamification/level-up"
+  },
+  "chat": {
+    "messages": "/api/chat/messages",
+    "send": "/api/chat/send",
+    "providers": "/api/chat/providers",
+    "history": "/api/chat/history"
+  },
+  "notifications": {
+    "list": "/api/notifications",
+    "markRead": "/api/notifications/:id/read",
+    "markAllRead": "/api/notifications/read-all",
+    "preferences": "/api/notifications/preferences"
+  }
+}

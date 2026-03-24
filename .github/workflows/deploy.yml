@@ -1,0 +1,123 @@
+# =============================================================================
+# CapRover Deploy
+# =============================================================================
+# Manual deployment workflow triggered via workflow_dispatch. Pulls the latest
+# Docker images from GHCR and deploys them to CapRover.
+#
+# Required secrets:
+#   CAPROVER_SERVER              — CapRover server URL (e.g., https://captain.example.com)
+#   CAPROVER_APP_TOKEN_BACKEND   — App-specific deploy token for the backend
+#   CAPROVER_APP_TOKEN_FRONTEND  — App-specific deploy token for the frontend
+#
+# The environment input selects between staging and production CapRover apps.
+# =============================================================================
+
+name: Deploy to CapRover
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Target environment"
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
+        default: staging
+
+permissions:
+  contents: read
+  packages: read
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Deploy Backend
+  # ---------------------------------------------------------------------------
+  deploy-backend:
+    name: Deploy Backend
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Determine image tag
+        id: image-tag
+        env:
+          DEPLOY_ENV: ${{ github.event.inputs.environment }}
+        run: |
+          if [[ "$DEPLOY_ENV" == "production" ]]; then
+            echo "tag=latest" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=main" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Deploy backend to CapRover
+        env:
+          CAPROVER_URL: ${{ secrets.CAPROVER_SERVER }}
+          CAPROVER_TOKEN: ${{ secrets.CAPROVER_APP_TOKEN_BACKEND }}
+          IMAGE_NAME: ghcr.io/${{ github.repository }}/backend
+          IMAGE_TAG: ${{ steps.image-tag.outputs.tag }}
+        run: |
+          # Install CapRover CLI
+          npm install -g caprover
+
+          # Deploy the GHCR image to CapRover
+          caprover deploy \
+            --caproverUrl "$CAPROVER_URL" \
+            --appToken "$CAPROVER_TOKEN" \
+            --imageName "${IMAGE_NAME}:${IMAGE_TAG}"
+
+  # ---------------------------------------------------------------------------
+  # Deploy Frontend
+  # ---------------------------------------------------------------------------
+  deploy-frontend:
+    name: Deploy Frontend
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Determine image tag
+        id: image-tag
+        env:
+          DEPLOY_ENV: ${{ github.event.inputs.environment }}
+        run: |
+          if [[ "$DEPLOY_ENV" == "production" ]]; then
+            echo "tag=latest" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=main" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Deploy frontend to CapRover
+        env:
+          CAPROVER_URL: ${{ secrets.CAPROVER_SERVER }}
+          CAPROVER_TOKEN: ${{ secrets.CAPROVER_APP_TOKEN_FRONTEND }}
+          IMAGE_NAME: ghcr.io/${{ github.repository }}/frontend
+          IMAGE_TAG: ${{ steps.image-tag.outputs.tag }}
+        run: |
+          npm install -g caprover
+
+          caprover deploy \
+            --caproverUrl "$CAPROVER_URL" \
+            --appToken "$CAPROVER_TOKEN" \
+            --imageName "${IMAGE_NAME}:${IMAGE_TAG}"

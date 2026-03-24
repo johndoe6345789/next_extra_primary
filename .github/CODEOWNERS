@@ -1,0 +1,23 @@
+# =============================================================================
+# Code Owners
+# =============================================================================
+# GitHub will automatically request reviews from these teams/users when a
+# pull request modifies files matching the patterns below.
+#
+# Order matters — later rules take precedence over earlier ones.
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+# =============================================================================
+
+# Frontend
+/frontend/ @frontend-team
+
+# Backend
+/backend/ @backend-team
+
+# Infrastructure
+/docker-compose* @devops-team
+/.github/ @devops-team
+/tools/ @backend-team
+
+# Documentation
+*.md @docs-team

@@ -1,0 +1,68 @@
+{
+  "global": {
+    "search": {
+      "key": "/",
+      "description": "Focus search bar",
+      "modifiers": []
+    },
+    "toggleTheme": {
+      "key": "d",
+      "description": "Toggle dark / light theme",
+      "modifiers": ["ctrl", "shift"]
+    },
+    "goHome": {
+      "key": "h",
+      "description": "Navigate to home",
+      "modifiers": ["ctrl"]
+    },
+    "openNotifications": {
+      "key": "n",
+      "description": "Open notifications panel",
+      "modifiers": ["ctrl", "shift"]
+    },
+    "openChat": {
+      "key": "j",
+      "description": "Open chat panel",
+      "modifiers": ["ctrl"]
+    },
+    "closeModal": {
+      "key": "Escape",
+      "description": "Close modal or popover",
+      "modifiers": []
+    }
+  },
+  "chat": {
+    "send": {
+      "key": "Enter",
+      "description": "Send message",
+      "modifiers": []
+    },
+    "newLine": {
+      "key": "Enter",
+      "description": "Insert new line",
+      "modifiers": ["shift"]
+    },
+    "switchProvider": {
+      "key": "p",
+      "description": "Switch chat provider",
+      "modifiers": ["ctrl", "shift"]
+    }
+  },
+  "navigation": {
+    "nextItem": {
+      "key": "ArrowDown",
+      "description": "Move to next item",
+      "modifiers": []
+    },
+    "prevItem": {
+      "key": "ArrowUp",
+      "description": "Move to previous item",
+      "modifiers": []
+    },
+    "select": {
+      "key": "Enter",
+      "description": "Select current item",
+      "modifiers": []
+    }
+  }
+}

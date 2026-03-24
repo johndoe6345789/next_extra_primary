@@ -1,0 +1,56 @@
+/**
+ * @file JwtAuthFilter.cpp
+ * @brief JWT Bearer token validation filter.
+ */
+
+#include "JwtAuthFilter.h"
+#include "../utils/JsonResponse.h"
+#include "../utils/JwtUtil.h"
+
+#include <string>
+#include <string_view>
+
+namespace filters
+{
+
+namespace
+{
+constexpr std::string_view kBearerPrefix = "Bearer ";
+}
+
+void JwtAuthFilter::doFilter(const drogon::HttpRequestPtr& req,
+                             drogon::FilterCallback&& cb,
+                             drogon::FilterChainCallback&& ccb)
+{
+    auto authHeader = req->getHeader("Authorization");
+    if (authHeader.empty()) {
+        cb(utils::jsonError(drogon::k401Unauthorized,
+                            "Missing Authorization header"));
+        return;
+    }
+
+    if (authHeader.substr(0, kBearerPrefix.size()) != kBearerPrefix) {
+        cb(utils::jsonError(drogon::k401Unauthorized,
+                            "Invalid Authorization format"));
+        return;
+    }
+
+    auto token = authHeader.substr(kBearerPrefix.size());
+
+    try {
+        auto claims = utils::verifyToken(token);
+        if (claims.isRefresh) {
+            cb(utils::jsonError(drogon::k401Unauthorized,
+                                "Refresh tokens cannot be used here"));
+            return;
+        }
+        req->attributes()->insert("user_id", claims.userId);
+        req->attributes()->insert("user_role", claims.role);
+        ccb();
+    } catch (const std::exception& ex) {
+        cb(utils::jsonError(drogon::k401Unauthorized,
+                            std::string{"Invalid token: "} + ex.what()));
+    }
+}
+
+} // namespace filters

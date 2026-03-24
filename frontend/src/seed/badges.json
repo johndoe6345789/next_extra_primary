@@ -1,0 +1,44 @@
+[
+  {
+    "id": "bdg_first_login",
+    "name": "Welcome Aboard",
+    "description": "Logged in for the first time.",
+    "iconUrl": "/badges/welcome.svg",
+    "category": "achievement"
+  },
+  {
+    "id": "bdg_streak_7",
+    "name": "Week Warrior",
+    "description": "Maintained a 7-day streak.",
+    "iconUrl": "/badges/streak7.svg",
+    "category": "streak"
+  },
+  {
+    "id": "bdg_streak_30",
+    "name": "Monthly Master",
+    "description": "Maintained a 30-day streak.",
+    "iconUrl": "/badges/streak30.svg",
+    "category": "streak"
+  },
+  {
+    "id": "bdg_social_butterfly",
+    "name": "Social Butterfly",
+    "description": "Sent 100 chat messages.",
+    "iconUrl": "/badges/social.svg",
+    "category": "social"
+  },
+  {
+    "id": "bdg_level_10",
+    "name": "Rising Star",
+    "description": "Reached level 10.",
+    "iconUrl": "/badges/level10.svg",
+    "category": "achievement"
+  },
+  {
+    "id": "bdg_early_adopter",
+    "name": "Early Adopter",
+    "description": "Joined during the beta period.",
+    "iconUrl": "/badges/early.svg",
+    "category": "special"
+  }
+]

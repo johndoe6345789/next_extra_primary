@@ -1,0 +1,45 @@
+[
+  {
+    "rank": 1,
+    "userId": "usr_001",
+    "username": "alice_dev",
+    "displayName": "Alice Johnson",
+    "avatarUrl": "https://i.pravatar.cc/150?u=alice",
+    "points": 12450,
+    "level": 15
+  },
+  {
+    "rank": 2,
+    "userId": "usr_003",
+    "username": "carol_codes",
+    "displayName": "Carol Chen",
+    "avatarUrl": "https://i.pravatar.cc/150?u=carol",
+    "points": 9870,
+    "level": 12
+  },
+  {
+    "rank": 3,
+    "userId": "usr_002",
+    "username": "bob_builder",
+    "displayName": "Bob Martinez",
+    "avatarUrl": "https://i.pravatar.cc/150?u=bob",
+    "points": 6200,
+    "level": 8
+  },
+  {
+    "rank": 4,
+    "userId": "usr_004",
+    "username": "dave_hacks",
+    "displayName": "Dave Park",
+    "points": 4100,
+    "level": 6
+  },
+  {
+    "rank": 5,
+    "userId": "usr_005",
+    "username": "eve_learns",
+    "displayName": "Eve Nakamura",
+    "points": 2750,
+    "level": 4
+  }
+]

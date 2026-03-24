@@ -1,0 +1,23 @@
+{
+  "auth": {
+    "invalid_credentials": "Invalid email or password",
+    "email_taken": "Email is already registered",
+    "username_taken": "Username is already taken",
+    "token_expired": "Token has expired",
+    "token_invalid": "Invalid token",
+    "unauthorized": "Authentication required",
+    "forbidden": "Insufficient permissions",
+    "email_not_confirmed": "Please confirm your email"
+  },
+  "validation": {
+    "invalid_email": "Invalid email format",
+    "invalid_username": "Username must be 3-30 alphanumeric characters",
+    "weak_password": "Password must be at least 8 characters with upper, lower, and digit",
+    "required_field": "This field is required"
+  },
+  "general": {
+    "not_found": "Resource not found",
+    "internal_error": "Internal server error",
+    "rate_limited": "Too many requests, please try again later"
+  }
+}

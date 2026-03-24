@@ -1,0 +1,91 @@
+{
+  "common": {
+    "appName": "NextExtra",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "search": "Search",
+    "close": "Close",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "edit": "Edit",
+    "view": "View",
+    "retry": "Retry"
+  },
+  "auth": {
+    "login": "Log in",
+    "register": "Create account",
+    "logout": "Log out",
+    "email": "Email address",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "resetPassword": "Reset password",
+    "confirmPassword": "Confirm password",
+    "rememberMe": "Remember me",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "loginSuccess": "Logged in successfully",
+    "logoutSuccess": "Logged out successfully",
+    "registerSuccess": "Account created successfully",
+    "invalidCredentials": "Invalid email or password",
+    "passwordMismatch": "Passwords do not match",
+    "emailRequired": "Email is required",
+    "passwordRequired": "Password is required"
+  },
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "leaderboard": "Leaderboard",
+    "profile": "Profile",
+    "chat": "Chat",
+    "notifications": "Notifications",
+    "about": "About",
+    "contact": "Contact",
+    "settings": "Settings"
+  },
+  "hero": {
+    "title": "Level up your learning journey",
+    "subtitle": "Engage, compete, and grow with our gamified platform",
+    "cta": "Get started",
+    "features": "Explore features"
+  },
+  "gamification": {
+    "points": "Points",
+    "level": "Level",
+    "streak": "Streak",
+    "badges": "Badges",
+    "leaderboard": "Leaderboard",
+    "xpEarned": "{amount} XP earned",
+    "levelUp": "Level up!",
+    "newBadge": "New badge unlocked!",
+    "dailyStreak": "{count}-day streak",
+    "rank": "Rank #{position}"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "noNotifications": "No new notifications",
+    "clearAll": "Clear all"
+  },
+  "chat": {
+    "placeholder": "Type a message...",
+    "send": "Send",
+    "switchProvider": "Switch provider",
+    "noMessages": "No messages yet",
+    "typing": "Typing..."
+  },
+  "a11y": {
+    "skipToContent": "Skip to main content",
+    "openMenu": "Open navigation menu",
+    "closeMenu": "Close navigation menu",
+    "toggleTheme": "Toggle colour theme",
+    "switchLanguage": "Switch language",
+    "loading": "Content is loading",
+    "expandSection": "Expand section",
+    "collapseSection": "Collapse section"
+  }
+}
