@@ -37,7 +37,7 @@ RUN python3 -m pip install --break-system-packages \
 WORKDIR /build
 
 # -- Dependency layer (cached unless conanfile changes) -------
-COPY conanfile.txt .
+COPY conanfile.py .
 RUN conan install . \
     --build=missing \
     -s build_type=Release \
