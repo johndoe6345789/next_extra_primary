@@ -1,5 +1,7 @@
 'use client';
 
+import type { ReactElement } from 'react';
+
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
@@ -15,7 +17,7 @@ import Button from '@mui/material/Button';
  *
  * @returns Not-found UI with navigation link.
  */
-export default function NotFound(): JSX.Element {
+export default function NotFound(): ReactElement {
   const t = useTranslations('NotFound');
 
   return (

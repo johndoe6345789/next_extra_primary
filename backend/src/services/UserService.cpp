@@ -158,41 +158,24 @@ void UserService::updateUser(const std::string& id, const json& fields,
 
     auto dbClient = db();
 
-    // We need to bind params dynamically.  Drogon's
-    // stream-style binding requires knowing the count
-    // at compile time, so we use execSqlAsync instead.
-    std::vector<std::string> params;
-    params.push_back(id);
-    for (auto& v : values) {
-        params.push_back(v);
+    // Build a stream-style binder dynamically.
+    auto binder = *dbClient << sql;
+    binder << id;
+    for (const auto& v : values) {
+        binder << v;
     }
-
-    // Convert to the format execSqlAsync expects.
-    std::vector<const char*> cParams;
-    cParams.reserve(params.size());
-    for (auto& p : params) {
-        cParams.push_back(p.c_str());
-    }
-
-    // Build length array (0 = null-terminated).
-    std::vector<int> lengths(params.size(), 0);
-    // Build format array (0 = text).
-    std::vector<int> formats(params.size(), 0);
-
-    dbClient->execSqlAsync(
-        sql,
-        [onSuccess, onError](const Result& result) {
-            if (result.empty()) {
-                onError(k404NotFound, "User not found");
-                return;
-            }
-            onSuccess(rowToJson(result[0]));
-        },
-        [onError](const DrogonDbException& e) {
-            spdlog::error("updateUser DB error: {}", e.base().what());
-            onError(k500InternalServerError, "Internal server error");
-        },
-        std::move(params));
+    binder >> [onSuccess, onError](const Result& r) {
+        if (r.empty()) {
+            onError(k404NotFound, "User not found");
+            return;
+        }
+        onSuccess(rowToJson(r[0]));
+    };
+    binder >> [onError](const DrogonDbException& e) {
+        spdlog::error("updateUser DB error: {}", e.base().what());
+        onError(k500InternalServerError, "Internal server error");
+    };
+    binder.exec();
 }
 
 // ----------------------------------------------------------------

@@ -45,8 +45,8 @@ void RateLimitFilter::doFilter(const drogon::HttpRequestPtr& req,
             std::chrono::duration_cast<std::chrono::seconds>(retryAt - now)
                 .count();
 
-        auto resp = utils::jsonError(drogon::k429TooManyRequests,
-                                     "Rate limit exceeded");
+        auto resp = ::utils::jsonError(drogon::k429TooManyRequests,
+                                       "Rate limit exceeded");
         resp->addHeader("Retry-After", std::to_string(std::max(1L, retrySec)));
         cb(resp);
         return;

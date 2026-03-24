@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { type ReactElement, ReactNode } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 
 /** Props for the internationalisation provider. */
@@ -25,7 +25,7 @@ export function IntlProvider({
   children,
   messages,
   locale,
-}: IntlProviderProps): JSX.Element {
+}: IntlProviderProps): ReactElement {
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       {children}

@@ -7,7 +7,8 @@
 #include <chrono>
 #include <cstdlib>
 #include <drogon/drogon.h>
-#include <jwt-cpp/jwt.h>
+#define JWT_DISABLE_PICOJSON
+#include <jwt-cpp/traits/nlohmann-json/defaults.h>
 #include <spdlog/spdlog.h>
 
 namespace utils

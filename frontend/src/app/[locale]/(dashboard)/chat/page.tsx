@@ -1,8 +1,11 @@
+import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { ChatPanel } from '@/components/organisms/ChatPanel';
 
+/** Skip static prerendering for this page. */
+export const dynamic = 'force-dynamic';
 /** Props for the AI chat page. */
 interface ChatPageProps {
   /** Route params containing the locale. */
@@ -20,7 +23,7 @@ interface ChatPageProps {
  */
 export default async function ChatPage({
   params,
-}: ChatPageProps): Promise<JSX.Element> {
+}: ChatPageProps): Promise<ReactElement> {
   const { locale } = await params;
   setRequestLocale(locale);
 

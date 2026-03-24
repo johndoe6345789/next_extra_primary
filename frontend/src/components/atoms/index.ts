@@ -24,3 +24,6 @@ export type { TooltipProps } from './Tooltip';
 
 export { Skeleton } from './Skeleton';
 export type { SkeletonProps } from './Skeleton';
+
+export { Kbd } from './Kbd';
+export type { KbdProps } from './Kbd';

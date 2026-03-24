@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useEffect } from 'react';
+import { type ReactElement, ReactNode, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import type { RootState } from '@/store/store';
@@ -30,7 +30,7 @@ interface AuthGateProps {
  * @param props - Component props.
  * @returns Children or nothing during redirect.
  */
-export function AuthGate({ children }: AuthGateProps): JSX.Element | null {
+export function AuthGate({ children }: AuthGateProps): ReactElement | null {
   const pathname = usePathname();
   const router = useRouter();
   const isAuthenticated = useSelector(

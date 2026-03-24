@@ -220,8 +220,8 @@ void AuthService::loginUser(const std::string& email,
         auto userId = row["id"].as<std::string>();
         auto role = row["role"].as<std::string>();
 
-        auto accessToken = utils::generateAccessToken(userId, role);
-        auto refreshToken = utils::generateRefreshToken(userId);
+        auto accessToken = ::utils::generateAccessToken(userId, role);
+        auto refreshToken = ::utils::generateRefreshToken(userId);
 
         json user = {{"id", userId},
                      {"email", row["email"].as<std::string>()},
@@ -249,7 +249,7 @@ void AuthService::refreshAccessToken(const std::string& refreshToken,
                                      Callback onSuccess, ErrCallback onError)
 {
     try {
-        auto claims = utils::verifyToken(refreshToken);
+        auto claims = ::utils::verifyToken(refreshToken);
         if (!claims.isRefresh) {
             onError(k401Unauthorized, "Invalid token");
             return;
@@ -286,7 +286,8 @@ void AuthService::refreshAccessToken(const std::string& refreshToken,
                 if (!r2.empty()) {
                     role = r2[0]["role"].as<std::string>();
                 }
-                auto newToken = utils::generateAccessToken(claims.userId, role);
+                auto newToken =
+                    ::utils::generateAccessToken(claims.userId, role);
                 onSuccess({{"accessToken", newToken}});
             } >> [onError](const DrogonDbException& e) {
                 spdlog::error("refreshAccessToken DB "

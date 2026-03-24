@@ -1,61 +1,60 @@
 ##
 ## Dockerfile -- multi-stage build for nextra-api
 ##
-## Stage 1 (builder):
-##   gcc:13 base, installs Conan 2 + CMake, compiles a
-##   fully-static release binary.
+## Uses debian:sid for multi-arch support
+## (amd64, arm64, riscv64, ppc64le).
 ##
-## Stage 2 (runtime):
-##   Minimal Debian Bookworm image with only the binary,
-##   config, migrations, and seed data.  Runs as a
-##   non-root user.
+## Stage 1: debian:sid builder with gcc-13 + Conan
+## Stage 2: debian:sid-slim runtime with binary only
 ##
 
-# =============================================================
+# ==========================================================
 # Stage 1 -- build
-# =============================================================
-FROM gcc:13 AS builder
+# ==========================================================
+ARG DEPS_IMAGE=debian:sid
+FROM ${DEPS_IMAGE} AS builder
 
-# Install build tooling
-RUN apt-get update && \
+# Install build tools if not already in DEPS_IMAGE.
+RUN command -v conan >/dev/null 2>&1 || { \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
-        cmake \
-        python3 \
-        python3-pip \
-        python3-venv \
-        pkg-config \
-        libpq-dev \
-        libssl-dev \
-        zlib1g-dev && \
-    rm -rf /var/lib/apt/lists/*
-
-# Install Conan 2
-RUN python3 -m pip install --break-system-packages \
-    conan==2.* && \
-    conan profile detect --force
+        gcc-13 g++-13 make cmake \
+        python3 python3-pip python3-venv \
+        pkg-config libpq-dev libssl-dev zlib1g-dev \
+        ca-certificates && \
+    update-alternatives --install \
+        /usr/bin/gcc gcc /usr/bin/gcc-13 100 && \
+    update-alternatives --install \
+        /usr/bin/g++ g++ /usr/bin/g++-13 100 && \
+    update-alternatives --install \
+        /usr/bin/cc cc /usr/bin/gcc-13 100 && \
+    rm -rf /var/lib/apt/lists/* && \
+    python3 -m pip install --break-system-packages \
+        conan==2.* && \
+    conan profile detect --force; }
 
 WORKDIR /build
 
-# -- Dependency layer (cached unless conanfile changes) -------
-COPY conanfile.txt .
+# -- Dependency layer (instant if Conan cache warm) --------
+COPY conanfile.py .
 RUN conan install . \
     --build=missing \
     -s build_type=Release \
     -s compiler.cppstd=20
 
-# -- Source layer ----------------------------------------------
+# -- Source layer -------------------------------------------
 COPY CMakeLists.txt .
 COPY src/ src/
 
-# -- Build -----------------------------------------------------
+# -- Build --------------------------------------------------
 RUN cmake --preset conan-release \
         -DCMAKE_BUILD_TYPE=Release && \
     cmake --build --preset conan-release --parallel
 
-# =============================================================
+# ==========================================================
 # Stage 2 -- runtime
-# =============================================================
-FROM debian:bookworm-slim AS runtime
+# ==========================================================
+FROM debian:sid-slim AS runtime
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -64,27 +63,21 @@ RUN apt-get update && \
         ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-# Non-root user
 RUN groupadd --system nextra && \
     useradd  --system --gid nextra --create-home nextra
 
 WORKDIR /app
 
-# Copy artefacts from builder
 COPY --from=builder \
     /build/build/Release/nextra-api ./nextra-api
-
-# Copy runtime assets
 COPY config/     ./config/
 COPY migrations/ ./migrations/
 COPY seed/       ./seed/
 
-# Create writable directories
 RUN mkdir -p logs uploads public && \
     chown -R nextra:nextra /app
 
 USER nextra
-
 EXPOSE 8080
 
 ENTRYPOINT ["./nextra-api"]

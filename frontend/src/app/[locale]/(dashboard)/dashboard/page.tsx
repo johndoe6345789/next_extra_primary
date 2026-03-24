@@ -1,10 +1,13 @@
+import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 
+/** Skip static prerendering for this page. */
+export const dynamic = 'force-dynamic';
 /** Props for the dashboard home page. */
 interface DashboardPageProps {
   /** Route params containing the locale. */
@@ -22,7 +25,7 @@ interface DashboardPageProps {
  */
 export default async function DashboardPage({
   params,
-}: DashboardPageProps): Promise<JSX.Element> {
+}: DashboardPageProps): Promise<ReactElement> {
   const { locale } = await params;
   setRequestLocale(locale);
 

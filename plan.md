@@ -1,4 +1,4 @@
-<![CDATA[# Full-Stack Application: Next.js + C++ Drogon
+# Full-Stack Application: Next.js + C++ Drogon
 
 ## Context
 
@@ -374,4 +374,61 @@ aria-label, id, tabIndex, and keyboard event handlers.
 - **MUI colorSchemes API**: No flash-of-wrong-theme, CSS vars
 - **Atomic design**: atoms/molecules/organisms keeps components
   under 100 LOC
-]]>
+
+---
+
+## Phase 2: GHCR Base Images + clang-tidy CI
+
+### Context
+
+CI builds are slow because every run installs Conan deps
+(~3 min) and npm deps (~30s) from scratch. Fix: publish
+pre-baked dependency images to GHCR, pull them in CI so
+only source code gets compiled. Also re-enables clang-tidy
+static analysis using the Conan-cached base image.
+
+### Design Decisions
+
+- **Pull + extract, not `container:`** — `container:` fails
+  the job if image missing. Pull + docker cp allows graceful
+  fallback to from-scratch installs.
+- **clang-tidy advisory** — `continue-on-error: true`.
+  Tighten to blocking once codebase is clean.
+- **Tags**: `:latest` + `:sha-<hash>` of dep file.
+- **No compile_commands.json in base image** — depends on
+  source. CI generates it during cmake configure.
+
+### New Files
+
+| File | Purpose |
+|------|---------|
+| `docker/backend-deps.Dockerfile` | gcc:13 + cmake + conan + clang-tidy + deps |
+| `docker/frontend-deps.Dockerfile` | node:22-alpine + npm ci |
+| `.github/workflows/base-images.yml` | Build/push base images to GHCR |
+
+### Modified Files
+
+| File | Change |
+|------|--------|
+| `.github/workflows/ci.yml` | clang-tidy + pull+extract for all jobs |
+| `backend/Dockerfile` | ARG DEPS_IMAGE for base image |
+| `frontend/Dockerfile` | ARG DEPS_IMAGE + remove CDATA wrappers |
+
+### CI Flow
+
+```
+base-images.yml (on dep change / weekly / manual)
+  └── Builds backend-deps + frontend-deps → GHCR
+
+ci.yml (on every PR / push)
+  ├── lint-backend
+  │     ├── clang-format (bare runner)
+  │     └── clang-tidy (docker run with base image)
+  ├── build-backend
+  │     ├── docker pull → extract Conan cache
+  │     └── conan install (instant) → cmake build
+  ├── build-frontend
+  │     ├── docker pull → extract node_modules
+  │     └── npm install (instant) → next build
+  └── test-* (same pull+extract pattern)
+```

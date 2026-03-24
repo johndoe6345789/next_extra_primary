@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -5,6 +6,8 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { LoginForm } from '@/components/organisms/LoginForm';
 
+/** Skip static prerendering for this page. */
+export const dynamic = 'force-dynamic';
 /** Props for the login page. */
 interface LoginPageProps {
   /** Route params containing the locale. */
@@ -22,7 +25,7 @@ interface LoginPageProps {
  */
 export default async function LoginPage({
   params,
-}: LoginPageProps): Promise<JSX.Element> {
+}: LoginPageProps): Promise<ReactElement> {
   const { locale } = await params;
   setRequestLocale(locale);
 

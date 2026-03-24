@@ -67,15 +67,12 @@ void CorsFilter::doFilter(const drogon::HttpRequestPtr& req,
         return;
     }
 
-    // Non-preflight: wrap the callback to inject CORS
-    // headers on the actual response.
-    auto wrappedCb = [cb = std::move(cb),
-                      allowed](const drogon::HttpResponsePtr& resp) {
-        setCorsHeaders(resp, allowed);
-        cb(resp);
-    };
-
-    ccb(std::move(wrappedCb));
+    // Non-preflight: store origin as request attribute.
+    // A registered HttpResponseCreationAdvice (see
+    // main.cpp) reads this and injects CORS headers on
+    // every outgoing response.
+    req->attributes()->insert("cors_origin", allowed);
+    ccb();
 }
 
 } // namespace filters

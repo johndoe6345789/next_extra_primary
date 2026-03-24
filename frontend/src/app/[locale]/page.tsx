@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import Box from '@mui/material/Box';
 import { HeroSection } from '@/components/organisms/HeroSection';
@@ -20,7 +21,7 @@ interface LandingPageProps {
  */
 export default async function LandingPage({
   params,
-}: LandingPageProps): Promise<JSX.Element> {
+}: LandingPageProps): Promise<ReactElement> {
   const { locale } = await params;
   setRequestLocale(locale);
 

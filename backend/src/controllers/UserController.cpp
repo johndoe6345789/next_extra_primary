@@ -19,7 +19,7 @@ void UserController::list(const drogon::HttpRequestPtr& req, Cb&& cb)
 {
     auto role = req->attributes()->get<std::string>("user_role");
     if (role != "admin") {
-        cb(utils::jsonError(drogon::k403Forbidden, "Admin access required"));
+        cb(::utils::jsonError(drogon::k403Forbidden, "Admin access required"));
         return;
     }
 
@@ -30,7 +30,7 @@ void UserController::list(const drogon::HttpRequestPtr& req, Cb&& cb)
 
     // TODO: query database with LIMIT/OFFSET.
     json users = json::array();
-    cb(utils::jsonPaginated(users, 0, page, perPage));
+    cb(::utils::jsonPaginated(users, 0, page, perPage));
 }
 
 // ----------------------------------------------------------
@@ -42,7 +42,7 @@ void UserController::getProfile(const drogon::HttpRequestPtr& /*req*/, Cb&& cb,
                  {"username", "placeholder"},
                  {"display_name", "Placeholder User"},
                  {"created_at", "2025-01-01T00:00:00Z"}};
-    cb(utils::jsonOk(user));
+    cb(::utils::jsonOk(user));
 }
 
 // ----------------------------------------------------------
@@ -51,21 +51,21 @@ void UserController::updateProfile(const drogon::HttpRequestPtr& req, Cb&& cb,
 {
     auto callerId = req->attributes()->get<std::string>("user_id");
     if (callerId != id) {
-        cb(utils::jsonError(drogon::k403Forbidden,
-                            "Can only update own profile"));
+        cb(::utils::jsonError(drogon::k403Forbidden,
+                              "Can only update own profile"));
         return;
     }
 
     auto body = json::parse(
         req->bodyData(), req->bodyData() + req->bodyLength(), nullptr, false);
     if (body.is_discarded()) {
-        cb(utils::jsonError(drogon::k400BadRequest, "Invalid JSON body"));
+        cb(::utils::jsonError(drogon::k400BadRequest, "Invalid JSON body"));
         return;
     }
 
     // TODO: apply partial update to database.
     json updated = {{"id", id}, {"message", "Profile updated"}};
-    cb(utils::jsonOk(updated));
+    cb(::utils::jsonOk(updated));
 }
 
 // ----------------------------------------------------------
@@ -74,7 +74,7 @@ void UserController::getBadges(const drogon::HttpRequestPtr& /*req*/, Cb&& cb,
 {
     // TODO: fetch badges from database.
     json badges = json::array();
-    cb(utils::jsonOk({{"user_id", id}, {"badges", badges}}));
+    cb(::utils::jsonOk({{"user_id", id}, {"badges", badges}}));
 }
 
 // ----------------------------------------------------------
@@ -84,7 +84,7 @@ void UserController::getStats(const drogon::HttpRequestPtr& /*req*/, Cb&& cb,
     // TODO: fetch gamification stats from database.
     json stats = {
         {"user_id", id}, {"total_points", 0}, {"level", 1}, {"streak_days", 0}};
-    cb(utils::jsonOk(stats));
+    cb(::utils::jsonOk(stats));
 }
 
 } // namespace controllers

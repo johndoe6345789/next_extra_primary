@@ -45,7 +45,7 @@ export function useAiChat(): UseAiChatReturn {
 
   const sendMessage = useCallback(
     async (content: string) => {
-      await sendMut({ content, provider }).unwrap();
+      await sendMut({ message: content, provider }).unwrap();
     },
     [sendMut, provider],
   );

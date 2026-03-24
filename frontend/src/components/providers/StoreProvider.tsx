@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useState } from 'react';
+import { type ReactElement, ReactNode, useState } from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { makeStore } from '@/store/store';
@@ -21,7 +21,7 @@ interface StoreProviderProps {
  * @param props - Component props.
  * @returns Store-connected component tree.
  */
-export function StoreProvider({ children }: StoreProviderProps): JSX.Element {
+export function StoreProvider({ children }: StoreProviderProps): ReactElement {
   const [{ store, persistor }] = useState(makeStore);
 
   return (

@@ -1,8 +1,11 @@
+import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { LeaderboardTable } from '@/components/organisms/LeaderboardTable';
 
+/** Skip static prerendering for this page. */
+export const dynamic = 'force-dynamic';
 /** Props for the leaderboard page. */
 interface LeaderboardPageProps {
   /** Route params containing the locale. */
@@ -20,7 +23,7 @@ interface LeaderboardPageProps {
  */
 export default async function LeaderboardPage({
   params,
-}: LeaderboardPageProps): Promise<JSX.Element> {
+}: LeaderboardPageProps): Promise<ReactElement> {
   const { locale } = await params;
   setRequestLocale(locale);
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { type ReactElement, ReactNode } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
@@ -21,7 +21,7 @@ interface ThemeProviderProps {
  * @param props - Component props.
  * @returns Themed component tree.
  */
-export function ThemeProvider({ children }: ThemeProviderProps): JSX.Element {
+export function ThemeProvider({ children }: ThemeProviderProps): ReactElement {
   return (
     <MuiThemeProvider theme={theme}>
       <InitColorSchemeScript attribute="class" />

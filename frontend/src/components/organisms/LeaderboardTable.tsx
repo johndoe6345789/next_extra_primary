@@ -49,7 +49,7 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
         direction={asc ? 'asc' : 'desc'}
         onClick={() => tog(k)}
       >
-        {k[0].toUpperCase() + k.slice(1)}
+        {k.charAt(0).toUpperCase() + k.slice(1)}
       </TableSortLabel>
     </TableCell>
   );

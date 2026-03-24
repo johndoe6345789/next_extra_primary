@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -5,6 +6,8 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { RegisterForm } from '@/components/organisms/RegisterForm';
 
+/** Skip static prerendering for this page. */
+export const dynamic = 'force-dynamic';
 /** Props for the register page. */
 interface RegisterPageProps {
   /** Route params containing the locale. */
@@ -22,7 +25,7 @@ interface RegisterPageProps {
  */
 export default async function RegisterPage({
   params,
-}: RegisterPageProps): Promise<JSX.Element> {
+}: RegisterPageProps): Promise<ReactElement> {
   const { locale } = await params;
   setRequestLocale(locale);
 

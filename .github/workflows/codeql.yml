@@ -1,8 +1,8 @@
 # =============================================================================
 # CodeQL Security Scanning
 # =============================================================================
-# Runs GitHub CodeQL analysis for JavaScript/TypeScript on every push/PR.
-# C++ analysis runs weekly only (Conan builds are too slow for PR checks).
+# Runs GitHub CodeQL analysis for both JS/TS and C++.
+# C++ analysis uses GHCR base image for cached Conan deps.
 # =============================================================================
 
 name: CodeQL
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
@@ -52,23 +52,38 @@ jobs:
   analyze-cpp:
     name: Analyze C++
     runs-on: ubuntu-latest
-    if: github.event_name == 'schedule'
     timeout-minutes: 60
+    env:
+      BE_DEPS: >-
+        ghcr.io/${{ github.repository }}/backend-deps:latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
+
+      - name: Pull backend deps image
+        id: pull-deps
+        continue-on-error: true
+        env:
+          IMG: ${{ env.BE_DEPS }}
+        run: docker pull "$IMG"
+
+      - name: Extract Conan cache
+        if: steps.pull-deps.outcome == 'success'
+        env:
+          IMG: ${{ env.BE_DEPS }}
+        run: |
+          CID=$(docker create "$IMG")
+          docker cp "$CID:/root/.conan2" \
+            "$HOME/.conan2"
+          docker rm "$CID"
 
       - name: Install build dependencies
         run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake libpq-dev libssl-dev
           pip install conan
           conan profile detect --force
-
-      - name: Cache Conan packages
-        uses: actions/cache@v5
-        with:
-          path: ~/.conan2
-          key: conan-codeql-${{ hashFiles('backend/conanfile.txt') }}
-          restore-keys: conan-codeql-
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
@@ -79,11 +94,9 @@ jobs:
       - name: Build backend for analysis
         working-directory: backend
         run: |
-          conan install . --build=missing --output-folder=build
-          cmake -B build \
-            -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake \
-            -DCMAKE_BUILD_TYPE=Release
-          cmake --build build -j$(nproc)
+          conan install . --build=missing
+          cmake --preset conan-release
+          cmake --build --preset conan-release -j$(nproc)
 
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v3

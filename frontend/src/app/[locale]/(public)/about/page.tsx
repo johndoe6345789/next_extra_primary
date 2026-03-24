@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -20,7 +21,7 @@ interface AboutPageProps {
  */
 export default async function AboutPage({
   params,
-}: AboutPageProps): Promise<JSX.Element> {
+}: AboutPageProps): Promise<ReactElement> {
   const { locale } = await params;
   setRequestLocale(locale);
 

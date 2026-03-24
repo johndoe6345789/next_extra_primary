@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import type { ReactNode } from 'react';
+import type { ReactNode, ReactElement } from 'react';
 import { Inter } from 'next/font/google';
 import { StoreProvider } from '@/components/providers/StoreProvider';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
@@ -9,6 +9,9 @@ const inter = Inter({
   display: 'swap',
   variable: '--font-inter',
 });
+
+/** Disable static prerender (Redux provider tree). */
+export const dynamic = 'force-dynamic';
 
 /** Global metadata for the application. */
 export const metadata: Metadata = {
@@ -37,7 +40,9 @@ interface RootLayoutProps {
  * @param props - Layout props.
  * @returns Root HTML document shell.
  */
-export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
+export default function RootLayout({
+  children,
+}: RootLayoutProps): ReactElement {
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <body>

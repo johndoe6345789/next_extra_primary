@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import ChatIcon from '@mui/icons-material/Chat';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';

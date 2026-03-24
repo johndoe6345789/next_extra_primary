@@ -39,7 +39,7 @@ export function useNotifications(): UseNotificationsReturn {
 
   return {
     notifications: data?.data ?? [],
-    unreadCount: countData?.count ?? 0,
+    unreadCount: countData?.unread_count ?? 0,
     markAsRead: (id: string) => {
       markRead(id);
     },
