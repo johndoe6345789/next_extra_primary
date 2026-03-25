@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import MuiLink from '@mui/material/Link';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { useAuth } from '@/hooks';
 import { SearchBar } from '../molecules/SearchBar';
 import { NotificationBell } from '../molecules/NotificationBell';
@@ -15,12 +16,6 @@ import { LocaleSwitcher } from '../molecules/LocaleSwitcher';
 import { AvatarMenu } from './AvatarMenu';
 import { MobileDrawer } from './MobileDrawer';
 import { NavLinks } from './NavLinks';
-
-const LINKS = [
-  { label: 'Dashboard', href: '/dashboard' },
-  { label: 'Leaderboard', href: '/leaderboard' },
-  { label: 'Chat', href: '/chat' },
-];
 
 /** Props for the Navbar organism. */
 export interface NavbarProps {
@@ -41,6 +36,14 @@ export const Navbar: React.FC<NavbarProps> = ({
   testId = 'navbar',
 }) => {
   const { user, logout } = useAuth();
+  const tCommon = useTranslations('common');
+  const tNav = useTranslations('nav');
+  const tA11y = useTranslations('a11y');
+  const LINKS = [
+    { label: tNav('dashboard'), href: '/dashboard' },
+    { label: tNav('leaderboard'), href: '/leaderboard' },
+    { label: tNav('chat'), href: '/chat' },
+  ];
   return (
     <>
       <a
@@ -49,7 +52,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         data-testid="skip-to-content"
         tabIndex={0}
       >
-        Skip to content
+        {tA11y('skipToContent')}
       </a>
       <AppBar
         position="sticky"
@@ -66,7 +69,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             color="inherit"
             data-testid="navbar-logo"
           >
-            <Typography variant="h6">NextExtra</Typography>
+            <Typography variant="h6">{tCommon('appName')}</Typography>
           </MuiLink>
           <NavLinks links={LINKS} />
           <Box sx={{ flexGrow: 1 }} />
@@ -80,3 +83,5 @@ export const Navbar: React.FC<NavbarProps> = ({
     </>
   );
 };
+
+export default Navbar;

@@ -47,7 +47,7 @@
   ],
   "custom_config": {
     "jwt": {
-      "secret": "CHANGE_ME_IN_PRODUCTION",
+      "secret": "",
       "issuer": "nextra-api",
       "access_token_ttl_seconds": 900,
       "refresh_token_ttl_seconds": 604800

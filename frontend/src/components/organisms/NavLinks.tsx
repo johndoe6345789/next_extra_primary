@@ -67,3 +67,5 @@ export const NavLinks: React.FC<NavLinksProps> = ({ links }) => (
     })}
   </Box>
 );
+
+export default NavLinks;

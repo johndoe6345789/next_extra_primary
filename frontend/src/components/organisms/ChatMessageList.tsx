@@ -58,3 +58,5 @@ export const ChatMessageList: React.FC<ChatMessageListProps> = ({
     </Box>
   );
 };
+
+export default ChatMessageList;

@@ -42,8 +42,15 @@ find_package(spdlog       REQUIRED)
 #       tooling is in place this will be replaced with an
 #       explicit file list produced by the generator.
 # ----------------------------------------------------------------
-file(GLOB_RECURSE NEXTRA_SOURCES
+file(GLOB NEXTRA_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/commands/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/constants/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/controllers/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/filters/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/models/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/services/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/utils/*.cpp"
 )
 
 # ----------------------------------------------------------------
@@ -79,7 +86,7 @@ if(BUILD_TESTING)
     enable_testing()
     find_package(GTest REQUIRED)
 
-    file(GLOB_RECURSE NEXTRA_TEST_SOURCES
+    file(GLOB NEXTRA_TEST_SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp"
     )
 

@@ -18,7 +18,6 @@ namespace
 constexpr int kAccessMinutes = 15;
 constexpr int kRefreshDays = 30;
 constexpr auto kDefaultIssuer = "next-extra";
-constexpr auto kDevSecret = "dev-secret-change-in-production";
 
 auto cfgVal(const std::string& key) -> std::string
 {
@@ -41,9 +40,8 @@ auto getSecret() -> std::string
         env != nullptr && env[0] != '\0') {
         return std::string{env};
     }
-    spdlog::warn("JWT secret not configured; "
-                 "using insecure dev default");
-    return kDevSecret;
+    spdlog::critical("JWT_SECRET not set; aborting");
+    std::abort();
 }
 
 auto getIssuer() -> std::string

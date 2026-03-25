@@ -42,3 +42,5 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
     <ListItemText primary={item.title} secondary={item.body} />
   </ListItemButton>
 );
+
+export default NotificationItem;

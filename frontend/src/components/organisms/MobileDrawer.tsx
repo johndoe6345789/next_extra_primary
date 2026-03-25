@@ -61,3 +61,5 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({ links }) => {
     </>
   );
 };
+
+export default MobileDrawer;

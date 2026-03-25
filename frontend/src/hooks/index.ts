@@ -17,3 +17,7 @@ export { useAuth } from './useAuth';
 export { useGamification } from './useGamification';
 export { useAiChat } from './useAiChat';
 export { useApi } from './useApi';
+export { useLoginForm } from './useLoginForm';
+export type { UseLoginFormReturn } from './useLoginForm';
+export { useRegisterForm } from './useRegisterForm';
+export type { UseRegisterFormReturn } from './useRegisterForm';
