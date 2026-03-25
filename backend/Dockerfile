@@ -33,6 +33,14 @@ RUN command -v conan >/dev/null 2>&1 || { \
         conan==2.* && \
     conan profile detect --force; }
 
+# Fix 2: use system cmake on arches with no Conan cmake binary.
+RUN arch="$(uname -m)" && \
+    case "$arch" in \
+        x86_64|aarch64) ;; \
+        *) printf '\n[platform_tool_requires]\ncmake/[>=3.15 <4]\n' \
+               >> ~/.conan2/profiles/default ;; \
+    esac
+
 WORKDIR /build
 
 # -- Dependency layer (instant if Conan cache warm) --------
@@ -47,9 +55,10 @@ COPY CMakeLists.txt .
 COPY src/ src/
 
 # -- Build --------------------------------------------------
-RUN cmake --preset conan-release \
+RUN cmake -S . -B build/Release \
+        -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake \
         -DCMAKE_BUILD_TYPE=Release && \
-    cmake --build --preset conan-release --parallel
+    cmake --build build/Release --parallel
 
 # ==========================================================
 # Stage 2 -- runtime

@@ -1,7 +1,7 @@
 # Multi-arch Dockerfile for the Next.js frontend.
 # Uses debian:sid for riscv64 + ppc64le support.
-# Node 22 installed via `n` (compiles from source
-# on exotic arches, prebuilt binary on amd64/arm64).
+# Node 22 installed via `n` (prebuilt binary on amd64/arm64;
+# system apt nodejs used on exotic arches).
 #
 # Platforms: amd64, arm64, riscv64, ppc64le
 
@@ -19,7 +19,7 @@ RUN command -v node >/dev/null 2>&1 || { \
     npm install -g n && \
     case "$(uname -m)" in \
         x86_64|aarch64) n 22 ;; \
-        *) n --build 22 ;; \
+        *) : ;; \
     esac && \
     npm install -g npm@latest && hash -r; }
 
