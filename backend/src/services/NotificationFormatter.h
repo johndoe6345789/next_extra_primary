@@ -4,8 +4,7 @@
  * @brief Row-to-JSON conversion helpers for notifications.
  */
 
-#include <drogon/orm/Result.h>
-#include <drogon/orm/Row.h>
+#include <drogon/drogon.h>
 #include <nlohmann/json.hpp>
 
 namespace services
