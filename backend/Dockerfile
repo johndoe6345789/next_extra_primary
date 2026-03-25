@@ -20,6 +20,7 @@ RUN command -v conan >/dev/null 2>&1 || { \
     apt-get install -y --no-install-recommends \
         gcc-13 g++-13 make cmake \
         python3 python3-pip python3-venv \
+        perl perl-modules-5.40 \
         pkg-config libpq-dev libssl-dev zlib1g-dev \
         ca-certificates && \
     update-alternatives --install \
