@@ -33,11 +33,13 @@ RUN command -v conan >/dev/null 2>&1 || { \
         conan==2.* && \
     conan profile detect --force; }
 
-# Fix 2: use system cmake on arches with no Conan cmake binary.
+# On exotic arches, Conan has no cmake binary; use system cmake.
 RUN arch="$(uname -m)" && \
     case "$arch" in \
         x86_64|aarch64) ;; \
-        *) printf '\n[platform_tool_requires]\ncmake/[>=3.15 <4]\n' \
+        *) mkdir -p ~/.conan2/profiles && \
+           conan profile detect --force 2>/dev/null || true && \
+           printf '\n[platform_tool_requires]\ncmake/[>=3.15 <4]\n' \
                >> ~/.conan2/profiles/default ;; \
     esac
 

@@ -19,7 +19,7 @@ RUN command -v node >/dev/null 2>&1 || { \
     npm install -g n && \
     case "$(uname -m)" in \
         x86_64|aarch64) n 22 ;; \
-        *) : ;; \
+        *) cp /usr/bin/node /usr/local/bin/node ;; \
     esac && \
     npm install -g npm@latest && hash -r; }
 
