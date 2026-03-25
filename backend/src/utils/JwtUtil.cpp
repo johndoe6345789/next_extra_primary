@@ -50,8 +50,8 @@ auto getIssuer() -> std::string
     return val.empty() ? kDefaultIssuer : val;
 }
 
-auto generateAccessToken(const std::string& userId,
-                         const std::string& role) -> std::string
+auto generateAccessToken(const std::string& userId, const std::string& role)
+    -> std::string
 {
     auto now = std::chrono::system_clock::now();
     return jwt::create()

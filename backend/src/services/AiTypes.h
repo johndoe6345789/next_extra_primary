@@ -8,8 +8,8 @@
  * modules.
  */
 
-#include <nlohmann/json.hpp>
 #include <drogon/drogon.h>
+#include <nlohmann/json.hpp>
 
 #include <cstdint>
 #include <functional>
@@ -21,8 +21,7 @@ namespace services
 using json = nlohmann::json;
 using DbClientPtr = drogon::orm::DbClientPtr;
 using Callback = std::function<void(json)>;
-using ErrCallback =
-    std::function<void(drogon::HttpStatusCode, std::string)>;
+using ErrCallback = std::function<void(drogon::HttpStatusCode, std::string)>;
 
 /**
  * @brief Supported AI provider backends.
@@ -38,8 +37,7 @@ enum class AiProvider : std::uint8_t {
  * @param s  "claude" or "openai" (case-insensitive).
  * @return Matching enum value; defaults to CLAUDE.
  */
-[[nodiscard]] inline auto parseProvider(const std::string& s)
-    -> AiProvider
+[[nodiscard]] inline auto parseProvider(const std::string& s) -> AiProvider
 {
     if (s == "openai" || s == "OPENAI") {
         return AiProvider::OPENAI;

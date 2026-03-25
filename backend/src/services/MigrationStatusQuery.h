@@ -31,10 +31,8 @@ class MigrationStatusQuery
      * @param onSuccess     Callback with a JSON status array.
      * @param onError       Callback on failure.
      */
-    static void getStatus(
-        const std::string& migrationsDir,
-        Callback onSuccess,
-        ErrCallback onError);
+    static void getStatus(const std::string& migrationsDir, Callback onSuccess,
+                          ErrCallback onError);
 };
 
 } // namespace services

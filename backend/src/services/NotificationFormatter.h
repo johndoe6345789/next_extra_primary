@@ -28,8 +28,7 @@ class NotificationFormatter
      * @param r  A single row from the notifications table.
      * @return   JSON object with camelCase notification fields.
      */
-    [[nodiscard]] static auto rowToJson(
-        const drogon::orm::Row& r) -> json;
+    [[nodiscard]] static auto rowToJson(const drogon::orm::Row& r) -> json;
 };
 
 } // namespace services

@@ -15,10 +15,8 @@ namespace services
 
 using json = nlohmann::json;
 using DbClientPtr = drogon::orm::DbClientPtr;
-using Callback =
-    std::function<void(json)>;
-using ErrCallback =
-    std::function<void(drogon::HttpStatusCode, std::string)>;
+using Callback = std::function<void(json)>;
+using ErrCallback = std::function<void(drogon::HttpStatusCode, std::string)>;
 
 /**
  * @class NotificationQuery
@@ -37,8 +35,7 @@ class NotificationQuery
      * @param onSuccess Callback with `{"count": N}`.
      * @param onError   Callback on failure.
      */
-    void getUnreadCount(const std::string& userId,
-                        Callback onSuccess,
+    void getUnreadCount(const std::string& userId, Callback onSuccess,
                         ErrCallback onError);
 
   private:

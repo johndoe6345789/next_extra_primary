@@ -35,8 +35,7 @@ class UserStatsService
      * @param onSuccess Callback with stats JSON.
      * @param onError   Callback on failure.
      */
-    void getUserStats(const std::string& userId,
-                      Callback onSuccess,
+    void getUserStats(const std::string& userId, Callback onSuccess,
                       ErrCallback onError);
 
   private:

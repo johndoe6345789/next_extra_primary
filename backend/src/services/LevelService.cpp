@@ -16,20 +16,16 @@ LevelService::LevelService(const json& config)
         for (const auto& lv : config["levels"]) {
             levels_.push_back(
                 {lv.value("level", 1),
-                 lv.value(
-                     "min_points",
-                     static_cast<std::int64_t>(0)),
+                 lv.value("min_points", static_cast<std::int64_t>(0)),
                  lv.value("title", "Unknown")});
         }
     }
-    std::ranges::sort(levels_, [](const auto& a,
-                                  const auto& b) {
+    std::ranges::sort(levels_, [](const auto& a, const auto& b) {
         return a.minPoints > b.minPoints;
     });
 }
 
-auto LevelService::getLevelForPoints(
-    std::int64_t points) const -> std::int32_t
+auto LevelService::getLevelForPoints(std::int64_t points) const -> std::int32_t
 {
     for (const auto& lv : levels_) {
         if (points >= lv.minPoints) {
@@ -39,8 +35,7 @@ auto LevelService::getLevelForPoints(
     return 1;
 }
 
-auto LevelService::getLevelTitle(
-    std::int32_t level) const -> std::string
+auto LevelService::getLevelTitle(std::int32_t level) const -> std::string
 {
     for (const auto& lv : levels_) {
         if (lv.level == level) {
@@ -50,16 +45,15 @@ auto LevelService::getLevelTitle(
     return "Newcomer";
 }
 
-auto LevelService::pointsToNextLevel(
-    std::int64_t currentPoints) const -> std::int64_t
+auto LevelService::pointsToNextLevel(std::int64_t currentPoints) const
+    -> std::int64_t
 {
     std::int64_t nextThreshold = 0;
-    bool         found         = false;
-    for (auto it = levels_.rbegin();
-         it != levels_.rend(); ++it) {
+    bool found = false;
+    for (auto it = levels_.rbegin(); it != levels_.rend(); ++it) {
         if (it->minPoints > currentPoints) {
             nextThreshold = it->minPoints;
-            found         = true;
+            found = true;
             break;
         }
     }

@@ -52,24 +52,20 @@ void JwtAuthFilter::doFilter(const drogon::HttpRequestPtr& req,
         auto role = claims.role;
 
         services::AuthService auth;
-        auth.isTokenBlocked(
-            token,
-            [req, cb, ccb = std::move(ccb), userId,
-             role](bool blocked) mutable {
-                if (blocked) {
-                    cb(::utils::jsonError(
-                        drogon::k401Unauthorized,
-                        "Token has been revoked"));
-                    return;
-                }
-                req->attributes()->insert("user_id", userId);
-                req->attributes()->insert("user_role", role);
-                ccb();
-            });
+        auth.isTokenBlocked(token, [req, cb, ccb = std::move(ccb), userId,
+                                    role](bool blocked) mutable {
+            if (blocked) {
+                cb(::utils::jsonError(drogon::k401Unauthorized,
+                                      "Token has been revoked"));
+                return;
+            }
+            req->attributes()->insert("user_id", userId);
+            req->attributes()->insert("user_role", role);
+            ccb();
+        });
     } catch (const std::exception& ex) {
         cb(::utils::jsonError(drogon::k401Unauthorized,
-                              std::string{"Invalid token: "} +
-                                  ex.what()));
+                              std::string{"Invalid token: "} + ex.what()));
     }
 }
 

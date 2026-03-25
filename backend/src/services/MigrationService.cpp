@@ -19,31 +19,27 @@ MigrationService::MigrationService(std::string migrationsDir)
 {
 }
 
-void MigrationService::runMigrations(
-    Callback onSuccess, ErrCallback onError)
+void MigrationService::runMigrations(Callback onSuccess, ErrCallback onError)
 {
     MigrationRunner runner(migrationsDir_);
     runner.runMigrations(onSuccess, onError);
 }
 
-void MigrationService::rollbackLast(
-    Callback onSuccess, ErrCallback onError)
+void MigrationService::rollbackLast(Callback onSuccess, ErrCallback onError)
 {
     MigrationStateStore::ensureTable(
         [this, onSuccess, onError]() {
-            MigrationRollback::rollbackLast(
-                migrationsDir_, onSuccess, onError);
+            MigrationRollback::rollbackLast(migrationsDir_, onSuccess, onError);
         },
         onError);
 }
 
-void MigrationService::getMigrationStatus(
-    Callback onSuccess, ErrCallback onError)
+void MigrationService::getMigrationStatus(Callback onSuccess,
+                                          ErrCallback onError)
 {
     MigrationStateStore::ensureTable(
         [this, onSuccess, onError]() {
-            MigrationStatusQuery::getStatus(
-                migrationsDir_, onSuccess, onError);
+            MigrationStatusQuery::getStatus(migrationsDir_, onSuccess, onError);
         },
         onError);
 }

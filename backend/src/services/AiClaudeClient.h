@@ -38,14 +38,12 @@ class AiClaudeClient
      * @param onError   Called with status + message on
      *                  failure.
      */
-    void call(const json& messages, Callback onSuccess,
-              ErrCallback onError);
+    void call(const json& messages, Callback onSuccess, ErrCallback onError);
 
   private:
     std::string apiKey_;
 
-    static constexpr const char* kModel =
-        "claude-sonnet-4-20250514";
+    static constexpr const char* kModel = "claude-sonnet-4-20250514";
     static constexpr std::int32_t kMaxTokens = 1024;
 };
 

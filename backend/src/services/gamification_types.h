@@ -19,12 +19,10 @@
 namespace services
 {
 
-using json        = nlohmann::json;
+using json = nlohmann::json;
 using DbClientPtr = drogon::orm::DbClientPtr;
-using Callback    =
-    std::function<void(json)>;
-using ErrCallback =
-    std::function<void(drogon::HttpStatusCode, std::string)>;
+using Callback = std::function<void(json)>;
+using ErrCallback = std::function<void(drogon::HttpStatusCode, std::string)>;
 
 /**
  * @brief Value object returned by StreakService::updateStreak.
@@ -32,7 +30,7 @@ using ErrCallback =
 struct StreakInfo {
     std::int32_t currentStreak{0};
     std::int32_t longestStreak{0};
-    bool         milestonReached{false};
+    bool milestonReached{false};
     std::int32_t milestoneValue{0};
 };
 
@@ -40,8 +38,8 @@ struct StreakInfo {
  * @brief Single entry on the leaderboard.
  */
 struct LeaderboardEntry {
-    std::string  userId;
-    std::string  username;
+    std::string userId;
+    std::string username;
     std::int64_t points{0};
     std::int32_t level{1};
     std::int32_t rank{0};

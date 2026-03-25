@@ -33,10 +33,8 @@ class MigrationRollback
      * @param onSuccess     Callback with `{"filename": ...}`.
      * @param onError       Callback on failure.
      */
-    static void rollbackLast(
-        const std::string& migrationsDir,
-        Callback onSuccess,
-        ErrCallback onError);
+    static void rollbackLast(const std::string& migrationsDir,
+                             Callback onSuccess, ErrCallback onError);
 };
 
 } // namespace services

@@ -40,8 +40,7 @@ class MigrationFileUtils
      * @return File contents as a string.
      * @throws std::runtime_error if the file cannot be opened.
      */
-    [[nodiscard]] static auto readFile(const std::string& path)
-        -> std::string;
+    [[nodiscard]] static auto readFile(const std::string& path) -> std::string;
 
     /**
      * @brief Extract the UP section from migration SQL.
@@ -52,8 +51,7 @@ class MigrationFileUtils
      * @param sql Raw file contents.
      * @return SQL to run on forward migration.
      */
-    [[nodiscard]] static auto extractUp(const std::string& sql)
-        -> std::string;
+    [[nodiscard]] static auto extractUp(const std::string& sql) -> std::string;
 
     /**
      * @brief Extract the DOWN section from migration SQL.

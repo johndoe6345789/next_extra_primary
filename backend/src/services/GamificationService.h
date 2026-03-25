@@ -9,12 +9,12 @@
  */
 
 #include "services/BadgeService.h"
+#include "services/gamification_types.h"
 #include "services/LeaderboardService.h"
 #include "services/LevelService.h"
 #include "services/ProgressService.h"
 #include "services/StreakService.h"
 #include "services/XpService.h"
-#include "services/gamification_types.h"
 
 #include <cstdint>
 #include <string>
@@ -43,28 +43,25 @@ class GamificationService
      * @param onSuccess Callback with `{newTotal}`.
      * @param onError   Callback on failure.
      */
-    void awardPoints(const std::string& userId,
-        std::int64_t amount,
-        const std::string& reason,
-        const std::string& source,
-        Callback onSuccess, ErrCallback onError);
+    void awardPoints(const std::string& userId, std::int64_t amount,
+                     const std::string& reason, const std::string& source,
+                     Callback onSuccess, ErrCallback onError);
     /**
      * @brief Evaluate all badge rules for a user.
      * @param userId    Target user ID.
      * @param onSuccess Callback with badge array.
      * @param onError   Callback on failure.
      */
-    void checkAndAwardBadges(
-        const std::string& userId,
-        Callback onSuccess, ErrCallback onError);
+    void checkAndAwardBadges(const std::string& userId, Callback onSuccess,
+                             ErrCallback onError);
     /**
      * @brief Record today's activity; update streak.
      * @param userId    Target user ID.
      * @param onSuccess Callback with StreakInfo JSON.
      * @param onError   Callback on failure.
      */
-    void updateStreak(const std::string& userId,
-        Callback onSuccess, ErrCallback onError);
+    void updateStreak(const std::string& userId, Callback onSuccess,
+                      ErrCallback onError);
 
     /**
      * @brief Retrieve the top-N leaderboard.
@@ -73,9 +70,8 @@ class GamificationService
      * @param onSuccess Callback with entry array.
      * @param onError   Callback on failure.
      */
-    void getLeaderboard(const std::string& period,
-        std::int32_t limit,
-        Callback onSuccess, ErrCallback onError);
+    void getLeaderboard(const std::string& period, std::int32_t limit,
+                        Callback onSuccess, ErrCallback onError);
 
     /**
      * @brief Fetch a user's gamification progress.
@@ -83,17 +79,17 @@ class GamificationService
      * @param onSuccess Callback with progress JSON.
      * @param onError   Callback on failure.
      */
-    void getUserProgress(const std::string& userId,
-        Callback onSuccess, ErrCallback onError);
+    void getUserProgress(const std::string& userId, Callback onSuccess,
+                         ErrCallback onError);
 
   private:
-    json               config_;
-    LevelService       levels_;
-    XpService          xp_;
-    BadgeService       badges_;
-    StreakService      streak_;
+    json config_;
+    LevelService levels_;
+    XpService xp_;
+    BadgeService badges_;
+    StreakService streak_;
     LeaderboardService leaderboard_;
-    ProgressService    progress_;
+    ProgressService progress_;
 };
 
 } // namespace services

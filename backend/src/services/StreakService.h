@@ -30,8 +30,7 @@ class StreakService
      * @param milestones Sorted list of streak values
      *                   that trigger milestone rewards.
      */
-    explicit StreakService(
-        std::vector<std::int32_t> milestones);
+    explicit StreakService(std::vector<std::int32_t> milestones);
 
     ~StreakService() = default;
 
@@ -44,10 +43,8 @@ class StreakService
      * @param onSuccess Callback with StreakInfo JSON.
      * @param onError   Callback on failure.
      */
-    void updateStreak(
-        const std::string& userId,
-        Callback           onSuccess,
-        ErrCallback        onError);
+    void updateStreak(const std::string& userId, Callback onSuccess,
+                      ErrCallback onError);
 
   private:
     [[nodiscard]] static auto db() -> DbClientPtr;

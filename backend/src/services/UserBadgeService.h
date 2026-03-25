@@ -31,8 +31,7 @@ class UserBadgeService
      * @param onSuccess Callback with badge array JSON.
      * @param onError   Callback on failure.
      */
-    void getUserBadges(const std::string& userId,
-                       Callback onSuccess,
+    void getUserBadges(const std::string& userId, Callback onSuccess,
                        ErrCallback onError);
 
   private:

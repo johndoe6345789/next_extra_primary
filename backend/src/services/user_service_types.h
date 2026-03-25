@@ -20,8 +20,7 @@ namespace services
 using json = nlohmann::json;
 using DbClientPtr = drogon::orm::DbClientPtr;
 using Callback = std::function<void(json)>;
-using ErrCallback =
-    std::function<void(drogon::HttpStatusCode, std::string)>;
+using ErrCallback = std::function<void(drogon::HttpStatusCode, std::string)>;
 
 /**
  * @brief Aggregate statistics for a single user.

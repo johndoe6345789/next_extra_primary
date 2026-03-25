@@ -28,8 +28,7 @@ class MigrationService
      *                      containing `.sql` files.
      *                      Defaults to `"migrations"`.
      */
-    explicit MigrationService(
-        std::string migrationsDir = "migrations");
+    explicit MigrationService(std::string migrationsDir = "migrations");
 
     /**
      * @brief Apply all pending migrations in order.
@@ -53,8 +52,7 @@ class MigrationService
      * @param onSuccess Callback with a status array.
      * @param onError   Callback on failure.
      */
-    void getMigrationStatus(
-        Callback onSuccess, ErrCallback onError);
+    void getMigrationStatus(Callback onSuccess, ErrCallback onError);
 
   private:
     std::string migrationsDir_;

@@ -16,10 +16,8 @@ namespace services
 
 using json = nlohmann::json;
 using DbClientPtr = drogon::orm::DbClientPtr;
-using Callback =
-    std::function<void(json)>;
-using ErrCallback =
-    std::function<void(drogon::HttpStatusCode, std::string)>;
+using Callback = std::function<void(json)>;
+using ErrCallback = std::function<void(drogon::HttpStatusCode, std::string)>;
 
 /**
  * @class NotificationMutator
@@ -42,12 +40,9 @@ class NotificationMutator
      * @param onSuccess Callback with the new notification JSON.
      * @param onError   Callback on failure.
      */
-    void createNotification(const std::string& userId,
-                            const std::string& title,
-                            const std::string& body,
-                            const std::string& type,
-                            const json& metadata,
-                            Callback onSuccess,
+    void createNotification(const std::string& userId, const std::string& title,
+                            const std::string& body, const std::string& type,
+                            const json& metadata, Callback onSuccess,
                             ErrCallback onError);
 
     /**
@@ -59,8 +54,7 @@ class NotificationMutator
      * @param onError        Callback on failure.
      */
     void markAsRead(const std::string& notificationId,
-                    const std::string& userId,
-                    Callback onSuccess,
+                    const std::string& userId, Callback onSuccess,
                     ErrCallback onError);
 
   private:

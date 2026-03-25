@@ -38,8 +38,7 @@ class AiOpenAiClient
      * @param onError   Called with status + message on
      *                  failure.
      */
-    void call(const json& messages, Callback onSuccess,
-              ErrCallback onError);
+    void call(const json& messages, Callback onSuccess, ErrCallback onError);
 
   private:
     std::string apiKey_;

@@ -77,9 +77,7 @@ void AuthController::login(const drogon::HttpRequestPtr& req, Cb&& cb)
     services::AuthService auth;
     auth.loginUser(
         email, password,
-        [cb](const services::json& payload) {
-            cb(::utils::jsonOk(payload));
-        },
+        [cb](const services::json& payload) { cb(::utils::jsonOk(payload)); },
         [cb](drogon::HttpStatusCode code, const std::string& msg) {
             cb(::utils::jsonError(code, msg));
         });

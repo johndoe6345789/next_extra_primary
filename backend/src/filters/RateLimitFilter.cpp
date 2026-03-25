@@ -46,14 +46,12 @@ void RateLimitFilter::doFilter(const drogon::HttpRequestPtr& req,
         auto oldest = bucket.timestamps.front();
         auto retryAt = oldest + window;
         auto retrySec =
-            std::chrono::duration_cast<std::chrono::seconds>(
-                retryAt - now)
+            std::chrono::duration_cast<std::chrono::seconds>(retryAt - now)
                 .count();
 
         auto resp = ::utils::jsonError(drogon::k429TooManyRequests,
                                        "Rate limit exceeded");
-        resp->addHeader("Retry-After",
-                        std::to_string(std::max(1L, retrySec)));
+        resp->addHeader("Retry-After", std::to_string(std::max(1L, retrySec)));
         cb(resp);
         return;
     }
@@ -61,7 +59,8 @@ void RateLimitFilter::doFilter(const drogon::HttpRequestPtr& req,
     bucket.timestamps.push_back(now);
 
     if (requestCount_.fetch_add(1, std::memory_order_relaxed) %
-            SWEEP_INTERVAL == 0) {
+            SWEEP_INTERVAL ==
+        0) {
         sweepStaleBuckets(now);
     }
 
@@ -78,10 +77,9 @@ void RateLimitFilter::sweepStaleBuckets(TimePoint now)
         return;
     }
 
-    spdlog::warn(
-        "RateLimitFilter: bucket count {} exceeds MAX_BUCKETS {}; "
-        "evicting oldest entries.",
-        buckets_.size(), MAX_BUCKETS);
+    spdlog::warn("RateLimitFilter: bucket count {} exceeds MAX_BUCKETS {}; "
+                 "evicting oldest entries.",
+                 buckets_.size(), MAX_BUCKETS);
 
     // Collect pointers to entries sorted by lastSeen ascending.
     std::vector<std::unordered_map<std::string, Bucket>::iterator> order;

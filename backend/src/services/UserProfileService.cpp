@@ -22,10 +22,8 @@ auto UserProfileService::db() -> DbClientPtr
     return drogon::app().getDbClient();
 }
 
-void UserProfileService::updateUser(const std::string& id,
-                                    const json& fields,
-                                    Callback onSuccess,
-                                    ErrCallback onError)
+void UserProfileService::updateUser(const std::string& id, const json& fields,
+                                    Callback onSuccess, ErrCallback onError)
 {
     std::vector<std::string> setClauses;
     std::vector<std::string> values;
@@ -33,8 +31,7 @@ void UserProfileService::updateUser(const std::string& id,
 
     for (const auto& col : kEditableFields) {
         if (fields.contains(col) && fields[col].is_string()) {
-            setClauses.push_back(
-                fmt::format("{} = ${}", col, ++paramIdx));
+            setClauses.push_back(fmt::format("{} = ${}", col, ++paramIdx));
             values.push_back(fields[col].get<std::string>());
         }
     }
@@ -77,8 +74,7 @@ void UserProfileService::updateUser(const std::string& id,
         onSuccess(UserLookupService::rowToJson(r[0]));
     };
     binder >> [onError](const DrogonDbException& e) {
-        spdlog::error("updateUser DB error: {}",
-                      e.base().what());
+        spdlog::error("updateUser DB error: {}", e.base().what());
         onError(k500InternalServerError, "Internal server error");
     };
     binder.exec();

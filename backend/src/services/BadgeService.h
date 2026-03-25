@@ -22,7 +22,7 @@ namespace services
 class BadgeService
 {
   public:
-    BadgeService()  = default;
+    BadgeService() = default;
     ~BadgeService() = default;
 
     /**
@@ -36,10 +36,8 @@ class BadgeService
      * @param onSuccess Callback with badge JSON array.
      * @param onError   Callback on failure.
      */
-    void checkAndAwardBadges(
-        const std::string& userId,
-        Callback           onSuccess,
-        ErrCallback        onError);
+    void checkAndAwardBadges(const std::string& userId, Callback onSuccess,
+                             ErrCallback onError);
 
   private:
     /// Convenience accessor for the default DB client.

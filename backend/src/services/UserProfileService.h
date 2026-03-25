@@ -44,8 +44,8 @@ class UserProfileService
     [[nodiscard]] static auto db() -> DbClientPtr;
 
     /// Whitelist of columns that may be updated.
-    static inline const std::vector<std::string> kEditableFields =
-        {"display_name", "username", "avatar_url", "bio"};
+    static inline const std::vector<std::string> kEditableFields = {
+        "display_name", "username", "avatar_url", "bio"};
 };
 
 } // namespace services

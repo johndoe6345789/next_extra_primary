@@ -15,10 +15,8 @@ namespace services
 
 using json = nlohmann::json;
 using DbClientPtr = drogon::orm::DbClientPtr;
-using Callback =
-    std::function<void(json)>;
-using ErrCallback =
-    std::function<void(drogon::HttpStatusCode, std::string)>;
+using Callback = std::function<void(json)>;
+using ErrCallback = std::function<void(drogon::HttpStatusCode, std::string)>;
 
 /**
  * @class NotificationDeleter
@@ -37,8 +35,7 @@ class NotificationDeleter
      * @param onSuccess Callback with `{"count": N}`.
      * @param onError   Callback on failure.
      */
-    void markAllAsRead(const std::string& userId,
-                       Callback onSuccess,
+    void markAllAsRead(const std::string& userId, Callback onSuccess,
                        ErrCallback onError);
 
     /**
@@ -49,11 +46,9 @@ class NotificationDeleter
      * @param onSuccess      Callback with `{"deleted": true}`.
      * @param onError        Callback on failure.
      */
-    void deleteNotification(
-        const std::string& notificationId,
-        const std::string& userId,
-        Callback onSuccess,
-        ErrCallback onError);
+    void deleteNotification(const std::string& notificationId,
+                            const std::string& userId, Callback onSuccess,
+                            ErrCallback onError);
 
   private:
     /// Convenience accessor for the default DB client.

@@ -42,8 +42,7 @@ class LevelService
      * @param points Accumulated point total.
      * @return Level number (1-based).
      */
-    [[nodiscard]] auto
-    getLevelForPoints(std::int64_t points) const
+    [[nodiscard]] auto getLevelForPoints(std::int64_t points) const
         -> std::int32_t;
 
     /**
@@ -52,9 +51,7 @@ class LevelService
      * @param level Level number.
      * @return Title string (e.g. "Expert").
      */
-    [[nodiscard]] auto
-    getLevelTitle(std::int32_t level) const
-        -> std::string;
+    [[nodiscard]] auto getLevelTitle(std::int32_t level) const -> std::string;
 
     /**
      * @brief Points needed to reach the next level.
@@ -62,15 +59,14 @@ class LevelService
      * @param currentPoints Current point total.
      * @return Remaining points, or 0 at max level.
      */
-    [[nodiscard]] auto
-    pointsToNextLevel(std::int64_t currentPoints) const
+    [[nodiscard]] auto pointsToNextLevel(std::int64_t currentPoints) const
         -> std::int64_t;
 
   private:
     struct LevelDef {
         std::int32_t level;
         std::int64_t minPoints;
-        std::string  title;
+        std::string title;
     };
 
     /// Sorted descending by minPoints for fast lookup.

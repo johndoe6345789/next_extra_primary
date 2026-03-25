@@ -19,10 +19,8 @@ namespace services
 
 using json = nlohmann::json;
 using DbClientPtr = drogon::orm::DbClientPtr;
-using Callback =
-    std::function<void(json)>;
-using ErrCallback =
-    std::function<void(drogon::HttpStatusCode, std::string)>;
+using Callback = std::function<void(json)>;
+using ErrCallback = std::function<void(drogon::HttpStatusCode, std::string)>;
 
 /**
  * @brief Status of one migration file.
@@ -49,8 +47,7 @@ class MigrationStateStore
      * @param then    Continuation to run after the table is ready.
      * @param onError Error callback.
      */
-    static void ensureTable(std::function<void()> then,
-                            ErrCallback onError);
+    static void ensureTable(std::function<void()> then, ErrCallback onError);
 
     /**
      * @brief Convenience accessor for the default DB client.

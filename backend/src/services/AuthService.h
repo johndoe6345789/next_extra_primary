@@ -160,16 +160,16 @@ class AuthService
     [[nodiscard]] static auto isValidEmail(const std::string& email) -> bool;
 
     /// Validate username (3-30 alphanumeric / underscore).
-    [[nodiscard]] static auto
-    isValidUsername(const std::string& username) -> bool;
+    [[nodiscard]] static auto isValidUsername(const std::string& username)
+        -> bool;
 
     /// Validate password strength.
-    [[nodiscard]] static auto
-    isStrongPassword(const std::string& password) -> bool;
+    [[nodiscard]] static auto isStrongPassword(const std::string& password)
+        -> bool;
 
     /// Generate a cryptographically random hex token.
-    [[nodiscard]] static auto
-    generateRandomToken(std::size_t bytes = 32) -> std::string;
+    [[nodiscard]] static auto generateRandomToken(std::size_t bytes = 32)
+        -> std::string;
 };
 
 } // namespace services

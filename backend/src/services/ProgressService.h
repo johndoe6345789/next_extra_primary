@@ -7,8 +7,8 @@
  * computed level data for a single user.
  */
 
-#include "services/LevelService.h"
 #include "services/gamification_types.h"
+#include "services/LevelService.h"
 
 #include <string>
 
@@ -28,8 +28,7 @@ class ProgressService
      * @param levels Non-owning pointer to a
      *               LevelService; must outlive this.
      */
-    explicit ProgressService(
-        const LevelService* levels);
+    explicit ProgressService(const LevelService* levels);
 
     ~ProgressService() = default;
 
@@ -44,10 +43,8 @@ class ProgressService
      * @param onSuccess Callback with progress JSON.
      * @param onError   Callback on failure.
      */
-    void getUserProgress(
-        const std::string& userId,
-        Callback           onSuccess,
-        ErrCallback        onError);
+    void getUserProgress(const std::string& userId, Callback onSuccess,
+                         ErrCallback onError);
 
   private:
     [[nodiscard]] static auto db() -> DbClientPtr;

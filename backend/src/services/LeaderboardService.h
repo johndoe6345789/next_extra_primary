@@ -29,8 +29,7 @@ class LeaderboardService
      * @param levels Non-owning pointer to a
      *               LevelService; must outlive this.
      */
-    explicit LeaderboardService(
-        const LevelService* levels);
+    explicit LeaderboardService(const LevelService* levels);
 
     ~LeaderboardService() = default;
 
@@ -43,11 +42,8 @@ class LeaderboardService
      * @param onSuccess Callback with entry array.
      * @param onError   Callback on failure.
      */
-    void getLeaderboard(
-        const std::string& period,
-        std::int32_t       limit,
-        Callback           onSuccess,
-        ErrCallback        onError);
+    void getLeaderboard(const std::string& period, std::int32_t limit,
+                        Callback onSuccess, ErrCallback onError);
 
   private:
     [[nodiscard]] static auto db() -> DbClientPtr;

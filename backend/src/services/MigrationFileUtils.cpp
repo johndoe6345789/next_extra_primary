@@ -29,8 +29,7 @@ auto MigrationFileUtils::discoverFiles(const std::string& dir)
     }
 
     for (const auto& entry : fs::directory_iterator(dir)) {
-        if (entry.is_regular_file()
-            && entry.path().extension() == ".sql") {
+        if (entry.is_regular_file() && entry.path().extension() == ".sql") {
             files.push_back(entry.path().filename().string());
         }
     }
@@ -42,8 +41,7 @@ auto MigrationFileUtils::readFile(const std::string& path) -> std::string
 {
     std::ifstream ifs(path);
     if (!ifs.is_open()) {
-        throw std::runtime_error(
-            fmt::format("Cannot open file: {}", path));
+        throw std::runtime_error(fmt::format("Cannot open file: {}", path));
     }
     std::ostringstream ss;
     ss << ifs.rdbuf();

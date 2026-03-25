@@ -21,8 +21,7 @@ auto UserBadgeService::db() -> DbClientPtr
 }
 
 void UserBadgeService::getUserBadges(const std::string& userId,
-                                     Callback onSuccess,
-                                     ErrCallback onError)
+                                     Callback onSuccess, ErrCallback onError)
 {
     auto dbClient = db();
     const std::string sql = R"(
@@ -35,32 +34,24 @@ void UserBadgeService::getUserBadges(const std::string& userId,
         ORDER BY ub.earned_at DESC
     )";
 
-    *dbClient << sql << userId >>
-        [onSuccess](const Result& result) {
-            json badges = json::array();
-            for (const auto& row : result) {
-                json badge = {
-                    {"id", row["id"].as<std::string>()},
-                    {"slug", row["slug"].as<std::string>()},
-                    {"name", row["name"].as<std::string>()},
-                    {"description",
-                     row["description"].as<std::string>()},
-                    {"earnedAt",
-                     row["earned_at"].as<std::string>()}};
-                if (!row["icon_url"].isNull()) {
-                    badge["iconUrl"] =
-                        row["icon_url"].as<std::string>();
-                }
-                badges.push_back(badge);
+    *dbClient << sql << userId >> [onSuccess](const Result& result) {
+        json badges = json::array();
+        for (const auto& row : result) {
+            json badge = {{"id", row["id"].as<std::string>()},
+                          {"slug", row["slug"].as<std::string>()},
+                          {"name", row["name"].as<std::string>()},
+                          {"description", row["description"].as<std::string>()},
+                          {"earnedAt", row["earned_at"].as<std::string>()}};
+            if (!row["icon_url"].isNull()) {
+                badge["iconUrl"] = row["icon_url"].as<std::string>();
             }
-            onSuccess(badges);
-        } >>
-        [onError](const DrogonDbException& e) {
-            spdlog::error("getUserBadges DB error: {}",
-                          e.base().what());
-            onError(k500InternalServerError,
-                    "Internal server error");
-        };
+            badges.push_back(badge);
+        }
+        onSuccess(badges);
+    } >> [onError](const DrogonDbException& e) {
+        spdlog::error("getUserBadges DB error: {}", e.base().what());
+        onError(k500InternalServerError, "Internal server error");
+    };
 }
 
 } // namespace services

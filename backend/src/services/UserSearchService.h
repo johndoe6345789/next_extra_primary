@@ -33,8 +33,8 @@ class UserSearchService
      * @param onSuccess Callback with paginated result JSON.
      * @param onError   Callback on failure.
      */
-    void listUsers(std::int32_t page, std::int32_t perPage,
-                   Callback onSuccess, ErrCallback onError);
+    void listUsers(std::int32_t page, std::int32_t perPage, Callback onSuccess,
+                   ErrCallback onError);
 
   private:
     /// Convenience DB accessor.

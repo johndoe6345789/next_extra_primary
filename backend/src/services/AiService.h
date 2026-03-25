@@ -42,11 +42,8 @@ class AiService
      * @param onSuccess Callback with AiResponse JSON.
      * @param onError   Callback on failure.
      */
-    void chat(const std::string& userId,
-              const std::string& message,
-              AiProvider provider,
-              Callback onSuccess,
-              ErrCallback onError);
+    void chat(const std::string& userId, const std::string& message,
+              AiProvider provider, Callback onSuccess, ErrCallback onError);
 
   private:
     AiHistoryStore historyStore_;

@@ -10,10 +10,7 @@ import type { Components, Theme } from '@mui/material/styles';
  * Applies MD3-style pill shape (border-radius 20px),
  * removes default elevation, and disables text transform.
  */
-export const buttonOverrides: Pick<
-  Components<Theme>,
-  'MuiButton'
-> = {
+export const buttonOverrides: Pick<Components<Theme>, 'MuiButton'> = {
   MuiButton: {
     defaultProps: {
       disableElevation: true,

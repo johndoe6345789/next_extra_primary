@@ -16,10 +16,8 @@ namespace services
 
 using json = nlohmann::json;
 using DbClientPtr = drogon::orm::DbClientPtr;
-using Callback =
-    std::function<void(json)>;
-using ErrCallback =
-    std::function<void(drogon::HttpStatusCode, std::string)>;
+using Callback = std::function<void(json)>;
+using ErrCallback = std::function<void(drogon::HttpStatusCode, std::string)>;
 
 /**
  * @class NotificationPager
@@ -40,10 +38,8 @@ class NotificationPager
      * @param onSuccess Callback with paginated result.
      * @param onError   Callback on failure.
      */
-    void getNotifications(const std::string& userId,
-                          std::int32_t page,
-                          std::int32_t perPage,
-                          Callback onSuccess,
+    void getNotifications(const std::string& userId, std::int32_t page,
+                          std::int32_t perPage, Callback onSuccess,
                           ErrCallback onError);
 
   private:

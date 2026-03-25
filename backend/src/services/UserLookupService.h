@@ -55,8 +55,7 @@ class UserLookupService
      * @param row  A single result row from the `users` table.
      * @return     JSON object with camelCase field names.
      */
-    [[nodiscard]] static auto rowToJson(
-        const drogon::orm::Row& row) -> json;
+    [[nodiscard]] static auto rowToJson(const drogon::orm::Row& row) -> json;
 
   private:
     /// Convenience DB accessor.

@@ -24,8 +24,7 @@ auto UserStatsService::db() -> DbClientPtr
 }
 
 void UserStatsService::getUserStats(const std::string& userId,
-                                    Callback onSuccess,
-                                    ErrCallback onError)
+                                    Callback onSuccess, ErrCallback onError)
 {
     auto dbClient = db();
     const std::string sql = R"(
@@ -40,51 +39,41 @@ void UserStatsService::getUserStats(const std::string& userId,
         GROUP BY u.id
     )";
 
-    *dbClient << sql << userId >>
-        [onSuccess, onError](const Result& result) {
-            if (result.empty()) {
-                onError(k404NotFound, "User not found");
-                return;
-            }
-            const auto& r = result[0];
-            auto pts = r["total_points"].as<std::int64_t>();
+    *dbClient << sql << userId >> [onSuccess, onError](const Result& result) {
+        if (result.empty()) {
+            onError(k404NotFound, "User not found");
+            return;
+        }
+        const auto& r = result[0];
+        auto pts = r["total_points"].as<std::int64_t>();
 
-            constexpr std::array<
-                std::pair<std::int64_t, std::int32_t>, 8>
-                kThresholds = {{{10000, 8},
-                                {5000, 7},
-                                {2000, 6},
-                                {1000, 5},
-                                {500, 4},
-                                {250, 3},
-                                {100, 2},
-                                {0, 1}}};
-            std::int32_t level = 1;
-            for (auto [threshold, lv] : kThresholds) {
-                if (pts >= threshold) {
-                    level = lv;
-                    break;
-                }
+        constexpr std::array<std::pair<std::int64_t, std::int32_t>, 8>
+            kThresholds = {{{10000, 8},
+                            {5000, 7},
+                            {2000, 6},
+                            {1000, 5},
+                            {500, 4},
+                            {250, 3},
+                            {100, 2},
+                            {0, 1}}};
+        std::int32_t level = 1;
+        for (auto [threshold, lv] : kThresholds) {
+            if (pts >= threshold) {
+                level = lv;
+                break;
             }
+        }
 
-            onSuccess(
-                {{"totalPoints", pts},
-                 {"level", level},
-                 {"currentStreak",
-                  r["current_streak"].as<std::int32_t>()},
-                 {"longestStreak",
-                  r["longest_streak"].as<std::int32_t>()},
-                 {"badgeCount",
-                  r["badge_count"].as<std::int64_t>()},
-                 {"messageCount",
-                  r["message_count"].as<std::int64_t>()}});
-        } >>
-        [onError](const DrogonDbException& e) {
-            spdlog::error("getUserStats DB error: {}",
-                          e.base().what());
-            onError(k500InternalServerError,
-                    "Internal server error");
-        };
+        onSuccess({{"totalPoints", pts},
+                   {"level", level},
+                   {"currentStreak", r["current_streak"].as<std::int32_t>()},
+                   {"longestStreak", r["longest_streak"].as<std::int32_t>()},
+                   {"badgeCount", r["badge_count"].as<std::int64_t>()},
+                   {"messageCount", r["message_count"].as<std::int64_t>()}});
+    } >> [onError](const DrogonDbException& e) {
+        spdlog::error("getUserStats DB error: {}", e.base().what());
+        onError(k500InternalServerError, "Internal server error");
+    };
 }
 
 } // namespace services

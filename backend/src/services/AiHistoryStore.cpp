@@ -32,19 +32,16 @@ void AiHistoryStore::storeMessage(const std::string& userId,
         VALUES ($1, $2, $3, $4, $5, NOW())
     )";
 
-    *dbClient << sql << userId << role << content
-              << provider << model >>
+    *dbClient << sql << userId << role << content << provider << model >>
         [](const Result&) {
             // Fire-and-forget.
         } >>
         [](const DrogonDbException& e) {
-            spdlog::error("storeMessage DB error: {}",
-                          e.base().what());
+            spdlog::error("storeMessage DB error: {}", e.base().what());
         };
 }
 
-void AiHistoryStore::loadHistory(const std::string& userId,
-                                 std::size_t limit,
+void AiHistoryStore::loadHistory(const std::string& userId, std::size_t limit,
                                  std::function<void(json)> callback)
 {
     auto dbClient = db();
@@ -56,24 +53,19 @@ void AiHistoryStore::loadHistory(const std::string& userId,
         LIMIT $2
     )";
 
-    *dbClient << sql << userId
-              << static_cast<std::int64_t>(limit) >>
+    *dbClient << sql << userId << static_cast<std::int64_t>(limit) >>
         [callback](const Result& result) {
             json history = json::array();
             // Results come newest-first; reverse them.
-            for (auto it = result.rbegin();
-                 it != result.rend(); ++it) {
+            for (auto it = result.rbegin(); it != result.rend(); ++it) {
                 history.push_back(
-                    {{"role",
-                      (*it)["role"].as<std::string>()},
-                     {"content",
-                      (*it)["content"].as<std::string>()}});
+                    {{"role", (*it)["role"].as<std::string>()},
+                     {"content", (*it)["content"].as<std::string>()}});
             }
             callback(history);
         } >>
         [callback](const DrogonDbException& e) {
-            spdlog::error("loadHistory DB error: {}",
-                          e.base().what());
+            spdlog::error("loadHistory DB error: {}", e.base().what());
             callback(json::array());
         };
 }

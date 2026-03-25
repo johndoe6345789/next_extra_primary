@@ -36,11 +36,9 @@ class MigrationApplier
      *                      filenames.
      * @param onError       Callback on failure.
      */
-    static void applyAll(
-        const std::string& migrationsDir,
-        std::vector<std::string> pending,
-        Callback onSuccess,
-        ErrCallback onError);
+    static void applyAll(const std::string& migrationsDir,
+                         std::vector<std::string> pending, Callback onSuccess,
+                         ErrCallback onError);
 };
 
 } // namespace services

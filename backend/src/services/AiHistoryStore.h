@@ -39,10 +39,8 @@ class AiHistoryStore
      * @param provider Provider name string (e.g. "claude").
      * @param model    Model identifier string.
      */
-    void storeMessage(const std::string& userId,
-                      const std::string& role,
-                      const std::string& content,
-                      const std::string& provider,
+    void storeMessage(const std::string& userId, const std::string& role,
+                      const std::string& content, const std::string& provider,
                       const std::string& model);
 
     /**
@@ -56,8 +54,7 @@ class AiHistoryStore
      * @param callback Receives a JSON array of role/content
      *                 objects, or an empty array on error.
      */
-    void loadHistory(const std::string& userId,
-                     std::size_t limit,
+    void loadHistory(const std::string& userId, std::size_t limit,
                      std::function<void(json)> callback);
 
   private:

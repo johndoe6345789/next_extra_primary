@@ -22,7 +22,7 @@ namespace services
 class XpService
 {
   public:
-    XpService()  = default;
+    XpService() = default;
     ~XpService() = default;
 
     /**
@@ -38,13 +38,9 @@ class XpService
      * @param onSuccess Callback with `{newTotal}`.
      * @param onError   Callback on failure.
      */
-    void awardPoints(
-        const std::string& userId,
-        std::int64_t       amount,
-        const std::string& reason,
-        const std::string& source,
-        Callback           onSuccess,
-        ErrCallback        onError);
+    void awardPoints(const std::string& userId, std::int64_t amount,
+                     const std::string& reason, const std::string& source,
+                     Callback onSuccess, ErrCallback onError);
 
   private:
     /// Convenience accessor for the default DB client.

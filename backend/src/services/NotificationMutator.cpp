@@ -22,8 +22,7 @@ auto NotificationMutator::db() -> DbClientPtr
 
 void NotificationMutator::createNotification(
     const std::string& userId, const std::string& title,
-    const std::string& body, const std::string& type,
-    const json& metadata,
+    const std::string& body, const std::string& type, const json& metadata,
     Callback onSuccess, ErrCallback onError)
 {
     auto dbClient = db();
@@ -36,31 +35,23 @@ void NotificationMutator::createNotification(
                   metadata, read, created_at
     )";
 
-    *dbClient << sql
-              << userId << title << body
-              << type << metadata.dump() >>
+    *dbClient << sql << userId << title << body << type << metadata.dump() >>
         [onSuccess](const Result& result) {
             if (result.empty()) {
                 onSuccess(json::object());
                 return;
             }
-            onSuccess(
-                NotificationFormatter::rowToJson(
-                    result[0]));
+            onSuccess(NotificationFormatter::rowToJson(result[0]));
         } >>
         [onError](const DrogonDbException& e) {
-            spdlog::error(
-                "createNotification DB error: {}",
-                e.base().what());
-            onError(k500InternalServerError,
-                    "Internal server error");
+            spdlog::error("createNotification DB error: {}", e.base().what());
+            onError(k500InternalServerError, "Internal server error");
         };
 }
 
-void NotificationMutator::markAsRead(
-    const std::string& notificationId,
-    const std::string& userId,
-    Callback onSuccess, ErrCallback onError)
+void NotificationMutator::markAsRead(const std::string& notificationId,
+                                     const std::string& userId,
+                                     Callback onSuccess, ErrCallback onError)
 {
     auto dbClient = db();
     const std::string sql = R"(
@@ -70,21 +61,17 @@ void NotificationMutator::markAsRead(
         RETURNING id
     )";
 
-    *dbClient << sql << notificationId << userId >>
-        [onSuccess, onError](const Result& result) {
-            if (result.empty()) {
-                onError(k404NotFound,
-                        "Notification not found");
-                return;
-            }
-            onSuccess({{"read", true}});
-        } >>
-        [onError](const DrogonDbException& e) {
-            spdlog::error("markAsRead DB error: {}",
-                          e.base().what());
-            onError(k500InternalServerError,
-                    "Internal server error");
-        };
+    *dbClient << sql << notificationId << userId >> [onSuccess, onError](
+                                                        const Result& result) {
+        if (result.empty()) {
+            onError(k404NotFound, "Notification not found");
+            return;
+        }
+        onSuccess({{"read", true}});
+    } >> [onError](const DrogonDbException& e) {
+        spdlog::error("markAsRead DB error: {}", e.base().what());
+        onError(k500InternalServerError, "Internal server error");
+    };
 }
 
 } // namespace services

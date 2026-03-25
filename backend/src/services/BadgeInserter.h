@@ -30,7 +30,7 @@ namespace services
 class BadgeInserter
 {
   public:
-    BadgeInserter()  = default;
+    BadgeInserter() = default;
     ~BadgeInserter() = default;
 
     /**
@@ -43,12 +43,9 @@ class BadgeInserter
      * @param result    Shared accumulator of new badges.
      * @param onSuccess Fired when all inserts complete.
      */
-    void insertOne(
-        const std::string&             userId,
-        const json&                    badge,
-        std::shared_ptr<std::size_t>   remaining,
-        std::shared_ptr<json>          result,
-        Callback                       onSuccess);
+    void insertOne(const std::string& userId, const json& badge,
+                   std::shared_ptr<std::size_t> remaining,
+                   std::shared_ptr<json> result, Callback onSuccess);
 
   private:
     [[nodiscard]] static auto db() -> DbClientPtr;
