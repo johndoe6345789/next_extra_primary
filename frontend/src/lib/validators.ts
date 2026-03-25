@@ -4,6 +4,10 @@
  * @module lib/validators
  */
 
+import validationConfig from '@/constants/validation.json';
+
+const vc = validationConfig;
+
 /** Validation result shape. */
 export interface ValidationResult {
   valid: boolean;
@@ -15,76 +19,57 @@ export interface ValidationResult {
  * @param email - value to validate
  */
 export function isValidEmail(email: string): ValidationResult {
-  const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const re = new RegExp(vc.email.pattern);
   if (!email) {
-    return { valid: false, message: 'Email is required.' };
+    return { valid: false, message: vc.email.messages.required };
   }
   if (!re.test(email)) {
-    return {
-      valid: false,
-      message: 'Invalid email format.',
-    };
+    return { valid: false, message: vc.email.messages.invalid };
   }
   return { valid: true };
 }
 
 /**
  * Check whether a username meets requirements.
- * 3-30 chars, alphanumeric + underscores.
  * @param username - value to validate
  */
 export function isValidUsername(username: string): ValidationResult {
+  const { minLength, maxLength, pattern, messages } = vc.username;
   if (!username) {
-    return {
-      valid: false,
-      message: 'Username is required.',
-    };
+    return { valid: false, message: messages.required };
   }
-  if (!/^[a-zA-Z0-9_]{3,30}$/.test(username)) {
-    return {
-      valid: false,
-      message:
-        'Username must be 3-30 alphanumeric ' + 'characters or underscores.',
-    };
+  if (username.length < minLength) {
+    return { valid: false, message: messages.tooShort };
+  }
+  if (username.length > maxLength) {
+    return { valid: false, message: messages.tooLong };
+  }
+  if (!new RegExp(pattern).test(username)) {
+    return { valid: false, message: messages.invalid };
   }
   return { valid: true };
 }
 
 /**
  * Check whether a password meets strength rules.
- * Min 8 chars, 1 upper, 1 lower, 1 digit.
  * @param password - value to validate
  */
 export function isValidPassword(password: string): ValidationResult {
+  const { minLength, messages } = vc.password;
   if (!password) {
-    return {
-      valid: false,
-      message: 'Password is required.',
-    };
+    return { valid: false, message: messages.required };
   }
-  if (password.length < 8) {
-    return {
-      valid: false,
-      message: 'Must be at least 8 characters.',
-    };
+  if (password.length < minLength) {
+    return { valid: false, message: messages.tooShort };
   }
   if (!/[A-Z]/.test(password)) {
-    return {
-      valid: false,
-      message: 'Must contain an uppercase letter.',
-    };
+    return { valid: false, message: messages.missingUppercase };
   }
   if (!/[a-z]/.test(password)) {
-    return {
-      valid: false,
-      message: 'Must contain a lowercase letter.',
-    };
+    return { valid: false, message: messages.missingLowercase };
   }
   if (!/\d/.test(password)) {
-    return {
-      valid: false,
-      message: 'Must contain a digit.',
-    };
+    return { valid: false, message: messages.missingDigit };
   }
   return { valid: true };
 }

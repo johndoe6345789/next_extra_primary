@@ -57,3 +57,5 @@ export const AvatarMenu: React.FC<AvatarMenuProps> = ({ user, onLogout }) => {
     </>
   );
 };
+
+export default AvatarMenu;

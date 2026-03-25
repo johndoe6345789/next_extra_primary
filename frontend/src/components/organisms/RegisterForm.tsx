@@ -1,16 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import MuiLink from '@mui/material/Link';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { Button } from '../atoms';
-import { useAuth, useFormValidation } from '@/hooks';
 import { RegisterFormFields } from './RegisterFormFields';
-import { REG_RULES, type RegFields, type CE } from './registerRules';
+import { useRegisterForm } from '@/hooks/useRegisterForm';
 
 /** Props for the RegisterForm organism. */
 export interface RegisterFormProps {
@@ -25,38 +25,14 @@ export interface RegisterFormProps {
 export const RegisterForm: React.FC<RegisterFormProps> = ({
   testId = 'register-form',
 }) => {
-  const [f, setF] = useState<RegFields>({
-    username: '',
-    email: '',
-    displayName: '',
-    password: '',
-    confirmPassword: '',
-  });
-  const { register, isLoading } = useAuth();
-  const { validate, errors } = useFormValidation(REG_RULES);
-  const set = (k: string) => (e: CE) =>
-    setF((p) => ({ ...p, [k]: e.target.value }));
-
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const ok = Object.keys(REG_RULES).every((k) =>
-      validate(k, f[k as keyof RegFields]),
-    );
-    if (f.password !== f.confirmPassword) return;
-    if (!ok) return;
-    await register({
-      username: f.username,
-      email: f.email,
-      displayName: f.displayName,
-      password: f.password,
-    });
-  };
+  const t = useTranslations('auth');
+  const { f, set, isLoading, errors, submit } = useRegisterForm();
 
   return (
     <Card data-testid={testId} sx={{ maxWidth: 420, mx: 'auto', mt: 4 }}>
       <CardContent>
         <Typography variant="h5" id="register-heading" gutterBottom>
-          Create Account
+          {t('register')}
         </Typography>
         <Box
           component="form"
@@ -76,7 +52,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
             disabled={isLoading}
             testId="register-submit"
           >
-            {isLoading ? 'Creating...' : 'Register'}
+            {isLoading ? t('creating') : t('register')}
           </Button>
           <MuiLink
             component={Link}
@@ -85,10 +61,12 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
             tabIndex={0}
             sx={{ textAlign: 'center' }}
           >
-            Already have an account? Login
+            {t('hasAccount')}
           </MuiLink>
         </Box>
       </CardContent>
     </Card>
   );
 };
+
+export default RegisterForm;

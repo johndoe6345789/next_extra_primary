@@ -27,14 +27,16 @@
     "confirmPassword": "Confirmar contrase\u00f1a",
     "rememberMe": "Recordarme",
     "noAccount": "\u00bfNo tienes una cuenta?",
-    "hasAccount": "\u00bfYa tienes una cuenta?",
+    "hasAccount": "\u00bfYa tienes una cuenta? Inicia sesi\u00f3n",
     "loginSuccess": "Sesi\u00f3n iniciada correctamente",
     "logoutSuccess": "Sesi\u00f3n cerrada correctamente",
     "registerSuccess": "Cuenta creada correctamente",
     "invalidCredentials": "Correo o contrase\u00f1a inv\u00e1lidos",
     "passwordMismatch": "Las contrase\u00f1as no coinciden",
     "emailRequired": "El correo es obligatorio",
-    "passwordRequired": "La contrase\u00f1a es obligatoria"
+    "passwordRequired": "La contrase\u00f1a es obligatoria",
+    "signingIn": "Iniciando sesi\u00f3n...",
+    "creating": "Creando..."
   },
   "nav": {
     "home": "Inicio",
@@ -77,6 +79,32 @@
     "switchProvider": "Cambiar proveedor",
     "noMessages": "A\u00fan no hay mensajes",
     "typing": "Escribiendo..."
+  },
+  "features": {
+    "aiChat": {
+      "title": "Chat con IA",
+      "desc": "Chatea con modelos de IA."
+    },
+    "gamification": {
+      "title": "Gamificaci\u00f3n",
+      "desc": "Insignias y clasificaciones."
+    },
+    "alerts": {
+      "title": "Alertas en tiempo real",
+      "desc": "Notificaciones instant\u00e1neas."
+    },
+    "darkMode": {
+      "title": "Modo oscuro",
+      "desc": "Temas claro y oscuro."
+    },
+    "multiLang": {
+      "title": "Multiidioma",
+      "desc": "Varios idiomas disponibles."
+    },
+    "secureAuth": {
+      "title": "Autenticaci\u00f3n segura",
+      "desc": "JWT con tokens de refresco."
+    }
   },
   "a11y": {
     "skipToContent": "Ir al contenido principal",

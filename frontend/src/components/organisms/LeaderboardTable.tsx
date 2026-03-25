@@ -77,3 +77,5 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
     </Box>
   );
 };
+
+export default LeaderboardTable;

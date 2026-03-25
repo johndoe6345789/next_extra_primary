@@ -8,28 +8,35 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import TranslateIcon from '@mui/icons-material/Translate';
 import LockIcon from '@mui/icons-material/Lock';
+import { useTranslations } from 'next-intl';
 import { FeatureCard } from './FeatureCard';
 
 const P = 'primary' as const;
-const DATA = [
-  { i: <ChatIcon color={P} />, t: 'AI Chat', d: 'Chat with AI models.' },
-  {
-    i: <EmojiEventsIcon color={P} />,
-    t: 'Gamification',
-    d: 'Badges and boards.',
-  },
-  {
-    i: <NotificationsActiveIcon color={P} />,
-    t: 'Real-time Alerts',
-    d: 'Instant alerts.',
-  },
-  {
-    i: <DarkModeIcon color={P} />,
-    t: 'Dark Mode',
-    d: 'Light and dark themes.',
-  },
-  { i: <TranslateIcon color={P} />, t: 'Multi-language', d: 'Five languages.' },
-  { i: <LockIcon color={P} />, t: 'Secure Auth', d: 'JWT with refresh.' },
+
+const ICONS = [
+  <ChatIcon key="chat" color={P} />,
+  <EmojiEventsIcon key="gamification" color={P} />,
+  <NotificationsActiveIcon key="alerts" color={P} />,
+  <DarkModeIcon key="darkmode" color={P} />,
+  <TranslateIcon key="i18n" color={P} />,
+  <LockIcon key="auth" color={P} />,
+];
+
+type FeatureKey =
+  | 'aiChat'
+  | 'gamification'
+  | 'alerts'
+  | 'darkMode'
+  | 'multiLang'
+  | 'secureAuth';
+
+const KEYS: FeatureKey[] = [
+  'aiChat',
+  'gamification',
+  'alerts',
+  'darkMode',
+  'multiLang',
+  'secureAuth',
 ];
 
 /** Props for the FeatureGrid organism. */
@@ -46,20 +53,27 @@ export interface FeatureGridProps {
  */
 export const FeatureGrid: React.FC<FeatureGridProps> = ({
   testId = 'feature-grid',
-}) => (
-  <Grid
-    container
-    spacing={3}
-    data-testid={testId}
-    role="list"
-    aria-label="Application features"
-  >
-    {DATA.map((f) => (
-      <Grid key={f.t} size={{ xs: 12, sm: 6, md: 4 }}>
-        <FeatureCard icon={f.i} title={f.t} desc={f.d} />
-      </Grid>
-    ))}
-  </Grid>
-);
+}) => {
+  const t = useTranslations('features');
+  return (
+    <Grid
+      container
+      spacing={3}
+      data-testid={testId}
+      role="list"
+      aria-label="Application features"
+    >
+      {KEYS.map((k, idx) => (
+        <Grid key={k} size={{ xs: 12, sm: 6, md: 4 }}>
+          <FeatureCard
+            icon={ICONS[idx]}
+            title={t(`${k}.title`)}
+            desc={t(`${k}.desc`)}
+          />
+        </Grid>
+      ))}
+    </Grid>
+  );
+};
 
 export default FeatureGrid;

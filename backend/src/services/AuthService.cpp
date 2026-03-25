@@ -5,6 +5,7 @@
 
 #include "services/AuthService.h"
 #include "utils/JwtUtil.h"
+#include "utils/PasswordHash.h"
 
 #include <drogon/drogon.h>
 #include <drogon/orm/DbClient.h>
@@ -120,10 +121,8 @@ void AuthService::registerUser(const std::string& email,
     auto dbClient = db();
     auto confirmToken = generateRandomToken();
 
-    // Hash password with Drogon's built-in bcrypt.
-    auto hashed = drogon::utils::getMd5(password);
-    // NOTE: production should use bcrypt via a dedicated
-    // PasswordHash utility; MD5 is a placeholder.
+    // Hash password with a random salt via PasswordHash.
+    auto hashed = ::utils::hashPassword(password);
 
     const std::string sql = R"(
         INSERT INTO users
@@ -206,8 +205,7 @@ void AuthService::loginUser(const std::string& email,
         auto storedHash = row["password_hash"].as<std::string>();
 
         // Verify password hash.
-        auto inputHash = drogon::utils::getMd5(password);
-        if (inputHash != storedHash) {
+        if (!::utils::verifyPassword(password, storedHash)) {
             onError(k401Unauthorized, "Invalid email or password");
             return;
         }
@@ -416,7 +414,7 @@ void AuthService::resetPassword(const std::string& token,
         return;
     }
 
-    auto hashed = drogon::utils::getMd5(newPassword);
+    auto hashed = ::utils::hashPassword(newPassword);
     auto dbClient = db();
 
     const std::string sql = R"(

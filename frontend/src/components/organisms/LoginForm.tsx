@@ -1,16 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import MuiLink from '@mui/material/Link';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { Button } from '../atoms';
-import { useAuth, useFormValidation } from '@/hooks';
 import { LoginFormFields } from './LoginFormFields';
-import { LOGIN_RULES } from './loginRules';
+import { useLoginForm } from '@/hooks/useLoginForm';
 
 /** Props for the LoginForm organism. */
 export interface LoginFormProps {
@@ -26,22 +26,15 @@ export interface LoginFormProps {
 export const LoginForm: React.FC<LoginFormProps> = ({
   testId = 'login-form',
 }) => {
-  const [email, setEmail] = useState('');
-  const [pw, setPw] = useState('');
-  const { login, isLoading } = useAuth();
-  const { validate, errors } = useFormValidation(LOGIN_RULES);
-
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const ok = validate('email', email) && validate('password', pw);
-    if (ok) await login({ email, password: pw });
-  };
+  const t = useTranslations('auth');
+  const { email, setEmail, pw, setPw, isLoading, errors, submit } =
+    useLoginForm();
 
   return (
     <Card data-testid={testId} sx={{ maxWidth: 420, mx: 'auto', mt: 4 }}>
       <CardContent>
         <Typography variant="h5" id="login-heading" gutterBottom>
-          Sign In
+          {t('login')}
         </Typography>
         <Box
           component="form"
@@ -67,7 +60,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
             disabled={isLoading}
             testId="login-submit"
           >
-            {isLoading ? 'Signing in...' : 'Sign In'}
+            {isLoading ? t('signingIn') : t('login')}
           </Button>
           <Box
             sx={{
@@ -81,7 +74,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
               href="/forgot-password"
               variant="body2"
             >
-              Forgot password?
+              {t('forgotPassword')}
             </MuiLink>
             <MuiLink
               component={Link}
@@ -89,7 +82,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
               href="/register"
               variant="body2"
             >
-              Register
+              {t('register')}
             </MuiLink>
           </Box>
         </Box>
@@ -97,3 +90,5 @@ export const LoginForm: React.FC<LoginFormProps> = ({
     </Card>
   );
 };
+
+export default LoginForm;

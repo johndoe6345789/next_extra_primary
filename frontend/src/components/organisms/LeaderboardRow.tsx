@@ -36,3 +36,5 @@ export const LeaderboardRow: React.FC<LeaderboardRowProps> = ({ entry: e }) => (
     <TableCell>{e.level}</TableCell>
   </TableRow>
 );
+
+export default LeaderboardRow;
