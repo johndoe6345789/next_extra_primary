@@ -14,6 +14,14 @@
 ARG DEPS_IMAGE=debian:sid
 FROM ${DEPS_IMAGE} AS builder
 
+# Ensure full Perl is present for source builds (e.g. OpenSSL Configure).
+# Kept separate from the Conan guard so pre-baked DEPS_IMAGE variants
+# that already ship Conan still get this prerequisite.
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        perl perl-modules && \
+    rm -rf /var/lib/apt/lists/*
+
 # Install build tools if not already in DEPS_IMAGE.
 RUN command -v conan >/dev/null 2>&1 || { \
     apt-get update && \
