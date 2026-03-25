@@ -47,7 +47,7 @@ void MigrationApplier::applyAll(const std::string& migrationsDir,
         auto trans = MigrationStateStore::db()->newTransaction();
         const std::string ins =
             "INSERT INTO schema_migrations(filename) VALUES ($1)";
-        *trans << upSql >> [trans, fn, idx, done, onSuccess, onError,
+        *trans << upSql >> [trans, fn, ins, idx, done, onSuccess, onError,
                             applyNext](const Result&) {
             *trans << ins << fn >> [fn, idx, done, onSuccess, onError,
                                     applyNext](const Result&) {

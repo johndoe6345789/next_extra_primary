@@ -30,8 +30,8 @@ class MigrationFileUtils
      * @param dir Filesystem path to the migrations directory.
      * @return Sorted list of filenames (basename only).
      */
-    [[nodiscard]] static auto discoverFiles(const std::string& dir)
-        -> std::vector<std::string>;
+    [[nodiscard]] static auto
+    discoverFiles(const std::string& dir) -> std::vector<std::string>;
 
     /**
      * @brief Read the entire contents of a file.
@@ -62,8 +62,8 @@ class MigrationFileUtils
      * @param sql Raw file contents.
      * @return SQL to run on rollback, or empty.
      */
-    [[nodiscard]] static auto extractDown(const std::string& sql)
-        -> std::string;
+    [[nodiscard]] static auto
+    extractDown(const std::string& sql) -> std::string;
 };
 
 } // namespace services
