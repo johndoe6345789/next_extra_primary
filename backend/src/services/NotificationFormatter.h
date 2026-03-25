@@ -5,6 +5,7 @@
  */
 
 #include <drogon/orm/Result.h>
+#include <drogon/orm/Row.h>
 #include <nlohmann/json.hpp>
 
 namespace services
