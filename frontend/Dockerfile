@@ -1,75 +1,34 @@
 # Multi-arch Dockerfile for the Next.js frontend.
 # Platforms: amd64, arm64, riscv64, ppc64le
 #
-# On exotic arches Turbopack is unavailable (Next.js has no
-# native binding loader for riscv64/ppc64le), so we fall back
-# to Webpack with WASM SWC bindings.
-# Requires: --build-context manager=./tools/manager
+# Build always runs on amd64 (native SWC + Turbopack).
+# Only the runner stage uses the target platform's Node.js,
+# since `next build` output is plain JavaScript.
 
-ARG DEPS_IMAGE=debian:sid
-
-# -- Manager tool (patches node_modules on exotic arches) ----
-FROM ${DEPS_IMAGE} AS manager-build
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        g++ make curl ca-certificates && \
-    rm -rf /var/lib/apt/lists/*
-COPY --from=manager . /build/
-WORKDIR /build
-RUN make clean && make
-
-# -- Stage 1: deps ------------------------------------------
-FROM ${DEPS_IMAGE} AS deps
-RUN command -v node >/dev/null 2>&1 || { \
-    apt-get update && \
-    apt-get install -y --no-install-recommends \
-        nodejs npm ca-certificates \
-        curl python3 make gcc g++ && \
-    rm -rf /var/lib/apt/lists/* && \
-    npm install -g n && \
-    case "$(uname -m)" in \
-        x86_64|aarch64) n 22 ;; \
-        *) cp /usr/bin/node /usr/local/bin/node ;; \
-    esac && \
-    npm install -g npm@latest && hash -r; }
-
+# -- Stage 1: deps (amd64) ----------------------------------
+FROM --platform=linux/amd64 node:22-slim AS deps
 WORKDIR /app
 COPY package.json package-lock.json* ./
-RUN case "$(uname -m)" in \
-        riscv64|ppc64le) \
-            npm ci --ignore-scripts || npm ci ;; \
-        *) npm ci ;; \
-    esac
+RUN npm ci
 
-# Exotic-arch fixups: stub @parcel/watcher, patch @swc/core.
-COPY --from=manager-build /build/manager /usr/local/bin/
-RUN case "$(uname -m)" in \
-        riscv64|ppc64le) \
-            manager setup-exotic-arch ;; \
-    esac
-
-# -- Stage 2: build -----------------------------------------
+# -- Stage 2: build (amd64) ---------------------------------
 FROM deps AS build
 WORKDIR /app
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN case "$(uname -m)" in \
-        riscv64|ppc64le) npx next build --webpack ;; \
-        *) npm run build ;; \
-    esac
+RUN npm run build
 
-# -- Stage 3: runner ----------------------------------------
+# -- Stage 3: runner (target arch) --------------------------
 FROM debian:sid-slim AS runner
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        ca-certificates curl && \
+        nodejs ca-certificates curl && \
     rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN groupadd --system --gid 1001 nodejs && \
     useradd --system --uid 1001 --gid nodejs nextjs
-COPY --from=build /usr/local/bin/node /usr/local/bin/
 COPY --from=build /app/public ./public
 COPY --from=build \
     --chown=nextjs:nodejs \

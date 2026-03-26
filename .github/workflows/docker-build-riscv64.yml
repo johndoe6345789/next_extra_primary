@@ -34,8 +34,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./frontend
-          build-contexts: |
-            manager=./tools/manager
           platforms: linux/riscv64
           push: ${{ github.event_name == 'push' }}
           tags: >-
