@@ -55,3 +55,5 @@ export const LoginFormFields: React.FC<LoginFieldsProps> = ({
     />
   </>
 );
+
+export default LoginFormFields;

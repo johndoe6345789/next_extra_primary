@@ -101,7 +101,7 @@ class EmailService
     std::string smtpFrom_;
 
     /// Cached email templates loaded from
-    /// constants/email_templates.json.
+    /// constants/email-templates.json.
     json templates_;
 };
 

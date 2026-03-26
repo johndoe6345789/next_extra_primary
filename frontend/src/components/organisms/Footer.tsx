@@ -6,12 +6,7 @@ import Typography from '@mui/material/Typography';
 import MuiLink from '@mui/material/Link';
 import Container from '@mui/material/Container';
 import Link from 'next/link';
-
-const LINKS = [
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/contact' },
-  { label: 'Privacy', href: '/privacy' },
-];
+import { useTranslations } from 'next-intl';
 
 /** Props for the Footer organism. */
 export interface FooterProps {
@@ -24,58 +19,66 @@ export interface FooterProps {
  *
  * @param props - Component props.
  */
-export const Footer: React.FC<FooterProps> = ({ testId = 'footer' }) => (
-  <Box
-    component="footer"
-    role="contentinfo"
-    data-testid={testId}
-    sx={{
-      py: 3,
-      px: 2,
-      mt: 'auto',
-      borderTop: 1,
-      borderColor: 'divider',
-    }}
-  >
-    <Container
-      maxWidth="lg"
+export const Footer: React.FC<FooterProps> = ({ testId = 'footer' }) => {
+  const tCommon = useTranslations('common');
+  const tNav = useTranslations('nav');
+  const links = [
+    { labelKey: 'about' as const, href: '/about' },
+    { labelKey: 'contact' as const, href: '/contact' },
+  ];
+  return (
+    <Box
+      component="footer"
+      role="contentinfo"
+      data-testid={testId}
       sx={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        gap: 2,
+        py: 3,
+        px: 2,
+        mt: 'auto',
+        borderTop: 1,
+        borderColor: 'divider',
       }}
     >
-      <Typography
-        variant="body2"
-        color="text.secondary"
-        data-testid="footer-copyright"
+      <Container
+        maxWidth="lg"
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: 2,
+        }}
       >
-        &copy; {new Date().getFullYear()} NextExtra
-      </Typography>
-      <Box
-        component="nav"
-        aria-label="Footer navigation"
-        sx={{ display: 'flex', gap: 2 }}
-      >
-        {LINKS.map((l) => (
-          <MuiLink
-            key={l.href}
-            component={Link}
-            href={l.href}
-            color="text.secondary"
-            underline="hover"
-            variant="body2"
-            tabIndex={0}
-            data-testid={`footer-${l.label.toLowerCase()}`}
-          >
-            {l.label}
-          </MuiLink>
-        ))}
-      </Box>
-    </Container>
-  </Box>
-);
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          data-testid="footer-copyright"
+        >
+          &copy; {new Date().getFullYear()} {tCommon('appName')}
+        </Typography>
+        <Box
+          component="nav"
+          aria-label="Footer navigation"
+          sx={{ display: 'flex', gap: 2 }}
+        >
+          {links.map((l) => (
+            <MuiLink
+              key={l.href}
+              component={Link}
+              href={l.href}
+              color="text.secondary"
+              underline="hover"
+              variant="body2"
+              tabIndex={0}
+              data-testid={`footer-${l.labelKey}`}
+            >
+              {tNav(l.labelKey)}
+            </MuiLink>
+          ))}
+        </Box>
+      </Container>
+    </Box>
+  );
+};
 
 export default Footer;

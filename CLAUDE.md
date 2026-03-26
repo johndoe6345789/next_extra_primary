@@ -194,6 +194,8 @@ cd frontend && npm run dev
 ## Do Not
 
 - Create Python files (`.py`) anywhere in the project.
+  (Exception: `backend/conanfile.py` is required by Conan 2 and is
+  the only permitted `.py` file.)
 - Create shell scripts (`.sh`, `.bash`) anywhere in the project.
 - Create any file exceeding 100 lines of code.
 - Use `any` type in TypeScript.

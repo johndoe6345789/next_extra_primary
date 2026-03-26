@@ -33,3 +33,5 @@ export const PeriodFilter: React.FC<PeriodFilterProps> = ({
     </ToggleButtonGroup>
   );
 };
+
+export default PeriodFilter;

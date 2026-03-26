@@ -1,7 +1,7 @@
 # Multi-arch Dockerfile for the Next.js frontend.
 # Uses debian:sid for riscv64 + ppc64le support.
-# Node 22 installed via `n` (compiles from source
-# on exotic arches, prebuilt binary on amd64/arm64).
+# Node 22 installed via `n` (prebuilt binary on amd64/arm64;
+# system apt nodejs used on exotic arches).
 #
 # Platforms: amd64, arm64, riscv64, ppc64le
 
@@ -19,14 +19,17 @@ RUN command -v node >/dev/null 2>&1 || { \
     npm install -g n && \
     case "$(uname -m)" in \
         x86_64|aarch64) n 22 ;; \
-        *) n --build 22 ;; \
+        *) cp /usr/bin/node /usr/local/bin/node ;; \
     esac && \
     npm install -g npm@latest && hash -r; }
 
 WORKDIR /app
 COPY package.json package-lock.json* ./
-RUN npm ci && \
-    npm rebuild @parcel/watcher --build-from-source
+RUN case "$(uname -m)" in \
+        riscv64|ppc64le) \
+            npm_config_build_from_source=@parcel/watcher npm ci ;; \
+        *) npm ci ;; \
+    esac
 
 # Stage 2: Build the application
 FROM deps AS build

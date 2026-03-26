@@ -4,14 +4,13 @@
  */
 
 #include "AuthController.h"
+#include "../services/AuthService.h"
 #include "../utils/JsonResponse.h"
 #include "../utils/JwtUtil.h"
 #include "../utils/PasswordHash.h"
 #include "../utils/Validators.h"
 
-#include <mutex>
 #include <nlohmann/json.hpp>
-#include <set>
 #include <string>
 
 using json = nlohmann::json;
@@ -19,13 +18,6 @@ using Cb = std::function<void(const drogon::HttpResponsePtr&)>;
 
 namespace controllers
 {
-
-namespace
-{
-// In-memory blocklist (replace with Redis in production).
-std::mutex gBlocklistMutex;
-std::set<std::string> gBlockedTokens;
-} // namespace
 
 // ----------------------------------------------------------
 void AuthController::registerUser(const drogon::HttpRequestPtr& req, Cb&& cb)
@@ -79,32 +71,49 @@ void AuthController::login(const drogon::HttpRequestPtr& req, Cb&& cb)
         return;
     }
 
-    // TODO: look up user from DB and verify password.
-    auto userId = std::string{"user-uuid"};
-    auto role = std::string{"user"};
+    auto email = body["email"].get<std::string>();
+    auto password = body["password"].get<std::string>();
 
-    auto access = ::utils::generateAccessToken(userId, role);
-    auto refresh = ::utils::generateRefreshToken(userId);
-
-    json result = {
-        {"access_token", access},
-        {"refresh_token", refresh},
-        {"user", {{"id", userId}, {"email", body["email"]}, {"role", role}}}};
-    cb(::utils::jsonOk(result));
+    services::AuthService auth;
+    auth.loginUser(
+        email, password,
+        [cb](const services::json& payload) { cb(::utils::jsonOk(payload)); },
+        [cb](drogon::HttpStatusCode code, const std::string& msg) {
+            cb(::utils::jsonError(code, msg));
+        });
 }
 
 // ----------------------------------------------------------
+/**
+ * @brief Invalidate the caller's access token.
+ *
+ * Extracts the Bearer token from the Authorization header
+ * and delegates to AuthService::logoutUser so the token JTI
+ * is persisted to the database blocklist.  JwtAuthFilter
+ * queries that same table on every subsequent request.
+ *
+ * @param req HTTP request containing Authorization header.
+ * @param cb  Response callback.
+ */
 void AuthController::logout(const drogon::HttpRequestPtr& req, Cb&& cb)
 {
-    auto auth = req->getHeader("Authorization");
-    auto token = auth.substr(7); // Strip "Bearer ".
-
-    {
-        std::lock_guard lock{gBlocklistMutex};
-        gBlockedTokens.insert(token);
+    auto authHeader = req->getHeader("Authorization");
+    if (authHeader.size() <= 7) {
+        cb(::utils::jsonError(drogon::k400BadRequest,
+                              "Missing or malformed token"));
+        return;
     }
+    auto token = authHeader.substr(7); // Strip "Bearer ".
 
-    cb(::utils::jsonOk({{"message", "Logged out"}}));
+    services::AuthService auth;
+    auth.logoutUser(
+        token,
+        [cb](const services::json&) {
+            cb(::utils::jsonOk({{"message", "Logged out"}}));
+        },
+        [cb](drogon::HttpStatusCode code, const std::string& msg) {
+            cb(::utils::jsonError(code, msg));
+        });
 }
 
 // ----------------------------------------------------------

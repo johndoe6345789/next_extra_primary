@@ -76,3 +76,5 @@ export const RegisterFormFields: React.FC<RegisterFieldsProps> = ({
     </>
   );
 };
+
+export default RegisterFormFields;

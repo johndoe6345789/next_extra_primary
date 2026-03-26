@@ -48,18 +48,18 @@ EmailService::EmailService()
 void EmailService::loadTemplates()
 {
     try {
-        std::ifstream ifs("src/constants/email_templates.json");
+        std::ifstream ifs("src/constants/email-templates.json");
         if (!ifs.is_open()) {
             // Try an alternate relative path when the
             // working directory is the project root.
             ifs.open("backend/src/constants/"
-                     "email_templates.json");
+                     "email-templates.json");
         }
         if (ifs.is_open()) {
             templates_ = json::parse(ifs);
             spdlog::info("Loaded {} email template(s)", templates_.size());
         } else {
-            spdlog::warn("email_templates.json not found; "
+            spdlog::warn("email-templates.json not found; "
                          "templates will be empty");
         }
     } catch (const std::exception& e) {
@@ -139,14 +139,14 @@ void EmailService::sendWelcomeEmail(const std::string& email,
             auto htmlTmpl = tmpl.value("html", "");
 
             auto now = std::chrono::system_clock::now();
-            auto tt = std::chrono::system_clock::to_time_t(now);
-            std::tm tm{};
-            gmtime_r(&tt, &tm);
+            auto dp = std::chrono::floor<std::chrono::days>(now);
+            std::chrono::year_month_day ymd{dp};
+            int year = static_cast<int>(ymd.year());
 
             json vars = {{"username", username},
                          {"confirm_url", fmt::format("{}/auth/confirm?token={}",
                                                      baseUrl_, confirmToken)},
-                         {"year", 1900 + tm.tm_year}};
+                         {"year", year}};
 
             auto subject = renderTemplate(subjectTmpl, vars);
             auto html = renderTemplate(htmlTmpl, vars);
@@ -169,14 +169,14 @@ void EmailService::sendPasswordResetEmail(const std::string& email,
             auto htmlTmpl = tmpl.value("html", "");
 
             auto now = std::chrono::system_clock::now();
-            auto tt = std::chrono::system_clock::to_time_t(now);
-            std::tm tm{};
-            gmtime_r(&tt, &tm);
+            auto dp = std::chrono::floor<std::chrono::days>(now);
+            std::chrono::year_month_day ymd{dp};
+            int year = static_cast<int>(ymd.year());
 
             json vars = {{"reset_url", fmt::format("{}/auth/reset-password"
                                                    "?token={}",
                                                    baseUrl_, resetToken)},
-                         {"year", 1900 + tm.tm_year}};
+                         {"year", year}};
 
             auto subject = renderTemplate(subjectTmpl, vars);
             auto html = renderTemplate(htmlTmpl, vars);
@@ -198,14 +198,14 @@ void EmailService::sendBadgeEarnedEmail(const std::string& email,
             auto htmlTmpl = tmpl.value("html", "");
 
             auto now = std::chrono::system_clock::now();
-            auto tt = std::chrono::system_clock::to_time_t(now);
-            std::tm tm{};
-            gmtime_r(&tt, &tm);
+            auto dp = std::chrono::floor<std::chrono::days>(now);
+            std::chrono::year_month_day ymd{dp};
+            int year = static_cast<int>(ymd.year());
 
             json vars = {{"badge_name", badgeName},
                          {"badge_description", ""},
                          {"profile_url", fmt::format("{}/profile", baseUrl_)},
-                         {"year", 1900 + tm.tm_year}};
+                         {"year", year}};
 
             auto subject = renderTemplate(subjectTmpl, vars);
             auto html = renderTemplate(htmlTmpl, vars);

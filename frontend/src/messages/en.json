@@ -17,8 +17,8 @@
     "retry": "Retry"
   },
   "auth": {
-    "login": "Log in",
-    "register": "Create account",
+    "login": "Sign In",
+    "register": "Create Account",
     "logout": "Log out",
     "email": "Email address",
     "password": "Password",
@@ -27,14 +27,16 @@
     "confirmPassword": "Confirm password",
     "rememberMe": "Remember me",
     "noAccount": "Don't have an account?",
-    "hasAccount": "Already have an account?",
+    "hasAccount": "Already have an account? Login",
     "loginSuccess": "Logged in successfully",
     "logoutSuccess": "Logged out successfully",
     "registerSuccess": "Account created successfully",
     "invalidCredentials": "Invalid email or password",
     "passwordMismatch": "Passwords do not match",
     "emailRequired": "Email is required",
-    "passwordRequired": "Password is required"
+    "passwordRequired": "Password is required",
+    "signingIn": "Signing in...",
+    "creating": "Creating..."
   },
   "nav": {
     "home": "Home",
@@ -77,6 +79,32 @@
     "switchProvider": "Switch provider",
     "noMessages": "No messages yet",
     "typing": "Typing..."
+  },
+  "features": {
+    "aiChat": {
+      "title": "AI Chat",
+      "desc": "Chat with AI models."
+    },
+    "gamification": {
+      "title": "Gamification",
+      "desc": "Badges and leaderboards."
+    },
+    "alerts": {
+      "title": "Real-time Alerts",
+      "desc": "Instant notifications."
+    },
+    "darkMode": {
+      "title": "Dark Mode",
+      "desc": "Light and dark themes."
+    },
+    "multiLang": {
+      "title": "Multi-language",
+      "desc": "Multiple languages supported."
+    },
+    "secureAuth": {
+      "title": "Secure Auth",
+      "desc": "JWT with refresh tokens."
+    }
   },
   "a11y": {
     "skipToContent": "Skip to main content",

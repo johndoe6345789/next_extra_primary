@@ -7,6 +7,7 @@
  * "rate_limit_rpm" (requests per minute). Default: 60.
  */
 
+#include <atomic>
 #include <chrono>
 #include <drogon/HttpFilter.h>
 #include <mutex>
@@ -38,10 +39,29 @@ class RateLimitFilter : public drogon::HttpFilter<RateLimitFilter>
 
     struct Bucket {
         std::vector<TimePoint> timestamps;
+        TimePoint lastSeen;
     };
+
+    /// Sweep stale buckets every N requests.
+    static constexpr int SWEEP_INTERVAL = 1000;
+
+    /// Evict buckets idle longer than this duration.
+    static constexpr std::chrono::minutes BUCKET_TTL{10};
+
+    /// Hard cap on number of tracked IPs; oldest evicted when exceeded.
+    static constexpr std::size_t MAX_BUCKETS = 100'000;
 
     std::mutex mutex_;
     std::unordered_map<std::string, Bucket> buckets_;
+    std::atomic<int> requestCount_{0};
+
+    /**
+     * @brief Erase buckets not seen within BUCKET_TTL.
+     * @param now  Current time snapshot.
+     *
+     * Must be called with @c mutex_ held.
+     */
+    void sweepStaleBuckets(TimePoint now);
 
     /**
      * @brief Read configured requests-per-minute limit.

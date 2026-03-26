@@ -23,6 +23,9 @@ class NextraBackend(ConanFile):
         # Pin boost to resolve conflict between
         # drogon (1.83) and mailio (1.86).
         self.requires("boost/1.86.0", force=True)
+        # Pin openssl to 3.3.x LTS; openssl/3.6.1 (pulled in
+        # transitively via drogon) fails to build on linux/arm64.
+        self.requires("openssl/3.3.2", override=True)
 
     def build_requirements(self):
         """Declare test-only dependencies."""
