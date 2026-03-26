@@ -27,9 +27,22 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN case "$(uname -m)" in \
         riscv64|ppc64le) \
-            npm_config_build_from_source=@parcel/watcher npm ci ;; \
+            npm ci --ignore-scripts || npm ci ;; \
         *) npm ci ;; \
     esac
+
+# @parcel/watcher has no prebuilt binary for riscv64/ppc64le
+# and native compilation under QEMU is unreliable. Provide a
+# no-op stub so `next build` can load config without crashing.
+# File watching is not needed during production builds.
+RUN if [ ! -f node_modules/@parcel/watcher/index.js ] || \
+       ! node -e "require('@parcel/watcher')" 2>/dev/null; then \
+        mkdir -p node_modules/@parcel/watcher && \
+        printf '{"name":"@parcel/watcher","version":"0.0.0","main":"index.js"}\n' \
+            > node_modules/@parcel/watcher/package.json && \
+        printf 'exports.subscribe=async()=>({unsubscribe:async()=>{}});\nexports.getEventsSince=async()=>[];\n' \
+            > node_modules/@parcel/watcher/index.js; \
+    fi
 
 # Stage 2: Build the application
 FROM deps AS build
