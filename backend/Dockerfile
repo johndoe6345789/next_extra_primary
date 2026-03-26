@@ -1,28 +1,23 @@
-##
-## Dockerfile -- multi-stage build for nextra-api
-##
-## Uses debian:sid for multi-arch support
-## (amd64, arm64, riscv64, ppc64le).
-##
-## Stage 1: debian:sid builder with gcc-13 + Conan
-## Stage 2: debian:sid-slim runtime with binary only
-##
-
-# ==========================================================
-# Stage 1 -- build
-# ==========================================================
+# Multi-arch Dockerfile for nextra-api (C++ backend).
+# Requires: --build-context manager=./tools/manager
 ARG DEPS_IMAGE=debian:sid
-FROM ${DEPS_IMAGE} AS builder
 
-# Ensure full Perl is present for source builds (e.g. OpenSSL Configure).
-# Kept separate from the Conan guard so pre-baked DEPS_IMAGE variants
-# that already ship Conan still get this prerequisite.
+# -- Stage 0: manager tool ----------------------------------
+FROM ${DEPS_IMAGE} AS manager-build
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        g++ make curl ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+COPY --from=manager . /build/
+WORKDIR /build
+RUN make
+
+# -- Stage 1: build -----------------------------------------
+FROM ${DEPS_IMAGE} AS builder
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         perl perl-modules && \
     rm -rf /var/lib/apt/lists/*
-
-# Install build tools if not already in DEPS_IMAGE.
 RUN command -v conan >/dev/null 2>&1 || { \
     apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -41,31 +36,22 @@ RUN command -v conan >/dev/null 2>&1 || { \
         conan==2.* && \
     conan profile detect --force; }
 
+COPY --from=manager-build /build/manager /usr/local/bin/
+
 WORKDIR /build
 
-# -- Dependency layer (instant if Conan cache warm) --------
-# On exotic arches Conan has no cmake binary. First pass
-# resolves the dep graph and captures the needed cmake
-# version from the error; second pass succeeds with the
-# exact version pinned in platform_tool_requires.
+# -- Dependency layer ----------------------------------------
 COPY conanfile.py .
-RUN conan_args="--build=missing -s build_type=Release \
-        -s compiler.cppstd=20" && \
-    conan install . $conan_args 2>&1 | tee /tmp/c.log || { \
-        v=$(sed -n \
-            's|.*cmake/\([0-9][0-9.]*\).*[Ii]nvalid.*|\1|p' \
-            /tmp/c.log | head -1) && \
-        [ -n "$v" ] && \
-        printf '\n[platform_tool_requires]\ncmake/%s\n' \
-            "$v" >> ~/.conan2/profiles/default && \
-        conan install . $conan_args; \
-    }
+RUN manager conan-install \
+        --build=missing \
+        -s build_type=Release \
+        -s compiler.cppstd=20
 
-# -- Source layer -------------------------------------------
+# -- Source layer --------------------------------------------
 COPY CMakeLists.txt .
 COPY src/ src/
 
-# -- Build --------------------------------------------------
+# -- Build ---------------------------------------------------
 RUN cmake -S . -B build/Release \
         -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake \
         -DCMAKE_BUILD_TYPE=Release \
@@ -73,23 +59,15 @@ RUN cmake -S . -B build/Release \
         -DCMAKE_CXX_COMPILER=g++ && \
     cmake --build build/Release --parallel
 
-# ==========================================================
-# Stage 2 -- runtime
-# ==========================================================
+# -- Stage 2: runtime ----------------------------------------
 FROM debian:sid-slim AS runtime
-
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        libpq5 \
-        libssl3 \
-        ca-certificates && \
+        libpq5 libssl3 ca-certificates && \
     rm -rf /var/lib/apt/lists/*
-
 RUN groupadd --system nextra && \
     useradd  --system --gid nextra --create-home nextra
-
 WORKDIR /app
-
 COPY --from=builder \
     /build/build/Release/nextra-api ./nextra-api
 COPY config/     ./config/

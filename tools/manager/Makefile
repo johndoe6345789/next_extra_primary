@@ -14,6 +14,7 @@ CXXFLAGS := -std=c++20 -O2 -Wall -Wextra -I.
 
 SRCS := main.cpp \
         commands/BuildCmd.cpp \
+        commands/ConanInstallCmd.cpp \
         commands/DockerCmd.cpp \
         commands/GenerateCmd.cpp \
         commands/LintCmd.cpp \

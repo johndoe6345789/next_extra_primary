@@ -15,6 +15,7 @@
 #include <string>
 
 #include "commands/BuildCmd.h"
+#include "commands/ConanInstallCmd.h"
 #include "commands/DockerCmd.h"
 #include "commands/GenerateCmd.h"
 #include "commands/LintCmd.h"
@@ -225,6 +226,23 @@ int main(int argc, char** argv)
             swc_dir, nm_dir);
         if (rc != 0) {
             fmt::print("[manager] setup-exotic-arch "
+                       "failed ({})\n",
+                       rc);
+        }
+    });
+
+    // ---- conan-install ----
+    auto* conan = app.add_subcommand(
+        "conan-install",
+        "Run conan install with exotic-arch cmake fix");
+    std::vector<std::string> conan_args;
+    conan->add_option("args", conan_args,
+                      "Extra args for conan install");
+    conan->callback([&conan_args]() {
+        int rc =
+            manager::ConanInstallCmd::execute(conan_args);
+        if (rc != 0) {
+            fmt::print("[manager] conan-install "
                        "failed ({})\n",
                        rc);
         }

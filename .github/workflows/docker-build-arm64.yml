@@ -68,6 +68,8 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./backend
+          build-contexts: |
+            manager=./tools/manager
           platforms: linux/arm64
           push: ${{ github.event_name == 'push' }}
           tags: >-
