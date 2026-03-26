@@ -139,6 +139,7 @@ int main(int argc, char** argv)
 {
     CLI::App app{"manager: nextra-api project management tool"};
     app.require_subcommand(1);
+    int exit_code = EXIT_SUCCESS;
 
     // ---- build ----
     auto* build = app.add_subcommand("build", "Build the project");
@@ -146,10 +147,11 @@ int main(int argc, char** argv)
     bool debug = false;
     build->add_flag("--release", release, "Release build");
     build->add_flag("--debug", debug, "Debug build");
-    build->callback([&release]() {
+    build->callback([&release, &exit_code]() {
         int rc = manager::BuildCmd::execute(release);
         if (rc != 0) {
             fmt::print("[manager] Build failed ({})\n", rc);
+            exit_code = EXIT_FAILURE;
         }
     });
 
@@ -221,13 +223,14 @@ int main(int argc, char** argv)
                        "Directory with cached .node files");
     exotic->add_option("--node-modules", nm_dir,
                        "Path to node_modules");
-    exotic->callback([&swc_dir, &nm_dir]() {
+    exotic->callback([&swc_dir, &nm_dir, &exit_code]() {
         int rc = manager::SetupExoticArchCmd::execute(
             swc_dir, nm_dir);
         if (rc != 0) {
             fmt::print("[manager] setup-exotic-arch "
                        "failed ({})\n",
                        rc);
+            exit_code = EXIT_FAILURE;
         }
     });
 
@@ -236,13 +239,14 @@ int main(int argc, char** argv)
         "conan-install",
         "Run conan install with exotic-arch cmake fix");
     conan->allow_extras();
-    conan->callback([&conan]() {
+    conan->callback([&conan, &exit_code]() {
         int rc = manager::ConanInstallCmd::execute(
             conan->remaining());
         if (rc != 0) {
             fmt::print("[manager] conan-install "
                        "failed ({})\n",
                        rc);
+            exit_code = EXIT_FAILURE;
         }
     });
 
@@ -253,5 +257,5 @@ int main(int argc, char** argv)
     register_seed(app);
 
     CLI11_PARSE(app, argc, argv);
-    return EXIT_SUCCESS;
+    return exit_code;
 }

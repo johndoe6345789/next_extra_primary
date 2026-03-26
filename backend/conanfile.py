@@ -1,5 +1,7 @@
 """Conan 2 recipe for the Nextra C++ backend."""
 
+import os
+
 from conan import ConanFile
 from conan.tools.cmake import cmake_layout
 
@@ -29,7 +31,8 @@ class NextraBackend(ConanFile):
 
     def build_requirements(self):
         """Declare test-only dependencies."""
-        self.test_requires("gtest/1.14.0")
+        if not os.environ.get("CONAN_SKIP_TEST"):
+            self.test_requires("gtest/1.14.0")
 
     def layout(self):
         """Use standard CMake layout."""

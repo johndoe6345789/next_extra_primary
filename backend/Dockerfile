@@ -42,6 +42,7 @@ WORKDIR /build
 
 # -- Dependency layer ----------------------------------------
 COPY conanfile.py .
+ENV CONAN_SKIP_TEST=1
 RUN manager conan-install \
         --build=missing \
         -s build_type=Release \
