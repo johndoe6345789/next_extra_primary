@@ -39,16 +39,18 @@ RUN command -v conan >/dev/null 2>&1 || { \
     rm -rf /var/lib/apt/lists/* && \
     python3 -m pip install --break-system-packages \
         conan==2.* && \
-    conan profile detect --force; }
+    conan profile detect --force && \
+    sed -i '/^\[platform_tool_requires\]/,/^\[/{/cmake\/\[/d}' \
+        ~/.conan2/profiles/default; }
 
 # On exotic arches, Conan has no cmake binary; use system cmake.
+# Pin to the exact detected version -- Conan 2 rejects ranges here.
 RUN arch="$(uname -m)" && \
     case "$arch" in \
         x86_64|aarch64) ;; \
-        *) mkdir -p ~/.conan2/profiles && \
-           conan profile detect --force 2>/dev/null || true && \
-           printf '\n[platform_tool_requires]\ncmake/[>=3.15 <4]\n' \
-               >> ~/.conan2/profiles/default ;; \
+        *) cmake_ver=$(cmake --version | awk 'NR==1{print $3}') && \
+           printf '\n[platform_tool_requires]\ncmake/%s\n' \
+               "$cmake_ver" >> ~/.conan2/profiles/default ;; \
     esac
 
 WORKDIR /build
