@@ -18,6 +18,7 @@
 #include "commands/DockerCmd.h"
 #include "commands/GenerateCmd.h"
 #include "commands/LintCmd.h"
+#include "commands/SetupExoticArchCmd.h"
 #include "commands/TestCmd.h"
 
 /**
@@ -206,6 +207,26 @@ int main(int argc, char** argv)
         int rc = manager::GenerateCmd::execute(gen_target);
         if (rc != 0) {
             fmt::print("[manager] Generate failed ({})\n", rc);
+        }
+    });
+
+    // ---- setup-exotic-arch ----
+    auto* exotic = app.add_subcommand(
+        "setup-exotic-arch",
+        "Patch node_modules for riscv64/ppc64le builds");
+    std::string swc_dir = "/tmp/swc";
+    std::string nm_dir = "node_modules";
+    exotic->add_option("--swc-dir", swc_dir,
+                       "Directory with cached .node files");
+    exotic->add_option("--node-modules", nm_dir,
+                       "Path to node_modules");
+    exotic->callback([&swc_dir, &nm_dir]() {
+        int rc = manager::SetupExoticArchCmd::execute(
+            swc_dir, nm_dir);
+        if (rc != 0) {
+            fmt::print("[manager] setup-exotic-arch "
+                       "failed ({})\n",
+                       rc);
         }
     });
 

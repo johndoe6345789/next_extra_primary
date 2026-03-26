@@ -41,24 +41,25 @@ RUN command -v conan >/dev/null 2>&1 || { \
         conan==2.* && \
     conan profile detect --force; }
 
-# On exotic arches, Conan has no cmake binary; tell it to
-# use system cmake by replacing the exact version pin with
-# a wildcard in the auto-detected profile.
-RUN arch="$(uname -m)" && \
-    case "$arch" in \
-        x86_64|aarch64) ;; \
-        *) sed -i 's|^cmake/.*|cmake/*|' \
-               ~/.conan2/profiles/default ;; \
-    esac
-
 WORKDIR /build
 
 # -- Dependency layer (instant if Conan cache warm) --------
+# On exotic arches Conan has no cmake binary. First pass
+# resolves the dep graph and captures the needed cmake
+# version from the error; second pass succeeds with the
+# exact version pinned in platform_tool_requires.
 COPY conanfile.py .
-RUN conan install . \
-    --build=missing \
-    -s build_type=Release \
-    -s compiler.cppstd=20
+RUN conan_args="--build=missing -s build_type=Release \
+        -s compiler.cppstd=20" && \
+    conan install . $conan_args 2>&1 | tee /tmp/c.log || { \
+        v=$(sed -n \
+            's|.*cmake/\([0-9][0-9.]*\).*[Ii]nvalid.*|\1|p' \
+            /tmp/c.log | head -1) && \
+        [ -n "$v" ] && \
+        printf '\n[platform_tool_requires]\ncmake/%s\n' \
+            "$v" >> ~/.conan2/profiles/default && \
+        conan install . $conan_args; \
+    }
 
 # -- Source layer -------------------------------------------
 COPY CMakeLists.txt .
@@ -67,7 +68,9 @@ COPY src/ src/
 # -- Build --------------------------------------------------
 RUN cmake -S . -B build/Release \
         -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake \
-        -DCMAKE_BUILD_TYPE=Release && \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_C_COMPILER=gcc \
+        -DCMAKE_CXX_COMPILER=g++ && \
     cmake --build build/Release --parallel
 
 # ==========================================================

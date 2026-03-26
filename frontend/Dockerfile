@@ -1,15 +1,30 @@
 # Multi-arch Dockerfile for the Next.js frontend.
-# Uses debian:sid for riscv64 + ppc64le support.
-# Node 22 installed via `n` (prebuilt binary on amd64/arm64;
-# system apt nodejs used on exotic arches).
-#
 # Platforms: amd64, arm64, riscv64, ppc64le
+#
+# On exotic arches, pass SWC_NATIVE_IMAGE pointing to a
+# GHCR cache image built by swc.Dockerfile so Turbopack
+# can run with native bindings.
+
+ARG DEPS_IMAGE=debian:sid
+ARG SWC_NATIVE_IMAGE=busybox
+FROM ${SWC_NATIVE_IMAGE} AS swc-native
+RUN mkdir -p /swc && touch /swc/.keep
+
+# Build the manager tool (exotic arches only; Docker
+# skips this stage on amd64/arm64 when it is unused).
+# Requires: --build-context manager=./tools/manager
+FROM ${DEPS_IMAGE} AS manager-build
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        g++ make curl ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+COPY --from=manager . /build/
+WORKDIR /build
+RUN make
 
 # Stage 1: Install dependencies
-ARG DEPS_IMAGE=debian:sid
 FROM ${DEPS_IMAGE} AS deps
 
-# Install Node if not already in DEPS_IMAGE.
 RUN command -v node >/dev/null 2>&1 || { \
     apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -31,22 +46,18 @@ RUN case "$(uname -m)" in \
         *) npm ci ;; \
     esac
 
-# @parcel/watcher has no prebuilt binary for riscv64/ppc64le
-# and native compilation under QEMU is unreliable. Provide a
-# no-op stub so `next build` can load config without crashing.
-# File watching is not needed during production builds.
-RUN if [ ! -f node_modules/@parcel/watcher/index.js ] || \
-       ! node -e "require('@parcel/watcher')" 2>/dev/null; then \
-        mkdir -p node_modules/@parcel/watcher && \
-        printf '{"name":"@parcel/watcher","version":"0.0.0","main":"index.js"}\n' \
-            > node_modules/@parcel/watcher/package.json && \
-        printf 'exports.subscribe=async()=>({unsubscribe:async()=>{}});\nexports.getEventsSince=async()=>[];\n' \
-            > node_modules/@parcel/watcher/index.js; \
-    fi
+# On exotic arches: install SWC native cache, stub
+# @parcel/watcher, patch @swc/core for WASM fallback.
+COPY --from=swc-native /swc/ /tmp/swc/
+COPY --from=manager-build /build/manager /usr/local/bin/
+RUN case "$(uname -m)" in \
+        riscv64|ppc64le) \
+            manager setup-exotic-arch \
+                --swc-dir /tmp/swc ;; \
+    esac
 
 # Stage 2: Build the application
 FROM deps AS build
-
 WORKDIR /app
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -67,9 +78,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN groupadd --system --gid 1001 nodejs && \
     useradd --system --uid 1001 --gid nodejs nextjs
 
-# Copy Node binary from build stage.
 COPY --from=build /usr/local/bin/node /usr/local/bin/
-
 COPY --from=build /app/public ./public
 COPY --from=build \
     --chown=nextjs:nodejs \
@@ -80,7 +89,6 @@ COPY --from=build \
 
 USER nextjs
 EXPOSE 3000
-
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 CMD ["node", "server.js"]
