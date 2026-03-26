@@ -16,7 +16,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 COPY --from=manager . /build/
 WORKDIR /build
-RUN make
+RUN make clean && make
 
 # -- Stage 1: deps ------------------------------------------
 FROM ${DEPS_IMAGE} AS deps
