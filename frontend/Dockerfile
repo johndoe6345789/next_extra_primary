@@ -6,10 +6,11 @@
 # since `next build` output is plain JavaScript.
 
 # -- Stage 1: deps (amd64) ----------------------------------
-FROM --platform=linux/amd64 node:22-slim AS deps
+ARG BUILD_PLATFORM=linux/amd64
+FROM --platform=${BUILD_PLATFORM} node:22-slim AS deps
 WORKDIR /app
 COPY package.json package-lock.json* ./
-RUN npm ci
+RUN npm ci || npm install
 
 # -- Stage 2: build (amd64) ---------------------------------
 FROM deps AS build
