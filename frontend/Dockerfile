@@ -25,7 +25,7 @@ RUN command -v node >/dev/null 2>&1 || { \
 
 WORKDIR /app
 COPY package.json package-lock.json* ./
-RUN npm ci
+RUN npm_config_build_from_source=1 npm ci
 
 # Stage 2: Build the application
 FROM deps AS build

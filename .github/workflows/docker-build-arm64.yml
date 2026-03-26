@@ -1,6 +1,8 @@
 # ============================================================
 # Docker Build — linux/arm64
-# Builds frontend and backend for arm64 via QEMU.
+# Builds frontend and backend for arm64 on a native arm64
+# runner (no QEMU needed). Frontend and backend run in
+# parallel to keep total wall-clock time low.
 # Pushes intermediate tags consumed by docker-merge.yml.
 # ============================================================
 name: Docker Build linux/arm64
@@ -15,9 +17,9 @@ permissions:
   packages: write
 
 jobs:
-  build:
-    name: Build linux/arm64
-    runs-on: ubuntu-latest
+  build-frontend:
+    name: Build frontend linux/arm64
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,9 +30,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -45,6 +44,23 @@ jobs:
             ghcr.io/${{ github.repository }}/frontend:build-${{ github.sha }}-arm64
           cache-from: type=gha,scope=frontend-arm64
           cache-to: type=gha,mode=max,scope=frontend-arm64
+
+  build-backend:
+    name: Build backend linux/arm64
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Build and push backend
         uses: docker/build-push-action@v5
