@@ -31,7 +31,8 @@ RUN command -v conan >/dev/null 2>&1 || { \
     rm -rf /var/lib/apt/lists/* && \
     python3 -m pip install --break-system-packages \
         conan==2.* && \
-    conan profile detect --force; }
+    conan profile detect --force && \
+    sed -i '/cmake\//d' ~/.conan2/profiles/default; }
 
 WORKDIR /build
 

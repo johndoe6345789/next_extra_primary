@@ -25,7 +25,8 @@ RUN command -v node >/dev/null 2>&1 || { \
 
 WORKDIR /app
 COPY package.json package-lock.json* ./
-RUN npm ci
+RUN npm ci && \
+    npm rebuild @parcel/watcher --build-from-source
 
 # Stage 2: Build the application
 FROM deps AS build
