@@ -215,17 +215,14 @@ int main(int argc, char** argv)
 
     // ---- setup-exotic-arch ----
     auto* exotic = app.add_subcommand(
-        "setup-exotic-arch",
-        "Patch node_modules for riscv64/ppc64le builds");
+        "setup-exotic-arch", "Patch node_modules for riscv64/ppc64le builds");
     std::string swc_dir = "/tmp/swc";
     std::string nm_dir = "node_modules";
     exotic->add_option("--swc-dir", swc_dir,
                        "Directory with cached .node files");
-    exotic->add_option("--node-modules", nm_dir,
-                       "Path to node_modules");
+    exotic->add_option("--node-modules", nm_dir, "Path to node_modules");
     exotic->callback([&swc_dir, &nm_dir, &exit_code]() {
-        int rc = manager::SetupExoticArchCmd::execute(
-            swc_dir, nm_dir);
+        int rc = manager::SetupExoticArchCmd::execute(swc_dir, nm_dir);
         if (rc != 0) {
             fmt::print("[manager] setup-exotic-arch "
                        "failed ({})\n",
@@ -236,12 +233,10 @@ int main(int argc, char** argv)
 
     // ---- conan-install ----
     auto* conan = app.add_subcommand(
-        "conan-install",
-        "Run conan install with exotic-arch cmake fix");
+        "conan-install", "Run conan install with exotic-arch cmake fix");
     conan->allow_extras();
     conan->callback([&conan, &exit_code]() {
-        int rc = manager::ConanInstallCmd::execute(
-            conan->remaining());
+        int rc = manager::ConanInstallCmd::execute(conan->remaining());
         if (rc != 0) {
             fmt::print("[manager] conan-install "
                        "failed ({})\n",

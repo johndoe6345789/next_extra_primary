@@ -7,9 +7,9 @@
  * WASM fallback. Webpack is used instead of Turbopack.
  */
 #include "SetupExoticArchCmd.h"
-#include <fmt/core.h>
 #include <cstdlib>
 #include <filesystem>
+#include <fmt/core.h>
 #include <fstream>
 #include <string>
 
@@ -18,8 +18,7 @@ namespace manager
 {
 
 /// Write @a content to @a path, creating parent dirs.
-static void writeFile(const fs::path& path,
-                      const std::string& content)
+static void writeFile(const fs::path& path, const std::string& content)
 {
     fs::create_directories(path.parent_path());
     std::ofstream(path) << content;
@@ -33,13 +32,11 @@ static void stubParcelWatcher(const fs::path& nm)
                     "2>/dev/null") == 0) {
         return;
     }
-    writeFile(dir / "package.json",
-              "{\"name\":\"@parcel/watcher\","
-              "\"main\":\"index.js\"}\n");
-    writeFile(dir / "index.js",
-              "exports.subscribe=async()=>"
-              "({unsubscribe:async()=>{}});\n"
-              "exports.getEventsSince=async()=>[];\n");
+    writeFile(dir / "package.json", "{\"name\":\"@parcel/watcher\","
+                                    "\"main\":\"index.js\"}\n");
+    writeFile(dir / "index.js", "exports.subscribe=async()=>"
+                                "({unsubscribe:async()=>{}});\n"
+                                "exports.getEventsSince=async()=>[];\n");
     fmt::print("Stubbed @parcel/watcher\n");
 }
 
@@ -49,19 +46,19 @@ static void patchSwcCore(const fs::path& nm)
     std::system("npm install --no-save @swc/wasm");
 
     for (auto& e : fs::recursive_directory_iterator(nm)) {
-        if (e.path().filename() != "binding.js") continue;
+        if (e.path().filename() != "binding.js")
+            continue;
         if (e.path().parent_path().filename() != "core")
             continue;
         auto parent = e.path().parent_path();
         if (parent.parent_path().filename() != "@swc")
             continue;
 
-        auto cmd = "node -e \"require('" +
-                   parent.string() + "')\" 2>/dev/null";
-        if (std::system(cmd.c_str()) == 0) continue;
+        auto cmd = "node -e \"require('" + parent.string() + "')\" 2>/dev/null";
+        if (std::system(cmd.c_str()) == 0)
+            continue;
 
-        writeFile(e.path(),
-                  "module.exports=require(\"@swc/wasm\");\n");
+        writeFile(e.path(), "module.exports=require(\"@swc/wasm\");\n");
         auto rel = fs::relative(e.path(), nm).string();
         fmt::print("Patched {}\n", rel);
     }

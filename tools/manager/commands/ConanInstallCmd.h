@@ -32,8 +32,7 @@ class ConanInstallCmd
      * @param args Extra arguments forwarded to conan install.
      * @return int 0 on success, non-zero on failure.
      */
-    static int execute(
-        const std::vector<std::string>& args);
+    static int execute(const std::vector<std::string>& args);
 };
 
 } // namespace manager
