@@ -40,7 +40,8 @@ RUN command -v conan >/dev/null 2>&1 || { \
     python3 -m pip install --break-system-packages \
         conan==2.* && \
     conan profile detect --force && \
-    sed -i '/cmake\//d' ~/.conan2/profiles/default; }
+    sed -i '/^\[platform_tool_requires\]/,/^\[/{/cmake\/\[/d}' \
+        ~/.conan2/profiles/default; }
 
 # On exotic arches, Conan has no cmake binary; use system cmake.
 # Pin to the exact detected version -- Conan 2 rejects ranges here.
