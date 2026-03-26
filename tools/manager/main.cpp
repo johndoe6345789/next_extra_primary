@@ -235,12 +235,10 @@ int main(int argc, char** argv)
     auto* conan = app.add_subcommand(
         "conan-install",
         "Run conan install with exotic-arch cmake fix");
-    std::vector<std::string> conan_args;
-    conan->add_option("args", conan_args,
-                      "Extra args for conan install");
-    conan->callback([&conan_args]() {
-        int rc =
-            manager::ConanInstallCmd::execute(conan_args);
+    conan->allow_extras();
+    conan->callback([&conan]() {
+        int rc = manager::ConanInstallCmd::execute(
+            conan->remaining());
         if (rc != 0) {
             fmt::print("[manager] conan-install "
                        "failed ({})\n",
