@@ -1,20 +1,19 @@
 /**
  * @file SetupExoticArchCmd.cpp
  * @brief Patches node_modules for exotic-arch Docker builds.
+ *
+ * On riscv64/ppc64le, Next.js has no native binding loader
+ * so we stub @parcel/watcher and patch @swc/core to use the
+ * WASM fallback. Webpack is used instead of Turbopack.
  */
-
 #include "SetupExoticArchCmd.h"
-
 #include <fmt/core.h>
-
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
-#include <regex>
 #include <string>
 
 namespace fs = std::filesystem;
-
 namespace manager
 {
 
@@ -24,30 +23,6 @@ static void writeFile(const fs::path& path,
 {
     fs::create_directories(path.parent_path());
     std::ofstream(path) << content;
-}
-
-/// Install cached @next/swc .node files from @a swcDir.
-static void installSwcNative(const fs::path& swcDir,
-                             const fs::path& nm)
-{
-    if (!fs::is_directory(swcDir)) return;
-
-    std::regex re(R"(^next-swc\.(.+)\.node$)");
-    for (auto& e : fs::directory_iterator(swcDir)) {
-        std::smatch m;
-        auto name = e.path().filename().string();
-        if (!std::regex_match(name, m, re)) continue;
-
-        auto triple = m[1].str();
-        auto pkg = nm / "@next" / ("swc-" + triple);
-        fs::create_directories(pkg);
-        fs::copy_file(e.path(), pkg / name,
-                      fs::copy_options::overwrite_existing);
-        writeFile(pkg / "package.json",
-                  "{\"name\":\"@next/swc-" + triple +
-                      "\",\"main\":\"" + name + "\"}\n");
-        fmt::print("Installed @next/swc-{}\n", triple);
-    }
 }
 
 /// Stub @parcel/watcher with a no-op implementation.
@@ -95,8 +70,8 @@ static void patchSwcCore(const fs::path& nm)
 int SetupExoticArchCmd::execute(const std::string& swcDir,
                                 const std::string& nmDir)
 {
+    (void)swcDir;
     fs::path nm(nmDir);
-    installSwcNative(fs::path(swcDir), nm);
     stubParcelWatcher(nm);
     patchSwcCore(nm);
     return 0;

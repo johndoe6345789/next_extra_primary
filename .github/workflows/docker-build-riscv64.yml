@@ -1,8 +1,7 @@
 # ============================================================
 # Docker Build — linux/riscv64
 # Builds frontend and backend for riscv64 via QEMU.
-# The SWC native binding is built once from source and cached
-# as a GHCR image; subsequent frontend builds reuse it.
+# Frontend uses Webpack (Turbopack has no riscv64 support).
 # ============================================================
 name: Docker Build linux/riscv64
 
@@ -16,62 +15,8 @@ permissions:
   packages: write
 
 jobs:
-  build-swc-cache:
-    name: Cache @next/swc for riscv64
-    runs-on: ubuntu-latest
-    outputs:
-      image: ${{ steps.meta.outputs.image }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Read Next.js version
-        id: next
-        run: |
-          ver=$(jq -r '.dependencies.next' frontend/package.json)
-          echo "version=$ver" >> "$GITHUB_OUTPUT"
-
-      - uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Check if cache image exists
-        id: meta
-        run: |
-          img="ghcr.io/${{ github.repository }}/swc-cache"
-          tag="next-${{ steps.next.outputs.version }}-riscv64"
-          echo "image=${img}:${tag}" >> "$GITHUB_OUTPUT"
-          if docker manifest inspect "${img}:${tag}" \
-               >/dev/null 2>&1; then
-            echo "exists=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "exists=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - uses: docker/setup-qemu-action@v3
-        if: steps.meta.outputs.exists == 'false'
-
-      - uses: docker/setup-buildx-action@v3
-        if: steps.meta.outputs.exists == 'false'
-
-      - name: Build and push SWC cache image
-        if: steps.meta.outputs.exists == 'false'
-        uses: docker/build-push-action@v5
-        with:
-          context: ./frontend
-          file: ./frontend/swc.Dockerfile
-          platforms: linux/riscv64
-          push: true
-          build-args: |
-            NEXT_VERSION=${{ steps.next.outputs.version }}
-          tags: ${{ steps.meta.outputs.image }}
-          cache-from: type=gha,scope=swc-riscv64
-          cache-to: type=gha,mode=max,scope=swc-riscv64
-
   build-frontend:
     name: Build frontend linux/riscv64
-    needs: build-swc-cache
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -93,8 +38,6 @@ jobs:
             manager=./tools/manager
           platforms: linux/riscv64
           push: ${{ github.event_name == 'push' }}
-          build-args: |
-            SWC_NATIVE_IMAGE=${{ needs.build-swc-cache.outputs.image }}
           tags: >-
             ghcr.io/${{ github.repository }}/frontend:build-${{ github.sha }}-riscv64
           cache-from: type=gha,scope=frontend-riscv64
