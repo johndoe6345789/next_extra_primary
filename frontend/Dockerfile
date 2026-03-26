@@ -54,7 +54,7 @@ WORKDIR /app
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN case "$(uname -m)" in \
-        riscv64|ppc64le) npx next build --no-turbopack ;; \
+        riscv64|ppc64le) npx next build --webpack ;; \
         *) npm run build ;; \
     esac
 
