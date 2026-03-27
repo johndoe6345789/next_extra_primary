@@ -24,8 +24,7 @@ namespace fmt
  * @return std::string The formatted string.
  */
 template <typename... Args>
-std::string format(std::format_string<Args...> f,
-                   Args&&... args)
+std::string format(std::format_string<Args...> f, Args&&... args)
 {
     return std::format(f, std::forward<Args>(args)...);
 }
@@ -39,9 +38,7 @@ std::string format(std::format_string<Args...> f,
 template <typename... Args>
 void print(std::format_string<Args...> f, Args&&... args)
 {
-    std::fputs(
-        fmt::format(f, std::forward<Args>(args)...).c_str(),
-        stdout);
+    std::fputs(fmt::format(f, std::forward<Args>(args)...).c_str(), stdout);
 }
 
 } // namespace fmt

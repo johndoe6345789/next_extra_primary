@@ -27,8 +27,7 @@ class SetupExoticArchCmd
      * @param nmDir    Path to node_modules.
      * @return int 0 on success, non-zero on failure.
      */
-    static int execute(const std::string& swcDir,
-                       const std::string& nmDir);
+    static int execute(const std::string& swcDir, const std::string& nmDir);
 };
 
 } // namespace manager
