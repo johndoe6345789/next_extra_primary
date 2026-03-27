@@ -9,11 +9,17 @@ find_package(CLI11 REQUIRED)
 find_package(nlohmann_json REQUIRED)
 find_package(fmt REQUIRED)
 
-file(GLOB_RECURSE MANAGER_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+add_executable(manager
+    main.cpp
+    commands/BuildCmd.cpp
+    commands/DockerBuildxCmd.cpp
+    commands/DockerCmd.cpp
+    commands/DockerDepsCmd.cpp
+    commands/DockerStatusCmd.cpp
+    commands/GenerateCmd.cpp
+    commands/LintCmd.cpp
+    commands/TestCmd.cpp
 )
-
-add_executable(manager ${MANAGER_SOURCES})
 
 target_include_directories(manager
     PRIVATE
