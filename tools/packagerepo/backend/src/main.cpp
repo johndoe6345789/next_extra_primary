@@ -22,22 +22,22 @@ int main()
 {
     namespace fs = std::filesystem;
 
-    auto dataDir = fs::path(env("DATA_DIR", "/tmp/repo"));
+    auto s3Endpoint = env("S3_ENDPOINT", "http://localhost:9000");
+    auto s3Bucket = env("S3_BUCKET", "packagerepo");
+    auto s3Key = env("S3_ACCESS_KEY", "minioadmin");
     auto secret = env("JWT_SECRET", "dev-secret-key");
-    auto dbConn = env("DATABASE_URL",
-        "host=localhost port=5432 dbname=packagerepo "
-        "user=packagerepo password=packagerepo");
+    auto dbConn =
+        env("DATABASE_URL", "host=localhost port=5432 dbname=packagerepo "
+                            "user=packagerepo password=packagerepo");
 
-    repo::Globals::init(dataDir, secret, dbConn);
+    repo::Globals::init(s3Endpoint, s3Bucket, s3Key, secret, dbConn);
 
     // Load schema.json for the /schema endpoint
-    for (auto p : {fs::path("/app/schema.json"),
-                   fs::path("schema.json")}) {
+    for (auto p : {fs::path("/app/schema.json"), fs::path("schema.json")}) {
         if (fs::exists(p)) {
             std::ifstream f(p);
-            repo::Globals::schemaJson = {
-                std::istreambuf_iterator<char>(f),
-                std::istreambuf_iterator<char>()};
+            repo::Globals::schemaJson = {std::istreambuf_iterator<char>(f),
+                                         std::istreambuf_iterator<char>()};
             break;
         }
     }

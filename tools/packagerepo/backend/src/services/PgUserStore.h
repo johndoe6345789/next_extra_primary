@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "BlobStore.h"
+#include "S3BlobStore.h"
 #include "DbPool.h"
 
 #include <json/json.h>
@@ -89,7 +89,7 @@ private:
     static std::string hashPass(const std::string& pass,
                                 const std::string& salt)
     {
-        return BlobStore::sha256(salt + ":" + pass);
+        return S3BlobStore::sha256(salt + ":" + pass);
     }
 };
 

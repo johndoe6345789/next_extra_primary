@@ -4,6 +4,7 @@
  */
 
 #include "PackageRepoCmd.h"
+#include "S3Cmd.h"
 #include "ShellUtil.h"
 
 #include <fmt/core.h>
@@ -40,6 +41,18 @@ static int startDb()
         PackageRepoCmd::kDbVol));
 }
 
+/// Ensure the S3 server is up and on our network.
+static int ensureS3()
+{
+    S3Cmd::up();
+    shell("repo", fmt::format(
+        "docker network connect {} {} "
+        "2>/dev/null || true",
+        PackageRepoCmd::kNetwork,
+        S3Cmd::kContainer));
+    return 0;
+}
+
 int PackageRepoCmd::build()
 {
     if (!checkDaemon()) return 1;
@@ -68,15 +81,16 @@ int PackageRepoCmd::up()
     shell("repo", fmt::format(
         "docker network create {} 2>/dev/null || true",
         kNetwork));
-    shell("repo", fmt::format(
-        "docker volume create {}", kDataVol));
 
     if (startDb() != 0) return 1;
+    ensureS3();
 
     int rc = shell("repo", fmt::format(
         "docker run -d --name {} --network {} "
         "-p {}:5000 "
-        "--mount type=volume,src={},dst=/data "
+        "-e S3_ENDPOINT=http://{}:9000 "
+        "-e S3_BUCKET=packagerepo "
+        "-e S3_ACCESS_KEY=minioadmin "
         "-e DATABASE_URL='host={} port=5432 "
         "dbname=packagerepo user=packagerepo "
         "password=packagerepo' "
@@ -86,59 +100,13 @@ int PackageRepoCmd::up()
         "-e PGDATABASE=packagerepo "
         "-e JWT_SECRET=dev-secret-key "
         "nextra-packagerepo",
-        kContainer, kNetwork, kPort, kDataVol,
+        kContainer, kNetwork, kPort,
+        S3Cmd::kContainer,
         kDbContainer, kDbContainer));
 
     if (rc == 0)
         fmt::print("[repo] Started on port {}\n", kPort);
     return rc;
-}
-
-int PackageRepoCmd::down()
-{
-    if (!checkDaemon()) return 1;
-    fmt::print("[repo] Stopping stack ...\n");
-    shell("repo", fmt::format(
-        "docker rm -f {}", kContainer));
-    shell("repo", fmt::format(
-        "docker rm -f {}", kDbContainer));
-    return 0;
-}
-
-int PackageRepoCmd::status()
-{
-    if (!checkDaemon()) return 1;
-    for (auto c : {kContainer, kDbContainer}) {
-        auto st = capture(fmt::format(
-            "docker inspect -f '{{{{.State.Status}}}}' {} "
-            "2>/dev/null", c));
-        fmt::print("[repo] {}: {}\n", c,
-                   st.empty() ? "not running" : st);
-    }
-    fmt::print("[repo] API: http://localhost:{}\n", kPort);
-    return 0;
-}
-
-void PackageRepoCmd::registerAll(CLI::App& parent)
-{
-    auto* cmd = parent.add_subcommand(
-        "repo", "Local package repository");
-    cmd->require_subcommand(1);
-
-    cmd->add_subcommand("build", "Build backend image")
-        ->callback([]() { build(); });
-    cmd->add_subcommand("up", "Start stack")
-        ->callback([]() { up(); });
-    cmd->add_subcommand("down", "Stop stack")
-        ->callback([]() { down(); });
-    cmd->add_subcommand("status", "Show status")
-        ->callback([]() { status(); });
-    cmd->add_subcommand("logs", "Tail logs")
-        ->callback([]() {
-            shell("repo", fmt::format(
-                "docker logs -f --tail=100 {}",
-                kContainer));
-        });
 }
 
 } // namespace manager

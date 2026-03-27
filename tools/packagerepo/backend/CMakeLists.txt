@@ -16,6 +16,7 @@ add_executable(packagerepo-server
     src/controllers/HealthCtrl.cpp
     src/controllers/AdminCtrl.cpp
     src/filters/AuthFilter.cpp
+    src/services/S3BlobStore.cpp
 )
 
 target_include_directories(packagerepo-server

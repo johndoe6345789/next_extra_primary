@@ -22,6 +22,7 @@ SRCS := main.cpp \
         commands/ActCmd.cpp \
         commands/BuildCmd.cpp \
         commands/PackageRepoCmd.cpp \
+        commands/PackageRepoCmdReg.cpp \
         commands/S3Cmd.cpp \
         commands/S3CmdUp.cpp \
         commands/CmakeGenCmd.cpp \
