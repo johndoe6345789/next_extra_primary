@@ -10,12 +10,10 @@ using namespace drogon;
 namespace s3
 {
 
-void HealthCtrl::check(
-    const HttpRequestPtr&,
-    std::function<void(const HttpResponsePtr&)>&& cb)
+void HealthCtrl::check(const HttpRequestPtr&,
+                       std::function<void(const HttpResponsePtr&)>&& cb)
 {
-    auto r = HttpResponse::newHttpJsonResponse(
-        Json::Value("ok"));
+    auto r = HttpResponse::newHttpJsonResponse(Json::Value("ok"));
     cb(r);
 }
 

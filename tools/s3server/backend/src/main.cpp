@@ -10,10 +10,9 @@
 int main(int argc, char* argv[])
 {
     std::string dataDir = "/data/s3";
-    std::string dbConn =
-        "host=localhost port=5432 "
-        "dbname=s3server "
-        "user=s3user password=s3pass";
+    std::string dbConn = "host=localhost port=5432 "
+                         "dbname=s3server "
+                         "user=s3user password=s3pass";
     std::string region = "us-east-1";
     int port = 9000;
 

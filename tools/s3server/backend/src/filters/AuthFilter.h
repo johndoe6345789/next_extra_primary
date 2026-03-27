@@ -12,14 +12,12 @@ namespace s3
 
 /// @brief Validates Authorization header access key.
 ///        Sets "access_key" attribute on the request.
-class AuthFilter
-    : public drogon::HttpFilter<AuthFilter>
+class AuthFilter : public drogon::HttpFilter<AuthFilter>
 {
-public:
-    void doFilter(
-        const drogon::HttpRequestPtr& req,
-        drogon::FilterCallback&& cb,
-        drogon::FilterChainCallback&& ccb) override;
+  public:
+    void doFilter(const drogon::HttpRequestPtr& req,
+                  drogon::FilterCallback&& cb,
+                  drogon::FilterChainCallback&& ccb) override;
 };
 
 } // namespace s3

@@ -10,24 +10,18 @@ namespace s3
 {
 
 std::vector<Json::Value>
-ObjectStore::list(int bucketId,
-                  const std::string& prefix,
-                  int maxKeys)
+ObjectStore::list(int bucketId, const std::string& prefix, int maxKeys)
 {
-    std::string sql =
-        "SELECT * FROM objects WHERE bucket_id=$1";
+    std::string sql = "SELECT * FROM objects WHERE bucket_id=$1";
     if (!prefix.empty())
         sql += " AND key LIKE $2";
-    sql += " ORDER BY key LIMIT "
-        + std::to_string(maxKeys);
+    sql += " ORDER BY key LIMIT " + std::to_string(maxKeys);
 
     drogon::orm::Result r;
     if (prefix.empty()) {
-        r = DbPool::get()->execSqlSync(
-            sql, bucketId);
+        r = DbPool::get()->execSqlSync(sql, bucketId);
     } else {
-        r = DbPool::get()->execSqlSync(
-            sql, bucketId, prefix + "%");
+        r = DbPool::get()->execSqlSync(sql, bucketId, prefix + "%");
     }
 
     std::vector<Json::Value> out;

@@ -19,9 +19,8 @@ namespace s3
 /// @brief Content-addressed filesystem blob store.
 class BlobStore
 {
-public:
-    explicit BlobStore(const std::filesystem::path& root)
-        : root_(root)
+  public:
+    explicit BlobStore(const std::filesystem::path& root) : root_(root)
     {
         std::filesystem::create_directories(root);
     }
@@ -33,8 +32,7 @@ public:
         std::string path;
     };
 
-    StoreResult store(const std::string& bucket,
-                      const std::string& key,
+    StoreResult store(const std::string& bucket, const std::string& key,
                       const std::string& data)
     {
         auto etag = md5hex(data);
@@ -56,7 +54,8 @@ public:
     std::string read(const std::string& path)
     {
         auto full = root_ / path;
-        if (!std::filesystem::exists(full)) return {};
+        if (!std::filesystem::exists(full))
+            return {};
         std::ifstream f(full, std::ios::binary);
         return {std::istreambuf_iterator<char>(f),
                 std::istreambuf_iterator<char>()};
@@ -68,18 +67,16 @@ public:
         return std::filesystem::remove(root_ / path);
     }
 
-private:
+  private:
     std::filesystem::path root_;
 
     static std::string md5hex(const std::string& data)
     {
         unsigned char hash[MD5_DIGEST_LENGTH];
-        MD5((unsigned char*)data.data(),
-            data.size(), hash);
+        MD5((unsigned char*)data.data(), data.size(), hash);
         std::ostringstream ss;
         for (int i = 0; i < MD5_DIGEST_LENGTH; ++i)
-            ss << std::hex << std::setfill('0')
-               << std::setw(2) << (int)hash[i];
+            ss << std::hex << std::setfill('0') << std::setw(2) << (int)hash[i];
         return ss.str();
     }
 };

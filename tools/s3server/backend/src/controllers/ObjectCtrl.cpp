@@ -13,11 +13,9 @@ using namespace drogon;
 namespace s3
 {
 
-void ObjectCtrl::getObject(
-    const HttpRequestPtr& req,
-    std::function<void(const HttpResponsePtr&)>&& cb,
-    const std::string& bucket,
-    const std::string& key)
+void ObjectCtrl::getObject(const HttpRequestPtr& req,
+                           std::function<void(const HttpResponsePtr&)>&& cb,
+                           const std::string& bucket, const std::string& key)
 {
     int bid = BucketStore::getId(bucket);
     if (bid == 0) {
@@ -37,41 +35,29 @@ void ObjectCtrl::getObject(
         return;
     }
 
-    auto data = Globals::blobs->read(
-        meta["storage_path"].asString());
+    auto data = Globals::blobs->read(meta["storage_path"].asString());
     auto r = HttpResponse::newHttpResponse();
-    r->setContentTypeString(
-        meta["content_type"].asString());
-    r->addHeader("ETag",
-        "\"" + meta["etag"].asString() + "\"");
-    r->addHeader("Content-Length",
-        std::to_string(meta["size"].asInt64()));
-    r->addHeader("Last-Modified",
-        meta["last_modified"].asString());
+    r->setContentTypeString(meta["content_type"].asString());
+    r->addHeader("ETag", "\"" + meta["etag"].asString() + "\"");
+    r->addHeader("Content-Length", std::to_string(meta["size"].asInt64()));
+    r->addHeader("Last-Modified", meta["last_modified"].asString());
     r->setBody(std::move(data));
     cb(r);
 }
 
-void ObjectCtrl::headObject(
-    const HttpRequestPtr& req,
-    std::function<void(const HttpResponsePtr&)>&& cb,
-    const std::string& bucket,
-    const std::string& key)
+void ObjectCtrl::headObject(const HttpRequestPtr& req,
+                            std::function<void(const HttpResponsePtr&)>&& cb,
+                            const std::string& bucket, const std::string& key)
 {
     int bid = BucketStore::getId(bucket);
-    auto meta = (bid > 0)
-        ? ObjectStore::get(bid, key)
-        : Json::nullValue;
+    auto meta = (bid > 0) ? ObjectStore::get(bid, key) : Json::nullValue;
     auto r = HttpResponse::newHttpResponse();
     if (meta.isNull()) {
         r->setStatusCode(k404NotFound);
     } else {
-        r->addHeader("ETag",
-            "\"" + meta["etag"].asString() + "\"");
-        r->addHeader("Content-Length",
-            std::to_string(meta["size"].asInt64()));
-        r->setContentTypeString(
-            meta["content_type"].asString());
+        r->addHeader("ETag", "\"" + meta["etag"].asString() + "\"");
+        r->addHeader("Content-Length", std::to_string(meta["size"].asInt64()));
+        r->setContentTypeString(meta["content_type"].asString());
     }
     cb(r);
 }
