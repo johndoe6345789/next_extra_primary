@@ -27,6 +27,17 @@ RUN python3 -m pip install --break-system-packages \
         conan==2.* && \
     conan profile detect --force
 
+# On exotic arches, Conan has no cmake binary;
+# tell it to use the system cmake instead.
+RUN arch="$(uname -m)" && \
+    case "$arch" in \
+        x86_64|aarch64) ;; \
+        *) printf '\n[platform_tool_requires]\n' \
+               >> ~/.conan2/profiles/default && \
+           printf 'cmake/[>=3.15 <4]\n' \
+               >> ~/.conan2/profiles/default ;; \
+    esac
+
 WORKDIR /deps
 COPY backend/conanfile.py .
 

@@ -21,13 +21,13 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Use `n` to install Node 22 LTS. On amd64/arm64 this
-# downloads a prebuilt binary (~5s). On riscv64/ppc64le
-# `--build` compiles from source (~10 min, cached).
+# downloads a prebuilt binary (~5s). On exotic arches
+# no prebuilt binary exists, so keep the system Node.
 ENV N_PREFIX=/usr/local
 RUN npm install -g n && \
     case "$(uname -m)" in \
         x86_64|aarch64) n 22 ;; \
-        *) n --build 22 ;; \
+        *) echo "Using system Node $(node -v)" ;; \
     esac && \
     npm install -g npm@latest && \
     hash -r
