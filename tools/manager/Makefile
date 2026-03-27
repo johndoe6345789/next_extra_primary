@@ -15,7 +15,10 @@ CXXFLAGS := -std=c++20 -O2 -Wall -Wextra -I.
 SRCS := main.cpp \
         commands/BuildCmd.cpp \
         commands/ConanInstallCmd.cpp \
+        commands/DockerBuildxCmd.cpp \
         commands/DockerCmd.cpp \
+        commands/DockerDepsCmd.cpp \
+        commands/DockerStatusCmd.cpp \
         commands/GenerateCmd.cpp \
         commands/LintCmd.cpp \
         commands/SetupExoticArchCmd.cpp \
