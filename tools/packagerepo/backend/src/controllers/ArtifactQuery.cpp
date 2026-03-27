@@ -105,6 +105,13 @@ void ArtifactCtrl::setTag(
         "AND namespace=$2 AND name=$3 "
         "AND version=$4 AND variant=$5",
         Globals::repoType, ns, name, ver, var);
+    if (rows.empty()) {
+        auto r = HttpResponse::newHttpJsonResponse(
+            errJson("NOT_FOUND", "Artifact not found"));
+        r->setStatusCode(k404NotFound);
+        cb(r);
+        return;
+    }
 
     PgTagStore::set(Globals::repoType, ns, name, tag,
                     rows[0]["id"].as<int64_t>(),

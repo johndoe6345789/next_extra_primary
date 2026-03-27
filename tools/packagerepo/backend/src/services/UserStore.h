@@ -8,6 +8,7 @@
 #include "S3BlobStore.h"
 
 #include <json/json.h>
+#include <openssl/rand.h>
 
 #include <filesystem>
 #include <fstream>
@@ -66,9 +67,12 @@ private:
 
     static std::string makeSalt()
     {
-        char buf[16];
-        for (auto& c : buf) c = "abcdef0123456789"[rand() % 16];
-        return {buf, 16};
+        unsigned char buf[16];
+        RAND_bytes(buf, sizeof(buf));
+        std::string out;
+        for (auto b : buf)
+            out += "0123456789abcdef"[b & 0xf];
+        return out;
     }
 
     static std::string hashPass(const std::string& pass,

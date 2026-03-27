@@ -10,7 +10,7 @@
 namespace s3
 {
 
-/// @brief Handles GET /{bucket}?list-type=2
+/// @brief Handles GET /list/{bucket}?prefix=&max-keys=
 class ListCtrl : public drogon::HttpController<ListCtrl>
 {
   public:

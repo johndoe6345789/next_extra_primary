@@ -6,6 +6,7 @@
 #include "ListCtrl.h"
 #include "../services/BucketStore.h"
 #include "../services/ObjectStore.h"
+#include "../services/XmlUtil.h"
 
 using namespace drogon;
 
@@ -28,34 +29,40 @@ void ListCtrl::listObjects(const HttpRequestPtr& req,
     auto prefix = req->getParameter("prefix");
     int maxKeys = 1000;
     auto mk = req->getParameter("max-keys");
-    if (!mk.empty())
-        maxKeys = std::stoi(mk);
+    if (!mk.empty()) {
+        try {
+            maxKeys = std::clamp(std::stoi(mk), 1, 1000);
+        } catch (...) {
+            maxKeys = 1000;
+        }
+    }
 
     auto rows = ObjectStore::list(bid, prefix, maxKeys);
 
-    std::string xml = "<?xml version=\"1.0\"?>"
-                      "<ListBucketResult>"
-                      "<Name>" +
-                      bucket +
-                      "</Name>"
-                      "<Prefix>" +
-                      prefix +
-                      "</Prefix>"
-                      "<MaxKeys>" +
-                      std::to_string(maxKeys) +
-                      "</MaxKeys>"
-                      "<IsTruncated>false</IsTruncated>";
+    std::string xml =
+        "<?xml version=\"1.0\"?>"
+        "<ListBucketResult>"
+        "<Name>" +
+        xmlEscape(bucket) +
+        "</Name>"
+        "<Prefix>" +
+        xmlEscape(prefix) +
+        "</Prefix>"
+        "<MaxKeys>" +
+        std::to_string(maxKeys) +
+        "</MaxKeys>"
+        "<IsTruncated>false</IsTruncated>";
 
     for (const auto& obj : rows) {
         xml += "<Contents>"
                "<Key>" +
-               obj["key"].asString() +
+               xmlEscape(obj["key"].asString()) +
                "</Key>"
                "<Size>" +
                std::to_string(obj["size"].asInt64()) +
                "</Size>"
                "<ETag>\"" +
-               obj["etag"].asString() +
+               xmlEscape(obj["etag"].asString()) +
                "\"</ETag>"
                "<LastModified>" +
                obj["last_modified"].asString() +
