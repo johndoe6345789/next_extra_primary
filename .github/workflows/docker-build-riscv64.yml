@@ -1,10 +1,7 @@
 # ============================================================
 # Docker Build — linux/riscv64
 # Builds frontend and backend for riscv64 via QEMU.
-# Node 22 compiles from source (n --build). Slow first
-# build; subsequent builds use GHA layer cache.
-# Frontend and backend run in parallel.
-# Pushes intermediate tags consumed by docker-merge.yml.
+# Frontend uses Webpack (Turbopack has no riscv64 support).
 # ============================================================
 name: Docker Build linux/riscv64
 
@@ -22,21 +19,16 @@ jobs:
     name: Build frontend linux/riscv64
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Login to GHCR
-        uses: docker/login-action@v3
+      - uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
 
       - name: Build and push frontend
         uses: docker/build-push-action@v5
@@ -53,26 +45,23 @@ jobs:
     name: Build backend linux/riscv64
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Login to GHCR
-        uses: docker/login-action@v3
+      - uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
 
       - name: Build and push backend
         uses: docker/build-push-action@v5
         with:
           context: ./backend
+          build-contexts: |
+            manager=./tools/manager
           platforms: linux/riscv64
           push: ${{ github.event_name == 'push' }}
           tags: >-
