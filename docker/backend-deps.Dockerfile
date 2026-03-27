@@ -27,8 +27,9 @@ RUN python3 -m pip install --break-system-packages \
         conan==2.* && \
     conan profile detect --force
 
-# On exotic arches, Conan has no cmake binary;
-# tell it to use the system cmake instead.
+# On exotic arches, Conan has no prebuilt cmake binary.
+# [platform_tool_requires] tells Conan the host already
+# provides cmake, so it skips downloading/building it.
 RUN arch="$(uname -m)" && \
     case "$arch" in \
         x86_64|aarch64) ;; \

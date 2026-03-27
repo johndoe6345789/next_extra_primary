@@ -4,8 +4,8 @@
 # Uses debian:sid for riscv64 + ppc64le support.
 #
 # Strategy: install Node from apt (any version sid has),
-# then use `n` to upgrade to Node 22 LTS. On exotic
-# arches, `n` compiles Node from source automatically.
+# then use `n` to upgrade to Node 22 LTS on amd64/arm64.
+# Exotic arches keep the system Node (no prebuilt binary).
 #
 # Platforms: amd64, arm64, riscv64, ppc64le
 
