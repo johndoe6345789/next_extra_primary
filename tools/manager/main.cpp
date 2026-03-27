@@ -14,12 +14,14 @@
 #include <cstdlib>
 #include <string>
 
+#include "commands/ActCmd.h"
 #include "commands/BuildCmd.h"
 #include "commands/ConanInstallCmd.h"
 #include "commands/DockerCmd.h"
 #include "commands/GenerateCmd.h"
 #include "commands/LintCmd.h"
 #include "commands/PackageRepoCmd.h"
+#include "commands/S3Cmd.h"
 #include "commands/SetupExoticArchCmd.h"
 #include "commands/TestCmd.h"
 
@@ -175,6 +177,12 @@ int main(int argc, char** argv)
 
     // ---- repo (build, up, down, status, logs) ----
     manager::PackageRepoCmd::registerAll(app);
+
+    // ---- s3 (build, up, down, status, logs) ----
+    manager::S3Cmd::registerAll(app);
+
+    // ---- act (list, ci, build, run) ----
+    manager::ActCmd::registerAll(app);
 
     // ---- lint ----
     auto* lint =

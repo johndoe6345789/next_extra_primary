@@ -19,8 +19,11 @@ CXXFLAGS := -std=c++20 -O3 -Wall -Wextra -I.
 BUILDDIR := build/obj
 
 SRCS := main.cpp \
+        commands/ActCmd.cpp \
         commands/BuildCmd.cpp \
         commands/PackageRepoCmd.cpp \
+        commands/S3Cmd.cpp \
+        commands/S3CmdUp.cpp \
         commands/CmakeGenCmd.cpp \
         commands/ConanInstallCmd.cpp \
         commands/DockerBuildxCmd.cpp \

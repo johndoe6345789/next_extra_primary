@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: s3server
+      POSTGRES_USER: s3user
+      POSTGRES_PASSWORD: s3pass
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - s3-network
+    restart: unless-stopped
+
+  s3:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "9000:9000"
+    environment:
+      S3_DATA_DIR: /data/s3
+      S3_DB_CONN: "host=db port=5432 dbname=s3server user=s3user password=s3pass"
+      S3_REGION: us-east-1
+      S3_PORT: "9000"
+      PGHOST: db
+      PGPORT: "5432"
+      PGUSER: s3user
+      PGPASSWORD: s3pass
+      PGDATABASE: s3server
+    volumes:
+      - s3-data:/data/s3
+    depends_on:
+      - db
+    networks:
+      - s3-network
+    restart: unless-stopped
+
+volumes:
+  db-data:
+    driver: local
+  s3-data:
+    driver: local
+
+networks:
+  s3-network:
+    driver: bridge

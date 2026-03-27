@@ -12,6 +12,7 @@ find_package(inja REQUIRED)
 
 add_executable(manager
     main.cpp
+    commands/ActCmd.cpp
     commands/BuildCmd.cpp
     commands/PackageRepoCmd.cpp
     commands/CmakeGenCmd.cpp
