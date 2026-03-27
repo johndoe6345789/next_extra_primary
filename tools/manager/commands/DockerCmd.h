@@ -1,33 +1,41 @@
 /**
  * @file DockerCmd.h
- * @brief Docker subcommand - manages docker compose
- *        build, up, down, and logs operations.
+ * @brief Docker subcommand hub - registers compose ops,
+ *        smart deps builder, and status dashboard as
+ *        nested CLI11 subcommands under `docker`.
  */
 
-#ifndef MANAGER_COMMANDS_DOCKER_CMD_H
-#define MANAGER_COMMANDS_DOCKER_CMD_H
+#pragma once
 
-#include <string>
+#include <CLI/CLI.hpp>
 
 namespace manager
 {
 
 /**
  * @class DockerCmd
- * @brief Constructs and executes docker compose commands.
+ * @brief Registers all docker-related subcommands on the
+ *        parent CLI::App and dispatches compose actions.
  */
 class DockerCmd
 {
   public:
     /**
-     * @brief Execute a docker compose action.
+     * @brief Register every docker subcommand.
      *
+     * Creates `docker build|up|down|logs|deps|status`
+     * under the given parent app.
+     *
+     * @param parent The root CLI::App.
+     */
+    static void registerAll(CLI::App& parent);
+
+    /**
+     * @brief Run a docker compose action by name.
      * @param action One of: build, up, down, logs.
      * @return int 0 on success, non-zero on failure.
      */
-    static int execute(const std::string& action);
+    static int compose(const std::string& action);
 };
 
 } // namespace manager
-
-#endif // MANAGER_COMMANDS_DOCKER_CMD_H

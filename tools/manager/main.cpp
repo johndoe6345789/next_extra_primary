@@ -169,17 +169,8 @@ int main(int argc, char** argv)
     // ---- run ----
     register_run(app);
 
-    // ---- docker ----
-    auto* docker = app.add_subcommand("docker", "Docker compose operations");
-    std::string docker_action;
-    docker->add_option("action", docker_action, "Action: build, up, down, logs")
-        ->required();
-    docker->callback([&docker_action]() {
-        int rc = manager::DockerCmd::execute(docker_action);
-        if (rc != 0) {
-            fmt::print("[manager] Docker failed ({})\n", rc);
-        }
-    });
+    // ---- docker (build, up, down, logs, deps, status) ----
+    manager::DockerCmd::registerAll(app);
 
     // ---- lint ----
     auto* lint =
