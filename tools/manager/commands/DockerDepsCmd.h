@@ -35,8 +35,7 @@ class DockerDepsCmd
      * @param push    If true, push to the registry.
      * @return int 0 on success, non-zero on failure.
      */
-    static int execute(const std::string& target,
-                       const std::string& platform,
+    static int execute(const std::string& target, const std::string& platform,
                        bool push);
 };
 

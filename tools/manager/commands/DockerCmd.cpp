@@ -22,15 +22,12 @@ int DockerCmd::compose(const std::string& action)
         return 1;
     }
 
-    static const std::unordered_map<std::string,
-                                    std::string>
-        cmds = {
-            {"build", "docker compose build"},
-            {"up", "docker compose up -d"},
-            {"down", "docker compose down"},
-            {"logs",
-             "docker compose logs -f --tail=100"},
-        };
+    static const std::unordered_map<std::string, std::string> cmds = {
+        {"build", "docker compose build"},
+        {"up", "docker compose up -d"},
+        {"down", "docker compose down"},
+        {"logs", "docker compose logs -f --tail=100"},
+    };
 
     auto it = cmds.find(action);
     if (it == cmds.end()) {
@@ -41,33 +38,27 @@ int DockerCmd::compose(const std::string& action)
     fmt::print("[docker] Running '{}' ...\n", action);
     int rc = shell("docker", it->second);
     if (rc != 0) {
-        fmt::print("[docker] '{}' failed (exit {})\n",
-                   action, rc);
+        fmt::print("[docker] '{}' failed (exit {})\n", action, rc);
     }
     return rc;
 }
 
 void DockerCmd::registerAll(CLI::App& parent)
 {
-    auto* docker = parent.add_subcommand(
-        "docker", "Docker operations");
+    auto* docker = parent.add_subcommand("docker", "Docker operations");
     docker->require_subcommand(1);
 
     // --- compose shortcuts ---
-    auto* bld = docker->add_subcommand(
-        "build", "Build compose images");
+    auto* bld = docker->add_subcommand("build", "Build compose images");
     bld->callback([]() { compose("build"); });
 
-    auto* up = docker->add_subcommand(
-        "up", "Start services (detached)");
+    auto* up = docker->add_subcommand("up", "Start services (detached)");
     up->callback([]() { compose("up"); });
 
-    auto* dn = docker->add_subcommand(
-        "down", "Stop services");
+    auto* dn = docker->add_subcommand("down", "Stop services");
     dn->callback([]() { compose("down"); });
 
-    auto* lg = docker->add_subcommand(
-        "logs", "Tail service logs");
+    auto* lg = docker->add_subcommand("logs", "Tail service logs");
     lg->callback([]() { compose("logs"); });
 
     // --- smart commands ---
