@@ -4,6 +4,7 @@
  */
 
 #include "DockerCmd.h"
+#include "DockerBuildxCmd.h"
 #include "DockerDepsCmd.h"
 #include "DockerStatusCmd.h"
 #include "ShellUtil.h"
@@ -62,6 +63,7 @@ void DockerCmd::registerAll(CLI::App& parent)
     lg->callback([]() { compose("logs"); });
 
     // --- smart commands ---
+    DockerBuildxCmd::registerSub(*docker);
     DockerDepsCmd::registerSub(*docker);
     DockerStatusCmd::registerSub(*docker);
 }
