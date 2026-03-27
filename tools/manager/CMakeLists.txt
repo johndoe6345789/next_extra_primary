@@ -8,16 +8,21 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 find_package(CLI11 REQUIRED)
 find_package(nlohmann_json REQUIRED)
 find_package(fmt REQUIRED)
+find_package(inja REQUIRED)
 
 add_executable(manager
     main.cpp
     commands/BuildCmd.cpp
+    commands/PackageRepoCmd.cpp
+    commands/CmakeGenCmd.cpp
+    commands/ConanInstallCmd.cpp
     commands/DockerBuildxCmd.cpp
     commands/DockerCmd.cpp
     commands/DockerDepsCmd.cpp
     commands/DockerStatusCmd.cpp
     commands/GenerateCmd.cpp
     commands/LintCmd.cpp
+    commands/SetupExoticArchCmd.cpp
     commands/TestCmd.cpp
 )
 
@@ -31,6 +36,7 @@ target_link_libraries(manager
         CLI11::CLI11
         nlohmann_json::nlohmann_json
         fmt::fmt
+        pantor::inja
 )
 
 install(TARGETS manager RUNTIME DESTINATION bin)

@@ -19,6 +19,7 @@
 #include "commands/DockerCmd.h"
 #include "commands/GenerateCmd.h"
 #include "commands/LintCmd.h"
+#include "commands/PackageRepoCmd.h"
 #include "commands/SetupExoticArchCmd.h"
 #include "commands/TestCmd.h"
 
@@ -171,6 +172,9 @@ int main(int argc, char** argv)
 
     // ---- docker (build, up, down, logs, deps, status) ----
     manager::DockerCmd::registerAll(app);
+
+    // ---- repo (build, up, down, status, logs) ----
+    manager::PackageRepoCmd::registerAll(app);
 
     // ---- lint ----
     auto* lint =

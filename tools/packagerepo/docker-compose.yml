@@ -1,0 +1,60 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: packagerepo
+      POSTGRES_USER: packagerepo
+      POSTGRES_PASSWORD: packagerepo
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "5050:5000"
+    environment:
+      DATA_DIR: /data
+      JWT_SECRET: dev-secret-change-in-production
+      DATABASE_URL: "host=db port=5432 dbname=packagerepo user=packagerepo password=packagerepo"
+      PGHOST: db
+      PGPORT: "5432"
+      PGUSER: packagerepo
+      PGPASSWORD: packagerepo
+      PGDATABASE: packagerepo
+    volumes:
+      - backend-data:/data
+    depends_on:
+      - db
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:5000
+      NODE_ENV: production
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    restart: unless-stopped
+
+volumes:
+  db-data:
+    driver: local
+  backend-data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge
