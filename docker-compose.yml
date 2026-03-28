@@ -18,6 +18,12 @@ services:
   backend:
     build:
       context: ./backend
+      additional_contexts:
+        manager: ./tools/manager
+        commands: ./.local/commands
+      args:
+        DEPS_IMAGE: debian:sid
+        RUNTIME_IMAGE: debian:sid-slim
     ports:
       - "8080:8080"
     depends_on:
@@ -38,6 +44,8 @@ services:
   frontend:
     build:
       context: ./frontend
+      args:
+        RUNTIME_IMAGE: debian:sid-slim
     ports:
       - "3000:3000"
     depends_on:

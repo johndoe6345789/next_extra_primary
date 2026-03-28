@@ -1,6 +1,5 @@
 # Multi-arch Dockerfile for nextra-api (C++ backend).
-# Requires: --build-context manager=./tools/manager
-#            --build-context commands=./.local/commands
+# Build contexts: manager=./tools/manager, commands=./.local/commands
 ARG DEPS_IMAGE=debian:sid
 
 # -- Stage 0: manager tool ----------------------------------
