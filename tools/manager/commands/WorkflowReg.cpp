@@ -78,8 +78,8 @@ void registerWorkflows(CLI::App& app)
 {
     const char* envDir = std::getenv("MANAGER_COMMANDS_DIR");
     auto dir = (envDir && std::filesystem::exists(envDir))
-        ? std::filesystem::path(envDir)
-        : repoRoot() / kCommandsDir;
+                   ? std::filesystem::path(envDir)
+                   : repoRoot() / kCommandsDir;
     if (!std::filesystem::exists(dir))
         return;
     std::vector<std::filesystem::path> files;
