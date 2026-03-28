@@ -26,6 +26,7 @@ SRCS := main.cpp \
         commands/CmakeGenCtx.cpp \
         commands/WorkflowCtx.cpp \
         commands/WorkflowExec.cpp \
+        commands/WorkflowLoad.cpp \
         commands/WorkflowReg.cpp \
         commands/WorkflowSteps.cpp
 

@@ -1,6 +1,6 @@
 /**
  * @file WorkflowReg.cpp
- * @brief Register JSON-defined commands as CLI subcommands.
+ * @brief Discover and register JSON command files.
  */
 
 #include "ShellUtil.h"
@@ -23,43 +23,6 @@ namespace manager
 
 static constexpr const char* kCommandsDir = ".local/commands";
 
-/// @brief Register one JSON command entry.
-static void registerCmd(CLI::App* parent, const json& def)
-{
-    auto name = def["name"].get<std::string>();
-    auto desc = def["description"].get<std::string>();
-    auto* sub = parent->add_subcommand(name, desc);
-
-    auto opts = std::make_shared<std::map<std::string, std::string>>();
-    auto flags = std::make_shared<std::map<std::string, bool>>();
-
-    if (def.contains("options")) {
-        for (const auto& opt : def["options"]) {
-            auto oname = opt["name"].get<std::string>();
-            auto help = opt.value("help", "");
-            auto dflt = opt.value("default", "");
-            (*opts)[oname] = dflt;
-            if (opt.value("flag", false)) {
-                (*flags)[oname] = false;
-                sub->add_flag("--" + oname, (*flags)[oname], help);
-            } else {
-                sub->add_option("--" + oname, (*opts)[oname], help);
-            }
-        }
-    }
-
-    auto steps = def["steps"];
-    sub->callback([opts, flags, steps]() {
-        WorkflowCtx ctx;
-        ctx.loadBuiltins();
-        for (const auto& [k, v] : *opts)
-            ctx.set("opt." + k, v);
-        for (const auto& [k, v] : *flags)
-            ctx.set("opt." + k, v ? "true" : "false");
-        executeWorkflow(steps, ctx);
-    });
-}
-
 /// @brief Load one command file and register it.
 static void loadFile(CLI::App& app, const std::filesystem::path& path)
 {
@@ -76,12 +39,18 @@ static void loadFile(CLI::App& app, const std::filesystem::path& path)
 
 void registerWorkflows(CLI::App& app)
 {
+    std::filesystem::path dir;
     const char* envDir = std::getenv("MANAGER_COMMANDS_DIR");
-    auto dir = (envDir && std::filesystem::exists(envDir))
-                   ? std::filesystem::path(envDir)
-                   : repoRoot() / kCommandsDir;
-    if (!std::filesystem::exists(dir))
-        return;
+    if (envDir && std::filesystem::exists(envDir)) {
+        dir = envDir;
+    } else {
+        auto root = repoRoot();
+        if (root.empty())
+            return;
+        dir = root / kCommandsDir;
+        if (!std::filesystem::exists(dir))
+            return;
+    }
     std::vector<std::filesystem::path> files;
     for (const auto& entry : std::filesystem::directory_iterator(dir)) {
         if (entry.path().extension() == ".json")
