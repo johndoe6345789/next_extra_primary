@@ -61,7 +61,7 @@
         {
           "type": "shell",
           "tag": "buildx",
-          "command": "DEPS=\"\"; if [ \"{opt.no-deps}\" != \"true\" ] && docker image inspect {reg}/{item}-deps:latest >/dev/null 2>&1; then DEPS=\"--build-arg DEPS_IMAGE={reg}/{item}-deps:latest\"; echo \"[buildx] Using deps: {reg}/{item}-deps:latest\"; else echo \"[buildx] No deps image, using debian:sid\"; fi; docker buildx build -f {item}/Dockerfile --platform {platform} $DEPS -t {reg}/{item}:latest -t {reg}/{item}:sha-{sha} --load {item}"
+          "command": "DEPS=\"\"; if [ \"{opt.no-deps}\" != \"true\" ] && docker image inspect {reg}/{item}-deps:latest >/dev/null 2>&1; then DEPS=\"--build-arg DEPS_IMAGE={reg}/{item}-deps:latest\"; echo \"[buildx] Using deps: {reg}/{item}-deps:latest\"; else echo \"[buildx] No deps image, using debian:sid\"; fi; docker buildx build -f {item}/Dockerfile --platform {platform} $DEPS --build-context manager=./tools/manager --build-context commands=./.local/commands -t {reg}/{item}:latest -t {reg}/{item}:sha-{sha} --load {item}"
         }
       ]
     },

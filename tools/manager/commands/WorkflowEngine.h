@@ -59,6 +59,9 @@ int stepTemplate(const nlohmann::json& step, WorkflowCtx& ctx);
 int executeCmakeGen(const std::string& input, const std::string& output,
                     const std::string& templates);
 
+/// @brief Register one JSON command definition on a CLI app.
+void registerCmd(CLI::App* parent, const nlohmann::json& def);
+
 /// @brief Register JSON-defined commands on a CLI app.
 void registerWorkflows(CLI::App& app);
 

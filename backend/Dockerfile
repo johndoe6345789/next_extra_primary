@@ -1,5 +1,6 @@
 # Multi-arch Dockerfile for nextra-api (C++ backend).
 # Requires: --build-context manager=./tools/manager
+#            --build-context commands=./.local/commands
 ARG DEPS_IMAGE=debian:sid
 
 # -- Stage 0: manager tool ----------------------------------
@@ -37,6 +38,8 @@ RUN command -v conan >/dev/null 2>&1 || { \
     conan profile detect --force; }
 
 COPY --from=manager-build /build/manager /usr/local/bin/
+COPY --from=commands . /usr/local/share/manager/commands/
+ENV MANAGER_COMMANDS_DIR=/usr/local/share/manager/commands/
 
 WORKDIR /build
 

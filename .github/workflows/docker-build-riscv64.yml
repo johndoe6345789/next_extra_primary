@@ -62,6 +62,7 @@ jobs:
           context: ./backend
           build-contexts: |
             manager=./tools/manager
+            commands=./.local/commands
           platforms: linux/riscv64
           push: ${{ github.event_name == 'push' }}
           tags: >-
