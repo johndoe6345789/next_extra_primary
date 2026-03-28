@@ -17,16 +17,15 @@ namespace manager
 {
 
 /// @brief Build the full act CLI string with auto flags.
-static std::string buildActCmd(
-    const std::string& wfDir, const std::string& file,
-    const std::string& job, bool verbose)
+static std::string buildActCmd(const std::string& wfDir,
+                               const std::string& file, const std::string& job,
+                               bool verbose)
 {
     auto wfPath = fmt::format("{}/{}", wfDir, file);
     auto cmd = fmt::format("act -W {}", wfPath);
 
     auto runners = ActCmd::loadRunners();
-    for (const auto& label :
-         ActCmd::extractRunners(wfPath)) {
+    for (const auto& label : ActCmd::extractRunners(wfPath)) {
         auto img = ActCmd::runnerImage(label, runners);
         cmd += fmt::format(" -P {}={}", label, img);
         fmt::print("[act] Runner: {} -> {}\n", label, img);
@@ -34,10 +33,8 @@ static std::string buildActCmd(
 
     auto host = hostPlatform();
     if (host != "linux/amd64") {
-        cmd += fmt::format(
-            " --env BUILD_PLATFORM={}", host);
-        fmt::print("[act] Injecting BUILD_PLATFORM={}\n",
-                   host);
+        cmd += fmt::format(" --env BUILD_PLATFORM={}", host);
+        fmt::print("[act] Injecting BUILD_PLATFORM={}\n", host);
     }
 
     if (!job.empty())
@@ -47,8 +44,7 @@ static std::string buildActCmd(
     return cmd;
 }
 
-int ActCmd::runWorkflow(const std::string& file,
-                        const std::string& job,
+int ActCmd::runWorkflow(const std::string& file, const std::string& job,
                         bool verbose)
 {
     if (!checkAct())
@@ -63,8 +59,7 @@ int ActCmd::runWorkflow(const std::string& file,
         fmt::print("[act] Workflow not found: {}\n", path);
         return 1;
     }
-    return shell("act",
-                 buildActCmd(wfDir, file, job, verbose));
+    return shell("act", buildActCmd(wfDir, file, job, verbose));
 }
 
 int ActCmd::list()
@@ -81,8 +76,7 @@ int ActCmd::list()
     fmt::print("[act] Workflows in {}:\n", wfDir);
     for (const auto& e : fs::directory_iterator(wfDir)) {
         if (e.path().extension() == ".yml")
-            fmt::print("  - {}\n",
-                       e.path().filename().string());
+            fmt::print("  - {}\n", e.path().filename().string());
     }
     return 0;
 }

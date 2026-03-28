@@ -3,11 +3,11 @@
  * @brief Register JSON-defined commands as CLI subcommands.
  */
 
-#include "WorkflowEngine.h"
 #include "ShellUtil.h"
+#include "WorkflowEngine.h"
 
-#include <nlohmann/json.hpp>
 #include <fmt/core.h>
+#include <nlohmann/json.hpp>
 
 #include <algorithm>
 #include <filesystem>
@@ -43,8 +43,7 @@ static void registerCmd(CLI::App* parent, const json& def)
                 sub->add_flag("--" + oname, *flagPtr, help);
                 opts->emplace(oname, "false");
             } else {
-                sub->add_option(
-                    "--" + oname, (*opts)[oname], help);
+                sub->add_option("--" + oname, (*opts)[oname], help);
             }
         }
     }
@@ -60,8 +59,7 @@ static void registerCmd(CLI::App* parent, const json& def)
 }
 
 /// @brief Load one command file and register it.
-static void loadFile(CLI::App& app,
-                     const std::filesystem::path& path)
+static void loadFile(CLI::App& app, const std::filesystem::path& path)
 {
     std::ifstream in(path);
     if (!in.is_open())
@@ -69,8 +67,8 @@ static void loadFile(CLI::App& app,
     try {
         registerCmd(&app, json::parse(in));
     } catch (const std::exception& e) {
-        fmt::print("[workflow] Bad {}: {}\n",
-                   path.filename().string(), e.what());
+        fmt::print("[workflow] Bad {}: {}\n", path.filename().string(),
+                   e.what());
     }
 }
 
@@ -83,8 +81,7 @@ void registerWorkflows(CLI::App& app)
     if (!std::filesystem::exists(dir))
         return;
     std::vector<std::filesystem::path> files;
-    for (const auto& entry :
-         std::filesystem::directory_iterator(dir)) {
+    for (const auto& entry : std::filesystem::directory_iterator(dir)) {
         if (entry.path().extension() == ".json")
             files.push_back(entry.path());
     }

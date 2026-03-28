@@ -44,8 +44,7 @@ int executeStep(const nlohmann::json& step, WorkflowCtx& ctx);
 
 /// @brief Execute all steps in a workflow.
 /// @return 0 if all pass, first non-zero on failure.
-int executeWorkflow(const nlohmann::json& steps,
-                    WorkflowCtx& ctx);
+int executeWorkflow(const nlohmann::json& steps, WorkflowCtx& ctx);
 
 /// @brief Execute the "write" step type.
 int stepWrite(const nlohmann::json& step, WorkflowCtx& ctx);
@@ -54,12 +53,10 @@ int stepWrite(const nlohmann::json& step, WorkflowCtx& ctx);
 int stepRetry(const nlohmann::json& step, WorkflowCtx& ctx);
 
 /// @brief Execute the "template" step type.
-int stepTemplate(const nlohmann::json& step,
-                 WorkflowCtx& ctx);
+int stepTemplate(const nlohmann::json& step, WorkflowCtx& ctx);
 
 /// @brief Execute cmake-gen template rendering.
-int executeCmakeGen(const std::string& input,
-                    const std::string& output,
+int executeCmakeGen(const std::string& input, const std::string& output,
                     const std::string& templates);
 
 /// @brief Register JSON-defined commands on a CLI app.

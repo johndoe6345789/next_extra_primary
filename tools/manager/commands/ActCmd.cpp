@@ -6,8 +6,8 @@
 #include "ActCmd.h"
 #include "ShellUtil.h"
 
-#include <nlohmann/json.hpp>
 #include <fmt/core.h>
+#include <nlohmann/json.hpp>
 
 #include <filesystem>
 #include <fstream>
@@ -56,8 +56,7 @@ std::map<std::string, std::string> ActCmd::loadRunners()
     return m;
 }
 
-std::set<std::string> ActCmd::extractRunners(
-    const std::string& path)
+std::set<std::string> ActCmd::extractRunners(const std::string& path)
 {
     std::set<std::string> labels;
     std::ifstream in(path);
@@ -73,9 +72,8 @@ std::set<std::string> ActCmd::extractRunners(
     return labels;
 }
 
-std::string ActCmd::runnerImage(
-    const std::string& label,
-    const std::map<std::string, std::string>& map)
+std::string ActCmd::runnerImage(const std::string& label,
+                                const std::map<std::string, std::string>& map)
 {
     if (auto it = map.find(label); it != map.end())
         return it->second;

@@ -3,16 +3,15 @@
  * @brief Variable context with built-in resolution.
  */
 
-#include "WorkflowEngine.h"
 #include "ShellUtil.h"
+#include "WorkflowEngine.h"
 
 #include <fmt/core.h>
 
 namespace manager
 {
 
-void WorkflowCtx::set(const std::string& key,
-                      const std::string& val)
+void WorkflowCtx::set(const std::string& key, const std::string& val)
 {
     vars_[key] = val;
 }
@@ -23,8 +22,7 @@ std::string WorkflowCtx::get(const std::string& key) const
     return it != vars_.end() ? it->second : "";
 }
 
-std::string WorkflowCtx::expand(
-    const std::string& tmpl) const
+std::string WorkflowCtx::expand(const std::string& tmpl) const
 {
     std::string result;
     size_t i = 0;
