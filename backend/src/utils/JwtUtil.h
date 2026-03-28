@@ -23,8 +23,8 @@ namespace utils
  * @param userId  Unique user identifier.
  * @return Signed JWT string.
  */
-[[nodiscard]] auto generateRefreshToken(const std::string& userId)
-    -> std::string;
+[[nodiscard]] auto
+generateRefreshToken(const std::string& userId) -> std::string;
 
 /**
  * @brief Decoded JWT claims.
