@@ -21,6 +21,11 @@ add_executable(manager
     commands/DockerCmd.cpp
     commands/DockerDepsCmd.cpp
     commands/DockerStatusCmd.cpp
+    commands/ElasticCmd.cpp
+    commands/ElasticCmdDrop.cpp
+    commands/ElasticCmdInit.cpp
+    commands/ElasticCmdReindex.cpp
+    commands/ElasticCmdStatus.cpp
     commands/GenerateCmd.cpp
     commands/LintCmd.cpp
     commands/SetupExoticArchCmd.cpp

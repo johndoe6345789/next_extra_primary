@@ -46,21 +46,27 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
   return (
     <>
-      <a
+      <Box
+        component="a"
         href="#main-content"
-        className="sr-only"
         data-testid="skip-to-content"
         tabIndex={0}
+        sx={{
+          position: 'absolute',
+          left: '-9999px',
+          '&:focus': { left: 8, top: 8, zIndex: 9999 },
+        }}
       >
         {tA11y('skipToContent')}
-      </a>
+      </Box>
       <AppBar
         position="sticky"
+        elevation={2}
         role="navigation"
         aria-label="Main navigation"
         data-testid={testId}
       >
-        <Toolbar sx={{ gap: 1 }}>
+        <Toolbar sx={{ gap: 1.5 }}>
           <MobileDrawer links={LINKS} />
           <MuiLink
             component={Link}
@@ -68,16 +74,26 @@ export const Navbar: React.FC<NavbarProps> = ({
             underline="none"
             color="inherit"
             data-testid="navbar-logo"
+            sx={{ mr: 2 }}
           >
-            <Typography variant="h6">{tCommon('appName')}</Typography>
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: 700, letterSpacing: '-0.02em' }}
+            >
+              {tCommon('appName')}
+            </Typography>
           </MuiLink>
           <NavLinks links={LINKS} />
           <Box sx={{ flexGrow: 1 }} />
-          <SearchBar onSearch={onSearch ?? (() => {})} />
-          <NotificationBell onClick={onNotificationClick} />
-          <ThemeToggle />
-          <LocaleSwitcher />
-          <AvatarMenu user={user} onLogout={logout} />
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+              <SearchBar compact onSearch={onSearch ?? (() => {})} />
+            </Box>
+            <NotificationBell onClick={onNotificationClick} />
+            <ThemeToggle />
+            <LocaleSwitcher />
+            <AvatarMenu user={user} onLogout={logout} />
+          </Box>
         </Toolbar>
       </AppBar>
     </>

@@ -33,6 +33,8 @@ export interface TextFieldProps {
   autoComplete?: string;
   /** Unique identifier for the field */
   id?: string;
+  /** Field size variant */
+  size?: 'small' | 'medium';
   /** data-testid attribute for testing */
   testId?: string;
   /** Additional input element props */
@@ -57,6 +59,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   rows,
   autoComplete,
   id,
+  size,
   testId = 'text-field',
   inputProps,
 }) => {
@@ -77,6 +80,7 @@ export const TextField: React.FC<TextFieldProps> = ({
       multiline={multiline}
       rows={rows}
       autoComplete={autoComplete}
+      size={size}
       inputProps={{
         'aria-describedby': helperText ? helperId : undefined,
         ...inputProps,

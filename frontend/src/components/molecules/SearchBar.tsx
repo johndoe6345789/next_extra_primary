@@ -14,6 +14,8 @@ export interface SearchBarProps {
   onSearch: (value: string) => void;
   /** Debounce delay in milliseconds. */
   delay?: number;
+  /** Compact size for toolbar use. */
+  compact?: boolean;
   /** data-testid attribute for testing. */
   testId?: string;
 }
@@ -30,6 +32,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   placeholder = 'Search...',
   onSearch,
   delay = 300,
+  compact = false,
   testId = 'search-bar',
 }) => {
   const [query, setQuery] = useState('');
@@ -50,11 +53,16 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   }, []);
 
   return (
-    <div data-testid={testId} onKeyDown={onKeyDown}>
+    <div
+      data-testid={testId}
+      onKeyDown={onKeyDown}
+      style={{ minWidth: 120, maxWidth: 200 }}
+    >
       <TextField
         label={placeholder}
         value={query}
         onChange={handleChange}
+        size={compact ? 'small' : undefined}
         testId={`${testId}-input`}
         inputProps={{
           'aria-label': 'Search',

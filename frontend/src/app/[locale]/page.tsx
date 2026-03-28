@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import { HeroSection } from '@/components/organisms/HeroSection';
 import { FeatureGrid } from '@/components/organisms/FeatureGrid';
 
@@ -33,7 +34,9 @@ export default async function LandingPage({
       sx={{ minHeight: '100vh' }}
     >
       <HeroSection />
-      <FeatureGrid />
+      <Container maxWidth="lg" sx={{ pt: { xs: 3, md: 5 }, pb: { xs: 6, md: 10 } }}>
+        <FeatureGrid />
+      </Container>
     </Box>
   );
 }

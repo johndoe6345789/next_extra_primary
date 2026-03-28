@@ -67,9 +67,12 @@ services:
       PGUSER: packagerepo
       PGPASSWORD: packagerepo
       PGDATABASE: packagerepo
+      ES_HOST: elasticsearch
+      ES_PORT: "9200"
     depends_on:
       - db
       - s3
+      - elasticsearch
     networks:
       - app-network
     restart: unless-stopped
@@ -89,12 +92,31 @@ services:
       - app-network
     restart: unless-stopped
 
+  elasticsearch:
+    image: elasticsearch:8.17.0
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    volumes:
+      - esdata:/var/lib/elasticsearch/data
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9200"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 volumes:
   db-data:
     driver: local
   s3db-data:
     driver: local
   s3-data:
+    driver: local
+  esdata:
     driver: local
 
 networks:
