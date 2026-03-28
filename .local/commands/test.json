@@ -1,0 +1,68 @@
+{
+  "name": "test",
+  "description": "Build in Debug mode and run tests with ctest",
+  "options": [
+    {
+      "name": "filter",
+      "default": "",
+      "help": "Test name regex filter"
+    }
+  ],
+  "steps": [
+    {
+      "type": "print",
+      "text": "[test] Building Debug configuration for testing"
+    },
+    {
+      "type": "set",
+      "var": "build_dir",
+      "value": "build/Debug"
+    },
+    {
+      "type": "print",
+      "text": "[test] Installing Conan dependencies"
+    },
+    {
+      "type": "shell",
+      "tag": "test",
+      "command": "conan install . --output-folder={build_dir} --build=missing -s build_type=Debug"
+    },
+    {
+      "type": "print",
+      "text": "[test] Configuring CMake"
+    },
+    {
+      "type": "shell",
+      "tag": "test",
+      "command": "cmake -B {build_dir} -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE={build_dir}/conan_toolchain.cmake"
+    },
+    {
+      "type": "print",
+      "text": "[test] Compiling"
+    },
+    {
+      "type": "shell",
+      "tag": "test",
+      "command": "cmake --build {build_dir} --parallel"
+    },
+    {
+      "type": "print",
+      "text": "[test] Running tests"
+    },
+    {
+      "type": "set",
+      "var": "filter_flag",
+      "value": "--tests-regex {opt.filter}",
+      "default": ""
+    },
+    {
+      "type": "shell",
+      "tag": "test",
+      "command": "ctest --test-dir {build_dir} --output-on-failure --parallel {filter_flag}"
+    },
+    {
+      "type": "print",
+      "text": "[test] Tests complete"
+    }
+  ]
+}

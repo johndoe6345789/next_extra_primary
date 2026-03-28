@@ -9,6 +9,7 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <filesystem>
 #include <string>
 
 namespace manager
@@ -66,6 +67,22 @@ inline std::string detectRegistry()
     if (repo.empty())
         repo = "local/nextra";
     return "ghcr.io/" + repo;
+}
+
+/// Walk up from cwd to find the repo root (.git marker).
+/// Returns empty path if not found.
+inline std::filesystem::path repoRoot()
+{
+    auto dir = std::filesystem::current_path();
+    while (true) {
+        if (std::filesystem::exists(dir / ".git"))
+            return dir;
+        auto parent = dir.parent_path();
+        if (parent == dir)
+            break;
+        dir = parent;
+    }
+    return {};
 }
 
 /// Map uname -m to Docker platform string.

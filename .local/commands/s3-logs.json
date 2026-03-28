@@ -1,0 +1,20 @@
+{
+  "name": "s3-logs",
+  "description": "Tail S3 server logs",
+  "steps": [
+    {
+      "type": "check",
+      "command": "docker info",
+      "error": "Docker daemon is not running"
+    },
+    {
+      "type": "print",
+      "text": "[s3] Tailing nextra-s3server logs"
+    },
+    {
+      "type": "shell",
+      "tag": "s3",
+      "command": "docker logs -f --tail=100 nextra-s3server"
+    }
+  ]
+}

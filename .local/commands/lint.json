@@ -1,0 +1,44 @@
+{
+  "name": "lint",
+  "description": "Run clang-format and clang-tidy checks on C++ sources",
+  "steps": [
+    {
+      "type": "print",
+      "text": "[lint] Collecting C++ source files..."
+    },
+    {
+      "type": "foreach",
+      "command": "find src tests include -type f \\( -name '*.cpp' -o -name '*.h' -o -name '*.hpp' -o -name '*.cc' -o -name '*.cxx' \\) 2>/dev/null | sort",
+      "var": "file",
+      "steps": [
+        {
+          "type": "shell",
+          "tag": "lint",
+          "command": "clang-format --dry-run --Werror {file}"
+        }
+      ]
+    },
+    {
+      "type": "capture",
+      "command": "test -f build/Debug/compile_commands.json && echo true",
+      "var": "has_compile_db"
+    },
+    {
+      "type": "foreach",
+      "command": "find src tests include -type f \\( -name '*.cpp' -o -name '*.h' -o -name '*.hpp' -o -name '*.cc' -o -name '*.cxx' \\) 2>/dev/null | sort",
+      "var": "file",
+      "when": "{has_compile_db}",
+      "steps": [
+        {
+          "type": "shell",
+          "tag": "lint",
+          "command": "clang-tidy -p build/Debug {file}"
+        }
+      ]
+    },
+    {
+      "type": "print",
+      "text": "[lint] All checks completed."
+    }
+  ]
+}

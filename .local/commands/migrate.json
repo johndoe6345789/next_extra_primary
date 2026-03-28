@@ -1,0 +1,27 @@
+{
+  "name": "migrate",
+  "description": "Run database migrations via drogon_ctl",
+  "options": [
+    {
+      "name": "direction",
+      "default": "up",
+      "help": "Migration direction: up, down, or status"
+    }
+  ],
+  "steps": [
+    {
+      "type": "check",
+      "command": "command -v drogon_ctl",
+      "error": "drogon_ctl is not installed"
+    },
+    {
+      "type": "print",
+      "text": "[migrate] Direction: {opt.direction}"
+    },
+    {
+      "type": "shell",
+      "tag": "migrate",
+      "command": "drogon_ctl migrate {opt.direction}"
+    }
+  ]
+}

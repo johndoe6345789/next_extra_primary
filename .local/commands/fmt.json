@@ -1,0 +1,26 @@
+{
+  "name": "fmt",
+  "description": "Format C++ source files with clang-format",
+  "steps": [
+    {
+      "type": "print",
+      "text": "[fmt] Collecting C++ source files..."
+    },
+    {
+      "type": "foreach",
+      "command": "find src tests include -type f \\( -name '*.cpp' -o -name '*.h' -o -name '*.hpp' -o -name '*.cc' -o -name '*.cxx' \\) 2>/dev/null | sort",
+      "var": "file",
+      "steps": [
+        {
+          "type": "shell",
+          "tag": "fmt",
+          "command": "clang-format -i {file}"
+        }
+      ]
+    },
+    {
+      "type": "print",
+      "text": "[fmt] All files formatted."
+    }
+  ]
+}

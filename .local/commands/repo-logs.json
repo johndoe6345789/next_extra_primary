@@ -1,0 +1,16 @@
+{
+  "name": "repo-logs",
+  "description": "Tail package repo logs",
+  "steps": [
+    {
+      "type": "check",
+      "command": "docker info",
+      "error": "Docker daemon is not running"
+    },
+    {
+      "type": "shell",
+      "tag": "repo",
+      "command": "docker logs -f --tail=100 nextra-packagerepo"
+    }
+  ]
+}

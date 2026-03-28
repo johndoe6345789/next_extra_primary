@@ -1,0 +1,53 @@
+{
+  "name": "build",
+  "description": "Build the C++ backend with Conan and CMake",
+  "options": [
+    {
+      "name": "type",
+      "default": "Debug",
+      "help": "Debug or Release"
+    }
+  ],
+  "steps": [
+    {
+      "type": "print",
+      "text": "[build] Building {opt.type} configuration"
+    },
+    {
+      "type": "set",
+      "var": "build_dir",
+      "value": "build/{opt.type}"
+    },
+    {
+      "type": "print",
+      "text": "[build] Installing Conan dependencies"
+    },
+    {
+      "type": "shell",
+      "tag": "build",
+      "command": "conan install . --output-folder={build_dir} --build=missing -s build_type={opt.type}"
+    },
+    {
+      "type": "print",
+      "text": "[build] Configuring CMake"
+    },
+    {
+      "type": "shell",
+      "tag": "build",
+      "command": "cmake -B {build_dir} -DCMAKE_BUILD_TYPE={opt.type} -DCMAKE_TOOLCHAIN_FILE={build_dir}/conan_toolchain.cmake"
+    },
+    {
+      "type": "print",
+      "text": "[build] Compiling"
+    },
+    {
+      "type": "shell",
+      "tag": "build",
+      "command": "cmake --build {build_dir} --parallel"
+    },
+    {
+      "type": "print",
+      "text": "[build] {opt.type} build complete"
+    }
+  ]
+}
