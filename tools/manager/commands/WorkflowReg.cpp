@@ -9,9 +9,11 @@
 #include <nlohmann/json.hpp>
 #include <fmt/core.h>
 
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <string>
+#include <vector>
 
 using json = nlohmann::json;
 
@@ -80,11 +82,15 @@ void registerWorkflows(CLI::App& app)
     auto dir = root / kCommandsDir;
     if (!std::filesystem::exists(dir))
         return;
+    std::vector<std::filesystem::path> files;
     for (const auto& entry :
          std::filesystem::directory_iterator(dir)) {
         if (entry.path().extension() == ".json")
-            loadFile(app, entry.path());
+            files.push_back(entry.path());
     }
+    std::sort(files.begin(), files.end());
+    for (const auto& f : files)
+        loadFile(app, f);
 }
 
 } // namespace manager
