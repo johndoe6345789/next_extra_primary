@@ -1,10 +1,17 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from 'next';
+
+/** Rewrite rule for proxying to the backend. */
+interface RewriteRule {
+  readonly source: string;
+  readonly destination: string;
+}
+
+const nextConfig: NextConfig = {
   output: 'standalone',
-  async rewrites() {
-    // Get backend URL from environment, fallback to localhost for development
-    const backendUrl = process.env.BACKEND_URL || 'http://localhost:5050';
-    
+  async rewrites(): Promise<RewriteRule[]> {
+    const backendUrl =
+      process.env.BACKEND_URL ?? 'http://localhost:5050';
+
     return [
       {
         source: '/auth/:path*',
@@ -28,6 +35,6 @@ const nextConfig = {
       },
     ];
   },
-}
+};
 
-module.exports = nextConfig
+export default nextConfig;
