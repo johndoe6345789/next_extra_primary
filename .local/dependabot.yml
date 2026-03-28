@@ -1,0 +1,35 @@
+# =============================================================
+# Dependabot — Package Repository (goodpackagerepo)
+# =============================================================
+
+version: 2
+updates:
+  # Package repo frontend (Next.js)
+  - package-ecosystem: npm
+    directory: /tools/packagerepo/frontend
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:00"
+      timezone: America/New_York
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - packagerepo
+    commit-message:
+      prefix: "deps(packagerepo-frontend):"
+
+  # Local workflow actions
+  - package-ecosystem: github-actions
+    directory: /.local
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:00"
+      timezone: America/New_York
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - ci
+    commit-message:
+      prefix: "deps(actions):"

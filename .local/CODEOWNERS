@@ -1,0 +1,19 @@
+# =============================================================
+# Code Owners — Package Repository (goodpackagerepo)
+# =============================================================
+
+# Backend (C++ Drogon)
+/tools/packagerepo/backend/ @backend-team
+
+# Frontend (Next.js)
+/tools/packagerepo/frontend/ @frontend-team
+
+# Infrastructure
+/tools/packagerepo/docker-compose* @devops-team
+/.local/ @devops-team
+
+# Manager CLI integration
+/tools/manager/ @backend-team
+
+# Documentation
+*.md @docs-team
