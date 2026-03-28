@@ -13,6 +13,7 @@ add_executable(packagerepo-server
     src/controllers/AuthCtrl.cpp
     src/controllers/ArtifactCtrl.cpp
     src/controllers/ArtifactQuery.cpp
+    src/controllers/ArtifactTag.cpp
     src/controllers/HealthCtrl.cpp
     src/controllers/AdminCtrl.cpp
     src/filters/AuthFilter.cpp

@@ -13,18 +13,13 @@ namespace manager
 /// @brief Manages the S3 server lifecycle.
 class S3Cmd
 {
-public:
-    static constexpr const char* kContainer =
-        "nextra-s3server";
-    static constexpr const char* kDbContainer =
-        "nextra-s3server-db";
-    static constexpr const char* kNetwork =
-        "nextra-s3server-net";
+  public:
+    static constexpr const char* kContainer = "nextra-s3server";
+    static constexpr const char* kDbContainer = "nextra-s3server-db";
+    static constexpr const char* kNetwork = "nextra-s3server-net";
     static constexpr int kPort = 9000;
-    static constexpr const char* kDataVol =
-        "nextra-s3server-data";
-    static constexpr const char* kDbVol =
-        "nextra-s3server-dbdata";
+    static constexpr const char* kDataVol = "nextra-s3server-data";
+    static constexpr const char* kDbVol = "nextra-s3server-dbdata";
 
     /// @brief Build the S3 server Docker image.
     static int build();

@@ -5,7 +5,7 @@
 
 #include "AuthFilter.h"
 #include "../services/Globals.h"
-#include "../services/JwtService.h"
+#include "../services/JwtVerify.h"
 
 #include <drogon/HttpResponse.h>
 
@@ -14,11 +14,11 @@ using namespace drogon;
 namespace repo
 {
 
-static Json::Value extractPrincipal(
-    const HttpRequestPtr& req)
+static Json::Value extractPrincipal(const HttpRequestPtr& req)
 {
     auto auth = req->getHeader("Authorization");
-    if (auth.substr(0, 7) != "Bearer ") return {};
+    if (auth.substr(0, 7) != "Bearer ")
+        return {};
     return verifyJwt(auth.substr(7), Globals::jwtSecret);
 }
 
@@ -32,10 +32,8 @@ static HttpResponsePtr unauthorized(const std::string& msg)
     return resp;
 }
 
-void AuthFilter::doFilter(
-    const HttpRequestPtr& req,
-    FilterCallback&& cb,
-    FilterChainCallback&& ccb)
+void AuthFilter::doFilter(const HttpRequestPtr& req, FilterCallback&& cb,
+                          FilterChainCallback&& ccb)
 {
     auto principal = extractPrincipal(req);
     if (principal.isNull()) {
@@ -46,10 +44,9 @@ void AuthFilter::doFilter(
     ccb();
 }
 
-void OptionalAuthFilter::doFilter(
-    const HttpRequestPtr& req,
-    FilterCallback&& cb,
-    FilterChainCallback&& ccb)
+void OptionalAuthFilter::doFilter(const HttpRequestPtr& req,
+                                  FilterCallback&& cb,
+                                  FilterChainCallback&& ccb)
 {
     auto principal = extractPrincipal(req);
     if (!principal.isNull()) {

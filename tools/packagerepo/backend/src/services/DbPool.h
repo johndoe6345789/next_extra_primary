@@ -16,19 +16,16 @@ namespace repo
 /// @brief Manages a shared Drogon PostgreSQL client.
 class DbPool
 {
-public:
+  public:
     static void init(const std::string& connStr)
     {
-        client_ = drogon::orm::DbClient::newPgClient(
-            connStr, 4 /* connections */);
+        client_ =
+            drogon::orm::DbClient::newPgClient(connStr, 4 /* connections */);
     }
 
-    static drogon::orm::DbClientPtr& get()
-    {
-        return client_;
-    }
+    static drogon::orm::DbClientPtr& get() { return client_; }
 
-private:
+  private:
     static inline drogon::orm::DbClientPtr client_;
 };
 

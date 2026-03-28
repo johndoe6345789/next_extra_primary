@@ -14,22 +14,19 @@ namespace repo
 ///        attribute on the request. Rejects if invalid.
 class AuthFilter : public drogon::HttpFilter<AuthFilter>
 {
-public:
-    void doFilter(
-        const drogon::HttpRequestPtr& req,
-        drogon::FilterCallback&& cb,
-        drogon::FilterChainCallback&& ccb) override;
+  public:
+    void doFilter(const drogon::HttpRequestPtr& req,
+                  drogon::FilterCallback&& cb,
+                  drogon::FilterChainCallback&& ccb) override;
 };
 
 /// @brief Like AuthFilter but allows anonymous read access.
-class OptionalAuthFilter
-    : public drogon::HttpFilter<OptionalAuthFilter>
+class OptionalAuthFilter : public drogon::HttpFilter<OptionalAuthFilter>
 {
-public:
-    void doFilter(
-        const drogon::HttpRequestPtr& req,
-        drogon::FilterCallback&& cb,
-        drogon::FilterChainCallback&& ccb) override;
+  public:
+    void doFilter(const drogon::HttpRequestPtr& req,
+                  drogon::FilterCallback&& cb,
+                  drogon::FilterChainCallback&& ccb) override;
 };
 
 } // namespace repo

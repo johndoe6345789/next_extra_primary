@@ -42,8 +42,8 @@ class LevelService
      * @param points Accumulated point total.
      * @return Level number (1-based).
      */
-    [[nodiscard]] auto
-    getLevelForPoints(std::int64_t points) const -> std::int32_t;
+    [[nodiscard]] auto getLevelForPoints(std::int64_t points) const
+        -> std::int32_t;
 
     /**
      * @brief Human-readable title for a level.
@@ -59,8 +59,8 @@ class LevelService
      * @param currentPoints Current point total.
      * @return Remaining points, or 0 at max level.
      */
-    [[nodiscard]] auto
-    pointsToNextLevel(std::int64_t currentPoints) const -> std::int64_t;
+    [[nodiscard]] auto pointsToNextLevel(std::int64_t currentPoints) const
+        -> std::int64_t;
 
   private:
     struct LevelDef {

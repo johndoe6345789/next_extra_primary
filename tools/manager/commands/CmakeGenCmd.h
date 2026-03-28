@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <filesystem>
+#include <nlohmann/json.hpp>
 #include <string>
 
 namespace manager
@@ -27,9 +29,12 @@ class CmakeGenCmd
      * @param tmpl_dir   Directory with .cmake.j2 templates.
      * @return int 0 on success, non-zero on failure.
      */
-    static int execute(const std::string& input,
-                       const std::string& output_dir,
+    static int execute(const std::string& input, const std::string& output_dir,
                        const std::string& tmpl_dir);
+
+    /// @brief Build inja context from project.json.
+    static nlohmann::json buildContext(const nlohmann::json& project,
+                                       const std::filesystem::path& base);
 };
 
 } // namespace manager

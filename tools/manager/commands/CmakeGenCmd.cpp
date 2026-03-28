@@ -1,11 +1,9 @@
 /**
  * @file CmakeGenCmd.cpp
- * @brief Reads project.json, discovers sources, renders
- *        inja templates into CMakeLists.txt files.
+ * @brief Renders inja templates into CMakeLists.txt files.
  */
 
 #include "CmakeGenCmd.h"
-#include "CmakeGenGlob.h"
 
 #include <fmt/core.h>
 #include <inja/inja.hpp>
@@ -20,36 +18,6 @@ using json = nlohmann::json;
 
 namespace manager
 {
-
-/// Build inja context from project.json, enriching
-/// each target with discovered source file lists.
-static json build_context(const json& project, const fs::path& base)
-{
-    json ctx = project;
-    bool has_tests = false;
-
-    for (auto& tgt : ctx["targets"]) {
-        std::vector<std::string> inc, exc;
-        for (const auto& p : tgt["glob_patterns"])
-            inc.push_back(p.get<std::string>());
-        for (const auto& p : tgt["exclude_patterns"])
-            exc.push_back(p.get<std::string>());
-
-        auto srcs = discover_sources(base, tgt["sources_dir"].get<std::string>(),
-                                     inc, exc);
-
-        tgt["source_files"] = json::array();
-        for (const auto& s : srcs) {
-            tgt["source_files"].push_back(s);
-        }
-
-        if (tgt["name"].get<std::string>().find("test") != std::string::npos) {
-            has_tests = true;
-        }
-    }
-    ctx["has_tests"] = has_tests;
-    return ctx;
-}
 
 int CmakeGenCmd::execute(const std::string& input,
                          const std::string& output_dir,
@@ -68,7 +36,7 @@ int CmakeGenCmd::execute(const std::string& input,
             fmt::print("[cmake-gen] Cannot open {}\n", in_abs.string());
             return 1;
         }
-        json ctx = build_context(json::parse(ifs), base);
+        json ctx = buildContext(json::parse(ifs), base);
 
         std::size_t total = 0;
         for (const auto& t : ctx["targets"]) {
@@ -80,9 +48,9 @@ int CmakeGenCmd::execute(const std::string& input,
 
         inja::Environment env;
         std::size_t gen = 0;
-
         for (const auto& e : fs::directory_iterator(tmpl)) {
-            if (!e.is_regular_file()) continue;
+            if (!e.is_regular_file())
+                continue;
             auto fname = e.path().filename().string();
             if (fname.size() < 10 ||
                 fname.substr(fname.size() - 9) != ".cmake.j2")
@@ -104,8 +72,9 @@ int CmakeGenCmd::execute(const std::string& input,
             ++gen;
             fmt::print("[cmake-gen] Generated: {}\n", dest.string());
         }
-
-        fmt::print("[cmake-gen] {} source(s), {} file(s)\n", total, gen);
+        fmt::print("[cmake-gen] {} source(s), {} "
+                   "file(s)\n",
+                   total, gen);
     } catch (const std::exception& ex) {
         fmt::print("[cmake-gen] Error: {}\n", ex.what());
         return 1;

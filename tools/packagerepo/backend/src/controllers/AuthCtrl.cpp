@@ -13,13 +13,12 @@ using namespace drogon;
 namespace repo
 {
 
-void AuthCtrl::login(
-    const HttpRequestPtr& req,
-    std::function<void(const HttpResponsePtr&)>&& cb)
+void AuthCtrl::login(const HttpRequestPtr& req,
+                     std::function<void(const HttpResponsePtr&)>&& cb)
 {
     auto json = req->getJsonObject();
-    if (!json || !(*json)["username"].isString()
-        || !(*json)["password"].isString()) {
+    if (!json || !(*json)["username"].isString() ||
+        !(*json)["password"].isString()) {
         Json::Value err;
         err["error"]["code"] = "INVALID_REQUEST";
         err["error"]["message"] = "Missing credentials";
@@ -29,9 +28,8 @@ void AuthCtrl::login(
         return;
     }
 
-    auto user = PgUserStore::verify(
-        (*json)["username"].asString(),
-        (*json)["password"].asString());
+    auto user = PgUserStore::verify((*json)["username"].asString(),
+                                    (*json)["password"].asString());
 
     if (user.isNull()) {
         Json::Value err;
@@ -43,9 +41,8 @@ void AuthCtrl::login(
         return;
     }
 
-    auto token = createJwt(
-        user["username"].asString(),
-        user["scopes"], Globals::jwtSecret);
+    auto token = createJwt(user["username"].asString(), user["scopes"],
+                           Globals::jwtSecret);
 
     Json::Value out;
     out["ok"] = true;
@@ -54,9 +51,8 @@ void AuthCtrl::login(
     cb(HttpResponse::newHttpJsonResponse(out));
 }
 
-void AuthCtrl::me(
-    const HttpRequestPtr& req,
-    std::function<void(const HttpResponsePtr&)>&& cb)
+void AuthCtrl::me(const HttpRequestPtr& req,
+                  std::function<void(const HttpResponsePtr&)>&& cb)
 {
     auto p = req->attributes()->get<Json::Value>("principal");
     Json::Value out;
@@ -66,14 +62,13 @@ void AuthCtrl::me(
     cb(HttpResponse::newHttpJsonResponse(out));
 }
 
-void AuthCtrl::changePassword(
-    const HttpRequestPtr& req,
-    std::function<void(const HttpResponsePtr&)>&& cb)
+void AuthCtrl::changePassword(const HttpRequestPtr& req,
+                              std::function<void(const HttpResponsePtr&)>&& cb)
 {
     auto p = req->attributes()->get<Json::Value>("principal");
     auto json = req->getJsonObject();
-    if (!json || !(*json)["old_password"].isString()
-        || !(*json)["new_password"].isString()) {
+    if (!json || !(*json)["old_password"].isString() ||
+        !(*json)["new_password"].isString()) {
         Json::Value err;
         err["error"]["code"] = "INVALID_REQUEST";
         err["error"]["message"] = "Missing passwords";
@@ -83,10 +78,9 @@ void AuthCtrl::changePassword(
         return;
     }
 
-    bool ok = PgUserStore::changePass(
-        p["sub"].asString(),
-        (*json)["old_password"].asString(),
-        (*json)["new_password"].asString());
+    bool ok = PgUserStore::changePass(p["sub"].asString(),
+                                      (*json)["old_password"].asString(),
+                                      (*json)["new_password"].asString());
 
     Json::Value out;
     if (ok) {
@@ -97,7 +91,8 @@ void AuthCtrl::changePassword(
         out["error"]["message"] = "Old password incorrect";
     }
     auto r = HttpResponse::newHttpJsonResponse(out);
-    if (!ok) r->setStatusCode(k401Unauthorized);
+    if (!ok)
+        r->setStatusCode(k401Unauthorized);
     cb(r);
 }
 

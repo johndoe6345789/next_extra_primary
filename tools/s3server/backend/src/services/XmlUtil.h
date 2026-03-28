@@ -17,12 +17,23 @@ inline std::string xmlEscape(const std::string& s)
     out.reserve(s.size());
     for (char c : s) {
         switch (c) {
-        case '&': out += "&amp;"; break;
-        case '<': out += "&lt;"; break;
-        case '>': out += "&gt;"; break;
-        case '"': out += "&quot;"; break;
-        case '\'': out += "&apos;"; break;
-        default: out += c;
+        case '&':
+            out += "&amp;";
+            break;
+        case '<':
+            out += "&lt;";
+            break;
+        case '>':
+            out += "&gt;";
+            break;
+        case '"':
+            out += "&quot;";
+            break;
+        case '\'':
+            out += "&apos;";
+            break;
+        default:
+            out += c;
         }
     }
     return out;

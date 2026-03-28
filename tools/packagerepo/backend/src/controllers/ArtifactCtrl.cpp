@@ -13,8 +13,7 @@ using namespace drogon;
 namespace repo
 {
 
-static Json::Value errJson(const std::string& code,
-                           const std::string& msg)
+static Json::Value errJson(const std::string& code, const std::string& msg)
 {
     Json::Value e;
     e["error"]["code"] = code;
@@ -22,20 +21,20 @@ static Json::Value errJson(const std::string& code,
     return e;
 }
 
-void ArtifactCtrl::publish(
-    const HttpRequestPtr& req,
-    std::function<void(const HttpResponsePtr&)>&& cb,
-    const std::string& ns, const std::string& name,
-    const std::string& version, const std::string& variant)
+void ArtifactCtrl::publish(const HttpRequestPtr& req,
+                           std::function<void(const HttpResponsePtr&)>&& cb,
+                           const std::string& ns, const std::string& name,
+                           const std::string& version,
+                           const std::string& variant)
 {
     auto p = req->attributes()->get<Json::Value>("principal");
     auto body = std::string(req->body());
 
     auto [digest, size] = Globals::blobs->store(body);
 
-    bool ok = PgArtifactStore::publish(
-        Globals::repoType, ns, name, version, variant,
-        digest, (int64_t)size, p["sub"].asString());
+    bool ok =
+        PgArtifactStore::publish(Globals::repoType, ns, name, version, variant,
+                                 digest, (int64_t)size, p["sub"].asString());
 
     if (!ok) {
         auto r = HttpResponse::newHttpJsonResponse(
@@ -52,8 +51,7 @@ void ArtifactCtrl::publish(
     evt["version"] = version;
     evt["variant"] = variant;
     evt["digest"] = digest;
-    PgTagStore::emitEvent(
-        Globals::repoType, "artifact.published", evt);
+    PgTagStore::emitEvent(Globals::repoType, "artifact.published", evt);
 
     Json::Value out;
     out["ok"] = true;
@@ -64,14 +62,13 @@ void ArtifactCtrl::publish(
     cb(r);
 }
 
-void ArtifactCtrl::fetch(
-    const HttpRequestPtr& req,
-    std::function<void(const HttpResponsePtr&)>&& cb,
-    const std::string& ns, const std::string& name,
-    const std::string& version, const std::string& variant)
+void ArtifactCtrl::fetch(const HttpRequestPtr& req,
+                         std::function<void(const HttpResponsePtr&)>&& cb,
+                         const std::string& ns, const std::string& name,
+                         const std::string& version, const std::string& variant)
 {
-    auto meta = PgArtifactStore::get(
-        Globals::repoType, ns, name, version, variant);
+    auto meta =
+        PgArtifactStore::get(Globals::repoType, ns, name, version, variant);
     if (meta.isNull()) {
         auto r = HttpResponse::newHttpJsonResponse(
             errJson("NOT_FOUND", "Artifact not found"));
@@ -80,8 +77,7 @@ void ArtifactCtrl::fetch(
         return;
     }
 
-    auto data = Globals::blobs->read(
-        meta["blob_digest"].asString());
+    auto data = Globals::blobs->read(meta["blob_digest"].asString());
     if (data.empty()) {
         auto r = HttpResponse::newHttpJsonResponse(
             errJson("BLOB_NOT_FOUND", "Blob missing"));

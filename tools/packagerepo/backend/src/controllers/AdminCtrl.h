@@ -12,43 +12,37 @@
 namespace repo
 {
 
-class AdminCtrl
-    : public drogon::HttpController<AdminCtrl>
+class AdminCtrl : public drogon::HttpController<AdminCtrl>
 {
-public:
+  public:
     METHOD_LIST_BEGIN
-    ADD_METHOD_TO(AdminCtrl::config,
-        "/admin/config", drogon::Get, "repo::AuthFilter");
-    ADD_METHOD_TO(AdminCtrl::entities,
-        "/admin/entities", drogon::Get, "repo::AuthFilter");
-    ADD_METHOD_TO(AdminCtrl::routes,
-        "/admin/routes", drogon::Get, "repo::AuthFilter");
-    ADD_METHOD_TO(AdminCtrl::blobStoresEp,
-        "/admin/blob-stores", drogon::Get,
-        "repo::AuthFilter");
-    ADD_METHOD_TO(AdminCtrl::scopesEp,
-        "/admin/auth/scopes", drogon::Get,
-        "repo::AuthFilter");
-    ADD_METHOD_TO(AdminCtrl::featuresEp,
-        "/admin/features", drogon::Get, "repo::AuthFilter");
+    ADD_METHOD_TO(AdminCtrl::config, "/admin/config", drogon::Get,
+                  "repo::AuthFilter");
+    ADD_METHOD_TO(AdminCtrl::entities, "/admin/entities", drogon::Get,
+                  "repo::AuthFilter");
+    ADD_METHOD_TO(AdminCtrl::routes, "/admin/routes", drogon::Get,
+                  "repo::AuthFilter");
+    ADD_METHOD_TO(AdminCtrl::blobStoresEp, "/admin/blob-stores", drogon::Get,
+                  "repo::AuthFilter");
+    ADD_METHOD_TO(AdminCtrl::scopesEp, "/admin/auth/scopes", drogon::Get,
+                  "repo::AuthFilter");
+    ADD_METHOD_TO(AdminCtrl::featuresEp, "/admin/features", drogon::Get,
+                  "repo::AuthFilter");
     METHOD_LIST_END
 
     void config(const drogon::HttpRequestPtr&,
-        std::function<void(const drogon::HttpResponsePtr&)>&&
-            cb)
+                std::function<void(const drogon::HttpResponsePtr&)>&& cb)
     {
         Json::Value o;
         o["ok"] = true;
         o["config"]["features"] = PgConfigStore::features();
         o["config"]["scopes"] = PgConfigStore::scopes();
-        o["config"]["blob_stores"] =
-            PgConfigStore::blobStores();
+        o["config"]["blob_stores"] = PgConfigStore::blobStores();
         cb(drogon::HttpResponse::newHttpJsonResponse(o));
     }
 
     void entities(const drogon::HttpRequestPtr&,
-        std::function<void(const drogon::HttpResponsePtr&)>&&
-            cb)
+                  std::function<void(const drogon::HttpResponsePtr&)>&& cb)
     {
         Json::Value o;
         o["ok"] = true;
@@ -57,8 +51,7 @@ public:
     }
 
     void routes(const drogon::HttpRequestPtr&,
-        std::function<void(const drogon::HttpResponsePtr&)>&&
-            cb)
+                std::function<void(const drogon::HttpResponsePtr&)>&& cb)
     {
         Json::Value o;
         o["ok"] = true;
@@ -67,8 +60,7 @@ public:
     }
 
     void blobStoresEp(const drogon::HttpRequestPtr&,
-        std::function<void(const drogon::HttpResponsePtr&)>&&
-            cb)
+                      std::function<void(const drogon::HttpResponsePtr&)>&& cb)
     {
         Json::Value o;
         o["ok"] = true;
@@ -77,8 +69,7 @@ public:
     }
 
     void scopesEp(const drogon::HttpRequestPtr&,
-        std::function<void(const drogon::HttpResponsePtr&)>&&
-            cb)
+                  std::function<void(const drogon::HttpResponsePtr&)>&& cb)
     {
         Json::Value o;
         o["ok"] = true;
@@ -87,8 +78,7 @@ public:
     }
 
     void featuresEp(const drogon::HttpRequestPtr&,
-        std::function<void(const drogon::HttpResponsePtr&)>&&
-            cb)
+                    std::function<void(const drogon::HttpResponsePtr&)>&& cb)
     {
         Json::Value o;
         o["ok"] = true;

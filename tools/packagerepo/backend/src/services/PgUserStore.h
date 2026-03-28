@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include "S3BlobStore.h"
 #include "DbPool.h"
+#include "S3BlobStore.h"
 
 #include <json/json.h>
 
@@ -17,57 +17,54 @@ namespace repo
 
 class PgUserStore
 {
-public:
+  public:
     /// @brief Create users table and seed admin if needed.
     static void init()
     {
         auto db = DbPool::get();
-        auto r = db->execSqlSync(
-            "SELECT id FROM users "
-            "WHERE username='admin'");
+        auto r = db->execSqlSync("SELECT id FROM users "
+                                 "WHERE username='admin'");
         if (r.empty()) {
             auto salt = makeSalt();
             auto hash = hashPass("admin", salt);
-            db->execSqlSync(
-                "INSERT INTO users "
-                "(username,pass_hash,pass_salt,scopes) "
-                "VALUES ($1,$2,$3,$4)",
-                "admin", hash, salt, "read,write,admin");
+            db->execSqlSync("INSERT INTO users "
+                            "(username,pass_hash,pass_salt,scopes) "
+                            "VALUES ($1,$2,$3,$4)",
+                            "admin", hash, salt, "read,write,admin");
         }
     }
 
     /// @brief Verify credentials, return user JSON or null.
-    static Json::Value verify(const std::string& user,
-                              const std::string& pass)
+    static Json::Value verify(const std::string& user, const std::string& pass)
     {
-        auto r = DbPool::get()->execSqlSync(
-            "SELECT pass_hash,pass_salt,scopes "
-            "FROM users WHERE username=$1", user);
-        if (r.empty()) return Json::nullValue;
+        auto r = DbPool::get()->execSqlSync("SELECT pass_hash,pass_salt,scopes "
+                                            "FROM users WHERE username=$1",
+                                            user);
+        if (r.empty())
+            return Json::nullValue;
 
-        auto hash = hashPass(
-            pass, r[0]["pass_salt"].as<std::string>());
+        auto hash = hashPass(pass, r[0]["pass_salt"].as<std::string>());
         if (hash != r[0]["pass_hash"].as<std::string>())
             return Json::nullValue;
 
         Json::Value out;
         out["username"] = user;
         auto scopes = r[0]["scopes"].as<std::string>();
-        for (size_t p = 0, n; p < scopes.size(); p = n + 1)
-        {
+        for (size_t p = 0, n; p < scopes.size(); p = n + 1) {
             n = scopes.find(',', p);
-            if (n == std::string::npos) n = scopes.size();
+            if (n == std::string::npos)
+                n = scopes.size();
             out["scopes"].append(scopes.substr(p, n - p));
         }
         return out;
     }
 
     /// @brief Change password. Returns true on success.
-    static bool changePass(const std::string& user,
-                           const std::string& oldP,
+    static bool changePass(const std::string& user, const std::string& oldP,
                            const std::string& newP)
     {
-        if (verify(user, oldP).isNull()) return false;
+        if (verify(user, oldP).isNull())
+            return false;
         auto salt = makeSalt();
         auto hash = hashPass(newP, salt);
         DbPool::get()->execSqlSync(
@@ -77,7 +74,7 @@ public:
         return true;
     }
 
-private:
+  private:
     static std::string makeSalt()
     {
         char buf[16];

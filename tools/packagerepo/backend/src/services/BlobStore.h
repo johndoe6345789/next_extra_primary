@@ -21,7 +21,7 @@ namespace fs = std::filesystem;
 
 class BlobStore
 {
-public:
+  public:
     explicit BlobStore(const fs::path& root) : root_(root)
     {
         fs::create_directories(root_);
@@ -31,14 +31,12 @@ public:
     static std::string sha256(const std::string& data)
     {
         unsigned char hash[SHA256_DIGEST_LENGTH];
-        SHA256((const unsigned char*)data.data(),
-               data.size(), hash);
+        SHA256((const unsigned char*)data.data(), data.size(), hash);
 
         std::ostringstream ss;
         ss << "sha256:";
         for (auto b : hash)
-            ss << std::hex << std::setfill('0')
-               << std::setw(2) << (int)b;
+            ss << std::hex << std::setfill('0') << std::setw(2) << (int)b;
         return ss.str();
     }
 
@@ -46,13 +44,11 @@ public:
     fs::path blobPath(const std::string& digest) const
     {
         auto hex = stripPrefix(digest);
-        return root_ / hex.substr(0, 2) / hex.substr(2, 2)
-               / hex;
+        return root_ / hex.substr(0, 2) / hex.substr(2, 2) / hex;
     }
 
     /// @brief Store blob, return {digest, size}.
-    std::pair<std::string, size_t>
-    store(const std::string& data)
+    std::pair<std::string, size_t> store(const std::string& data)
     {
         auto digest = sha256(data);
         auto path = blobPath(digest);
@@ -68,7 +64,8 @@ public:
     std::string read(const std::string& digest) const
     {
         auto path = blobPath(digest);
-        if (!fs::exists(path)) return {};
+        if (!fs::exists(path))
+            return {};
         std::ifstream f(path, std::ios::binary);
         return {std::istreambuf_iterator<char>(f),
                 std::istreambuf_iterator<char>()};
@@ -80,14 +77,13 @@ public:
         return fs::exists(blobPath(digest));
     }
 
-private:
+  private:
     fs::path root_;
 
     static std::string stripPrefix(const std::string& d)
     {
         auto pos = d.find(':');
-        return (pos != std::string::npos)
-                   ? d.substr(pos + 1) : d;
+        return (pos != std::string::npos) ? d.substr(pos + 1) : d;
     }
 };
 

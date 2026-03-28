@@ -1,6 +1,6 @@
 /**
  * @file PackageRepoCmd.cpp
- * @brief Package repository lifecycle management.
+ * @brief Package repository build and up commands.
  */
 
 #include "PackageRepoCmd.h"
@@ -13,42 +13,6 @@
 
 namespace manager
 {
-
-static int startDb()
-{
-    auto state =
-        capture(fmt::format("docker inspect -f '{{{{.State.Running}}}}' {} "
-                            "2>/dev/null",
-                            PackageRepoCmd::kDbContainer));
-    if (state == "true")
-        return 0;
-
-    shell("repo", fmt::format("docker rm -f {} 2>/dev/null || true",
-                              PackageRepoCmd::kDbContainer));
-    shell("repo",
-          fmt::format("docker volume create {}", PackageRepoCmd::kDbVol));
-
-    return shell("repo",
-                 fmt::format("docker run -d --name {} --network {} "
-                             "--mount type=volume,src={},dst=/var/lib/"
-                             "postgresql/data "
-                             "-e POSTGRES_DB=packagerepo "
-                             "-e POSTGRES_USER=packagerepo "
-                             "-e POSTGRES_PASSWORD=packagerepo "
-                             "postgres:16-alpine",
-                             PackageRepoCmd::kDbContainer,
-                             PackageRepoCmd::kNetwork, PackageRepoCmd::kDbVol));
-}
-
-/// Ensure the S3 server is up and on our network.
-static int ensureS3()
-{
-    S3Cmd::up();
-    shell("repo", fmt::format("docker network connect {} {} "
-                              "2>/dev/null || true",
-                              PackageRepoCmd::kNetwork, S3Cmd::kContainer));
-    return 0;
-}
 
 int PackageRepoCmd::build()
 {
@@ -65,10 +29,9 @@ int PackageRepoCmd::up()
     if (!checkDaemon())
         return 1;
 
-    auto state =
-        capture(fmt::format("docker inspect -f '{{{{.State.Running}}}}' {} "
-                            "2>/dev/null",
-                            kContainer));
+    auto state = capture(fmt::format("docker inspect -f "
+                                     "'{{{{.State.Running}}}}' {} 2>/dev/null",
+                                     kContainer));
     if (state == "true") {
         fmt::print("[repo] Already running\n");
         return 0;
@@ -76,7 +39,8 @@ int PackageRepoCmd::up()
 
     shell("repo",
           fmt::format("docker rm -f {} 2>/dev/null || true", kContainer));
-    shell("repo", fmt::format("docker network create {} 2>/dev/null || true",
+    shell("repo", fmt::format("docker network create {} "
+                              "2>/dev/null || true",
                               kNetwork));
 
     if (startDb() != 0)

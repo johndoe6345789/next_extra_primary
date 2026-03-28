@@ -13,8 +13,8 @@ using json = nlohmann::json;
 using Cb = std::function<void(const drogon::HttpResponsePtr&)>;
 
 /// @brief Safely parse a string to long long, returning @p fallback on error.
-static auto safeStoll(const std::string& s,
-                      long long fallback) noexcept -> long long
+static auto safeStoll(const std::string& s, long long fallback) noexcept
+    -> long long
 {
     try {
         return std::stoll(s);

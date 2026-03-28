@@ -39,19 +39,18 @@ void ListCtrl::listObjects(const HttpRequestPtr& req,
 
     auto rows = ObjectStore::list(bid, prefix, maxKeys);
 
-    std::string xml =
-        "<?xml version=\"1.0\"?>"
-        "<ListBucketResult>"
-        "<Name>" +
-        xmlEscape(bucket) +
-        "</Name>"
-        "<Prefix>" +
-        xmlEscape(prefix) +
-        "</Prefix>"
-        "<MaxKeys>" +
-        std::to_string(maxKeys) +
-        "</MaxKeys>"
-        "<IsTruncated>false</IsTruncated>";
+    std::string xml = "<?xml version=\"1.0\"?>"
+                      "<ListBucketResult>"
+                      "<Name>" +
+                      xmlEscape(bucket) +
+                      "</Name>"
+                      "<Prefix>" +
+                      xmlEscape(prefix) +
+                      "</Prefix>"
+                      "<MaxKeys>" +
+                      std::to_string(maxKeys) +
+                      "</MaxKeys>"
+                      "<IsTruncated>false</IsTruncated>";
 
     for (const auto& obj : rows) {
         xml += "<Contents>"

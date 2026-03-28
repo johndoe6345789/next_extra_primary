@@ -1,17 +1,16 @@
 /**
  * @file UserStore.h
- * @brief JSON-persisted user store with SHA256 password hashing.
+ * @brief JSON-persisted user store with SHA256 password
+ *        hashing.
  */
 
 #pragma once
 
-#include "S3BlobStore.h"
+#include "UserStoreIO.h"
 
 #include <json/json.h>
-#include <openssl/rand.h>
 
 #include <filesystem>
-#include <fstream>
 #include <mutex>
 #include <string>
 #include <unordered_map>
@@ -21,25 +20,24 @@ namespace repo
 
 class UserStore
 {
-public:
-    explicit UserStore(const std::filesystem::path& path)
-        : path_(path)
+  public:
+    explicit UserStore(const std::filesystem::path& path) : path_(path)
     {
-        load();
+        user_io::loadUsers(path_, users_);
         seedAdmin();
     }
 
-    /// @brief Verify credentials. Returns user JSON or null.
-    Json::Value verify(const std::string& user,
-                       const std::string& pass) const
+    /// @brief Verify credentials. Returns user JSON or
+    /// null.
+    Json::Value verify(const std::string& user, const std::string& pass) const
     {
         std::lock_guard lk(mu_);
         auto it = users_.find(user);
-        if (it == users_.end()) return Json::nullValue;
-        auto hash = hashPass(pass, it->second["salt"].asString());
+        if (it == users_.end())
+            return Json::nullValue;
+        auto hash = user_io::hashPass(pass, it->second["salt"].asString());
         if (hash != it->second["hash"].asString())
             return Json::nullValue;
-
         Json::Value out;
         out["username"] = user;
         out["scopes"] = it->second["scopes"];
@@ -47,75 +45,38 @@ public:
     }
 
     /// @brief Change password. Returns true on success.
-    bool changePass(const std::string& user,
-                    const std::string& oldP,
+    bool changePass(const std::string& user, const std::string& oldP,
                     const std::string& newP)
     {
-        if (verify(user, oldP).isNull()) return false;
+        if (verify(user, oldP).isNull())
+            return false;
         std::lock_guard lk(mu_);
-        auto salt = makeSalt();
+        auto salt = user_io::makeSalt();
         users_[user]["salt"] = salt;
-        users_[user]["hash"] = hashPass(newP, salt);
-        save();
+        users_[user]["hash"] = user_io::hashPass(newP, salt);
+        user_io::saveUsers(path_, users_);
         return true;
     }
 
-private:
+  private:
     std::filesystem::path path_;
     std::unordered_map<std::string, Json::Value> users_;
     mutable std::mutex mu_;
 
-    static std::string makeSalt()
-    {
-        unsigned char buf[16];
-        RAND_bytes(buf, sizeof(buf));
-        std::string out;
-        for (auto b : buf)
-            out += "0123456789abcdef"[b & 0xf];
-        return out;
-    }
-
-    static std::string hashPass(const std::string& pass,
-                                const std::string& salt)
-    {
-        return S3BlobStore::sha256(salt + ":" + pass);
-    }
-
     void seedAdmin()
     {
         std::lock_guard lk(mu_);
-        if (users_.count("admin")) return;
-        auto salt = makeSalt();
+        if (users_.count("admin"))
+            return;
+        auto salt = user_io::makeSalt();
         Json::Value u;
         u["salt"] = salt;
-        u["hash"] = hashPass("admin", salt);
+        u["hash"] = user_io::hashPass("admin", salt);
         u["scopes"].append("read");
         u["scopes"].append("write");
         u["scopes"].append("admin");
         users_["admin"] = u;
-        save();
-    }
-
-    void load()
-    {
-        if (!std::filesystem::exists(path_)) return;
-        std::ifstream f(path_);
-        Json::Value root;
-        Json::CharReaderBuilder rb;
-        Json::parseFromStream(rb, f, &root, nullptr);
-        for (const auto& k : root.getMemberNames())
-            users_[k] = root[k];
-    }
-
-    void save() const
-    {
-        namespace fs = std::filesystem;
-        fs::create_directories(path_.parent_path());
-        Json::Value root(Json::objectValue);
-        for (const auto& [k, v] : users_) root[k] = v;
-        std::ofstream f(path_);
-        Json::StreamWriterBuilder wb;
-        f << Json::writeString(wb, root);
+        user_io::saveUsers(path_, users_);
     }
 };
 
