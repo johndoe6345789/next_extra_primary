@@ -14,8 +14,8 @@ interface ThemeProviderProps {
 /**
  * Provides MUI theming and baseline CSS to the app.
  *
- * Includes `InitColorSchemeScript` to prevent
- * color-scheme flash on SSR hydration.
+ * Color scheme handled via MUI CSS variables
+ * and globals.scss transitions.
  *
  * @param props - Component props.
  * @returns Themed component tree.

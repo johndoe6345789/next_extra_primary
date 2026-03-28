@@ -1,0 +1,46 @@
+// Global styles — MUI theme handles component
+// styling; this covers html/body defaults and
+// color scheme transitions.
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  transition: background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+// Smooth color scheme transition
+.dark body {
+  color-scheme: dark;
+}
+
+.light body {
+  color-scheme: light;
+}
+
+// Skip link focus style
+[data-testid='skip-to-content']:focus {
+  position: fixed !important;
+  left: 8px !important;
+  top: 8px !important;
+  z-index: 9999;
+  padding: 8px 16px;
+  background: var(--mui-palette-primary-main);
+  color: var(--mui-palette-primary-contrastText);
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+}

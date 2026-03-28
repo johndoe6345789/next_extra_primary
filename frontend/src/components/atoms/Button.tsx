@@ -36,6 +36,8 @@ export interface ButtonProps {
   endIcon?: React.ReactNode;
   /** Accessible label. */
   ariaLabel?: string;
+  /** Optional link href (renders as anchor). */
+  href?: string;
   /** data-testid attribute for testing. */
   testId?: string;
 }
@@ -56,6 +58,7 @@ export const Button: React.FC<ButtonProps> = ({
   startIcon,
   endIcon,
   ariaLabel,
+  href,
   testId = 'button',
 }) => (
   <MuiButton
@@ -69,6 +72,7 @@ export const Button: React.FC<ButtonProps> = ({
     startIcon={startIcon}
     endIcon={endIcon}
     aria-label={ariaLabel}
+    href={href}
     data-testid={testId}
   >
     {children}

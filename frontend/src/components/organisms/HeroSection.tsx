@@ -9,10 +9,6 @@ import { HeroCta } from '../molecules';
 
 /** Props for the HeroSection organism. */
 export interface HeroSectionProps {
-  /** Get Started click handler. */
-  onGetStarted?: () => void;
-  /** Learn More click handler. */
-  onLearnMore?: () => void;
   /** data-testid attribute. */
   testId?: string;
 }
@@ -20,13 +16,10 @@ export interface HeroSectionProps {
 /**
  * Full-width hero with heading, subtitle,
  * and two CTA buttons. Gradient background.
- * Stacks vertically on mobile.
  *
  * @param props - Component props.
  */
 export const HeroSection: React.FC<HeroSectionProps> = ({
-  onGetStarted,
-  onLearnMore,
   testId = 'hero-section',
 }) => {
   const t = useTranslations('hero');
@@ -73,10 +66,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         >
           {t('subtitle')}
         </Typography>
-        <HeroCta
-          onGetStarted={onGetStarted}
-          onLearnMore={onLearnMore}
-        />
+        <HeroCta />
       </Container>
     </Box>
   );

@@ -1,13 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import MuiIconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
+import Box from '@mui/material/Box';
 import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
 import Link from 'next/link';
+import { DrawerHeader } from '../molecules/DrawerHeader';
+import { DrawerNavItem } from '../molecules/DrawerNavItem';
+import { DrawerFooter } from '../molecules/DrawerFooter';
+import { BurgerButton } from '../atoms/BurgerButton';
 
 /** Navigation link shape. */
 export interface NavLink {
@@ -22,41 +24,42 @@ export interface MobileDrawerProps {
 }
 
 /**
- * Hamburger menu drawer for mobile viewports.
+ * Slide-out drawer for xs/sm viewports. Branded
+ * header, icon nav links, theme + locale footer.
  *
  * @param props - Component props.
  */
-export const MobileDrawer: React.FC<MobileDrawerProps> = ({ links }) => {
+export const MobileDrawer: React.FC<
+  MobileDrawerProps
+> = ({ links }) => {
   const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
   return (
     <>
-      <MuiIconButton
-        aria-label="Open menu"
-        onClick={() => setOpen(true)}
-        data-testid="navbar-hamburger"
-        sx={{ display: { sm: 'none' } }}
-      >
-        <MenuIcon />
-      </MuiIconButton>
+      <BurgerButton onClick={() => setOpen(true)} />
       <Drawer
         anchor="left"
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={close}
         data-testid="navbar-drawer"
+        PaperProps={{
+          sx: { width: 280, borderRadius: '0 16px 16px 0' },
+        }}
       >
-        <List sx={{ width: 240 }} role="menu">
+        <DrawerHeader onClose={close} />
+        <Divider />
+        <List sx={{ flex: 1, py: 1 }} role="menu">
           {links.map((l) => (
-            <ListItemButton
+            <DrawerNavItem
               key={l.href}
-              component={Link}
+              label={l.label}
               href={l.href}
-              role="menuitem"
-              onClick={() => setOpen(false)}
-            >
-              <ListItemText primary={l.label} />
-            </ListItemButton>
+              onClick={close}
+            />
           ))}
         </List>
+        <Divider />
+        <DrawerFooter />
       </Drawer>
     </>
   );

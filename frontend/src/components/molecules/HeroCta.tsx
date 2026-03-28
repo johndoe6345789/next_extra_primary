@@ -5,25 +5,22 @@ import Stack from '@mui/material/Stack';
 import { useTranslations } from 'next-intl';
 import { Button } from '../atoms';
 
-/** Props for the HeroCta molecule. */
-export interface HeroCtaProps {
-  /** Get Started click handler. */
-  onGetStarted?: () => void;
-  /** Learn More click handler. */
-  onLearnMore?: () => void;
-}
-
 /**
  * CTA button pair for the hero section.
- * Stacks vertically on mobile, horizontally on tablet+.
+ * "Get started" links to signup; "Explore features"
+ * scrolls to the feature grid.
  *
- * @param props - Component props.
+ * @returns CTA button group.
  */
-export const HeroCta: React.FC<HeroCtaProps> = ({
-  onGetStarted,
-  onLearnMore,
-}) => {
+export const HeroCta: React.FC = () => {
   const t = useTranslations('hero');
+
+  const scrollToFeatures = () => {
+    document
+      .getElementById('feature-grid')
+      ?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <Stack
       direction={{ xs: 'column', sm: 'row' }}
@@ -32,7 +29,7 @@ export const HeroCta: React.FC<HeroCtaProps> = ({
     >
       <Button
         size="large"
-        onClick={onGetStarted}
+        href="/register"
         testId="hero-cta-start"
         ariaLabel={t('cta')}
       >
@@ -42,7 +39,7 @@ export const HeroCta: React.FC<HeroCtaProps> = ({
         variant="outlined"
         size="large"
         color="inherit"
-        onClick={onLearnMore}
+        onClick={scrollToFeatures}
         testId="hero-cta-learn"
         ariaLabel={t('features')}
       >

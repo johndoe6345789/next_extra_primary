@@ -27,3 +27,6 @@ export type { SkeletonProps } from './Skeleton';
 
 export { Kbd } from './Kbd';
 export type { KbdProps } from './Kbd';
+
+export { BurgerButton } from './BurgerButton';
+export type { BurgerButtonProps } from './BurgerButton';
