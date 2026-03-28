@@ -1,0 +1,28 @@
+{
+  "runners": {
+    "ubuntu-24.04-arm": "catthehacker/ubuntu:act-24.04",
+    "ubuntu-latest": "catthehacker/ubuntu:act-latest"
+  },
+  "commands": [
+    {
+      "name": "ci",
+      "description": "Run CI pipeline",
+      "workflow": "ci.yml"
+    },
+    {
+      "name": "build",
+      "description": "Build Docker images",
+      "workflow": "docker-build-{arch}.yml"
+    },
+    {
+      "name": "merge",
+      "description": "Run Docker manifest merge",
+      "workflow": "docker-merge.yml"
+    },
+    {
+      "name": "base",
+      "description": "Build base dependency images",
+      "workflow": "base-images.yml"
+    }
+  ]
+}

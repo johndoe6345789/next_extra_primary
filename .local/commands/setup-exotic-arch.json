@@ -1,0 +1,79 @@
+{
+  "name": "setup-exotic-arch",
+  "description": "Patch node_modules for exotic-arch Docker builds (riscv64/ppc64le)",
+  "options": [
+    {
+      "name": "nm",
+      "default": "node_modules",
+      "help": "Path to node_modules"
+    }
+  ],
+  "steps": [
+    {
+      "type": "print",
+      "text": "[exotic-arch] Checking @parcel/watcher"
+    },
+    {
+      "type": "capture",
+      "command": "node -e \"require('@parcel/watcher')\" 2>/dev/null && echo false || echo true",
+      "var": "needs_parcel_stub"
+    },
+    {
+      "type": "write",
+      "path": "{opt.nm}/@parcel/watcher/package.json",
+      "content": "{\"name\":\"@parcel/watcher\",\"main\":\"index.js\"}\n",
+      "when": "{needs_parcel_stub}"
+    },
+    {
+      "type": "write",
+      "path": "{opt.nm}/@parcel/watcher/index.js",
+      "content": "exports.subscribe=async()=>({unsubscribe:async()=>{}});\nexports.getEventsSince=async()=>[];\n",
+      "when": "{needs_parcel_stub}"
+    },
+    {
+      "type": "print",
+      "text": "[exotic-arch] Stubbed @parcel/watcher",
+      "when": "{needs_parcel_stub}"
+    },
+    {
+      "type": "print",
+      "text": "[exotic-arch] Installing @swc/wasm fallback"
+    },
+    {
+      "type": "shell",
+      "tag": "exotic-arch",
+      "command": "npm install --no-save @swc/wasm"
+    },
+    {
+      "type": "print",
+      "text": "[exotic-arch] Patching @swc/core binding files"
+    },
+    {
+      "type": "foreach",
+      "command": "find {opt.nm}/@swc -name binding.js -path '*/core/*' 2>/dev/null",
+      "var": "binding",
+      "steps": [
+        {
+          "type": "capture",
+          "command": "node -e \"require('{binding}')\" 2>/dev/null && echo false || echo true",
+          "var": "needs_patch"
+        },
+        {
+          "type": "write",
+          "path": "{binding}",
+          "content": "module.exports=require(\"@swc/wasm\");\n",
+          "when": "{needs_patch}"
+        },
+        {
+          "type": "print",
+          "text": "[exotic-arch] Patched {binding}",
+          "when": "{needs_patch}"
+        }
+      ]
+    },
+    {
+      "type": "print",
+      "text": "[exotic-arch] Exotic-arch setup complete"
+    }
+  ]
+}

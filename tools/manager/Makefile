@@ -21,24 +21,13 @@ BUILDDIR := build/obj
 SRCS := main.cpp \
         commands/ActCmd.cpp \
         commands/ActCmdReg.cpp \
-        commands/BuildCmd.cpp \
-        commands/PackageRepoCmd.cpp \
-        commands/PackageRepoCmdHelpers.cpp \
-        commands/PackageRepoCmdReg.cpp \
-        commands/S3Cmd.cpp \
-        commands/S3CmdUp.cpp \
+        commands/ActCmdRun.cpp \
         commands/CmakeGenCmd.cpp \
         commands/CmakeGenCtx.cpp \
-        commands/ConanInstallCmd.cpp \
-        commands/DockerBuildxCmd.cpp \
-        commands/DockerCmd.cpp \
-        commands/DockerDepsCmd.cpp \
-        commands/DockerStatusCmd.cpp \
-        commands/GenerateCmd.cpp \
-        commands/LintCmd.cpp \
-        commands/LintCmdFmt.cpp \
-        commands/SetupExoticArchCmd.cpp \
-        commands/TestCmd.cpp
+        commands/WorkflowCtx.cpp \
+        commands/WorkflowExec.cpp \
+        commands/WorkflowReg.cpp \
+        commands/WorkflowSteps.cpp
 
 OBJS := $(patsubst %.cpp,$(BUILDDIR)/%.o,$(SRCS))
 HDRS := CLI/CLI.hpp nlohmann/json.hpp inja/inja.hpp

@@ -1,0 +1,73 @@
+{
+  "name": "docker-buildx",
+  "description": "Build app images with buildx",
+  "options": [
+    {
+      "name": "target",
+      "default": "all",
+      "help": "backend, frontend, or all"
+    },
+    {
+      "name": "platform",
+      "default": "",
+      "help": "e.g. linux/arm64"
+    },
+    {
+      "name": "no-deps",
+      "flag": true,
+      "help": "Skip deps image injection"
+    }
+  ],
+  "steps": [
+    {
+      "type": "check",
+      "command": "docker info >/dev/null 2>&1",
+      "error": "Docker daemon is not running"
+    },
+    {
+      "type": "set",
+      "var": "platform",
+      "value": "{opt.platform}",
+      "default": "{host_platform}"
+    },
+    {
+      "type": "capture",
+      "command": "echo {registry}",
+      "var": "reg"
+    },
+    {
+      "type": "capture",
+      "command": "echo {sha}",
+      "var": "sha"
+    },
+    {
+      "type": "print",
+      "text": "[buildx] {reg} @ {platform}"
+    },
+    {
+      "type": "capture",
+      "command": "if [ \"{opt.target}\" = \"all\" ]; then echo 'backend\nfrontend'; elif [ \"{opt.target}\" = \"backend\" ]; then echo backend; else echo frontend; fi",
+      "var": "targets"
+    },
+    {
+      "type": "foreach",
+      "command": "echo \"{targets}\"",
+      "var": "item",
+      "steps": [
+        {
+          "type": "print",
+          "text": "[buildx] Building {item}"
+        },
+        {
+          "type": "shell",
+          "tag": "buildx",
+          "command": "DEPS=\"\"; if [ \"{opt.no-deps}\" != \"true\" ] && docker image inspect {reg}/{item}-deps:latest >/dev/null 2>&1; then DEPS=\"--build-arg DEPS_IMAGE={reg}/{item}-deps:latest\"; echo \"[buildx] Using deps: {reg}/{item}-deps:latest\"; else echo \"[buildx] No deps image, using debian:sid\"; fi; docker buildx build -f {item}/Dockerfile --platform {platform} $DEPS -t {reg}/{item}:latest -t {reg}/{item}:sha-{sha} --load {item}"
+        }
+      ]
+    },
+    {
+      "type": "print",
+      "text": "[buildx] Build complete"
+    }
+  ]
+}

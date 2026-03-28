@@ -1,0 +1,73 @@
+{
+  "name": "docker-deps",
+  "description": "Build base dependency images",
+  "options": [
+    {
+      "name": "target",
+      "default": "all",
+      "help": "backend, frontend, or all"
+    },
+    {
+      "name": "platform",
+      "default": "",
+      "help": "e.g. linux/amd64,linux/arm64"
+    },
+    {
+      "name": "push",
+      "flag": true,
+      "help": "Push to registry"
+    }
+  ],
+  "steps": [
+    {
+      "type": "check",
+      "command": "docker info >/dev/null 2>&1",
+      "error": "Docker daemon is not running"
+    },
+    {
+      "type": "set",
+      "var": "platform",
+      "value": "{opt.platform}",
+      "default": "{host_platform}"
+    },
+    {
+      "type": "capture",
+      "command": "echo {registry}",
+      "var": "reg"
+    },
+    {
+      "type": "capture",
+      "command": "echo {sha}",
+      "var": "sha"
+    },
+    {
+      "type": "print",
+      "text": "[deps] {reg} @ {platform}"
+    },
+    {
+      "type": "capture",
+      "command": "if [ \"{opt.target}\" = \"all\" ]; then echo 'backend\nfrontend'; elif [ \"{opt.target}\" = \"backend\" ]; then echo backend; else echo frontend; fi",
+      "var": "targets"
+    },
+    {
+      "type": "foreach",
+      "command": "echo \"{targets}\"",
+      "var": "item",
+      "steps": [
+        {
+          "type": "print",
+          "text": "[deps] Building {item}-deps"
+        },
+        {
+          "type": "shell",
+          "tag": "deps",
+          "command": "if echo \"{platform}\" | grep -q \",\" && [ \"{opt.push}\" != \"true\" ]; then echo \"[deps] Multi-platform builds require --push\"; exit 1; fi; LOAD=\"--load\"; if [ \"{opt.push}\" = \"true\" ]; then LOAD=\"--push\"; fi; docker buildx build -f docker/{item}-deps.Dockerfile --platform {platform} -t {reg}/{item}-deps:latest -t {reg}/{item}-deps:sha-{sha} $LOAD ."
+        }
+      ]
+    },
+    {
+      "type": "print",
+      "text": "[deps] Build complete"
+    }
+  ]
+}

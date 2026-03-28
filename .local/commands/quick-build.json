@@ -1,0 +1,55 @@
+{
+  "name": "quick-build",
+  "description": "Build frontend and backend Docker images",
+  "options": [
+    {
+      "name": "target",
+      "default": "all",
+      "help": "frontend|backend|all"
+    },
+    {
+      "name": "platform",
+      "default": "",
+      "help": "Target platform"
+    }
+  ],
+  "steps": [
+    {
+      "type": "check",
+      "command": "docker info",
+      "error": "Docker daemon is not running"
+    },
+    {
+      "type": "set",
+      "var": "plat",
+      "value": "{opt.platform}",
+      "default": "{host_platform}"
+    },
+    {
+      "type": "capture",
+      "command": "case {opt.target} in frontend|all) echo 1;; esac",
+      "var": "build_fe"
+    },
+    {
+      "type": "capture",
+      "command": "case {opt.target} in backend|all) echo 1;; esac",
+      "var": "build_be"
+    },
+    {
+      "type": "print",
+      "text": "[build] Target: {opt.target}  Platform: {plat}"
+    },
+    {
+      "type": "shell",
+      "tag": "frontend",
+      "command": "docker buildx build --platform {plat} -t {registry}/frontend:{sha} ./frontend",
+      "when": "{build_fe}"
+    },
+    {
+      "type": "shell",
+      "tag": "backend",
+      "command": "docker buildx build --platform {plat} -t {registry}/backend:{sha} --build-context manager=./tools/manager ./backend",
+      "when": "{build_be}"
+    }
+  ]
+}

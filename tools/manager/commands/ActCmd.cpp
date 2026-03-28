@@ -1,69 +1,87 @@
 /**
  * @file ActCmd.cpp
- * @brief Run .local/ GitHub Actions workflows via act.
+ * @brief Core act logic: runner detection, workflow execution.
  */
 
 #include "ActCmd.h"
 #include "ShellUtil.h"
 
 #include <fmt/core.h>
+#include <nlohmann/json.hpp>
 
 #include <filesystem>
-#include <string>
+#include <fstream>
+#include <regex>
 
 namespace fs = std::filesystem;
 
 namespace manager
 {
 
-static bool checkAct()
+bool ActCmd::checkAct()
 {
     if (std::system("act --version >/dev/null 2>&1") != 0) {
         fmt::print("[act] 'act' is not installed.\n");
         fmt::print("[act] Install: brew install act\n");
-        fmt::print("[act]      or: "
-                   "https://nektosact.com\n");
         return false;
     }
     return true;
 }
 
-static std::string buildActCmd(const std::string& file, const std::string& job,
-                               bool verbose)
+std::string ActCmd::workflowDir()
 {
-    auto cmd = fmt::format("act -W {}/{}", ActCmd::kWorkflowDir, file);
-    if (!job.empty())
-        cmd += fmt::format(" -j {}", job);
-    if (verbose)
-        cmd += " -v";
-    return cmd;
+    auto root = repoRoot();
+    if (root.empty())
+        return "";
+    return (root / kWorkflowRel).string();
 }
 
-int ActCmd::runWorkflow(const std::string& file, const std::string& job,
-                        bool verbose)
+std::map<std::string, std::string> ActCmd::loadRunners()
 {
-    if (!checkAct())
-        return 1;
-    auto path = fmt::format("{}/{}", kWorkflowDir, file);
-    if (!fs::exists(path)) {
-        fmt::print("[act] Workflow not found: {}\n", path);
-        return 1;
+    std::map<std::string, std::string> m;
+    auto root = repoRoot();
+    if (root.empty())
+        return m;
+    std::ifstream in(root / kConfigRel);
+    if (!in.is_open())
+        return m;
+    try {
+        auto j = nlohmann::json::parse(in);
+        if (j.contains("runners"))
+            for (auto& [k, v] : j["runners"].items())
+                m[k] = v.get<std::string>();
+    } catch (...) {
+        fmt::print("[act] Warning: bad {}\n", kConfigRel);
     }
-    return shell("act", buildActCmd(file, job, verbose));
+    return m;
 }
 
-int ActCmd::list()
+std::set<std::string> ActCmd::extractRunners(const std::string& path)
 {
-    if (!fs::exists(kWorkflowDir)) {
-        fmt::print("[act] No workflow dir: {}\n", kWorkflowDir);
-        return 1;
+    std::set<std::string> labels;
+    std::ifstream in(path);
+    if (!in.is_open())
+        return labels;
+    std::regex re(R"(^\s*runs-on:\s*(\S+))");
+    std::string line;
+    while (std::getline(in, line)) {
+        std::smatch match;
+        if (std::regex_search(line, match, re))
+            labels.insert(match[1].str());
     }
-    fmt::print("[act] Available workflows in {}:\n", kWorkflowDir);
-    for (const auto& entry : fs::directory_iterator(kWorkflowDir)) {
-        if (entry.path().extension() == ".yml")
-            fmt::print("  - {}\n", entry.path().filename().string());
-    }
-    return 0;
+    return labels;
+}
+
+std::string ActCmd::runnerImage(const std::string& label,
+                                const std::map<std::string, std::string>& map)
+{
+    if (auto it = map.find(label); it != map.end())
+        return it->second;
+    if (label.find("24.04") != std::string::npos)
+        return "catthehacker/ubuntu:act-24.04";
+    if (label.find("22.04") != std::string::npos)
+        return "catthehacker/ubuntu:act-22.04";
+    return "catthehacker/ubuntu:act-latest";
 }
 
 } // namespace manager

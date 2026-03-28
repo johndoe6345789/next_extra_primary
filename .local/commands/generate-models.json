@@ -1,0 +1,24 @@
+{
+  "name": "generate-models",
+  "description": "Generate Drogon ORM models",
+  "steps": [
+    {
+      "type": "print",
+      "text": "[generate] Generating Drogon models ..."
+    },
+    {
+      "type": "shell",
+      "tag": "generate",
+      "command": "mkdir -p src/models"
+    },
+    {
+      "type": "shell",
+      "tag": "generate",
+      "command": "drogon_ctl create model src/models"
+    },
+    {
+      "type": "print",
+      "text": "[generate] Models generated in src/models"
+    }
+  ]
+}

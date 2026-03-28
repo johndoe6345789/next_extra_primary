@@ -1,0 +1,64 @@
+{
+  "name": "docker-status",
+  "description": "Docker health dashboard",
+  "steps": [
+    {
+      "type": "capture",
+      "command": "docker version --format '{{.Server.Version}}' 2>/dev/null || echo 'not running'",
+      "var": "docker_ver"
+    },
+    {
+      "type": "capture",
+      "command": "docker buildx version 2>/dev/null || echo 'not installed'",
+      "var": "buildx_ver"
+    },
+    {
+      "type": "capture",
+      "command": "uname -m",
+      "var": "arch"
+    },
+    {
+      "type": "print",
+      "text": "=== Docker Engine ==="
+    },
+    {
+      "type": "print",
+      "text": "  Version:  {docker_ver}"
+    },
+    {
+      "type": "print",
+      "text": "  Buildx:   {buildx_ver}"
+    },
+    {
+      "type": "print",
+      "text": "  Host:     {arch}"
+    },
+    {
+      "type": "print",
+      "text": "\n=== Project Images ==="
+    },
+    {
+      "type": "shell",
+      "tag": "status",
+      "command": "docker images --format 'table {{.Repository}}\t{{.Tag}}\t{{.Size}}\t{{.CreatedSince}}' | grep -E '(REPOSITORY|deps|nextra|frontend|backend)' | head -20 || echo '  (none)'"
+    },
+    {
+      "type": "print",
+      "text": "\n=== Containers ==="
+    },
+    {
+      "type": "shell",
+      "tag": "status",
+      "command": "docker compose ps --format 'table {{.Name}}\t{{.Status}}\t{{.Ports}}' 2>/dev/null || echo '  (none running)'"
+    },
+    {
+      "type": "print",
+      "text": "\n=== Buildx Builders ==="
+    },
+    {
+      "type": "shell",
+      "tag": "status",
+      "command": "docker buildx ls 2>/dev/null | head -10 || echo '  (unavailable)'"
+    }
+  ]
+}

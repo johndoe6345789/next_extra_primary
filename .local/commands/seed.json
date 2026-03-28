@@ -1,0 +1,38 @@
+{
+  "name": "seed",
+  "description": "Seed the database via drogon_ctl",
+  "options": [
+    {
+      "name": "file",
+      "default": "",
+      "help": "Path to seed data file"
+    }
+  ],
+  "steps": [
+    {
+      "type": "check",
+      "command": "command -v drogon_ctl",
+      "error": "drogon_ctl is not installed"
+    },
+    {
+      "type": "set",
+      "var": "file_flag",
+      "value": ""
+    },
+    {
+      "type": "set",
+      "var": "file_flag",
+      "value": " --file {opt.file}",
+      "when": "{opt.file}"
+    },
+    {
+      "type": "print",
+      "text": "[seed] Running database seed{file_flag}"
+    },
+    {
+      "type": "shell",
+      "tag": "seed",
+      "command": "drogon_ctl seed{file_flag}"
+    }
+  ]
+}

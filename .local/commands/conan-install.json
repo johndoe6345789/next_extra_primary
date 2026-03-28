@@ -1,0 +1,39 @@
+{
+  "name": "conan-install",
+  "description": "Run conan install, auto-pinning cmake on failure",
+  "options": [
+    {
+      "name": "args",
+      "default": "",
+      "help": "Extra arguments for conan install"
+    }
+  ],
+  "steps": [
+    {
+      "type": "retry",
+      "steps": [
+        {
+          "type": "shell",
+          "tag": "conan",
+          "command": "conan install . {opt.args}"
+        }
+      ],
+      "on_fail": [
+        {
+          "type": "capture",
+          "command": "conan install . {opt.args} 2>&1 | grep -oP 'cmake/\\K[0-9][0-9.]*' | head -1",
+          "var": "cmake_ver"
+        },
+        {
+          "type": "print",
+          "text": "[conan] Pinning cmake/{cmake_ver} as platform tool"
+        },
+        {
+          "type": "shell",
+          "tag": "conan",
+          "command": "printf '\\n[platform_tool_requires]\\ncmake/{cmake_ver}\\n' >> ~/.conan2/profiles/default"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "name": "run",
+  "description": "Build in Release mode and run the API server",
+  "options": [
+    {
+      "name": "port",
+      "default": "8080",
+      "help": "Server listen port"
+    },
+    {
+      "name": "config",
+      "default": "",
+      "help": "Path to config file"
+    }
+  ],
+  "steps": [
+    {
+      "type": "print",
+      "text": "[run] Building Release configuration"
+    },
+    {
+      "type": "set",
+      "var": "build_dir",
+      "value": "build/Release"
+    },
+    {
+      "type": "print",
+      "text": "[run] Installing Conan dependencies"
+    },
+    {
+      "type": "shell",
+      "tag": "run",
+      "command": "conan install . --output-folder={build_dir} --build=missing -s build_type=Release"
+    },
+    {
+      "type": "print",
+      "text": "[run] Configuring CMake"
+    },
+    {
+      "type": "shell",
+      "tag": "run",
+      "command": "cmake -B {build_dir} -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE={build_dir}/conan_toolchain.cmake"
+    },
+    {
+      "type": "print",
+      "text": "[run] Compiling"
+    },
+    {
+      "type": "shell",
+      "tag": "run",
+      "command": "cmake --build {build_dir} --parallel"
+    },
+    {
+      "type": "print",
+      "text": "[run] Starting nextra-api on port {opt.port}"
+    },
+    {
+      "type": "set",
+      "var": "config_flag",
+      "value": ""
+    },
+    {
+      "type": "set",
+      "var": "config_flag",
+      "value": "--config {opt.config}",
+      "when": "{opt.config}"
+    },
+    {
+      "type": "shell",
+      "tag": "run",
+      "command": "./{build_dir}/nextra-api serve --port {opt.port} {config_flag}"
+    }
+  ]
+}

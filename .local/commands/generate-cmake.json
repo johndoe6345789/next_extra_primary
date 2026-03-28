@@ -1,0 +1,25 @@
+{
+  "name": "generate-cmake",
+  "description": "Generate CMakeLists.txt from templates",
+  "steps": [
+    {
+      "type": "print",
+      "text": "[generate] Generating CMakeLists.txt ..."
+    },
+    {
+      "type": "check",
+      "command": "test -d tools/cmake-gen/templates",
+      "error": "Templates directory not found: tools/cmake-gen/templates"
+    },
+    {
+      "type": "template",
+      "input": "tools/cmake-gen/project.json",
+      "templates": "tools/cmake-gen/templates",
+      "output": "."
+    },
+    {
+      "type": "print",
+      "text": "[generate] CMakeLists.txt generated."
+    }
+  ]
+}
