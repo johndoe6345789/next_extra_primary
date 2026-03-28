@@ -1,0 +1,45 @@
+{
+  "name": "preload-npm",
+  "description": "Build node_modules and upload to packagerepo",
+  "options": [
+    {
+      "name": "repo",
+      "default": "http://localhost:5050",
+      "help": "Packagerepo base URL"
+    }
+  ],
+  "steps": [
+    {
+      "type": "set",
+      "var": "token_file",
+      "value": "{repo_root}/.local/dev-token"
+    },
+    {
+      "type": "capture",
+      "command": "sha256sum {repo_root}/frontend/package-lock.json | cut -c1-16",
+      "var": "lock_hash"
+    },
+    {
+      "type": "print",
+      "text": "[preload-npm] Lock hash: {lock_hash}"
+    },
+    {
+      "type": "shell",
+      "tag": "npm-install",
+      "command": "docker run --rm -v {repo_root}/frontend:/src -w /src node:22-slim sh -c \"npm ci && tar czf /tmp/nm.tar.gz node_modules && cat /tmp/nm.tar.gz\" > /tmp/npm-{lock_hash}.tar.gz"
+    },
+    {
+      "type": "print",
+      "text": "[preload-npm] Uploading to packagerepo"
+    },
+    {
+      "type": "shell",
+      "tag": "npm-upload",
+      "command": "curl -fsSL -X PUT {opt.repo}/v1/npm/nextra-frontend/{lock_hash}/noarch/blob -H \"Authorization: Bearer $(cat {token_file})\" -H \"Content-Type: application/octet-stream\" --data-binary @/tmp/npm-{lock_hash}.tar.gz && rm -f /tmp/npm-{lock_hash}.tar.gz"
+    },
+    {
+      "type": "print",
+      "text": "[preload-npm] node_modules uploaded ({lock_hash})"
+    }
+  ]
+}

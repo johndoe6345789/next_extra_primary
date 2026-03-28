@@ -1,0 +1,59 @@
+{
+  "name": "dev-token",
+  "description": "Generate a dev JWT for packagerepo (1yr, all scopes)",
+  "options": [
+    {
+      "name": "repo",
+      "default": "http://localhost:5050",
+      "help": "Packagerepo base URL"
+    },
+    {
+      "name": "sub",
+      "default": "dev",
+      "help": "Token subject (username)"
+    },
+    {
+      "name": "hours",
+      "default": "8760",
+      "help": "Token lifetime in hours (default 1 year)"
+    },
+    {
+      "name": "offline",
+      "flag": true,
+      "help": "Generate token locally via openssl (no server needed)"
+    }
+  ],
+  "steps": [
+    {
+      "type": "check",
+      "command": "command -v openssl",
+      "error": "openssl is required"
+    },
+    {
+      "type": "set",
+      "var": "token_file",
+      "value": "{repo_root}/.local/dev-token"
+    },
+    {
+      "type": "capture",
+      "command": "cat {token_file} 2>/dev/null || echo ''",
+      "var": "existing"
+    },
+    {
+      "type": "shell",
+      "tag": "dev-token",
+      "when": "{opt.offline} != true",
+      "command": "TOKEN=$(curl -fsSL -X POST {opt.repo}/auth/dev-token -H 'Content-Type: application/json' -d '{\"sub\":\"{opt.sub}\",\"scopes\":[\"read\",\"write\",\"admin\"],\"exp_hours\":{opt.hours}}' | grep -o '\"token\":\"[^\"]*\"' | cut -d'\"' -f4); echo \"$TOKEN\" > {token_file}; echo \"$TOKEN\""
+    },
+    {
+      "type": "shell",
+      "tag": "dev-token",
+      "when": "{opt.offline} == true",
+      "command": "SECRET='dev-secret-key'; EXP=$(($(date +%s) + {opt.hours} * 3600)); HDR=$(printf '{\"alg\":\"HS256\",\"typ\":\"JWT\"}' | openssl base64 -e -A | tr '+/' '-_' | tr -d '='); PAY=$(printf '{\"sub\":\"{opt.sub}\",\"scopes\":[\"read\",\"write\",\"admin\"],\"exp\":%d}' \"$EXP\" | openssl base64 -e -A | tr '+/' '-_' | tr -d '='); SIG=$(printf '%s.%s' \"$HDR\" \"$PAY\" | openssl dgst -sha256 -hmac \"$SECRET\" -binary | openssl base64 -e -A | tr '+/' '-_' | tr -d '='); TOKEN=\"$HDR.$PAY.$SIG\"; echo \"$TOKEN\" > {token_file}; echo \"$TOKEN\""
+    },
+    {
+      "type": "print",
+      "text": "[dev-token] Saved to {token_file}"
+    }
+  ]
+}

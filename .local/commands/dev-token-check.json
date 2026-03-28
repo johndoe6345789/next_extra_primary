@@ -1,0 +1,39 @@
+{
+  "name": "dev-token-check",
+  "description": "Ensure a valid dev token exists, generate if missing",
+  "options": [
+    {
+      "name": "repo",
+      "default": "http://localhost:5050",
+      "help": "Packagerepo base URL"
+    }
+  ],
+  "steps": [
+    {
+      "type": "set",
+      "var": "token_file",
+      "value": "{repo_root}/.local/dev-token"
+    },
+    {
+      "type": "capture",
+      "command": "cat {token_file} 2>/dev/null || echo ''",
+      "var": "token"
+    },
+    {
+      "type": "shell",
+      "tag": "dev-token",
+      "when": "{token} == ",
+      "command": "echo '[dev-token] No token found, generating...' >&2; manager dev-token --repo {opt.repo}"
+    },
+    {
+      "type": "capture",
+      "command": "cat {token_file}",
+      "var": "token"
+    },
+    {
+      "type": "check",
+      "command": "test -n \"$(cat {token_file})\"",
+      "error": "Failed to get dev token. Run: manager dev-token"
+    }
+  ]
+}

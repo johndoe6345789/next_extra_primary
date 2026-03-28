@@ -26,10 +26,12 @@
         },
         {
           "type": "print",
+          "when": "{cmake_ver}",
           "text": "[conan] Pinning cmake/{cmake_ver} as platform tool"
         },
         {
           "type": "shell",
+          "when": "{cmake_ver}",
           "tag": "conan",
           "command": "printf '\\n[platform_tool_requires]\\ncmake/{cmake_ver}\\n' >> ~/.conan2/profiles/default"
         }

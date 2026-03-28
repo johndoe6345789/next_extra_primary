@@ -1,0 +1,45 @@
+{
+  "name": "preload-pip",
+  "description": "Download conan pip wheels and upload to packagerepo",
+  "options": [
+    {
+      "name": "repo",
+      "default": "http://localhost:5050",
+      "help": "Packagerepo base URL"
+    },
+    {
+      "name": "conan-ver",
+      "default": "2.12.0",
+      "help": "Conan version to download"
+    }
+  ],
+  "steps": [
+    {
+      "type": "set",
+      "var": "token_file",
+      "value": "{repo_root}/.local/dev-token"
+    },
+    {
+      "type": "print",
+      "text": "[preload-pip] Downloading conan=={opt.conan-ver}"
+    },
+    {
+      "type": "shell",
+      "tag": "pip-download",
+      "command": "docker run --rm debian:sid sh -c \"apt-get update -qq && apt-get install -y -qq python3 python3-pip python3-venv >/dev/null 2>&1 && python3 -m venv /tmp/venv && /tmp/venv/bin/pip download conan=={opt.conan-ver} -d /tmp/pip-wheels >/dev/null 2>&1 && tar czf /tmp/pip-wheels.tar.gz -C /tmp pip-wheels && cat /tmp/pip-wheels.tar.gz\" > /tmp/pip-conan-{opt.conan-ver}.tar.gz"
+    },
+    {
+      "type": "print",
+      "text": "[preload-pip] Uploading to packagerepo"
+    },
+    {
+      "type": "shell",
+      "tag": "pip-upload",
+      "command": "curl -fsSL -X PUT {opt.repo}/v1/pip/conan/{opt.conan-ver}/noarch/blob -H \"Authorization: Bearer $(cat {token_file})\" -H \"Content-Type: application/octet-stream\" --data-binary @/tmp/pip-conan-{opt.conan-ver}.tar.gz && rm -f /tmp/pip-conan-{opt.conan-ver}.tar.gz"
+    },
+    {
+      "type": "print",
+      "text": "[preload-pip] conan=={opt.conan-ver} uploaded"
+    }
+  ]
+}

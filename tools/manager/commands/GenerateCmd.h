@@ -5,8 +5,7 @@
  *        generation.
  */
 
-#ifndef MANAGER_COMMANDS_GENERATE_CMD_H
-#define MANAGER_COMMANDS_GENERATE_CMD_H
+#pragma once
 
 #include <string>
 
@@ -30,5 +29,3 @@ class GenerateCmd
 };
 
 } // namespace manager
-
-#endif // MANAGER_COMMANDS_GENERATE_CMD_H

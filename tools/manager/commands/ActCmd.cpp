@@ -50,8 +50,9 @@ std::map<std::string, std::string> ActCmd::loadRunners()
         if (j.contains("runners"))
             for (auto& [k, v] : j["runners"].items())
                 m[k] = v.get<std::string>();
-    } catch (...) {
-        fmt::print("[act] Warning: bad {}\n", kConfigRel);
+    } catch (const nlohmann::json::exception& e) {
+        fmt::print("[act] Warning: bad {}: {}\n",
+                   kConfigRel, e.what());
     }
     return m;
 }

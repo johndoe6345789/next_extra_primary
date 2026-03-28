@@ -4,8 +4,7 @@
  *        configure, and cmake build steps.
  */
 
-#ifndef MANAGER_COMMANDS_BUILD_CMD_H
-#define MANAGER_COMMANDS_BUILD_CMD_H
+#pragma once
 
 namespace manager
 {
@@ -32,5 +31,3 @@ class BuildCmd
 };
 
 } // namespace manager
-
-#endif // MANAGER_COMMANDS_BUILD_CMD_H

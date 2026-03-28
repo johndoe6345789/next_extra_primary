@@ -4,8 +4,7 @@
  *        and clang-tidy on project source files.
  */
 
-#ifndef MANAGER_COMMANDS_LINT_CMD_H
-#define MANAGER_COMMANDS_LINT_CMD_H
+#pragma once
 
 namespace manager
 {
@@ -39,5 +38,3 @@ class LintCmd
 };
 
 } // namespace manager
-
-#endif // MANAGER_COMMANDS_LINT_CMD_H

@@ -1,0 +1,69 @@
+{
+  "name": "offline-deps",
+  "description": "Restore Docker base images from packagerepo",
+  "options": [
+    {
+      "name": "repo",
+      "default": "http://localhost:5050",
+      "help": "Package repo URL"
+    },
+    {
+      "name": "arch",
+      "default": "all",
+      "help": "amd64, arm64, riscv64, ppc64le, or all"
+    }
+  ],
+  "steps": [
+    {
+      "type": "check",
+      "command": "docker info >/dev/null 2>&1",
+      "error": "Docker daemon is not running"
+    },
+    {
+      "type": "capture",
+      "command": "if [ \"{opt.arch}\" = \"all\" ]; then printf 'amd64\\narm64\\nriscv64\\nppc64le'; else echo \"{opt.arch}\"; fi",
+      "var": "arches"
+    },
+    {
+      "type": "print",
+      "text": "[offline] Restoring base images from {opt.repo}"
+    },
+    {
+      "type": "foreach",
+      "command": "echo \"{arches}\"",
+      "var": "arch",
+      "steps": [
+        {
+          "type": "foreach",
+          "command": "printf 'debian/sid\\ndebian/sid-slim\\npostgres/16-alpine\\nnode/22-slim\\nubuntu/24.04'",
+          "var": "img",
+          "steps": [
+            {
+              "type": "capture",
+              "command": "echo \"{img}\" | cut -d/ -f1",
+              "var": "img_name"
+            },
+            {
+              "type": "capture",
+              "command": "echo \"{img}\" | cut -d/ -f2",
+              "var": "img_tag"
+            },
+            {
+              "type": "print",
+              "text": "[offline] Loading {img_name}:{img_tag} ({arch})"
+            },
+            {
+              "type": "shell",
+              "tag": "load",
+              "command": "curl -fsSL {opt.repo}/v1/docker/{img_name}/{img_tag}/{arch}/blob | gunzip | docker load"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "print",
+      "text": "[offline] All base images restored"
+    }
+  ]
+}

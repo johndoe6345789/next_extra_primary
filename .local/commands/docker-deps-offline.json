@@ -1,0 +1,92 @@
+{
+  "name": "docker-deps-offline",
+  "description": "Build deps images using packagerepo",
+  "options": [
+    {
+      "name": "repo",
+      "default": "http://localhost:5050",
+      "help": "Package repo URL"
+    },
+    {
+      "name": "target",
+      "default": "all",
+      "help": "backend, frontend, or all"
+    },
+    {
+      "name": "platform",
+      "default": "",
+      "help": "e.g. linux/amd64"
+    },
+    {
+      "name": "apt-ver",
+      "default": "sid-2026q1",
+      "help": "APT snapshot version"
+    },
+    {
+      "name": "conan-ver",
+      "default": "1.0.0",
+      "help": "Conan cache version"
+    }
+  ],
+  "steps": [
+    {
+      "type": "check",
+      "command": "docker info >/dev/null 2>&1",
+      "error": "Docker daemon is not running"
+    },
+    {
+      "type": "set",
+      "var": "platform",
+      "value": "{opt.platform}",
+      "default": "{host_platform}"
+    },
+    {
+      "type": "capture",
+      "command": "echo {registry}",
+      "var": "reg"
+    },
+    {
+      "type": "capture",
+      "command": "if uname -s | grep -qi darwin; then echo 'http://host.docker.internal:5050'; else echo 'http://localhost:5050'; fi",
+      "var": "repo_url"
+    },
+    {
+      "type": "capture",
+      "command": "sha256sum {repo_root}/frontend/package-lock.json | cut -c1-16",
+      "var": "npm_lock_hash"
+    },
+    {
+      "type": "print",
+      "text": "[deps-offline] {reg} @ {platform}"
+    },
+    {
+      "type": "print",
+      "text": "[deps-offline] REPO_URL={repo_url}"
+    },
+    {
+      "type": "capture",
+      "command": "if [ \"{opt.target}\" = \"all\" ]; then echo 'backend\nfrontend'; elif [ \"{opt.target}\" = \"backend\" ]; then echo backend; else echo frontend; fi",
+      "var": "targets"
+    },
+    {
+      "type": "foreach",
+      "command": "echo \"{targets}\"",
+      "var": "item",
+      "steps": [
+        {
+          "type": "print",
+          "text": "[deps-offline] Building {item}-deps"
+        },
+        {
+          "type": "shell",
+          "tag": "deps-offline",
+          "command": "EXTRA=\"\"; if [ \"{item}\" = \"backend\" ]; then EXTRA=\"--build-arg CONAN_VER={opt.conan-ver}\"; fi; if [ \"{item}\" = \"frontend\" ]; then EXTRA=\"--build-arg NPM_LOCK_HASH={npm_lock_hash}\"; fi; docker buildx build -f docker/{item}-deps.Dockerfile --network=host --platform {platform} --build-arg REPO_URL={repo_url} --build-arg APT_VER={opt.apt-ver} $EXTRA -t {reg}/{item}-deps:latest --load ."
+        }
+      ]
+    },
+    {
+      "type": "print",
+      "text": "[deps-offline] Build complete"
+    }
+  ]
+}

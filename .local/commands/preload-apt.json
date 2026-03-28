@@ -1,0 +1,70 @@
+{
+  "name": "preload-apt",
+  "description": "Download and upload apt .deb packages to packagerepo",
+  "options": [
+    {
+      "name": "repo",
+      "default": "http://localhost:5050",
+      "help": "Packagerepo base URL"
+    },
+    {
+      "name": "arch",
+      "default": "all",
+      "help": "amd64, arm64, riscv64, ppc64le, or all"
+    },
+    {
+      "name": "ver",
+      "default": "sid-2026q1",
+      "help": "Version tag for the apt package set"
+    }
+  ],
+  "steps": [
+    {
+      "type": "set",
+      "var": "token_file",
+      "value": "{repo_root}/.local/dev-token"
+    },
+    {
+      "type": "capture",
+      "command": "if [ \"{opt.arch}\" = \"all\" ]; then printf 'amd64\\narm64\\nriscv64\\nppc64le'; else echo \"{opt.arch}\"; fi",
+      "var": "arches"
+    },
+    {
+      "type": "foreach",
+      "command": "echo \"{arches}\"",
+      "var": "arch",
+      "steps": [
+        {
+          "type": "foreach",
+          "command": "printf 'backend-build-deps\\nbackend-runtime-deps\\nfrontend-runtime-deps'",
+          "var": "group",
+          "steps": [
+            {
+              "type": "capture",
+              "command": "if [ \"{group}\" = \"backend-build-deps\" ]; then echo 'gcc-13 g++-13 make cmake python3 python3-pip python3-venv pkg-config libpq-dev libssl-dev zlib1g-dev perl perl-modules ca-certificates'; elif [ \"{group}\" = \"backend-runtime-deps\" ]; then echo 'libpq5 libssl3 ca-certificates'; elif [ \"{group}\" = \"frontend-runtime-deps\" ]; then echo 'nodejs ca-certificates curl'; fi",
+              "var": "pkgs"
+            },
+            {
+              "type": "print",
+              "text": "[preload-apt] {group} ({arch})"
+            },
+            {
+              "type": "shell",
+              "tag": "apt-download",
+              "command": "CID=$(docker create --platform linux/{arch} debian:sid sh -c \"apt-get update -qq && apt-get install --download-only -y {pkgs} >/dev/null 2>&1 && tar czf /out.tar.gz /var/cache/apt/archives/*.deb\"); docker start -a $CID; docker cp $CID:/out.tar.gz /tmp/{group}-{arch}.tar.gz; docker rm $CID >/dev/null"
+            },
+            {
+              "type": "shell",
+              "tag": "apt-upload",
+              "command": "curl -fsSL -X PUT {opt.repo}/v1/apt/{group}/{opt.ver}/{arch}/blob -H \"Authorization: Bearer $(cat {token_file})\" -H \"Content-Type: application/octet-stream\" --data-binary @/tmp/{group}-{arch}.tar.gz && rm -f /tmp/{group}-{arch}.tar.gz"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "print",
+      "text": "[preload-apt] All apt packages uploaded"
+    }
+  ]
+}

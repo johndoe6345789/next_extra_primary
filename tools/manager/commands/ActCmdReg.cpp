@@ -9,8 +9,10 @@
 #include <fmt/core.h>
 #include <nlohmann/json.hpp>
 
+#include <cstdlib>
 #include <filesystem>
 #include <fstream>
+#include <memory>
 #include <string>
 
 namespace fs = std::filesystem;
@@ -37,7 +39,7 @@ static void registerEntry(CLI::App* parent, const json& entry)
     bool arch = tmpl.find("{arch}") != std::string::npos;
 
     auto* sub = parent->add_subcommand(name, desc);
-    auto* st = new std::pair<std::string, bool>("", false);
+    auto st = std::make_shared<std::pair<std::string, bool>>("", false);
     if (arch)
         sub->add_option("--arch", st->first, "Target arch (default: host)");
     sub->add_flag("-v,--verbose", st->second, "Verbose");
@@ -51,7 +53,8 @@ static void registerEntry(CLI::App* parent, const json& entry)
             wf = expandArch(tmpl, plat.substr(s + 1));
             fmt::print("[act] {} -> {}\n", plat, wf);
         }
-        ActCmd::runWorkflow(wf, "", st->second);
+        if (int rc = ActCmd::runWorkflow(wf, "", st->second); rc)
+            std::exit(rc);
     });
 }
 
@@ -70,8 +73,9 @@ void ActCmd::registerAll(CLI::App& parent)
                 if (j.contains("commands"))
                     for (const auto& e : j["commands"])
                         registerEntry(cmd, e);
-            } catch (...) {
-                fmt::print("[act] Warning: bad {}\n", kConfigRel);
+            } catch (const json::exception& e) {
+                fmt::print("[act] Warning: bad {}: {}\n",
+                           kConfigRel, e.what());
             }
         }
     }

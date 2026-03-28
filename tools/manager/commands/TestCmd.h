@@ -4,8 +4,7 @@
  *        with optional name filtering.
  */
 
-#ifndef MANAGER_COMMANDS_TEST_CMD_H
-#define MANAGER_COMMANDS_TEST_CMD_H
+#pragma once
 
 #include <string>
 
@@ -30,5 +29,3 @@ class TestCmd
 };
 
 } // namespace manager
-
-#endif // MANAGER_COMMANDS_TEST_CMD_H
