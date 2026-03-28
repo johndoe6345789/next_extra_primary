@@ -7,9 +7,9 @@
 
 #pragma once
 
-#include <drogon/utils/Utilities.h>
+#include "HmacUtil.h"
+
 #include <json/json.h>
-#include <openssl/hmac.h>
 
 #include <chrono>
 #include <cstdint>
@@ -18,38 +18,18 @@
 namespace repo
 {
 
-/// @brief Base64url encode (RFC 4648 sec 5).
-inline std::string b64url(const std::string& in)
-{
-    auto b = drogon::utils::base64Encode(in);
-    for (auto& c : b) {
-        if (c == '+')
-            c = '-';
-        else if (c == '/')
-            c = '_';
-    }
-    b.erase(std::remove(b.begin(), b.end(), '='), b.end());
-    return b;
-}
-
-/// @brief Sign data with HMAC-SHA256, return base64url.
-inline std::string hmacSign(const std::string& data, const std::string& secret)
-{
-    unsigned char out[32];
-    unsigned int len = 0;
-    HMAC(EVP_sha256(), secret.data(), (int)secret.size(),
-         (const unsigned char*)data.data(), data.size(), out, &len);
-    return b64url(std::string((char*)out, len));
-}
-
 /// @brief Create a JWT with sub, scopes, and exp claims.
-inline std::string createJwt(const std::string& sub, const Json::Value& scopes,
-                             const std::string& secret, int64_t expHours = 24)
+inline std::string createJwt(
+    const std::string& sub,
+    const Json::Value& scopes,
+    const std::string& secret,
+    int64_t expHours = 24)
 {
     auto now = std::chrono::system_clock::now();
     auto exp = now + std::chrono::hours(expHours);
     auto expSec =
-        std::chrono::duration_cast<std::chrono::seconds>(exp.time_since_epoch())
+        std::chrono::duration_cast<std::chrono::seconds>(
+            exp.time_since_epoch())
             .count();
 
     auto header = b64url(R"({"alg":"HS256","typ":"JWT"})");

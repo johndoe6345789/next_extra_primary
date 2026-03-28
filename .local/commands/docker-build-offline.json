@@ -1,0 +1,87 @@
+{
+  "name": "docker-build-offline",
+  "description": "Build app images fully offline via packagerepo",
+  "options": [
+    {
+      "name": "repo",
+      "default": "http://localhost:5050",
+      "help": "Package repo URL"
+    },
+    {
+      "name": "target",
+      "default": "all",
+      "help": "backend, frontend, or all"
+    },
+    {
+      "name": "apt-ver",
+      "default": "sid-2026q1",
+      "help": "APT snapshot version"
+    },
+    {
+      "name": "up",
+      "flag": true,
+      "help": "Start services after build"
+    }
+  ],
+  "steps": [
+    {
+      "type": "check",
+      "command": "docker info >/dev/null 2>&1",
+      "error": "Docker daemon is not running"
+    },
+    {
+      "type": "capture",
+      "command": "if uname -s | grep -qi darwin; then echo 'http://host.docker.internal:5050'; else echo '{opt.repo}'; fi",
+      "var": "repo_url"
+    },
+    {
+      "type": "capture",
+      "command": "echo {registry}",
+      "var": "reg"
+    },
+    {
+      "type": "print",
+      "text": "[offline-build] repo={repo_url}"
+    },
+    {
+      "type": "shell",
+      "tag": "offline-build",
+      "command": "manager docker-deps-offline --repo {opt.repo} --target {opt.target} --apt-ver {opt.apt-ver}"
+    },
+    {
+      "type": "print",
+      "text": "[offline-build] Building app images"
+    },
+    {
+      "type": "capture",
+      "command": "if [ \"{opt.target}\" = \"all\" ]; then echo 'backend\nfrontend'; elif [ \"{opt.target}\" = \"backend\" ]; then echo backend; else echo frontend; fi",
+      "var": "targets"
+    },
+    {
+      "type": "foreach",
+      "command": "echo \"{targets}\"",
+      "var": "item",
+      "steps": [
+        {
+          "type": "print",
+          "text": "[offline-build] {item}"
+        },
+        {
+          "type": "shell",
+          "tag": "offline-build",
+          "command": "CTX=\"\"; if [ \"{item}\" = \"backend\" ]; then CTX=\"--build-context manager=./tools/manager --build-context commands=./.local/commands\"; fi; docker buildx build -f {item}/Dockerfile --network=host --build-arg DEPS_IMAGE={reg}/{item}-deps:latest --build-arg REPO_URL={repo_url} --build-arg APT_VER={opt.apt-ver} $CTX -t {reg}/{item}:latest --load {item}"
+        }
+      ]
+    },
+    {
+      "type": "print",
+      "text": "[offline-build] Build complete"
+    },
+    {
+      "type": "shell",
+      "tag": "offline-build",
+      "condition": "{opt.up}",
+      "command": "docker compose -f docker-compose.yml -f docker-compose.offline.yml up -d"
+    }
+  ]
+}

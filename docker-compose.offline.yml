@@ -1,0 +1,26 @@
+# Offline override -- layers on top of docker-compose.yml.
+# Usage:
+#   docker compose \
+#     -f docker-compose.yml \
+#     -f docker-compose.offline.yml \
+#     up --build
+#
+# Prereqs:
+#   1. packagerepo running  (manager repo-up)
+#   2. deps preloaded       (manager preload-all)
+#   3. deps images built    (manager docker-deps-offline)
+#
+# On Linux, change host.docker.internal to localhost.
+services:
+  backend:
+    build:
+      args:
+        DEPS_IMAGE: nextra/backend-deps:latest
+        REPO_URL: http://host.docker.internal:5050
+        APT_VER: sid-2026q1
+
+  frontend:
+    build:
+      args:
+        REPO_URL: http://host.docker.internal:5050
+        APT_VER: sid-2026q1

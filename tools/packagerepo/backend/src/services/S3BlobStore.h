@@ -9,12 +9,10 @@
 
 #pragma once
 
-#include <openssl/sha.h>
+#include "DigestUtil.h"
 
 #include <drogon/HttpClient.h>
 
-#include <iomanip>
-#include <sstream>
 #include <string>
 
 namespace repo

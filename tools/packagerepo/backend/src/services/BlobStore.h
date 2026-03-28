@@ -5,13 +5,11 @@
 
 #pragma once
 
-#include <openssl/sha.h>
+#include "DigestUtil.h"
 
 #include <cstdio>
 #include <filesystem>
 #include <fstream>
-#include <iomanip>
-#include <sstream>
 #include <string>
 
 namespace repo
@@ -30,14 +28,7 @@ class BlobStore
     /// @brief Compute SHA256 digest of data.
     static std::string sha256(const std::string& data)
     {
-        unsigned char hash[SHA256_DIGEST_LENGTH];
-        SHA256((const unsigned char*)data.data(), data.size(), hash);
-
-        std::ostringstream ss;
-        ss << "sha256:";
-        for (auto b : hash)
-            ss << std::hex << std::setfill('0') << std::setw(2) << (int)b;
-        return ss.str();
+        return sha256hex(data);
     }
 
     /// @brief Get filesystem path for a digest.
