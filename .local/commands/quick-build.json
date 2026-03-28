@@ -48,7 +48,7 @@
     {
       "type": "shell",
       "tag": "backend",
-      "command": "docker buildx build --platform {plat} -t {registry}/backend:{sha} --build-context manager=./tools/manager ./backend",
+      "command": "docker buildx build --platform {plat} -t {registry}/backend:{sha} --build-context manager=./tools/manager --build-context commands=./.local/commands ./backend",
       "when": "{build_be}"
     }
   ]

@@ -10,6 +10,7 @@
 #include <nlohmann/json.hpp>
 
 #include <algorithm>
+#include <cstdlib>
 #include <filesystem>
 #include <fstream>
 #include <string>
@@ -75,10 +76,10 @@ static void loadFile(CLI::App& app, const std::filesystem::path& path)
 
 void registerWorkflows(CLI::App& app)
 {
-    auto root = repoRoot();
-    if (root.empty())
-        return;
-    auto dir = root / kCommandsDir;
+    const char* envDir = std::getenv("MANAGER_COMMANDS_DIR");
+    auto dir = (envDir && std::filesystem::exists(envDir))
+        ? std::filesystem::path(envDir)
+        : repoRoot() / kCommandsDir;
     if (!std::filesystem::exists(dir))
         return;
     std::vector<std::filesystem::path> files;
