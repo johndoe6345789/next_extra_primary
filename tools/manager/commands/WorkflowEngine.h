@@ -55,6 +55,9 @@ int stepRetry(const nlohmann::json& step, WorkflowCtx& ctx);
 /// @brief Execute the "template" step type.
 int stepTemplate(const nlohmann::json& step, WorkflowCtx& ctx);
 
+/// @brief Execute the "foreach" step type.
+int stepForeach(const nlohmann::json& step, WorkflowCtx& ctx);
+
 /// @brief Execute cmake-gen template rendering.
 int executeCmakeGen(const std::string& input, const std::string& output,
                     const std::string& templates);

@@ -26,3 +26,6 @@ export type { PointsDisplayProps } from './PointsDisplay';
 
 export { SearchBar } from './SearchBar';
 export type { SearchBarProps } from './SearchBar';
+
+export { HeroCta } from './HeroCta';
+export type { HeroCtaProps } from './HeroCta';

@@ -1,14 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
 import type { Bucket } from '@/types';
 import {
-  BucketCard,
+  BucketGrid,
   CreateBucketDialog,
   ConfirmDialog,
 } from '../molecules';
@@ -23,7 +22,7 @@ export interface BucketListProps {
 }
 
 /**
- * @brief Grid of bucket cards with create action.
+ * @brief Bucket list with create action.
  * @param props - BucketList properties.
  */
 export default function BucketList({
@@ -58,26 +57,11 @@ export default function BucketList({
         </Button>
       </Stack>
 
-      {buckets.length === 0 ? (
-        <Typography color="text.secondary">
-          {labels.buckets.empty}
-        </Typography>
-      ) : (
-        <Grid container spacing={2}>
-          {buckets.map((b) => (
-            <Grid
-              key={b.name}
-              size={{ xs: 12, sm: 6, md: 4 }}
-            >
-              <BucketCard
-                bucket={b}
-                onOpen={onOpenBucket}
-                onDelete={setDelTarget}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      )}
+      <BucketGrid
+        buckets={buckets}
+        onOpen={onOpenBucket}
+        onDelete={setDelTarget}
+      />
 
       <CreateBucketDialog
         open={createOpen}
@@ -91,7 +75,9 @@ export default function BucketList({
         message={labels.dialogs.deleteBucket
           .replace('{name}', delTarget ?? '')}
         onConfirm={() => {
-          if (delTarget) onDeleteBucket(delTarget);
+          if (delTarget) {
+            onDeleteBucket(delTarget);
+          }
           setDelTarget(null);
         }}
         onCancel={() => setDelTarget(null)}

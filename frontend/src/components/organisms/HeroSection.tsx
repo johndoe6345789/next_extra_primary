@@ -4,9 +4,8 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
 import { useTranslations } from 'next-intl';
-import { Button } from '../atoms';
+import { HeroCta } from '../molecules';
 
 /** Props for the HeroSection organism. */
 export interface HeroSectionProps {
@@ -74,26 +73,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         >
           {t('subtitle')}
         </Typography>
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <Button
-            size="large"
-            onClick={onGetStarted}
-            testId="hero-cta-start"
-            ariaLabel={t('cta')}
-          >
-            {t('cta')}
-          </Button>
-          <Button
-            variant="outlined"
-            size="large"
-            color="inherit"
-            onClick={onLearnMore}
-            testId="hero-cta-learn"
-            ariaLabel={t('features')}
-          >
-            {t('features')}
-          </Button>
-        </Stack>
+        <HeroCta
+          onGetStarted={onGetStarted}
+          onLearnMore={onLearnMore}
+        />
       </Container>
     </Box>
   );

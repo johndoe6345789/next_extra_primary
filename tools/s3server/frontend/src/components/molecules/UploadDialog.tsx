@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useRef } from 'react';
 import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
+import DialogTitle
+  from '@mui/material/DialogTitle';
 import DialogContent
   from '@mui/material/DialogContent';
 import DialogActions
@@ -10,6 +10,7 @@ import DialogActions
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import { useUploadForm } from '@/hooks';
 import labels from '@/constants/ui-labels.json';
 
 /** @brief Props for UploadDialog. */
@@ -32,28 +33,9 @@ export default function UploadDialog({
   prefix = '',
   testId = 'upload-dialog',
 }: UploadDialogProps) {
-  const [key, setKey] = useState('');
-  const [file, setFile] = useState<File | null>(
-    null,
+  const form = useUploadForm(
+    prefix, onUpload, onClose,
   );
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const handleFileChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const f = e.target.files?.[0] ?? null;
-    setFile(f);
-    if (f && !key) setKey(prefix + f.name);
-  };
-
-  const handleUpload = () => {
-    if (file && key) {
-      onUpload(key, file);
-      setKey('');
-      setFile(null);
-      onClose();
-    }
-  };
 
   return (
     <Dialog
@@ -71,23 +53,26 @@ export default function UploadDialog({
         <Stack spacing={2} sx={{ mt: 1 }}>
           <Button
             variant="outlined"
-            onClick={() => inputRef.current?.click()}
+            onClick={() =>
+              form.inputRef.current?.click()}
             aria-label={labels.dialogs.selectFile}
           >
-            {file?.name ?? labels.dialogs.selectFile}
+            {form.file?.name
+              ?? labels.dialogs.selectFile}
           </Button>
           <input
-            ref={inputRef}
+            ref={form.inputRef}
             type="file"
             hidden
-            onChange={handleFileChange}
+            onChange={form.handleFileChange}
             data-testid="file-input"
           />
           <TextField
             fullWidth
             label={labels.dialogs.objectKey}
-            value={key}
-            onChange={(e) => setKey(e.target.value)}
+            value={form.key}
+            onChange={(e) =>
+              form.setKey(e.target.value)}
             data-testid="object-key-input"
             aria-label={labels.dialogs.objectKey}
           />
@@ -98,9 +83,9 @@ export default function UploadDialog({
           {labels.dialogs.cancel}
         </Button>
         <Button
-          onClick={handleUpload}
+          onClick={form.handleUpload}
           variant="contained"
-          disabled={!file || !key}
+          disabled={!form.file || !form.key}
         >
           {labels.objects.upload}
         </Button>

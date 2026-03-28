@@ -3,8 +3,16 @@
  * @module store/slices/authSlice
  */
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { AuthState, User } from '../../types/auth';
-import { authApi } from '../api/authApi';
+import type { AuthState, LoginResponse, User } from '../../types/auth';
+
+/** Match RTK Query action by endpoint name + lifecycle. */
+type AnyAction = { type: string; meta?: {
+  arg?: { endpointName?: string };
+}; };
+const matchEp = (name: string, suffix: string) =>
+  (a: AnyAction): boolean =>
+    a.type.endsWith(`/${suffix}`)
+    && a.meta?.arg?.endpointName === name;
 
 const initialState: AuthState = {
   user: null,
@@ -26,8 +34,11 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     /** Store user + tokens after login/refresh. */
-    setCredentials(state, action: PayloadAction<CredentialsPayload>) {
-      const { user, accessToken, refreshToken } = action.payload;
+    setCredentials(
+      state, action: PayloadAction<CredentialsPayload>,
+    ) {
+      const { user, accessToken, refreshToken } =
+        action.payload;
       state.user = user;
       state.accessToken = accessToken;
       state.refreshToken = refreshToken;
@@ -47,31 +58,38 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addMatcher(authApi.endpoints.login.matchPending, (state) => {
+      .addMatcher(matchEp('login', 'pending'), (state) => {
         state.isLoading = true;
       })
       .addMatcher(
-        authApi.endpoints.login.matchFulfilled,
-        (state, { payload }) => {
-          state.user = payload.user;
-          state.accessToken = payload.tokens.accessToken;
-          state.refreshToken = payload.tokens.refreshToken;
+        matchEp('login', 'fulfilled'),
+        (state, action) => {
+          const p =
+            (action as { payload: LoginResponse }).payload;
+          state.user = p.user;
+          state.accessToken = p.tokens.accessToken;
+          state.refreshToken = p.tokens.refreshToken;
           state.isAuthenticated = true;
           state.isLoading = false;
         },
       )
-      .addMatcher(authApi.endpoints.login.matchRejected, (state) => {
+      .addMatcher(matchEp('login', 'rejected'), (state) => {
         state.isLoading = false;
       })
-      .addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
-        state.user = null;
-        state.accessToken = null;
-        state.refreshToken = null;
-        state.isAuthenticated = false;
-      });
+      .addMatcher(
+        matchEp('logout', 'fulfilled'),
+        (state) => {
+          state.user = null;
+          state.accessToken = null;
+          state.refreshToken = null;
+          state.isAuthenticated = false;
+        },
+      );
   },
 });
 
-export const { setCredentials, clearCredentials, setUser } = authSlice.actions;
+export const {
+  setCredentials, clearCredentials, setUser,
+} = authSlice.actions;
 
 export default authSlice.reducer;

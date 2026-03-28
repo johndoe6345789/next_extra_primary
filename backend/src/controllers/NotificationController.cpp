@@ -5,23 +5,13 @@
 
 #include "NotificationController.h"
 #include "../utils/JsonResponse.h"
+#include "../utils/parse_helpers.h"
 
 #include <nlohmann/json.hpp>
 #include <string>
 
 using json = nlohmann::json;
 using Cb = std::function<void(const drogon::HttpResponsePtr&)>;
-
-/// @brief Safely parse a string to long long, returning @p fallback on error.
-static auto safeStoll(const std::string& s,
-                      long long fallback) noexcept -> long long
-{
-    try {
-        return std::stoll(s);
-    } catch (...) {
-        return fallback;
-    }
-}
 
 namespace controllers
 {
@@ -31,8 +21,8 @@ void NotificationController::list(const drogon::HttpRequestPtr& req, Cb&& cb)
     auto userId = req->attributes()->get<std::string>("user_id");
     auto pageStr = req->getParameter("page");
     auto perPageStr = req->getParameter("per_page");
-    int64_t page = safeStoll(pageStr, 1);
-    int64_t perPage = safeStoll(perPageStr, 20);
+    int64_t page = ::utils::safeStoll(pageStr, 1);
+    int64_t perPage = ::utils::safeStoll(perPageStr, 20);
 
     // TODO: query database filtered by userId.
     json items = json::array();

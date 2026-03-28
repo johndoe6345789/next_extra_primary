@@ -5,23 +5,13 @@
 
 #include "GamificationController.h"
 #include "../utils/JsonResponse.h"
+#include "../utils/parse_helpers.h"
 
 #include <nlohmann/json.hpp>
 #include <string>
 
 using json = nlohmann::json;
 using Cb = std::function<void(const drogon::HttpResponsePtr&)>;
-
-/// @brief Safely parse a string to long long, returning @p fallback on error.
-static auto safeStoll(const std::string& s,
-                      long long fallback) noexcept -> long long
-{
-    try {
-        return std::stoll(s);
-    } catch (...) {
-        return fallback;
-    }
-}
 
 namespace controllers
 {
@@ -41,13 +31,13 @@ void GamificationController::listBadges(const drogon::HttpRequestPtr& /*req*/,
     cb(::utils::jsonOk({{"badges", badges}}));
 }
 
-// ----------------------------------------------------------
 void GamificationController::leaderboard(const drogon::HttpRequestPtr& req,
                                          Cb&& cb)
 {
     auto period = req->getParameter("period");
     auto limitStr = req->getParameter("limit");
-    int limit = static_cast<int>(safeStoll(limitStr, 10));
+    int limit = static_cast<int>(
+        ::utils::safeStoll(limitStr, 10));
     if (period.empty()) {
         period = "weekly";
     }
@@ -58,7 +48,6 @@ void GamificationController::leaderboard(const drogon::HttpRequestPtr& req,
         {{"period", period}, {"limit", limit}, {"leaderboard", entries}}));
 }
 
-// ----------------------------------------------------------
 void GamificationController::myStreaks(const drogon::HttpRequestPtr& req,
                                        Cb&& cb)
 {
@@ -71,7 +60,6 @@ void GamificationController::myStreaks(const drogon::HttpRequestPtr& req,
     cb(::utils::jsonOk(streaks));
 }
 
-// ----------------------------------------------------------
 void GamificationController::awardPoints(const drogon::HttpRequestPtr& req,
                                          Cb&& cb)
 {
@@ -96,7 +84,6 @@ void GamificationController::awardPoints(const drogon::HttpRequestPtr& req,
                         {"points", body["points"]}}));
 }
 
-// ----------------------------------------------------------
 void GamificationController::myProgress(const drogon::HttpRequestPtr& req,
                                         Cb&& cb)
 {

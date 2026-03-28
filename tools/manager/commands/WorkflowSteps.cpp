@@ -1,10 +1,12 @@
 /// @file WorkflowSteps.cpp
 /// @brief Additional step types for complex workflows.
 #include "CmakeGenCmd.h"
+#include "ShellUtil.h"
 #include "WorkflowEngine.h"
 #include <filesystem>
 #include <fmt/core.h>
 #include <fstream>
+#include <sstream>
 
 namespace manager
 {
@@ -56,10 +58,33 @@ int stepTemplate(const nlohmann::json& s, WorkflowCtx& ctx)
     return executeCmakeGen(input, output, tmpl);
 }
 
-int executeCmakeGen(const std::string& input, const std::string& output,
+int executeCmakeGen(const std::string& input,
+                    const std::string& output,
                     const std::string& templates)
 {
     return CmakeGenCmd::execute(input, output, templates);
+}
+
+/// @brief Iterate lines from a command, running steps.
+/// @param s JSON step with "command", "var", "steps".
+/// @param ctx Variable context for expansion.
+/// @return 0 if all pass, worst non-zero on failure.
+int stepForeach(const nlohmann::json& s, WorkflowCtx& ctx)
+{
+    auto out =
+        capture(ctx.expand(s["command"].get<std::string>()));
+    auto var = s["var"].get<std::string>();
+    const auto& nested = s["steps"];
+    int worst = 0;
+    std::istringstream ss(out);
+    for (std::string ln; std::getline(ss, ln);) {
+        if (ln.empty())
+            continue;
+        ctx.set(var, ln);
+        if (int rc = executeWorkflow(nested, ctx); rc)
+            worst = rc;
+    }
+    return worst;
 }
 
 } // namespace manager

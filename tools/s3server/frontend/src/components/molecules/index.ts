@@ -9,3 +9,9 @@ export { default as BucketCard }
   from './BucketCard';
 export { default as ObjectRow }
   from './ObjectRow';
+export { default as ObjectToolbar }
+  from './ObjectToolbar';
+export { default as ObjectDataTable }
+  from './ObjectDataTable';
+export { default as BucketGrid }
+  from './BucketGrid';
