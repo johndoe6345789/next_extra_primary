@@ -24,18 +24,30 @@ struct Globals {
     static inline std::string schemaJson;
     static inline int repoType = 0;
 
-    /// @brief Initialize all services.
-    static void init(const std::string& s3Endpoint, const std::string& s3Bucket,
-                     const std::string& s3AccessKey, const std::string& secret,
-                     const std::string& dbConn)
-    {
-        blobs =
-            std::make_unique<S3BlobStore>(s3Endpoint, s3Bucket, s3AccessKey);
-        jwtSecret = secret;
+    // Stored for deferred S3 init
+    static inline std::string s3Ep_;
+    static inline std::string s3Bkt_;
+    static inline std::string s3Key_;
 
+    /// @brief Init DB and config (safe before event loop).
+    static void initConfig(
+        const std::string& s3Ep, const std::string& s3Bkt,
+        const std::string& s3Key, const std::string& secret,
+        const std::string& dbConn)
+    {
+        s3Ep_ = s3Ep;
+        s3Bkt_ = s3Bkt;
+        s3Key_ = s3Key;
+        jwtSecret = secret;
         DbPool::init(dbConn);
         PgUserStore::init();
         repoType = PgConfigStore::defaultRepoType();
+    }
+
+    /// @brief Init S3 (requires event loop running).
+    static void initS3()
+    {
+        blobs = std::make_unique<S3BlobStore>(s3Ep_, s3Bkt_, s3Key_);
     }
 };
 

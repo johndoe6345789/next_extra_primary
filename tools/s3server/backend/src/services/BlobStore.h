@@ -5,13 +5,11 @@
 
 #pragma once
 
+#include "DigestUtil.h"
+
 #include <filesystem>
 #include <fstream>
-#include <iomanip>
-#include <sstream>
 #include <string>
-
-#include <openssl/md5.h>
 
 namespace s3
 {
@@ -70,15 +68,6 @@ class BlobStore
   private:
     std::filesystem::path root_;
 
-    static std::string md5hex(const std::string& data)
-    {
-        unsigned char hash[MD5_DIGEST_LENGTH];
-        MD5((unsigned char*)data.data(), data.size(), hash);
-        std::ostringstream ss;
-        for (int i = 0; i < MD5_DIGEST_LENGTH; ++i)
-            ss << std::hex << std::setfill('0') << std::setw(2) << (int)hash[i];
-        return ss.str();
-    }
 };
 
 } // namespace s3

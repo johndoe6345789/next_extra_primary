@@ -17,12 +17,9 @@ ObjectStore::list(int bucketId, const std::string& prefix, int maxKeys)
         sql += " AND key LIKE $2";
     sql += " ORDER BY key LIMIT " + std::to_string(maxKeys);
 
-    drogon::orm::Result r;
-    if (prefix.empty()) {
-        r = DbPool::get()->execSqlSync(sql, bucketId);
-    } else {
-        r = DbPool::get()->execSqlSync(sql, bucketId, prefix + "%");
-    }
+    auto r = prefix.empty()
+        ? DbPool::get()->execSqlSync(sql, bucketId)
+        : DbPool::get()->execSqlSync(sql, bucketId, prefix + "%");
 
     std::vector<Json::Value> out;
     for (const auto& row : r)

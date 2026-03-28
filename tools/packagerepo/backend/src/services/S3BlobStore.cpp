@@ -14,27 +14,22 @@ S3BlobStore::S3BlobStore(const std::string& endpoint, const std::string& bucket,
                          const std::string& accessKey)
     : endpoint_(endpoint), bucket_(bucket), accessKey_(accessKey)
 {
-    // Ensure the bucket exists on the S3 server.
+    // Create bucket asynchronously (event loop must be running).
+    LOG_TRACE << "S3: ensuring bucket '" << bucket_ << "' exists";
     auto client = drogon::HttpClient::newHttpClient(endpoint_);
     auto req = drogon::HttpRequest::newHttpRequest();
     req->setPath("/" + bucket_);
     req->setMethod(drogon::Put);
     req->addHeader("Authorization", "Bearer " + accessKey_);
-    auto [result, resp] = client->sendRequest(req, 5.0);
-    // 200 = created, 409 = already exists — both OK.
-    (void)result;
-    (void)resp;
+    client->sendRequest(req, [bucket](drogon::ReqResult r,
+                                      const drogon::HttpResponsePtr&) {
+        LOG_TRACE << "S3: bucket '" << bucket << "' result=" << (int)r;
+    }, 5.0);
 }
 
 std::string S3BlobStore::sha256(const std::string& data)
 {
-    unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256((const unsigned char*)data.data(), data.size(), hash);
-    std::ostringstream ss;
-    ss << "sha256:";
-    for (auto b : hash)
-        ss << std::hex << std::setfill('0') << std::setw(2) << (int)b;
-    return ss.str();
+    return sha256hex(data);
 }
 
 std::pair<std::string, size_t> S3BlobStore::store(const std::string& data)

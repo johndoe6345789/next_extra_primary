@@ -30,7 +30,8 @@ int main()
         env("DATABASE_URL", "host=localhost port=5432 dbname=packagerepo "
                             "user=packagerepo password=packagerepo");
 
-    repo::Globals::init(s3Endpoint, s3Bucket, s3Key, secret, dbConn);
+    // Init DB and config (no HTTP needed, safe before event loop)
+    repo::Globals::initConfig(s3Endpoint, s3Bucket, s3Key, secret, dbConn);
 
     // Load schema.json for the /schema endpoint
     for (auto p : {fs::path("/app/schema.json"), fs::path("schema.json")}) {
@@ -44,9 +45,11 @@ int main()
 
     auto port = std::stoi(env("PORT", "5000"));
     drogon::app()
-        .setLogLevel(trantor::Logger::kInfo)
+        .setLogLevel(trantor::Logger::kTrace)
+        .setClientMaxBodySize(512 * 1024 * 1024)  // 512 MB
         .addListener("0.0.0.0", (uint16_t)port)
         .setThreadNum(4)
+        .registerBeginningAdvice([] { repo::Globals::initS3(); })
         .run();
 
     return 0;
