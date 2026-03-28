@@ -16,6 +16,8 @@ add_executable(packagerepo-server
     src/controllers/ArtifactTag.cpp
     src/controllers/HealthCtrl.cpp
     src/controllers/AdminCtrl.cpp
+    src/controllers/DevTokenCtrl.cpp
+    src/controllers/DevTokenVerify.cpp
     src/filters/AuthFilter.cpp
     src/services/S3BlobStore.cpp
 )

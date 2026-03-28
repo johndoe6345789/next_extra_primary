@@ -1,0 +1,59 @@
+{
+  "name": "preload-manager-hdrs",
+  "description": "Upload vendored manager headers to packagerepo",
+  "options": [
+    {
+      "name": "repo",
+      "default": "http://localhost:5050",
+      "help": "Packagerepo base URL"
+    }
+  ],
+  "steps": [
+    {
+      "type": "set",
+      "var": "token_file",
+      "value": "{repo_root}/.local/dev-token"
+    },
+    {
+      "type": "set",
+      "var": "auth",
+      "value": "-H \"Authorization: Bearer $(cat {token_file})\""
+    },
+    {
+      "type": "set",
+      "var": "mgr",
+      "value": "{repo_root}/tools/manager"
+    },
+    {
+      "type": "print",
+      "text": "[preload-hdrs] Uploading CLI11 v2.4.2"
+    },
+    {
+      "type": "shell",
+      "tag": "preload-hdrs",
+      "command": "curl -fsSL -X PUT {opt.repo}/v1/manager-hdrs/cli11/2.4.2/noarch/blob -H \"Authorization: Bearer $(cat {token_file})\" -H \"Content-Type: application/octet-stream\" --data-binary @{mgr}/CLI/CLI.hpp"
+    },
+    {
+      "type": "print",
+      "text": "[preload-hdrs] Uploading nlohmann/json v3.11.3"
+    },
+    {
+      "type": "shell",
+      "tag": "preload-hdrs",
+      "command": "curl -fsSL -X PUT {opt.repo}/v1/manager-hdrs/nlohmann-json/3.11.3/noarch/blob -H \"Authorization: Bearer $(cat {token_file})\" -H \"Content-Type: application/octet-stream\" --data-binary @{mgr}/nlohmann/json.hpp"
+    },
+    {
+      "type": "print",
+      "text": "[preload-hdrs] Uploading inja v3.4.0"
+    },
+    {
+      "type": "shell",
+      "tag": "preload-hdrs",
+      "command": "curl -fsSL -X PUT {opt.repo}/v1/manager-hdrs/inja/3.4.0/noarch/blob -H \"Authorization: Bearer $(cat {token_file})\" -H \"Content-Type: application/octet-stream\" --data-binary @{mgr}/inja/inja.hpp"
+    },
+    {
+      "type": "print",
+      "text": "[preload-hdrs] All headers uploaded"
+    }
+  ]
+}

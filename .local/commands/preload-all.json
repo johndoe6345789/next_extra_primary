@@ -1,0 +1,61 @@
+{
+  "name": "preload-all",
+  "description": "Preload all build deps into packagerepo",
+  "options": [
+    {
+      "name": "repo",
+      "default": "http://localhost:5050",
+      "help": "Packagerepo base URL"
+    },
+    {
+      "name": "arch",
+      "default": "all",
+      "help": "amd64, arm64, riscv64, ppc64le, or all"
+    }
+  ],
+  "steps": [
+    {
+      "type": "print",
+      "text": "[preload] Starting full dependency preload"
+    },
+    {
+      "type": "shell",
+      "tag": "preload",
+      "command": "manager dev-token-check --repo {opt.repo}"
+    },
+    {
+      "type": "shell",
+      "tag": "preload",
+      "command": "manager preload-manager-hdrs --repo {opt.repo}"
+    },
+    {
+      "type": "shell",
+      "tag": "preload",
+      "command": "manager preload-docker --repo {opt.repo} --arch {opt.arch}"
+    },
+    {
+      "type": "shell",
+      "tag": "preload",
+      "command": "manager preload-apt --repo {opt.repo} --arch {opt.arch}"
+    },
+    {
+      "type": "shell",
+      "tag": "preload",
+      "command": "manager preload-pip --repo {opt.repo}"
+    },
+    {
+      "type": "shell",
+      "tag": "preload",
+      "command": "manager preload-conan --repo {opt.repo} --arch {opt.arch}"
+    },
+    {
+      "type": "shell",
+      "tag": "preload",
+      "command": "manager preload-npm --repo {opt.repo}"
+    },
+    {
+      "type": "print",
+      "text": "[preload] All dependencies preloaded"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "name": "preload-conan",
+  "description": "Build conan cache per arch and upload to packagerepo",
+  "options": [
+    {
+      "name": "repo",
+      "default": "http://localhost:5050",
+      "help": "Packagerepo base URL"
+    },
+    {
+      "name": "arch",
+      "default": "all",
+      "help": "amd64, arm64, riscv64, ppc64le, or all"
+    },
+    {
+      "name": "ver",
+      "default": "1.0.0",
+      "help": "Version tag for the conan cache"
+    }
+  ],
+  "steps": [
+    {
+      "type": "set",
+      "var": "token_file",
+      "value": "{repo_root}/.local/dev-token"
+    },
+    {
+      "type": "capture",
+      "command": "if [ \"{opt.arch}\" = \"all\" ]; then printf 'amd64\\narm64\\nriscv64\\nppc64le'; else echo \"{opt.arch}\"; fi",
+      "var": "arches"
+    },
+    {
+      "type": "foreach",
+      "command": "echo \"{arches}\"",
+      "var": "arch",
+      "steps": [
+        {
+          "type": "print",
+          "text": "[preload-conan] Building cache ({arch})"
+        },
+        {
+          "type": "capture",
+          "command": "if [ \"{arch}\" = \"riscv64\" ] || [ \"{arch}\" = \"ppc64le\" ]; then echo 'true'; else echo 'false'; fi",
+          "var": "is_exotic"
+        },
+        {
+          "type": "capture",
+          "command": "if [ \"{is_exotic}\" = \"true\" ]; then echo 'conan profile detect && printf \"\\n[platform_tool_requires]\\ncmake/3.31.6\\n\" >> ~/.conan2/profiles/default &&'; else echo 'conan profile detect &&'; fi",
+          "var": "profile_cmd"
+        },
+        {
+          "type": "shell",
+          "tag": "conan-build",
+          "command": "docker run --rm --platform linux/{arch} -v {repo_root}/backend:/src -e CONAN_SKIP_TEST=1 -e CONAN_CPU_COUNT=14 debian:sid sh -c \"apt-get update -qq && apt-get install -y -qq gcc-13 g++-13 make cmake python3 python3-pip python3-venv pkg-config libpq-dev libssl-dev zlib1g-dev perl ca-certificates >/dev/null 2>&1 && python3 -m venv /tmp/venv && /tmp/venv/bin/pip install conan >/dev/null 2>&1 && export PATH=/tmp/venv/bin:\\$PATH && {profile_cmd} cd /src && conan install . --output-folder=/tmp/build --build=missing -s build_type=Release && tar czf /tmp/conan-cache.tar.gz -C ~ .conan2 && cat /tmp/conan-cache.tar.gz\" > /tmp/conan-{arch}.tar.gz"
+        },
+        {
+          "type": "shell",
+          "tag": "conan-upload",
+          "command": "curl -fsSL -X PUT {opt.repo}/v1/conan/nextra-backend/{opt.ver}/{arch}-release/blob -H \"Authorization: Bearer $(cat {token_file})\" -H \"Content-Type: application/octet-stream\" --data-binary @/tmp/conan-{arch}.tar.gz && rm -f /tmp/conan-{arch}.tar.gz"
+        }
+      ]
+    },
+    {
+      "type": "print",
+      "text": "[preload-conan] All arches uploaded"
+    }
+  ]
+}

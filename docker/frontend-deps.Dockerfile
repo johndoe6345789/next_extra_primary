@@ -1,28 +1,32 @@
 # docker/frontend-deps.Dockerfile
-#
 # Multi-arch base for the Node.js frontend.
-# Uses debian:sid for riscv64 + ppc64le support.
-#
-# Strategy: install Node from apt (any version sid has),
-# then use `n` to upgrade to Node 22 LTS on amd64/arm64.
-# Exotic arches keep the system Node (no prebuilt binary).
-#
 # Platforms: amd64, arm64, riscv64, ppc64le
-
 FROM debian:sid
 
-# Install system Node (bootstrap), build tools for
-# compiling Node from source on exotic arches, and
-# ca-certificates for npm registry access.
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        nodejs npm ca-certificates \
-        curl python3 make gcc g++ && \
-    rm -rf /var/lib/apt/lists/*
+ARG REPO_URL=
+ARG APT_VER=sid-2026q1
+ARG NPM_LOCK_HASH=
+ARG TARGETARCH
 
-# Use `n` to install Node 22 LTS. On amd64/arm64 this
-# downloads a prebuilt binary (~5s). On exotic arches
-# no prebuilt binary exists, so keep the system Node.
+# Install system Node, build tools, ca-certificates.
+RUN if [ -n "$REPO_URL" ]; then \
+        curl -fsSL \
+            "$REPO_URL/v1/apt/frontend-runtime-deps/$APT_VER/$TARGETARCH/blob" \
+            -o /tmp/apt.tar.gz && \
+        mkdir -p /tmp/debs && \
+        tar -xzf /tmp/apt.tar.gz -C /tmp/debs && \
+        dpkg -i --force-depends /tmp/debs/*.deb && \
+        ldconfig && rm -rf /tmp/apt.tar.gz /tmp/debs; \
+    else \
+        apt-get update && \
+        apt-get install -y --no-install-recommends \
+            nodejs npm ca-certificates \
+            curl python3 make gcc g++ && \
+        rm -rf /var/lib/apt/lists/*; \
+    fi
+
+# Use `n` to install Node 22 LTS on amd64/arm64.
+# Exotic arches keep the system Node.
 ENV N_PREFIX=/usr/local
 RUN npm install -g n && \
     case "$(uname -m)" in \
@@ -34,4 +38,14 @@ RUN npm install -g n && \
 
 WORKDIR /deps
 COPY frontend/package.json frontend/package-lock.json* ./
-RUN npm ci
+
+RUN if [ -n "$REPO_URL" ]; then \
+        curl -fsSL \
+            "$REPO_URL/v1/npm/nextra-frontend/$NPM_LOCK_HASH/noarch/blob" \
+            -o /tmp/npm.tar.gz && \
+        mkdir -p node_modules && \
+        tar -xzf /tmp/npm.tar.gz -C node_modules && \
+        rm -f /tmp/npm.tar.gz; \
+    else \
+        npm ci; \
+    fi

@@ -1,13 +1,13 @@
 # Multi-arch Dockerfile for the Next.js frontend.
 # Platforms: amd64, arm64, riscv64, ppc64le
 #
-# Build always runs on amd64 (native SWC + Turbopack).
-# Only the runner stage uses the target platform's Node.js,
-# since `next build` output is plain JavaScript.
+# Build runs on amd64 (native SWC + Turbopack).
+# Only the runner stage uses the target platform.
 
 # -- Stage 1: deps (amd64) ----------------------------------
 ARG BUILD_PLATFORM=linux/amd64
-FROM --platform=${BUILD_PLATFORM} node:22-slim AS deps
+ARG NODE_IMAGE=node:22-slim
+FROM --platform=${BUILD_PLATFORM} ${NODE_IMAGE} AS deps
 WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci || npm install
@@ -20,11 +20,28 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
 # -- Stage 3: runner (target arch) --------------------------
-FROM debian:sid-slim AS runner
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        nodejs ca-certificates curl && \
-    rm -rf /var/lib/apt/lists/*
+ARG RUNTIME_IMAGE=debian:sid-slim
+FROM ${RUNTIME_IMAGE} AS runner
+ARG REPO_URL=
+ARG APT_VER=sid-2026q1
+ARG TARGETARCH
+
+RUN if [ -n "$REPO_URL" ]; then \
+        curl -fsSL \
+            "$REPO_URL/v1/apt/frontend-runtime-deps/$APT_VER/$TARGETARCH/blob" \
+            -o /tmp/apt.tar.gz && \
+        mkdir -p /tmp/debs && \
+        tar -xzf /tmp/apt.tar.gz -C /tmp/debs && \
+        dpkg -i --force-depends /tmp/debs/*.deb && \
+        ldconfig && \
+        rm -rf /tmp/apt.tar.gz /tmp/debs; \
+    else \
+        apt-get update && \
+        apt-get install -y --no-install-recommends \
+            nodejs ca-certificates curl && \
+        rm -rf /var/lib/apt/lists/*; \
+    fi
+
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1

@@ -55,8 +55,20 @@ nlohmann/json.hpp:
 inja/inja.hpp:
 	mkdir -p inja && curl -sL $(INJA_URL) -o $@
 
+deps-offline:
+	mkdir -p CLI nlohmann inja
+	curl -fsSL http://localhost:5050/v1/manager-hdrs/cli11/2.4.2/noarch/blob \
+		-o CLI/CLI.hpp
+	curl -fsSL http://localhost:5050/v1/manager-hdrs/nlohmann-json/3.11.3/noarch/blob \
+		-o nlohmann/json.hpp
+	curl -fsSL http://localhost:5050/v1/manager-hdrs/inja/3.4.0/noarch/blob \
+		-o inja/inja.hpp
+
 clean:
 	rm -f manager
-	rm -rf $(BUILDDIR) CLI nlohmann inja
+	rm -rf $(BUILDDIR)
 
-.PHONY: deps clean
+distclean: clean
+	rm -rf CLI nlohmann inja
+
+.PHONY: deps deps-offline clean distclean

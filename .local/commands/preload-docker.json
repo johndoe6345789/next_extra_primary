@@ -1,0 +1,75 @@
+{
+  "name": "preload-docker",
+  "description": "Pull and upload Docker base images to packagerepo",
+  "options": [
+    {
+      "name": "repo",
+      "default": "http://localhost:5050",
+      "help": "Packagerepo base URL"
+    },
+    {
+      "name": "arch",
+      "default": "all",
+      "help": "amd64, arm64, riscv64, ppc64le, or all"
+    }
+  ],
+  "steps": [
+    {
+      "type": "set",
+      "var": "token_file",
+      "value": "{repo_root}/.local/dev-token"
+    },
+    {
+      "type": "capture",
+      "command": "if [ \"{opt.arch}\" = \"all\" ]; then printf 'amd64\\narm64\\nriscv64\\nppc64le'; else echo \"{opt.arch}\"; fi",
+      "var": "arches"
+    },
+    {
+      "type": "foreach",
+      "command": "echo \"{arches}\"",
+      "var": "arch",
+      "steps": [
+        {
+          "type": "foreach",
+          "command": "printf 'debian:sid\\ndebian:sid-slim\\npostgres:16-alpine\\nnode:22-slim\\nubuntu:24.04'",
+          "var": "image",
+          "steps": [
+            {
+              "type": "capture",
+              "command": "echo \"{image}\" | tr ':/' '-'",
+              "var": "safe_name"
+            },
+            {
+              "type": "capture",
+              "command": "echo \"{image}\" | cut -d: -f1 | tr '/' '-'",
+              "var": "img_name"
+            },
+            {
+              "type": "capture",
+              "command": "echo \"{image}\" | cut -d: -f2",
+              "var": "img_tag"
+            },
+            {
+              "type": "print",
+              "text": "[preload-docker] {image} ({arch})"
+            },
+            {
+              "type": "shell",
+              "tag": "docker-pull",
+              "command": "docker pull --platform linux/{arch} {image}"
+            },
+            {
+              "type": "shell",
+              "tag": "docker-save",
+              "command": "docker save {image} | gzip > /tmp/{safe_name}-{arch}.tar.gz && curl -fsSL -X PUT {opt.repo}/v1/docker/{img_name}/{img_tag}/{arch}/blob -H \"Authorization: Bearer $(cat {token_file})\" -H \"Content-Type: application/octet-stream\" --data-binary @/tmp/{safe_name}-{arch}.tar.gz && rm -f /tmp/{safe_name}-{arch}.tar.gz"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "print",
+      "text": "[preload-docker] All images uploaded"
+    }
+  ]
+}
