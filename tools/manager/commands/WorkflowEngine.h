@@ -2,7 +2,7 @@
  * @file WorkflowEngine.h
  * @brief Data-driven workflow engine for JSON commands.
  *
- * Commands are defined in .local/commands.json. The engine
+ * Commands are defined in .local/commands/. The engine
  * parses steps and executes them with variable interpolation,
  * similar to n8n or Quake 3's data-driven architecture.
  */

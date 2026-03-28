@@ -17,11 +17,11 @@ int main(int argc, char** argv)
     CLI::App app{"manager: nextra-api project management tool"};
     app.require_subcommand(1);
 
+    // ---- C++ command (YAML introspection, sorts first) ----
+    manager::ActCmd::registerAll(app);
+
     // ---- JSON workflow commands (.local/commands/) ----
     manager::registerWorkflows(app);
-
-    // ---- C++ command (YAML introspection) ----
-    manager::ActCmd::registerAll(app);
 
     CLI11_PARSE(app, argc, argv);
     return EXIT_SUCCESS;

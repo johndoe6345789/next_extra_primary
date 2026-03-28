@@ -57,8 +57,13 @@
     {
       "type": "set",
       "var": "config_flag",
+      "value": ""
+    },
+    {
+      "type": "set",
+      "var": "config_flag",
       "value": "--config {opt.config}",
-      "default": ""
+      "when": "{opt.config}"
     },
     {
       "type": "shell",

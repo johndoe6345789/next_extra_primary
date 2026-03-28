@@ -29,7 +29,8 @@ static void registerCmd(CLI::App* parent, const json& def)
     auto desc = def["description"].get<std::string>();
     auto* sub = parent->add_subcommand(name, desc);
 
-    auto* opts = new std::map<std::string, std::string>();
+    auto opts = std::make_shared<std::map<std::string, std::string>>();
+    auto flags = std::make_shared<std::map<std::string, bool>>();
 
     if (def.contains("options")) {
         for (const auto& opt : def["options"]) {
@@ -38,10 +39,8 @@ static void registerCmd(CLI::App* parent, const json& def)
             auto dflt = opt.value("default", "");
             (*opts)[oname] = dflt;
             if (opt.value("flag", false)) {
-                // Flags stored as "true"/"false" strings
-                auto* flagPtr = new bool(false);
-                sub->add_flag("--" + oname, *flagPtr, help);
-                opts->emplace(oname, "false");
+                (*flags)[oname] = false;
+                sub->add_flag("--" + oname, (*flags)[oname], help);
             } else {
                 sub->add_option("--" + oname, (*opts)[oname], help);
             }
@@ -49,11 +48,13 @@ static void registerCmd(CLI::App* parent, const json& def)
     }
 
     auto steps = def["steps"];
-    sub->callback([opts, steps]() {
+    sub->callback([opts, flags, steps]() {
         WorkflowCtx ctx;
         ctx.loadBuiltins();
         for (const auto& [k, v] : *opts)
             ctx.set("opt." + k, v);
+        for (const auto& [k, v] : *flags)
+            ctx.set("opt." + k, v ? "true" : "false");
         executeWorkflow(steps, ctx);
     });
 }

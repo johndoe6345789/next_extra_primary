@@ -17,8 +17,13 @@
     {
       "type": "set",
       "var": "file_flag",
+      "value": ""
+    },
+    {
+      "type": "set",
+      "var": "file_flag",
       "value": " --file {opt.file}",
-      "default": ""
+      "when": "{opt.file}"
     },
     {
       "type": "print",

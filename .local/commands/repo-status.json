@@ -10,12 +10,12 @@
     {
       "type": "capture",
       "command": "docker inspect -f '{{.State.Status}}' nextra-packagerepo 2>/dev/null || echo 'not found'",
-      "variable": "repo_state"
+      "var": "repo_state"
     },
     {
       "type": "capture",
       "command": "docker inspect -f '{{.State.Status}}' nextra-packagerepo-db 2>/dev/null || echo 'not found'",
-      "variable": "db_state"
+      "var": "db_state"
     },
     {
       "type": "print",

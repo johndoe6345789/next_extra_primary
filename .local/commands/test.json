@@ -52,8 +52,13 @@
     {
       "type": "set",
       "var": "filter_flag",
+      "value": ""
+    },
+    {
+      "type": "set",
+      "var": "filter_flag",
       "value": "--tests-regex {opt.filter}",
-      "default": ""
+      "when": "{opt.filter}"
     },
     {
       "type": "shell",
