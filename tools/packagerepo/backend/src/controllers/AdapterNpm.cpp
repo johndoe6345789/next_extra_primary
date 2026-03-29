@@ -17,7 +17,7 @@ using namespace drogon;
 namespace repo
 {
 
-void AdapterCtrl::npmMeta(
+void NpmAdapterCtrl::meta(
     const HttpRequestPtr& req,
     std::function<void(const HttpResponsePtr&)>&& cb,
     const std::string& name)
@@ -64,7 +64,7 @@ void AdapterCtrl::npmMeta(
     cb(r);
 }
 
-void AdapterCtrl::npmTarball(
+void NpmAdapterCtrl::tarball(
     const HttpRequestPtr& req,
     std::function<void(const HttpResponsePtr&)>&& cb,
     const std::string& name,

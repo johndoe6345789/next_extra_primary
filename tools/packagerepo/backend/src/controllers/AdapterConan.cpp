@@ -17,7 +17,7 @@ using namespace drogon;
 namespace repo
 {
 
-void AdapterCtrl::conanRecipe(
+void ConanAdapterCtrl::recipe(
     const HttpRequestPtr& req,
     std::function<void(const HttpResponsePtr&)>&& cb,
     const std::string& name,
@@ -41,7 +41,7 @@ void AdapterCtrl::conanRecipe(
     cb(HttpResponse::newHttpJsonResponse(doc));
 }
 
-void AdapterCtrl::conanRevisions(
+void ConanAdapterCtrl::revisions(
     const HttpRequestPtr& req,
     std::function<void(const HttpResponsePtr&)>&& cb,
     const std::string& name,
@@ -71,7 +71,7 @@ void AdapterCtrl::conanRevisions(
     cb(HttpResponse::newHttpJsonResponse(doc));
 }
 
-void AdapterCtrl::conanDownload(
+void ConanAdapterCtrl::download(
     const HttpRequestPtr& req,
     std::function<void(const HttpResponsePtr&)>&& cb,
     const std::string& name,

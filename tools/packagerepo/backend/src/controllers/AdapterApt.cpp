@@ -18,7 +18,7 @@ using namespace drogon;
 namespace repo
 {
 
-void AdapterCtrl::aptPackages(
+void AptAdapterCtrl::packages(
     const HttpRequestPtr& req,
     std::function<void(const HttpResponsePtr&)>&& cb,
     const std::string& dist,
@@ -56,7 +56,7 @@ void AdapterCtrl::aptPackages(
     cb(r);
 }
 
-void AdapterCtrl::aptDownload(
+void AptAdapterCtrl::download(
     const HttpRequestPtr& req,
     std::function<void(const HttpResponsePtr&)>&& cb,
     const std::string& file)

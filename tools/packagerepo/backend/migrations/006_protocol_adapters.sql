@@ -1,6 +1,6 @@
 -- 006_protocol_adapters.sql
 -- Declarative protocol adapter config per repo type.
--- Fully relational — no JSONB blobs.
+-- One row per native package manager protocol.
 
 CREATE TABLE IF NOT EXISTS protocol_adapters (
     id            SERIAL PRIMARY KEY,
@@ -16,30 +16,29 @@ CREATE TABLE IF NOT EXISTS protocol_adapters (
     UNIQUE (repo_type, name)
 );
 
--- Seed adapters for the default generic repo type.
+-- Seed all 15 adapters for the default generic repo type.
 INSERT INTO protocol_adapters
     (repo_type, name, prefix, namespace,
      content_type, tarball_ext, meta_format)
-SELECT rt.id, 'npm', '/npm', 'npm',
-       'application/octet-stream', '.tgz',
-       'npm-registry-v1'
-FROM repo_types rt WHERE rt.name = 'generic'
-ON CONFLICT (repo_type, name) DO NOTHING;
-
-INSERT INTO protocol_adapters
-    (repo_type, name, prefix, namespace,
-     content_type, tarball_ext, meta_format)
-SELECT rt.id, 'apt', '/apt', 'apt',
-       'application/vnd.debian.binary-package', '.deb',
-       'apt-packages'
-FROM repo_types rt WHERE rt.name = 'generic'
-ON CONFLICT (repo_type, name) DO NOTHING;
-
-INSERT INTO protocol_adapters
-    (repo_type, name, prefix, namespace,
-     content_type, tarball_ext, meta_format)
-SELECT rt.id, 'conan', '/conan', 'conan',
-       'application/gzip', '.tgz',
-       'conan-v2'
-FROM repo_types rt WHERE rt.name = 'generic'
+SELECT rt.id, v.name, v.prefix, v.namespace,
+       v.content_type, v.tarball_ext, v.meta_format
+FROM repo_types rt,
+(VALUES
+  ('npm','/npm','npm','application/octet-stream','.tgz','npm-registry-v1'),
+  ('apt','/apt','apt','application/vnd.debian.binary-package','.deb','apt-packages'),
+  ('conan','/conan','conan','application/gzip','.tgz','conan-v2'),
+  ('pypi','/pypi','pypi','application/octet-stream','.whl','pypi-simple'),
+  ('maven','/maven','maven','application/java-archive','.jar','maven-repo'),
+  ('nuget','/nuget','nuget','application/octet-stream','.nupkg','nuget-v3'),
+  ('cargo','/cargo','cargo','application/octet-stream','.crate','cargo-sparse'),
+  ('go','/go','go','application/zip','.zip','go-proxy'),
+  ('rpm','/rpm','rpm','application/x-rpm','.rpm','yum-repo'),
+  ('alpine','/alpine','alpine','application/octet-stream','.apk','apk-index'),
+  ('helm','/helm','helm','application/gzip','.tgz','helm-repo'),
+  ('oci','/v2','docker','application/vnd.oci.image.manifest.v1+json','','oci-dist'),
+  ('rubygems','/rubygems','rubygems','application/octet-stream','.gem','rubygems-api'),
+  ('composer','/composer','composer','application/zip','.zip','composer-v2'),
+  ('generic','/v1','generic','application/octet-stream','.bin','rest-v1')
+) AS v(name, prefix, namespace, content_type, tarball_ext, meta_format)
+WHERE rt.name = 'generic'
 ON CONFLICT (repo_type, name) DO NOTHING;

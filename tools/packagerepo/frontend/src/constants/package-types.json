@@ -17,57 +17,57 @@
   {
     "id": "pypi", "label": "pypi",
     "desc": "Python wheels/sdists", "color": "#3776AB",
-    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
+    "install": "```\npip install {name}=={version} --index-url http://localhost:5050/pypi/simple/\n```"
   },
   {
     "id": "maven", "label": "maven",
     "desc": "Java/Kotlin JARs", "color": "#C71A36",
-    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
+    "install": "```\nmvn dependency:get -DremoteRepositories=http://localhost:5050/maven -Dartifact={ns}:{name}:{version}\n```"
   },
   {
     "id": "nuget", "label": "nuget",
     "desc": "dotnet NuGet packages", "color": "#004880",
-    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
+    "install": "```\ndotnet nuget add source http://localhost:5050/nuget/v3/index.json -n nextra\ndotnet add package {name} --version {version}\n```"
   },
   {
     "id": "cargo", "label": "cargo",
     "desc": "Rust crates", "color": "#DEA584",
-    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
+    "install": "```\ncargo install {name}@{version} --registry http://localhost:5050/cargo\n```"
   },
   {
     "id": "go", "label": "go",
     "desc": "Go modules", "color": "#00ADD8",
-    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
+    "install": "```\nGOPROXY=http://localhost:5050/go go get {ns}/{name}@v{version}\n```"
   },
   {
     "id": "rpm", "label": "rpm",
     "desc": "RHEL/Fedora .rpm packages", "color": "#EE0000",
-    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
+    "install": "```\ndnf config-manager --add-repo http://localhost:5050/rpm\ndnf install {name}-{version}\n```"
   },
   {
     "id": "alpine", "label": "alpine",
     "desc": "Alpine Linux apk packages", "color": "#0D597F",
-    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
+    "install": "```\necho http://localhost:5050/alpine/edge/main >> /etc/apk/repositories\napk add {name}={version}\n```"
   },
   {
     "id": "helm", "label": "helm",
     "desc": "Kubernetes Helm charts", "color": "#0F1689",
-    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
+    "install": "```\nhelm repo add nextra http://localhost:5050/helm\nhelm install {name} nextra/{name} --version {version}\n```"
   },
   {
     "id": "oci", "label": "oci",
     "desc": "OCI container images", "color": "#2496ED",
-    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
+    "install": "```\ndocker pull localhost:5050/{ns}/{name}:{version}\n```"
   },
   {
     "id": "rubygems", "label": "rubygems",
     "desc": "Ruby gems", "color": "#CC342D",
-    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
+    "install": "```\ngem install {name} -v {version} --source http://localhost:5050/rubygems\n```"
   },
   {
     "id": "composer", "label": "composer",
     "desc": "PHP Composer packages", "color": "#885630",
-    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
+    "install": "```\ncomposer config repositories.nextra composer http://localhost:5050/composer\ncomposer require {ns}/{name}:{version}\n```"
   },
   {
     "id": "generic", "label": "generic",
