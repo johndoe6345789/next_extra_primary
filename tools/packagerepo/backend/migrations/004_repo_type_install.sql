@@ -8,36 +8,37 @@ ALTER TABLE repo_types
     ADD COLUMN IF NOT EXISTS install TEXT NOT NULL DEFAULT '';
 
 -- Seed built-in repo types with install instructions.
+-- Uses manager repo pull (the working CLI command).
 INSERT INTO repo_types (name, label, description, color, install)
 VALUES
   ('deb', 'deb/apt', 'Debian/Ubuntu .deb packages', '#A80030',
-   E'deb http://localhost:5050/apt {ns} main\napt update && apt install {name}={version}'),
+   E'manager repo pull {ns}/{name}@{version}'),
   ('npm', 'npm', 'Node.js packages', '#CB3837',
-   E'npm install {name}@{version} --registry http://localhost:5050/npm/'),
+   E'manager repo pull {ns}/{name}@{version}'),
   ('conan', 'conan', 'C/C++ Conan v2 packages', '#6699CB',
-   E'conan remote add nextra http://localhost:5050/conan\nconan install --requires={name}/{version}'),
+   E'manager repo pull {ns}/{name}@{version}'),
   ('pypi', 'pypi', 'Python wheels/sdists', '#3776AB',
-   E'pip install {name}=={version} --index-url http://localhost:5050/pypi/simple/'),
+   E'manager repo pull {ns}/{name}@{version}'),
   ('maven', 'maven', 'Java/Kotlin JARs', '#C71A36',
-   E'mvn dependency:get -Dartifact={ns}:{name}:{version}'),
+   E'manager repo pull {ns}/{name}@{version}'),
   ('nuget', 'nuget', 'dotnet NuGet packages', '#004880',
-   E'dotnet add package {name} --version {version}'),
+   E'manager repo pull {ns}/{name}@{version}'),
   ('cargo', 'cargo', 'Rust crates', '#DEA584',
-   E'cargo add {name}@{version} --registry nextra'),
+   E'manager repo pull {ns}/{name}@{version}'),
   ('go', 'go', 'Go modules', '#00ADD8',
-   E'go get {ns}/{name}@v{version}'),
+   E'manager repo pull {ns}/{name}@{version}'),
   ('rpm', 'rpm', 'RHEL/Fedora .rpm packages', '#EE0000',
-   E'dnf install {name}-{version}'),
+   E'manager repo pull {ns}/{name}@{version}'),
   ('alpine', 'alpine', 'Alpine Linux apk packages', '#0D597F',
-   E'apk add {name}={version}'),
+   E'manager repo pull {ns}/{name}@{version}'),
   ('helm', 'helm', 'Kubernetes Helm charts', '#0F1689',
-   E'helm install {name} nextra/{name} --version {version}'),
+   E'manager repo pull {ns}/{name}@{version}'),
   ('oci', 'oci', 'OCI container images', '#2496ED',
-   E'docker pull localhost:5050/{ns}/{name}:{version}'),
+   E'manager repo pull {ns}/{name}@{version}'),
   ('rubygems', 'rubygems', 'Ruby gems', '#CC342D',
-   E'gem install {name} -v {version}'),
+   E'manager repo pull {ns}/{name}@{version}'),
   ('composer', 'composer', 'PHP Composer packages', '#885630',
-   E'composer require {ns}/{name}:{version}')
+   E'manager repo pull {ns}/{name}@{version}')
 ON CONFLICT (name) DO UPDATE SET
     label   = EXCLUDED.label,
     color   = EXCLUDED.color,

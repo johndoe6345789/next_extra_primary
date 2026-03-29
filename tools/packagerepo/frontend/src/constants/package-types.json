@@ -2,72 +2,72 @@
   {
     "id": "deb", "label": "deb/apt",
     "desc": "Debian/Ubuntu .deb packages", "color": "#A80030",
-    "install": "```\ndeb http://localhost:5050/apt {ns} main\napt update && apt install {name}={version}\n```"
+    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
   },
   {
     "id": "npm", "label": "npm",
     "desc": "Node.js packages", "color": "#CB3837",
-    "install": "```\nnpm install {name}@{version} --registry http://localhost:5050/npm/\n```"
+    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
   },
   {
     "id": "conan", "label": "conan",
     "desc": "C/C++ Conan v2 packages", "color": "#6699CB",
-    "install": "```\nconan remote add nextra http://localhost:5050/conan\nconan install --requires={name}/{version}\n```"
+    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
   },
   {
     "id": "pypi", "label": "pypi",
     "desc": "Python wheels/sdists", "color": "#3776AB",
-    "install": "```\npip install {name}=={version} --index-url http://localhost:5050/pypi/simple/\n```"
+    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
   },
   {
     "id": "maven", "label": "maven",
     "desc": "Java/Kotlin JARs", "color": "#C71A36",
-    "install": "```\nmvn dependency:get -Dartifact={ns}:{name}:{version}\n```"
+    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
   },
   {
     "id": "nuget", "label": "nuget",
     "desc": "dotnet NuGet packages", "color": "#004880",
-    "install": "```\ndotnet add package {name} --version {version}\n```"
+    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
   },
   {
     "id": "cargo", "label": "cargo",
     "desc": "Rust crates", "color": "#DEA584",
-    "install": "```\ncargo add {name}@{version} --registry nextra\n```"
+    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
   },
   {
     "id": "go", "label": "go",
     "desc": "Go modules", "color": "#00ADD8",
-    "install": "```\ngo get {ns}/{name}@v{version}\n```"
+    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
   },
   {
     "id": "rpm", "label": "rpm",
     "desc": "RHEL/Fedora .rpm packages", "color": "#EE0000",
-    "install": "```\ndnf install {name}-{version}\n```"
+    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
   },
   {
     "id": "alpine", "label": "alpine",
     "desc": "Alpine Linux apk packages", "color": "#0D597F",
-    "install": "```\napk add {name}={version}\n```"
+    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
   },
   {
     "id": "helm", "label": "helm",
     "desc": "Kubernetes Helm charts", "color": "#0F1689",
-    "install": "```\nhelm install {name} nextra/{name} --version {version}\n```"
+    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
   },
   {
     "id": "oci", "label": "oci",
     "desc": "OCI container images", "color": "#2496ED",
-    "install": "```\ndocker pull localhost:5050/{ns}/{name}:{version}\n```"
+    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
   },
   {
     "id": "rubygems", "label": "rubygems",
     "desc": "Ruby gems", "color": "#CC342D",
-    "install": "```\ngem install {name} -v {version}\n```"
+    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
   },
   {
     "id": "composer", "label": "composer",
     "desc": "PHP Composer packages", "color": "#885630",
-    "install": "```\ncomposer require {ns}/{name}:{version}\n```"
+    "install": "```\nmanager repo pull {ns}/{name}@{version}\n```"
   },
   {
     "id": "generic", "label": "generic",
