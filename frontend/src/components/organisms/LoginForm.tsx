@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Alert from '@mui/material/Alert';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -27,8 +28,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   testId = 'login-form',
 }) => {
   const t = useTranslations('auth');
-  const { email, setEmail, pw, setPw, isLoading, errors, submit } =
-    useLoginForm();
+  const {
+    email, setEmail, pw, setPw,
+    isLoading, errors, apiError, submit,
+  } = useLoginForm();
 
   return (
     <Card data-testid={testId} sx={{ maxWidth: 420, mx: 'auto', mt: 4 }}>
@@ -47,6 +50,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({
             gap: 2,
           }}
         >
+          {apiError && (
+            <Alert severity="error" data-testid="login-error">
+              {apiError}
+            </Alert>
+          )}
           <LoginFormFields
             email={email}
             pw={pw}
@@ -62,26 +70,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({
           >
             {isLoading ? t('signingIn') : t('login')}
           </Button>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
-          >
-            <MuiLink
-              component={Link}
-              tabIndex={0}
-              href="/forgot-password"
-              variant="body2"
-            >
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <MuiLink component={Link} tabIndex={0} href="/forgot-password" variant="body2">
               {t('forgotPassword')}
             </MuiLink>
-            <MuiLink
-              component={Link}
-              tabIndex={0}
-              href="/register"
-              variant="body2"
-            >
+            <MuiLink component={Link} tabIndex={0} href="/register" variant="body2">
               {t('register')}
             </MuiLink>
           </Box>

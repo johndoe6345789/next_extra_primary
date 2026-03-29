@@ -12,6 +12,7 @@ import {
   parseBucketList,
 } from '@/utils';
 import api from '@/constants/api-routes.json';
+import seed from '@/constants/seed-data.json';
 
 /** @brief Hook return type for bucket ops. */
 export interface UseBucketsReturn {
@@ -25,6 +26,7 @@ export interface UseBucketsReturn {
 
 /**
  * @brief Manage S3 buckets.
+ * Falls back to seed data when backend is down.
  * @returns Bucket list and CRUD operations.
  */
 export function useBuckets(): UseBucketsReturn {
@@ -42,7 +44,7 @@ export function useBuckets(): UseBucketsReturn {
       const xml = await s3FetchXml(api.buckets);
       setBuckets(parseBucketList(xml));
     } catch {
-      setError('Failed to load buckets');
+      setBuckets(seed.buckets as Bucket[]);
     } finally {
       setIsLoading(false);
     }

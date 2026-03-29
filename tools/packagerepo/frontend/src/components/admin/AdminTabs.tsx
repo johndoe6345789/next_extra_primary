@@ -23,6 +23,7 @@ const TABS: readonly TabConfig[] = [
   { id: 'routes', label: 'API Routes' },
   { id: 'auth', label: 'Auth & Policies' },
   { id: 'features', label: 'Features' },
+  { id: 'repo-types', label: 'System Packages' },
   { id: 'raw', label: 'Raw Data' },
 ];
 

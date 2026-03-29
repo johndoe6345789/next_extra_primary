@@ -13,9 +13,11 @@ find_package(inja REQUIRED)
 add_executable(manager
     main.cpp
     commands/ActCmd.cpp
+    commands/ActCmdReg.cpp
+    commands/ActCmdRun.cpp
     commands/BuildCmd.cpp
-    commands/PackageRepoCmd.cpp
     commands/CmakeGenCmd.cpp
+    commands/CmakeGenCtx.cpp
     commands/ConanInstallCmd.cpp
     commands/DockerBuildxCmd.cpp
     commands/DockerCmd.cpp
@@ -28,8 +30,20 @@ add_executable(manager
     commands/ElasticCmdStatus.cpp
     commands/GenerateCmd.cpp
     commands/LintCmd.cpp
+    commands/LintCmdFmt.cpp
+    commands/PackageRepoCmd.cpp
+    commands/PackageRepoCmdHelpers.cpp
+    commands/PackageRepoCmdPull.cpp
+    commands/PackageRepoCmdReg.cpp
+    commands/S3Cmd.cpp
+    commands/S3CmdUp.cpp
     commands/SetupExoticArchCmd.cpp
     commands/TestCmd.cpp
+    commands/WorkflowCtx.cpp
+    commands/WorkflowExec.cpp
+    commands/WorkflowLoad.cpp
+    commands/WorkflowReg.cpp
+    commands/WorkflowSteps.cpp
 )
 
 target_include_directories(manager

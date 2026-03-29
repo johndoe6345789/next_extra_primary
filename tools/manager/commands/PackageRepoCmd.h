@@ -33,6 +33,12 @@ class PackageRepoCmd
     /// @brief Show server status.
     static int status();
 
+    /// @brief Pull a package from the repository.
+    /// @param spec Package spec: namespace/name@version.
+    /// @param outDir Output directory (default: current dir).
+    static int pull(const std::string& spec,
+                    const std::string& outDir);
+
     /// @brief Start the Postgres container for repo.
     static int startDb();
 

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { getApiUrl } from '../utils/api';
+import seedConfig from '../constants/seed-admin-config.json';
 import type { UserData } from '../types/package';
 import type { AdminConfig, AdminTab } from '../types/admin';
 
@@ -12,15 +13,19 @@ export interface UseAdminResult {
   config: AdminConfig | null;
   activeTab: AdminTab;
   loading: boolean;
+  usingSeed: boolean;
   expandedRoute: number | null;
   setActiveTab: (tab: AdminTab) => void;
   setExpandedRoute: (idx: number | null) => void;
 }
 
-/**
- * Hook encapsulating admin page state and data fetch.
- * @returns Admin state and handlers.
- */
+/** Check if user has admin access. */
+function isAdmin(u: UserData): boolean {
+  return u.scopes?.includes('admin')
+    || u.role === 'admin';
+}
+
+/** Hook encapsulating admin page state and data. */
 export default function useAdmin(): UseAdminResult {
   const router = useRouter();
   const [user, setUser] = useState<UserData | null>(null);
@@ -29,6 +34,7 @@ export default function useAdmin(): UseAdminResult {
   const [activeTab, setActiveTab] =
     useState<AdminTab>('overview');
   const [loading, setLoading] = useState(true);
+  const [usingSeed, setUsingSeed] = useState(false);
   const [expandedRoute, setExpandedRoute] =
     useState<number | null>(null);
 
@@ -36,25 +42,20 @@ export default function useAdmin(): UseAdminResult {
     try {
       const apiUrl = getApiUrl();
       const token = localStorage.getItem('token');
-      const response = await fetch(
-        `${apiUrl}/admin/config`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      if (response.ok) {
-        const data = (await response.json()) as {
+      const res = await fetch(`${apiUrl}/admin/config`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = (await res.json()) as {
           config: AdminConfig;
         };
         setConfig(data.config);
+        return;
       }
-    } catch (err: unknown) {
-      console.error('Failed to fetch config:', err);
-    } finally {
-      setLoading(false);
-    }
+    } catch { /* API unreachable */ }
+    setConfig(seedConfig as AdminConfig);
+    setUsingSeed(true);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -65,7 +66,7 @@ export default function useAdmin(): UseAdminResult {
       return;
     }
     const parsed = JSON.parse(userData) as UserData;
-    if (!parsed.scopes?.includes('admin')) {
+    if (!isAdmin(parsed)) {
       router.push('/');
       return;
     }
@@ -74,12 +75,7 @@ export default function useAdmin(): UseAdminResult {
   }, [router, fetchConfig]);
 
   return {
-    user,
-    config,
-    activeTab,
-    loading,
-    expandedRoute,
-    setActiveTab,
-    setExpandedRoute,
+    user, config, activeTab, loading, usingSeed,
+    expandedRoute, setActiveTab, setExpandedRoute,
   };
 }

@@ -50,6 +50,14 @@ void PackageRepoCmd::registerAll(CLI::App& parent)
     cmd->add_subcommand("logs", "Tail logs")->callback([]() {
         shell("repo", fmt::format("docker logs -f --tail=100 {}", kContainer));
     });
+
+    auto* pullCmd = cmd->add_subcommand("pull", "Pull a package");
+    static std::string pullSpec;
+    static std::string pullOut = ".";
+    pullCmd->add_option("spec", pullSpec, "namespace/name@version")
+        ->required();
+    pullCmd->add_option("-o,--output", pullOut, "Output directory");
+    pullCmd->callback([]() { pull(pullSpec, pullOut); });
 }
 
 } // namespace manager

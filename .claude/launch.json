@@ -1,0 +1,67 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Nextra Frontend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3000,
+      "autoPort": true,
+      "cwd": "frontend"
+    },
+    {
+      "name": "Nextra Backend (Drogon C++)",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": ["compose", "up", "--build", "backend"],
+      "port": 8080,
+      "cwd": "."
+    },
+    {
+      "name": "Nextra PostgreSQL",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": ["compose", "up", "db"],
+      "port": 5432,
+      "cwd": "."
+    },
+    {
+      "name": "Package Repo Backend",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": ["start", "nextra-packagerepo"],
+      "port": 5050
+    },
+    {
+      "name": "Package Repo Frontend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3000,
+      "autoPort": true,
+      "cwd": "tools/packagerepo/frontend"
+    },
+    {
+      "name": "Package Repo DB",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": ["start", "nextra-packagerepo-db"],
+      "port": 5432
+    },
+    {
+      "name": "S3 Server Backend",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": ["start", "nextra-s3server"],
+      "port": 9000
+    },
+    {
+      "name": "S3 Server Frontend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3001,
+      "autoPort": true,
+      "cwd": "tools/s3server/frontend"
+    },
+    {
+      "name": "S3 Server DB",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": ["start", "nextra-s3server-db"],
+      "port": 5432
+    }
+  ]
+}

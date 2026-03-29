@@ -4,6 +4,9 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: $spacing-xl $spacing-lg;
+  @media (max-width: 768px) {
+    padding: $spacing-md $spacing-sm;
+  }
 }
 
 .header {
@@ -11,15 +14,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
+  flex-wrap: wrap;
+  gap: $spacing-md;
+
   h1 {
     font-size: $font-size-h3;
     margin-bottom: $spacing-sm;
   }
-  
+
   &__actions {
     display: flex;
     gap: $spacing-md;
+    flex-wrap: wrap;
   }
 }
 
@@ -76,7 +82,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: $spacing-lg;
 }
 
@@ -271,6 +277,14 @@
     display: flex;
     gap: $spacing-sm;
   }
+}
+
+.input {
+  @include input-base;
+  padding: 6px 12px;
+  font-size: $font-size-body2;
+  width: 100%;
+  margin-top: 4px;
 }
 
 .loading {

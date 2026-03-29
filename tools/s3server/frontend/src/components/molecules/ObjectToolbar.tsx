@@ -28,8 +28,12 @@ export default function ObjectToolbar({
   onRefresh,
 }: ObjectToolbarProps) {
   return (
-    <Stack direction="row" spacing={2}
-      alignItems="center" sx={{ mb: 2 }}>
+    <Stack
+      direction={{ xs: 'column', sm: 'row' }}
+      spacing={1}
+      alignItems={{ xs: 'stretch', sm: 'center' }}
+      sx={{ mb: 2 }}
+    >
       <TextField
         size="small"
         placeholder={labels.objects.filterPrefix}

@@ -45,7 +45,8 @@ inline std::vector<Json::Value> list(int repoType, int limit = 200)
     auto r =
         DbPool::get()->execSqlSync("SELECT DISTINCT ON (namespace, name) "
                                    "namespace, name, version, variant, "
-                                   "blob_digest, blob_size, created_at "
+                                   "blob_digest, blob_size, "
+                                   "download_count, created_at "
                                    "FROM artifacts WHERE repo_type=$1 "
                                    "ORDER BY namespace, name, created_at DESC "
                                    "LIMIT " +

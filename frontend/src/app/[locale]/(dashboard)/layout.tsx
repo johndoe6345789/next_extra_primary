@@ -1,7 +1,6 @@
 import { ReactNode, type ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import Box from '@mui/material/Box';
-import { Navbar } from '@/components/organisms/Navbar';
 import { DashboardShortcuts } from '@/components/organisms/DashboardShortcuts';
 
 /** Props for the dashboard layout. */
@@ -38,7 +37,6 @@ export default async function DashboardLayout({
       }}
     >
       <DashboardShortcuts />
-      <Navbar />
       <Box
         component="main"
         role="main"

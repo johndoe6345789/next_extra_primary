@@ -11,6 +11,7 @@ import {
   parseObjectList,
 } from '@/utils';
 import api from '@/constants/api-routes.json';
+import seed from '@/constants/seed-data.json';
 
 /** @brief Hook return type for object listing. */
 export interface UseObjectListReturn {
@@ -20,8 +21,11 @@ export interface UseObjectListReturn {
   refresh: () => Promise<void>;
 }
 
+type SeedMap = Record<string, S3Object[]>;
+
 /**
  * @brief List and refresh S3 objects in a bucket.
+ * Falls back to seed data when backend is down.
  * @param bucket - Bucket name.
  * @param prefix - Optional key prefix filter.
  */
@@ -49,7 +53,9 @@ export function useObjectList(
       const result = parseObjectList(xml);
       setObjects(result.contents);
     } catch {
-      setError('Failed to load objects');
+      const fallback =
+        (seed.objects as SeedMap)[bucket] ?? [];
+      setObjects(fallback);
     } finally {
       setIsLoading(false);
     }

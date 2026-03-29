@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0.0",
+  "type_id": "packagerepo",
+  "description": "Multi-format package repository",
+  "entities": [
+    { "name": "package", "type": "artifact", "fields": [
+      { "name": "namespace", "type": "string" },
+      { "name": "name", "type": "string" },
+      { "name": "version", "type": "semver" },
+      { "name": "variant", "type": "string" },
+      { "name": "type", "type": "enum" }
+    ]},
+    { "name": "user", "type": "identity", "fields": [
+      { "name": "username", "type": "string" },
+      { "name": "role", "type": "enum" }
+    ]}
+  ],
+  "blob_stores": [
+    { "name": "primary", "kind": "s3", "root": "/packages" }
+  ],
+  "kv_stores": [
+    { "name": "metadata", "kind": "postgres", "root": "pkg_meta" }
+  ],
+  "api_routes": [
+    { "route_id": "list", "method": "GET", "path": "/v1/packages" },
+    { "route_id": "publish", "method": "POST", "path": "/v1/{ns}/{name}/{ver}/{variant}" },
+    { "route_id": "download", "method": "GET", "path": "/v1/{ns}/{name}/{ver}/{variant}/blob" },
+    { "route_id": "versions", "method": "GET", "path": "/v1/{ns}/{name}/versions" }
+  ],
+  "auth_scopes": [
+    { "name": "admin", "actions": "read,write,delete,config" },
+    { "name": "publisher", "actions": "read,write" },
+    { "name": "reader", "actions": "read" }
+  ],
+  "auth_policies": [
+    { "name": "default", "effect": "allow", "requirements": "authenticated" }
+  ],
+  "repo_types": [
+    { "id": "deb", "label": "deb/apt", "desc": "Debian/Ubuntu .deb packages", "color": "#A80030",
+      "install": "```\ndeb http://localhost:5050/apt {ns} main\napt update && apt install {name}={version}\n```" },
+    { "id": "npm", "label": "npm", "desc": "Node.js packages", "color": "#CB3837",
+      "install": "```\nnpm install {name}@{version} --registry http://localhost:5050/npm/\n```" },
+    { "id": "conan", "label": "conan", "desc": "C/C++ Conan v2 packages", "color": "#6699CB",
+      "install": "```\nconan remote add nextra http://localhost:5050/conan\nconan install --requires={name}/{version}\n```" },
+    { "id": "pypi", "label": "pypi", "desc": "Python wheels/sdists", "color": "#3776AB",
+      "install": "```\npip install {name}=={version} --index-url http://localhost:5050/pypi/simple/\n```" },
+    { "id": "maven", "label": "maven", "desc": "Java/Kotlin JARs", "color": "#C71A36",
+      "install": "```\nmvn dependency:get -Dartifact={ns}:{name}:{version}\n```" },
+    { "id": "nuget", "label": "nuget", "desc": "dotnet NuGet packages", "color": "#004880",
+      "install": "```\ndotnet add package {name} --version {version}\n```" },
+    { "id": "cargo", "label": "cargo", "desc": "Rust crates", "color": "#DEA584",
+      "install": "```\ncargo add {name}@{version} --registry nextra\n```" },
+    { "id": "go", "label": "go", "desc": "Go modules", "color": "#00ADD8",
+      "install": "```\ngo get {ns}/{name}@v{version}\n```" },
+    { "id": "rpm", "label": "rpm", "desc": "RHEL/Fedora .rpm packages", "color": "#EE0000",
+      "install": "```\ndnf install {name}-{version}\n```" },
+    { "id": "alpine", "label": "alpine", "desc": "Alpine Linux apk packages", "color": "#0D597F",
+      "install": "```\napk add {name}={version}\n```" },
+    { "id": "helm", "label": "helm", "desc": "Kubernetes Helm charts", "color": "#0F1689",
+      "install": "```\nhelm install {name} nextra/{name} --version {version}\n```" },
+    { "id": "oci", "label": "oci", "desc": "OCI container images", "color": "#2496ED",
+      "install": "```\ndocker pull localhost:5050/{ns}/{name}:{version}\n```" },
+    { "id": "rubygems", "label": "rubygems", "desc": "Ruby gems", "color": "#CC342D",
+      "install": "```\ngem install {name} -v {version}\n```" },
+    { "id": "composer", "label": "composer", "desc": "PHP Composer packages", "color": "#885630",
+      "install": "```\ncomposer require {ns}/{name}:{version}\n```" },
+    { "id": "generic", "label": "generic", "desc": "Arbitrary binary blobs", "color": "#757575",
+      "install": "```\nmanager repo pull {ns}/{name}@{version}\n```" }
+  ],
+  "features": {
+    "mutable_tags": true,
+    "allow_overwrite_artifacts": false,
+    "proxy_enabled": false,
+    "gc_enabled": true
+  },
+  "caching": {
+    "response_cache_enabled": true,
+    "response_cache_ttl": 300,
+    "blob_cache_enabled": true,
+    "blob_cache_max_bytes": 536870912
+  }
+}
