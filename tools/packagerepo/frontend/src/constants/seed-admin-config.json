@@ -67,6 +67,17 @@
     { "id": "generic", "label": "generic", "desc": "Arbitrary binary blobs", "color": "#757575",
       "install": "```\nmanager repo pull {ns}/{name}@{version}\n```" }
   ],
+  "protocol_adapters": [
+    { "name": "npm", "prefix": "/npm", "namespace": "npm",
+      "content_type": "application/octet-stream",
+      "tarball_ext": ".tgz", "meta_format": "npm-registry-v1" },
+    { "name": "apt", "prefix": "/apt", "namespace": "apt",
+      "content_type": "application/vnd.debian.binary-package",
+      "tarball_ext": ".deb", "meta_format": "apt-packages" },
+    { "name": "conan", "prefix": "/conan", "namespace": "conan",
+      "content_type": "application/gzip",
+      "tarball_ext": ".tgz", "meta_format": "conan-v2" }
+  ],
   "features": {
     "mutable_tags": true,
     "allow_overwrite_artifacts": false,

@@ -18,8 +18,12 @@ add_executable(packagerepo-server
     src/controllers/AdminCtrl.cpp
     src/controllers/DevTokenCtrl.cpp
     src/controllers/DevTokenVerify.cpp
+    src/controllers/AdapterNpm.cpp
+    src/controllers/AdapterApt.cpp
+    src/controllers/AdapterConan.cpp
     src/filters/AuthFilter.cpp
     src/services/S3BlobStore.cpp
+    src/services/PgAdapterStore.cpp
 )
 
 target_include_directories(packagerepo-server

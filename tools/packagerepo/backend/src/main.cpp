@@ -3,6 +3,7 @@
  * @brief Package repository server entry point.
  */
 
+#include "services/AdapterGlobals.h"
 #include "services/Globals.h"
 
 #include <drogon/drogon.h>
@@ -32,6 +33,7 @@ int main()
 
     // Init DB and config (no HTTP needed, safe before event loop)
     repo::Globals::initConfig(s3Endpoint, s3Bucket, s3Key, secret, dbConn);
+    repo::AdapterGlobals::init(repo::Globals::repoType);
 
     // Load schema.json for the /schema endpoint
     for (auto p : {fs::path("/app/schema.json"), fs::path("schema.json")}) {
