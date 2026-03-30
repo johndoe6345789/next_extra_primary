@@ -1,6 +1,7 @@
 # Multi-arch Dockerfile for nextra-api (C++ backend).
 # Build contexts: manager=./tools/manager, commands=./.local/commands
 ARG DEPS_IMAGE=debian:sid
+ARG RUNTIME_IMAGE=debian:sid-slim
 
 # -- Stage 0: manager tool ----------------------------------
 FROM ${DEPS_IMAGE} AS manager-build
@@ -61,7 +62,6 @@ RUN cmake -S . -B build/Release \
     cmake --build build/Release --parallel 14
 
 # -- Stage 2: runtime ----------------------------------------
-ARG RUNTIME_IMAGE=debian:sid-slim
 FROM ${RUNTIME_IMAGE} AS runtime
 ARG REPO_URL=
 ARG APT_VER=sid-2026q1
