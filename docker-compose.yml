@@ -6,10 +6,10 @@
 ##   docker compose --profile dev up        # core with dev volumes
 ##   docker compose --profile offline up    # offline build mode
 ##
+## Portal homepage:   http://localhost:8000   (nginx reverse proxy)
 ## Roundcube webmail:  http://localhost:8025
 ## PgAdmin tool:       http://localhost:3002  (profile: tools)
-## Package repo:       http://localhost:3000  (profile: tools -- conflicts
-##                     with frontend; stop frontend first or remap port)
+## Package repo:       http://localhost:5051  (profile: tools)
 ## S3 server UI:       http://localhost:3001  (profile: tools)
 
 # ==============================================================
@@ -148,12 +148,26 @@ services:
       context: ./frontend
       args:
         RUNTIME_IMAGE: debian:sid-slim
+        NEXT_BASE_PATH: /app
     ports:
       - "3000:3000"
     depends_on:
       - backend
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:8080
+    restart: unless-stopped
+
+  # ---- Nginx reverse proxy / portal --------------------------
+  portal:
+    image: nginx:alpine
+    ports:
+      - "8888:80"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./docker/nginx/portal:/usr/share/nginx/portal:ro
+    depends_on:
+      - frontend
+      - backend
     restart: unless-stopped
 
   # ---- Backend (dev mode with hot-reload volumes) ------------
@@ -260,6 +274,8 @@ services:
     build:
       context: ./tools/s3server/frontend
       dockerfile: Dockerfile
+      args:
+        NEXT_BASE_PATH: /s3
     profiles: ["tools"]
     ports:
       - "3001:3001"
@@ -304,6 +320,8 @@ services:
     build:
       context: ./tools/packagerepo/frontend
       dockerfile: Dockerfile
+      args:
+        NEXT_BASE_PATH: /repo
     profiles: ["tools"]
     ports:
       - "5051:3000"
@@ -343,6 +361,8 @@ services:
     build:
       context: ./tools/pgadmin/frontend
       dockerfile: Dockerfile
+      args:
+        NEXT_BASE_PATH: /db
     profiles: ["tools"]
     ports:
       - "3002:3002"

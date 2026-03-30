@@ -10,7 +10,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+ARG NEXT_BASE_PATH=
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_BASE_PATH=${NEXT_BASE_PATH}
 
 RUN mkdir -p public
 RUN npm run build

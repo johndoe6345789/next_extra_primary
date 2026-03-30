@@ -12,6 +12,7 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const BACKEND = process.env.BACKEND_URL ?? 'http://localhost:8080';
 
 const nextConfig: NextConfig = {
+  basePath: process.env.NEXT_BASE_PATH || '',
   output: 'standalone',
   images: {
     remotePatterns: [

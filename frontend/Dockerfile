@@ -17,9 +17,11 @@ RUN npm ci || npm install
 
 # -- Stage 2: build (amd64) ---------------------------------
 FROM deps AS build
+ARG NEXT_BASE_PATH=
 WORKDIR /app
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_BASE_PATH=${NEXT_BASE_PATH}
 RUN npm run build
 
 # -- Stage 3: runner (target arch) --------------------------

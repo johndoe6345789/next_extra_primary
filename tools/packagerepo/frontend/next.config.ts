@@ -7,6 +7,7 @@ interface RewriteRule {
 }
 
 const nextConfig: NextConfig = {
+  basePath: process.env.NEXT_BASE_PATH || '',
   output: 'standalone',
   async rewrites(): Promise<RewriteRule[]> {
     const backendUrl =

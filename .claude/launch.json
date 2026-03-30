@@ -2,98 +2,12 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "Nextra Frontend",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "port": 3000,
-      "autoPort": true,
-      "cwd": "frontend"
-    },
-    {
-      "name": "Nextra Backend (Drogon C++)",
+      "name": "portal",
       "runtimeExecutable": "docker",
-      "runtimeArgs": ["compose", "up", "--build", "backend"],
-      "port": 8080,
+      "runtimeArgs": ["compose", "up", "portal"],
+      "port": 8888,
+      "autoPort": false,
       "cwd": "."
-    },
-    {
-      "name": "Nextra PostgreSQL",
-      "runtimeExecutable": "docker",
-      "runtimeArgs": ["compose", "up", "db"],
-      "port": 5432,
-      "cwd": "."
-    },
-    {
-      "name": "Package Repo Backend",
-      "runtimeExecutable": "docker",
-      "runtimeArgs": ["compose", "up", "backend"],
-      "port": 5050,
-      "autoPort": true,
-      "cwd": "tools/packagerepo"
-    },
-    {
-      "name": "Package Repo Frontend",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "port": 3000,
-      "autoPort": true,
-      "cwd": "tools/packagerepo/frontend"
-    },
-    {
-      "name": "Package Repo DB",
-      "runtimeExecutable": "docker",
-      "runtimeArgs": ["compose", "up", "db"],
-      "port": 5432,
-      "autoPort": true,
-      "cwd": "tools/packagerepo"
-    },
-    {
-      "name": "S3 Server Backend",
-      "runtimeExecutable": "docker",
-      "runtimeArgs": ["compose", "up", "s3"],
-      "port": 9000,
-      "autoPort": true,
-      "cwd": "tools/s3server"
-    },
-    {
-      "name": "S3 Server Frontend",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "port": 3001,
-      "autoPort": true,
-      "cwd": "tools/s3server/frontend"
-    },
-    {
-      "name": "S3 Server DB",
-      "runtimeExecutable": "docker",
-      "runtimeArgs": ["compose", "up", "db"],
-      "port": 5432,
-      "autoPort": true,
-      "cwd": "tools/s3server"
-    },
-    {
-      "name": "PgAdmin Frontend",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "port": 3002,
-      "autoPort": true,
-      "cwd": "tools/pgadmin/frontend"
-    },
-    {
-      "name": "PgAdmin Backend",
-      "runtimeExecutable": "docker",
-      "runtimeArgs": ["compose", "up", "backend"],
-      "port": 5060,
-      "autoPort": true,
-      "cwd": "tools/pgadmin"
-    },
-    {
-      "name": "PgAdmin DB",
-      "runtimeExecutable": "docker",
-      "runtimeArgs": ["compose", "up", "db"],
-      "port": 5433,
-      "autoPort": true,
-      "cwd": "tools/pgadmin"
     }
   ]
 }
