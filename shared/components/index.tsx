@@ -6,7 +6,7 @@
  *
  * - vanilla/  - Pure React components (no external UI library)
  * - radix/    - Radix UI based components (shadcn style)
- * - m3/  - FakeMUI based components (Material Design 3)
+ * - m3/       - M3 components (Material Design 3)
  */
 
 // =============================================================================
@@ -116,10 +116,10 @@ export {
 } from './radix/dialogs/KeyboardShortcutsDialog'
 
 // =============================================================================
-// FAKEMUI COMPONENTS (Built on @metabuilder/m3)
+// M3 COMPONENTS (Built on @metabuilder/m3)
 // =============================================================================
 
-// Re-export all FakeMUI components
+// Re-export all M3 components
 // Components are available via:
 //   import { Button, Card } from '@metabuilder/components/m3'
 // Or via the main barrel export (with potential naming conflicts):

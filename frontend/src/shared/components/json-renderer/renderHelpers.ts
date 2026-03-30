@@ -6,7 +6,7 @@
 import { createElement, Fragment } from 'react';
 import type { ReactElement } from 'react';
 import type { ComponentNode } from './types';
-import { getComponent, getHook } from './registry';
+import { getComponent } from './registry';
 
 /** Resolve a dotted key from a state object. */
 export function resolve(
@@ -59,14 +59,6 @@ export function renderNode(
   const Comp = getComponent(node.component);
   if (!Comp) return null;
 
-  let hookState: Record<string, unknown> = {};
-  if (node.hook) {
-    const fn = getHook(node.hook.name);
-    if (fn) {
-      hookState = fn(...(node.hook.args ?? []));
-    }
-  }
-
   const merged: Record<string, unknown> = {
     ...(node.props ?? {}),
     key: idx,
@@ -75,7 +67,7 @@ export function renderNode(
     for (const [prop, key] of Object.entries(
       node.hook.bind,
     )) {
-      merged[prop] = resolve(hookState, key);
+      merged[prop] = resolve(state, key);
     }
   }
 

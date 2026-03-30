@@ -39,6 +39,13 @@ export function useJsonPage(
 ): Record<string, unknown> {
   const bindings = definition.hooks ?? [];
 
+  if (bindings.length > 4) {
+    throw new Error(
+      'PageDefinition supports max 4 hooks. '
+      + `Got ${bindings.length}.`,
+    );
+  }
+
   const b0 = useBinding(bindings[0] ?? { name: '' });
   const b1 = useBinding(bindings[1] ?? { name: '' });
   const b2 = useBinding(bindings[2] ?? { name: '' });

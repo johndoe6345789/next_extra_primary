@@ -44,11 +44,11 @@ test.describe('Frontend Smoke Tests', () => {
     await expect(toggle).toBeVisible();
     const htmlBefore = await page
       .locator('html')
-      .getAttribute('data-color-scheme');
+      .getAttribute('class');
     await toggle.click();
     const htmlAfter = await page
       .locator('html')
-      .getAttribute('data-color-scheme');
+      .getAttribute('class');
     expect(htmlBefore).not.toBe(htmlAfter);
   });
 

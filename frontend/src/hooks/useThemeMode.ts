@@ -26,6 +26,15 @@ interface UseThemeModeReturn {
  *
  * @returns Theme mode state and controls.
  */
+/** Detect OS preference via matchMedia. */
+function getSystemPref(): 'light' | 'dark' {
+  if (typeof window === 'undefined') return 'light';
+  const mq = window.matchMedia(
+    '(prefers-color-scheme: dark)',
+  );
+  return mq.matches ? 'dark' : 'light';
+}
+
 export function useThemeMode(): UseThemeModeReturn {
   const [mode, setModeState] = useState<Mode>(() => {
     if (typeof window === 'undefined') return 'light';
@@ -34,8 +43,25 @@ export function useThemeMode(): UseThemeModeReturn {
     ) ?? 'light';
   });
 
-  const resolved: Mode = mode === 'system'
-    ? 'light'
+  const [sysPref, setSysPref] = useState<
+    'light' | 'dark'
+  >(getSystemPref);
+
+  useEffect(() => {
+    const mq = window.matchMedia(
+      '(prefers-color-scheme: dark)',
+    );
+    const handler = (e: MediaQueryListEvent) => {
+      setSysPref(e.matches ? 'dark' : 'light');
+    };
+    mq.addEventListener('change', handler);
+    return () => {
+      mq.removeEventListener('change', handler);
+    };
+  }, []);
+
+  const resolved = mode === 'system'
+    ? sysPref
     : mode;
 
   useEffect(() => {

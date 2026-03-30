@@ -3,6 +3,7 @@
  * names to actual React components and hooks.
  * @module shared/components/json-renderer/registry
  */
+import type { ComponentType } from 'react';
 import {
   Box, Typography, Card, CardContent,
   Container, Divider, Button, TextField,
@@ -37,7 +38,7 @@ const hooks: HookMap = {
  */
 export function registerComponent(
   name: string,
-  comp: React.ComponentType<Record<string, unknown>>,
+  comp: ComponentType<Record<string, unknown>>,
 ): void {
   components[name] = comp;
 }
@@ -61,7 +62,7 @@ export function registerHook(
  */
 export function getComponent(
   name: string,
-): React.ComponentType<Record<string, unknown>> | undefined {
+): ComponentType<Record<string, unknown>> | undefined {
   return components[name];
 }
 
