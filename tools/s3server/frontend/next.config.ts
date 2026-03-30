@@ -4,6 +4,7 @@ const backend =
   process.env.BACKEND_URL || 'http://localhost:9000';
 
 const nextConfig: NextConfig = {
+  basePath: process.env.NEXT_BASE_PATH || '',
   output: 'standalone',
   async rewrites() {
     return [

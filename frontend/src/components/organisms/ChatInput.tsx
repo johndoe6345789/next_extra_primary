@@ -4,6 +4,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
+import { useTranslations } from 'next-intl';
 import { TextField, Button } from '../atoms';
 import { ChatProvider } from '@/types/chat';
 
@@ -35,6 +36,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   onProvider,
   disabled,
 }) => {
+  const t = useTranslations('chat');
   const onKey = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -50,6 +52,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         borderTop: 1,
         borderColor: 'divider',
         alignItems: 'flex-end',
+        flexWrap: { xs: 'wrap', sm: 'nowrap' },
       }}
     >
       <ToggleButtonGroup
@@ -62,9 +65,12 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         <ToggleButton value={ChatProvider.Anthropic}>Claude</ToggleButton>
         <ToggleButton value={ChatProvider.OpenAI}>OpenAI</ToggleButton>
       </ToggleButtonGroup>
-      <Box sx={{ flex: 1 }} onKeyDown={onKey}>
+      <Box
+        sx={{ flex: 1, minWidth: { xs: '100%', sm: 0 } }}
+        onKeyDown={onKey}
+      >
         <TextField
-          label="Message"
+          label={t('placeholder')}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           multiline
@@ -76,9 +82,9 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         onClick={onSend}
         disabled={disabled}
         testId="chat-send"
-        ariaLabel="Send message"
+        ariaLabel={t('send')}
       >
-        Send
+        {t('send')}
       </Button>
     </Box>
   );

@@ -2,7 +2,7 @@
 
 import type { ReactElement } from 'react';
 
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';

@@ -1,5 +1,8 @@
 import type { ReactElement } from 'react';
-import { setRequestLocale } from 'next-intl/server';
+import {
+  setRequestLocale,
+  getTranslations,
+} from 'next-intl/server';
 
 /** Skip static prerendering for this page. */
 export const dynamic = 'force-dynamic';
@@ -30,17 +33,17 @@ export default async function NotificationsPage({
 }: NotificationsPageProps): Promise<ReactElement> {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations('notifications');
 
   return (
-    <Box aria-label="Notifications">
+    <Box aria-label={t('title')}>
       <Typography variant="h4" component="h1" gutterBottom>
-        Notifications
+        {t('title')}
       </Typography>
-      <List aria-label="Notification list">
+      <List aria-label={t('title')}>
         <ListItem>
           <ListItemText
-            primary="No notifications yet"
-            secondary={'Your alerts and updates' + ' will appear here.'}
+            primary={t('noNotifications')}
           />
         </ListItem>
       </List>

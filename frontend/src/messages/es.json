@@ -35,8 +35,15 @@
     "passwordMismatch": "Las contrase\u00f1as no coinciden",
     "emailRequired": "El correo es obligatorio",
     "passwordRequired": "La contrase\u00f1a es obligatoria",
+    "username": "Nombre de usuario",
+    "displayName": "Nombre visible",
+    "passwordsMustMatch": "Las contrase\u00f1as deben coincidir",
     "signingIn": "Iniciando sesi\u00f3n...",
-    "creating": "Creando..."
+    "creating": "Creando...",
+    "resetInstructions": "Ingresa tu correo y te enviaremos un enlace de restablecimiento.",
+    "resetSent": "\u00a1Enlace enviado! Revisa tu bandeja de entrada.",
+    "backToLogin": "Volver a iniciar sesi\u00f3n",
+    "sending": "Enviando..."
   },
   "nav": {
     "home": "Inicio",
@@ -47,7 +54,12 @@
     "notifications": "Notificaciones",
     "about": "Acerca de",
     "contact": "Contacto",
-    "settings": "Configuraci\u00f3n"
+    "settings": "Configuraci\u00f3n",
+    "tools": "Herramientas",
+    "webmail": "Correo web",
+    "pgadmin": "Admin de BD",
+    "packageRepo": "Repositorio",
+    "s3server": "Almacenamiento S3"
   },
   "hero": {
     "title": "Sube de nivel en tu camino de aprendizaje",
@@ -105,6 +117,39 @@
       "title": "Autenticaci\u00f3n segura",
       "desc": "JWT con tokens de refresco."
     }
+  },
+  "dashboard": {
+    "title": "Panel",
+    "currentStreak": "Racha actual",
+    "totalPoints": "Puntos totales",
+    "badgesEarned": "Insignias obtenidas",
+    "rank": "Puesto",
+    "noData": "--"
+  },
+  "profile": {
+    "title": "Perfil",
+    "userInfo": "Informaci\u00f3n del usuario",
+    "userInfoDesc": "Nombre, correo y detalles de la cuenta aparecer\u00e1n aqu\u00ed.",
+    "badges": "Insignias",
+    "badgesDesc": "Tus insignias ganadas se mostrar\u00e1n aqu\u00ed.",
+    "statistics": "Estad\u00edsticas",
+    "statisticsDesc": "Estad\u00edsticas acumuladas y progreso aparecer\u00e1n aqu\u00ed."
+  },
+  "contact": {
+    "title": "Cont\u00e1ctanos",
+    "name": "Nombre",
+    "email": "Correo",
+    "message": "Mensaje",
+    "send": "Enviar mensaje",
+    "sending": "Enviando...",
+    "sent": "¡Mensaje enviado! Nos pondremos en contacto pronto."
+  },
+  "about": {
+    "title": "Acerca de ExtraPrimary",
+    "description": "ExtraPrimary es una plataforma de aprendizaje gamificada que combina tutor\u00eda impulsada por IA con mec\u00e1nicas de progresi\u00f3n atractivas.",
+    "description2": "Gana insignias, mantiene rachas, sube en clasificaciones y aprende a tu ritmo con asistencia personalizada de IA.",
+    "missionTitle": "Nuestra misi\u00f3n",
+    "mission": "Hacer la educaci\u00f3n accesible, atractiva y gratificante para estudiantes en todas partes."
   },
   "a11y": {
     "skipToContent": "Ir al contenido principal",

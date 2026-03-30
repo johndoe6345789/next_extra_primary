@@ -60,6 +60,18 @@ export const authApi = baseApi.injectEndpoints({
       query: () => '/auth/me',
       providesTags: ['Auth'],
     }),
+
+    /** Request a password-reset email. */
+    forgotPassword: build.mutation<
+      { message: string },
+      { email: string }
+    >({
+      query: (body) => ({
+        url: '/auth/forgot-password',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
@@ -69,4 +81,5 @@ export const {
   useLogoutMutation,
   useRefreshMutation,
   useGetMeQuery,
+  useForgotPasswordMutation,
 } = authApi;

@@ -35,8 +35,15 @@
     "passwordMismatch": "Passwords do not match",
     "emailRequired": "Email is required",
     "passwordRequired": "Password is required",
+    "username": "Username",
+    "displayName": "Display Name",
+    "passwordsMustMatch": "Passwords must match",
     "signingIn": "Signing in...",
-    "creating": "Creating..."
+    "creating": "Creating...",
+    "resetInstructions": "Enter your email and we will send you a reset link.",
+    "resetSent": "Reset link sent! Check your inbox.",
+    "backToLogin": "Back to sign in",
+    "sending": "Sending..."
   },
   "nav": {
     "home": "Home",
@@ -47,7 +54,12 @@
     "notifications": "Notifications",
     "about": "About",
     "contact": "Contact",
-    "settings": "Settings"
+    "settings": "Settings",
+    "tools": "Tools",
+    "webmail": "Webmail",
+    "pgadmin": "Database Admin",
+    "packageRepo": "Package Repo",
+    "s3server": "S3 Storage"
   },
   "hero": {
     "title": "Level up your learning journey",
@@ -105,6 +117,39 @@
       "title": "Secure Auth",
       "desc": "JWT with refresh tokens."
     }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "currentStreak": "Current Streak",
+    "totalPoints": "Total Points",
+    "badgesEarned": "Badges Earned",
+    "rank": "Rank",
+    "noData": "--"
+  },
+  "profile": {
+    "title": "Profile",
+    "userInfo": "User Information",
+    "userInfoDesc": "Name, email, and account details will appear here.",
+    "badges": "Badges",
+    "badgesDesc": "Your earned badges will be showcased here.",
+    "statistics": "Statistics",
+    "statisticsDesc": "Cumulative stats and progress will appear here."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send Message",
+    "sending": "Sending...",
+    "sent": "Message sent! We will get back to you soon."
+  },
+  "about": {
+    "title": "About ExtraPrimary",
+    "description": "ExtraPrimary is a gamified learning platform that combines AI-powered tutoring with engaging progression mechanics.",
+    "description2": "Earn badges, maintain streaks, climb leaderboards, and learn at your own pace with personalised AI assistance.",
+    "missionTitle": "Our Mission",
+    "mission": "To make education accessible, engaging, and rewarding for learners everywhere."
   },
   "a11y": {
     "skipToContent": "Skip to main content",

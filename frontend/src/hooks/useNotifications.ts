@@ -6,11 +6,12 @@ import {
   useMarkAsReadMutation,
   useMarkAllAsReadMutation,
 } from '@/store/api/notificationApi';
+import type { Notification } from '@/types/notification';
 
 /** Return type for the useNotifications hook. */
 interface UseNotificationsReturn {
   /** List of notifications for the current page. */
-  notifications: unknown[];
+  notifications: Notification[];
   /** Number of unread notifications. */
   unreadCount: number;
   /** Mark a single notification as read. */

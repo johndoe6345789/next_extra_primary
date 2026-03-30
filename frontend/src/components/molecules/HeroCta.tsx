@@ -3,6 +3,7 @@
 import React from 'react';
 import Stack from '@mui/material/Stack';
 import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 import { Button } from '../atoms';
 
 /**
@@ -27,14 +28,15 @@ export const HeroCta: React.FC = () => {
       spacing={2}
       data-testid="hero-cta-group"
     >
-      <Button
-        size="large"
-        href="/register"
-        testId="hero-cta-start"
-        ariaLabel={t('cta')}
-      >
-        {t('cta')}
-      </Button>
+      <Link href="/register" style={{ textDecoration: 'none' }}>
+        <Button
+          size="large"
+          testId="hero-cta-start"
+          ariaLabel={t('cta')}
+        >
+          {t('cta')}
+        </Button>
+      </Link>
       <Button
         variant="outlined"
         size="large"

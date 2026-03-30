@@ -1,0 +1,164 @@
+{
+  "common": {
+    "appName": "NextExtra",
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "search": "Rechercher",
+    "close": "Fermer",
+    "confirm": "Confirmer",
+    "back": "Retour",
+    "next": "Suivant",
+    "submit": "Soumettre",
+    "edit": "Modifier",
+    "view": "Voir",
+    "retry": "R\u00e9essayer"
+  },
+  "auth": {
+    "login": "Se connecter",
+    "register": "Cr\u00e9er un compte",
+    "logout": "Se d\u00e9connecter",
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "forgotPassword": "Mot de passe oubli\u00e9 ?",
+    "resetPassword": "R\u00e9initialiser le mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "rememberMe": "Se souvenir de moi",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "hasAccount": "Vous avez d\u00e9j\u00e0 un compte ? Connectez-vous",
+    "loginSuccess": "Connexion r\u00e9ussie",
+    "logoutSuccess": "D\u00e9connexion r\u00e9ussie",
+    "registerSuccess": "Compte cr\u00e9\u00e9 avec succ\u00e8s",
+    "invalidCredentials": "E-mail ou mot de passe invalide",
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "emailRequired": "L'e-mail est obligatoire",
+    "passwordRequired": "Le mot de passe est obligatoire",
+    "username": "Nom d'utilisateur",
+    "displayName": "Nom d'affichage",
+    "passwordsMustMatch": "Les mots de passe doivent correspondre",
+    "signingIn": "Connexion en cours...",
+    "creating": "Cr\u00e9ation...",
+    "resetInstructions": "Entrez votre e-mail et nous vous enverrons un lien de r\u00e9initialisation.",
+    "resetSent": "Lien envoy\u00e9 ! V\u00e9rifiez votre bo\u00eete de r\u00e9ception.",
+    "backToLogin": "Retour \u00e0 la connexion",
+    "sending": "Envoi..."
+  },
+  "nav": {
+    "home": "Accueil",
+    "dashboard": "Tableau de bord",
+    "leaderboard": "Classement",
+    "profile": "Profil",
+    "chat": "Chat",
+    "notifications": "Notifications",
+    "about": "\u00c0 propos",
+    "contact": "Contact",
+    "settings": "Param\u00e8tres",
+    "tools": "Outils",
+    "webmail": "Messagerie",
+    "pgadmin": "Admin BD",
+    "packageRepo": "D\u00e9p\u00f4t de paquets",
+    "s3server": "Stockage S3"
+  },
+  "hero": {
+    "title": "Passez au niveau sup\u00e9rieur",
+    "subtitle": "Participez, rivalisez et progressez avec notre plateforme gamifi\u00e9e",
+    "cta": "Commencer",
+    "features": "D\u00e9couvrir les fonctionnalit\u00e9s"
+  },
+  "gamification": {
+    "points": "Points",
+    "level": "Niveau",
+    "streak": "S\u00e9rie",
+    "badges": "Badges",
+    "leaderboard": "Classement",
+    "xpEarned": "{amount} XP gagn\u00e9s",
+    "levelUp": "Niveau sup\u00e9rieur !",
+    "newBadge": "Nouveau badge d\u00e9bloqu\u00e9 !",
+    "dailyStreak": "S\u00e9rie de {count} jours",
+    "rank": "Rang #{position}"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Tout marquer comme lu",
+    "noNotifications": "Aucune nouvelle notification",
+    "clearAll": "Tout effacer"
+  },
+  "chat": {
+    "placeholder": "Tapez un message...",
+    "send": "Envoyer",
+    "switchProvider": "Changer de fournisseur",
+    "noMessages": "Pas encore de messages",
+    "typing": "En cours de saisie..."
+  },
+  "features": {
+    "aiChat": {
+      "title": "Chat IA",
+      "desc": "Discutez avec des mod\u00e8les d'IA."
+    },
+    "gamification": {
+      "title": "Gamification",
+      "desc": "Badges et classements."
+    },
+    "alerts": {
+      "title": "Alertes en temps r\u00e9el",
+      "desc": "Notifications instantan\u00e9es."
+    },
+    "darkMode": {
+      "title": "Mode sombre",
+      "desc": "Th\u00e8mes clair et sombre."
+    },
+    "multiLang": {
+      "title": "Multilingue",
+      "desc": "Plusieurs langues disponibles."
+    },
+    "secureAuth": {
+      "title": "Authentification s\u00e9curis\u00e9e",
+      "desc": "JWT avec jetons de rafra\u00eechissement."
+    }
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "currentStreak": "S\u00e9rie actuelle",
+    "totalPoints": "Points totaux",
+    "badgesEarned": "Badges obtenus",
+    "rank": "Rang",
+    "noData": "--"
+  },
+  "profile": {
+    "title": "Profil",
+    "userInfo": "Informations utilisateur",
+    "userInfoDesc": "Nom, e-mail et d\u00e9tails du compte appara\u00eetront ici.",
+    "badges": "Badges",
+    "badgesDesc": "Vos badges gagn\u00e9s seront affich\u00e9s ici.",
+    "statistics": "Statistiques",
+    "statisticsDesc": "Statistiques et progression appara\u00eetront ici."
+  },
+  "contact": {
+    "title": "Contactez-nous",
+    "name": "Nom",
+    "email": "E-mail",
+    "message": "Message",
+    "send": "Envoyer le message",
+    "sending": "Envoi...",
+    "sent": "Message envoy\u00e9 ! Nous vous r\u00e9pondrons bient\u00f4t."
+  },
+  "about": {
+    "title": "\u00c0 propos d'ExtraPrimary",
+    "description": "ExtraPrimary est une plateforme d'apprentissage gamifi\u00e9e combinant tutorat par IA et m\u00e9caniques de progression.",
+    "description2": "Gagnez des badges, maintenez des s\u00e9ries, grimpez au classement et apprenez \u00e0 votre rythme.",
+    "missionTitle": "Notre mission",
+    "mission": "Rendre l'\u00e9ducation accessible, engageante et gratifiante pour tous."
+  },
+  "a11y": {
+    "skipToContent": "Aller au contenu principal",
+    "openMenu": "Ouvrir le menu de navigation",
+    "closeMenu": "Fermer le menu de navigation",
+    "toggleTheme": "Changer le th\u00e8me de couleur",
+    "switchLanguage": "Changer de langue",
+    "loading": "Le contenu est en cours de chargement",
+    "expandSection": "D\u00e9plier la section",
+    "collapseSection": "R\u00e9duire la section"
+  }
+}

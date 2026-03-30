@@ -48,8 +48,13 @@ export const Avatar: React.FC<AvatarProps> = ({
       src={src}
       alt={alt}
       aria-label={alt}
-      sx={{ width: px, height: px }}
+      sx={{
+        width: px, height: px,
+        ...(onClick && { cursor: 'pointer' }),
+      }}
       onClick={onClick}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
       data-testid={testId}
     >
       {!src && fallbackText ? fallbackText.charAt(0).toUpperCase() : undefined}

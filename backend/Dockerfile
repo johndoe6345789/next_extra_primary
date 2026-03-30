@@ -7,7 +7,7 @@ ARG RUNTIME_IMAGE=debian:sid-slim
 FROM ${DEPS_IMAGE} AS manager-build
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        g++ make && \
+        g++ make curl ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 COPY --from=manager . /build/
 WORKDIR /build

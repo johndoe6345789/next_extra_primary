@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 import { Avatar } from '../atoms';
 import type { User } from '@/types/auth';
 
@@ -21,7 +22,12 @@ export interface AvatarMenuProps {
  *
  * @param props - Component props.
  */
-export const AvatarMenu: React.FC<AvatarMenuProps> = ({ user, onLogout }) => {
+export const AvatarMenu: React.FC<AvatarMenuProps> = ({
+  user,
+  onLogout,
+}) => {
+  const t = useTranslations('nav');
+  const tAuth = useTranslations('auth');
   const [el, setEl] = useState<null | HTMLElement>(null);
   const close = () => setEl(null);
   return (
@@ -39,11 +45,19 @@ export const AvatarMenu: React.FC<AvatarMenuProps> = ({ user, onLogout }) => {
         onClose={close}
         data-testid="navbar-avatar-menu"
       >
-        <MenuItem component={Link} href="/profile" onClick={close}>
-          Profile
+        <MenuItem
+          component={Link}
+          href="/profile"
+          onClick={close}
+        >
+          {t('profile')}
         </MenuItem>
-        <MenuItem component={Link} href="/settings" onClick={close}>
-          Settings
+        <MenuItem
+          component={Link}
+          href="/settings"
+          onClick={close}
+        >
+          {t('settings')}
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -51,7 +65,7 @@ export const AvatarMenu: React.FC<AvatarMenuProps> = ({ user, onLogout }) => {
             onLogout();
           }}
         >
-          Logout
+          {tAuth('logout')}
         </MenuItem>
       </Menu>
     </>

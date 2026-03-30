@@ -1,0 +1,164 @@
+{
+  "common": {
+    "appName": "NextExtra",
+    "loading": "Wird geladen...",
+    "error": "Etwas ist schiefgelaufen",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "L\u00f6schen",
+    "search": "Suchen",
+    "close": "Schlie\u00dfen",
+    "confirm": "Best\u00e4tigen",
+    "back": "Zur\u00fcck",
+    "next": "Weiter",
+    "submit": "Absenden",
+    "edit": "Bearbeiten",
+    "view": "Ansehen",
+    "retry": "Erneut versuchen"
+  },
+  "auth": {
+    "login": "Anmelden",
+    "register": "Konto erstellen",
+    "logout": "Abmelden",
+    "email": "E-Mail-Adresse",
+    "password": "Passwort",
+    "forgotPassword": "Passwort vergessen?",
+    "resetPassword": "Passwort zur\u00fccksetzen",
+    "confirmPassword": "Passwort best\u00e4tigen",
+    "rememberMe": "Angemeldet bleiben",
+    "noAccount": "Noch kein Konto?",
+    "hasAccount": "Bereits ein Konto? Anmelden",
+    "loginSuccess": "Erfolgreich angemeldet",
+    "logoutSuccess": "Erfolgreich abgemeldet",
+    "registerSuccess": "Konto erfolgreich erstellt",
+    "invalidCredentials": "Ung\u00fcltige E-Mail oder Passwort",
+    "passwordMismatch": "Passw\u00f6rter stimmen nicht \u00fcberein",
+    "emailRequired": "E-Mail ist erforderlich",
+    "passwordRequired": "Passwort ist erforderlich",
+    "username": "Benutzername",
+    "displayName": "Anzeigename",
+    "passwordsMustMatch": "Passw\u00f6rter m\u00fcssen \u00fcbereinstimmen",
+    "signingIn": "Anmeldung l\u00e4uft...",
+    "creating": "Wird erstellt...",
+    "resetInstructions": "Geben Sie Ihre E-Mail ein und wir senden Ihnen einen Link zum Zur\u00fccksetzen.",
+    "resetSent": "Link gesendet! Pr\u00fcfen Sie Ihren Posteingang.",
+    "backToLogin": "Zur\u00fcck zur Anmeldung",
+    "sending": "Wird gesendet..."
+  },
+  "nav": {
+    "home": "Startseite",
+    "dashboard": "\u00dcbersicht",
+    "leaderboard": "Bestenliste",
+    "profile": "Profil",
+    "chat": "Chat",
+    "notifications": "Benachrichtigungen",
+    "about": "\u00dcber uns",
+    "contact": "Kontakt",
+    "settings": "Einstellungen",
+    "tools": "Werkzeuge",
+    "webmail": "Webmail",
+    "pgadmin": "Datenbank-Admin",
+    "packageRepo": "Paket-Repo",
+    "s3server": "S3-Speicher"
+  },
+  "hero": {
+    "title": "Bringe dein Lernen auf das n\u00e4chste Level",
+    "subtitle": "Nimm teil, tritt an und wachse mit unserer gamifizierten Plattform",
+    "cta": "Jetzt starten",
+    "features": "Funktionen entdecken"
+  },
+  "gamification": {
+    "points": "Punkte",
+    "level": "Level",
+    "streak": "Serie",
+    "badges": "Abzeichen",
+    "leaderboard": "Bestenliste",
+    "xpEarned": "{amount} XP verdient",
+    "levelUp": "Level aufgestiegen!",
+    "newBadge": "Neues Abzeichen freigeschaltet!",
+    "dailyStreak": "{count}-Tage-Serie",
+    "rank": "Rang #{position}"
+  },
+  "notifications": {
+    "title": "Benachrichtigungen",
+    "markAllRead": "Alle als gelesen markieren",
+    "noNotifications": "Keine neuen Benachrichtigungen",
+    "clearAll": "Alle l\u00f6schen"
+  },
+  "chat": {
+    "placeholder": "Nachricht eingeben...",
+    "send": "Senden",
+    "switchProvider": "Anbieter wechseln",
+    "noMessages": "Noch keine Nachrichten",
+    "typing": "Schreibt..."
+  },
+  "features": {
+    "aiChat": {
+      "title": "KI-Chat",
+      "desc": "Chatten Sie mit KI-Modellen."
+    },
+    "gamification": {
+      "title": "Gamification",
+      "desc": "Abzeichen und Bestenlisten."
+    },
+    "alerts": {
+      "title": "Echtzeit-Benachrichtigungen",
+      "desc": "Sofortige Benachrichtigungen."
+    },
+    "darkMode": {
+      "title": "Dunkelmodus",
+      "desc": "Helle und dunkle Designs."
+    },
+    "multiLang": {
+      "title": "Mehrsprachig",
+      "desc": "Mehrere Sprachen verf\u00fcgbar."
+    },
+    "secureAuth": {
+      "title": "Sichere Authentifizierung",
+      "desc": "JWT mit Aktualisierungstoken."
+    }
+  },
+  "dashboard": {
+    "title": "\u00dcbersicht",
+    "currentStreak": "Aktuelle Serie",
+    "totalPoints": "Gesamtpunkte",
+    "badgesEarned": "Erhaltene Abzeichen",
+    "rank": "Rang",
+    "noData": "--"
+  },
+  "profile": {
+    "title": "Profil",
+    "userInfo": "Benutzerinformationen",
+    "userInfoDesc": "Name, E-Mail und Kontodaten erscheinen hier.",
+    "badges": "Abzeichen",
+    "badgesDesc": "Ihre verdienten Abzeichen werden hier angezeigt.",
+    "statistics": "Statistiken",
+    "statisticsDesc": "Gesamtstatistiken und Fortschritt erscheinen hier."
+  },
+  "contact": {
+    "title": "Kontaktieren Sie uns",
+    "name": "Name",
+    "email": "E-Mail",
+    "message": "Nachricht",
+    "send": "Nachricht senden",
+    "sending": "Wird gesendet...",
+    "sent": "Nachricht gesendet! Wir melden uns bald."
+  },
+  "about": {
+    "title": "\u00dcber ExtraPrimary",
+    "description": "ExtraPrimary ist eine gamifizierte Lernplattform, die KI-Tutoring mit Fortschrittsmechaniken kombiniert.",
+    "description2": "Verdienen Sie Abzeichen, halten Sie Serien aufrecht, steigen Sie in Bestenlisten auf und lernen Sie in Ihrem eigenen Tempo.",
+    "missionTitle": "Unsere Mission",
+    "mission": "Bildung zug\u00e4nglich, ansprechend und lohnend f\u00fcr alle Lernenden zu machen."
+  },
+  "a11y": {
+    "skipToContent": "Zum Hauptinhalt springen",
+    "openMenu": "Navigationsmen\u00fc \u00f6ffnen",
+    "closeMenu": "Navigationsmen\u00fc schlie\u00dfen",
+    "toggleTheme": "Farbthema umschalten",
+    "switchLanguage": "Sprache wechseln",
+    "loading": "Inhalt wird geladen",
+    "expandSection": "Abschnitt aufklappen",
+    "collapseSection": "Abschnitt zuklappen"
+  }
+}

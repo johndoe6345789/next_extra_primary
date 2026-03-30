@@ -1,0 +1,62 @@
+[
+  {
+    "name": "First Login",
+    "description": "Logged in for the first time",
+    "category": "milestone",
+    "icon_url": "/badges/first-login.svg",
+    "points_required": 0,
+    "criteria": [
+      { "metric": "login_count", "operator": ">=", "threshold": 1 }
+    ]
+  },
+  {
+    "name": "Streak Starter",
+    "description": "Maintained a 3-day login streak",
+    "category": "streak",
+    "icon_url": "/badges/streak-3.svg",
+    "points_required": 0,
+    "criteria": [
+      { "metric": "current_streak", "operator": ">=", "threshold": 3 }
+    ]
+  },
+  {
+    "name": "Streak Master",
+    "description": "Maintained a 7-day login streak",
+    "category": "streak",
+    "icon_url": "/badges/streak-7.svg",
+    "points_required": 0,
+    "criteria": [
+      { "metric": "current_streak", "operator": ">=", "threshold": 7 }
+    ]
+  },
+  {
+    "name": "Point Collector",
+    "description": "Earned 100 total points",
+    "category": "points",
+    "icon_url": "/badges/points-100.svg",
+    "points_required": 100,
+    "criteria": [
+      { "metric": "total_points", "operator": ">=", "threshold": 100 }
+    ]
+  },
+  {
+    "name": "Rising Star",
+    "description": "Reached level 5",
+    "category": "level",
+    "icon_url": "/badges/level-5.svg",
+    "points_required": 0,
+    "criteria": [
+      { "metric": "current_level", "operator": ">=", "threshold": 5 }
+    ]
+  },
+  {
+    "name": "Chat Explorer",
+    "description": "Sent 10 messages in AI chat",
+    "category": "engagement",
+    "icon_url": "/badges/chat-10.svg",
+    "points_required": 0,
+    "criteria": [
+      { "metric": "chat_message_count", "operator": ">=", "threshold": 10 }
+    ]
+  }
+]

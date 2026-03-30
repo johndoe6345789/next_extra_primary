@@ -7,13 +7,22 @@ import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import LeaderboardIcon from '@mui/icons-material/EmojiEvents';
 import ChatIcon from '@mui/icons-material/Chat';
-import Link from 'next/link';
+import NotificationsIcon
+  from '@mui/icons-material/Notifications';
+import PersonIcon from '@mui/icons-material/Person';
+import InfoIcon from '@mui/icons-material/Info';
+import MailIcon from '@mui/icons-material/Mail';
+import { Link } from '@/i18n/navigation';
 
 /** Icon map for known routes. */
 const ICONS: Record<string, React.ReactNode> = {
   '/dashboard': <DashboardIcon />,
   '/leaderboard': <LeaderboardIcon />,
   '/chat': <ChatIcon />,
+  '/notifications': <NotificationsIcon />,
+  '/profile': <PersonIcon />,
+  '/about': <InfoIcon />,
+  '/contact': <MailIcon />,
 };
 
 /** Props for DrawerNavItem. */

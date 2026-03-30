@@ -24,6 +24,11 @@ SRCS := main.cpp \
         commands/ActCmdRun.cpp \
         commands/CmakeGenCmd.cpp \
         commands/CmakeGenCtx.cpp \
+        commands/ElasticCmd.cpp \
+        commands/ElasticCmdDrop.cpp \
+        commands/ElasticCmdInit.cpp \
+        commands/ElasticCmdReindex.cpp \
+        commands/ElasticCmdStatus.cpp \
         commands/WorkflowCtx.cpp \
         commands/WorkflowExec.cpp \
         commands/WorkflowLoad.cpp \

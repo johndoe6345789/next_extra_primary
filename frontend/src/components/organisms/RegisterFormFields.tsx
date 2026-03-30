@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import { TextField } from '../atoms';
 import type { RegFields, CE, Errs } from './registerRules';
 
@@ -20,11 +21,13 @@ export const RegisterFormFields: React.FC<RegisterFieldsProps> = ({
   set,
   errors,
 }) => {
-  const mm = f.confirmPassword.length > 0 && f.password !== f.confirmPassword;
+  const t = useTranslations('auth');
+  const mm = f.confirmPassword.length > 0
+    && f.password !== f.confirmPassword;
   return (
     <>
       <TextField
-        label="Username"
+        label={t('username')}
         value={f.username}
         onChange={set('username')}
         required
@@ -33,7 +36,7 @@ export const RegisterFormFields: React.FC<RegisterFieldsProps> = ({
         testId="register-username"
       />
       <TextField
-        label="Email"
+        label={t('email')}
         value={f.email}
         onChange={set('email')}
         type="email"
@@ -43,7 +46,7 @@ export const RegisterFormFields: React.FC<RegisterFieldsProps> = ({
         testId="register-email"
       />
       <TextField
-        label="Display Name"
+        label={t('displayName')}
         value={f.displayName}
         onChange={set('displayName')}
         required
@@ -52,7 +55,7 @@ export const RegisterFormFields: React.FC<RegisterFieldsProps> = ({
         testId="register-displayname"
       />
       <TextField
-        label="Password"
+        label={t('password')}
         value={f.password}
         onChange={set('password')}
         type="password"
@@ -62,14 +65,15 @@ export const RegisterFormFields: React.FC<RegisterFieldsProps> = ({
         testId="register-password"
       />
       <TextField
-        label="Confirm Password"
+        label={t('confirmPassword')}
         value={f.confirmPassword}
         onChange={set('confirmPassword')}
         type="password"
         required
         error={!!errors.confirmPassword || mm}
         helperText={
-          errors.confirmPassword ?? (mm ? 'Passwords must match' : '')
+          errors.confirmPassword
+            ?? (mm ? t('passwordsMustMatch') : '')
         }
         testId="register-confirm"
       />

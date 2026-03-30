@@ -1,6 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import { ThemeProvider } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import { theme } from '@/theme/theme';
+import SiteDrawer
+  from '@/components/molecules/SiteDrawer';
 import navItems from '@/constants/nav-items.json';
 import labels from '@/constants/ui-labels.json';
 import styles
@@ -14,36 +20,42 @@ interface AppShellProps {
   children: React.ReactNode;
 }
 
+const burgerStyle = { color: 'inherit', padding: 4 };
+
 /** @brief Main layout with sidebar + content. */
 export default function AppShell(
-  {
-    activeTab, onTabChange, onLogout, children,
-  }: AppShellProps,
+  { activeTab, onTabChange, onLogout, children }
+    : AppShellProps,
 ) {
   const [collapsed, setCollapsed] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const sidebarCls = collapsed
+    ? styles.sidebarCollapsed : styles.sidebar;
 
   return (
-    <div
-      className={styles.appShell}
-      data-testid="app-shell"
-    >
-      <nav
-        className={
-          collapsed
-            ? styles.sidebarCollapsed
-            : styles.sidebar
-        }
-        aria-label="Main navigation"
-      >
+    <div className={styles.appShell} data-testid="app-shell">
+      <nav className={sidebarCls} aria-label="Main navigation">
         <div className={styles.sidebarHeader}>
+          <ThemeProvider theme={theme}>
+            <IconButton
+              onClick={() => setDrawerOpen(true)}
+              aria-label="Open site drawer"
+              data-testid="site-drawer-toggle"
+              style={burgerStyle}
+            >
+              <MenuIcon />
+            </IconButton>
+            <SiteDrawer
+              open={drawerOpen}
+              onClose={() => setDrawerOpen(false)}
+            />
+          </ThemeProvider>
           <h2 className={styles.sidebarTitle}>
             {labels.app.title}
           </h2>
           <button
             className={styles.sidebarToggle}
-            onClick={
-              () => setCollapsed(!collapsed)
-            }
+            onClick={() => setCollapsed(!collapsed)}
             aria-label="Toggle sidebar"
             data-testid="sidebar-toggle"
           >
@@ -52,15 +64,11 @@ export default function AppShell(
         </div>
         <ul className={styles.navList}>
           {navItems.map((item) => (
-            <li
-              key={item.id}
-              className={styles.navListItem}
-            >
+            <li key={item.id} className={styles.navListItem}>
               <button
                 className={
                   activeTab === item.id
-                    ? styles.navActive
-                    : styles.navItem
+                    ? styles.navActive : styles.navItem
                 }
                 onClick={() => onTabChange(item.id)}
                 aria-label={item.label}

@@ -1,5 +1,8 @@
 import type { ReactElement } from 'react';
-import { setRequestLocale } from 'next-intl/server';
+import {
+  setRequestLocale,
+  getTranslations,
+} from 'next-intl/server';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
@@ -24,6 +27,7 @@ export default async function AboutPage({
 }: AboutPageProps): Promise<ReactElement> {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations('about');
 
   return (
     <Container
@@ -31,25 +35,27 @@ export default async function AboutPage({
       role="main"
       maxWidth="md"
       sx={{ py: 6 }}
-      aria-label="About ExtraPrimary"
+      aria-label={t('title')}
     >
       <Typography variant="h3" component="h1" gutterBottom>
-        About ExtraPrimary
+        {t('title')}
       </Typography>
       <Typography variant="body1" paragraph>
-        ExtraPrimary is a gamified learning platform that combines AI-powered
-        tutoring with engaging progression mechanics.
+        {t('description')}
       </Typography>
       <Typography variant="body1" paragraph>
-        Earn badges, maintain streaks, climb leaderboards, and learn at your own
-        pace with personalised AI assistance.
+        {t('description2')}
       </Typography>
-      <Typography variant="h5" component="h2" gutterBottom sx={{ mt: 4 }}>
-        Our Mission
+      <Typography
+        variant="h5"
+        component="h2"
+        gutterBottom
+        sx={{ mt: 4 }}
+      >
+        {t('missionTitle')}
       </Typography>
       <Typography variant="body1">
-        To make education accessible, engaging, and rewarding for learners
-        everywhere.
+        {t('mission')}
       </Typography>
     </Container>
   );

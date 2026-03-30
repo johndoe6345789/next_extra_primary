@@ -4,6 +4,7 @@ const backend =
   process.env.BACKEND_URL || 'http://localhost:5060';
 
 const nextConfig: NextConfig = {
+  basePath: process.env.NEXT_BASE_PATH || '',
   output: 'standalone',
   sassOptions: {
     silenceDeprecations: ['legacy-js-api'],

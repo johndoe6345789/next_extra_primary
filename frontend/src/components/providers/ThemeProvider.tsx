@@ -22,7 +22,7 @@ interface ThemeProviderProps {
  */
 export function ThemeProvider({ children }: ThemeProviderProps): ReactElement {
   return (
-    <MuiThemeProvider theme={theme}>
+    <MuiThemeProvider theme={theme} defaultMode="dark">
       <CssBaseline enableColorScheme />
       {children}
     </MuiThemeProvider>

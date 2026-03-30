@@ -1,5 +1,8 @@
 import type { ReactElement } from 'react';
-import { setRequestLocale } from 'next-intl/server';
+import {
+  setRequestLocale,
+  getTranslations,
+} from 'next-intl/server';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
@@ -28,33 +31,34 @@ export default async function ProfilePage({
 }: ProfilePageProps): Promise<ReactElement> {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations('profile');
 
   return (
-    <Box aria-label="User profile">
+    <Box aria-label={t('title')}>
       <Typography variant="h4" component="h1" gutterBottom>
-        Profile
+        {t('title')}
       </Typography>
       <Card elevation={2}>
         <CardContent>
           <Typography variant="h6" component="h2">
-            User Information
+            {t('userInfo')}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Name, email, and account details will appear here.
+            {t('userInfoDesc')}
           </Typography>
           <Divider sx={{ my: 2 }} />
           <Typography variant="h6" component="h2">
-            Badges
+            {t('badges')}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Your earned badges will be showcased here.
+            {t('badgesDesc')}
           </Typography>
           <Divider sx={{ my: 2 }} />
           <Typography variant="h6" component="h2">
-            Statistics
+            {t('statistics')}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Cumulative stats and progress will appear here.
+            {t('statisticsDesc')}
           </Typography>
         </CardContent>
       </Card>
