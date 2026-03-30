@@ -1,9 +1,9 @@
 /** @brief S3 Browser color palette tokens. */
 export const palette = {
   primary: {
-    main: '#0277BD',
-    light: '#58a5f0',
-    dark: '#004c8c',
+    main: '#1976d2',
+    light: '#42a5f5',
+    dark: '#1565c0',
     contrastText: '#ffffff',
   },
   secondary: {

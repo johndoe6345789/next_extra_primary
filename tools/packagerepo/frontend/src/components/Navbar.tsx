@@ -3,6 +3,11 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { ThemeProvider } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import { theme } from '@/theme/theme';
+import SiteDrawer from './SiteDrawer';
 import styles from './Navbar.module.scss';
 
 /** Shape of the user object stored in localStorage. */
@@ -13,16 +18,16 @@ interface NavbarUser {
 
 /** Top-level navigation bar with auth-aware links. */
 export default function Navbar() {
-  const [user, setUser] = useState<NavbarUser | null>(
-    null,
-  );
+  const [user, setUser] = useState<NavbarUser | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     const raw = localStorage.getItem('user');
-    if (raw) {
+    if (!raw) return;
+    try {
       setUser(JSON.parse(raw) as NavbarUser);
-    }
+    } catch { /* corrupt localStorage — ignore */ }
   }, []);
 
   const handleLogout = () => {
@@ -39,6 +44,23 @@ export default function Navbar() {
       aria-label="Main navigation"
     >
       <div className={styles.navbar__container}>
+        <ThemeProvider theme={theme}>
+          <IconButton
+            onClick={() => setDrawerOpen(true)}
+            aria-label="Open site menu"
+            style={{
+              color: 'white',
+              padding: 8,
+              marginRight: 8,
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <SiteDrawer
+            open={drawerOpen}
+            onClose={() => setDrawerOpen(false)}
+          />
+        </ThemeProvider>
         <Link href="/" className={styles.navbar__logo}>
           Package Repo
         </Link>
@@ -51,14 +73,11 @@ export default function Navbar() {
   );
 }
 
-/** Props for the NavLinks helper component. */
-interface NavLinksProps {
+/** Renders the navigation link list. */
+function NavLinks({ user, onLogout }: {
   user: NavbarUser | null;
   onLogout: () => void;
-}
-
-/** Renders the navigation link list. */
-function NavLinks({ user, onLogout }: NavLinksProps) {
+}) {
   return (
     <ul className={styles.navbar__nav}>
       <li><Link href="/" className={styles.navbar__link}>Home</Link></li>

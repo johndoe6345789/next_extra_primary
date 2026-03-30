@@ -28,7 +28,6 @@ export { SearchBar } from './SearchBar';
 export type { SearchBarProps } from './SearchBar';
 
 export { HeroCta } from './HeroCta';
-export type { HeroCtaProps } from './HeroCta';
 
 export { SkipLink } from './SkipLink';
 export type { SkipLinkProps } from './SkipLink';
@@ -46,3 +45,5 @@ export { DrawerNavItem } from './DrawerNavItem';
 export type { DrawerNavItemProps } from './DrawerNavItem';
 
 export { DrawerFooter } from './DrawerFooter';
+
+export { DrawerToolLinks } from './DrawerToolLinks';

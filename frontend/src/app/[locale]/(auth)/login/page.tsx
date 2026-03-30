@@ -1,9 +1,6 @@
 import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
 import { LoginForm } from '@/components/organisms/LoginForm';
 
 /** Skip static prerendering for this page. */
@@ -42,19 +39,7 @@ export default async function LoginPage({
         px: 2,
       }}
     >
-      <Card sx={{ maxWidth: 440, width: '100%' }} elevation={3}>
-        <CardContent sx={{ p: 4 }}>
-          <Typography
-            variant="h4"
-            component="h1"
-            gutterBottom
-            textAlign="center"
-          >
-            Sign In
-          </Typography>
-          <LoginForm />
-        </CardContent>
-      </Card>
+      <LoginForm />
     </Box>
   );
 }

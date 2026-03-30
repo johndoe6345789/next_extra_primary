@@ -5,10 +5,11 @@ import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { DrawerHeader } from '../molecules/DrawerHeader';
 import { DrawerNavItem } from '../molecules/DrawerNavItem';
 import { DrawerFooter } from '../molecules/DrawerFooter';
+import { DrawerToolLinks } from '../molecules/DrawerToolLinks';
 import { BurgerButton } from '../atoms/BurgerButton';
 
 /** Navigation link shape. */
@@ -58,6 +59,8 @@ export const MobileDrawer: React.FC<
             />
           ))}
         </List>
+        <Divider />
+        <DrawerToolLinks />
         <Divider />
         <DrawerFooter />
       </Drawer>

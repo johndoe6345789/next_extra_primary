@@ -1,4 +1,23 @@
+## Unified Docker Compose for the full Nextra stack.
+##
+## Usage:
+##   docker compose up --build              # core stack
+##   docker compose --profile tools up      # + packagerepo, s3, pgadmin
+##   docker compose --profile dev up        # core with dev volumes
+##   docker compose --profile offline up    # offline build mode
+##
+## Roundcube webmail:  http://localhost:8025
+## PgAdmin tool:       http://localhost:3002  (profile: tools)
+## Package repo:       http://localhost:3000  (profile: tools -- conflicts
+##                     with frontend; stop frontend first or remap port)
+## S3 server UI:       http://localhost:3001  (profile: tools)
+
+# ==============================================================
+#  Core services (always started)
+# ==============================================================
 services:
+
+  # ---- PostgreSQL (main app) ---------------------------------
   db:
     image: postgres:16-alpine
     ports:
@@ -14,7 +33,78 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
 
+  # ---- Elasticsearch -----------------------------------------
+  elasticsearch:
+    image: elasticsearch:8.17.0
+    ports:
+      - "9200:9200"
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    volumes:
+      - esdata:/var/lib/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9200"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ---- Mail server (Postfix + Dovecot) -----------------------
+  mailserver:
+    image: ghcr.io/docker-mailserver/docker-mailserver:latest
+    hostname: mail
+    domainname: nextra.local
+    ports:
+      - "25:25"
+      - "587:587"
+      - "143:143"
+    environment:
+      ENABLE_CLAMAV: 0
+      ENABLE_SPAMASSASSIN: 0
+      ENABLE_FAIL2BAN: 0
+      ENABLE_POSTGREY: 0
+      ENABLE_AMAVIS: 0
+      SSL_TYPE: ""
+      PERMIT_DOCKER: network
+      ONE_DIR: 1
+      OVERRIDE_HOSTNAME: mail.nextra.local
+      POSTFIX_INET_PROTOCOLS: ipv4
+    volumes:
+      - maildata:/var/mail
+      - mailstate:/var/mail-state
+      - maillogs:/var/log/mail
+      - ./docker/mail/config/:/tmp/docker-mailserver/
+    healthcheck:
+      test: ["CMD-SHELL", "ss -lntp | grep ':25 ' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  # ---- Roundcube webmail -------------------------------------
+  roundcube:
+    image: roundcube/roundcubemail:latest
+    ports:
+      - "8025:80"
+    depends_on:
+      mailserver:
+        condition: service_healthy
+    environment:
+      ROUNDCUBEMAIL_DEFAULT_HOST: mailserver
+      ROUNDCUBEMAIL_DEFAULT_PORT: 143
+      ROUNDCUBEMAIL_SMTP_SERVER: mailserver
+      ROUNDCUBEMAIL_SMTP_PORT: 25
+      ROUNDCUBEMAIL_PLUGINS: nextra_theme
+    volumes:
+      - ./docker/mail/roundcube/plugins/nextra_theme:/var/roundcube/plugins/nextra_theme:ro
+      - ./docker/mail/roundcube/custom-config.php:/var/roundcube/config/custom-config.php:ro
+    restart: unless-stopped
+
+  # ---- C++ API backend ---------------------------------------
   backend:
     build:
       context: ./backend
@@ -31,20 +121,26 @@ services:
         condition: service_healthy
       elasticsearch:
         condition: service_healthy
+      mailserver:
+        condition: service_healthy
     environment:
       DB_HOST: db
-      DB_PORT: 5432
+      DB_PORT: "5432"
       DB_NAME: nextra_db
       DB_USER: nextra
       DB_PASSWORD: nextra_dev
       JWT_SECRET: change-me-in-production
-      SMTP_HOST: ""
+      SMTP_HOST: mailserver
       SMTP_PORT: "587"
-      SMTP_USER: ""
-      SMTP_PASSWORD: ""
+      SMTP_USER: noreply@nextra.local
+      SMTP_PASS: nextra_dev
+      SMTP_FROM: noreply@nextra.local
+      APP_BASE_URL: http://localhost:3000
       ES_HOST: elasticsearch
       ES_PORT: "9200"
+    restart: unless-stopped
 
+  # ---- Next.js frontend --------------------------------------
   frontend:
     build:
       context: ./frontend
@@ -56,23 +152,214 @@ services:
       - backend
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:8080
+    restart: unless-stopped
 
-  elasticsearch:
-    image: elasticsearch:8.17.0
-    ports:
-      - "9200:9200"
-    environment:
-      discovery.type: single-node
-      xpack.security.enabled: "false"
-      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+  # ---- Backend (dev mode with hot-reload volumes) ------------
+  backend-dev:
+    extends:
+      service: backend
+    profiles: ["dev"]
     volumes:
-      - esdata:/var/lib/elasticsearch/data
-    healthcheck:
-      test: ["CMD-SHELL", "curl -sf http://localhost:9200"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - ./backend/src:/app/src
+      - ./backend/config:/app/config
+      - ./backend/migrations:/app/migrations
 
+  # ---- Frontend (dev mode with hot-reload volumes) -----------
+  frontend-dev:
+    extends:
+      service: frontend
+    profiles: ["dev"]
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+    environment:
+      WATCHPACK_POLLING: "true"
+
+  # ---- Backend (offline build with local repo) ---------------
+  backend-offline:
+    extends:
+      service: backend
+    profiles: ["offline"]
+    build:
+      args:
+        DEPS_IMAGE: nextra/backend-deps:latest
+        REPO_URL: http://host.docker.internal:5050
+        APT_VER: sid-2026q1
+
+  # ---- Frontend (offline build with local repo) --------------
+  frontend-offline:
+    extends:
+      service: frontend
+    profiles: ["offline"]
+    build:
+      args:
+        REPO_URL: http://host.docker.internal:5050
+        APT_VER: sid-2026q1
+
+# ==============================================================
+#  Tool services (--profile tools)
+# ==============================================================
+
+  # ---- Package repo Postgres ---------------------------------
+  packagerepo-db:
+    image: postgres:16-alpine
+    profiles: ["tools"]
+    environment:
+      POSTGRES_DB: packagerepo
+      POSTGRES_USER: packagerepo
+      POSTGRES_PASSWORD: packagerepo
+    volumes:
+      - packagerepo-dbdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # ---- S3 server Postgres ------------------------------------
+  s3-db:
+    image: postgres:16-alpine
+    profiles: ["tools"]
+    environment:
+      POSTGRES_DB: s3server
+      POSTGRES_USER: s3user
+      POSTGRES_PASSWORD: s3pass
+    volumes:
+      - s3-dbdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # ---- S3-compatible object store ----------------------------
+  s3:
+    build:
+      context: ./tools/s3server
+      dockerfile: backend/Dockerfile
+    profiles: ["tools"]
+    ports:
+      - "9000:9000"
+    environment:
+      S3_DATA_DIR: /data/s3
+      S3_DB_CONN: >-
+        host=s3-db port=5432
+        dbname=s3server user=s3user password=s3pass
+      S3_REGION: us-east-1
+      S3_PORT: "9000"
+      PGHOST: s3-db
+      PGPORT: "5432"
+      PGUSER: s3user
+      PGPASSWORD: s3pass
+      PGDATABASE: s3server
+      ES_HOST: elasticsearch
+      ES_PORT: "9200"
+    volumes:
+      - s3-data:/data/s3
+    depends_on:
+      - s3-db
+      - elasticsearch
+    restart: unless-stopped
+
+  # ---- S3 server frontend ------------------------------------
+  s3-frontend:
+    build:
+      context: ./tools/s3server
+      dockerfile: frontend/Dockerfile
+    profiles: ["tools"]
+    ports:
+      - "3001:3001"
+    environment:
+      BACKEND_URL: http://s3:9000
+    depends_on:
+      - s3
+    restart: unless-stopped
+
+  # ---- Package repo backend ----------------------------------
+  packagerepo-backend:
+    build:
+      context: ./tools/packagerepo
+      dockerfile: backend/Dockerfile
+    profiles: ["tools"]
+    ports:
+      - "5050:5000"
+    environment:
+      S3_ENDPOINT: http://s3:9000
+      S3_BUCKET: packagerepo
+      S3_ACCESS_KEY: minioadmin
+      JWT_SECRET: dev-secret-change-in-production
+      DATABASE_URL: >-
+        host=packagerepo-db port=5432
+        dbname=packagerepo user=packagerepo
+        password=packagerepo
+      PGHOST: packagerepo-db
+      PGPORT: "5432"
+      PGUSER: packagerepo
+      PGPASSWORD: packagerepo
+      PGDATABASE: packagerepo
+      ES_HOST: elasticsearch
+      ES_PORT: "9200"
+    depends_on:
+      - packagerepo-db
+      - s3
+      - elasticsearch
+    restart: unless-stopped
+
+  # ---- Package repo frontend ---------------------------------
+  packagerepo-frontend:
+    build:
+      context: ./tools/packagerepo/frontend
+      dockerfile: Dockerfile
+    profiles: ["tools"]
+    ports:
+      - "5051:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://packagerepo-backend:5000
+      NODE_ENV: production
+    depends_on:
+      - packagerepo-backend
+    restart: unless-stopped
+
+  # ---- PgAdmin backend (connects to main app DB) -------------
+  pgadmin-backend:
+    build:
+      context: ./tools/pgadmin
+      dockerfile: backend/Dockerfile
+    profiles: ["tools"]
+    ports:
+      - "5060:5060"
+    environment:
+      PG_CONN: >-
+        host=db port=5432
+        dbname=nextra_db user=nextra password=nextra_dev
+      PG_PORT: "5060"
+      JWT_SECRET: dev-secret-change-in-production
+      PGHOST: db
+      PGPORT: "5432"
+      PGUSER: nextra
+      PGPASSWORD: nextra_dev
+      PGDATABASE: nextra_db
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ---- PgAdmin frontend -------------------------------------
+  pgadmin-frontend:
+    build:
+      context: ./tools/pgadmin/frontend
+      dockerfile: Dockerfile
+    profiles: ["tools"]
+    ports:
+      - "3002:3002"
+    environment:
+      BACKEND_URL: http://pgadmin-backend:5060
+      NODE_ENV: production
+    depends_on:
+      - pgadmin-backend
+    restart: unless-stopped
+
+# ==============================================================
+#  Volumes
+# ==============================================================
 volumes:
   pgdata:
   esdata:
+  maildata:
+  mailstate:
+  maillogs:
+  packagerepo-dbdata:
+  s3-dbdata:
+  s3-data:

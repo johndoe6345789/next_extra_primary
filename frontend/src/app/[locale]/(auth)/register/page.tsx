@@ -1,9 +1,6 @@
 import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
 import { RegisterForm } from '@/components/organisms/RegisterForm';
 
 /** Skip static prerendering for this page. */
@@ -42,19 +39,7 @@ export default async function RegisterPage({
         px: 2,
       }}
     >
-      <Card sx={{ maxWidth: 480, width: '100%' }} elevation={3}>
-        <CardContent sx={{ p: 4 }}>
-          <Typography
-            variant="h4"
-            component="h1"
-            gutterBottom
-            textAlign="center"
-          >
-            Create Account
-          </Typography>
-          <RegisterForm />
-        </CardContent>
-      </Card>
+      <RegisterForm />
     </Box>
   );
 }

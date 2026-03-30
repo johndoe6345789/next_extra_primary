@@ -21,3 +21,7 @@ export { useLoginForm } from './useLoginForm';
 export type { UseLoginFormReturn } from './useLoginForm';
 export { useRegisterForm } from './useRegisterForm';
 export type { UseRegisterFormReturn } from './useRegisterForm';
+export { useContactForm } from './useContactForm';
+export type { UseContactFormReturn } from './useContactForm';
+export { useForgotPassword } from './useForgotPassword';
+export type { UseForgotPasswordReturn } from './useForgotPassword';

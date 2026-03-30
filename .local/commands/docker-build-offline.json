@@ -81,7 +81,7 @@
       "type": "shell",
       "tag": "offline-build",
       "condition": "{opt.up}",
-      "command": "docker compose -f docker-compose.yml -f docker-compose.offline.yml up -d"
+      "command": "docker compose --profile offline up -d"
     }
   ]
 }

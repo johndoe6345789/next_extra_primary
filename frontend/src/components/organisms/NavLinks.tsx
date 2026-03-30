@@ -4,7 +4,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import MuiLink from '@mui/material/Link';
 import MuiTooltip from '@mui/material/Tooltip';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import type { NavLink } from './MobileDrawer';
 import { Kbd } from '../atoms/Kbd';
 

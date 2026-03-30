@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import { TextField } from '../atoms';
 
 type Errs = Record<string, string | undefined>;
@@ -29,31 +30,34 @@ export const LoginFormFields: React.FC<LoginFieldsProps> = ({
   setEmail,
   setPw,
   errors,
-}) => (
-  <>
-    <TextField
-      label="Email"
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
-      type="email"
-      required
-      error={!!errors.email}
-      helperText={errors.email}
-      autoComplete="email"
-      testId="login-email"
-    />
-    <TextField
-      label="Password"
-      value={pw}
-      onChange={(e) => setPw(e.target.value)}
-      type="password"
-      required
-      error={!!errors.password}
-      helperText={errors.password}
-      autoComplete="current-password"
-      testId="login-password"
-    />
-  </>
-);
+}) => {
+  const t = useTranslations('auth');
+  return (
+    <>
+      <TextField
+        label={t('email')}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        type="email"
+        required
+        error={!!errors.email}
+        helperText={errors.email}
+        autoComplete="email"
+        testId="login-email"
+      />
+      <TextField
+        label={t('password')}
+        value={pw}
+        onChange={(e) => setPw(e.target.value)}
+        type="password"
+        required
+        error={!!errors.password}
+        helperText={errors.password}
+        autoComplete="current-password"
+        testId="login-password"
+      />
+    </>
+  );
+};
 
 export default LoginFormFields;

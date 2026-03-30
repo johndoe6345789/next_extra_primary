@@ -65,7 +65,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
   if (tooltip) {
     return (
       <MuiTooltip title={tooltip} arrow>
-        <span>{button}</span>
+        {button}
       </MuiTooltip>
     );
   }

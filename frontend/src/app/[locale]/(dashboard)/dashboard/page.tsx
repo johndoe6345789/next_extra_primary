@@ -1,5 +1,8 @@
 import type { ReactElement } from 'react';
-import { setRequestLocale } from 'next-intl/server';
+import {
+  setRequestLocale,
+  getTranslations,
+} from 'next-intl/server';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -28,29 +31,41 @@ export default async function DashboardPage({
 }: DashboardPageProps): Promise<ReactElement> {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations('dashboard');
 
   const cards = [
-    { title: 'Current Streak', value: '--' },
-    { title: 'Total Points', value: '--' },
-    { title: 'Badges Earned', value: '--' },
-    { title: 'Rank', value: '--' },
-  ] as const;
+    { key: 'currentStreak', title: t('currentStreak') },
+    { key: 'totalPoints', title: t('totalPoints') },
+    { key: 'badgesEarned', title: t('badgesEarned') },
+    { key: 'rank', title: t('rank') },
+  ];
 
   return (
-    <Box aria-label="Dashboard overview">
+    <Box aria-label={t('title')}>
       <Typography variant="h4" component="h1" gutterBottom>
-        Dashboard
+        {t('title')}
       </Typography>
-      <Grid container spacing={3} role="list" aria-label="User statistics">
+      <Grid
+        container
+        spacing={3}
+        role="list"
+        aria-label={t('title')}
+      >
         {cards.map((card) => (
-          <Grid key={card.title} size={{ xs: 12, sm: 6, md: 3 }}>
+          <Grid
+            key={card.key}
+            size={{ xs: 12, sm: 6, md: 3 }}
+          >
             <Card role="listitem" elevation={2}>
               <CardContent>
-                <Typography variant="subtitle2" color="text.secondary">
+                <Typography
+                  variant="subtitle2"
+                  color="text.secondary"
+                >
                   {card.title}
                 </Typography>
                 <Typography variant="h4" component="p">
-                  {card.value}
+                  {t('noData')}
                 </Typography>
               </CardContent>
             </Card>
