@@ -1,0 +1,146 @@
+/**
+ * PgAdmin Shell Layout - M3 sidebar + content.
+ */
+
+@mixin sidebarBase {
+  background:
+    var(--mat-sys-surface-container);
+  border-right:
+    1px solid var(--mat-sys-outline-variant);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition:
+    width 200ms
+    var(--mat-sys-motion-easing-standard);
+}
+
+@mixin navItemBase {
+  width: 100%;
+  text-align: left;
+  padding: 10px 16px;
+  background: transparent;
+  color: var(--mat-sys-on-surface-variant);
+  border-radius: var(--mat-sys-corner-full);
+  font: var(--mat-sys-label-large-font);
+  transition:
+    background 150ms ease,
+    color 150ms ease;
+
+  &:hover {
+    background: color-mix(
+      in srgb,
+      var(--mat-sys-on-surface) 8%,
+      transparent
+    );
+    color: var(--mat-sys-on-surface);
+    box-shadow: none;
+  }
+}
+
+.appShell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  @include sidebarBase;
+  width: 240px;
+}
+
+.sidebarCollapsed {
+  @include sidebarBase;
+  width: 64px;
+  overflow: hidden;
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom:
+    1px solid var(--mat-sys-outline-variant);
+}
+
+.sidebarTitle {
+  font: var(--mat-sys-title-medium-font);
+  color: var(--mat-sys-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebarToggle {
+  padding: 6px 10px;
+  background:
+    var(--mat-sys-surface-container-high);
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.875rem;
+}
+
+.navList {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.navListItem {
+  margin-bottom: 2px;
+}
+
+.navItem {
+  @include navItemBase;
+}
+
+.navActive {
+  @include navItemBase;
+  background:
+    var(--mat-sys-secondary-container);
+  color:
+    var(--mat-sys-on-secondary-container);
+  font-weight: 600;
+
+  &:hover {
+    background:
+      var(--mat-sys-secondary-container);
+  }
+}
+
+.logoutBtn {
+  margin: 8px 16px 16px;
+  padding: 8px 16px;
+  background: transparent;
+  color: var(--mat-sys-error);
+  border: 1px solid var(--mat-sys-outline);
+  border-radius: var(--mat-sys-corner-full);
+  font: var(--mat-sys-label-large-font);
+
+  &:hover {
+    background:
+      var(--mat-sys-error-container);
+    color:
+      var(--mat-sys-on-error-container);
+    box-shadow: none;
+  }
+}
+
+.content {
+  flex: 1;
+  padding: 24px 32px;
+  overflow-y: auto;
+  background: var(--mat-sys-surface);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  border-radius:
+    var(--mat-sys-corner-medium);
+}
+
+.dataTable {
+  min-width: 600px;
+}

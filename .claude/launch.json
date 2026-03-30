@@ -26,8 +26,10 @@
     {
       "name": "Package Repo Backend",
       "runtimeExecutable": "docker",
-      "runtimeArgs": ["start", "nextra-packagerepo"],
-      "port": 5050
+      "runtimeArgs": ["compose", "up", "backend"],
+      "port": 5050,
+      "autoPort": true,
+      "cwd": "tools/packagerepo"
     },
     {
       "name": "Package Repo Frontend",
@@ -40,14 +42,18 @@
     {
       "name": "Package Repo DB",
       "runtimeExecutable": "docker",
-      "runtimeArgs": ["start", "nextra-packagerepo-db"],
-      "port": 5432
+      "runtimeArgs": ["compose", "up", "db"],
+      "port": 5432,
+      "autoPort": true,
+      "cwd": "tools/packagerepo"
     },
     {
       "name": "S3 Server Backend",
       "runtimeExecutable": "docker",
-      "runtimeArgs": ["start", "nextra-s3server"],
-      "port": 9000
+      "runtimeArgs": ["compose", "up", "s3"],
+      "port": 9000,
+      "autoPort": true,
+      "cwd": "tools/s3server"
     },
     {
       "name": "S3 Server Frontend",
@@ -60,8 +66,34 @@
     {
       "name": "S3 Server DB",
       "runtimeExecutable": "docker",
-      "runtimeArgs": ["start", "nextra-s3server-db"],
-      "port": 5432
+      "runtimeArgs": ["compose", "up", "db"],
+      "port": 5432,
+      "autoPort": true,
+      "cwd": "tools/s3server"
+    },
+    {
+      "name": "PgAdmin Frontend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3002,
+      "autoPort": true,
+      "cwd": "tools/pgadmin/frontend"
+    },
+    {
+      "name": "PgAdmin Backend",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": ["compose", "up", "backend"],
+      "port": 5060,
+      "autoPort": true,
+      "cwd": "tools/pgadmin"
+    },
+    {
+      "name": "PgAdmin DB",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": ["compose", "up", "db"],
+      "port": 5433,
+      "autoPort": true,
+      "cwd": "tools/pgadmin"
     }
   ]
 }
