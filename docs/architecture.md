@@ -45,12 +45,13 @@
 ## Frontend Architecture
 
 ### Technology Stack
-- **Framework**: Next.js 16 with App Router
+- **Framework**: Next.js 16.2 with App Router
 - **Language**: TypeScript (strict mode)
-- **UI Library**: MUI v6 (Material Design 3 tokens)
-- **State Management**: Redux Toolkit + RTK Query
+- **UI Library**: MUI v7 (Material Design 3 tokens)
+- **State Management**: Redux Toolkit 2 + RTK Query
 - **i18n**: next-intl with proxy.ts pattern
 - **Build**: Turbopack (development), Webpack (production)
+- **React**: 19.x
 
 ### Component Hierarchy (Atomic Design)
 
@@ -137,11 +138,12 @@ src/app/
 ## Backend Architecture
 
 ### Technology Stack
-- **Framework**: Drogon (C++ async web framework)
+- **Framework**: Drogon 1.9.8 (C++ async web framework)
 - **Language**: C++20
 - **ORM**: Drogon ORM (code-generated models)
-- **Dependencies**: Conan 2 package manager
+- **Dependencies**: Conan 2 (`conanfile.py`)
 - **Build**: CMake 3.20+
+- **Key libs**: nlohmann/json, spdlog, jwt-cpp, boost 1.86
 
 ### Layered Architecture
 
@@ -403,3 +405,21 @@ Browser              Next.js           Drogon API          External AI
 Each service runs in its own Docker container managed by CapRover.
 The Nginx reverse proxy handles SSL termination and routes requests
 to the appropriate container based on the subdomain.
+
+---
+
+## Supporting Tools
+
+### Package Repository (`tools/packagerepo/`)
+Self-hosted package repository manager with its own backend and
+Material UI + Next.js frontend. Manages build artifacts and
+dependency distribution for offline / air-gapped environments.
+
+### S3 Server (`tools/s3server/`)
+Lightweight S3-compatible object store for local development
+and offline Docker builds. Serves preloaded packages without
+requiring external network access.
+
+### Offline Build (`docker-compose.offline.yml`)
+Uses the S3 server and packagerepo to enable fully air-gapped
+Docker builds with preloaded Conan and npm dependencies.

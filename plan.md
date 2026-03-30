@@ -2,12 +2,11 @@
 
 ## Context
 
-Greenfield project scaffold for a production-quality full-stack application.
-The repo currently contains only LICENSE, README.md, and a Java .gitignore
-(needs replacing). The goal is a modern, accessible, gamified web app with
-AI chat integration (Claude + OpenAI), backed by a high-performance C++
-Drogon API server compiled to a native binary. No Python or shell scripts
-anywhere -- all tooling is C++.
+Production-quality full-stack application. A modern, accessible,
+gamified web app with AI chat integration (Claude + OpenAI), backed
+by a high-performance C++ Drogon API server compiled to a native
+binary. No Python or shell scripts anywhere -- all tooling is C++.
+(Exception: `backend/conanfile.py` required by Conan 2.)
 
 ---
 
@@ -74,13 +73,13 @@ test commands. Single entry point for all dev/build/deploy ops.
 ```
 
 ### 0.3 Conan 2 Setup
-- `backend/conanfile.txt` for backend deps
+- `backend/conanfile.py` for backend deps (Conan 2 recipe)
 - Conan 2 generators: `CMakeDeps` + `CMakeToolchain`
 
 **Key Conan 2 dependencies:**
 | Package | Version | Purpose |
 |---------|---------|---------|
-| drogon | 1.9.12 | Web framework |
+| drogon | 1.9.8 | Web framework |
 | nlohmann_json | 3.11.3 | JSON handling |
 | cli11 | 2.4.2 | CLI argument parsing |
 | jwt-cpp | 0.7.0 | JWT auth tokens |
@@ -89,6 +88,8 @@ test commands. Single entry point for all dev/build/deploy ops.
 | fmt | 10.2.1 | String formatting |
 | spdlog | 1.14.1 | Logging |
 | GTest | 1.15.2 | Unit testing |
+| boost | 1.86.0 | General-purpose C++ libs |
+| openssl | 3.3.2 | TLS / crypto |
 
 ### 0.4 Linting Configuration
 - `.clang-format` -- 80 col, Linux brace style, 4-space indent
@@ -106,7 +107,7 @@ test commands. Single entry point for all dev/build/deploy ops.
 ```
 backend/
 ├── CMakeLists.txt
-├── conanfile.txt
+├── conanfile.py
 ├── config/
 │   ├── config.json
 │   ├── config.prod.json
@@ -121,6 +122,7 @@ backend/
 │   └── sample_data.json
 ├── src/
 │   ├── main.cpp
+│   ├── commands/
 │   ├── controllers/
 │   ├── filters/
 │   ├── models/
@@ -300,7 +302,8 @@ aria-label, id, tabIndex, and keyboard event handlers.
 ## Phase 6: DevOps & Docker
 - Backend multi-stage Dockerfile (conan-build + slim runtime)
 - Frontend multi-stage Dockerfile (deps + build + runner)
-- Docker Compose (db, backend, frontend)
+- Pre-baked dep images in `docker/` directory
+- Docker Compose: production, dev, and offline variants
 - CapRover captain-definition files
 - docs/deployment.md with full instructions
 
@@ -311,6 +314,20 @@ aria-label, id, tabIndex, and keyboard event handlers.
 - Renders inja templates to produce CMakeLists.txt
 - Avoids CMake GLOB_RECURSE by writing explicit file lists
 - Re-run after adding/removing source files
+
+---
+
+## Phase 7b: Supporting Tools
+
+### Package Repository (`tools/packagerepo/`)
+Self-hosted package repository manager with its own backend
+and Material UI + Next.js frontend. Manages build artifacts
+and dependency distribution for offline / air-gapped envs.
+
+### S3 Server (`tools/s3server/`)
+Lightweight S3-compatible object store for local development
+and offline builds. Serves preloaded packages to Docker
+builds without external network access.
 
 ---
 
@@ -336,7 +353,8 @@ aria-label, id, tabIndex, and keyboard event handlers.
 | 7 | CMake generator + templates | ~8 | Eighth |
 | 8 | Docs + polish | ~10 | Last |
 
-**Total: ~180+ files, zero Python, zero shell scripts**
+**Total: ~180+ files, zero shell scripts**
+(Only Python file: `backend/conanfile.py`, required by Conan 2)
 
 ---
 
@@ -377,7 +395,7 @@ aria-label, id, tabIndex, and keyboard event handlers.
 
 ---
 
-## Phase 2: GHCR Base Images + clang-tidy CI
+## Appendix A: GHCR Base Images + clang-tidy CI
 
 ### Context
 

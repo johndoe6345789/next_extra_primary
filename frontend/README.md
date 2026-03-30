@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nextra Frontend
 
-## Getting Started
+Next.js 16 application with TypeScript strict mode, MUI v7,
+Redux Toolkit + RTK Query, and next-intl for i18n.
 
-First, run the development server:
+---
+
+## Quick Start
 
 ```bash
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000. API calls proxy to the C++ backend
+at `http://localhost:8080` (configurable via `NEXT_PUBLIC_API_URL`).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Scripts
 
-## Learn More
+| Command          | Description                    |
+|------------------|--------------------------------|
+| `npm run dev`    | Dev server (Turbopack)         |
+| `npm run build`  | Production build               |
+| `npm start`      | Start production server        |
+| `npm run lint`   | ESLint check                   |
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Library              | Version | Purpose               |
+|----------------------|---------|-----------------------|
+| Next.js              | 16.2.x  | App Router framework  |
+| React                | 19.x    | UI library            |
+| MUI                  | 7.x     | Material Design UI    |
+| Redux Toolkit        | 2.x     | State management      |
+| next-intl            | latest  | Internationalization  |
+| redux-persist        | latest  | State persistence     |
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Directory Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/
+├── app/           Next.js App Router pages
+├── components/    atoms / molecules / organisms
+├── hooks/         Custom React hooks
+├── store/         Redux Toolkit + RTK Query
+├── theme/         MUI theme + design tokens
+├── i18n/          next-intl configuration
+├── messages/      Translation JSON files (en, es)
+├── constants/     App constants (JSON)
+├── lib/           Utility functions
+├── types/         TypeScript type definitions
+├── styles/        Global styles
+└── seed/          Mock data for development
+```
+
+See the root [CLAUDE.md](../CLAUDE.md) for full coding conventions.

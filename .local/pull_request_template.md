@@ -10,7 +10,8 @@
 ## Component
 - [ ] Backend (C++ Drogon)
 - [ ] Frontend (Next.js)
-- [ ] Manager CLI integration
+- [ ] Manager CLI tool
+- [ ] Package Repo / S3 Server
 - [ ] Docker / Infrastructure
 - [ ] Migrations / Schema
 

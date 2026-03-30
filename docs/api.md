@@ -605,7 +605,7 @@ Send a message to an AI provider and receive a response.
 {
   "content": "Hello, how are you?",
   "provider": "claude",
-  "model": "claude-sonnet-4-20250514"
+  "model": "claude-sonnet-4-6-20260320"
 }
 ```
 
@@ -617,7 +617,7 @@ Send a message to an AI provider and receive a response.
     "role": "assistant",
     "content": "Hello! I'm doing well. How can I help?",
     "provider": "claude",
-    "model": "claude-sonnet-4-20250514",
+    "model": "claude-sonnet-4-6-20260320",
     "tokens_used": 42,
     "created_at": "2025-01-01T00:00:00Z"
   }
