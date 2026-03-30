@@ -7,7 +7,7 @@
 ##   docker compose --profile offline up    # offline build mode
 ##
 ## Portal homepage:   http://localhost:8000   (nginx reverse proxy)
-## Roundcube webmail:  http://localhost:8025
+## Email client:       http://localhost:8025
 ## PgAdmin tool:       http://localhost:3002  (profile: tools)
 ## Package repo:       http://localhost:5051  (profile: tools)
 ## S3 server UI:       http://localhost:3001  (profile: tools)
@@ -85,23 +85,68 @@ services:
       retries: 10
     restart: unless-stopped
 
-  # ---- Roundcube webmail -------------------------------------
-  roundcube:
-    image: roundcube/roundcubemail:latest
+  # ---- Email client Postgres (metadata store) ----------------
+  emailclient-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: emailclient
+      POSTGRES_USER: emailclient
+      POSTGRES_PASSWORD: emailclient
+    volumes:
+      - emailclient-dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: >-
+        ["CMD-SHELL",
+        "pg_isready -U emailclient -d emailclient"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ---- Email client API (Flask backend) ----------------------
+  emailclient-api:
+    build:
+      context: ./tools/emailclient
+      dockerfile: deployment/docker/email-service/Dockerfile
     ports:
-      - "8025:80"
+      - "8500:5000"
     depends_on:
       mailserver:
         condition: service_healthy
+      emailclient-db:
+        condition: service_healthy
     environment:
-      ROUNDCUBEMAIL_DEFAULT_HOST: mailserver
-      ROUNDCUBEMAIL_DEFAULT_PORT: 143
-      ROUNDCUBEMAIL_SMTP_SERVER: mailserver
-      ROUNDCUBEMAIL_SMTP_PORT: 25
-      ROUNDCUBEMAIL_PLUGINS: nextra_theme
-    volumes:
-      - ./docker/mail/roundcube/plugins/nextra_theme:/var/roundcube/plugins/nextra_theme:ro
-      - ./docker/mail/roundcube/custom-config.php:/var/roundcube/config/custom-config.php:ro
+      POSTFIX_HOST: mailserver
+      POSTFIX_PORT: "25"
+      DOVECOT_HOST: mailserver
+      DOVECOT_IMAP_PORT: "143"
+      SMTP_HOST: mailserver
+      SMTP_PORT: "587"
+      DATABASE_URL: >-
+        postgresql://emailclient:emailclient
+        @emailclient-db:5432/emailclient
+      FLASK_ENV: development
+      FLASK_DEBUG: "1"
+      IMAP_SYNC_INTERVAL: "300"
+      SMTP_TIMEOUT: "30"
+    restart: unless-stopped
+
+  # ---- Email client frontend (Next.js) -----------------------
+  emailclient:
+    build:
+      context: ./tools/emailclient
+      dockerfile: Dockerfile
+      args:
+        NEXT_BASE_PATH: /emailclient
+    ports:
+      - "8025:3000"
+    depends_on:
+      - emailclient-api
+      mailserver:
+        condition: service_healthy
+    environment:
+      BACKEND_URL: http://emailclient-api:5000
+      NODE_ENV: production
     restart: unless-stopped
 
   # ---- C++ API backend ---------------------------------------
@@ -382,6 +427,7 @@ volumes:
   maildata:
   mailstate:
   maillogs:
+  emailclient-dbdata:
   packagerepo-dbdata:
   s3-dbdata:
   s3-data:

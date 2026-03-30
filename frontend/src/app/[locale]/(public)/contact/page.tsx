@@ -3,8 +3,10 @@ import {
   setRequestLocale,
   getTranslations,
 } from 'next-intl/server';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
+import {
+  Typography,
+  Container,
+} from '@metabuilder/m3';
 import { ContactForm } from
   '@/components/organisms/ContactForm';
 

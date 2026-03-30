@@ -1,50 +1,9 @@
 /**
  * @file inputs.ts
- * @brief MUI input and selection component overrides
- *        (TextField, Switch, Chip).
- */
-import type { Components, Theme } from '@mui/material/styles';
-
-/**
- * Style overrides for input and selection MUI components.
+ * @brief M3 input styling reference.
  *
- * - MuiTextField: outlined variant by default, rounded
- *   input border (8px).
- * - MuiSwitch: extra padding for MD3 track shape.
- * - MuiChip: rounded rectangle with medium weight label.
+ * Input component styling (TextField, Switch, Chip)
+ * is now handled by @metabuilder/m3 via M3 CSS
+ * variables. This file is kept for structural
+ * continuity.
  */
-export const inputOverrides: Pick<
-  Components<Theme>,
-  'MuiTextField' | 'MuiSwitch' | 'MuiChip'
-> = {
-  MuiTextField: {
-    defaultProps: {
-      variant: 'outlined',
-      size: 'medium',
-    },
-    styleOverrides: {
-      root: {
-        '& .MuiOutlinedInput-root': {
-          borderRadius: 8,
-        },
-      },
-    },
-  },
-
-  MuiSwitch: {
-    styleOverrides: {
-      root: {
-        padding: 8,
-      },
-    },
-  },
-
-  MuiChip: {
-    styleOverrides: {
-      root: {
-        borderRadius: 8,
-        fontWeight: 500,
-      },
-    },
-  },
-};

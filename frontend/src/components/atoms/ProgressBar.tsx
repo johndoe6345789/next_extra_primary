@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import Box from '@mui/material/Box';
-import LinearProgress from '@mui/material/LinearProgress';
-import Typography from '@mui/material/Typography';
+import Box from '@metabuilder/m3/Box';
+import LinearProgress from '@metabuilder/m3/LinearProgress';
+import Typography from '@metabuilder/m3/Typography';
 
 /**
  * Props for the ProgressBar component.

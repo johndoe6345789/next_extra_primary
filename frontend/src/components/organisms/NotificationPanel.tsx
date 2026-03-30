@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useCallback, useEffect } from 'react';
-import Drawer from '@mui/material/Drawer';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import List from '@mui/material/List';
+import Drawer from '@metabuilder/m3/Drawer';
+import Box from '@metabuilder/m3/Box';
+import Typography from '@metabuilder/m3/Typography';
+import List from '@metabuilder/m3/List';
 import { Button } from '../atoms';
 import { useNotifications } from '@/hooks';
 import type { Notification } from '@/types/notification';

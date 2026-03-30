@@ -1,0 +1,91 @@
+{
+  "layout": "dashboard",
+  "hooks": [
+    { "name": "useAuth" },
+    { "name": "useGamification" }
+  ],
+  "tree": [
+    {
+      "component": "Box",
+      "props": { "aria-label": "Profile" },
+      "children": [
+        {
+          "component": "Typography",
+          "props": {
+            "variant": "h4",
+            "component": "h1",
+            "gutterBottom": true
+          },
+          "children": "Profile"
+        },
+        {
+          "component": "Card",
+          "props": { "elevation": 2 },
+          "children": [
+            {
+              "component": "CardContent",
+              "children": [
+                {
+                  "component": "Typography",
+                  "props": {
+                    "variant": "h6",
+                    "component": "h2"
+                  },
+                  "children": "User Info"
+                },
+                {
+                  "component": "Typography",
+                  "props": {
+                    "variant": "body2",
+                    "color": "text.secondary"
+                  },
+                  "children": "Your account details."
+                },
+                {
+                  "component": "Divider",
+                  "props": { "sx": { "my": 2 } }
+                },
+                {
+                  "component": "Typography",
+                  "props": {
+                    "variant": "h6",
+                    "component": "h2"
+                  },
+                  "children": "Badges"
+                },
+                {
+                  "component": "Typography",
+                  "props": {
+                    "variant": "body2",
+                    "color": "text.secondary"
+                  },
+                  "children": "Your earned badges."
+                },
+                {
+                  "component": "Divider",
+                  "props": { "sx": { "my": 2 } }
+                },
+                {
+                  "component": "Typography",
+                  "props": {
+                    "variant": "h6",
+                    "component": "h2"
+                  },
+                  "children": "Statistics"
+                },
+                {
+                  "component": "Typography",
+                  "props": {
+                    "variant": "body2",
+                    "color": "text.secondary"
+                  },
+                  "children": "Your cumulative stats."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

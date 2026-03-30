@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import MuiTextField from '@mui/material/TextField';
+import MuiTextField from '@metabuilder/m3/TextField';
 
 /**
  * Props for the TextField component.

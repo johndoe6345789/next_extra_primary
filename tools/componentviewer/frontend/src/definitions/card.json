@@ -1,0 +1,58 @@
+{
+  "name": "Card",
+  "category": "Surfaces",
+  "description": "M3 card surface container.",
+  "props": [
+    {
+      "name": "variant",
+      "type": "enum",
+      "defaultValue": "elevated",
+      "options": [
+        "elevated",
+        "filled",
+        "outlined"
+      ],
+      "description": "Card surface treatment."
+    },
+    {
+      "name": "elevation",
+      "type": "number",
+      "defaultValue": 1,
+      "description": "Shadow depth level."
+    },
+    {
+      "name": "square",
+      "type": "boolean",
+      "defaultValue": false,
+      "description": "Removes border radius."
+    }
+  ],
+  "variants": [
+    {
+      "label": "Elevated",
+      "props": { "variant": "elevated" }
+    },
+    {
+      "label": "Filled",
+      "props": { "variant": "filled" }
+    },
+    {
+      "label": "Outlined",
+      "props": { "variant": "outlined" }
+    },
+    {
+      "label": "High Elevation",
+      "props": {
+        "variant": "elevated",
+        "elevation": 4
+      }
+    },
+    {
+      "label": "Square Outlined",
+      "props": {
+        "variant": "outlined",
+        "square": true
+      }
+    }
+  ]
+}

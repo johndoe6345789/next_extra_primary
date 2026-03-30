@@ -1,0 +1,59 @@
+{
+  "name": "Table",
+  "category": "Data Display",
+  "description": "M3 data table for rows.",
+  "props": [
+    {
+      "name": "size",
+      "type": "enum",
+      "defaultValue": "medium",
+      "options": ["small", "medium"],
+      "description": "Row density preset."
+    },
+    {
+      "name": "stickyHeader",
+      "type": "boolean",
+      "defaultValue": false,
+      "description": "Pins header on scroll."
+    },
+    {
+      "name": "padding",
+      "type": "enum",
+      "defaultValue": "normal",
+      "options": [
+        "normal",
+        "checkbox",
+        "none"
+      ],
+      "description": "Cell padding mode."
+    },
+    {
+      "name": "striped",
+      "type": "boolean",
+      "defaultValue": false,
+      "description": "Alternating row colors."
+    }
+  ],
+  "variants": [
+    {
+      "label": "Default Medium",
+      "props": { "size": "medium" }
+    },
+    {
+      "label": "Small Dense",
+      "props": { "size": "small" }
+    },
+    {
+      "label": "Sticky Header",
+      "props": { "stickyHeader": true }
+    },
+    {
+      "label": "Striped Rows",
+      "props": { "striped": true }
+    },
+    {
+      "label": "No Padding",
+      "props": { "padding": "none" }
+    }
+  ]
+}

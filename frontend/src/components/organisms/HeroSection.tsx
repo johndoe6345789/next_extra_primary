@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
+import Box from '@metabuilder/m3/Box';
+import Container from '@metabuilder/m3/Container';
+import Typography from '@metabuilder/m3/Typography';
 import { useTranslations } from 'next-intl';
 import { HeroCta } from '../molecules';
 

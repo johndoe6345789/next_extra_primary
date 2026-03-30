@@ -9,10 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^7.3.9",
-    "@mui/material": "^7.3.9",
+    "@metabuilder/m3": "file:../shared/components/m3",
+    "@metabuilder/scss": "file:../shared/scss",
+    "@metabuilder/icons": "file:../shared/icons",
+    "@metabuilder/hooks": "file:../shared/hooks",
+    "@metabuilder/redux-core": "file:../shared/redux/core",
+    "@metabuilder/components": "file:../shared/components",
     "@reduxjs/toolkit": "^2.11.2",
     "next": "16.2.1",
     "next-intl": "^4.8.3",

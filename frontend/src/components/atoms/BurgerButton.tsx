@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import MuiIconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import MuiIconButton from '@metabuilder/m3/IconButton';
+import MenuIcon from '@metabuilder/icons/Menu';
 
 /** Props for BurgerButton. */
 export interface BurgerButtonProps {

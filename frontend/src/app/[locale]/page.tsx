@@ -1,7 +1,6 @@
 import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
+import { Box, Container } from '@metabuilder/m3';
 import { HeroSection } from '@/components/organisms/HeroSection';
 import { FeatureGrid } from '@/components/organisms/FeatureGrid';
 

@@ -1,0 +1,63 @@
+{
+  "name": "Accordion",
+  "category": "Surfaces",
+  "description": "M3 expandable panel section.",
+  "props": [
+    {
+      "name": "variant",
+      "type": "enum",
+      "defaultValue": "elevation",
+      "options": ["elevation", "outlined"],
+      "description": "Surface treatment style."
+    },
+    {
+      "name": "defaultExpanded",
+      "type": "boolean",
+      "defaultValue": false,
+      "description": "Starts in open state."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "defaultValue": false,
+      "description": "Disables toggling."
+    },
+    {
+      "name": "disableGutters",
+      "type": "boolean",
+      "defaultValue": false,
+      "description": "Removes side padding."
+    },
+    {
+      "name": "square",
+      "type": "boolean",
+      "defaultValue": false,
+      "description": "Removes border radius."
+    }
+  ],
+  "variants": [
+    {
+      "label": "Elevated Default",
+      "props": { "variant": "elevation" }
+    },
+    {
+      "label": "Outlined",
+      "props": { "variant": "outlined" }
+    },
+    {
+      "label": "Expanded",
+      "props": { "defaultExpanded": true }
+    },
+    {
+      "label": "Disabled",
+      "props": { "disabled": true }
+    },
+    {
+      "label": "Square No Gutters",
+      "props": {
+        "square": true,
+        "disableGutters": true
+      }
+    }
+  ]
+}

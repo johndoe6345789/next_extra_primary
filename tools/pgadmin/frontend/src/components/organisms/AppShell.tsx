@@ -1,10 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { ThemeProvider } from '@mui/material/styles';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import { theme } from '@/theme/theme';
+import { IconButton } from '@metabuilder/m3';
+import { Menu as MenuIcon }
+  from '@metabuilder/m3/icons';
 import SiteDrawer
   from '@/components/molecules/SiteDrawer';
 import navItems from '@/constants/nav-items.json';
@@ -36,20 +35,18 @@ export default function AppShell(
     <div className={styles.appShell} data-testid="app-shell">
       <nav className={sidebarCls} aria-label="Main navigation">
         <div className={styles.sidebarHeader}>
-          <ThemeProvider theme={theme}>
-            <IconButton
-              onClick={() => setDrawerOpen(true)}
-              aria-label="Open site drawer"
-              data-testid="site-drawer-toggle"
-              style={burgerStyle}
-            >
-              <MenuIcon />
-            </IconButton>
-            <SiteDrawer
-              open={drawerOpen}
-              onClose={() => setDrawerOpen(false)}
-            />
-          </ThemeProvider>
+          <IconButton
+            onClick={() => setDrawerOpen(true)}
+            aria-label="Open site drawer"
+            data-testid="site-drawer-toggle"
+            style={burgerStyle}
+          >
+            <MenuIcon />
+          </IconButton>
+          <SiteDrawer
+            open={drawerOpen}
+            onClose={() => setDrawerOpen(false)}
+          />
           <h2 className={styles.sidebarTitle}>
             {labels.app.title}
           </h2>

@@ -1,14 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent
-  from '@mui/material/DialogContent';
-import DialogActions
-  from '@mui/material/DialogActions';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import {
+  Dialog, DialogTitle, DialogContent,
+  DialogActions, TextField, Button,
+} from '@metabuilder/m3';
 import labels from '@/constants/ui-labels.json';
 
 /** @brief Props for CreateBucketDialog. */
@@ -19,16 +15,15 @@ export interface CreateBucketDialogProps {
   testId?: string;
 }
 
-const NAME_RE = /^[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]$/;
+const NAME_RE =
+  /^[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]$/;
 
 /**
  * @brief Dialog to create a new S3 bucket.
  * @param props - Dialog properties.
  */
 export default function CreateBucketDialog({
-  open,
-  onClose,
-  onCreate,
+  open, onClose, onCreate,
   testId = 'create-bucket-dialog',
 }: CreateBucketDialogProps) {
   const [name, setName] = useState('');
@@ -61,15 +56,18 @@ export default function CreateBucketDialog({
           margin="dense"
           label={labels.dialogs.bucketName}
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) =>
+            setName(e.target.value)}
           error={name.length > 0 && !valid}
           helperText={
             name.length > 0 && !valid
-              ? 'Lowercase, 3-63 chars, no spaces'
+              ? 'Lowercase, 3-63 chars'
               : ''
           }
           data-testid="bucket-name-input"
-          aria-label={labels.dialogs.bucketName}
+          aria-label={
+            labels.dialogs.bucketName
+          }
         />
       </DialogContent>
       <DialogActions>

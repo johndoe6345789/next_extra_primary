@@ -1,7 +1,7 @@
 #pragma once
 /**
  * @file DocsController.h
- * @brief Serves Swagger UI and OpenAPI JSON spec.
+ * @brief Redirects to in-house docs and serves OpenAPI spec.
  */
 
 #include <drogon/HttpController.h>
@@ -14,18 +14,18 @@ class DocsController
 {
   public:
     METHOD_LIST_BEGIN
-    ADD_METHOD_TO(DocsController::swagger,
+    ADD_METHOD_TO(DocsController::redirect,
                   "/api/docs", drogon::Get);
     ADD_METHOD_TO(DocsController::spec,
                   "/api/docs/openapi.json", drogon::Get);
     METHOD_LIST_END
 
     /**
-     * @brief Serve the Swagger UI HTML page.
+     * @brief Redirect to the in-house API docs viewer.
      * @param req  Incoming HTTP request.
      * @param cb   Response callback.
      */
-    void swagger(
+    void redirect(
         const drogon::HttpRequestPtr& req,
         std::function<void(const drogon::HttpResponsePtr&)>&&
             cb);

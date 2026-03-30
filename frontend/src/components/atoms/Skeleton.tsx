@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import MuiSkeleton from '@mui/material/Skeleton';
+import MuiSkeleton from '@metabuilder/m3/Skeleton';
 
 /**
  * Props for the Skeleton component.

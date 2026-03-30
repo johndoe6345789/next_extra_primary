@@ -3,11 +3,13 @@ import {
   setRequestLocale,
   getTranslations,
 } from 'next-intl/server';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Divider from '@mui/material/Divider';
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  Divider,
+} from '@metabuilder/m3';
 
 /** Skip static prerendering for this page. */
 export const dynamic = 'force-dynamic';

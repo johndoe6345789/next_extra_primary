@@ -1,0 +1,80 @@
+{
+  "name": "Button",
+  "category": "Inputs",
+  "description": "M3 button for user actions.",
+  "props": [
+    {
+      "name": "variant",
+      "type": "enum",
+      "defaultValue": "filled",
+      "options": [
+        "filled",
+        "outlined",
+        "text",
+        "elevated",
+        "tonal"
+      ],
+      "description": "Visual style of the button."
+    },
+    {
+      "name": "color",
+      "type": "enum",
+      "defaultValue": "primary",
+      "options": [
+        "primary",
+        "secondary",
+        "tertiary",
+        "error"
+      ],
+      "description": "Theme color applied."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "defaultValue": "medium",
+      "options": ["small", "medium", "large"],
+      "description": "Button size preset."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "defaultValue": false,
+      "description": "Disables interaction."
+    },
+    {
+      "name": "children",
+      "type": "string",
+      "defaultValue": "Click me",
+      "description": "Button label text."
+    }
+  ],
+  "variants": [
+    {
+      "label": "Filled Primary",
+      "props": { "variant": "filled" }
+    },
+    {
+      "label": "Outlined",
+      "props": { "variant": "outlined" }
+    },
+    {
+      "label": "Tonal",
+      "props": { "variant": "tonal" }
+    },
+    {
+      "label": "Elevated",
+      "props": { "variant": "elevated" }
+    },
+    {
+      "label": "Disabled",
+      "props": { "disabled": true }
+    },
+    {
+      "label": "Small Text",
+      "props": {
+        "variant": "text",
+        "size": "small"
+      }
+    }
+  ]
+}

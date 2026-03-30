@@ -1,10 +1,8 @@
 'use client';
 
-import Container from '@mui/material/Container';
-import CircularProgress
-  from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
-import Alert from '@mui/material/Alert';
+import {
+  Container, CircularProgress, Box, Alert,
+} from '@metabuilder/m3';
 import { useRouter } from 'next/navigation';
 import AppNavbar from './AppNavbar';
 import BucketList from './BucketList';
@@ -28,14 +26,23 @@ export default function BucketsContent() {
   return (
     <>
       <AppNavbar />
-      <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Container
+        maxWidth="lg"
+        style={{ padding: '32px 0' }}
+      >
         {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
+          <Alert
+            severity="error"
+            style={{ marginBottom: 16 }}
+          >
             {error}
           </Alert>
         )}
         {isLoading ? (
-          <Box sx={{ textAlign: 'center', py: 6 }}>
+          <Box style={{
+            textAlign: 'center',
+            padding: '48px 0',
+          }}>
             <CircularProgress />
           </Box>
         ) : (

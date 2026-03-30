@@ -13,13 +13,13 @@ FROM ${BASE_REGISTRY}/base-node-deps:latest AS builder
 # hooks (shared React hooks)
 COPY hooks/ ./hooks/
 
-# icons (React icon components — imported by components/fakemui)
+# icons (React icon components — imported by components/m3)
 COPY icons/ ./icons/
 
 # scss (Material 3 SCSS, theme, atoms — loaded by sassOptions)
 COPY scss/ ./scss/
 
-# components + FakeMUI (UI component library)
+# components + M3 (UI component library)
 COPY components/ ./components/
 
 # types (TypeScript type definitions — transitive dep via hooks)

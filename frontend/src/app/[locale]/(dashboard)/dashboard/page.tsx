@@ -3,8 +3,7 @@ import {
   setRequestLocale,
   getTranslations,
 } from 'next-intl/server';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { Box, Typography } from '@metabuilder/m3';
 import DashboardStats from
   '@/components/organisms/DashboardStats';
 

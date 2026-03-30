@@ -1,17 +1,17 @@
 'use client';
 
 import React from 'react';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import LeaderboardIcon from '@mui/icons-material/EmojiEvents';
-import ChatIcon from '@mui/icons-material/Chat';
+import ListItemButton from '@metabuilder/m3/ListItemButton';
+import ListItemIcon from '@metabuilder/m3/ListItemIcon';
+import ListItemText from '@metabuilder/m3/ListItemText';
+import DashboardIcon from '@metabuilder/icons/Dashboard';
+import LeaderboardIcon from '@metabuilder/icons/EmojiEvents';
+import ChatIcon from '@metabuilder/icons/Chat';
 import NotificationsIcon
-  from '@mui/icons-material/Notifications';
-import PersonIcon from '@mui/icons-material/Person';
-import InfoIcon from '@mui/icons-material/Info';
-import MailIcon from '@mui/icons-material/Mail';
+  from '@metabuilder/icons/Notifications';
+import PersonIcon from '@metabuilder/icons/Person';
+import InfoIcon from '@metabuilder/icons/Info';
+import MailIcon from '@metabuilder/icons/Mail';
 import { Link } from '@/i18n/navigation';
 
 /** Icon map for known routes. */

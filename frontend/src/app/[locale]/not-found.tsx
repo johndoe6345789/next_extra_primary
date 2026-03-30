@@ -4,9 +4,11 @@ import type { ReactElement } from 'react';
 
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import {
+  Box,
+  Typography,
+  Button,
+} from '@metabuilder/m3';
 
 /**
  * Custom 404 page for locale-scoped routes.

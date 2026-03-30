@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
-import Alert from '@mui/material/Alert';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import MuiLink from '@mui/material/Link';
+import Alert from '@metabuilder/m3/Alert';
+import Card from '@metabuilder/m3/Card';
+import CardContent from '@metabuilder/m3/CardContent';
+import Typography from '@metabuilder/m3/Typography';
+import Box from '@metabuilder/m3/Box';
+import TextField from '@metabuilder/m3/TextField';
+import MuiLink from '@metabuilder/m3/Link';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { Button } from '../atoms';

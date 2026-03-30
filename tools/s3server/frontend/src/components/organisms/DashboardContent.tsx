@@ -1,11 +1,9 @@
 'use client';
 
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import CircularProgress
-  from '@mui/material/CircularProgress';
+import {
+  Box, Container, Typography,
+  Button, CircularProgress,
+} from '@metabuilder/m3';
 import Link from 'next/link';
 import AppNavbar from './AppNavbar';
 import DashboardStats from './DashboardStats';
@@ -23,12 +21,21 @@ export default function DashboardContent() {
   return (
     <>
       <AppNavbar />
-      <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Typography variant="h4" sx={{ mb: 4 }}>
+      <Container
+        maxWidth="lg"
+        style={{ padding: '32px 0' }}
+      >
+        <Typography
+          variant="h4"
+          style={{ marginBottom: 32 }}
+        >
           {labels.dashboard.title}
         </Typography>
         {stats.isLoading ? (
-          <Box sx={{ textAlign: 'center', py: 6 }}>
+          <Box style={{
+            textAlign: 'center',
+            padding: '48px 0',
+          }}>
             <CircularProgress />
           </Box>
         ) : (
@@ -38,7 +45,7 @@ export default function DashboardContent() {
               objectCount={stats.objectCount}
               totalSize={stats.totalSize}
             />
-            <Box sx={{ mt: 4 }}>
+            <Box style={{ marginTop: 32 }}>
               <Button
                 variant="contained"
                 component={Link}

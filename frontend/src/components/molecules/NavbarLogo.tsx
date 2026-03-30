@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import Typography from '@mui/material/Typography';
-import MuiLink from '@mui/material/Link';
+import Typography from '@metabuilder/m3/Typography';
+import MuiLink from '@metabuilder/m3/Link';
 import { Link } from '@/i18n/navigation';
 
 /** Props for NavbarLogo. */

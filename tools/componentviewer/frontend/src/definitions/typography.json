@@ -1,0 +1,76 @@
+{
+  "name": "Typography",
+  "category": "Data Display",
+  "description": "M3 type-scale text element.",
+  "props": [
+    {
+      "name": "variant",
+      "type": "enum",
+      "defaultValue": "bodyLarge",
+      "options": [
+        "displayLarge",
+        "displayMedium",
+        "displaySmall",
+        "headlineLarge",
+        "headlineMedium",
+        "headlineSmall",
+        "titleLarge",
+        "titleMedium",
+        "titleSmall",
+        "bodyLarge",
+        "bodyMedium",
+        "bodySmall",
+        "labelLarge",
+        "labelMedium",
+        "labelSmall"
+      ],
+      "description": "Type-scale variant."
+    },
+    {
+      "name": "color",
+      "type": "enum",
+      "defaultValue": "inherit",
+      "options": [
+        "inherit",
+        "primary",
+        "secondary",
+        "error"
+      ],
+      "description": "Text color token."
+    },
+    {
+      "name": "children",
+      "type": "string",
+      "defaultValue": "Sample text",
+      "description": "Text content to render."
+    },
+    {
+      "name": "noWrap",
+      "type": "boolean",
+      "defaultValue": false,
+      "description": "Truncate with ellipsis."
+    }
+  ],
+  "variants": [
+    {
+      "label": "Display Large",
+      "props": { "variant": "displayLarge" }
+    },
+    {
+      "label": "Headline Medium",
+      "props": { "variant": "headlineMedium" }
+    },
+    {
+      "label": "Title Small",
+      "props": { "variant": "titleSmall" }
+    },
+    {
+      "label": "Body Large",
+      "props": { "variant": "bodyLarge" }
+    },
+    {
+      "label": "Label Small",
+      "props": { "variant": "labelSmall" }
+    }
+  ]
+}

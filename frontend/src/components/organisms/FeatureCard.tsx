@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import Card from '@mui/material/Card';
-import CardActionArea from '@mui/material/CardActionArea';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
+import Card from '@metabuilder/m3/Card';
+import CardActionArea from '@metabuilder/m3/CardActionArea';
+import CardContent from '@metabuilder/m3/CardContent';
+import Typography from '@metabuilder/m3/Typography';
 
 /** Props for the FeatureCard sub-component. */
 export interface FeatureCardProps {

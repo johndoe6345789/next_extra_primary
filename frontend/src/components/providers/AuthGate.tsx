@@ -3,9 +3,11 @@
 import { type ReactElement, ReactNode, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
-import Typography from '@mui/material/Typography';
+import {
+  Box,
+  CircularProgress,
+  Typography,
+} from '@metabuilder/m3';
 import type { RootState } from '@/store/store';
 
 /** Routes accessible without authentication. */

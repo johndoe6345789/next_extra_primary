@@ -1,10 +1,9 @@
 'use client';
 
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import LogoutIcon from '@mui/icons-material/Logout';
+import {
+  List, ListItemButton,
+  ListItemIcon, ListItemText, Logout,
+} from '@metabuilder/m3';
 import labels from '@/constants/ui-labels.json';
 
 /** @brief Props for DrawerLogout. */
@@ -16,7 +15,7 @@ interface DrawerLogoutProps {
 }
 
 /**
- * @brief Logout button at the bottom of the drawer.
+ * @brief Logout button at bottom of the drawer.
  */
 export default function DrawerLogout(
   { onLogout, onClose }: DrawerLogoutProps,
@@ -33,8 +32,12 @@ export default function DrawerLogout(
         data-testid="drawer-logout"
         aria-label={labels.nav.logout}
       >
-        <ListItemIcon><LogoutIcon /></ListItemIcon>
-        <ListItemText primary={labels.nav.logout} />
+        <ListItemIcon>
+          <Logout />
+        </ListItemIcon>
+        <ListItemText
+          primary={labels.nav.logout}
+        />
       </ListItemButton>
     </List>
   );

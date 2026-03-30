@@ -15,7 +15,7 @@ type AnyComponent = ComponentType<ComponentProps>
 
 /**
  * Basic UI Components
- * These mirror the components available in the main app's fakemui library
+ * These mirror the components available in the main app's m3 library
  */
 
 export const Box: React.FC<ComponentProps> = ({ className, children, ...props }) => (
@@ -358,6 +358,32 @@ export const Chip: React.FC<ComponentProps & { label?: string }> = ({
 }) => (
   <span className={className}>{label || children}</span>
 )
+
+// Accordion - collapsible content sections
+export const Accordion: React.FC<ComponentProps> = ({ className = 'border rounded mb-2', children }) => (
+  <div className={className}>{children}</div>
+)
+
+export const AccordionSummary: React.FC<ComponentProps> = ({ className = 'px-4 py-3 font-medium cursor-pointer hover:bg-muted/50', children }) => (
+  <div className={className}>{children}</div>
+)
+
+export const AccordionDetails: React.FC<ComponentProps> = ({ className = 'px-4 pb-3 text-sm', children }) => (
+  <div className={className}>{children}</div>
+)
+
+// TabPanel - content area for tabs
+export const TabPanel: React.FC<ComponentProps & { value?: unknown; index?: unknown; hidden?: boolean }> = ({
+  children,
+  value,
+  index,
+  hidden,
+  className = 'py-4'
+}) => {
+  const isHidden = hidden ?? (value !== undefined && index !== undefined && value !== index)
+  if (isHidden) return null
+  return <div className={className} role="tabpanel">{children}</div>
+}
 
 // Placeholder components for complex script package components
 export const Level4Header: React.FC<ComponentProps & { username?: string; nerdMode?: boolean }> = ({
@@ -966,6 +992,14 @@ export const componentRegistry: Record<string, AnyComponent> = {
   DialogContent,
   DialogActions,
   
+  // Accordion (see M3/Accordion stories)
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+
+  // Tab panel (see M3/Tabs stories)
+  TabPanel,
+
   // App-specific (from packages)
   Level4Header,
   IntroSection,
@@ -973,8 +1007,10 @@ export const componentRegistry: Record<string, AnyComponent> = {
   AppFooter,
   Sidebar,
   IRCWebchat,
-  
-  // Script viewer
+
+  // M3 component stories live in src/stories/m3/
+  // Button, TextField, Card, Typography, Dialog,
+  // Table, Alert, Chip, Tabs, Accordion
 }
 
 /**

@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
-import Grid from '@mui/material/Grid';
-import ChatIcon from '@mui/icons-material/Chat';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import TranslateIcon from '@mui/icons-material/Translate';
-import LockIcon from '@mui/icons-material/Lock';
+import Grid from '@metabuilder/m3/Grid';
+import ChatIcon from '@metabuilder/icons/Chat';
+import EmojiEventsIcon from '@metabuilder/icons/EmojiEvents';
+import NotificationsActiveIcon from '@metabuilder/icons/NotificationsActive';
+import DarkModeIcon from '@metabuilder/icons/DarkMode';
+import TranslateIcon from '@metabuilder/icons/Translate';
+import LockIcon from '@metabuilder/icons/Lock';
 import { useTranslations } from 'next-intl';
 import { FeatureCard } from './FeatureCard';
 

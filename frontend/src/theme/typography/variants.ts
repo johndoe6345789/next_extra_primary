@@ -1,35 +1,23 @@
 /**
  * @file variants.ts
- * @brief MD3 Title, Body, and Label MUI variant overrides.
- */
-import type { TypographyVariantsOptions } from '@mui/material/styles';
-
-/**
- * Title, Body, and Label variant tokens mapped to MUI
- * subtitle1/2, body1/2, button, caption, and overline.
+ * @brief MD3 Title, Body, and Label variant reference.
  *
- * Covers MD3 roles: Title Large/Medium, Body Large/Medium,
- * Label Large/Medium/Small.
+ * These values are kept as a programmatic reference.
+ * Runtime styling is handled by @metabuilder/scss
+ * CSS variables.
  */
-export const titlesAndBody: Pick<
-  TypographyVariantsOptions,
-  | 'subtitle1'
-  | 'subtitle2'
-  | 'body1'
-  | 'body2'
-  | 'button'
-  | 'caption'
-  | 'overline'
-> = {
+
+/** Title, Body, and Label variant tokens. */
+export const titlesAndBody = {
   /* --- Title --- */
   subtitle1: {
-    fontSize: '1.375rem', // 22px — Title Large
+    fontSize: '1.375rem', // 22px -- Title Large
     fontWeight: 500,
     lineHeight: 1.27,
     letterSpacing: '0px',
   },
   subtitle2: {
-    fontSize: '1rem', // 16px — Title Medium
+    fontSize: '1rem', // 16px -- Title Medium
     fontWeight: 500,
     lineHeight: 1.5,
     letterSpacing: '0.15px',
@@ -37,13 +25,13 @@ export const titlesAndBody: Pick<
 
   /* --- Body --- */
   body1: {
-    fontSize: '1rem', // 16px — Body Large
+    fontSize: '1rem', // 16px -- Body Large
     fontWeight: 400,
     lineHeight: 1.5,
     letterSpacing: '0.5px',
   },
   body2: {
-    fontSize: '0.875rem', // 14px — Body Medium
+    fontSize: '0.875rem', // 14px -- Body Medium
     fontWeight: 400,
     lineHeight: 1.43,
     letterSpacing: '0.25px',
@@ -51,23 +39,23 @@ export const titlesAndBody: Pick<
 
   /* --- Label --- */
   button: {
-    fontSize: '0.875rem', // 14px — Label Large
+    fontSize: '0.875rem', // 14px -- Label Large
     fontWeight: 500,
     lineHeight: 1.43,
     letterSpacing: '0.1px',
-    textTransform: 'none',
+    textTransform: 'none' as const,
   },
   caption: {
-    fontSize: '0.75rem', // 12px — Label Medium
+    fontSize: '0.75rem', // 12px -- Label Medium
     fontWeight: 500,
     lineHeight: 1.33,
     letterSpacing: '0.5px',
   },
   overline: {
-    fontSize: '0.6875rem', // 11px — Label Small
+    fontSize: '0.6875rem', // 11px -- Label Small
     fontWeight: 500,
     lineHeight: 1.45,
     letterSpacing: '0.5px',
-    textTransform: 'uppercase',
+    textTransform: 'uppercase' as const,
   },
-};
+} as const;

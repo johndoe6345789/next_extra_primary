@@ -1,0 +1,76 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "dashboard-flows",
+  "description": "Dashboard feature test scenarios",
+  "tests": [
+    {
+      "name": "stats cards render with data",
+      "tags": ["@smoke", "@dashboard"],
+      "steps": [
+        { "action": "navigate", "url": "/dashboard" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "stats-cards",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "stat-xp",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "stat-level",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    },
+    {
+      "name": "leaderboard table sorts",
+      "tags": ["@dashboard"],
+      "steps": [
+        { "action": "navigate", "url": "/dashboard/leaderboard" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "leaderboard-table",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "click", "role": "columnheader", "text": "XP" },
+        { "action": "wait", "timeout": 500 },
+        { "action": "expect", "testId": "leaderboard-table",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    },
+    {
+      "name": "badge showcase displays",
+      "tags": ["@dashboard"],
+      "steps": [
+        { "action": "navigate", "url": "/dashboard" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "badge-showcase",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "selector": "[data-testid='badge-showcase'] img",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    },
+    {
+      "name": "notification panel opens",
+      "tags": ["@dashboard"],
+      "steps": [
+        { "action": "navigate", "url": "/dashboard" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "click", "testId": "notification-bell" },
+        { "action": "expect", "testId": "notification-panel",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "click", "testId": "notification-bell" },
+        { "action": "expect", "testId": "notification-panel",
+          "assertion": { "matcher": "toBeHidden" } }
+      ]
+    },
+    {
+      "name": "chat panel interaction",
+      "tags": ["@dashboard", "@chat"],
+      "steps": [
+        { "action": "navigate", "url": "/dashboard" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "click", "testId": "chat-toggle" },
+        { "action": "expect", "testId": "chat-panel",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "fill", "testId": "chat-input", "value": "Hello" },
+        { "action": "click", "testId": "chat-send" },
+        { "action": "expect", "testId": "chat-messages",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}
