@@ -23,11 +23,18 @@ export default function AppNavbar() {
       data-testid="app-navbar"
       aria-label="Main navigation"
     >
-      <Toolbar>
+      <Toolbar
+        sx={{
+          flexWrap: 'wrap',
+          gap: { xs: 0.5, sm: 0 },
+          minHeight: { xs: 'auto', sm: 64 },
+          py: { xs: 1, sm: 0 },
+        }}
+      >
         <CloudIcon sx={{ mr: 1 }} />
         <Typography
           variant="h6"
-          sx={{ mr: 4 }}
+          sx={{ mr: { xs: 1, sm: 4 }, fontSize: { xs: '1rem', sm: '1.25rem' } }}
         >
           {labels.app.title}
         </Typography>
@@ -35,6 +42,7 @@ export default function AppNavbar() {
           color="inherit"
           component={Link}
           href={routes.dashboard}
+          size="small"
         >
           {labels.nav.dashboard}
         </Button>
@@ -42,6 +50,7 @@ export default function AppNavbar() {
           color="inherit"
           component={Link}
           href={routes.buckets}
+          size="small"
         >
           {labels.nav.buckets}
         </Button>
@@ -50,6 +59,7 @@ export default function AppNavbar() {
           color="inherit"
           onClick={logout}
           aria-label={labels.nav.logout}
+          size="small"
         >
           {labels.nav.logout}
         </Button>

@@ -10,6 +10,7 @@
 #include <CLI/CLI.hpp>
 
 #include "commands/ActCmd.h"
+#include "commands/ElasticCmd.h"
 #include "commands/WorkflowEngine.h"
 
 int main(int argc, char** argv)
@@ -17,8 +18,9 @@ int main(int argc, char** argv)
     CLI::App app{"manager: nextra-api project management tool"};
     app.require_subcommand(1);
 
-    // ---- C++ command (YAML introspection, sorts first) ----
+    // ---- C++ commands ----
     manager::ActCmd::registerAll(app);
+    manager::ElasticCmd::registerAll(app);
 
     // ---- JSON workflow commands (.local/commands/) ----
     manager::registerWorkflows(app);

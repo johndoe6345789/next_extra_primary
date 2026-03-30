@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, type ChangeEvent, type FormEvent } from 'react';
+import {
+  useState, type ChangeEvent, type FormEvent,
+} from 'react';
 import { getApiUrl } from '../utils/api';
 
 /** Publish form field values. */
 interface PublishFormData {
-  namespace: string; name: string;
+  namespace: string; name: string; type: string;
   version: string; variant: string; file: File | null;
 }
 
@@ -16,14 +18,17 @@ interface PublishStatus { type: 'success' | 'error' | null; message: string; }
 export interface UsePublishResult {
   formData: PublishFormData;
   status: PublishStatus;
-  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleChange: (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => void;
   handleFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
   resetForm: () => void;
 }
 
 const EMPTY: PublishFormData = {
-  namespace: '', name: '', version: '', variant: '', file: null,
+  namespace: '', name: '', type: 'generic',
+  version: '', variant: '', file: null,
 };
 
 /** Hook encapsulating publish form state and submission. */
@@ -33,7 +38,9 @@ export default function usePublish(): UsePublishResult {
     type: null, message: '',
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };

@@ -3,6 +3,8 @@
  * @brief Package repository server entry point.
  */
 
+#include "controllers/GenericAdapterCtrl.h"
+#include "services/AdapterGlobals.h"
 #include "services/Globals.h"
 
 #include <drogon/drogon.h>
@@ -22,34 +24,38 @@ int main()
 {
     namespace fs = std::filesystem;
 
-    auto s3Endpoint = env("S3_ENDPOINT", "http://localhost:9000");
-    auto s3Bucket = env("S3_BUCKET", "packagerepo");
-    auto s3Key = env("S3_ACCESS_KEY", "minioadmin");
-    auto secret = env("JWT_SECRET", "dev-secret-key");
-    auto dbConn =
-        env("DATABASE_URL", "host=localhost port=5432 dbname=packagerepo "
-                            "user=packagerepo password=packagerepo");
+    auto s3Ep = env("S3_ENDPOINT", "http://localhost:9000");
+    auto s3Bk = env("S3_BUCKET", "packagerepo");
+    auto s3Ak = env("S3_ACCESS_KEY", "minioadmin");
+    auto jwt = env("JWT_SECRET", "dev-secret-key");
+    auto db = env("DATABASE_URL",
+        "host=localhost port=5432 dbname=packagerepo "
+        "user=packagerepo password=packagerepo");
 
-    // Init DB and config (no HTTP needed, safe before event loop)
-    repo::Globals::initConfig(s3Endpoint, s3Bucket, s3Key, secret, dbConn);
+    repo::Globals::initConfig(s3Ep, s3Bk, s3Ak, jwt, db);
+    repo::AdapterGlobals::init(repo::Globals::repoType);
 
-    // Load schema.json for the /schema endpoint
-    for (auto p : {fs::path("/app/schema.json"), fs::path("schema.json")}) {
+    for (auto p : {fs::path("/app/schema.json"),
+                   fs::path("schema.json")}) {
         if (fs::exists(p)) {
             std::ifstream f(p);
-            repo::Globals::schemaJson = {std::istreambuf_iterator<char>(f),
-                                         std::istreambuf_iterator<char>()};
+            repo::Globals::schemaJson = {
+                std::istreambuf_iterator<char>(f),
+                std::istreambuf_iterator<char>()};
             break;
         }
     }
 
+    repo::registerAdapterRoutes();
+
     auto port = std::stoi(env("PORT", "5000"));
     drogon::app()
         .setLogLevel(trantor::Logger::kTrace)
-        .setClientMaxBodySize(512 * 1024 * 1024)  // 512 MB
+        .setClientMaxBodySize(512 * 1024 * 1024)
         .addListener("0.0.0.0", (uint16_t)port)
         .setThreadNum(4)
-        .registerBeginningAdvice([] { repo::Globals::initS3(); })
+        .registerBeginningAdvice(
+            [] { repo::Globals::initS3(); })
         .run();
 
     return 0;

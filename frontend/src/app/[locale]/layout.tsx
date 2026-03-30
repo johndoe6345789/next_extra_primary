@@ -2,6 +2,7 @@ import { ReactNode, type ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import { IntlProvider } from '@/components/providers/IntlProvider';
 import { AuthGate } from '@/components/providers/AuthGate';
+import { Navbar } from '@/components/organisms/Navbar';
 
 /** All locale pages are dynamic (auth + Redux store). */
 export const dynamic = 'force-dynamic';
@@ -47,13 +48,14 @@ export default async function LocaleLayout({
 
   let messages: Record<string, unknown> = {};
   try {
-    messages = (await import(`@/i18n/messages/${locale}.json`)).default;
+    messages = (await import(`@/messages/${locale}.json`)).default;
   } catch {
     /* Falls back to empty messages. */
   }
 
   return (
     <IntlProvider locale={locale} messages={messages}>
+      <Navbar />
       <AuthGate>{children}</AuthGate>
     </IntlProvider>
   );

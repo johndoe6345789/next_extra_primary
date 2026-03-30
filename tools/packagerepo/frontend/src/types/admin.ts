@@ -51,6 +51,15 @@ export interface AdminConfig {
   auth_scopes?: AuthScope[]; auth_policies?: AuthPolicy[];
   features?: Features; caching?: Caching; capabilities?: Capabilities;
 }
+/** A user-defined or built-in repo type. */
+export interface RepoType {
+  id: string; label: string; desc: string; color: string;
+  /** Install instructions template with {ns}/{name}/{version}. */
+  install?: string;
+  builtin?: boolean;
+  enabled?: boolean;
+}
 /** Admin tab identifiers. */
 export type AdminTab =
-  'overview' | 'entities' | 'storage' | 'routes' | 'auth' | 'features' | 'raw';
+  | 'overview' | 'entities' | 'storage' | 'routes'
+  | 'auth' | 'features' | 'repo-types' | 'raw';

@@ -29,8 +29,11 @@ void ArtifactCtrl::listPackages(
     auto rows = pg_artifact::list(Globals::repoType);
     Json::Value out;
     out["packages"] = Json::arrayValue;
-    for (const auto& r : rows)
-        out["packages"].append(r);
+    for (const auto& r : rows) {
+        auto digest = r["blob_digest"].asString();
+        if (!digest.empty() && Globals::blobs->exists(digest))
+            out["packages"].append(r);
+    }
     cb(HttpResponse::newHttpJsonResponse(out));
 }
 

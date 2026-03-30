@@ -7,6 +7,8 @@ import {
   parseObjectList,
 } from '@/utils';
 import api from '@/constants/api-routes.json';
+import seed from '@/constants/seed-data.json';
+import type { S3Object, Bucket } from '@/types';
 
 /** @brief Dashboard statistics. */
 export interface DashboardStats {
@@ -16,18 +18,49 @@ export interface DashboardStats {
   isLoading: boolean;
 }
 
+type SeedMap = Record<string, S3Object[]>;
+
+/** @brief Compute stats from seed data. */
+function seedStats(): DashboardStats {
+  const objs = seed.objects as SeedMap;
+  let objectCount = 0;
+  let totalSize = 0;
+  for (const items of Object.values(objs)) {
+    objectCount += items.length;
+    for (const o of items) totalSize += o.size;
+  }
+  return {
+    bucketCount: seed.buckets.length,
+    objectCount, totalSize, isLoading: false,
+  };
+}
+
+/** @brief Count objects in one bucket safely. */
+async function countBucket(b: Bucket) {
+  try {
+    const url = api.listObjects.replace(
+      '{bucket}', b.name,
+    );
+    const xml = await s3FetchXml(url);
+    const result = parseObjectList(xml);
+    let size = 0;
+    for (const o of result.contents) size += o.size;
+    return { count: result.contents.length, size };
+  } catch {
+    return { count: 0, size: 0 };
+  }
+}
+
 /**
  * @brief Aggregate S3 storage statistics.
- * @returns Bucket count, object count, total size.
+ * Falls back to seed data when backend is down.
  */
 export function useDashboardStats():
   DashboardStats {
   const [stats, setStats] =
     useState<DashboardStats>({
-      bucketCount: 0,
-      objectCount: 0,
-      totalSize: 0,
-      isLoading: true,
+      bucketCount: 0, objectCount: 0,
+      totalSize: 0, isLoading: true,
     });
 
   useEffect(() => {
@@ -35,33 +68,21 @@ export function useDashboardStats():
       try {
         const xml = await s3FetchXml(api.buckets);
         const buckets = parseBucketList(xml);
+        const results = await Promise.all(
+          buckets.map(countBucket),
+        );
         let objectCount = 0;
         let totalSize = 0;
-
-        for (const b of buckets) {
-          const url = api.listObjects.replace(
-            '{bucket}',
-            b.name,
-          );
-          const oXml = await s3FetchXml(url);
-          const result = parseObjectList(oXml);
-          objectCount += result.contents.length;
-          for (const o of result.contents) {
-            totalSize += o.size;
-          }
+        for (const r of results) {
+          objectCount += r.count;
+          totalSize += r.size;
         }
-
         setStats({
           bucketCount: buckets.length,
-          objectCount,
-          totalSize,
-          isLoading: false,
+          objectCount, totalSize, isLoading: false,
         });
       } catch {
-        setStats((prev) => ({
-          ...prev,
-          isLoading: false,
-        }));
+        setStats(seedStats());
       }
     };
     load();

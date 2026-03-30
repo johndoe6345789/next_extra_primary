@@ -35,10 +35,15 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
   return (
     <div data-testid={testId}>
       <IconButton
-        icon={isDark ? <DarkModeIcon /> : <LightModeIcon />}
+        icon={
+          isDark
+            ? <DarkModeIcon sx={{ fontSize: 28 }} />
+            : <LightModeIcon sx={{ fontSize: 28 }} />
+        }
         ariaLabel={label}
         onClick={toggleMode}
         tooltip={tip}
+        size="large"
         testId={`${testId}-button`}
       />
     </div>

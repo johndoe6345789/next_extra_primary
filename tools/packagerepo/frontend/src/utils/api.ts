@@ -14,15 +14,10 @@ const DEFAULT_LOCAL_URL =
 /**
  * Get the API base URL for making backend requests.
  *
- * Priority:
- * 1. NEXT_PUBLIC_API_URL env var (recommended for prod)
- * 2. Infer from current browser location
- * 3. Default to localhost:5050 for local development
- *
- * When NEXT_PUBLIC_API_URL is not set:
- * - localhost: defaults to http://localhost:5050
- * - Deployed on custom port: tries port 5050
- * - Deployed on standard port: empty string (rewrites)
+ * In the browser, returns empty string so requests use
+ * the Next.js rewrite proxy (avoids CORS). On the server
+ * or when NEXT_PUBLIC_API_URL is set, returns the direct
+ * backend URL.
  *
  * @returns The API base URL string
  */
@@ -32,24 +27,23 @@ export function getApiUrl(): string {
   }
 
   if (typeof window !== 'undefined') {
-    const { protocol, hostname, port } = window.location;
-
-    if (
-      hostname !== 'localhost' &&
-      hostname !== '127.0.0.1'
-    ) {
-      if (
-        port &&
-        port !== '80' &&
-        port !== '443'
-      ) {
-        return `${protocol}//${hostname}:${DEFAULT_BACKEND_PORT}`;
-      }
-      return '';
-    }
-
-    return DEFAULT_LOCAL_URL;
+    return '';
   }
 
   return DEFAULT_LOCAL_URL;
+}
+
+/**
+ * Get the full display URL for documentation examples.
+ *
+ * Unlike {@link getApiUrl}, this always returns a
+ * user-visible URL suitable for curl examples and docs.
+ * Respects NEXT_PUBLIC_API_URL when set.
+ *
+ * @returns The full backend URL for display purposes
+ */
+export function getDisplayApiUrl(): string {
+  return (
+    process.env.NEXT_PUBLIC_API_URL ?? DEFAULT_LOCAL_URL
+  );
 }

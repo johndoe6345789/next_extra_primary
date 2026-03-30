@@ -1,31 +1,36 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { getApiUrl } from '../utils/api';
-import type { PackageInfo, PackageVersion } from '../types/package';
+import type { PackageInfo } from '../types/package';
+import { inferType } from '../utils/inferType';
+import usePkgActions from './usePkgActions';
 
 /** Return type for the useBrowse hook. */
 export interface UseBrowseResult {
   searchTerm: string;
+  typeFilter: string;
   loading: boolean;
-  error: string;
-  detail: PackageInfo | null;
-  versions: PackageVersion[];
+  offline: boolean;
+  all: PackageInfo[];
   filtered: PackageInfo[];
+  selected: PackageInfo | null;
   setSearchTerm: (term: string) => void;
-  clearDetail: () => void;
-  handleDownload: (pkg: PackageInfo) => Promise<void>;
-  handleDetails: (pkg: PackageInfo) => Promise<void>;
+  setTypeFilter: (type: string) => void;
+  setSelected: (pkg: PackageInfo | null) => void;
+  actions: ReturnType<typeof usePkgActions>;
 }
 
-/** Hook encapsulating browse page state and actions. */
+/** Hook encapsulating browse page state. */
 export default function useBrowse(): UseBrowseResult {
   const [packages, setPackages] = useState<PackageInfo[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [typeFilter, setTypeFilter] = useState('');
+  const [selected, setSelected] =
+    useState<PackageInfo | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [detail, setDetail] = useState<PackageInfo | null>(null);
-  const [versions, setVersions] = useState<PackageVersion[]>([]);
+  const [offline, setOffline] = useState(false);
+  const actions = usePkgActions();
 
   const fetchPackages = useCallback(async () => {
     try {
@@ -33,55 +38,40 @@ export default function useBrowse(): UseBrowseResult {
       const token = localStorage.getItem('token');
       const headers: Record<string, string> = token
         ? { Authorization: `Bearer ${token}` } : {};
-      const res = await fetch(`${apiUrl}/v1/packages`, { headers });
+      const res = await fetch(
+        `${apiUrl}/v1/packages`, { headers },
+      );
       if (res.ok) {
-        const data = (await res.json()) as { packages?: PackageInfo[] };
+        const data = (await res.json()) as {
+          packages?: PackageInfo[];
+        };
         setPackages(data.packages ?? []);
-      } else { setError('Failed to load packages'); }
-    } catch { setError('Network error loading packages'); }
-    finally { setLoading(false); }
+      } else {
+        setOffline(true);
+      }
+    } catch {
+      setOffline(true);
+    } finally { setLoading(false); }
   }, []);
 
   useEffect(() => { void fetchPackages(); }, [fetchPackages]);
 
-  const handleDownload = async (pkg: PackageInfo) => {
-    const apiUrl = getApiUrl();
-    const token = localStorage.getItem('token');
-    const url = `${apiUrl}/v1/${pkg.namespace}/${pkg.name}/${pkg.version}/${pkg.variant}/blob`;
-    const res = await fetch(url, {
-      headers: { Authorization: `Bearer ${token}` },
+  const filtered = useMemo(() => {
+    const term = searchTerm.toLowerCase();
+    return packages.filter((pkg) => {
+      const matchesText = !term
+        || pkg.name.toLowerCase().includes(term)
+        || pkg.namespace.toLowerCase().includes(term);
+      const resolved = inferType(pkg.type, pkg.namespace);
+      const matchesType = !typeFilter
+        || resolved === typeFilter;
+      return matchesText && matchesType;
     });
-    if (!res.ok) return;
-    const blob = await res.blob();
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `${pkg.name}-${pkg.version}.bin`;
-    a.click();
-    URL.revokeObjectURL(a.href);
-  };
-
-  const handleDetails = async (pkg: PackageInfo) => {
-    setDetail(pkg);
-    const apiUrl = getApiUrl();
-    const token = localStorage.getItem('token');
-    const res = await fetch(
-      `${apiUrl}/v1/${pkg.namespace}/${pkg.name}/versions`,
-      { headers: { Authorization: `Bearer ${token}` } },
-    );
-    if (res.ok) {
-      const data = (await res.json()) as { versions?: PackageVersion[] };
-      setVersions(data.versions ?? []);
-    }
-  };
-
-  const filtered = packages.filter((pkg) =>
-    pkg.name.toLowerCase().includes(searchTerm.toLowerCase())
-    || pkg.namespace.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  }, [packages, searchTerm, typeFilter]);
 
   return {
-    searchTerm, loading, error, detail, versions, filtered,
-    setSearchTerm, clearDetail: () => setDetail(null),
-    handleDownload, handleDetails,
+    searchTerm, typeFilter, loading, offline,
+    all: packages, filtered, selected,
+    setSearchTerm, setTypeFilter, setSelected, actions,
   };
 }

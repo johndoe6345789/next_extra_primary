@@ -59,6 +59,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
     <Grid
       container
       spacing={3}
+      id="feature-grid"
       data-testid={testId}
       role="list"
       aria-label="Application features"

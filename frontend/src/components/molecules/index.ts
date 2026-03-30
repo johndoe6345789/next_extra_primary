@@ -26,3 +26,23 @@ export type { PointsDisplayProps } from './PointsDisplay';
 
 export { SearchBar } from './SearchBar';
 export type { SearchBarProps } from './SearchBar';
+
+export { HeroCta } from './HeroCta';
+export type { HeroCtaProps } from './HeroCta';
+
+export { SkipLink } from './SkipLink';
+export type { SkipLinkProps } from './SkipLink';
+
+export { NavbarLogo } from './NavbarLogo';
+export type { NavbarLogoProps } from './NavbarLogo';
+
+export { DesktopActions } from './DesktopActions';
+export type { DesktopActionsProps } from './DesktopActions';
+
+export { DrawerHeader } from './DrawerHeader';
+export type { DrawerHeaderProps } from './DrawerHeader';
+
+export { DrawerNavItem } from './DrawerNavItem';
+export type { DrawerNavItemProps } from './DrawerNavItem';
+
+export { DrawerFooter } from './DrawerFooter';

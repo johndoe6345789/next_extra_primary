@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Alert from '@mui/material/Alert';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -26,7 +27,9 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
   testId = 'register-form',
 }) => {
   const t = useTranslations('auth');
-  const { f, set, isLoading, errors, submit } = useRegisterForm();
+  const {
+    f, set, isLoading, errors, apiError, submit,
+  } = useRegisterForm();
 
   return (
     <Card data-testid={testId} sx={{ maxWidth: 420, mx: 'auto', mt: 4 }}>
@@ -45,6 +48,11 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
             gap: 2,
           }}
         >
+          {apiError && (
+            <Alert severity="error" data-testid="register-error">
+              {apiError}
+            </Alert>
+          )}
           <RegisterFormFields f={f} set={set} errors={errors} />
           <Button
             type="submit"

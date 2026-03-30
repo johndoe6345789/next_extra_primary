@@ -1,8 +1,12 @@
+import { getDisplayApiUrl } from '../utils/api';
+
 /**
  * Getting Started documentation section.
  * @returns The getting started docs JSX.
  */
 export default function DocsGettingStarted() {
+  const api = getDisplayApiUrl();
+
   return (
     <>
       <h2 id="getting-started">Getting Started</h2>
@@ -22,7 +26,7 @@ cd tools/packagerepo
 docker compose up -d
 
 # Frontend:  http://localhost:3000
-# Backend:   http://localhost:5050
+# Backend:   ${api}
 # Endpoints: /health, /v1/*, /admin/*`}</code></pre>
 
       <h3>Manager Commands</h3>

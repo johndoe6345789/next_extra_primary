@@ -6,13 +6,13 @@ import MenuItem from '@mui/material/MenuItem';
 import type { SelectChangeEvent } from '@mui/material';
 import { useLocale } from '@/hooks';
 
-/** Display labels for supported locales. */
+/** Short labels for supported locales. */
 const LOCALE_LABELS: Record<string, string> = {
-  en: 'English',
-  es: 'Espanol',
-  fr: 'Francais',
-  de: 'Deutsch',
-  ja: 'Japanese',
+  en: 'EN',
+  es: 'ES',
+  fr: 'FR',
+  de: 'DE',
+  ja: 'JA',
 };
 
 /**
@@ -51,7 +51,7 @@ export const LocaleSwitcher: React.FC<LocaleSwitcherProps> = ({
       size="small"
       aria-label="Select language"
       data-testid={testId}
-      sx={{ minWidth: 120 }}
+      sx={{ minWidth: 64 }}
     >
       {locales.map((loc) => (
         <MenuItem key={loc} value={loc} data-testid={`${testId}-${loc}`}>

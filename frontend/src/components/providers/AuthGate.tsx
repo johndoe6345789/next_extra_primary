@@ -3,6 +3,9 @@
 import { type ReactElement, ReactNode, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography';
 import type { RootState } from '@/store/store';
 
 /** Routes accessible without authentication. */
@@ -22,25 +25,28 @@ interface AuthGateProps {
 
 /**
  * Guards routes behind authentication.
- *
- * Checks Redux auth state on every pathname change.
- * If the user is unauthenticated and the current
- * route is not public, redirects to `/login`.
+ * Shows a loading spinner while redirecting
+ * unauthenticated users to `/login`.
  *
  * @param props - Component props.
- * @returns Children or nothing during redirect.
+ * @returns Children, loading, or redirect.
  */
-export function AuthGate({ children }: AuthGateProps): ReactElement | null {
+export function AuthGate(
+  { children }: AuthGateProps,
+): ReactElement | null {
   const pathname = usePathname();
   const router = useRouter();
   const isAuthenticated = useSelector(
-    (state: RootState) => state.auth?.isAuthenticated,
+    (s: RootState) => s.auth?.isAuthenticated,
   );
 
-  /** Strip locale prefix for route matching. */
-  const stripped = pathname.replace(/^\/[a-z]{2}(?:-[A-Z]{2})?/, '') || '/';
-
-  const isPublic = PUBLIC_ROUTES.some((route) => stripped === route);
+  const stripped =
+    pathname.replace(
+      /^\/[a-z]{2}(?:-[A-Z]{2})?(?=\/|$)/, '',
+    ) || '/';
+  const isPublic = PUBLIC_ROUTES.some(
+    (r) => stripped === r,
+  );
 
   useEffect(() => {
     if (!isAuthenticated && !isPublic) {
@@ -49,7 +55,24 @@ export function AuthGate({ children }: AuthGateProps): ReactElement | null {
   }, [isAuthenticated, isPublic, router]);
 
   if (!isAuthenticated && !isPublic) {
-    return null;
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '60vh',
+          gap: 2,
+        }}
+        data-testid="auth-gate-loading"
+      >
+        <CircularProgress />
+        <Typography color="text.secondary">
+          Redirecting to login...
+        </Typography>
+      </Box>
+    );
   }
 
   return <>{children}</>;

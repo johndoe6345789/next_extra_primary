@@ -4,15 +4,12 @@ import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import MuiLink from '@mui/material/Link';
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/hooks';
-import { SearchBar } from '../molecules/SearchBar';
+import { SkipLink } from '../molecules/SkipLink';
+import { NavbarLogo } from '../molecules/NavbarLogo';
+import { DesktopActions } from '../molecules/DesktopActions';
 import { NotificationBell } from '../molecules/NotificationBell';
-import { ThemeToggle } from '../molecules/ThemeToggle';
-import { LocaleSwitcher } from '../molecules/LocaleSwitcher';
 import { AvatarMenu } from './AvatarMenu';
 import { MobileDrawer } from './MobileDrawer';
 import { NavLinks } from './NavLinks';
@@ -25,8 +22,8 @@ export interface NavbarProps {
 }
 
 /**
- * App bar with logo, links, search, theme,
- * locale, notifications, avatar. Skip-to-content.
+ * Responsive app bar. Desktop: all controls visible.
+ * Mobile: burger menu + bell + avatar only.
  *
  * @param props - Component props.
  */
@@ -46,38 +43,29 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
   return (
     <>
-      <a
-        href="#main-content"
-        className="sr-only"
-        data-testid="skip-to-content"
-        tabIndex={0}
-      >
-        {tA11y('skipToContent')}
-      </a>
+      <SkipLink label={tA11y('skipToContent')} />
       <AppBar
         position="sticky"
+        elevation={2}
         role="navigation"
         aria-label="Main navigation"
         data-testid={testId}
       >
         <Toolbar sx={{ gap: 1 }}>
           <MobileDrawer links={LINKS} />
-          <MuiLink
-            component={Link}
-            href="/"
-            underline="none"
-            color="inherit"
-            data-testid="navbar-logo"
-          >
-            <Typography variant="h6">{tCommon('appName')}</Typography>
-          </MuiLink>
+          <NavbarLogo label={tCommon('appName')} />
           <NavLinks links={LINKS} />
           <Box sx={{ flexGrow: 1 }} />
-          <SearchBar onSearch={onSearch ?? (() => {})} />
-          <NotificationBell onClick={onNotificationClick} />
-          <ThemeToggle />
-          <LocaleSwitcher />
-          <AvatarMenu user={user} onLogout={logout} />
+          <DesktopActions
+            onSearch={onSearch ?? (() => {})}
+          />
+          <NotificationBell
+            onClick={onNotificationClick}
+          />
+          <AvatarMenu
+            user={user}
+            onLogout={logout}
+          />
         </Toolbar>
       </AppBar>
     </>

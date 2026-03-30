@@ -86,6 +86,9 @@ void ArtifactCtrl::fetch(const HttpRequestPtr& req,
         return;
     }
 
+    PgArtifactStore::incrementDownloads(
+        Globals::repoType, ns, name, version, variant);
+
     auto r = HttpResponse::newHttpResponse();
     r->setContentTypeCode(CT_APPLICATION_OCTET_STREAM);
     r->setBody(std::move(data));

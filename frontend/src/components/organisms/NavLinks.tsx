@@ -37,7 +37,7 @@ export interface NavLinksProps {
 export const NavLinks: React.FC<NavLinksProps> = ({ links }) => (
   <Box
     sx={{
-      display: { xs: 'none', sm: 'flex' },
+      display: { xs: 'none', md: 'flex' },
       gap: 2,
       ml: 2,
     }}
