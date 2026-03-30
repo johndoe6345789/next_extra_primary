@@ -1,10 +1,9 @@
 # Nextra (Next.js + C++ Extra)
 
-[![CI](https://github.com/<OWNER>/<REPO>/actions/workflows/ci.yml/badge.svg)](https://github.com/<OWNER>/<REPO>/actions/workflows/ci.yml)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![C++20](https://img.shields.io/badge/C%2B%2B-20-00599C?logo=cplusplus)](https://isocpp.org/)
-[![Drogon](https://img.shields.io/badge/Drogon-1.9-blue)](https://github.com/drogonframework/drogon)
+[![Drogon](https://img.shields.io/badge/Drogon-1.9.8-blue)](https://github.com/drogonframework/drogon)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql)](https://www.postgresql.org/)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker)](https://docs.docker.com/compose/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -96,6 +95,12 @@ For development with hot reload and volume mounts:
 docker compose -f docker-compose.dev.yml up --build
 ```
 
+For offline / air-gapped environments with preloaded packages:
+
+```bash
+docker compose -f docker-compose.offline.yml up --build
+```
+
 ---
 
 ## Manual Setup
@@ -105,7 +110,7 @@ docker compose -f docker-compose.dev.yml up --build
 ```bash
 cd backend
 
-# Install dependencies via Conan 2
+# Install dependencies via Conan 2 (uses conanfile.py)
 conan install . --build=missing --output-folder=build
 
 # Configure and build
@@ -172,18 +177,20 @@ nextra/
 ├── plan.md                     # Implementation plan
 ├── docker-compose.yml          # Production compose
 ├── docker-compose.dev.yml      # Development compose
+├── docker-compose.offline.yml  # Offline / air-gapped compose
 ├── .clang-format               # C++ formatting rules
 ├── .clang-tidy                 # C++ linting rules
 ├── backend/
 │   ├── CMakeLists.txt
 │   ├── Dockerfile
 │   ├── captain-definition      # CapRover deploy config
-│   ├── conanfile.txt           # C++ dependencies (Conan 2)
+│   ├── conanfile.py            # C++ dependencies (Conan 2)
 │   ├── config/                 # Drogon server configuration
 │   ├── migrations/             # SQL migration files
 │   ├── seed/                   # JSON seed data
 │   ├── src/
 │   │   ├── main.cpp            # CLI entry point (CLI11)
+│   │   ├── commands/           # CLI subcommand handlers
 │   │   ├── controllers/        # HTTP route handlers
 │   │   ├── filters/            # Auth, CORS, rate-limit
 │   │   ├── models/             # Drogon ORM models
@@ -209,9 +216,14 @@ nextra/
 │   │   ├── types/              # TypeScript type definitions
 │   │   └── seed/               # Mock data for development
 │   └── public/                 # Static assets
+├── docker/
+│   ├── backend-deps.Dockerfile # Pre-baked backend deps
+│   └── frontend-deps.Dockerfile# Pre-baked frontend deps
 ├── tools/
 │   ├── cmake-gen/              # CMakeLists.txt generator
-│   └── manager/                # Dev workflow CLI tool
+│   ├── manager/                # Dev workflow CLI tool
+│   ├── packagerepo/            # Package repository manager
+│   └── s3server/               # S3-compatible object store
 └── docs/
     ├── api.md                  # Full API reference
     ├── deployment.md           # CapRover deployment guide
