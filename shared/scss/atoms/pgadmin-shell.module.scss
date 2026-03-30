@@ -1,0 +1,27 @@
+/**
+ * PgAdmin Shell Layout - M3 app shell + content.
+ * Sidebar styles: ./pgadmin-sidebar.module.scss
+ */
+
+.appShell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+  padding: 24px 32px;
+  overflow-y: auto;
+  background: var(--mat-sys-surface);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  border-radius:
+    var(--mat-sys-corner-medium);
+}
+
+.dataTable {
+  min-width: 600px;
+}

@@ -1,0 +1,53 @@
+/**
+ * PgAdmin Form Rows - query builder row layouts.
+ */
+
+.col-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+
+  input[type="text"] {
+    flex: 1;
+    min-width: 100px;
+  }
+
+  select {
+    min-width: 100px;
+  }
+
+  label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+    font: var(--mat-sys-body-small-font);
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  input[type="checkbox"] {
+    width: auto;
+    padding: 0;
+  }
+}
+
+.where-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+
+  select,
+  input {
+    flex: 1;
+    min-width: 80px;
+  }
+
+  button {
+    padding: 6px 12px;
+    flex-shrink: 0;
+  }
+}

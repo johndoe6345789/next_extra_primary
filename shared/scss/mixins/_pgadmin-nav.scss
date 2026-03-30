@@ -1,0 +1,39 @@
+/**
+ * PgAdmin Nav Mixins - shared sidebar + nav item bases.
+ */
+
+@mixin sidebarBase {
+  background:
+    var(--mat-sys-surface-container);
+  border-right:
+    1px solid var(--mat-sys-outline-variant);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition:
+    width 200ms
+    var(--mat-sys-motion-easing-standard);
+}
+
+@mixin navItemBase {
+  width: 100%;
+  text-align: left;
+  padding: 10px 16px;
+  background: transparent;
+  color: var(--mat-sys-on-surface-variant);
+  border-radius: var(--mat-sys-corner-full);
+  font: var(--mat-sys-label-large-font);
+  transition:
+    background 150ms ease,
+    color 150ms ease;
+
+  &:hover {
+    background: color-mix(
+      in srgb,
+      var(--mat-sys-on-surface) 8%,
+      transparent
+    );
+    color: var(--mat-sys-on-surface);
+    box-shadow: none;
+  }
+}
