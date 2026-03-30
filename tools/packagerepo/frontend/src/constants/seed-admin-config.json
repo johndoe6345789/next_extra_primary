@@ -59,7 +59,7 @@
     { "id": "helm", "label": "helm", "desc": "Kubernetes Helm charts", "color": "#0F1689",
       "install": "```\nmanager repo pull {ns}/{name}@{version}\n# planned: helm install {name} nextra/{name} --version {version}\n```" },
     { "id": "oci", "label": "oci", "desc": "OCI container images", "color": "#2496ED",
-      "install": "```\nmanager repo pull {ns}/{name}@{version}\n# planned: docker pull localhost:5050/{ns}/{name}:{version}\n```" },
+      "install": "```\nmanager repo pull {ns}/{name}@{version}\n# planned: docker pull {host}/{ns}/{name}:{version}\n```" },
     { "id": "rubygems", "label": "rubygems", "desc": "Ruby gems", "color": "#CC342D",
       "install": "```\nmanager repo pull {ns}/{name}@{version}\n# planned: gem install {name} -v {version}\n```" },
     { "id": "composer", "label": "composer", "desc": "PHP Composer packages", "color": "#885630",

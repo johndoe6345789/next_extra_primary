@@ -32,3 +32,18 @@ export function getApiUrl(): string {
 
   return DEFAULT_LOCAL_URL;
 }
+
+/**
+ * Get the full display URL for documentation examples.
+ *
+ * Unlike {@link getApiUrl}, this always returns a
+ * user-visible URL suitable for curl examples and docs.
+ * Respects NEXT_PUBLIC_API_URL when set.
+ *
+ * @returns The full backend URL for display purposes
+ */
+export function getDisplayApiUrl(): string {
+  return (
+    process.env.NEXT_PUBLIC_API_URL ?? DEFAULT_LOCAL_URL
+  );
+}

@@ -5,6 +5,7 @@ import pkgTypes from '../constants/package-types.json';
 import { inferType } from '../utils/inferType';
 import { expandInstall } from '../utils/expandInstall';
 import { formatBytes } from '../utils/formatBytes';
+import { getDisplayApiUrl } from '../utils/api';
 import styles from './PackageDetail.module.scss';
 
 /** Props for PackageDetail. */
@@ -34,6 +35,9 @@ export default function PackageDetail({
     ? expandInstall(ti.install, {
       ns: pkg.namespace, name: pkg.name,
       version: pkg.version, variant: pkg.variant,
+      host: getDisplayApiUrl(),
+      hostBare: getDisplayApiUrl()
+        .replace(/^https?:\/\//, ''),
     }) : `manager repo pull ${pkg.namespace}/${pkg.name}@${pkg.version}`;
 
   return (
