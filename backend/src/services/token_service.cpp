@@ -31,8 +31,9 @@ void TokenService::logoutUser(
     )";
 
     *dbClient << sql << jti >>
-        [onSuccess](const Result&) {
-            spdlog::info("Token blocked: (jti)");
+        [onSuccess, jti](const Result&) {
+            spdlog::info("Token blocked: {}...",
+                         jti.substr(0, 8));
             onSuccess(json::object());
         } >>
         [onError](const DrogonDbException& e) {

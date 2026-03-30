@@ -20,7 +20,7 @@ using namespace drogon::orm;
 
 void PasswordResetRequest::execute(
     const std::string& email,
-    Callback onSuccess, ErrCallback /*onError*/)
+    Callback onSuccess, ErrCallback onError)
 {
     auto resetToken = generateRandomToken();
     auto dbClient = authDb();
@@ -47,14 +47,12 @@ void PasswordResetRequest::execute(
                   "If the email exists, a reset "
                   "link has been sent"}});
         } >>
-        [onSuccess](const DrogonDbException& e) {
+        [onError](const DrogonDbException& e) {
             spdlog::error(
                 "requestPasswordReset DB error: {}",
                 e.base().what());
-            onSuccess(
-                {{"message",
-                  "If the email exists, a reset "
-                  "link has been sent"}});
+            onError(k500InternalServerError,
+                    "Internal server error");
         };
 }
 

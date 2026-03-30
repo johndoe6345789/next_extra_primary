@@ -9,6 +9,7 @@
 #include <fmt/format.h>
 
 #include <algorithm>
+#include <cctype>
 #include <random>
 #include <regex>
 #include <string>

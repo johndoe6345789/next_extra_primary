@@ -45,8 +45,12 @@ struct SmtpConfig
 
         SmtpConfig cfg;
         cfg.host = env("SMTP_HOST", "localhost");
-        cfg.port = static_cast<std::uint16_t>(
-            std::stoi(env("SMTP_PORT", "587")));
+        try {
+            cfg.port = static_cast<std::uint16_t>(
+                std::stoi(env("SMTP_PORT", "587")));
+        } catch (const std::exception&) {
+            cfg.port = 587;
+        }
         cfg.user = env("SMTP_USER", "");
         cfg.pass = env("SMTP_PASS", "");
         cfg.from = env("SMTP_FROM", "noreply@nextra.app");

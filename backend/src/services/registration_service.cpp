@@ -1,14 +1,10 @@
-/**
- * @file registration_service.cpp
- * @brief New-user registration.
- */
+/** @file registration_service.cpp */
 #include "services/registration_service.h"
 #include "services/auth_helpers.h"
 #include "utils/PasswordHash.h"
 #include <drogon/drogon.h>
 #include <drogon/orm/DbClient.h>
 #include <spdlog/spdlog.h>
-#include <string>
 
 namespace services
 {
@@ -55,11 +51,15 @@ void RegistrationService::registerUser(
     )";
     *dbClient << sql << email << username << hashed
               << display << token >>
-        [onSuccess, username, email](
+        [onSuccess, onError, username, email](
             const Result& result) {
             if (result.empty()) {
-                onSuccess({{"error",
-                            "Insert returned no rows"}});
+                spdlog::error(
+                    "registerUser: INSERT returned"
+                    " no rows for {} ({})",
+                    username, email);
+                onError(k500InternalServerError,
+                        "Internal server error");
                 return;
             }
             const auto& r = result[0];

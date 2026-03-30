@@ -6,7 +6,6 @@
 #include "AuthTokenController.h"
 #include "../services/AuthService.h"
 #include "../utils/JsonResponse.h"
-#include "../utils/JwtUtil.h"
 
 #include <nlohmann/json.hpp>
 #include <string>
@@ -50,28 +49,37 @@ void AuthTokenController::refresh(
         req->bodyData(),
         req->bodyData() + req->bodyLength(),
         nullptr, false);
-    if (body.is_discarded() ||
-        !body.contains("refresh_token")) {
-        cb(::utils::jsonError(drogon::k400BadRequest,
-                              "refresh_token required"));
+    if (body.is_discarded()) {
+        cb(::utils::jsonError(
+            drogon::k400BadRequest,
+            "refresh_token required"));
         return;
     }
 
-    try {
-        auto claims = ::utils::verifyToken(
-            body["refresh_token"].get<std::string>());
-        if (!claims.isRefresh) {
-            cb(::utils::jsonError(drogon::k401Unauthorized,
-                                  "Not a refresh token"));
-            return;
-        }
-        auto access = ::utils::generateAccessToken(
-            claims.userId, claims.role);
-        cb(::utils::jsonOk({{"access_token", access}}));
-    } catch (const std::exception& ex) {
-        cb(::utils::jsonError(drogon::k401Unauthorized,
-                              ex.what()));
+    std::string rt;
+    if (body.contains("refreshToken")) {
+        rt = body["refreshToken"].get<std::string>();
+    } else if (body.contains("refresh_token")) {
+        rt = body["refresh_token"]
+                 .get<std::string>();
     }
+    if (rt.empty()) {
+        cb(::utils::jsonError(
+            drogon::k400BadRequest,
+            "refresh_token required"));
+        return;
+    }
+
+    services::AuthService auth;
+    auth.refreshAccessToken(
+        rt,
+        [cb](const services::json& res) {
+            cb(::utils::jsonOk(res));
+        },
+        [cb](drogon::HttpStatusCode c,
+             const std::string& m) {
+            cb(::utils::jsonError(c, m));
+        });
 }
 
 // ----------------------------------------------------------
