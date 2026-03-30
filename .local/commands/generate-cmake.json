@@ -8,13 +8,13 @@
     },
     {
       "type": "check",
-      "command": "test -d tools/cmake-gen/templates",
-      "error": "Templates directory not found: tools/cmake-gen/templates"
+      "command": "test -d tools/manager/templates",
+      "error": "Templates directory not found: tools/manager/templates"
     },
     {
       "type": "template",
-      "input": "tools/cmake-gen/project.json",
-      "templates": "tools/cmake-gen/templates",
+      "input": "tools/manager/project.json",
+      "templates": "tools/manager/templates",
       "output": "."
     },
     {

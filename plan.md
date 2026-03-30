@@ -37,23 +37,11 @@ Combined Node.js + C++ ignores (node_modules, .next, build/,
 
 All project automation is C++ with CLI11. No Python, no bash.
 
-#### A) CMakeLists.txt Generator (`tools/cmake-gen/`)
-Reads `project.json` manifest, uses **inja** (C++ Jinja2) to
-render `CMakeLists.txt`. Uses `std::filesystem::recursive_
-directory_iterator` to glob source files at generation time
-and embed them explicitly (no CMake GLOB_RECURSE).
-
-**Files:**
-- `tools/cmake-gen/main.cpp` -- CLI entry (CLI11)
-- `tools/cmake-gen/project.json` -- project manifest
-- `tools/cmake-gen/templates/root.cmake.j2` -- root template
-- `tools/cmake-gen/templates/lib.cmake.j2` -- library template
-- `tools/cmake-gen/conanfile.txt` -- Conan 2 deps for tool
-- `tools/cmake-gen/CMakeLists.txt` -- builds the generator
-
-#### B) Project Manager (`tools/manager/`)
+#### A) Project Manager (`tools/manager/`)
 A C++ CLI tool (CLI11) that wraps Docker, Conan, CMake, and
 test commands. Single entry point for all dev/build/deploy ops.
+Includes embedded cmake-gen (inja templates + source discovery)
+for generating CMakeLists.txt from `project.json` manifest.
 
 **Commands:**
 ```
