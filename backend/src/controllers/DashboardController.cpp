@@ -25,7 +25,7 @@ void DashboardController::stats(
     auto userId = req->attributes()->get<
         std::string>("user_id");
 
-    auto sql = R"(
+    std::string sql = R"(
         SELECT
             u.total_points,
             u.current_level,

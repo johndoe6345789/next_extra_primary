@@ -34,11 +34,11 @@
     {
       "name": "default",
       "rdbms": "postgresql",
-      "host": "${DB_HOST}",
-      "port": "${DB_PORT}",
-      "dbname": "${DB_NAME}",
-      "user": "${DB_USER}",
-      "passwd": "${DB_PASSWORD}",
+      "host": "db",
+      "port": 5432,
+      "dbname": "nextra_db",
+      "user": "nextra",
+      "passwd": "nextra_dev",
       "is_fast": false,
       "connection_number": 16,
       "timeout": 30,
@@ -47,30 +47,30 @@
   ],
   "custom_config": {
     "jwt": {
-      "secret": "${JWT_SECRET}",
+      "secret": "change-me-in-production",
       "issuer": "nextra-api",
       "access_token_ttl_seconds": 900,
       "refresh_token_ttl_seconds": 604800
     },
     "smtp": {
-      "host": "${SMTP_HOST}",
-      "port": "${SMTP_PORT}",
-      "user": "${SMTP_USER}",
-      "password": "${SMTP_PASSWORD}",
-      "from_address": "${SMTP_FROM_ADDRESS}",
+      "host": "mailserver",
+      "port": 587,
+      "user": "noreply@nextra.local",
+      "password": "nextra_dev",
+      "from_address": "noreply@nextra.local",
       "from_name": "Nextra",
       "use_tls": true
     },
     "ai": {
-      "openai_api_key": "${OPENAI_API_KEY}",
+      "openai_api_key": "",
       "openai_model": "gpt-4o",
-      "anthropic_api_key": "${ANTHROPIC_API_KEY}",
+      "anthropic_api_key": "",
       "anthropic_model": "claude-sonnet-4-20250514",
       "max_tokens_per_request": 4096
     },
     "cors": {
       "allowed_origins": [
-        "${CORS_ORIGIN}"
+        "http://localhost:3000"
       ],
       "allowed_methods": "GET,POST,PUT,PATCH,DELETE,OPTIONS",
       "allowed_headers": "Content-Type,Authorization",

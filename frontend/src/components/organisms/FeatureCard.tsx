@@ -31,7 +31,7 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
     sx={{ height: '100%' }}
   >
     <CardActionArea
-      href={href}
+      {...(href ? { component: 'a', href } : {})}
       sx={{ height: '100%' }}
     >
       <CardContent sx={{ textAlign: 'center' }}>

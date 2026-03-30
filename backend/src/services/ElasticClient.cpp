@@ -49,7 +49,8 @@ void ElasticClient::indexDoc(
                 onErr(502, "ES connection failed");
                 return;
             }
-            auto code = resp->getStatusCode();
+            auto code =
+                static_cast<int>(resp->getStatusCode());
             if (code >= 200 && code < 300) {
                 onOk(json::parse(resp->getBody(),
                                  nullptr, false));
@@ -80,7 +81,8 @@ void ElasticClient::search(
                 onErr(502, "ES connection failed");
                 return;
             }
-            auto code = resp->getStatusCode();
+            auto code =
+                static_cast<int>(resp->getStatusCode());
             if (code >= 200 && code < 300) {
                 onOk(json::parse(resp->getBody(),
                                  nullptr, false));

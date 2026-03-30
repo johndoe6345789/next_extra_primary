@@ -12,6 +12,11 @@ class NextraBackend(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "CMakeDeps", "CMakeToolchain"
 
+    default_options = {
+        "drogon/*:with_postgres": True,
+        "drogon/*:with_postgres_batch": True,
+    }
+
     def requirements(self):
         """Declare runtime dependencies."""
         self.requires("drogon/1.9.8")

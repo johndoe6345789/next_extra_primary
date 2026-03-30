@@ -74,7 +74,8 @@ void ElasticClient::createIndex(
                 onErr(502, "ES connection failed");
                 return;
             }
-            auto code = resp->getStatusCode();
+            auto code =
+                static_cast<int>(resp->getStatusCode());
             if (code >= 200 && code < 300) {
                 spdlog::info("ES index created: {}", index);
                 onOk(json::parse(resp->getBody(),

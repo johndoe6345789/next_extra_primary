@@ -258,8 +258,8 @@ services:
   # ---- S3 server frontend ------------------------------------
   s3-frontend:
     build:
-      context: ./tools/s3server
-      dockerfile: frontend/Dockerfile
+      context: ./tools/s3server/frontend
+      dockerfile: Dockerfile
     profiles: ["tools"]
     ports:
       - "3001:3001"
