@@ -1,12 +1,9 @@
 'use client';
 
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import FolderIcon from '@mui/icons-material/Folder';
-import Stack from '@mui/material/Stack';
+import {
+  Card, CardContent, CardActions,
+  Typography, Button, Folder, Stack,
+} from '@metabuilder/m3';
 import type { Bucket } from '@/types';
 import labels from '@/constants/ui-labels.json';
 
@@ -36,7 +33,7 @@ export default function BucketCard({
       <CardContent>
         <Stack direction="row" spacing={1}
           alignItems="center">
-          <FolderIcon color="primary" />
+          <Folder color="primary" />
           <Typography variant="h6">
             {bucket.name}
           </Typography>
@@ -62,8 +59,11 @@ export default function BucketCard({
         <Button
           size="small"
           color="error"
-          onClick={() => onDelete(bucket.name)}
-          aria-label={`Delete ${bucket.name}`}
+          onClick={() =>
+            onDelete(bucket.name)}
+          aria-label={
+            `Delete ${bucket.name}`
+          }
         >
           {labels.buckets.delete}
         </Button>

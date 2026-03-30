@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Box from '@mui/material/Box';
+import Box from '@metabuilder/m3/Box';
 
 /** Props for the SkipLink component. */
 export interface SkipLinkProps {

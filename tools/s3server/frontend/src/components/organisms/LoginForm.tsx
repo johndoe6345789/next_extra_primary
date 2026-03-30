@@ -1,9 +1,8 @@
 'use client';
 
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
+import {
+  TextField, Button, Alert, Stack,
+} from '@metabuilder/m3';
 import { useLoginForm } from '@/hooks';
 import labels from '@/constants/ui-labels.json';
 

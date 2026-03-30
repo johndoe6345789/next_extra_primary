@@ -1,13 +1,9 @@
 'use client';
 
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-import IconButton from '@mui/material/IconButton';
-import Stack from '@mui/material/Stack';
-import DownloadIcon
-  from '@mui/icons-material/Download';
-import DeleteIcon
-  from '@mui/icons-material/Delete';
+import {
+  TableRow, TableCell, IconButton,
+  Stack, Download, Delete,
+} from '@metabuilder/m3';
 import { FileIcon, SizeLabel } from '../atoms';
 import type { S3Object } from '@/types';
 import labels from '@/constants/ui-labels.json';
@@ -50,22 +46,26 @@ export default function ObjectRow({
       <TableCell align="right">
         <IconButton
           size="small"
-          onClick={() => onDownload(object.key)}
+          onClick={() =>
+            onDownload(object.key)}
           aria-label={
-            `${labels.objects.download} ${object.key}`
+            `${labels.objects.download}`
+            + ` ${object.key}`
           }
         >
-          <DownloadIcon fontSize="small" />
+          <Download fontSize="small" />
         </IconButton>
         <IconButton
           size="small"
           color="error"
-          onClick={() => onDelete(object.key)}
+          onClick={() =>
+            onDelete(object.key)}
           aria-label={
-            `${labels.objects.delete} ${object.key}`
+            `${labels.objects.delete}`
+            + ` ${object.key}`
           }
         >
-          <DeleteIcon fontSize="small" />
+          <Delete fontSize="small" />
         </IconButton>
       </TableCell>
     </TableRow>

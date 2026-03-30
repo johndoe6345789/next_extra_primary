@@ -1,26 +1,22 @@
 'use client';
 
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import HomeIcon from '@mui/icons-material/Home';
-import EmailIcon from '@mui/icons-material/Email';
-import StorageIcon from '@mui/icons-material/Storage';
-import InventoryIcon from '@mui/icons-material/Inventory';
-import CloudQueueIcon from '@mui/icons-material/CloudQueue';
+import {
+  List, ListItemButton, ListItemIcon,
+  ListItemText, Typography, Box,
+  OpenInNew, Home, Email,
+  Storage, Archive, CloudQueue,
+} from '@metabuilder/m3';
 import siteLinks from '@/constants/site-links.json';
 
 /** @brief Icon name to component mapping. */
-const iconMap: Record<string, React.ReactElement> = {
-  Home: <HomeIcon />,
-  Email: <EmailIcon />,
-  Storage: <StorageIcon />,
-  Inventory: <InventoryIcon />,
-  CloudQueue: <CloudQueueIcon />,
+const iconMap: Record<
+  string, React.ReactElement
+> = {
+  Home: <Home />,
+  Email: <Email />,
+  Storage: <Storage />,
+  Inventory: <Archive />,
+  CloudQueue: <CloudQueue />,
 };
 
 /** @brief Site link entry shape. */
@@ -32,14 +28,17 @@ interface SiteLink {
 }
 
 /**
- * @brief External site links section in the drawer.
+ * @brief External site links in the drawer.
  */
 export default function DrawerSiteLinks() {
   return (
     <Box>
       <Typography
         variant="overline"
-        sx={{ px: 2, pt: 1.5, display: 'block' }}
+        style={{
+          padding: '12px 16px 0',
+          display: 'block',
+        }}
       >
         Sites
       </Typography>
@@ -49,18 +48,33 @@ export default function DrawerSiteLinks() {
             key={link.label}
             component="a"
             href={link.url}
-            target={link.current ? undefined : '_blank'}
-            rel={link.current ? undefined : 'noopener noreferrer'}
+            target={
+              link.current
+                ? undefined
+                : '_blank'
+            }
+            rel={
+              link.current
+                ? undefined
+                : 'noopener noreferrer'
+            }
             selected={link.current ?? false}
-            data-testid={`site-link-${link.icon}`}
+            data-testid={
+              `site-link-${link.icon}`
+            }
             aria-label={link.label}
           >
             <ListItemIcon>
-              {iconMap[link.icon] ?? <HomeIcon />}
+              {iconMap[link.icon] ?? <Home />}
             </ListItemIcon>
-            <ListItemText primary={link.label} />
+            <ListItemText
+              primary={link.label}
+            />
             {!link.current && (
-              <OpenInNewIcon fontSize="small" color="action" />
+              <OpenInNew
+                fontSize="small"
+                color="action"
+              />
             )}
           </ListItemButton>
         ))}

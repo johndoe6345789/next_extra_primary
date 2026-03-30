@@ -12,7 +12,7 @@ COPY translations/package.json ./translations/
 COPY workflow/package.json ./workflow/
 COPY hooks/package.json ./hooks/
 COPY components/package.json ./components/
-COPY components/fakemui/package.json ./components/fakemui/
+COPY components/m3/package.json ./components/m3/
 COPY config/package.json ./config/
 COPY scss/package.json ./scss/
 COPY storybook/package.json ./storybook/
@@ -46,7 +46,7 @@ FROM deps AS builder
 COPY . .
 
 # Ensure workspace-local bins are accessible (tsup may not be hoisted to root)
-RUN npm install --ignore-scripts -w components -w components/fakemui -w config \
+RUN npm install --ignore-scripts -w components -w components/m3 -w config \
     -w types -w interfaces -w translations 2>/dev/null || true
 
 # Build only core workspace libs needed by storybook components

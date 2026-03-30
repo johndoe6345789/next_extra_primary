@@ -1,15 +1,9 @@
 'use client';
 
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import StorageIcon
-  from '@mui/icons-material/Storage';
-import FolderIcon
-  from '@mui/icons-material/Folder';
-import CloudIcon
-  from '@mui/icons-material/Cloud';
+import {
+  Card, CardContent, Typography,
+  Grid, Storage, Folder, Cloud,
+} from '@metabuilder/m3';
 import { formatBytes } from '@/utils';
 import labels from '@/constants/ui-labels.json';
 
@@ -22,10 +16,7 @@ export interface DashboardStatsProps {
 
 /** @brief Single stat card. */
 function StatCard({
-  icon,
-  label,
-  value,
-  testId,
+  icon, label, value, testId,
 }: {
   icon: React.ReactNode;
   label: string;
@@ -34,9 +25,14 @@ function StatCard({
 }) {
   return (
     <Card data-testid={testId}>
-      <CardContent sx={{ textAlign: 'center' }}>
+      <CardContent
+        style={{ textAlign: 'center' }}
+      >
         {icon}
-        <Typography variant="h4" sx={{ my: 1 }}>
+        <Typography
+          variant="h4"
+          style={{ margin: '8px 0' }}
+        >
           {value}
         </Typography>
         <Typography color="text.secondary">
@@ -52,9 +48,7 @@ function StatCard({
  * @param props - DashboardStats properties.
  */
 export default function DashboardStats({
-  bucketCount,
-  objectCount,
-  totalSize,
+  bucketCount, objectCount, totalSize,
 }: DashboardStatsProps) {
   return (
     <Grid
@@ -65,9 +59,9 @@ export default function DashboardStats({
     >
       <Grid size={{ xs: 12, sm: 4 }}>
         <StatCard
-          icon={<FolderIcon
+          icon={<Folder
             color="primary"
-            sx={{ fontSize: 40 }} />}
+            style={{ fontSize: 40 }} />}
           label={labels.dashboard.buckets}
           value={String(bucketCount)}
           testId="stat-buckets"
@@ -75,9 +69,9 @@ export default function DashboardStats({
       </Grid>
       <Grid size={{ xs: 12, sm: 4 }}>
         <StatCard
-          icon={<StorageIcon
+          icon={<Storage
             color="secondary"
-            sx={{ fontSize: 40 }} />}
+            style={{ fontSize: 40 }} />}
           label={labels.dashboard.objects}
           value={String(objectCount)}
           testId="stat-objects"
@@ -85,9 +79,9 @@ export default function DashboardStats({
       </Grid>
       <Grid size={{ xs: 12, sm: 4 }}>
         <StatCard
-          icon={<CloudIcon
+          icon={<Cloud
             color="primary"
-            sx={{ fontSize: 40 }} />}
+            style={{ fontSize: 40 }} />}
           label={labels.dashboard.storage}
           value={formatBytes(totalSize)}
           testId="stat-storage"

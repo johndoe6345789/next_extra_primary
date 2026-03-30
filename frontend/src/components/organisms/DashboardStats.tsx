@@ -1,11 +1,11 @@
 'use client';
 
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardActionArea from '@mui/material/CardActionArea';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import Skeleton from '@mui/material/Skeleton';
+import Grid from '@metabuilder/m3/Grid';
+import Card from '@metabuilder/m3/Card';
+import CardActionArea from '@metabuilder/m3/CardActionArea';
+import CardContent from '@metabuilder/m3/CardContent';
+import Typography from '@metabuilder/m3/Typography';
+import Skeleton from '@metabuilder/m3/Skeleton';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { useDashboard } from '@/hooks';

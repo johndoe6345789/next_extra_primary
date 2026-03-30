@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import MuiChip from '@mui/material/Chip';
+import MuiChip from '@metabuilder/m3/Chip';
 
 /**
  * Props for the Chip component.

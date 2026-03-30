@@ -32,7 +32,12 @@ const config: StorybookConfig = {
       resolve: {
         alias: {
           '@': path.resolve(__dirname, '../src'),
-          '@packages': path.resolve(__dirname, '../../packages'),
+          '@packages': path.resolve(
+            __dirname, '../../packages'
+          ),
+          '@metabuilder/m3': path.resolve(
+            __dirname, '../../components/m3'
+          ),
         },
       },
     })

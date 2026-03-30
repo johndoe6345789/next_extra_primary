@@ -1,7 +1,8 @@
 'use client';
 
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import {
+  Grid, Typography,
+} from '@metabuilder/m3';
 import type { Bucket } from '@/types';
 import BucketCard from './BucketCard';
 import labels from '@/constants/ui-labels.json';

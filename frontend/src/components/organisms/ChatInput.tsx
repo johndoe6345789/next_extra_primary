@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import Box from '@mui/material/Box';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import ToggleButton from '@mui/material/ToggleButton';
+import Box from '@metabuilder/m3/Box';
+import ToggleButtonGroup from '@metabuilder/m3/ToggleButtonGroup';
+import ToggleButton from '@metabuilder/m3/ToggleButton';
 import { useTranslations } from 'next-intl';
 import { TextField, Button } from '../atoms';
 import { ChatProvider } from '@/types/chat';

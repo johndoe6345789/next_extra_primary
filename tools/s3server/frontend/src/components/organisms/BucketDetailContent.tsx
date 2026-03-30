@@ -2,14 +2,11 @@
 
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import MuiLink from '@mui/material/Link';
-import CircularProgress
-  from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
-import Alert from '@mui/material/Alert';
+import {
+  Container, Typography, Breadcrumbs,
+  Link as M3Link, CircularProgress,
+  Box, Alert,
+} from '@metabuilder/m3';
 import Link from 'next/link';
 import AppNavbar from './AppNavbar';
 import ObjectTable from './ObjectTable';
@@ -36,30 +33,41 @@ export default function BucketDetailContent() {
       <AppNavbar />
       <Container
         maxWidth="lg"
-        sx={{ py: { xs: 2, sm: 4 }, px: { xs: 1, sm: 3 } }}
+        style={{ padding: '16px 12px' }}
       >
-        <Breadcrumbs sx={{ mb: 2 }}>
-          <MuiLink
+        <Breadcrumbs
+          style={{ marginBottom: 16 }}
+        >
+          <M3Link
             component={Link}
             href={routes.buckets}
             underline="hover"
           >
             {labels.buckets.title}
-          </MuiLink>
+          </M3Link>
           <Typography color="text.primary">
             {bucket}
           </Typography>
         </Breadcrumbs>
-        <Typography variant="h5" sx={{ mb: 3 }}>
+        <Typography
+          variant="h5"
+          style={{ marginBottom: 24 }}
+        >
           {bucket}
         </Typography>
         {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
+          <Alert
+            severity="error"
+            style={{ marginBottom: 16 }}
+          >
             {error}
           </Alert>
         )}
         {isLoading ? (
-          <Box sx={{ textAlign: 'center', py: 6 }}>
+          <Box style={{
+            textAlign: 'center',
+            padding: '48px 0',
+          }}>
             <CircularProgress />
           </Box>
         ) : (

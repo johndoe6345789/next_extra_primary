@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { toast } from 'sonner'
+import { toast } from '@metabuilder/components/m3'
 import copy from '@/data/favicon-designer.json'
 import { useKV } from '@/hooks/use-kv'
 import { DEFAULT_DESIGN, PRESET_SIZES } from './_types/favicon/constants'

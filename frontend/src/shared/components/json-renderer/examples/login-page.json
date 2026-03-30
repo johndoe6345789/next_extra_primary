@@ -1,0 +1,105 @@
+{
+  "layout": "auth",
+  "hooks": [
+    { "name": "useLoginForm" }
+  ],
+  "tree": [
+    {
+      "component": "Box",
+      "props": {
+        "component": "main",
+        "role": "main",
+        "aria-label": "Login",
+        "sx": {
+          "display": "flex",
+          "alignItems": "center",
+          "justifyContent": "center",
+          "minHeight": "100vh",
+          "px": 2
+        }
+      },
+      "children": [
+        {
+          "component": "Card",
+          "props": {
+            "sx": {
+              "maxWidth": 400,
+              "width": "100%",
+              "p": 3
+            }
+          },
+          "children": [
+            {
+              "component": "Typography",
+              "props": {
+                "variant": "h4",
+                "component": "h1",
+                "gutterBottom": true
+              },
+              "children": "Sign In"
+            },
+            {
+              "component": "Alert",
+              "props": { "severity": "error" },
+              "conditional": "useLoginForm.apiError",
+              "hook": {
+                "name": "useLoginForm",
+                "bind": {
+                  "children": "apiError"
+                }
+              }
+            },
+            {
+              "component": "TextField",
+              "props": {
+                "label": "Email",
+                "type": "email",
+                "fullWidth": true,
+                "sx": { "mb": 2 },
+                "aria-label": "Email address"
+              },
+              "hook": {
+                "name": "useLoginForm",
+                "bind": {
+                  "value": "email"
+                }
+              }
+            },
+            {
+              "component": "TextField",
+              "props": {
+                "label": "Password",
+                "type": "password",
+                "fullWidth": true,
+                "sx": { "mb": 2 },
+                "aria-label": "Password"
+              },
+              "hook": {
+                "name": "useLoginForm",
+                "bind": {
+                  "value": "pw"
+                }
+              }
+            },
+            {
+              "component": "Button",
+              "props": {
+                "variant": "contained",
+                "fullWidth": true,
+                "type": "submit",
+                "aria-label": "Sign in"
+              },
+              "hook": {
+                "name": "useLoginForm",
+                "bind": {
+                  "disabled": "isLoading"
+                }
+              },
+              "children": "Sign In"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

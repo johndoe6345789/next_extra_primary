@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
-import Box from '@mui/material/Box';
+import { Box } from '@metabuilder/m3';
 import { LoginForm } from '@/components/organisms/LoginForm';
 
 /** Skip static prerendering for this page. */

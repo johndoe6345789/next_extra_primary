@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import Box from '@metabuilder/m3/Box';
+import Typography from '@metabuilder/m3/Typography';
 import { ThemeToggle } from './ThemeToggle';
 import { LocaleSwitcher } from './LocaleSwitcher';
 

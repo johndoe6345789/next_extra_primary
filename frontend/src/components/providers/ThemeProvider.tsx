@@ -1,9 +1,8 @@
 'use client';
 
 import { type ReactElement, ReactNode } from 'react';
-import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import { theme } from '@/theme/theme';
+import { CssBaseline } from '@metabuilder/m3';
+import '@metabuilder/scss';
 
 /** Props for the application theme provider. */
 interface ThemeProviderProps {
@@ -12,19 +11,22 @@ interface ThemeProviderProps {
 }
 
 /**
- * Provides MUI theming and baseline CSS to the app.
+ * Provides M3 baseline CSS and SCSS tokens to the app.
  *
- * Color scheme handled via MUI CSS variables
- * and globals.scss transitions.
+ * Theming is handled via M3 CSS variables
+ * (--mat-sys-primary, --mat-sys-surface, etc.)
+ * imported from @metabuilder/scss globals.
  *
  * @param props - Component props.
  * @returns Themed component tree.
  */
-export function ThemeProvider({ children }: ThemeProviderProps): ReactElement {
+export function ThemeProvider(
+  { children }: ThemeProviderProps,
+): ReactElement {
   return (
-    <MuiThemeProvider theme={theme} defaultMode="dark">
-      <CssBaseline enableColorScheme />
+    <>
+      <CssBaseline />
       {children}
-    </MuiThemeProvider>
+    </>
   );
 }

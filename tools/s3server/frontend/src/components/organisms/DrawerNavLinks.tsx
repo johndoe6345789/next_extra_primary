@@ -1,11 +1,9 @@
 'use client';
 
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ViewListIcon from '@mui/icons-material/ViewList';
+import {
+  List, ListItemButton, ListItemIcon,
+  ListItemText, Dashboard, ViewList,
+} from '@metabuilder/m3';
 import Link from 'next/link';
 import labels from '@/constants/ui-labels.json';
 import routes from '@/constants/routes.json';
@@ -17,7 +15,7 @@ interface DrawerNavLinksProps {
 }
 
 /**
- * @brief Internal navigation links for the drawer.
+ * @brief Internal navigation links for drawer.
  */
 export default function DrawerNavLinks(
   { onClose }: DrawerNavLinksProps,
@@ -31,8 +29,12 @@ export default function DrawerNavLinks(
         data-testid="drawer-nav-dashboard"
         aria-label={labels.nav.dashboard}
       >
-        <ListItemIcon><DashboardIcon /></ListItemIcon>
-        <ListItemText primary={labels.nav.dashboard} />
+        <ListItemIcon>
+          <Dashboard />
+        </ListItemIcon>
+        <ListItemText
+          primary={labels.nav.dashboard}
+        />
       </ListItemButton>
       <ListItemButton
         component={Link}
@@ -41,8 +43,12 @@ export default function DrawerNavLinks(
         data-testid="drawer-nav-buckets"
         aria-label={labels.nav.buckets}
       >
-        <ListItemIcon><ViewListIcon /></ListItemIcon>
-        <ListItemText primary={labels.nav.buckets} />
+        <ListItemIcon>
+          <ViewList />
+        </ListItemIcon>
+        <ListItemText
+          primary={labels.nav.buckets}
+        />
       </ListItemButton>
     </List>
   );

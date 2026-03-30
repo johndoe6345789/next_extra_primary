@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import type { ReactNode, ReactElement } from 'react';
 import { Inter } from 'next/font/google';
-import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import { StoreProvider } from '@/components/providers/StoreProvider';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import '@/styles/globals.scss';
@@ -48,7 +47,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <body>
-        <InitColorSchemeScript attribute="class" defaultMode="dark" />
         <StoreProvider>
           <ThemeProvider>{children}</ThemeProvider>
         </StoreProvider>

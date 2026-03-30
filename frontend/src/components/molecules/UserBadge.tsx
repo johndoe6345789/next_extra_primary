@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import MuiTooltip from '@mui/material/Tooltip';
+import Box from '@metabuilder/m3/Box';
+import Typography from '@metabuilder/m3/Typography';
+import MuiTooltip from '@metabuilder/m3/Tooltip';
 import type { Badge } from '@/types/gamification';
 
 /** Size presets in pixels. */

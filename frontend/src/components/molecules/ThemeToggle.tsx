@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@metabuilder/icons/LightMode';
+import DarkModeIcon from '@metabuilder/icons/DarkMode';
 import { IconButton } from '../atoms';
 import { useThemeMode } from '@/hooks';
 

@@ -1,6 +1,6 @@
 import { ReactNode, type ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
-import Box from '@mui/material/Box';
+import { Box } from '@metabuilder/m3';
 import { DashboardShortcuts } from '@/components/organisms/DashboardShortcuts';
 
 /** Props for the dashboard layout. */

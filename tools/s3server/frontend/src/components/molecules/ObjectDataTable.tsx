@@ -1,14 +1,10 @@
 'use client';
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer
-  from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
+import {
+  Table, TableBody, TableCell,
+  TableContainer, TableHead,
+  TableRow, Paper, Typography,
+} from '@metabuilder/m3';
 import type { S3Object } from '@/types';
 import ObjectRow from './ObjectRow';
 import labels from '@/constants/ui-labels.json';
@@ -25,9 +21,7 @@ export interface ObjectDataTableProps {
  * @param props - ObjectDataTable properties.
  */
 export default function ObjectDataTable({
-  objects,
-  onDownload,
-  onDelete,
+  objects, onDownload, onDelete,
 }: ObjectDataTableProps) {
   if (objects.length === 0) {
     return (

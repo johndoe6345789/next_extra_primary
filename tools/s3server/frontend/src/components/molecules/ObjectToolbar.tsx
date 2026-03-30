@@ -1,12 +1,9 @@
 'use client';
 
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import UploadIcon
-  from '@mui/icons-material/Upload';
-import RefreshIcon
-  from '@mui/icons-material/Refresh';
+import {
+  TextField, Button, Stack,
+  Upload, Refresh,
+} from '@metabuilder/m3';
 import labels from '@/constants/ui-labels.json';
 
 /** @brief Props for ObjectToolbar molecule. */
@@ -31,12 +28,16 @@ export default function ObjectToolbar({
     <Stack
       direction={{ xs: 'column', sm: 'row' }}
       spacing={1}
-      alignItems={{ xs: 'stretch', sm: 'center' }}
-      sx={{ mb: 2 }}
+      alignItems={{
+        xs: 'stretch', sm: 'center',
+      }}
+      style={{ marginBottom: 16 }}
     >
       <TextField
         size="small"
-        placeholder={labels.objects.filterPrefix}
+        placeholder={
+          labels.objects.filterPrefix
+        }
         value={prefix}
         onChange={(e) =>
           onPrefixChange(e.target.value)}
@@ -45,7 +46,7 @@ export default function ObjectToolbar({
       />
       <Button
         variant="contained"
-        startIcon={<UploadIcon />}
+        startIcon={<Upload />}
         onClick={onUploadClick}
         aria-label={labels.objects.upload}
       >
@@ -53,7 +54,7 @@ export default function ObjectToolbar({
       </Button>
       <Button
         variant="outlined"
-        startIcon={<RefreshIcon />}
+        startIcon={<Refresh />}
         onClick={onRefresh}
         aria-label={labels.objects.refresh}
       >

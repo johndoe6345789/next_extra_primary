@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import StarIcon from '@mui/icons-material/Star';
+import StarIcon from '@metabuilder/icons/Star';
 import { Chip } from '../atoms';
 
 /**
