@@ -18,20 +18,8 @@ add_executable(packagerepo-server
     src/controllers/AdminCtrl.cpp
     src/controllers/DevTokenCtrl.cpp
     src/controllers/DevTokenVerify.cpp
-    src/controllers/AdapterNpm.cpp
-    src/controllers/AdapterApt.cpp
-    src/controllers/AdapterConan.cpp
-    src/controllers/AdapterPypi.cpp
-    src/controllers/AdapterCargo.cpp
-    src/controllers/AdapterGo.cpp
-    src/controllers/AdapterRubygems.cpp
-    src/controllers/AdapterMaven.cpp
-    src/controllers/AdapterNuget.cpp
-    src/controllers/AdapterComposer.cpp
-    src/controllers/AdapterRpm.cpp
-    src/controllers/AdapterAlpine.cpp
-    src/controllers/AdapterHelm.cpp
-    src/controllers/AdapterOci.cpp
+    src/controllers/GenericAdapterCtrl.cpp
+    src/controllers/AdapterHandlers.cpp
     src/filters/AuthFilter.cpp
     src/services/S3BlobStore.cpp
     src/services/PgAdapterStore.cpp
