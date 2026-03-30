@@ -1,0 +1,35 @@
+[
+  {
+    "email": "admin@nextra.local",
+    "username": "admin",
+    "display_name": "Admin User",
+    "role": "admin",
+    "is_active": true,
+    "is_confirmed": true,
+    "total_points": 500,
+    "current_level": 8,
+    "streak": { "current": 12, "longest": 30 }
+  },
+  {
+    "email": "user@nextra.local",
+    "username": "testuser",
+    "display_name": "Test User",
+    "role": "user",
+    "is_active": true,
+    "is_confirmed": true,
+    "total_points": 150,
+    "current_level": 3,
+    "streak": { "current": 5, "longest": 14 }
+  },
+  {
+    "email": "noreply@nextra.local",
+    "username": "system",
+    "display_name": "System",
+    "role": "admin",
+    "is_active": true,
+    "is_confirmed": true,
+    "total_points": 0,
+    "current_level": 1,
+    "streak": { "current": 0, "longest": 0 }
+  }
+]

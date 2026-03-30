@@ -4,9 +4,12 @@
 # Build runs on amd64 (native SWC + Turbopack).
 # Only the runner stage uses the target platform.
 
-# -- Stage 1: deps (amd64) ----------------------------------
+# -- Global build args --------------------------------------
 ARG BUILD_PLATFORM=linux/amd64
 ARG NODE_IMAGE=node:22-slim
+ARG RUNTIME_IMAGE=debian:sid-slim
+
+# -- Stage 1: deps (amd64) ----------------------------------
 FROM --platform=${BUILD_PLATFORM} ${NODE_IMAGE} AS deps
 WORKDIR /app
 COPY package.json package-lock.json* ./
@@ -20,7 +23,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
 # -- Stage 3: runner (target arch) --------------------------
-ARG RUNTIME_IMAGE=debian:sid-slim
+ARG RUNTIME_IMAGE
 FROM ${RUNTIME_IMAGE} AS runner
 ARG REPO_URL=
 ARG APT_VER=sid-2026q1

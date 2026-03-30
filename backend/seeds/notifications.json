@@ -1,0 +1,40 @@
+[
+  {
+    "user": "testuser",
+    "title": "Welcome to NextExtra!",
+    "body": "Start exploring the platform to earn badges.",
+    "type": "info",
+    "is_read": false,
+    "links": [
+      { "rel": "action", "href": "/dashboard" }
+    ]
+  },
+  {
+    "user": "testuser",
+    "title": "Badge Earned: First Login",
+    "body": "Congratulations! You earned the First Login badge.",
+    "type": "achievement",
+    "is_read": false,
+    "links": [
+      { "rel": "badge", "href": "/profile" }
+    ]
+  },
+  {
+    "user": "testuser",
+    "title": "New streak milestone",
+    "body": "You have a 5-day login streak! Keep it going.",
+    "type": "streak",
+    "is_read": true,
+    "links": [
+      { "rel": "action", "href": "/dashboard" }
+    ]
+  },
+  {
+    "user": "admin",
+    "title": "System update deployed",
+    "body": "Version 1.1 is now live with feature toggles.",
+    "type": "system",
+    "is_read": false,
+    "links": []
+  }
+]

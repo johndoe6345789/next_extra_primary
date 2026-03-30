@@ -47,3 +47,6 @@ export type { ContactFormProps } from './ContactForm';
 
 export { ForgotPasswordForm } from './ForgotPasswordForm';
 export type { ForgotPasswordFormProps } from './ForgotPasswordForm';
+
+export { default as DashboardStats }
+  from './DashboardStats';

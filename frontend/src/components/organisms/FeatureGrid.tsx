@@ -39,6 +39,15 @@ const KEYS: FeatureKey[] = [
   'secureAuth',
 ];
 
+const HREFS: Record<FeatureKey, string> = {
+  aiChat: '/chat',
+  gamification: '/leaderboard',
+  alerts: '/notifications',
+  darkMode: '/dashboard',
+  multiLang: '/about',
+  secureAuth: '/register',
+};
+
 /** Props for the FeatureGrid organism. */
 export interface FeatureGridProps {
   /** data-testid attribute. */
@@ -70,6 +79,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
             icon={ICONS[idx]}
             title={t(`${k}.title`)}
             desc={t(`${k}.desc`)}
+            href={HREFS[k]}
           />
         </Grid>
       ))}

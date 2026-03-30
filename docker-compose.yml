@@ -138,6 +138,8 @@ services:
       APP_BASE_URL: http://localhost:3000
       ES_HOST: elasticsearch
       ES_PORT: "9200"
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
     restart: unless-stopped
 
   # ---- Next.js frontend --------------------------------------

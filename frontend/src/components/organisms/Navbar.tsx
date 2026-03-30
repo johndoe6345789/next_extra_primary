@@ -5,6 +5,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import { useTranslations } from 'next-intl';
+import { useRouter } from '@/i18n/navigation';
 import { useAuth } from '@/hooks';
 import { SkipLink } from '../molecules/SkipLink';
 import { NavbarLogo } from '../molecules/NavbarLogo';
@@ -32,14 +33,22 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSearch,
   testId = 'navbar',
 }) => {
+  const router = useRouter();
   const { user, logout } = useAuth();
   const tCommon = useTranslations('common');
   const tNav = useTranslations('nav');
   const tA11y = useTranslations('a11y');
-  const LINKS = [
+  const TOP_LINKS = [
     { label: tNav('dashboard'), href: '/dashboard' },
     { label: tNav('leaderboard'), href: '/leaderboard' },
     { label: tNav('chat'), href: '/chat' },
+  ];
+  const ALL_LINKS = [
+    ...TOP_LINKS,
+    { label: tNav('notifications'), href: '/notifications' },
+    { label: tNav('profile'), href: '/profile' },
+    { label: tNav('about'), href: '/about' },
+    { label: tNav('contact'), href: '/contact' },
   ];
   return (
     <>
@@ -52,15 +61,16 @@ export const Navbar: React.FC<NavbarProps> = ({
         data-testid={testId}
       >
         <Toolbar sx={{ gap: 1 }}>
-          <MobileDrawer links={LINKS} />
+          <MobileDrawer links={ALL_LINKS} />
           <NavbarLogo label={tCommon('appName')} />
-          <NavLinks links={LINKS} />
+          <NavLinks links={TOP_LINKS} />
           <Box sx={{ flexGrow: 1 }} />
           <DesktopActions
             onSearch={onSearch ?? (() => {})}
           />
           <NotificationBell
-            onClick={onNotificationClick}
+            onClick={onNotificationClick
+              ?? (() => router.push('/notifications'))}
           />
           <AvatarMenu
             user={user}

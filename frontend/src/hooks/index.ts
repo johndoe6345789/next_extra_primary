@@ -25,3 +25,5 @@ export { useContactForm } from './useContactForm';
 export type { UseContactFormReturn } from './useContactForm';
 export { useForgotPassword } from './useForgotPassword';
 export type { UseForgotPasswordReturn } from './useForgotPassword';
+export { useDashboard } from './useDashboard';
+export { useFeatureToggle } from './useFeatureToggle';
