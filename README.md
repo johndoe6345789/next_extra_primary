@@ -220,8 +220,7 @@ nextra/
 │   ├── backend-deps.Dockerfile # Pre-baked backend deps
 │   └── frontend-deps.Dockerfile# Pre-baked frontend deps
 ├── tools/
-│   ├── cmake-gen/              # CMakeLists.txt generator
-│   ├── manager/                # Dev workflow CLI tool
+│   ├── manager/                # Dev workflow CLI (includes cmake-gen)
 │   ├── packagerepo/            # Package repository manager
 │   └── s3server/               # S3-compatible object store
 └── docs/

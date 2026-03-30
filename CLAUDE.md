@@ -136,8 +136,7 @@ Next.js (port 3000) <-- REST/JSON --> Drogon C++ API (port 8080)
 | `frontend/src/theme/`       | MUI theme config and design tokens         |
 | `frontend/src/messages/`    | i18n translation JSON files                |
 | `backend/src/commands/`     | CLI subcommand handlers                    |
-| `tools/cmake-gen/`          | CMakeLists.txt generator tool              |
-| `tools/manager/`            | Project management CLI tool                |
+| `tools/manager/`            | Project management CLI (includes cmake-gen)|
 | `tools/packagerepo/`        | Package repository manager (own FE + BE)   |
 | `tools/s3server/`           | S3-compatible object store for offline use  |
 | `docker/`                   | Pre-baked dependency Dockerfiles            |
@@ -203,7 +202,7 @@ cd frontend && npm run dev
 - Create shell scripts (`.sh`, `.bash`) anywhere in the project.
 - Create any file exceeding 100 lines of code.
 - Use `any` type in TypeScript.
-- Use `GLOB_RECURSE` in CMake (use the cmake-gen tool instead).
+- Use `GLOB_RECURSE` in CMake (use `./manager generate cmake`).
 - Hardcode strings, URLs, or magic numbers.
 - Skip accessibility attributes on interactive components.
 - Use raw SQL queries in controllers (use the services layer).

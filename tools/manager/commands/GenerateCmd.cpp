@@ -18,11 +18,11 @@ namespace fs = std::filesystem;
 namespace manager
 {
 
-/// Locate project.json (tools/cmake-gen/ or project root).
+/// Locate project.json (tools/manager/ or project root).
 static std::string find_project_json()
 {
-    if (fs::exists("tools/cmake-gen/project.json")) {
-        return "tools/cmake-gen/project.json";
+    if (fs::exists("tools/manager/project.json")) {
+        return "tools/manager/project.json";
     }
     return "project.json";
 }
@@ -33,7 +33,7 @@ static int generate_cmake()
     fmt::print("[generate] Generating CMakeLists.txt ...\n");
 
     auto input = find_project_json();
-    auto tmpl_dir = "tools/cmake-gen/templates";
+    auto tmpl_dir = "tools/manager/templates";
 
     if (!fs::exists(tmpl_dir)) {
         fmt::print("[generate] Templates dir missing: {}\n", tmpl_dir);
