@@ -1,3 +1,4 @@
+'use client';
 /**
  * CanvasContent Component
  * Renders child content with zoom and pan transforms applied

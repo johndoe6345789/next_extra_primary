@@ -1,3 +1,4 @@
+'use client';
 // m3/email/atoms/StarButton.tsx
 import React, { forwardRef, useEffect, useState } from 'react'
 import { MaterialIcon } from '../../../../icons/react/m3'

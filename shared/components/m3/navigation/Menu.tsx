@@ -262,3 +262,5 @@ export const MenuSubheader: React.FC<MenuSubheaderProps> = ({ children, classNam
     {children}
   </div>
 )
+
+export default Menu

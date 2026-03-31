@@ -340,3 +340,5 @@ export const GridItem: React.FC<GridItemProps> = ({
     </div>
   )
 }
+
+export default Grid

@@ -31,13 +31,9 @@ export const DrawerHeader: React.FC<
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        background: (theme) =>
-          `linear-gradient(135deg, ${
-            theme.palette.primary.main
-          } 0%, ${
-            theme.palette.primary.dark
-          } 100%)`,
-        color: 'primary.contrastText',
+        background:
+          'linear-gradient(135deg, var(--md-sys-color-primary) 0%, var(--md-sys-color-primary-container) 100%)',
+        color: 'var(--md-sys-color-on-primary)',
       }}
       data-testid="drawer-header"
     >

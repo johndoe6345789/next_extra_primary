@@ -1,3 +1,4 @@
+'use client';
 /**
  * SecuritySettings Component
  * Main composition component for security-related settings

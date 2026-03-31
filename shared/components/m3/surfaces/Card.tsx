@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef } from 'react'
 import { sxToStyle } from '../utils/sx'
 import styles from '../../../scss/atoms/mat-card.module.scss'
@@ -93,13 +94,17 @@ export const CardActions: React.FC<CardActionsProps> = ({ children, disableSpaci
 
 export interface CardActionAreaProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode
+  /** MUI sx prop for styling */
+  sx?: Record<string, unknown>
+  /** Render as different element */
+  component?: React.ElementType
 }
 
 export const CardActionArea = forwardRef<HTMLButtonElement, CardActionAreaProps>(
-  ({ children, className = '', ...props }, ref) => (
-    <button ref={ref} className={`${styles.cardActionArea} ${className}`} {...props}>
+  ({ children, className = '', sx, style, component: Component = 'button', ...props }, ref) => (
+    <Component ref={ref} className={`${styles.cardActionArea} ${className}`} style={{ ...sxToStyle(sx), ...style }} {...props}>
       {children}
-    </button>
+    </Component>
   )
 )
 
@@ -179,3 +184,5 @@ export const CardTitleGroup: React.FC<CardTitleGroupProps> = ({ children, classN
     {children}
   </div>
 )
+
+export default Card

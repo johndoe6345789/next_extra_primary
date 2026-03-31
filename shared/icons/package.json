@@ -1,0 +1,10 @@
+{
+  "name": "@metabuilder/icons",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./react/m3/index.ts",
+  "exports": {
+    ".": "./react/m3/index.ts",
+    "./*": "./react/m3/*.tsx"
+  }
+}

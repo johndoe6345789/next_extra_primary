@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef } from 'react'
 import { FormLabel } from './FormLabel'
 import { FormHelperText } from './FormHelperText'

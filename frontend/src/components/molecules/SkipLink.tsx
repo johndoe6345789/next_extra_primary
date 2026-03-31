@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Box from '@metabuilder/m3/Box';
 
 /** Props for the SkipLink component. */
 export interface SkipLinkProps {
@@ -21,23 +20,25 @@ export const SkipLink: React.FC<SkipLinkProps> = ({
   label,
   testId = 'skip-to-content',
 }) => (
-  <Box
-    component="a"
+  <a
     href="#main-content"
     data-testid={testId}
     tabIndex={0}
-    sx={{
+    style={{
       position: 'absolute',
       left: '-9999px',
-      '&:focus': {
-        left: 8,
-        top: 8,
-        zIndex: 9999,
-      },
+    }}
+    onFocus={(e) => {
+      e.currentTarget.style.left = '8px';
+      e.currentTarget.style.top = '8px';
+      e.currentTarget.style.zIndex = '9999';
+    }}
+    onBlur={(e) => {
+      e.currentTarget.style.left = '-9999px';
     }}
   >
     {label}
-  </Box>
+  </a>
 );
 
 export default SkipLink;

@@ -42,7 +42,7 @@ export const ChatMessageList: React.FC<ChatMessageListProps> = ({
       sx={{ flex: 1, overflow: 'auto', p: 2 }}
     >
       {messages.length === 0 && (
-        <Typography color="text.secondary" textAlign="center">
+        <Typography color="text.secondary" style={{ textAlign: 'center' }}>
           Start a conversation
         </Typography>
       )}

@@ -33,7 +33,7 @@ export interface UseCanvasSelectionReturn {
 export function useCanvasSelection(): UseCanvasSelectionReturn {
   const dispatch = useDispatch<AppDispatch>();
   const selectedItemIdsSet = useSelector((state: RootState) => selectSelectedItemIds(state));
-  const selectedItemIds = Array.from(selectedItemIdsSet);
+  const selectedItemIds = Array.from(selectedItemIdsSet) as string[];
   const selectedItems = useSelector((state: RootState) => selectCanvasItemsByIds(state, selectedItemIds));
   const allItems = useSelector((state: RootState) => selectCanvasItems(state));
 

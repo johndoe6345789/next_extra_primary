@@ -41,7 +41,7 @@ export const BadgeShowcase: React.FC<BadgeShowcaseProps> = ({
       </Typography>
       <Grid container spacing={2} role="list" aria-label="Badges">
         {badges.map((badge) => (
-          <Grid key={badge.id} size={{ xs: 4, sm: 3, md: 2 }} role="listitem">
+          <Grid key={badge.id} item xs={4} sm={3} md={2} role="listitem">
             <UserBadge
               badge={badge}
               earned={earnedSet.has(badge.id)}

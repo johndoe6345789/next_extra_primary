@@ -1,3 +1,4 @@
+'use client';
 /**
  * AccountSettings Component
  * User profile and account information

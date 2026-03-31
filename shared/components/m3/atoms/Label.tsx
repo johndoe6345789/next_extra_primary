@@ -39,7 +39,7 @@ const sizeClassMap: Record<LabelSize, string | undefined> = {
   lg: styles.labelLg,
 }
 
-const colorClassMap: Record<LabelColor, string> = {
+const colorClassMap: Record<LabelColor, string | undefined> = {
   primary: styles.labelPrimary,
   secondary: styles.labelSecondary,
   error: styles.labelError,
@@ -64,11 +64,9 @@ export const Label: React.FC<LabelProps> = ({
     styles.label,
     sizeClassMap[size],
     color && colorClassMap[color],
-    {
-      [styles.labelUppercase]: uppercase,
-      [styles.labelRequired]: required,
-      [styles.labelWithIcon]: withIcon,
-    },
+    uppercase && styles.labelUppercase,
+    required && styles.labelRequired,
+    withIcon && styles.labelWithIcon,
     className
   )
 
@@ -103,11 +101,9 @@ export const FieldLabel: React.FC<FieldLabelProps> = ({
 }) => {
   const labelClassName = classNames(
     styles.fieldLabel,
-    {
-      [styles.fieldLabelError]: error,
-      [styles.fieldLabelFocused]: focused && !error,
-      [styles.labelRequired]: required,
-    },
+    error && styles.fieldLabelError,
+    focused && !error && styles.fieldLabelFocused,
+    required && styles.labelRequired,
     className
   )
 
@@ -136,9 +132,7 @@ export const HelperText: React.FC<HelperTextProps> = ({
 }) => {
   const helperClassName = classNames(
     styles.helperText,
-    {
-      [styles.helperTextError]: error,
-    },
+    error && styles.helperTextError,
     className
   )
 
@@ -173,9 +167,7 @@ export const CounterText: React.FC<CounterTextProps> = ({
 }) => {
   const counterClassName = classNames(
     styles.counterText,
-    {
-      [styles.counterTextError]: error || (count !== undefined && maxLength !== undefined && count > maxLength),
-    },
+    (error || (count !== undefined && maxLength !== undefined && count > maxLength)) && styles.counterTextError,
     className
   )
 

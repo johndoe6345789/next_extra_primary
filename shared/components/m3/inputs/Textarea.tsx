@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef } from 'react'
 import classNames from 'classnames'
 import styles from '../../../scss/atoms/form.module.scss'

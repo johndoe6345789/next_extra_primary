@@ -38,8 +38,11 @@ export const LocaleSwitcher: React.FC<LocaleSwitcherProps> = ({
   const { locale, setLocale, locales } = useLocale();
 
   const handleChange = useCallback(
-    (e: SelectChangeEvent<string>) => {
-      setLocale(e.target.value as Parameters<typeof setLocale>[0]);
+    (e: SelectChangeEvent<string | string[]>) => {
+      const val = Array.isArray(e.target.value)
+        ? e.target.value[0]
+        : e.target.value;
+      setLocale(val as Parameters<typeof setLocale>[0]);
     },
     [setLocale],
   );

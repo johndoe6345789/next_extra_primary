@@ -4,17 +4,13 @@
     {
       "name": "portal",
       "runtimeExecutable": "docker",
-      "runtimeArgs": ["compose", "up", "portal"],
-      "port": 8888,
+      "runtimeArgs": [
+        "compose", "up", "--no-deps",
+        "frontend", "portal"
+      ],
+      "port": 8889,
       "autoPort": false,
       "cwd": "."
-    },
-    {
-      "name": "Nginx",
-      "runtimeExecutable": "docker",
-      "runtimeArgs": ["run", "--rm", "-p", "8889:80", "nginx:alpine"],
-      "port": 8889,
-      "autoPort": true
     }
   ]
 }

@@ -1,12 +1,16 @@
+'use client';
 import React, { useId } from 'react'
 
-export interface TooltipProps extends React.HTMLAttributes<HTMLSpanElement> {
+export interface TooltipProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'title'> {
   children?: React.ReactNode
-  title?: string
+  title?: React.ReactNode
   placement?: 'top' | 'bottom' | 'left' | 'right'
+    | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end'
+    | 'left-start' | 'left-end' | 'right-start' | 'right-end'
+  arrow?: boolean
 }
 
-export const Tooltip: React.FC<TooltipProps> = ({ children, title, placement = 'top', className = '', ...props }) => {
+export const Tooltip: React.FC<TooltipProps> = ({ children, title, placement = 'top', arrow: _arrow, className = '', ...props }) => {
   const tooltipId = useId()
 
   return (
@@ -29,3 +33,5 @@ export const Tooltip: React.FC<TooltipProps> = ({ children, title, placement = '
     </span>
   )
 }
+
+export default Tooltip

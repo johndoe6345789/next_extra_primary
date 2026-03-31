@@ -41,3 +41,5 @@ export const Toolbar: React.FC<ToolbarProps> = ({ children, dense, disableGutter
     {children}
   </div>
 )
+
+export default AppBar

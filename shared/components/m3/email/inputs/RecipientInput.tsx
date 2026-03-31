@@ -1,3 +1,4 @@
+'use client';
 // m3/react/components/email/inputs/RecipientInput.tsx
 import React, { forwardRef, useState } from 'react'
 import { Box } from '../../layout/Box'

@@ -1,3 +1,5 @@
+'use client'
+
 /**
  * FakeMUI Components - Material Design 3 React Component Library
  *

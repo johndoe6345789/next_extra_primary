@@ -7,3 +7,5 @@ export const Mail = (props: IconProps) => (
     <polyline points="224 56 128 144 32 56" />
   </Icon>
 )
+
+export default Mail

@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Typography from '@metabuilder/m3/Typography';
-import MuiLink from '@metabuilder/m3/Link';
 import { Link } from '@/i18n/navigation';
 
 /** Props for NavbarLogo. */
@@ -19,25 +18,26 @@ export interface NavbarLogoProps {
 export const NavbarLogo: React.FC<NavbarLogoProps> = ({
   label,
 }) => (
-  <MuiLink
-    component={Link}
+  <Link
     href="/"
-    underline="none"
-    color="inherit"
+    style={{
+      textDecoration: 'none',
+      color: 'inherit',
+      marginRight: 'var(--spacing-2, 16px)',
+    }}
     data-testid="navbar-logo"
-    sx={{ mr: { xs: 0.5, md: 2 } }}
   >
     <Typography
       variant="h6"
       noWrap
-      sx={{
+      style={{
         fontWeight: 700,
         letterSpacing: '-0.02em',
       }}
     >
       {label}
     </Typography>
-  </MuiLink>
+  </Link>
 );
 
 export default NavbarLogo;

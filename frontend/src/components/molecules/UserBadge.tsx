@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Box from '@metabuilder/m3/Box';
 import Typography from '@metabuilder/m3/Typography';
 import MuiTooltip from '@metabuilder/m3/Tooltip';
 import type { Badge } from '@/types/gamification';
@@ -26,8 +25,7 @@ export interface UserBadgeProps {
 /**
  * Displays a gamification badge as a small card with
  * an icon, name, and earned date. Unearned badges
- * render with a grayscale filter. A tooltip shows
- * the badge description on hover.
+ * render with a grayscale filter.
  *
  * @param props - Component props.
  * @returns The user badge element.
@@ -42,7 +40,7 @@ export const UserBadge: React.FC<UserBadgeProps> = ({
 
   return (
     <MuiTooltip title={badge.description} arrow>
-      <Box
+      <div
         data-testid={testId}
         role="img"
         aria-label={
@@ -50,30 +48,34 @@ export const UserBadge: React.FC<UserBadgeProps> = ({
             ? `Badge: ${badge.name} - earned`
             : `Badge: ${badge.name} - not earned`
         }
-        sx={{
+        style={{
           display: 'inline-flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: 0.5,
+          gap: '4px',
           filter: earned ? 'none' : 'grayscale(100%)',
           opacity: earned ? 1 : 0.5,
         }}
       >
-        <Box
-          component="img"
+        <img
           src={badge.iconUrl}
           alt={badge.name}
-          sx={{ width: px, height: px }}
+          style={{ width: px, height: px }}
         />
-        <Typography variant="caption" noWrap sx={{ maxWidth: px + 16 }}>
+        <Typography
+          variant="caption"
+          noWrap
+          style={{ maxWidth: px + 16 }}
+        >
           {badge.name}
         </Typography>
         {earned && badge.earnedAt && (
-          <Typography variant="caption" color="text.secondary">
-            {new Date(badge.earnedAt).toLocaleDateString()}
+          <Typography variant="caption">
+            {new Date(badge.earnedAt)
+              .toLocaleDateString()}
           </Typography>
         )}
-      </Box>
+      </div>
     </MuiTooltip>
   );
 };

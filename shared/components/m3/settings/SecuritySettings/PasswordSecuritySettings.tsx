@@ -1,3 +1,4 @@
+'use client';
 /** PasswordSecuritySettings Component - Password change management */
 
 import React, { useState, useCallback } from 'react';

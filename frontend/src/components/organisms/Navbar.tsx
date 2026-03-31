@@ -55,7 +55,6 @@ export const Navbar: React.FC<NavbarProps> = ({
       <SkipLink label={tA11y('skipToContent')} />
       <AppBar
         position="sticky"
-        elevation={2}
         role="navigation"
         aria-label="Main navigation"
         data-testid={testId}

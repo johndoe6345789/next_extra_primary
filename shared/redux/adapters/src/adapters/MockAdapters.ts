@@ -301,7 +301,7 @@ export class MockExecutionServiceAdapter implements IExecutionServiceAdapter {
   async cancelExecution(executionId: string): Promise<void> {
     const execution = this.executions.get(executionId)
     if (execution) {
-      execution.status = 'cancelled'
+      execution.status = 'stopped'
       execution.endTime = Date.now()
     }
   }

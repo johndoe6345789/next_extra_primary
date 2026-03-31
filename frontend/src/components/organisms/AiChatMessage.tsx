@@ -44,7 +44,7 @@ export const AiChatMessage: React.FC<AiChatMessageProps> = ({
       }}
     >
       {!isU && (
-        <SmartToyIcon fontSize="small" sx={{ mr: 1, mt: 0.5 }} aria-hidden />
+        <SmartToyIcon size={18} aria-hidden />
       )}
       <Box
         sx={{
@@ -71,7 +71,7 @@ export const AiChatMessage: React.FC<AiChatMessageProps> = ({
         </Typography>
       </Box>
       {isU && (
-        <PersonIcon fontSize="small" sx={{ ml: 1, mt: 0.5 }} aria-hidden />
+        <PersonIcon size={18} aria-hidden />
       )}
     </Box>
   );

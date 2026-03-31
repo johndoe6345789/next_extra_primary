@@ -174,3 +174,5 @@ export const DialogIcon: React.FC<DialogIconProps> = ({ children, className = ''
  * </DialogPanel>
  */
 export const DialogComponentHostClass = 'mat-mdc-dialog-component-host'
+
+export default DialogPanel

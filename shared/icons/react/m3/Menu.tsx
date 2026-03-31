@@ -8,3 +8,5 @@ export const Menu = (props: IconProps) => (
     <line x1="40" y1="192" x2="216" y2="192" />
   </Icon>
 )
+
+export default Menu

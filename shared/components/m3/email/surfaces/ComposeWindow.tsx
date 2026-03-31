@@ -1,3 +1,4 @@
+'use client';
 // m3/react/components/email/surfaces/ComposeWindow
 import React, { useCallback, useEffect, useState } from 'react'
 import { Box, BoxProps, Button, Card } from '../..'
@@ -29,7 +30,7 @@ export const ComposeWindow = ({
     feature: 'email', component: 'compose',
     identifier: customTestId || 'compose'
   })
-  const trapRef = useFocusTrap(true)
+  const { focusTrapRef: trapRef } = useFocusTrap(true)
   const handleSend = () => {
     if (to.length > 0 && subject && body)
       onSend?.({ to, cc, bcc, subject, body })

@@ -11,14 +11,18 @@ ARG RUNTIME_IMAGE=debian:sid-slim
 
 # -- Stage 1: deps (amd64) ----------------------------------
 FROM --platform=${BUILD_PLATFORM} ${NODE_IMAGE} AS deps
-WORKDIR /app
+# Mirror the local monorepo layout so file: deps resolve
+COPY --from=shared . /build/shared/
+WORKDIR /build/app
 COPY package.json package-lock.json* ./
 RUN npm ci || npm install
+# Hoist node_modules so shared packages can resolve them
+RUN ln -s /build/app/node_modules /build/node_modules
 
 # -- Stage 2: build (amd64) ---------------------------------
 FROM deps AS build
 ARG NEXT_BASE_PATH=
-WORKDIR /app
+WORKDIR /build/app
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NEXT_BASE_PATH=${NEXT_BASE_PATH}
@@ -52,13 +56,15 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN groupadd --system --gid 1001 nodejs && \
     useradd --system --uid 1001 --gid nodejs nextjs
-COPY --from=build /app/public ./public
+# standalone output mirrors outputFileTracingRoot (/build/)
+# so server.js is at /build/app/.next/standalone/app/
+COPY --from=build /build/app/public ./public
 COPY --from=build \
     --chown=nextjs:nodejs \
-    /app/.next/standalone ./
+    /build/app/.next/standalone/app/ ./
 COPY --from=build \
     --chown=nextjs:nodejs \
-    /app/.next/static ./.next/static
+    /build/app/.next/static ./.next/static
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
