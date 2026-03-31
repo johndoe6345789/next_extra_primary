@@ -47,6 +47,7 @@ export default function useLogin(): UseLoginResult {
         };
         localStorage.setItem('token', result.token);
         localStorage.setItem('user', JSON.stringify(result.user));
+        window.dispatchEvent(new Event('storage'));
         router.push('/');
       } else {
         const body = (await response.json()) as {

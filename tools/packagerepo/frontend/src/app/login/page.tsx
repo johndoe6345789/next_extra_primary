@@ -18,7 +18,11 @@ export default function LoginPage() {
         {error && (
           <div className={alertCls} data-testid="login-error">{error}</div>
         )}
-        <form className={styles.loginBox__form} onSubmit={handleSubmit}>
+        <form
+          className={styles.loginBox__form}
+          method="post"
+          onSubmit={handleSubmit}
+        >
           <div className={styles.loginBox__group}>
             <label className={styles.loginBox__label} htmlFor="username">
               Username
