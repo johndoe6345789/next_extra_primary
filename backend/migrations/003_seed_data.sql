@@ -3,7 +3,8 @@
 -- ============================================================
 -- Inserts development seed data into all core tables.
 -- All data is relational — no JSON blobs stored.
--- Password hash is bcrypt of "nextra_dev".
+-- Password hash is PBKDF2-SHA-256 of "nextra_dev"
+-- (format: saltHex$iterations$dkHex, 600k iters).
 -- ============================================================
 
 BEGIN;
@@ -13,21 +14,24 @@ BEGIN;
 -- ----------------------------------------------------------
 INSERT INTO users
     (email, username, display_name, role,
-     is_active, is_confirmed,
+     is_active, email_confirmed,
      total_points, current_level, password_hash)
 VALUES
     ('admin@nextra.local', 'admin', 'Admin User',
      'admin', TRUE, TRUE, 500, 8,
-     '$2a$10$8Kx9YqZvW1J0rJQwXzKvNO'
-     'dF3Gk5mGpZ0hK8lM2nO4pQ6rS8tU0vW'),
+     'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6$600000$'
+     '67ecad0fb1eeb606b56fd0d44d4e1e38d5a40905'
+     'ad6b59f6302ddd28f68cab80'),
     ('user@nextra.local', 'testuser', 'Test User',
      'user', TRUE, TRUE, 150, 3,
-     '$2a$10$8Kx9YqZvW1J0rJQwXzKvNO'
-     'dF3Gk5mGpZ0hK8lM2nO4pQ6rS8tU0vW'),
+     'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6$600000$'
+     '67ecad0fb1eeb606b56fd0d44d4e1e38d5a40905'
+     'ad6b59f6302ddd28f68cab80'),
     ('noreply@nextra.local', 'system', 'System',
      'admin', TRUE, TRUE, 0, 1,
-     '$2a$10$8Kx9YqZvW1J0rJQwXzKvNO'
-     'dF3Gk5mGpZ0hK8lM2nO4pQ6rS8tU0vW')
+     'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6$600000$'
+     '67ecad0fb1eeb606b56fd0d44d4e1e38d5a40905'
+     'ad6b59f6302ddd28f68cab80')
 ON CONFLICT (email) DO NOTHING;
 
 -- ----------------------------------------------------------

@@ -390,7 +390,7 @@ services:
     ports:
       - "5051:3000"
     environment:
-      NEXT_PUBLIC_API_URL: http://packagerepo-backend:5000
+      BACKEND_URL: http://packagerepo-backend:5000
       NODE_ENV: production
     depends_on:
       - packagerepo-backend

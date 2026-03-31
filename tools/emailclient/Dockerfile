@@ -26,9 +26,9 @@ RUN groupadd --system --gid 1001 nodejs && \
 COPY --from=build --chown=nextjs:nodejs \
     /app/.next/standalone ./
 COPY --from=build --chown=nextjs:nodejs \
-    /app/.next/static ./.next/static
+    /app/.next/static ./app/.next/static
 COPY --from=build --chown=nextjs:nodejs \
-    /app/public ./public
+    /app/public ./app/public
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
@@ -36,6 +36,8 @@ ENV HOSTNAME="0.0.0.0"
 WORKDIR /app/app
 HEALTHCHECK --interval=15s --timeout=5s \
     --start-period=60s --retries=3 \
-    CMD wget --quiet --tries=1 --spider \
-    http://127.0.0.1:3000/emailclient || exit 1
+    CMD node -e "require('http').get(\
+    'http://127.0.0.1:3000/emailclient',\
+    r=>process.exit(r.statusCode<400?0:1)\
+    ).on('error',()=>process.exit(1))"
 CMD ["node", "server.js"]
