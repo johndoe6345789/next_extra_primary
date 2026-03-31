@@ -1,3 +1,4 @@
+'use client';
 /**
  * WorkflowCard Component
  * Draggable and resizable workflow card on the canvas

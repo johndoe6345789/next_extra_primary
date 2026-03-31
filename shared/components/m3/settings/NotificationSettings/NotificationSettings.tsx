@@ -1,3 +1,4 @@
+'use client';
 /**
  * NotificationSettings Component
  * Notification preferences and email subscriptions (main composer)

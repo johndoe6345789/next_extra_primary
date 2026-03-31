@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef, Children, cloneElement, isValidElement } from 'react'
 
 /**

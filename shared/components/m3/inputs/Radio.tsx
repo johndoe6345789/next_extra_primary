@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef, useId } from 'react'
 import classNames from 'classnames'
 import styles from '../../../scss/atoms/mat-radio.module.scss'

@@ -45,7 +45,7 @@ export const Badge: React.FC<BadgeProps> = ({
 }) => {
   return (
     <MuiBadge
-      badgeContent={content}
+      content={content}
       color={color}
       variant={variant}
       invisible={invisible}

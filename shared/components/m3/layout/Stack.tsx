@@ -34,3 +34,5 @@ export const Stack: React.FC<StackProps> = ({
     {divider ? React.Children.toArray(children).flatMap((child, i) => (i > 0 ? [divider, child] : [child])) : children}
   </div>
 )
+
+export default Stack

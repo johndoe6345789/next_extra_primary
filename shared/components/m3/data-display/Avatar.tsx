@@ -75,3 +75,5 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({ children, max, classNa
     {children}
   </div>
 )
+
+export default Avatar

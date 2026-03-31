@@ -392,3 +392,5 @@ export const TableSortLabel: React.FC<TableSortLabelProps> = ({
     </span>
   )
 }
+
+export default Table

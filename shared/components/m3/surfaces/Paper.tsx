@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef } from 'react'
 import { sxToStyle } from '../utils/sx'
 
@@ -7,13 +8,15 @@ export interface PaperProps extends React.HTMLAttributes<HTMLDivElement> {
   square?: boolean
   variant?: 'elevation' | 'outlined'
   sx?: Record<string, unknown>
+  /** Render as different element */
+  component?: React.ElementType
   /** Test ID for automated testing */
   testId?: string
 }
 
 export const Paper = forwardRef<HTMLDivElement, PaperProps>(
-  ({ children, elevation = 1, square, variant = 'elevation', className = '', sx, style, testId, ...props }, ref) => (
-    <div
+  ({ children, elevation = 1, square, variant = 'elevation', component: Component = 'div', className = '', sx, style, testId, ...props }, ref) => (
+    <Component
       ref={ref}
       className={`paper paper--${variant} paper--elevation-${elevation} ${square ? 'paper--square' : ''} ${className}`}
       style={{ ...sxToStyle(sx), ...style }}
@@ -21,8 +24,10 @@ export const Paper = forwardRef<HTMLDivElement, PaperProps>(
       {...props}
     >
       {children}
-    </div>
+    </Component>
   )
 )
 
 Paper.displayName = 'Paper'
+
+export default Paper

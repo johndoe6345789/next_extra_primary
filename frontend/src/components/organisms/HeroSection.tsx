@@ -29,17 +29,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       component="section"
       data-testid={testId}
       aria-label="Hero section"
-      sx={(theme) => ({
-        py: { xs: 8, md: 12 },
-        background: [
-          'linear-gradient(135deg,',
-          theme.palette.primary.main,
-          '0%,',
-          theme.palette.secondary.main,
-          '100%)',
-        ].join(' '),
-        color: 'primary.contrastText',
-      })}
+      style={{
+        paddingTop: '4rem',
+        paddingBottom: '4rem',
+        background:
+          'linear-gradient(135deg, var(--md-sys-color-primary) 0%, var(--md-sys-color-secondary) 100%)',
+        color: 'var(--md-sys-color-on-primary)',
+      }}
     >
       <Container maxWidth="md">
         <Typography

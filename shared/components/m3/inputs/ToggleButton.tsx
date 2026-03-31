@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef, Children, cloneElement, isValidElement, createContext, useContext } from 'react'
 
 /**
@@ -195,3 +196,5 @@ export const ToggleButtonGroup = forwardRef<HTMLDivElement, ToggleButtonGroupPro
 )
 
 ToggleButtonGroup.displayName = 'ToggleButtonGroup'
+
+export default ToggleButton

@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef } from 'react'
 import { useAccessible } from '../../../hooks/useAccessible'
 import { sxToStyle } from '../utils/sx'
@@ -67,3 +68,5 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
 )
 
 IconButton.displayName = 'IconButton'
+
+export default IconButton

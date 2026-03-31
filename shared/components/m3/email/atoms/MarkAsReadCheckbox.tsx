@@ -1,3 +1,4 @@
+'use client';
 // m3/email/atoms/MarkAsReadCheckbox.tsx
 import React, { forwardRef, useState } from 'react'
 import { useAccessible } from '../../../../hooks/useAccessible'

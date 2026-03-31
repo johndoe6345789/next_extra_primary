@@ -11,3 +11,5 @@ export const Notifications = (props: IconProps) => (
     <circle cx="184" cy="64" r="20" fill="currentColor" stroke="none" />
   </Icon>
 )
+
+export default Notifications

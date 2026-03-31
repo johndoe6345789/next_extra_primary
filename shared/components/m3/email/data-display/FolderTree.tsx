@@ -1,3 +1,4 @@
+'use client';
 // m3/react/components/email/data-display/FolderTree.tsx
 import React, { useState } from 'react'
 import { Box, BoxProps, Typography } from '../..'

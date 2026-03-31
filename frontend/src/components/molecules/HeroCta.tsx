@@ -24,7 +24,7 @@ export const HeroCta: React.FC = () => {
 
   return (
     <Stack
-      direction={{ xs: 'column', sm: 'row' }}
+      direction="row"
       spacing={2}
       data-testid="hero-cta-group"
     >

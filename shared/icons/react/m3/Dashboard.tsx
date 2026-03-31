@@ -9,3 +9,5 @@ export const Dashboard = (props: IconProps) => (
     <rect x="136" y="104" width="88" height="120" rx="8" />
   </Icon>
 )
+
+export default Dashboard

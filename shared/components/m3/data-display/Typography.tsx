@@ -11,6 +11,7 @@ export interface TypographyProps extends React.HTMLAttributes<HTMLElement> {
   align?: 'left' | 'center' | 'right' | 'justify'
   gutterBottom?: boolean
   noWrap?: boolean
+  paragraph?: boolean
   as?: React.ElementType
   component?: React.ElementType  // MUI-compatible alias for 'as'
   sx?: Record<string, unknown>  // MUI sx prop for styling compatibility
@@ -55,6 +56,7 @@ export const Typography: React.FC<TypographyProps> = ({
   align,
   gutterBottom,
   noWrap,
+  paragraph,
   testId,
   className = '',
   as,
@@ -83,6 +85,7 @@ export const Typography: React.FC<TypographyProps> = ({
     color && colorClassMap[color],
     align && alignClassMap[align],
     gutterBottom && styles.typographyGutterBottom,
+    paragraph && styles.typographyGutterBottom,
     noWrap && styles.typographyNoWrap,
     className,
   ]
@@ -100,3 +103,5 @@ export const Typography: React.FC<TypographyProps> = ({
     </Tag>
   )
 }
+
+export default Typography

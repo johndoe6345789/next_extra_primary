@@ -1,3 +1,4 @@
+'use client';
 /**
  * DocNavigation Component
  * Sidebar navigation for documentation categories and pages

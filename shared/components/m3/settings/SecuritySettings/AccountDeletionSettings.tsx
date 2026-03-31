@@ -1,3 +1,4 @@
+'use client';
 /**
  * AccountDeletionSettings Component
  * Account deletion with email confirmation

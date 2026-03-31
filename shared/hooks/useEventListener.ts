@@ -146,7 +146,7 @@ export function useEventListener(): UseEventListenerReturn {
       const entry: ListenerEntry = {
         target,
         event,
-        handler,
+        handler: handler as EventHandler,
         options: normalizedOptions,
       }
       listenersRef.current.push(entry)

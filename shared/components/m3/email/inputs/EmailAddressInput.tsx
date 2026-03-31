@@ -1,3 +1,4 @@
+'use client';
 // m3/react/components/email/inputs/EmailAddressInput.tsx
 import React, { forwardRef } from 'react'
 import { TextField, TextFieldProps } from '../../inputs/TextField'

@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef, useState, useCallback, useMemo, createContext, useContext } from 'react'
 import styles from '../../../scss/atoms/accordion.module.scss'
 

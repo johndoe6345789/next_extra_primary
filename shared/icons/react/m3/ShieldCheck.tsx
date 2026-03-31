@@ -13,6 +13,8 @@ export const ShieldCheck: React.FC<IconProps> = ({
     light: 1.5,
     regular: 2,
     bold: 2.5,
+    duotone: 2,
+    fill: 0,
   }
 
   return (

@@ -11,15 +11,13 @@ import LockIcon from '@metabuilder/icons/Lock';
 import { useTranslations } from 'next-intl';
 import { FeatureCard } from './FeatureCard';
 
-const P = 'primary' as const;
-
 const ICONS = [
-  <ChatIcon key="chat" color={P} />,
-  <EmojiEventsIcon key="gamification" color={P} />,
-  <NotificationsActiveIcon key="alerts" color={P} />,
-  <DarkModeIcon key="darkmode" color={P} />,
-  <TranslateIcon key="i18n" color={P} />,
-  <LockIcon key="auth" color={P} />,
+  <ChatIcon key="chat" />,
+  <EmojiEventsIcon key="gamification" />,
+  <NotificationsActiveIcon key="alerts" />,
+  <DarkModeIcon key="darkmode" />,
+  <TranslateIcon key="i18n" />,
+  <LockIcon key="auth" />,
 ];
 
 type FeatureKey =
@@ -74,7 +72,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
       aria-label="Application features"
     >
       {KEYS.map((k, idx) => (
-        <Grid key={k} size={{ xs: 12, sm: 6, md: 4 }}>
+        <Grid key={k} item xs={12} sm={6} md={4}>
           <FeatureCard
             icon={ICONS[idx]}
             title={t(`${k}.title`)}

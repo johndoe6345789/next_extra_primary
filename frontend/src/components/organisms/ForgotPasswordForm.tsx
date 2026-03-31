@@ -84,7 +84,7 @@ export const ForgotPasswordForm: React.FC<
             label={t('email')}
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setEmail(e.target.value)}
             required
             fullWidth
             autoComplete="email"

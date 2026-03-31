@@ -14,3 +14,5 @@ export const LightMode = (props: IconProps) => (
     <line x1="201.7" y1="54.3" x2="190.3" y2="65.7" />
   </Icon>
 )
+
+export default LightMode

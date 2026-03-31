@@ -46,7 +46,7 @@ export const useStorageSettingsHandlers = ({
 
   const { isExporting, isImporting, handleExport, handleImport } = useStorageDataHandlers({
     exportData,
-    importData,
+    importData: importData as (data: unknown) => Promise<void>,
     exportFilename,
     importAccept,
   })

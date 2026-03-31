@@ -1,10 +1,10 @@
 import React from 'react'
 import styles from '../../../scss/atoms/mat-badge.module.scss'
 
-export type BadgeColor = 'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'info' | 'error' | 'surface'
+export type BadgeColor = 'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'info' | 'error' | 'surface' | 'default'
 export type BadgeSize = 'sm' | 'md' | 'lg'
 export type BadgePosition = 'topRight' | 'topLeft' | 'bottomRight' | 'bottomLeft' | 'inline'
-export type BadgeVariant = 'standard' | 'outlined' | 'outline' | 'secondary' | 'filled' | 'tonal' | 'danger'
+export type BadgeVariant = 'standard' | 'dot' | 'outlined' | 'outline' | 'secondary' | 'filled' | 'tonal' | 'danger'
 export type OverlapShape = 'circular' | 'rectangular'
 
 export interface BadgeProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'color' | 'content'> {
@@ -103,3 +103,5 @@ export const Badge: React.FC<BadgeProps> = ({
     </span>
   )
 }
+
+export default Badge

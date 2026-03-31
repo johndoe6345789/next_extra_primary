@@ -1,3 +1,4 @@
+'use client';
 /**
  * TwoFactorSettings Component
  * Two-factor authentication management

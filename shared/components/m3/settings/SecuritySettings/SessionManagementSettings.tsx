@@ -1,3 +1,4 @@
+'use client';
 /**
  * SessionManagementSettings Component
  * Active session management and logout control

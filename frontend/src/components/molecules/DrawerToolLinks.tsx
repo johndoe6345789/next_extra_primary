@@ -67,9 +67,7 @@ export const DrawerToolLinks: React.FC = () => {
               fontSize: '0.875rem',
             }}
           />
-          <OpenInNewIcon
-            sx={{ fontSize: 14, color: 'text.disabled' }}
-          />
+          <OpenInNewIcon size={14} />
         </ListItemButton>
       ))}
     </Box>

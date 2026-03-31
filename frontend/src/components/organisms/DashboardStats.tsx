@@ -59,13 +59,11 @@ export default function DashboardStats() {
       {cards.map((card) => (
         <Grid
           key={card.labelKey}
-          size={{ xs: 12, sm: 6, md: 3 }}
+          item xs={12} sm={6} md={3}
         >
-          <Card role="listitem" elevation={2}>
-            <CardActionArea
-              component={Link}
-              href={card.href}
-            >
+          <Card role="listitem">
+            <Link href={card.href} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <CardActionArea>
               <CardContent>
                 <Typography
                   variant="subtitle2"
@@ -82,13 +80,13 @@ export default function DashboardStats() {
                 ) : (
                   <Typography
                     variant="h4"
-                    component="p"
                   >
                     {card.value ?? t('noData')}
                   </Typography>
                 )}
               </CardContent>
             </CardActionArea>
+            </Link>
           </Card>
         </Grid>
       ))}

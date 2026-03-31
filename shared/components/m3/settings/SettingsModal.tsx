@@ -1,3 +1,4 @@
+'use client';
 /**
  * SettingsModal Component
  * Comprehensive settings interface with account, security, and preferences

@@ -1,3 +1,4 @@
+'use client';
 /**
  * InfiniteCanvas Component
  * Main component composing all canvas sub-components

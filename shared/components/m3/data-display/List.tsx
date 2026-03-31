@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef } from 'react'
 import { sxToStyle } from '../utils/sx'
 import styles from '../../../scss/atoms/mat-list.module.scss'
@@ -189,3 +190,5 @@ export const ListSubheader: React.FC<ListSubheaderProps> = ({ children, classNam
     {children}
   </li>
 )
+
+export default List

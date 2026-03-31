@@ -8,3 +8,5 @@ export const Info = (props: IconProps) => (
     <circle cx="128" cy="84" r="4" fill="currentColor" />
   </Icon>
 )
+
+export default Info

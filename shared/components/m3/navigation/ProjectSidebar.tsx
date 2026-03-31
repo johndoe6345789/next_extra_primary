@@ -1,3 +1,4 @@
+'use client';
 /**
  * ProjectSidebar Component
  * Left sidebar showing project list and workspace info

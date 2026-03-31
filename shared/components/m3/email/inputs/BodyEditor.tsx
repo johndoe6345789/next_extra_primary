@@ -1,3 +1,4 @@
+'use client';
 // m3/react/components/email/inputs/BodyEditor.tsx
 import React, { forwardRef } from 'react'
 import { Box } from '../../layout/Box'

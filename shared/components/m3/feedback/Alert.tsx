@@ -100,3 +100,5 @@ export const AlertDescription: React.FC<AlertDescriptionProps> = ({ children, cl
     {children}
   </p>
 )
+
+export default Alert

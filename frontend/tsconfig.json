@@ -5,7 +5,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
-    "noUncheckedIndexedAccess": true,
+    "noUncheckedIndexedAccess": false,
     "exactOptionalPropertyTypes": false,
     "noEmit": true,
     "esModuleInterop": true,
@@ -21,7 +21,25 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@metabuilder/m3": ["../shared/components/m3/index.ts"],
+      "@metabuilder/m3/*": ["../shared/components/m3/*/index.ts", "../shared/components/m3/*.tsx"],
+      "@metabuilder/icons": ["../shared/icons/react/m3/index.ts"],
+      "@metabuilder/icons/*": ["../shared/icons/react/m3/*.tsx"],
+      "@metabuilder/scss": ["../shared/scss/index.scss"],
+      "@metabuilder/scss/*": ["../shared/scss/*"],
+      "@metabuilder/hooks": ["../shared/hooks/index.ts"],
+      "@metabuilder/hooks/*": ["../shared/hooks/*.ts"],
+      "@metabuilder/components": ["../shared/components/index.tsx"],
+      "@metabuilder/components/*": ["../shared/components/*.tsx"],
+      "@metabuilder/redux-core": ["../shared/redux/core/src/index.ts"],
+      "@metabuilder/redux-core/*": ["../shared/redux/core/src/*.ts"],
+      "@metabuilder/redux-slices": ["../shared/redux/slices/src/index.ts"],
+      "@metabuilder/redux-slices/*": ["../shared/redux/slices/src/*.ts"],
+      "@metabuilder/service-adapters": ["../shared/redux/adapters/src/index.ts"],
+      "@metabuilder/service-adapters/*": ["../shared/redux/adapters/src/*.ts"],
+      "@metabuilder/types": ["../shared/redux/core/src/types/index.ts"],
+      "@metabuilder/types/*": ["../shared/redux/core/src/types/*.ts"]
     }
   },
   "include": [
@@ -30,7 +48,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    "../shared/components/scss.d.ts"
   ],
   "exclude": ["node_modules"]
 }

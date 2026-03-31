@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef, useId } from 'react'
 import classNames from 'classnames'
 import styles from '../../../scss/atoms/form.module.scss'
@@ -16,6 +17,14 @@ export interface TextFieldProps extends Omit<InputProps, 'size' | 'label' | 'hel
   select?: boolean
   /** Children (for select mode - MenuItem components) */
   children?: React.ReactNode
+  /** Render as textarea for multi-line input */
+  multiline?: boolean
+  /** Number of rows for multiline */
+  rows?: number
+  /** Props passed to the underlying input element */
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>
+  /** Props passed to the helper text element */
+  FormHelperTextProps?: Record<string, unknown>
   /** Input size */
   size?: 'small' | 'medium'
   /** Unique identifier for testing and accessibility */
@@ -25,7 +34,7 @@ export interface TextFieldProps extends Omit<InputProps, 'size' | 'label' | 'hel
 }
 
 export const TextField = forwardRef<HTMLInputElement | HTMLDivElement, TextFieldProps>(
-  ({ label, helperText, error, className = '', id: providedId, select, children, size, testId: customTestId, sx, style, ...props }, ref) => {
+  ({ label, helperText, error, className = '', id: providedId, select, children, size, testId: customTestId, sx, style, multiline, rows, inputProps, FormHelperTextProps: _fhtp, ...props }, ref) => {
     const generatedId = useId()
     const id = providedId ?? generatedId
     const helperTextId = `${id}-helper-text`
@@ -67,16 +76,33 @@ export const TextField = forwardRef<HTMLInputElement | HTMLDivElement, TextField
           >
             {children}
           </Select>
+        ) : multiline ? (
+          <textarea
+            ref={ref as React.Ref<HTMLTextAreaElement>}
+            id={id}
+            className={classNames(styles.input, styles.inputFullWidth, error && styles.inputError)}
+            rows={rows ?? 4}
+            data-testid={accessible['data-testid']}
+            aria-invalid={error || undefined}
+            aria-describedby={helperText ? helperTextId : undefined}
+            value={props.value as string}
+            onChange={props.onChange as never}
+            name={props.name}
+            disabled={props.disabled}
+            required={props.required}
+            placeholder={props.placeholder}
+            {...(inputProps as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
+          />
         ) : (
           <Input
             ref={ref as React.Ref<HTMLInputElement>}
             id={id}
             error={error}
-            size={inputSize}
             data-testid={accessible['data-testid']}
             aria-invalid={error}
             aria-describedby={helperText ? helperTextId : undefined}
             {...props}
+            size={inputSize}
           />
         )}
         {helperText && (
@@ -90,3 +116,5 @@ export const TextField = forwardRef<HTMLInputElement | HTMLDivElement, TextField
 )
 
 TextField.displayName = 'TextField'
+
+export default TextField
