@@ -16,6 +16,7 @@ add_executable(s3server
     src/controllers/ListCtrl.cpp
     src/controllers/HealthCtrl.cpp
     src/filters/AuthFilter.cpp
+    src/services/BucketStore.cpp
     src/services/ObjectStoreList.cpp
 )
 

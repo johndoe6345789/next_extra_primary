@@ -23,11 +23,16 @@ export default function Navbar() {
   const router = useRouter();
 
   useEffect(() => {
-    const raw = localStorage.getItem('user');
-    if (!raw) return;
-    try {
-      setUser(JSON.parse(raw) as NavbarUser);
-    } catch { /* corrupt localStorage */ }
+    const syncUser = () => {
+      const raw = localStorage.getItem('user');
+      if (!raw) { setUser(null); return; }
+      try {
+        setUser(JSON.parse(raw) as NavbarUser);
+      } catch { /* corrupt localStorage — ignore */ }
+    };
+    syncUser();
+    window.addEventListener('storage', syncUser);
+    return () => window.removeEventListener('storage', syncUser);
   }, []);
 
   const handleLogout = () => {

@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS users (
     display_name    VARCHAR(150) NOT NULL DEFAULT '',
     avatar_url      TEXT,
     is_active       BOOLEAN      NOT NULL DEFAULT TRUE,
-    is_confirmed    BOOLEAN      NOT NULL DEFAULT FALSE,
+    email_confirmed BOOLEAN      NOT NULL DEFAULT FALSE,
     role            VARCHAR(20)  NOT NULL DEFAULT 'user'
                     CHECK (role IN (
                         'user', 'moderator', 'admin'
@@ -176,6 +176,7 @@ CREATE TABLE IF NOT EXISTS token_blocklist (
                 CHECK (token_type IN (
                     'access', 'refresh'
                 )),
+    blocked_at  TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
     created_at  TIMESTAMPTZ  NOT NULL DEFAULT NOW()
 );
 

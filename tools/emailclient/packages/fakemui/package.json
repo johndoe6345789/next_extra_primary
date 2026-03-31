@@ -1,0 +1,10 @@
+{
+  "name": "@metabuilder/fakemui",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.tsx",
+  "exports": {
+    ".": "./index.tsx",
+    "./email": "./email/index.tsx"
+  }
+}

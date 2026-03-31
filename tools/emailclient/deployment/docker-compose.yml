@@ -22,7 +22,7 @@ services:
       - "${DB_PORT:-5433}:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - ./deployment/docker/postgres/init-scripts:/docker-entrypoint-initdb.d
+      - ./docker/postgres/init-scripts:/docker-entrypoint-initdb.d
     networks:
       - emailclient-net
     restart: unless-stopped
@@ -71,7 +71,7 @@ services:
   postfix:
     build:
       context: ..
-      dockerfile: ./emailclient/deployment/docker/postfix/Dockerfile
+      dockerfile: ./deployment/docker/postfix/Dockerfile
     container_name: emailclient-postfix
     hostname: postfix
     environment:
@@ -106,7 +106,7 @@ services:
   dovecot:
     build:
       context: ..
-      dockerfile: ./emailclient/deployment/docker/dovecot/Dockerfile
+      dockerfile: ./deployment/docker/dovecot/Dockerfile
     container_name: emailclient-dovecot
     hostname: dovecot
     environment:
@@ -144,7 +144,7 @@ services:
   email-service:
     build:
       context: ..
-      dockerfile: ./emailclient/deployment/docker/email-service/Dockerfile
+      dockerfile: ./deployment/docker/email-service/Dockerfile
     container_name: emailclient-email-service
     hostname: email-service
     environment:
@@ -238,7 +238,7 @@ services:
   celery-worker:
     build:
       context: ..
-      dockerfile: ./emailclient/deployment/docker/email-service/Dockerfile
+      dockerfile: ./deployment/docker/email-service/Dockerfile
     container_name: emailclient-celery-worker
     hostname: celery-worker
     command: celery -A tasks worker --loglevel=info --concurrency=4
@@ -294,7 +294,7 @@ services:
   celery-beat:
     build:
       context: ..
-      dockerfile: ./emailclient/deployment/docker/email-service/Dockerfile
+      dockerfile: ./deployment/docker/email-service/Dockerfile
     container_name: emailclient-celery-beat
     hostname: celery-beat
     command: celery -A tasks beat --loglevel=info

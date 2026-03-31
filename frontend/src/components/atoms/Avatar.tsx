@@ -43,6 +43,17 @@ export const Avatar: React.FC<AvatarProps> = ({
 }) => {
   const px = SIZES[size];
 
+  const handleKeyDown = onClick
+    ? (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick(
+            e as unknown as React.MouseEvent<HTMLDivElement>,
+          );
+        }
+      }
+    : undefined;
+
   return (
     <MuiAvatar
       src={src}
@@ -53,6 +64,7 @@ export const Avatar: React.FC<AvatarProps> = ({
         ...(onClick && { cursor: 'pointer' }),
       }}
       onClick={onClick}
+      onKeyDown={handleKeyDown}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
       data-testid={testId}

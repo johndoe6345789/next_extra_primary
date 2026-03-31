@@ -50,6 +50,7 @@ export default function useAdmin(): UseAdminResult {
           config: AdminConfig;
         };
         setConfig(data.config);
+        setLoading(false);
         return;
       }
     } catch { /* API unreachable */ }
