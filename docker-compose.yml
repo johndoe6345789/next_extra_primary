@@ -104,6 +104,70 @@ services:
       - ./docker/mail/roundcube/custom-config.php:/var/roundcube/config/custom-config.php:ro
     restart: unless-stopped
 
+  # ---- Email client DB --------------------------------------
+  emailclient-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: emailclient
+      POSTGRES_USER: emailclient
+      POSTGRES_PASSWORD: emailclient
+    volumes:
+      - emailclient-dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL",
+             "pg_isready -U emailclient -d emailclient"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ---- Email client API (Flask backend) ----------------------
+  emailclient-api:
+    build:
+      context: ./tools/emailclient
+      dockerfile: deployment/docker/email-service/Dockerfile
+    ports:
+      - "8500:5000"
+    depends_on:
+      mailserver:
+        condition: service_healthy
+      emailclient-db:
+        condition: service_healthy
+    environment:
+      POSTFIX_HOST: mailserver
+      POSTFIX_PORT: "25"
+      DOVECOT_HOST: mailserver
+      DOVECOT_IMAP_PORT: "143"
+      SMTP_HOST: mailserver
+      SMTP_PORT: "587"
+      DATABASE_URL: >-
+        postgresql://emailclient:emailclient
+        @emailclient-db:5432/emailclient
+      FLASK_ENV: development
+      FLASK_DEBUG: "1"
+      IMAP_SYNC_INTERVAL: "300"
+      SMTP_TIMEOUT: "30"
+    restart: unless-stopped
+
+  # ---- Email client frontend (Next.js) -----------------------
+  emailclient:
+    build:
+      context: ./tools/emailclient
+      dockerfile: Dockerfile
+      args:
+        NEXT_BASE_PATH: /emailclient
+    ports:
+      - "8026:3000"
+    depends_on:
+      emailclient-api:
+        condition: service_started
+      mailserver:
+        condition: service_healthy
+    environment:
+      BACKEND_URL: http://emailclient-api:5000
+      NODE_ENV: production
+    restart: unless-stopped
+
   # ---- C++ API backend ---------------------------------------
   backend:
     build:
@@ -382,6 +446,7 @@ volumes:
   maildata:
   mailstate:
   maillogs:
+  emailclient-dbdata:
   packagerepo-dbdata:
   s3-dbdata:
   s3-data:

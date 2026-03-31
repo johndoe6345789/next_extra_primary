@@ -14,9 +14,9 @@
     "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
-    "@metabuilder/fakemui": "*",
-    "@metabuilder/hooks": "*",
-    "@metabuilder/redux-core": "*",
+    "@metabuilder/fakemui": "file:./packages/fakemui",
+    "@metabuilder/hooks": "file:./packages/fakemui",
+    "@metabuilder/redux-core": "file:./packages/redux-core",
     "@reduxjs/toolkit": "^2.11.2",
     "next": "^16.1.6",
     "react": "^19.2.4",
