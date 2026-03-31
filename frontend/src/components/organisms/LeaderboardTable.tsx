@@ -1,15 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
+import Table from '@metabuilder/m3/Table';
+import TableBody from '@metabuilder/m3/TableBody';
+import TableCell from '@metabuilder/m3/TableCell';
+import TableContainer from '@metabuilder/m3/TableContainer';
+import TableHead from '@metabuilder/m3/TableHead';
+import TableRow from '@metabuilder/m3/TableRow';
+import TableSortLabel from '@metabuilder/m3/TableSortLabel';
+import Paper from '@metabuilder/m3/Paper';
+import Box from '@metabuilder/m3/Box';
 import { useGamification } from '@/hooks';
 import { LeaderboardRow } from './LeaderboardRow';
 import { PeriodFilter } from './PeriodFilter';

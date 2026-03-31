@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useRef, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@metabuilder/m3/Box';
+import Typography from '@metabuilder/m3/Typography';
+import CircularProgress from '@metabuilder/m3/CircularProgress';
 import { AiChatMessage } from './AiChatMessage';
 import type { ChatMessage } from '@/types/chat';
 
@@ -42,7 +42,7 @@ export const ChatMessageList: React.FC<ChatMessageListProps> = ({
       sx={{ flex: 1, overflow: 'auto', p: 2 }}
     >
       {messages.length === 0 && (
-        <Typography color="text.secondary" textAlign="center">
+        <Typography color="text.secondary" style={{ textAlign: 'center' }}>
           Start a conversation
         </Typography>
       )}

@@ -1,40 +1,19 @@
-import { createTheme } from '@mui/material/styles';
-import { lightPalette, darkPalette } from './palette';
-import { typography } from './typography';
-import { components } from './components';
-
 /**
- * Application theme built with MUI's colorSchemes API.
+ * @file theme.ts
+ * @brief M3 theme entry point.
  *
- * Uses MD3-inspired design tokens for both light and dark
- * modes. CSS variables are enabled so colour scheme
- * switching works without a full re-render.
+ * Theming is now handled by @metabuilder/scss via CSS
+ * variables (--mat-sys-primary, --mat-sys-surface, etc).
+ * This module re-exports design token metadata for any
+ * code that needs programmatic access to token values.
  *
  * @example
  * ```tsx
- * import { ThemeProvider } from '@mui/material/styles';
- * import { theme } from '@/theme/theme';
- *
- * <ThemeProvider theme={theme}>
- *   <App />
- * </ThemeProvider>
+ * import { tokens } from '@/theme/theme';
+ * console.log(tokens.light.primary);
  * ```
  */
-export const theme = createTheme({
-  cssVariables: {
-    colorSchemeSelector: 'class',
-  },
-  colorSchemes: {
-    light: {
-      palette: lightPalette(),
-    },
-    dark: {
-      palette: darkPalette(),
-    },
-  },
-  typography: typography(),
-  components: components(),
-  shape: {
-    borderRadius: 8,
-  },
-});
+import tokens from './tokens.json';
+
+/** Light and dark M3 colour tokens. */
+export { tokens };

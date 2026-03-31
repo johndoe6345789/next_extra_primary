@@ -1,15 +1,8 @@
 'use client';
 
-import InsertDriveFileIcon
-  from '@mui/icons-material/InsertDriveFile';
-import ImageIcon
-  from '@mui/icons-material/Image';
-import CodeIcon
-  from '@mui/icons-material/Code';
-import ArchiveIcon
-  from '@mui/icons-material/Archive';
-import DescriptionIcon
-  from '@mui/icons-material/Description';
+import {
+  File, Image, Code, Archive, Description,
+} from '@metabuilder/m3';
 
 /** @brief Props for FileIcon atom. */
 export interface FileIconProps {
@@ -19,10 +12,14 @@ export interface FileIconProps {
   testId?: string;
 }
 
-const IMAGE_EXT = /\.(png|jpg|jpeg|gif|svg|webp)$/i;
-const CODE_EXT = /\.(ts|tsx|js|json|cpp|h|py|rs)$/i;
-const ARCHIVE_EXT = /\.(zip|tar|gz|bz2|7z|rar)$/i;
-const DOC_EXT = /\.(pdf|doc|docx|txt|md|csv)$/i;
+const IMAGE_EXT =
+  /\.(png|jpg|jpeg|gif|svg|webp)$/i;
+const CODE_EXT =
+  /\.(ts|tsx|js|json|cpp|h|py|rs)$/i;
+const ARCHIVE_EXT =
+  /\.(zip|tar|gz|bz2|7z|rar)$/i;
+const DOC_EXT =
+  /\.(pdf|doc|docx|txt|md|csv)$/i;
 
 /**
  * @brief Icon matching file extension type.
@@ -32,20 +29,23 @@ export default function FileIcon({
   filename,
   testId = 'file-icon',
 }: FileIconProps) {
-  const sx = { fontSize: 20, color: 'text.secondary' };
+  const style = {
+    fontSize: 20,
+    color: 'var(--md-sys-color-on-surface)',
+  };
   const props = {
     'data-testid': testId,
     'aria-label': `File type for ${filename}`,
-    sx,
+    style,
   };
 
   if (IMAGE_EXT.test(filename))
-    return <ImageIcon {...props} />;
+    return <Image {...props} />;
   if (CODE_EXT.test(filename))
-    return <CodeIcon {...props} />;
+    return <Code {...props} />;
   if (ARCHIVE_EXT.test(filename))
-    return <ArchiveIcon {...props} />;
+    return <Archive {...props} />;
   if (DOC_EXT.test(filename))
-    return <DescriptionIcon {...props} />;
-  return <InsertDriveFileIcon {...props} />;
+    return <Description {...props} />;
+  return <File {...props} />;
 }

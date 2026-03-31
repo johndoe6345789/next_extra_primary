@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
+import Box from '@metabuilder/m3/Box';
+import Container from '@metabuilder/m3/Container';
+import Typography from '@metabuilder/m3/Typography';
 import { useTranslations } from 'next-intl';
 import { HeroCta } from '../molecules';
 
@@ -29,17 +29,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       component="section"
       data-testid={testId}
       aria-label="Hero section"
-      sx={(theme) => ({
-        py: { xs: 8, md: 12 },
-        background: [
-          'linear-gradient(135deg,',
-          theme.palette.primary.main,
-          '0%,',
-          theme.palette.secondary.main,
-          '100%)',
-        ].join(' '),
-        color: 'primary.contrastText',
-      })}
+      style={{
+        paddingTop: '4rem',
+        paddingBottom: '4rem',
+        background:
+          'linear-gradient(135deg, var(--md-sys-color-primary) 0%, var(--md-sys-color-secondary) 100%)',
+        color: 'var(--md-sys-color-on-primary)',
+      }}
     >
       <Container maxWidth="md">
         <Typography

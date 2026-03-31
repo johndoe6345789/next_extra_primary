@@ -3,11 +3,13 @@ import {
   setRequestLocale,
   getTranslations,
 } from 'next-intl/server';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Divider from '@mui/material/Divider';
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  Divider,
+} from '@metabuilder/m3';
 
 /** Skip static prerendering for this page. */
 export const dynamic = 'force-dynamic';
@@ -38,7 +40,7 @@ export default async function ProfilePage({
       <Typography variant="h4" component="h1" gutterBottom>
         {t('title')}
       </Typography>
-      <Card elevation={2}>
+      <Card>
         <CardContent>
           <Typography variant="h6" component="h2">
             {t('userInfo')}

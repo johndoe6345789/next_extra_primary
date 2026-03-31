@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Box from '@mui/material/Box';
+import Box from '@metabuilder/m3/Box';
 import { ChatMessageList } from './ChatMessageList';
 import { ChatInput } from './ChatInput';
 import { useAiChat } from '@/hooks';

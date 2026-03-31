@@ -1,16 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import { ThemeProvider } from '@mui/material/styles';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import { theme } from '@/theme/theme';
+import { IconButton } from '@metabuilder/m3';
+import { Menu as MenuIcon }
+  from '@metabuilder/m3/icons';
 import SiteDrawer
   from '@/components/molecules/SiteDrawer';
 import navItems from '@/constants/nav-items.json';
 import labels from '@/constants/ui-labels.json';
-import styles
+import shell
   from '@scss/atoms/pgadmin-shell.module.scss';
+import sidebar
+  from '@scss/atoms/pgadmin-sidebar.module.scss';
 
 /** @brief Props for AppShell. */
 interface AppShellProps {
@@ -30,31 +31,29 @@ export default function AppShell(
   const [collapsed, setCollapsed] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const sidebarCls = collapsed
-    ? styles.sidebarCollapsed : styles.sidebar;
+    ? sidebar.sidebarCollapsed : sidebar.sidebar;
 
   return (
-    <div className={styles.appShell} data-testid="app-shell">
+    <div className={shell.appShell} data-testid="app-shell">
       <nav className={sidebarCls} aria-label="Main navigation">
-        <div className={styles.sidebarHeader}>
-          <ThemeProvider theme={theme}>
-            <IconButton
-              onClick={() => setDrawerOpen(true)}
-              aria-label="Open site drawer"
-              data-testid="site-drawer-toggle"
-              style={burgerStyle}
-            >
-              <MenuIcon />
-            </IconButton>
-            <SiteDrawer
-              open={drawerOpen}
-              onClose={() => setDrawerOpen(false)}
-            />
-          </ThemeProvider>
-          <h2 className={styles.sidebarTitle}>
+        <div className={sidebar.sidebarHeader}>
+          <IconButton
+            onClick={() => setDrawerOpen(true)}
+            aria-label="Open site drawer"
+            data-testid="site-drawer-toggle"
+            style={burgerStyle}
+          >
+            <MenuIcon />
+          </IconButton>
+          <SiteDrawer
+            open={drawerOpen}
+            onClose={() => setDrawerOpen(false)}
+          />
+          <h2 className={sidebar.sidebarTitle}>
             {labels.app.title}
           </h2>
           <button
-            className={styles.sidebarToggle}
+            className={sidebar.sidebarToggle}
             onClick={() => setCollapsed(!collapsed)}
             aria-label="Toggle sidebar"
             data-testid="sidebar-toggle"
@@ -62,13 +61,13 @@ export default function AppShell(
             {collapsed ? '→' : '←'}
           </button>
         </div>
-        <ul className={styles.navList}>
+        <ul className={sidebar.navList}>
           {navItems.map((item) => (
-            <li key={item.id} className={styles.navListItem}>
+            <li key={item.id} className={sidebar.navListItem}>
               <button
                 className={
                   activeTab === item.id
-                    ? styles.navActive : styles.navItem
+                    ? sidebar.navActive : sidebar.navItem
                 }
                 onClick={() => onTabChange(item.id)}
                 aria-label={item.label}
@@ -80,7 +79,7 @@ export default function AppShell(
           ))}
         </ul>
         <button
-          className={styles.logoutBtn}
+          className={sidebar.logoutBtn}
           onClick={onLogout}
           aria-label={labels.nav.logout}
           data-testid="logout-button"
@@ -88,7 +87,7 @@ export default function AppShell(
           {!collapsed && labels.nav.logout}
         </button>
       </nav>
-      <main className={styles.content}>
+      <main className={shell.content}>
         {children}
       </main>
     </div>

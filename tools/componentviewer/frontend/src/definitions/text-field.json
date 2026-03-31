@@ -1,0 +1,71 @@
+{
+  "name": "TextField",
+  "category": "Inputs",
+  "description": "M3 text input for forms.",
+  "props": [
+    {
+      "name": "variant",
+      "type": "enum",
+      "defaultValue": "outlined",
+      "options": ["outlined", "filled"],
+      "description": "Input container style."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "defaultValue": "Label",
+      "description": "Floating label text."
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "defaultValue": "",
+      "description": "Placeholder hint text."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "defaultValue": false,
+      "description": "Disables input."
+    },
+    {
+      "name": "error",
+      "type": "boolean",
+      "defaultValue": false,
+      "description": "Shows error state."
+    },
+    {
+      "name": "helperText",
+      "type": "string",
+      "defaultValue": "",
+      "description": "Helper or error message."
+    }
+  ],
+  "variants": [
+    {
+      "label": "Outlined",
+      "props": { "variant": "outlined" }
+    },
+    {
+      "label": "Filled",
+      "props": { "variant": "filled" }
+    },
+    {
+      "label": "With Helper",
+      "props": {
+        "helperText": "Required field"
+      }
+    },
+    {
+      "label": "Error State",
+      "props": {
+        "error": true,
+        "helperText": "Invalid input"
+      }
+    },
+    {
+      "label": "Disabled",
+      "props": { "disabled": true }
+    }
+  ]
+}

@@ -1,12 +1,12 @@
 'use client';
 
 import React from 'react';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import InfoIcon from '@mui/icons-material/Info';
-import ChatIcon from '@mui/icons-material/Chat';
+import ListItemButton from '@metabuilder/m3/ListItemButton';
+import ListItemIcon from '@metabuilder/m3/ListItemIcon';
+import ListItemText from '@metabuilder/m3/ListItemText';
+import EmojiEventsIcon from '@metabuilder/icons/EmojiEvents';
+import InfoIcon from '@metabuilder/icons/Info';
+import ChatIcon from '@metabuilder/icons/Chat';
 import type { Notification } from '@/types/notification';
 
 const ICONS: Record<string, React.ReactNode> = {

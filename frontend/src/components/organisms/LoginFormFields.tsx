@@ -37,7 +37,7 @@ export const LoginFormFields: React.FC<LoginFieldsProps> = ({
       <TextField
         label={t('email')}
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setEmail(e.target.value)}
         type="email"
         required
         error={!!errors.email}
@@ -48,7 +48,7 @@ export const LoginFormFields: React.FC<LoginFieldsProps> = ({
       <TextField
         label={t('password')}
         value={pw}
-        onChange={(e) => setPw(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setPw(e.target.value)}
         type="password"
         required
         error={!!errors.password}

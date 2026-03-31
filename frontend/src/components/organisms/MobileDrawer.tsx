@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import Drawer from '@mui/material/Drawer';
-import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
+import Drawer from '@metabuilder/m3/Drawer';
+import Box from '@metabuilder/m3/Box';
+import List from '@metabuilder/m3/List';
+import Divider from '@metabuilder/m3/Divider';
 import { Link } from '@/i18n/navigation';
 import { DrawerHeader } from '../molecules/DrawerHeader';
 import { DrawerNavItem } from '../molecules/DrawerNavItem';

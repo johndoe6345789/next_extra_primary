@@ -12,8 +12,11 @@ A full-stack gamified web application with AI chat integration. The frontend
 is built with Next.js, TypeScript, MUI, and Redux Toolkit. The backend is a
 high-performance C++ Drogon API server compiled to a native binary. Features
 include authentication, a points-and-badges gamification system, real-time
-notifications, AI chat (Claude and OpenAI), internationalization, and dark
-mode support.
+notifications, AI chat (Claude and OpenAI), full-text search via
+Elasticsearch, feature toggles, contact forms, a documentation viewer,
+internationalization, and dark mode support. The project also ships
+ancillary tools: an email client, a PostgreSQL admin dashboard, a package
+repository manager, and an S3-compatible object store for offline use.
 
 ---
 
@@ -21,7 +24,7 @@ mode support.
 
 ```
                        HTTPS
-  Browser ──────────────────────────────► Reverse Proxy
+  Browser ──────────────────────────────► Nginx Reverse Proxy
                                               │
                 ┌─────────────────────────────┤
                 │                             │
@@ -33,29 +36,34 @@ mode support.
   │   port 3000          │     │   port 8080          │
   └──────────────────────┘     └──────────┬───────────┘
                                           │
-                                 ┌────────▼─────────┐
-                                 │  PostgreSQL 16    │
-                                 │  port 5432        │
-                                 └──────────────────┘
+                              ┌───────────┼───────────┐
+                              │           │           │
+                     ┌────────▼──┐  ┌─────▼──────┐  ┌▼──────────┐
+                     │PostgreSQL │  │Elasticsearch│  │Mail Server│
+                     │port 5432  │  │port 9200    │  │(Dovecot)  │
+                     └───────────┘  └────────────┘  └───────────┘
 ```
 
-The frontend communicates with the backend over REST/JSON. The backend
-handles all business logic, authentication, gamification scoring,
-notification dispatch, and proxied AI chat requests to Claude and OpenAI
-APIs. PostgreSQL stores all persistent data.
+The frontend communicates with the backend over REST/JSON via an Nginx
+reverse proxy. The backend handles all business logic, authentication,
+gamification scoring, notification dispatch, full-text search indexing
+(Elasticsearch), feature toggles, and proxied AI chat requests to Claude
+and OpenAI APIs. PostgreSQL stores all persistent data. A bundled mail
+server (Dovecot + Roundcube) provides email services.
 
 ---
 
 ## Prerequisites
 
-| Tool                | Version     |
-|---------------------|-------------|
-| Node.js             | 22+         |
-| C++20 compiler      | GCC 13+ or Clang 17+ |
-| Conan               | 2.x         |
-| CMake               | 3.20+       |
-| Docker & Compose    | Latest      |
-| PostgreSQL           | 16          |
+| Tool                | Version                |
+|---------------------|------------------------|
+| Node.js             | 22+                    |
+| C++20 compiler      | GCC 13+ or Clang 17+  |
+| Conan               | 2.x                    |
+| CMake               | 3.20+                  |
+| Docker & Compose    | Latest                 |
+| PostgreSQL          | 16                     |
+| Elasticsearch       | 8.x                    |
 
 ---
 
@@ -89,16 +97,11 @@ docker compose logs -f          # follow logs
 docker compose down             # stop everything
 ```
 
-For development with hot reload and volume mounts:
+For offline / air-gapped environments, preload all dependencies first:
 
 ```bash
-docker compose -f docker-compose.dev.yml up --build
-```
-
-For offline / air-gapped environments with preloaded packages:
-
-```bash
-docker compose -f docker-compose.offline.yml up --build
+./manager preload all        # cache Conan, npm, pip, Docker, apt
+./manager docker build offline
 ```
 
 ---
@@ -175,23 +178,22 @@ nextra/
 ├── agents.md                   # AI agent configurations
 ├── roadmap.md                  # Feature roadmap
 ├── plan.md                     # Implementation plan
-├── docker-compose.yml          # Production compose
-├── docker-compose.dev.yml      # Development compose
-├── docker-compose.offline.yml  # Offline / air-gapped compose
+├── docker-compose.yml          # Service orchestration
 ├── .clang-format               # C++ formatting rules
 ├── .clang-tidy                 # C++ linting rules
 ├── backend/
 │   ├── CMakeLists.txt
 │   ├── Dockerfile
-│   ├── captain-definition      # CapRover deploy config
 │   ├── conanfile.py            # C++ dependencies (Conan 2)
 │   ├── config/                 # Drogon server configuration
 │   ├── migrations/             # SQL migration files
 │   ├── seed/                   # JSON seed data
+│   ├── seeds/                  # Extended seed data
 │   ├── src/
 │   │   ├── main.cpp            # CLI entry point (CLI11)
 │   │   ├── commands/           # CLI subcommand handlers
 │   │   ├── controllers/        # HTTP route handlers
+│   │   ├── docs/               # OpenAPI spec definitions
 │   │   ├── filters/            # Auth, CORS, rate-limit
 │   │   ├── models/             # Drogon ORM models
 │   │   ├── services/           # Business logic layer
@@ -200,7 +202,6 @@ nextra/
 │   └── tests/                  # GTest unit tests
 ├── frontend/
 │   ├── Dockerfile
-│   ├── captain-definition      # CapRover deploy config
 │   ├── package.json
 │   ├── next.config.ts
 │   ├── src/
@@ -216,11 +217,25 @@ nextra/
 │   │   ├── types/              # TypeScript type definitions
 │   │   └── seed/               # Mock data for development
 │   └── public/                 # Static assets
+├── shared/
+│   ├── components/             # Shared UI component library
+│   ├── hooks/                  # Shared React hooks
+│   ├── icons/                  # Material icons + symbols
+│   ├── interfaces/             # Shared TypeScript interfaces
+│   ├── redux/                  # Shared Redux slices + hooks
+│   ├── schemas/                # JSON schemas + validation
+│   ├── scss/                   # Shared SCSS styles
+│   ├── storybook/              # Storybook configuration
+│   └── e2e/                    # Playwright end-to-end tests
 ├── docker/
 │   ├── backend-deps.Dockerfile # Pre-baked backend deps
-│   └── frontend-deps.Dockerfile# Pre-baked frontend deps
+│   ├── frontend-deps.Dockerfile# Pre-baked frontend deps
+│   ├── mail/                   # Dovecot + Roundcube config
+│   └── nginx/                  # Reverse proxy + portal
 ├── tools/
-│   ├── manager/                # Dev workflow CLI (includes cmake-gen)
+│   ├── manager/                # Dev workflow CLI (cmake-gen)
+│   ├── emailclient/            # Email client application
+│   ├── pgadmin/                # PostgreSQL admin dashboard
 │   ├── packagerepo/            # Package repository manager
 │   └── s3server/               # S3-compatible object store
 └── docs/
@@ -244,15 +259,34 @@ conan install .. --build=missing
 cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake
 cmake --build .
 
-# Now use the manager
+# Core workflow
 ./manager build --debug          # Build backend
+./manager quick-build            # Fast incremental build
 ./manager test                   # Run tests
 ./manager run --port 8080        # Build and run
 ./manager lint                   # Check formatting
 ./manager fmt                    # Auto-format code
 ./manager generate cmake         # Regenerate CMakeLists.txt
+./manager generate models        # Regenerate Drogon ORM models
 ./manager migrate --up           # Run migrations
+./manager seed                   # Seed database
+
+# Docker orchestration
 ./manager docker up              # Docker Compose up
+./manager docker down            # Stop services
+./manager docker logs            # Follow logs
+./manager docker status          # Check service status
+./manager docker build           # Build images
+./manager docker build offline   # Build for air-gapped env
+
+# Ancillary services
+./manager s3 up / down / logs    # S3-compatible store
+./manager repo up / down / logs  # Package repository
+
+# Offline / preloading
+./manager preload all            # Cache all dependencies
+./manager offline deps           # Package for offline use
+./manager info                   # Show project info
 ```
 
 ### Frontend Development
@@ -287,10 +321,16 @@ prefixed with `/api`.
 | Group          | Base Path              | Description               |
 |----------------|------------------------|---------------------------|
 | Auth           | `/api/auth`            | Register, login, tokens   |
+| Password       | `/api/auth/password`   | Forgot / reset password   |
 | Users          | `/api/users`           | User profiles and stats   |
 | Gamification   | `/api/gamification`    | Badges, points, streaks   |
 | Notifications  | `/api/notifications`   | User notification inbox   |
 | Chat           | `/api/chat`            | AI chat (Claude/OpenAI)   |
+| Contact        | `/api/contact`         | Contact form submissions  |
+| Dashboard      | `/api/dashboard`       | Dashboard stats overview  |
+| Docs           | `/api/docs`            | Documentation / OpenAPI   |
+| Search         | `/api/search`          | Full-text search (ES)     |
+| Features       | `/api/features`        | Feature toggle management |
 | Health         | `/api/health`          | Service health check      |
 
 For the full endpoint reference with request/response schemas, see

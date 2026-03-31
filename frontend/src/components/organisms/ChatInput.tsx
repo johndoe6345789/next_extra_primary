@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import Box from '@mui/material/Box';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import ToggleButton from '@mui/material/ToggleButton';
+import Box from '@metabuilder/m3/Box';
+import ToggleButtonGroup from '@metabuilder/m3/ToggleButtonGroup';
+import ToggleButton from '@metabuilder/m3/ToggleButton';
 import { useTranslations } from 'next-intl';
 import { TextField, Button } from '../atoms';
 import { ChatProvider } from '@/types/chat';
@@ -60,7 +60,9 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         exclusive
         size="small"
         aria-label="AI provider"
-        onChange={(_, v) => v && onProvider(v as ChatProvider)}
+        onChange={(_: unknown, v: string | string[] | null) => {
+          if (typeof v === 'string') onProvider(v as ChatProvider);
+        }}
       >
         <ToggleButton value={ChatProvider.Anthropic}>Claude</ToggleButton>
         <ToggleButton value={ChatProvider.OpenAI}>OpenAI</ToggleButton>
@@ -72,7 +74,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         <TextField
           label={t('placeholder')}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => onChange(e.target.value)}
           multiline
           rows={1}
           testId="chat-input"

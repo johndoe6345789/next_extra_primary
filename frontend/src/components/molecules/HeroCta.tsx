@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Stack from '@mui/material/Stack';
+import Stack from '@metabuilder/m3/Stack';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { Button } from '../atoms';
@@ -24,7 +24,7 @@ export const HeroCta: React.FC = () => {
 
   return (
     <Stack
-      direction={{ xs: 'column', sm: 'row' }}
+      direction="row"
       spacing={2}
       data-testid="hero-cta-group"
     >

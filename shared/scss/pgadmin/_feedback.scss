@@ -1,0 +1,78 @@
+/**
+ * PgAdmin Feedback - M3 chips, alerts, errors.
+ */
+
+.error {
+  color: var(--mat-sys-error);
+  font: var(--mat-sys-body-medium-font);
+  padding: 8px 12px;
+  background: var(--mat-sys-error-container);
+  border-radius: var(--mat-sys-corner-small);
+  margin: 8px 0;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: var(--mat-sys-corner-small);
+  font: var(--mat-sys-label-medium-font);
+}
+
+.chip--success {
+  background: var(--color-success-container);
+  color: var(--color-on-success-container);
+}
+
+.chip--error {
+  background: var(--mat-sys-error-container);
+  color: var(--mat-sys-on-error-container);
+}
+
+.chip--warning {
+  background: var(--color-warning-container);
+  color: var(--color-on-warning-container);
+}
+
+.chip--info {
+  background: var(--color-info-container);
+  color: var(--color-on-info-container);
+}
+
+.alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: var(--mat-sys-corner-small);
+  margin-bottom: 12px;
+  font: var(--mat-sys-body-medium-font);
+}
+
+.alert--error {
+  background: var(--mat-sys-error-container);
+  color: var(--mat-sys-on-error-container);
+}
+
+.alert--success {
+  background: var(--color-success-container);
+  color: var(--color-on-success-container);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--mat-sys-outline-variant);
+  border-radius: 3px;
+
+  &:hover {
+    background: var(--mat-sys-outline);
+  }
+}

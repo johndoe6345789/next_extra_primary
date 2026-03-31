@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-import Box from '@mui/material/Box';
+import TableRow from '@metabuilder/m3/TableRow';
+import TableCell from '@metabuilder/m3/TableCell';
+import Box from '@metabuilder/m3/Box';
 import { Avatar } from '../atoms';
 import type { LeaderboardEntry } from '@/types/gamification';
 

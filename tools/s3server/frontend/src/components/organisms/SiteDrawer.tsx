@@ -1,12 +1,9 @@
 'use client';
 
-import Drawer from '@mui/material/Drawer';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import CloudIcon from '@mui/icons-material/Cloud';
+import {
+  Drawer, Box, Typography,
+  Divider, IconButton, Close, Cloud,
+} from '@metabuilder/m3';
 import DrawerNavLinks from './DrawerNavLinks';
 import DrawerSiteLinks from './DrawerSiteLinks';
 import DrawerLogout from './DrawerLogout';
@@ -22,7 +19,7 @@ interface SiteDrawerProps {
 }
 
 /**
- * @brief Sidebar drawer with navigation and site links.
+ * @brief Sidebar drawer with nav and site links.
  */
 export default function SiteDrawer(
   { open, onClose, onLogout }: SiteDrawerProps,
@@ -34,14 +31,28 @@ export default function SiteDrawer(
       data-testid="site-drawer"
       aria-label="Site navigation drawer"
     >
-      <Box sx={{ width: 280 }} role="presentation">
-        <Box sx={{
-          display: 'flex', alignItems: 'center',
-          justifyContent: 'space-between', p: 2,
+      <Box
+        style={{ width: 280 }}
+        role="presentation"
+      >
+        <Box style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: 16,
         }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <CloudIcon color="primary" sx={{ mr: 1 }} />
-            <Typography variant="h6" fontWeight={700}>
+          <Box style={{
+            display: 'flex',
+            alignItems: 'center',
+          }}>
+            <Cloud
+              color="primary"
+              style={{ marginRight: 8 }}
+            />
+            <Typography
+              variant="h6"
+              style={{ fontWeight: 700 }}
+            >
               NextExtra
             </Typography>
           </Box>
@@ -49,7 +60,7 @@ export default function SiteDrawer(
             onClick={onClose}
             aria-label="Close drawer"
           >
-            <CloseIcon />
+            <Close />
           </IconButton>
         </Box>
         <Divider />
@@ -57,7 +68,10 @@ export default function SiteDrawer(
         <Divider />
         <DrawerSiteLinks />
         <Divider />
-        <DrawerLogout onLogout={onLogout} onClose={onClose} />
+        <DrawerLogout
+          onLogout={onLogout}
+          onClose={onClose}
+        />
       </Box>
     </Drawer>
   );

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import StarIcon from '@mui/icons-material/Star';
+import StarIcon from '@metabuilder/icons/Star';
 import { Chip } from '../atoms';
 
 /**
@@ -56,7 +56,7 @@ export const PointsDisplay: React.FC<PointsDisplayProps> = ({
       <Chip
         label={label}
         color="primary"
-        icon={<StarIcon fontSize="small" />}
+        icon={<StarIcon size={18} />}
         testId={`${testId}-chip`}
       />
     </span>

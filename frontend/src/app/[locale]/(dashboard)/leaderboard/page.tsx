@@ -1,7 +1,6 @@
 import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { Box, Typography } from '@metabuilder/m3';
 import { LeaderboardTable } from '@/components/organisms/LeaderboardTable';
 
 /** Skip static prerendering for this page. */

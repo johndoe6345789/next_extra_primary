@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@metabuilder/icons/LightMode';
+import DarkModeIcon from '@metabuilder/icons/DarkMode';
 import { IconButton } from '../atoms';
 import { useThemeMode } from '@/hooks';
 
@@ -37,8 +37,8 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
       <IconButton
         icon={
           isDark
-            ? <DarkModeIcon sx={{ fontSize: 28 }} />
-            : <LightModeIcon sx={{ fontSize: 28 }} />
+            ? <DarkModeIcon size={28} />
+            : <LightModeIcon size={28} />
         }
         ariaLabel={label}
         onClick={toggleMode}

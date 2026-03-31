@@ -1,0 +1,63 @@
+{
+  "name": "Dialog",
+  "category": "Feedback",
+  "description": "M3 modal dialog overlay.",
+  "props": [
+    {
+      "name": "open",
+      "type": "boolean",
+      "defaultValue": true,
+      "description": "Controls visibility."
+    },
+    {
+      "name": "fullWidth",
+      "type": "boolean",
+      "defaultValue": false,
+      "description": "Stretches to max width."
+    },
+    {
+      "name": "maxWidth",
+      "type": "enum",
+      "defaultValue": "sm",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "description": "Max width breakpoint."
+    },
+    {
+      "name": "dividers",
+      "type": "boolean",
+      "defaultValue": false,
+      "description": "Adds content dividers."
+    }
+  ],
+  "variants": [
+    {
+      "label": "Small Default",
+      "props": { "maxWidth": "sm" }
+    },
+    {
+      "label": "Medium Wide",
+      "props": { "maxWidth": "md" }
+    },
+    {
+      "label": "Full Width SM",
+      "props": {
+        "fullWidth": true,
+        "maxWidth": "sm"
+      }
+    },
+    {
+      "label": "With Dividers",
+      "props": { "dividers": true }
+    },
+    {
+      "label": "Extra Small",
+      "props": { "maxWidth": "xs" }
+    }
+  ]
+}

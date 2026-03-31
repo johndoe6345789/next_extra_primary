@@ -4,8 +4,11 @@
     {
       "name": "portal",
       "runtimeExecutable": "docker",
-      "runtimeArgs": ["compose", "up", "portal"],
-      "port": 8888,
+      "runtimeArgs": [
+        "compose", "up", "--no-deps",
+        "frontend", "portal"
+      ],
+      "port": 8889,
       "autoPort": false,
       "cwd": "."
     }

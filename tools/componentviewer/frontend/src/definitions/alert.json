@@ -1,0 +1,76 @@
+{
+  "name": "Alert",
+  "category": "Feedback",
+  "description": "M3 alert banner for messages.",
+  "props": [
+    {
+      "name": "severity",
+      "type": "enum",
+      "defaultValue": "info",
+      "options": [
+        "success",
+        "info",
+        "warning",
+        "error"
+      ],
+      "description": "Severity level and icon."
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "defaultValue": "standard",
+      "options": [
+        "standard",
+        "filled",
+        "outlined"
+      ],
+      "description": "Visual treatment style."
+    },
+    {
+      "name": "children",
+      "type": "string",
+      "defaultValue": "This is an alert.",
+      "description": "Alert message content."
+    },
+    {
+      "name": "closable",
+      "type": "boolean",
+      "defaultValue": false,
+      "description": "Shows a close button."
+    }
+  ],
+  "variants": [
+    {
+      "label": "Info Standard",
+      "props": { "severity": "info" }
+    },
+    {
+      "label": "Success Filled",
+      "props": {
+        "severity": "success",
+        "variant": "filled"
+      }
+    },
+    {
+      "label": "Warning Outlined",
+      "props": {
+        "severity": "warning",
+        "variant": "outlined"
+      }
+    },
+    {
+      "label": "Error Filled",
+      "props": {
+        "severity": "error",
+        "variant": "filled"
+      }
+    },
+    {
+      "label": "Closable Info",
+      "props": {
+        "severity": "info",
+        "closable": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "auth-flows",
+  "description": "Authentication flow test scenarios",
+  "tests": [
+    {
+      "name": "login with valid credentials",
+      "tags": ["@smoke", "@auth"],
+      "steps": [
+        { "action": "navigate", "url": "/login" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "fill", "label": "Email", "value": "test@example.com" },
+        { "action": "fill", "label": "Password", "value": "ValidPass123!" },
+        { "action": "click", "role": "button", "text": "Log in" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "selector": "body",
+          "assertion": { "matcher": "toHaveURL", "expected": "/dashboard" } }
+      ]
+    },
+    {
+      "name": "login with invalid credentials shows error",
+      "tags": ["@auth"],
+      "steps": [
+        { "action": "navigate", "url": "/login" },
+        { "action": "fill", "label": "Email", "value": "bad@example.com" },
+        { "action": "fill", "label": "Password", "value": "wrong" },
+        { "action": "click", "role": "button", "text": "Log in" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "role": "alert",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    },
+    {
+      "name": "register with valid data",
+      "tags": ["@auth"],
+      "steps": [
+        { "action": "navigate", "url": "/register" },
+        { "action": "fill", "label": "Username", "value": "newuser" },
+        { "action": "fill", "label": "Email", "value": "new@example.com" },
+        { "action": "fill", "label": "Password", "value": "SecurePass1!" },
+        { "action": "fill", "label": "Confirm Password", "value": "SecurePass1!" },
+        { "action": "click", "role": "button", "text": "Register" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "selector": "body",
+          "assertion": { "matcher": "toHaveURL", "expected": "/dashboard" } }
+      ]
+    },
+    {
+      "name": "register with mismatched passwords shows error",
+      "tags": ["@auth"],
+      "steps": [
+        { "action": "navigate", "url": "/register" },
+        { "action": "fill", "label": "Password", "value": "Pass123!" },
+        { "action": "fill", "label": "Confirm Password", "value": "Mismatch!" },
+        { "action": "click", "role": "button", "text": "Register" },
+        { "action": "expect", "text": "Passwords do not match",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    },
+    {
+      "name": "forgot password form submission",
+      "tags": ["@auth"],
+      "steps": [
+        { "action": "navigate", "url": "/login" },
+        { "action": "click", "text": "Forgot password" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "fill", "label": "Email", "value": "test@example.com" },
+        { "action": "click", "role": "button", "text": "Send reset link" },
+        { "action": "expect", "text": "Reset link sent",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "name": "Chip",
+  "category": "Data Display",
+  "description": "M3 compact element for tags.",
+  "props": [
+    {
+      "name": "variant",
+      "type": "enum",
+      "defaultValue": "filled",
+      "options": [
+        "filled",
+        "outlined",
+        "elevated"
+      ],
+      "description": "Chip surface style."
+    },
+    {
+      "name": "color",
+      "type": "enum",
+      "defaultValue": "default",
+      "options": [
+        "default",
+        "primary",
+        "secondary",
+        "error",
+        "success"
+      ],
+      "description": "Theme color token."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "defaultValue": "Chip",
+      "description": "Chip label text."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "defaultValue": "medium",
+      "options": ["small", "medium"],
+      "description": "Chip size preset."
+    },
+    {
+      "name": "deletable",
+      "type": "boolean",
+      "defaultValue": false,
+      "description": "Shows delete icon."
+    }
+  ],
+  "variants": [
+    {
+      "label": "Filled Default",
+      "props": { "variant": "filled" }
+    },
+    {
+      "label": "Outlined Primary",
+      "props": {
+        "variant": "outlined",
+        "color": "primary"
+      }
+    },
+    {
+      "label": "Elevated Secondary",
+      "props": {
+        "variant": "elevated",
+        "color": "secondary"
+      }
+    },
+    {
+      "label": "Small Deletable",
+      "props": {
+        "size": "small",
+        "deletable": true
+      }
+    },
+    {
+      "label": "Error Chip",
+      "props": { "color": "error" }
+    }
+  ]
+}

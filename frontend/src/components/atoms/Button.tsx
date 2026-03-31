@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import MuiButton from '@mui/material/Button';
+import MuiButton from '@metabuilder/m3/Button';
 
 /**
  * Props for the Button component.

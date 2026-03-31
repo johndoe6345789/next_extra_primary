@@ -1,28 +1,17 @@
 'use client';
 
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Box from '@mui/material/Box';
-import CloseIcon from '@mui/icons-material/Close';
-import HomeIcon from '@mui/icons-material/Home';
-import EmailIcon from '@mui/icons-material/Email';
-import StorageIcon from '@mui/icons-material/Storage';
-import InventoryIcon from '@mui/icons-material/Inventory';
-import CloudQueueIcon
-  from '@mui/icons-material/CloudQueue';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import {
+  Drawer, List, ListItemButton, ListItemIcon,
+  ListItemText, Typography, Divider, IconButton,
+  Box, Close, Home, Email, Storage, Package,
+  CloudQueue, OpenInNew,
+} from '@metabuilder/m3';
 import siteLinks from '@/constants/site-links.json';
 
 const iconMap: Record<string, React.ReactElement> = {
-  Home: <HomeIcon />, Email: <EmailIcon />,
-  Storage: <StorageIcon />, Inventory: <InventoryIcon />,
-  CloudQueue: <CloudQueueIcon />,
+  Home: <Home />, Email: <Email />,
+  Storage: <Storage />, Inventory: <Package />,
+  CloudQueue: <CloudQueue />,
 };
 
 /** @brief Props for the SiteDrawer component. */
@@ -37,8 +26,14 @@ const headerSx = {
   display: 'flex', alignItems: 'center',
   justifyContent: 'space-between', px: 2, py: 1,
 };
-const iconSx = { minWidth: 40, color: 'primary.main' };
-const extSx = { fontSize: 14, color: 'text.disabled' };
+const iconStyle = {
+  minWidth: 40,
+  color: 'var(--md-sys-color-primary)',
+};
+const extStyle = {
+  fontSize: 14,
+  color: 'var(--md-sys-color-on-surface-variant)',
+};
 
 /** @brief Drawer showing cross-site navigation. */
 export default function SiteDrawer(
@@ -59,7 +54,7 @@ export default function SiteDrawer(
           aria-label="Close drawer"
           data-testid="close-drawer"
         >
-          <CloseIcon />
+          <Close />
         </IconButton>
       </Box>
       <Divider />
@@ -82,12 +77,12 @@ export default function SiteDrawer(
               rel="noopener noreferrer"
               data-testid={`site-${link.icon}`}
             >
-              <ListItemIcon sx={iconSx}>
+              <ListItemIcon style={iconStyle}>
                 {iconMap[link.icon]}
               </ListItemIcon>
               <ListItemText primary={link.label} />
               {cur ? null : (
-                <OpenInNewIcon sx={extSx} />
+                <OpenInNew style={extStyle} />
               )}
             </ListItemButton>
           );

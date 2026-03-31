@@ -1,10 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import AddIcon from '@mui/icons-material/Add';
+import {
+  Button, Typography, Stack, Add,
+} from '@metabuilder/m3';
 import type { Bucket } from '@/types';
 import {
   BucketGrid,
@@ -42,14 +41,14 @@ export default function BucketList({
         direction="row"
         justifyContent="space-between"
         alignItems="center"
-        sx={{ mb: 3 }}
+        style={{ marginBottom: 24 }}
       >
         <Typography variant="h5">
           {labels.buckets.title}
         </Typography>
         <Button
           variant="contained"
-          startIcon={<AddIcon />}
+          startIcon={<Add />}
           onClick={() => setCreateOpen(true)}
           aria-label={labels.buckets.create}
         >

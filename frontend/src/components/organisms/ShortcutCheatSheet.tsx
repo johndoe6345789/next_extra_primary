@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import Dialog from '@metabuilder/m3/Dialog';
+import DialogTitle from '@metabuilder/m3/DialogTitle';
+import DialogContent from '@metabuilder/m3/DialogContent';
+import Box from '@metabuilder/m3/Box';
+import Typography from '@metabuilder/m3/Typography';
 import { Kbd } from '../atoms/Kbd';
 import shortcuts from '@/constants/keyboard-shortcuts.json';
 import { shortcutLabel, type ShortcutDef } from '@/lib/shortcutLabel';

@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
+import Box from '@metabuilder/m3/Box';
+import Typography from '@metabuilder/m3/Typography';
+import Grid from '@metabuilder/m3/Grid';
 import { UserBadge } from '../molecules/UserBadge';
 import type { Badge } from '@/types/gamification';
 
@@ -41,7 +41,7 @@ export const BadgeShowcase: React.FC<BadgeShowcaseProps> = ({
       </Typography>
       <Grid container spacing={2} role="list" aria-label="Badges">
         {badges.map((badge) => (
-          <Grid key={badge.id} size={{ xs: 4, sm: 3, md: 2 }} role="listitem">
+          <Grid key={badge.id} item xs={4} sm={3} md={2} role="listitem">
             <UserBadge
               badge={badge}
               earned={earnedSet.has(badge.id)}

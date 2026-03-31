@@ -1,11 +1,11 @@
 'use client';
 
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardActionArea from '@mui/material/CardActionArea';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import Skeleton from '@mui/material/Skeleton';
+import Grid from '@metabuilder/m3/Grid';
+import Card from '@metabuilder/m3/Card';
+import CardActionArea from '@metabuilder/m3/CardActionArea';
+import CardContent from '@metabuilder/m3/CardContent';
+import Typography from '@metabuilder/m3/Typography';
+import Skeleton from '@metabuilder/m3/Skeleton';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { useDashboard } from '@/hooks';
@@ -59,13 +59,11 @@ export default function DashboardStats() {
       {cards.map((card) => (
         <Grid
           key={card.labelKey}
-          size={{ xs: 12, sm: 6, md: 3 }}
+          item xs={12} sm={6} md={3}
         >
-          <Card role="listitem" elevation={2}>
-            <CardActionArea
-              component={Link}
-              href={card.href}
-            >
+          <Card role="listitem">
+            <Link href={card.href} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <CardActionArea>
               <CardContent>
                 <Typography
                   variant="subtitle2"
@@ -82,13 +80,13 @@ export default function DashboardStats() {
                 ) : (
                   <Typography
                     variant="h4"
-                    component="p"
                   >
                     {card.value ?? t('noData')}
                   </Typography>
                 )}
               </CardContent>
             </CardActionArea>
+            </Link>
           </Card>
         </Grid>
       ))}

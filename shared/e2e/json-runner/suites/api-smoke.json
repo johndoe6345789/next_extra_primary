@@ -1,0 +1,61 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "api-smoke",
+  "description": "API endpoint smoke test scenarios",
+  "tests": [
+    {
+      "name": "health check endpoint responds",
+      "tags": ["@smoke", "@api"],
+      "steps": [
+        { "action": "navigate", "url": "/api/health" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "selector": "body",
+          "assertion": { "matcher": "toContainText", "expected": "ok" } }
+      ]
+    },
+    {
+      "name": "auth login endpoint accepts POST",
+      "tags": ["@smoke", "@api"],
+      "steps": [
+        { "action": "navigate", "url": "/" },
+        { "action": "evaluate",
+          "script": "fetch('/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: 'a@b.com', password: 'x' }) }).then(r => document.title = r.status)" },
+        { "action": "expect", "selector": "html",
+          "assertion": { "matcher": "toHaveTitle", "expected": "401" } }
+      ]
+    },
+    {
+      "name": "auth register endpoint accepts POST",
+      "tags": ["@smoke", "@api"],
+      "steps": [
+        { "action": "navigate", "url": "/" },
+        { "action": "evaluate",
+          "script": "fetch('/api/auth/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}) }).then(r => document.title = String(r.status))" },
+        { "action": "expect", "selector": "html",
+          "assertion": { "matcher": "toHaveTitle", "expected": "400" } }
+      ]
+    },
+    {
+      "name": "user endpoints require auth",
+      "tags": ["@smoke", "@api"],
+      "steps": [
+        { "action": "navigate", "url": "/" },
+        { "action": "evaluate",
+          "script": "fetch('/api/users/me').then(r => document.title = String(r.status))" },
+        { "action": "expect", "selector": "html",
+          "assertion": { "matcher": "toHaveTitle", "expected": "401" } }
+      ]
+    },
+    {
+      "name": "gamification endpoints return data",
+      "tags": ["@smoke", "@api"],
+      "steps": [
+        { "action": "navigate", "url": "/" },
+        { "action": "evaluate",
+          "script": "fetch('/api/gamification/leaderboard').then(r => document.title = String(r.status))" },
+        { "action": "expect", "selector": "html",
+          "assertion": { "matcher": "toHaveTitle", "expected": "200" } }
+      ]
+    }
+  ]
+}

@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import Alert from '@metabuilder/m3/Alert';
+import Box from '@metabuilder/m3/Box';
+import TextField from '@metabuilder/m3/TextField';
 import { useTranslations } from 'next-intl';
 import { Button } from '../atoms';
 import { useContactForm } from '@/hooks/useContactForm';
@@ -52,7 +52,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
         label={t('name')}
         name="name"
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setName(e.target.value)}
         required
         fullWidth
         autoComplete="name"
@@ -62,7 +62,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
         name="email"
         type="email"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setEmail(e.target.value)}
         required
         fullWidth
         autoComplete="email"
@@ -71,7 +71,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
         label={t('message')}
         name="message"
         value={message}
-        onChange={(e) => setMessage(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)}
         required
         fullWidth
         multiline

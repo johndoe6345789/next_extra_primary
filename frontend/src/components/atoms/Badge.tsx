@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import MuiBadge from '@mui/material/Badge';
+import MuiBadge from '@metabuilder/m3/Badge';
 
 /**
  * Props for the Badge component.
@@ -45,7 +45,7 @@ export const Badge: React.FC<BadgeProps> = ({
 }) => {
   return (
     <MuiBadge
-      badgeContent={content}
+      content={content}
       color={color}
       variant={variant}
       invisible={invisible}

@@ -1,0 +1,68 @@
+/**
+ * PgAdmin Buttons - M3 button styles.
+ */
+
+button {
+  font-family: inherit;
+  font: var(--mat-sys-label-large-font);
+  color: var(--mat-sys-on-primary);
+  background: var(--mat-sys-primary);
+  border: none;
+  border-radius: var(--mat-sys-corner-full);
+  padding: 10px 24px;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+
+  &:hover {
+    box-shadow: var(--mat-sys-level1);
+  }
+
+  &:active {
+    box-shadow: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    background: color-mix(
+      in srgb,
+      var(--mat-sys-on-surface) 12%,
+      transparent
+    );
+    color: color-mix(
+      in srgb,
+      var(--mat-sys-on-surface) 38%,
+      transparent
+    );
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+.btn-danger {
+  background: var(--mat-sys-error);
+  color: var(--mat-sys-on-error);
+
+  &:hover {
+    box-shadow: var(--mat-sys-level1);
+  }
+}
+
+.btn-outlined {
+  background: transparent;
+  color: var(--mat-sys-primary);
+  border: 1px solid var(--mat-sys-outline);
+
+  &:hover {
+    background: color-mix(
+      in srgb,
+      var(--mat-sys-primary) 8%,
+      transparent
+    );
+  }
+}

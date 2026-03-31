@@ -1,0 +1,79 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "navigation-flows",
+  "description": "Navigation and layout test scenarios",
+  "tests": [
+    {
+      "name": "homepage nav links work",
+      "tags": ["@smoke", "@nav"],
+      "steps": [
+        { "action": "navigate", "url": "/" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "expect", "role": "navigation",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "click", "role": "link", "text": "Dashboard" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "selector": "body",
+          "assertion": { "matcher": "toHaveURL", "expected": "/dashboard" } }
+      ]
+    },
+    {
+      "name": "dashboard sidebar navigation",
+      "tags": ["@nav"],
+      "steps": [
+        { "action": "navigate", "url": "/dashboard" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "expect", "testId": "sidebar",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "click", "testId": "sidebar-leaderboard" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "selector": "body",
+          "assertion": { "matcher": "toHaveURL", "expected": "/dashboard/leaderboard" } }
+      ]
+    },
+    {
+      "name": "breadcrumb navigation",
+      "tags": ["@nav"],
+      "steps": [
+        { "action": "navigate", "url": "/dashboard/leaderboard" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "expect", "role": "navigation", "text": "breadcrumb",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "click", "role": "link", "text": "Dashboard" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "selector": "body",
+          "assertion": { "matcher": "toHaveURL", "expected": "/dashboard" } }
+      ]
+    },
+    {
+      "name": "mobile drawer opens and closes",
+      "tags": ["@nav", "@mobile"],
+      "steps": [
+        { "action": "navigate", "url": "/" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "click", "testId": "mobile-menu-button" },
+        { "action": "expect", "testId": "mobile-drawer",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "click", "testId": "mobile-drawer-close" },
+        { "action": "expect", "testId": "mobile-drawer",
+          "assertion": { "matcher": "toBeHidden" } }
+      ]
+    },
+    {
+      "name": "theme toggle switches modes",
+      "tags": ["@nav", "@theme"],
+      "steps": [
+        { "action": "navigate", "url": "/" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "click", "testId": "theme-toggle" },
+        { "action": "expect", "selector": "html",
+          "assertion": { "matcher": "toHaveAttribute",
+            "expected": ["data-color-scheme", "dark"] } },
+        { "action": "click", "testId": "theme-toggle" },
+        { "action": "expect", "selector": "html",
+          "assertion": { "matcher": "toHaveAttribute",
+            "expected": ["data-color-scheme", "light"] } }
+      ]
+    }
+  ]
+}

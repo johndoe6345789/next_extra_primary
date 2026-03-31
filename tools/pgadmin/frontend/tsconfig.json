@@ -16,7 +16,13 @@
     "plugins": [{ "name": "next" }],
     "paths": {
       "@/*": ["./src/*"],
-      "@scss/*": ["./scss/*"]
+      "@scss/*": ["../../../shared/scss/*"],
+      "@metabuilder/m3": [
+        "../../../shared/components/m3/index.ts"
+      ],
+      "@metabuilder/m3/*": [
+        "../../../shared/components/m3/*"
+      ]
     }
   },
   "include": [

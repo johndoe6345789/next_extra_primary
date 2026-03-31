@@ -1,0 +1,54 @@
+{
+  "name": "Tabs",
+  "category": "Navigation",
+  "description": "M3 tab bar for navigation.",
+  "props": [
+    {
+      "name": "variant",
+      "type": "enum",
+      "defaultValue": "primary",
+      "options": ["primary", "secondary"],
+      "description": "Tab indicator style."
+    },
+    {
+      "name": "centered",
+      "type": "boolean",
+      "defaultValue": false,
+      "description": "Centers tab labels."
+    },
+    {
+      "name": "scrollable",
+      "type": "boolean",
+      "defaultValue": false,
+      "description": "Enables horizontal scroll."
+    },
+    {
+      "name": "value",
+      "type": "number",
+      "defaultValue": 0,
+      "description": "Active tab index."
+    }
+  ],
+  "variants": [
+    {
+      "label": "Primary Default",
+      "props": { "variant": "primary" }
+    },
+    {
+      "label": "Secondary",
+      "props": { "variant": "secondary" }
+    },
+    {
+      "label": "Centered",
+      "props": { "centered": true }
+    },
+    {
+      "label": "Scrollable",
+      "props": { "scrollable": true }
+    },
+    {
+      "label": "Second Tab Active",
+      "props": { "value": 1 }
+    }
+  ]
+}

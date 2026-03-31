@@ -1,44 +1,22 @@
 'use client';
 
-import Drawer from '@mui/material/Drawer';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import Divider from '@mui/material/Divider';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import CloseIcon from '@mui/icons-material/Close';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import HomeIcon from '@mui/icons-material/Home';
-import EmailIcon from '@mui/icons-material/Email';
-import StorageIcon from '@mui/icons-material/Storage';
-import InventoryIcon from '@mui/icons-material/Inventory';
-import CloudQueueIcon from '@mui/icons-material/CloudQueue';
+import {
+  Drawer,
+  Box,
+  Typography,
+  IconButton,
+  Divider,
+  List,
+  Close,
+} from '@metabuilder/m3';
 import siteLinks from '@/constants/site-links.json';
-
-/** Map of icon name to MUI icon component. */
-const iconMap: Record<string, React.ReactNode> = {
-  Home: <HomeIcon />,
-  Email: <EmailIcon />,
-  Storage: <StorageIcon />,
-  Inventory: <InventoryIcon />,
-  CloudQueue: <CloudQueueIcon />,
-};
+import SiteDrawerItem from './SiteDrawerItem';
+import type { SiteLink } from './SiteDrawerItem';
 
 /** Props for the SiteDrawer component. */
 interface SiteDrawerProps {
   open: boolean;
   onClose: () => void;
-}
-
-/** Site link shape from the JSON constants file. */
-interface SiteLink {
-  label: string;
-  url: string;
-  icon: string;
-  current?: boolean;
 }
 
 /**
@@ -62,12 +40,14 @@ export default function SiteDrawer(
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-          <Typography variant="h6">NextExtra</Typography>
+          <Typography variant="h6">
+            NextExtra
+          </Typography>
           <IconButton
             onClick={onClose}
             aria-label="Close drawer"
           >
-            <CloseIcon />
+            <Close />
           </IconButton>
         </Box>
         <Divider sx={{ my: 1 }} />
@@ -78,21 +58,11 @@ export default function SiteDrawer(
           Sites
         </Typography>
         <List dense>
-          {(siteLinks as SiteLink[]).map((link) => (
-            <ListItemButton
-              key={link.label}
-              component="a"
-              href={link.url}
-              target={link.current ? undefined : '_blank'}
-              rel="noopener noreferrer"
-              selected={!!link.current}
-            >
-              <ListItemIcon>
-                {iconMap[link.icon]}
-              </ListItemIcon>
-              <ListItemText primary={link.label} />
-              {!link.current && <OpenInNewIcon fontSize="small" />}
-            </ListItemButton>
+          {(siteLinks as SiteLink[]).map((l) => (
+            <SiteDrawerItem
+              key={l.label}
+              link={l}
+            />
           ))}
         </List>
       </Box>

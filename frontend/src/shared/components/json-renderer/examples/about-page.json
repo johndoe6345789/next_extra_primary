@@ -1,0 +1,57 @@
+{
+  "layout": "public",
+  "tree": [
+    {
+      "component": "Container",
+      "props": {
+        "component": "main",
+        "role": "main",
+        "maxWidth": "md",
+        "sx": { "py": 6 },
+        "aria-label": "About"
+      },
+      "children": [
+        {
+          "component": "Typography",
+          "props": {
+            "variant": "h3",
+            "component": "h1",
+            "gutterBottom": true
+          },
+          "children": "About ExtraPrimary"
+        },
+        {
+          "component": "Typography",
+          "props": {
+            "variant": "body1",
+            "paragraph": true
+          },
+          "children": "ExtraPrimary is a gamified learning platform."
+        },
+        {
+          "component": "Typography",
+          "props": {
+            "variant": "body1",
+            "paragraph": true
+          },
+          "children": "We combine AI chat with engaging game mechanics."
+        },
+        {
+          "component": "Typography",
+          "props": {
+            "variant": "h5",
+            "component": "h2",
+            "gutterBottom": true,
+            "sx": { "mt": 4 }
+          },
+          "children": "Our Mission"
+        },
+        {
+          "component": "Typography",
+          "props": { "variant": "body1" },
+          "children": "Make learning accessible and fun for everyone."
+        }
+      ]
+    }
+  ]
+}

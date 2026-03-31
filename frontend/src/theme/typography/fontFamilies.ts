@@ -1,10 +1,13 @@
 /**
  * @file fontFamilies.ts
- * @brief System font stack used across the MD3 typography scale.
+ * @brief System font stack reference for M3 typography.
+ *
+ * Runtime font loading is handled by @metabuilder/scss.
+ * This value is kept for programmatic access.
  */
 
 /**
- * Primary font family string for MUI typography.
+ * Primary font family string.
  *
  * Uses Roboto with a system-font fallback chain for
  * optimal cross-platform rendering performance.

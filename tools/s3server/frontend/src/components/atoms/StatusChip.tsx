@@ -1,11 +1,15 @@
 'use client';
 
-import Chip from '@mui/material/Chip';
+import { Chip } from '@metabuilder/m3';
 
 /** @brief Props for StatusChip atom. */
 export interface StatusChipProps {
   /** Status level determining color. */
-  status: 'success' | 'error' | 'warning' | 'info';
+  status:
+    | 'success'
+    | 'error'
+    | 'warning'
+    | 'info';
   /** Label text. */
   label: string;
   /** Test ID for automation. */

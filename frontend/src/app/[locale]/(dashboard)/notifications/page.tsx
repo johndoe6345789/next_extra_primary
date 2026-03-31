@@ -6,11 +6,13 @@ import {
 
 /** Skip static prerendering for this page. */
 export const dynamic = 'force-dynamic';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
+import {
+  Box,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+} from '@metabuilder/m3';
 
 /** Props for the notifications page. */
 interface NotificationsPageProps {

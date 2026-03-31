@@ -1,15 +1,9 @@
 'use client';
 
-import Dialog from '@mui/material/Dialog';
-import DialogTitle
-  from '@mui/material/DialogTitle';
-import DialogContent
-  from '@mui/material/DialogContent';
-import DialogActions
-  from '@mui/material/DialogActions';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import {
+  Dialog, DialogTitle, DialogContent,
+  DialogActions, TextField, Button, Stack,
+} from '@metabuilder/m3';
 import { useUploadForm } from '@/hooks';
 import labels from '@/constants/ui-labels.json';
 
@@ -27,9 +21,7 @@ export interface UploadDialogProps {
  * @param props - Dialog properties.
  */
 export default function UploadDialog({
-  open,
-  onClose,
-  onUpload,
+  open, onClose, onUpload,
   prefix = '',
   testId = 'upload-dialog',
 }: UploadDialogProps) {
@@ -50,12 +42,17 @@ export default function UploadDialog({
         {labels.dialogs.uploadFile}
       </DialogTitle>
       <DialogContent>
-        <Stack spacing={2} sx={{ mt: 1 }}>
+        <Stack
+          spacing={2}
+          style={{ marginTop: 8 }}
+        >
           <Button
             variant="outlined"
             onClick={() =>
               form.inputRef.current?.click()}
-            aria-label={labels.dialogs.selectFile}
+            aria-label={
+              labels.dialogs.selectFile
+            }
           >
             {form.file?.name
               ?? labels.dialogs.selectFile}
@@ -74,7 +71,9 @@ export default function UploadDialog({
             onChange={(e) =>
               form.setKey(e.target.value)}
             data-testid="object-key-input"
-            aria-label={labels.dialogs.objectKey}
+            aria-label={
+              labels.dialogs.objectKey
+            }
           />
         </Stack>
       </DialogContent>

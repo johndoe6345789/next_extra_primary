@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import Menu from '@metabuilder/m3/Menu';
+import MenuItem from '@metabuilder/m3/MenuItem';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { Avatar } from '../atoms';
@@ -45,20 +45,22 @@ export const AvatarMenu: React.FC<AvatarMenuProps> = ({
         onClose={close}
         data-testid="navbar-avatar-menu"
       >
-        <MenuItem
-          component={Link}
+        <Link
           href="/profile"
-          onClick={close}
+          style={{ textDecoration: 'none', color: 'inherit' }}
         >
-          {t('profile')}
-        </MenuItem>
-        <MenuItem
-          component={Link}
+          <MenuItem onClick={close}>
+            {t('profile')}
+          </MenuItem>
+        </Link>
+        <Link
           href="/settings"
-          onClick={close}
+          style={{ textDecoration: 'none', color: 'inherit' }}
         >
-          {t('settings')}
-        </MenuItem>
+          <MenuItem onClick={close}>
+            {t('settings')}
+          </MenuItem>
+        </Link>
         <MenuItem
           onClick={() => {
             close();

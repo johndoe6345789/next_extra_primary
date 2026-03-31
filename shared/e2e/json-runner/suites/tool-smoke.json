@@ -1,0 +1,68 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "tool-smoke",
+  "description": "Smoke tests for project tools",
+  "tests": [
+    {
+      "name": "S3 server login and bucket list",
+      "tags": ["@smoke", "@tools"],
+      "steps": [
+        { "action": "navigate", "url": "http://localhost:9001" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "fill", "placeholder": "Username",
+          "value": "minioadmin" },
+        { "action": "fill", "placeholder": "Password",
+          "value": "minioadmin" },
+        { "action": "click", "role": "button", "text": "Login" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "text": "Buckets",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    },
+    {
+      "name": "package repo loads",
+      "tags": ["@smoke", "@tools"],
+      "steps": [
+        { "action": "navigate", "url": "http://localhost:4873" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "expect", "selector": "body",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "selector": "body",
+          "assertion": {
+            "matcher": "toContainText",
+            "expected": "Verdaccio"
+          } }
+      ]
+    },
+    {
+      "name": "PgAdmin loads",
+      "tags": ["@smoke", "@tools"],
+      "steps": [
+        { "action": "navigate", "url": "http://localhost:5050" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "expect", "selector": "body",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "selector": "body",
+          "assertion": {
+            "matcher": "toContainText",
+            "expected": "pgAdmin"
+          } }
+      ]
+    },
+    {
+      "name": "email client loads",
+      "tags": ["@smoke", "@tools"],
+      "steps": [
+        { "action": "navigate", "url": "http://localhost:1080" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "expect", "selector": "body",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "selector": "body",
+          "assertion": {
+            "matcher": "toContainText",
+            "expected": "Mail"
+          } }
+      ]
+    }
+  ]
+}

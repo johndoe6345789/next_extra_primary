@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@metabuilder/m3/ToggleButtonGroup';
+import ToggleButton from '@metabuilder/m3/ToggleButton';
 
 /** Props for PeriodFilter. */
 export interface PeriodFilterProps {
@@ -21,11 +21,13 @@ export const PeriodFilter: React.FC<PeriodFilterProps> = ({
     <ToggleButtonGroup
       value={per}
       exclusive
-      onChange={(_, v) => v && setPer(v)}
+      onChange={(_: unknown, v: string | string[] | null) => {
+        if (typeof v === 'string') setPer(v);
+      }}
       size="small"
       aria-label="Period"
       data-testid={testId}
-      sx={{ mb: 2 }}
+      style={{ marginBottom: '16px' }}
     >
       <ToggleButton value="weekly">Weekly</ToggleButton>
       <ToggleButton value="monthly">Monthly</ToggleButton>
