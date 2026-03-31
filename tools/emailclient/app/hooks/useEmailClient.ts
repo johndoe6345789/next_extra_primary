@@ -93,14 +93,15 @@ export function useEmailClient() {
       subject: string
       body: string
     }) => {
+      const timestamp = Date.now()
       const newEmail = {
-        id: String(Date.now()),
-        testId: String(Date.now()),
+        id: String(timestamp),
+        testId: String(timestamp),
         from: 'You',
         to: data.to,
         subject: data.subject,
         preview: data.body.slice(0, 100),
-        receivedAt: Date.now(),
+        receivedAt: timestamp,
         isRead: true,
         isStarred: false,
         body: data.body,
