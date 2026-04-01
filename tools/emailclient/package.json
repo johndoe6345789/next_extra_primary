@@ -19,8 +19,6 @@
     "@shared/redux-core": "file:../../shared/redux/core",
     "@shared/redux-slices": "file:../../shared/redux/slices",
     "@shared/service-adapters": "file:../../shared/redux/adapters",
-    "classnames": "^2.5.1",
-    "clsx": "^2.1.1",
     "sass": "^1.89.0",
     "@monaco-editor/react": "^4.7.0",
     "@reduxjs/toolkit": "^2.11.2",

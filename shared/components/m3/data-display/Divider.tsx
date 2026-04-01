@@ -1,5 +1,5 @@
 import React from 'react'
-import classNames from 'classnames'
+import { classNames } from '../utils/classNames'
 import styles from '../../../scss/atoms/mat-divider.module.scss'
 import { sxToStyle } from '../utils/sx'
 

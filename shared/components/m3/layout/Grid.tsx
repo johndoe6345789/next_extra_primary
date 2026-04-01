@@ -1,5 +1,5 @@
 import React from 'react'
-import classNames from 'classnames'
+import { classNames } from '../utils/classNames'
 import { sxToStyle } from '../utils/sx'
 import styles from '../../../scss/atoms/grid.module.scss'
 

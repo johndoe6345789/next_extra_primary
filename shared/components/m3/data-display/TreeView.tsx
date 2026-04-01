@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useCallback, useMemo } from 'react'
-import clsx from 'clsx'
+import { classNames } from '../utils/classNames'
 import styles from '../../../scss/TreeView.module.scss'
 
 export interface TreeNode {
@@ -128,7 +128,7 @@ function TreeItem({
   return (
     <li className={styles.treeItem}>
       <div
-        className={clsx(styles.treeItemContent, {
+        className={classNames(styles.treeItemContent, {
           [styles.selected as string]: isSelected,
           [styles.disabled as string]: node.disabled,
           [styles.dense as string]: dense,
@@ -263,7 +263,7 @@ export function TreeView({
   )
 
   return (
-    <ul className={clsx(styles.treeView, className)} role="tree" aria-multiselectable={multiSelect} data-testid={testId}>
+    <ul className={classNames(styles.treeView, className)} role="tree" aria-multiselectable={multiSelect} data-testid={testId}>
       {data.map((node) => (
         <TreeItem
           key={node.id}

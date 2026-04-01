@@ -1,6 +1,6 @@
 'use client';
 import React, { forwardRef, useId } from 'react'
-import classNames from 'classnames'
+import { classNames } from '../utils/classNames'
 import styles from '../../../scss/atoms/mat-radio.module.scss'
 
 /** Resolve CSS module class names with fallback to raw string */

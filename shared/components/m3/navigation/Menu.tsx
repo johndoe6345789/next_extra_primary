@@ -1,6 +1,6 @@
 import React, { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import classNames from 'classnames'
+import { classNames } from '../utils/classNames'
 import { Backdrop } from '../feedback/Backdrop'
 import styles from '../../../scss/atoms/mat-menu.module.scss'
 

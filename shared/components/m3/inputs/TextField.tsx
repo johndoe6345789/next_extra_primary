@@ -1,6 +1,6 @@
 'use client';
 import React, { forwardRef, useId } from 'react'
-import classNames from 'classnames'
+import { classNames } from '../utils/classNames'
 import styles from '../../../scss/atoms/form.module.scss'
 import { FormLabel } from './FormLabel'
 import { FormHelperText } from './FormHelperText'

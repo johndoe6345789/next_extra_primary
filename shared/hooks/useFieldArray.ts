@@ -20,7 +20,6 @@
  */
 
 import { useCallback, useState } from 'react'
-import { nanoid } from 'nanoid'
 
 /**
  * Field with unique identifier
@@ -96,7 +95,7 @@ export function useFieldArray<T = unknown>(
 ): UseFieldArrayReturn<T> {
   // Create initial fields with unique IDs
   const initialFormFields: FormField<T>[] = initialFields.map((value) => ({
-    id: nanoid(),
+    id: crypto.randomUUID(),
     value,
   }))
 
@@ -130,7 +129,7 @@ export function useFieldArray<T = unknown>(
       if (!canAdd) return
 
       const newField: FormField<T> = {
-        id: nanoid(),
+        id: crypto.randomUUID(),
         value,
       }
 
@@ -160,7 +159,7 @@ export function useFieldArray<T = unknown>(
       if (index < 0 || index > fields.length) return
 
       const newField: FormField<T> = {
-        id: nanoid(),
+        id: crypto.randomUUID(),
         value,
       }
 
@@ -255,7 +254,7 @@ export function useFieldArray<T = unknown>(
   const replaceAll = useCallback(
     (values: T[]) => {
       const newFields = values.map((value) => ({
-        id: nanoid(),
+        id: crypto.randomUUID(),
         value,
       }))
 

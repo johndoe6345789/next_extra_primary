@@ -1,5 +1,5 @@
 import React, { forwardRef, createContext, useContext, Children, cloneElement, isValidElement, useId } from 'react'
-import classNames from 'classnames'
+import { classNames } from '../utils/classNames'
 import styles from '../../../scss/atoms/mat-radio.module.scss'
 
 /**

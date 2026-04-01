@@ -1,6 +1,6 @@
 'use client';
 import React, { forwardRef, useId } from 'react'
-import classNames from 'classnames'
+import { classNames } from '../utils/classNames'
 import { useAccessible } from '../../../hooks/useAccessible'
 import styles from '../../../scss/atoms/mat-checkbox.module.scss'
 

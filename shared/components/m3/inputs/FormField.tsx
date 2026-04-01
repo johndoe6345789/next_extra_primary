@@ -1,5 +1,5 @@
 import React from 'react'
-import classNames from 'classnames'
+import { classNames } from '../utils/classNames'
 import styles from '../../../scss/atoms/form.module.scss'
 
 export interface FormFieldProps extends React.HTMLAttributes<HTMLDivElement> {
