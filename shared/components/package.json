@@ -1,5 +1,5 @@
 {
-  "name": "@metabuilder/components",
+  "name": "@shared/components",
   "version": "1.0.0",
   "type": "module",
   "description": "Shared React components for MetaBuilder projects",

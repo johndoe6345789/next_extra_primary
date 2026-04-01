@@ -5,12 +5,12 @@
 
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@metabuilder/redux-slices';
+import { RootState } from '@shared/redux-slices';
 import {
   setPan,
   panBy,
   resetPan
-} from '@metabuilder/redux-slices/editorSlice';
+} from '@shared/redux-slices/editorSlice';
 
 export interface UseEditorPanReturn {
   pan: { x: number; y: number };

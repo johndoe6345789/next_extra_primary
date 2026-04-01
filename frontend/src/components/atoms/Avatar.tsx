@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import MuiAvatar from '@metabuilder/m3/Avatar';
+import MuiAvatar from '@shared/m3/Avatar';
 
 /** Predefined avatar size presets in pixels. */
 const SIZES = {

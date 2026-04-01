@@ -7,7 +7,7 @@ import {
   Typography,
   Box,
   Chip,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import type { OpenApiSpec } from '@/hooks/types';
 
 /** @brief Props for InfoPanel. */

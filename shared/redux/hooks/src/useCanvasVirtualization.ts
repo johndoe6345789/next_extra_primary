@@ -5,7 +5,7 @@
  */
 
 import { useMemo } from 'react';
-import { ProjectCanvasItem } from '@metabuilder/redux-slices';
+import { ProjectCanvasItem } from '@shared/redux-slices';
 
 interface ViewportBounds {
   minX: number;

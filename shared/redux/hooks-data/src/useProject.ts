@@ -12,7 +12,7 @@
 
 import { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useServices } from '@metabuilder/service-adapters'
+import { useServices } from '@shared/service-adapters'
 import {
   setProjects,
   addProject,
@@ -26,9 +26,9 @@ import {
   selectCurrentProjectId,
   selectProjectIsLoading,
   selectProjectError,
-} from '@metabuilder/redux-slices'
-import type { Project, CreateProjectRequest, UpdateProjectRequest } from '@metabuilder/types'
-import type { AppDispatch, RootState } from '@metabuilder/redux-slices'
+} from '@shared/redux-slices'
+import type { Project, CreateProjectRequest, UpdateProjectRequest } from '@shared/types'
+import type { AppDispatch, RootState } from '@shared/redux-slices'
 
 /**
  * useProject Hook

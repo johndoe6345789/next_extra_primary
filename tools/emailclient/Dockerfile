@@ -1,16 +1,20 @@
-# Email client frontend — self-contained build.
-# Context: tools/emailclient/
+# Email client frontend — monorepo-aware build.
+# Contexts: default=tools/emailclient, shared=shared
 
 # -- Stage 1: deps ------------------------------------------
 FROM node:22-slim AS deps
-WORKDIR /app
+COPY --from=shared . /build/shared/
+WORKDIR /build/tools/emailclient
 COPY package.json ./
-RUN npm install --legacy-peer-deps
+RUN npm install
+RUN ln -s \
+    /build/tools/emailclient/node_modules \
+    /build/node_modules
 
 # -- Stage 2: build -----------------------------------------
 FROM deps AS build
 ARG NEXT_BASE_PATH=/emailclient
-WORKDIR /app
+WORKDIR /build/tools/emailclient
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NEXT_BASE_PATH=${NEXT_BASE_PATH}
@@ -24,16 +28,18 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN groupadd --system --gid 1001 nodejs && \
     useradd --system --uid 1001 --gid nodejs nextjs
 COPY --from=build --chown=nextjs:nodejs \
-    /app/.next/standalone ./
+    /build/tools/emailclient/.next/standalone ./
 COPY --from=build --chown=nextjs:nodejs \
-    /app/.next/static ./app/.next/static
+    /build/tools/emailclient/.next/static \
+    ./tools/emailclient/.next/static
 COPY --from=build --chown=nextjs:nodejs \
-    /app/public ./app/public
+    /build/tools/emailclient/public \
+    ./tools/emailclient/public
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-WORKDIR /app/app
+WORKDIR /app/tools/emailclient
 HEALTHCHECK --interval=15s --timeout=5s \
     --start-period=60s --retries=3 \
     CMD node -e "require('http').get(\

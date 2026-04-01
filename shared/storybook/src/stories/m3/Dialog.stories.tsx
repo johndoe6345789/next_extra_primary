@@ -4,7 +4,7 @@ import {
   Dialog, DialogTitle, DialogContent,
   DialogContentText, DialogActions,
   Button, TextField,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 
 const meta: Meta<typeof Dialog> = {
   title: 'M3/Dialog',

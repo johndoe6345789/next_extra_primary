@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import {
   Typography, Tabs, Tab, CircularProgress,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import { useOpenApiSpec } from '@/hooks/useOpenApiSpec';
 import { useSearch } from '@/hooks/useSearch';
 import SearchBar from '@/components/SearchBar';

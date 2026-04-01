@@ -21,7 +21,7 @@ const nextConfig: NextConfig = {
       ),
     ],
   },
-  transpilePackages: ['@metabuilder/m3'],
+  transpilePackages: ['@shared/m3'],
   turbopack: { root: monorepoRoot },
   async rewrites() {
     return [

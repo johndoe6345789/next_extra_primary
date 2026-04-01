@@ -1,5 +1,5 @@
 /**
- * @metabuilder/service-adapters
+ * @shared/service-adapters
  *
  * Service adapter interfaces and implementations for decoupling
  * Tier 2 hooks from concrete service implementations.

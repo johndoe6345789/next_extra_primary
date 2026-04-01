@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import MuiIconButton from '@metabuilder/m3/IconButton';
-import MuiTooltip from '@metabuilder/m3/Tooltip';
+import MuiIconButton from '@shared/m3/IconButton';
+import MuiTooltip from '@shared/m3/Tooltip';
 
 /**
  * Props for the IconButton component.

@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import Box from '@metabuilder/m3/Box';
-import Typography from '@metabuilder/m3/Typography';
-import Grid from '@metabuilder/m3/Grid';
+import Box from '@shared/m3/Box';
+import Typography from '@shared/m3/Typography';
+import Grid from '@shared/m3/Grid';
 import { UserBadge } from '../molecules/UserBadge';
 import type { Badge } from '@/types/gamification';
 

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { IconButton, Menu } from '@metabuilder/m3';
+import { IconButton, Menu } from '@shared/m3';
 import SiteDrawer from './SiteDrawer';
 import NavLinks from './NavLinks';
 import styles from './Navbar.module.scss';

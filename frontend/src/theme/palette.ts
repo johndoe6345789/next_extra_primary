@@ -3,7 +3,7 @@
  * @brief M3 colour token reference.
  *
  * Palette mapping is no longer needed because
- * @metabuilder/scss injects CSS variables directly.
+ * @shared/scss injects CSS variables directly.
  * This module re-exports the raw token sets for any
  * code that needs programmatic colour access.
  */

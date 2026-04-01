@@ -6,7 +6,7 @@ import { Card, CardContent, CardActions, Button, Box, Typography } from '../m3'
 import { TemplateIcon } from './TemplateIcon'
 import { TemplateDifficultyBadge } from '../feedback/TemplateDifficultyBadge'
 import { TemplateRating } from '../feedback/TemplateRating'
-import { Template } from '@metabuilder/interfaces/templates'
+import { Template } from '@shared/interfaces/templates'
 import styles from '../../scss/components/cards/template-card.module.scss'
 
 interface TemplateCardProps {

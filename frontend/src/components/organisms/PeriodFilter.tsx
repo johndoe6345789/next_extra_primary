@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import ToggleButtonGroup from '@metabuilder/m3/ToggleButtonGroup';
-import ToggleButton from '@metabuilder/m3/ToggleButton';
+import ToggleButtonGroup from '@shared/m3/ToggleButtonGroup';
+import ToggleButton from '@shared/m3/ToggleButton';
 
 /** Props for PeriodFilter. */
 export interface PeriodFilterProps {

@@ -17,7 +17,7 @@ import {
   selectWorkflowsIsLoading,
   selectWorkflowsError,
   type WorkflowsState,
-} from '@metabuilder/redux-slices';
+} from '@shared/redux-slices';
 
 const dbalUrl = () =>
   (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_DBAL_API_URL) ||

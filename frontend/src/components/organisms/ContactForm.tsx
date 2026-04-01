@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import Alert from '@metabuilder/m3/Alert';
-import Box from '@metabuilder/m3/Box';
-import TextField from '@metabuilder/m3/TextField';
+import Alert from '@shared/m3/Alert';
+import Box from '@shared/m3/Box';
+import TextField from '@shared/m3/TextField';
 import { useTranslations } from 'next-intl';
 import { Button } from '../atoms';
 import { useContactForm } from '@/hooks/useContactForm';

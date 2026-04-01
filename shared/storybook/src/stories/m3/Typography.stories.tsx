@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Typography } from '@metabuilder/m3';
+import { Typography } from '@shared/m3';
 
 const meta: Meta<typeof Typography> = {
   title: 'M3/Typography',

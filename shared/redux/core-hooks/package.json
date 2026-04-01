@@ -1,5 +1,5 @@
 {
-  "name": "@metabuilder/core-hooks",
+  "name": "@shared/core-hooks",
   "version": "0.1.0",
   "type": "module",
   "description": "Generic, reusable React hooks for common UI patterns - no Redux or service dependencies",

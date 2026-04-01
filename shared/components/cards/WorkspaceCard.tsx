@@ -6,7 +6,7 @@
 import React from 'react'
 import { WorkspaceIcon } from './WorkspaceIcon'
 import { WorkspaceTitle } from './WorkspaceTitle'
-import type { Workspace } from '@metabuilder/interfaces/dashboard'
+import type { Workspace } from '@shared/interfaces/dashboard'
 import styles from '../../scss/components/cards/workspace-card.module.scss'
 
 interface WorkspaceCardProps {

@@ -7,7 +7,7 @@
  * components/m3/ location. Components are organized by category.
  *
  * Usage:
- *   import { Button, Card, Typography } from '@metabuilder/components/m3'
+ *   import { Button, Card, Typography } from '@shared/components/m3'
  */
 
 // =============================================================================

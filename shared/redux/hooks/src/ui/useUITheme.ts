@@ -5,11 +5,11 @@
 
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@metabuilder/redux-slices';
+import { RootState } from '@shared/redux-slices';
 import {
   setTheme,
   toggleTheme
-} from '@metabuilder/redux-slices/uiSlice';
+} from '@shared/redux-slices/uiSlice';
 
 export interface UseUIThemeReturn {
   theme: 'light' | 'dark';

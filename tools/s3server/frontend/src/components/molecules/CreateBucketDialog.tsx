@@ -4,7 +4,7 @@ import { useState } from 'react';
 import {
   Dialog, DialogTitle, DialogContent,
   DialogActions, TextField, Button,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import labels from '@/constants/ui-labels.json';
 
 /** @brief Props for CreateBucketDialog. */
@@ -52,8 +52,6 @@ export default function CreateBucketDialog({
       <DialogContent>
         <TextField
           autoFocus
-          fullWidth
-          margin="dense"
           label={labels.dialogs.bucketName}
           value={name}
           onChange={(e) =>

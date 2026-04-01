@@ -1,7 +1,7 @@
 /**
  * useAsyncData - Generic async data fetching hook
  *
- * Delegates to Redux-backed @metabuilder/hooks-async for state management.
+ * Delegates to Redux-backed @shared/hooks-async for state management.
  * Maintains backward compatibility with previous standalone implementation.
  *
  * Manages async operations with loading states, error handling, retries, and refetching.
@@ -13,7 +13,7 @@ import {
   useReduxAsyncData as useReduxAsyncDataImpl,
   useReduxPaginatedAsyncData as useReduxPaginatedAsyncDataImpl,
   useReduxMutation as useReduxMutationImpl,
-} from '@metabuilder/hooks-async'
+} from '@shared/hooks-async'
 
 export interface UseAsyncDataOptions<T> {
   /**
@@ -101,7 +101,7 @@ export interface UseAsyncDataResult<T> {
  * Handles data fetching, loading state, error state, and automatic retries.
  * Perfect for client-side data loading with built-in loading UI feedback.
  *
- * Delegates to Redux-backed implementation via @metabuilder/hooks-async.
+ * Delegates to Redux-backed implementation via @shared/hooks-async.
  *
  * @template T The type of data being fetched
  * @param fetchFn - Async function to fetch data
@@ -228,7 +228,7 @@ export interface UsePaginatedDataResult<T> extends UseAsyncDataResult<T[]> {
 /**
  * usePaginatedData - Hook for paginated API calls
  *
- * Delegates to Redux-backed implementation via @metabuilder/hooks-async.
+ * Delegates to Redux-backed implementation via @shared/hooks-async.
  *
  * @template T Item type in the paginated result
  * @param fetchFn - Function that takes page and pageSize and returns items and total
@@ -373,7 +373,7 @@ export interface UseMutationResult<T, R> {
 /**
  * useMutation - Hook for write operations with loading state
  *
- * Delegates to Redux-backed implementation via @metabuilder/hooks-async.
+ * Delegates to Redux-backed implementation via @shared/hooks-async.
  *
  * @template T Input data type for the mutation
  * @template R Return type of the mutation

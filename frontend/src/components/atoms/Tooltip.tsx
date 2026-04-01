@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import MuiTooltip from '@metabuilder/m3/Tooltip';
+import MuiTooltip from '@shared/m3/Tooltip';
 
 /**
  * Props for the Tooltip component.

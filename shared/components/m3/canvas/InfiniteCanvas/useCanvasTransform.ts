@@ -5,7 +5,7 @@
  */
 
 import { useRef, useEffect, useCallback, useState } from 'react';
-import { useProjectCanvas } from '@metabuilder/hooks-canvas';
+import { useProjectCanvas } from '@shared/hooks-canvas';
 
 interface PanDelta {
   x: number;

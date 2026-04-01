@@ -12,15 +12,15 @@
 
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useServices } from '@metabuilder/service-adapters'
+import { useServices } from '@shared/service-adapters'
 import {
   startExecution,
   endExecution,
   selectCurrentExecution,
   selectExecutionHistory,
-} from '@metabuilder/redux-slices'
-import type { ExecutionResult, ExecutionStats } from '@metabuilder/types'
-import type { AppDispatch, RootState } from '@metabuilder/redux-slices'
+} from '@shared/redux-slices'
+import type { ExecutionResult, ExecutionStats } from '@shared/types'
+import type { AppDispatch, RootState } from '@shared/redux-slices'
 
 /**
  * useExecution Hook

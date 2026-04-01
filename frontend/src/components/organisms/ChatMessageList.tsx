@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useRef, useEffect } from 'react';
-import Box from '@metabuilder/m3/Box';
-import Typography from '@metabuilder/m3/Typography';
-import CircularProgress from '@metabuilder/m3/CircularProgress';
+import Box from '@shared/m3/Box';
+import Typography from '@shared/m3/Typography';
+import CircularProgress from '@shared/m3/CircularProgress';
 import { AiChatMessage } from './AiChatMessage';
 import type { ChatMessage } from '@/types/chat';
 

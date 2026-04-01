@@ -3,8 +3,7 @@
 import {
   Box, Container, Typography,
   Button, CircularProgress,
-} from '@metabuilder/m3';
-import Link from 'next/link';
+} from '@shared/m3';
 import AppNavbar from './AppNavbar';
 import DashboardStats from './DashboardStats';
 import { useDashboardStats } from '@/hooks';
@@ -48,7 +47,6 @@ export default function DashboardContent() {
             <Box style={{ marginTop: 32 }}>
               <Button
                 variant="contained"
-                component={Link}
                 href={routes.buckets}
               >
                 {labels.dashboard.viewBuckets}

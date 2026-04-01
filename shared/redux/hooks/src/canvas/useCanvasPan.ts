@@ -5,15 +5,15 @@
 
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@metabuilder/redux-slices';
+import { AppDispatch, RootState } from '@shared/redux-slices';
 import {
   setCanvasPan,
   panCanvas,
   selectCanvasPan,
   setDragging,
   selectIsDragging
-} from '@metabuilder/redux-slices/canvasSlice';
-import { CanvasPosition } from '@metabuilder/redux-slices';
+} from '@shared/redux-slices/canvasSlice';
+import { CanvasPosition } from '@shared/redux-slices';
 
 export interface UseCanvasPanReturn {
   pan: CanvasPosition;

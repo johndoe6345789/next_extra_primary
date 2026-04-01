@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from '@metabuilder/m3';
+import { Button } from '@shared/m3';
 
 const meta: Meta<typeof Button> = {
   title: 'M3/Button',

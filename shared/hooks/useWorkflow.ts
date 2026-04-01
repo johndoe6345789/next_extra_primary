@@ -33,7 +33,7 @@ import type {
   ExecutionState,
   ExecutionRecord,
   ExecutionMetrics,
-} from '@metabuilder/types'
+} from '@shared/types'
 
 export interface ExecuteWorkflowParams {
   tenant: string

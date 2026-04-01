@@ -3,7 +3,7 @@
 import {
   List, ListItemButton, ListItemIcon,
   ListItemText, Dashboard, ViewList,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import Link from 'next/link';
 import labels from '@/constants/ui-labels.json';
 import routes from '@/constants/routes.json';
@@ -22,34 +22,46 @@ export default function DrawerNavLinks(
 ) {
   return (
     <List>
-      <ListItemButton
-        component={Link}
+      <Link
         href={routes.dashboard}
-        onClick={onClose}
-        data-testid="drawer-nav-dashboard"
-        aria-label={labels.nav.dashboard}
+        style={{
+          textDecoration: 'none',
+          color: 'inherit',
+        }}
       >
-        <ListItemIcon>
-          <Dashboard />
-        </ListItemIcon>
-        <ListItemText
-          primary={labels.nav.dashboard}
-        />
-      </ListItemButton>
-      <ListItemButton
-        component={Link}
+        <ListItemButton
+          onClick={onClose}
+          data-testid="drawer-nav-dashboard"
+          aria-label={labels.nav.dashboard}
+        >
+          <ListItemIcon>
+            <Dashboard />
+          </ListItemIcon>
+          <ListItemText
+            primary={labels.nav.dashboard}
+          />
+        </ListItemButton>
+      </Link>
+      <Link
         href={routes.buckets}
-        onClick={onClose}
-        data-testid="drawer-nav-buckets"
-        aria-label={labels.nav.buckets}
+        style={{
+          textDecoration: 'none',
+          color: 'inherit',
+        }}
       >
-        <ListItemIcon>
-          <ViewList />
-        </ListItemIcon>
-        <ListItemText
-          primary={labels.nav.buckets}
-        />
-      </ListItemButton>
+        <ListItemButton
+          onClick={onClose}
+          data-testid="drawer-nav-buckets"
+          aria-label={labels.nav.buckets}
+        >
+          <ListItemIcon>
+            <ViewList />
+          </ListItemIcon>
+          <ListItemText
+            primary={labels.nav.buckets}
+          />
+        </ListItemButton>
+      </Link>
     </List>
   );
 }

@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import Box from '@metabuilder/m3/Box';
-import Typography from '@metabuilder/m3/Typography';
-import IconButton from '@metabuilder/m3/IconButton';
-import CloseIcon from '@metabuilder/icons/Close';
+import Box from '@shared/m3/Box';
+import Typography from '@shared/m3/Typography';
+import IconButton from '@shared/m3/IconButton';
+import CloseIcon from '@shared/icons/Close';
 import { useTranslations } from 'next-intl';
 
 /** Props for DrawerHeader. */

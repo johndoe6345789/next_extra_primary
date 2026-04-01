@@ -12,7 +12,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useServices } from '@metabuilder/service-adapters'
+import { useServices } from '@shared/service-adapters'
 import {
   setWorkspaces,
   addWorkspace,
@@ -26,9 +26,9 @@ import {
   selectCurrentWorkspaceId,
   selectWorkspaceIsLoading,
   selectWorkspaceError,
-} from '@metabuilder/redux-slices'
-import type { Workspace, CreateWorkspaceRequest, UpdateWorkspaceRequest } from '@metabuilder/service-adapters'
-import type { AppDispatch, RootState } from '@metabuilder/redux-slices'
+} from '@shared/redux-slices'
+import type { Workspace, CreateWorkspaceRequest, UpdateWorkspaceRequest } from '@shared/service-adapters'
+import type { AppDispatch, RootState } from '@shared/redux-slices'
 
 /**
  * useWorkspace Hook

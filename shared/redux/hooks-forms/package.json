@@ -1,5 +1,5 @@
 {
-  "name": "@metabuilder/hooks-forms",
+  "name": "@shared/hooks-forms",
   "version": "1.0.0",
   "type": "module",
   "description": "Form management hooks for MetaBuilder with validation and field arrays",

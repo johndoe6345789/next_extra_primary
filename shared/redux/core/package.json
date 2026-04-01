@@ -1,5 +1,5 @@
 {
-  "name": "@metabuilder/redux-core",
+  "name": "@shared/redux-core",
   "version": "1.0.0",
   "description": "Core Redux slices for MetaBuilder - shared state management across all frontends (Next.js, Qt6, CLI)",
   "type": "module",

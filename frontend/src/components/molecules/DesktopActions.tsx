@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Box from '@metabuilder/m3/Box';
+import Box from '@shared/m3/Box';
 import { SearchBar } from './SearchBar';
 import { ThemeToggle } from './ThemeToggle';
 import { LocaleSwitcher } from './LocaleSwitcher';

@@ -1,5 +1,5 @@
 /**
- * @metabuilder/hooks-core
+ * @shared/hooks-core
  * Core React hooks for workflow UI applications
  * 
  * Includes pure Redux-based hooks for:
@@ -12,7 +12,7 @@
  * any workflow UI implementation. They depend only on Redux and React.
  * 
  * Requirements:
- * - Redux store configured with workflow slices (@metabuilder/redux-slices)
+ * - Redux store configured with workflow slices (@shared/redux-slices)
  * - react-redux Provider wrapping your app
  */
 

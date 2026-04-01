@@ -3,7 +3,7 @@
  * @brief Renders endpoint parameters as a table.
  */
 
-import { Typography } from '@metabuilder/m3';
+import { Typography } from '@shared/m3';
 import type { OApiParam } from '@/hooks/types';
 
 /** @brief Props for ParamsTable. */

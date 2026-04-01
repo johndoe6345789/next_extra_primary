@@ -1,5 +1,5 @@
 {
-  "name": "@metabuilder/redux-persist",
+  "name": "@shared/redux-persist",
   "version": "1.0.0",
   "type": "module",
   "description": "Unified Redux Persist integration with IndexedDB storage for MetaBuilder",

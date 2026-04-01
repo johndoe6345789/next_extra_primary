@@ -3,7 +3,7 @@ import {
   setRequestLocale,
   getTranslations,
 } from 'next-intl/server';
-import { Box, Typography } from '@metabuilder/m3';
+import { Box, Typography } from '@shared/m3';
 import DashboardStats from
   '@/components/organisms/DashboardStats';
 

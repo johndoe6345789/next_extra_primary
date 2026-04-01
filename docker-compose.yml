@@ -1,10 +1,8 @@
 ## Unified Docker Compose for the full Nextra stack.
 ##
 ## Usage:
-##   docker compose up --build              # core stack
-##   docker compose --profile tools up      # + packagerepo, s3, pgadmin
-##   docker compose --profile dev up        # core with dev volumes
-##   docker compose --profile offline up    # offline build mode
+##   docker compose up --build              # all services
+##   docker compose up -d                   # detached mode
 ##
 ## Portal homepage:   http://localhost:8000   (nginx reverse proxy)
 ## Email client:       http://localhost:8025
@@ -95,9 +93,7 @@ services:
     volumes:
       - emailclient-dbdata:/var/lib/postgresql/data
     healthcheck:
-      test: >-
-        ["CMD-SHELL",
-        "pg_isready -U emailclient -d emailclient"]
+      test: ["CMD-SHELL", "pg_isready -U emailclient -d emailclient"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -136,6 +132,8 @@ services:
     build:
       context: ./tools/emailclient
       dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
       args:
         NEXT_BASE_PATH: /emailclient
     ports:
@@ -219,56 +217,14 @@ services:
       - backend
     restart: unless-stopped
 
-  # ---- Backend (dev mode with hot-reload volumes) ------------
-  backend-dev:
-    extends:
-      service: backend
-    profiles: ["dev"]
-    volumes:
-      - ./backend/src:/app/src
-      - ./backend/config:/app/config
-      - ./backend/migrations:/app/migrations
-
-  # ---- Frontend (dev mode with hot-reload volumes) -----------
-  frontend-dev:
-    extends:
-      service: frontend
-    profiles: ["dev"]
-    volumes:
-      - ./frontend/src:/app/src
-      - ./frontend/public:/app/public
-    environment:
-      WATCHPACK_POLLING: "true"
-
-  # ---- Backend (offline build with local repo) ---------------
-  backend-offline:
-    extends:
-      service: backend
-    profiles: ["offline"]
-    build:
-      args:
-        DEPS_IMAGE: nextra/backend-deps:latest
-        REPO_URL: http://host.docker.internal:5050
-        APT_VER: sid-2026q1
-
-  # ---- Frontend (offline build with local repo) --------------
-  frontend-offline:
-    extends:
-      service: frontend
-    profiles: ["offline"]
-    build:
-      args:
-        REPO_URL: http://host.docker.internal:5050
-        APT_VER: sid-2026q1
 
 # ==============================================================
-#  Tool services (--profile tools)
+#  Tool services
 # ==============================================================
 
   # ---- Package repo Postgres ---------------------------------
   packagerepo-db:
     image: postgres:16-alpine
-    profiles: ["tools"]
     environment:
       POSTGRES_DB: packagerepo
       POSTGRES_USER: packagerepo
@@ -280,7 +236,6 @@ services:
   # ---- S3 server Postgres ------------------------------------
   s3-db:
     image: postgres:16-alpine
-    profiles: ["tools"]
     environment:
       POSTGRES_DB: s3server
       POSTGRES_USER: s3user
@@ -294,7 +249,6 @@ services:
     build:
       context: ./tools/s3server
       dockerfile: backend/Dockerfile
-    profiles: ["tools"]
     ports:
       - "9000:9000"
     environment:
@@ -323,9 +277,10 @@ services:
     build:
       context: ./tools/s3server/frontend
       dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
       args:
         NEXT_BASE_PATH: /s3
-    profiles: ["tools"]
     ports:
       - "3001:3001"
     environment:
@@ -339,7 +294,6 @@ services:
     build:
       context: ./tools/packagerepo
       dockerfile: backend/Dockerfile
-    profiles: ["tools"]
     ports:
       - "5050:5000"
     environment:
@@ -369,9 +323,10 @@ services:
     build:
       context: ./tools/packagerepo/frontend
       dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
       args:
         NEXT_BASE_PATH: /repo
-    profiles: ["tools"]
     ports:
       - "5051:3000"
     environment:
@@ -386,7 +341,6 @@ services:
     build:
       context: ./tools/pgadmin
       dockerfile: backend/Dockerfile
-    profiles: ["tools"]
     ports:
       - "5060:5060"
     environment:
@@ -410,9 +364,10 @@ services:
     build:
       context: ./tools/pgadmin/frontend
       dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
       args:
         NEXT_BASE_PATH: /db
-    profiles: ["tools"]
     ports:
       - "3002:3002"
     environment:

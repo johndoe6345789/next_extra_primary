@@ -1,5 +1,5 @@
 /**
- * @metabuilder/components
+ * @shared/components
  *
  * Shared React components for MetaBuilder projects.
  * Organized by UI library dependency:
@@ -116,14 +116,14 @@ export {
 } from './radix/dialogs/KeyboardShortcutsDialog'
 
 // =============================================================================
-// M3 COMPONENTS (Built on @metabuilder/m3)
+// M3 COMPONENTS (Built on @shared/m3)
 // =============================================================================
 
 // Re-export all M3 components
 // Components are available via:
-//   import { Button, Card } from '@metabuilder/components/m3'
+//   import { Button, Card } from '@shared/components/m3'
 // Or via the main barrel export (with potential naming conflicts):
-//   import { Button } from '@metabuilder/components'
+//   import { Button } from '@shared/components'
 export * from './m3'
 
 // Feedback components
@@ -146,7 +146,7 @@ export { HeaderActions, type HeaderActionsProps } from './navigation'
  *
  * @example
  * // In your app's entry point:
- * import { allStyles } from '@metabuilder/components'
+ * import { allStyles } from '@shared/components'
  *
  * // Option 1: Inject via style tag
  * const styleTag = document.createElement('style')

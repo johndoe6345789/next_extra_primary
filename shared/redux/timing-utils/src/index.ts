@@ -1,5 +1,5 @@
 /**
- * @metabuilder/timing-utils
+ * @shared/timing-utils
  *
  * Timing and debounce utilities for React applications.
  * Provides zero-dependency hooks for debouncing values, debouncing saves,
@@ -10,7 +10,7 @@
  * ## Installation
  *
  * ```bash
- * npm install @metabuilder/timing-utils
+ * npm install @shared/timing-utils
  * ```
  *
  * ## Usage Examples
@@ -18,7 +18,7 @@
  * ### Debounce Search Input
  *
  * ```typescript
- * import { useDebounce } from '@metabuilder/timing-utils'
+ * import { useDebounce } from '@shared/timing-utils'
  *
  * function SearchUsers() {
  *   const [searchTerm, setSearchTerm] = useState('')
@@ -37,7 +37,7 @@
  * ### Auto-Save Form Data
  *
  * ```typescript
- * import { useDebouncedSave } from '@metabuilder/timing-utils'
+ * import { useDebouncedSave } from '@shared/timing-utils'
  *
  * function DocumentEditor() {
  *   const [content, setContent] = useState('')
@@ -53,7 +53,7 @@
  * ### Track and Display Last Save Time
  *
  * ```typescript
- * import { useLastSaved, useSaveIndicator } from '@metabuilder/timing-utils'
+ * import { useLastSaved, useSaveIndicator } from '@shared/timing-utils'
  *
  * function DocumentStatus() {
  *   const [content, setContent] = useState('')

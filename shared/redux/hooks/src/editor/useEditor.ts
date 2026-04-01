@@ -6,13 +6,13 @@
 
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@metabuilder/redux-slices';
+import { RootState } from '@shared/redux-slices';
 import {
   showContextMenu,
   hideContextMenu,
   setCanvasSize,
   resetEditor
-} from '@metabuilder/redux-slices/editorSlice';
+} from '@shared/redux-slices/editorSlice';
 import { useEditorZoom, UseEditorZoomReturn } from './useEditorZoom';
 import { useEditorPan, UseEditorPanReturn } from './useEditorPan';
 import { useEditorNodes, UseEditorNodesReturn } from './useEditorNodes';

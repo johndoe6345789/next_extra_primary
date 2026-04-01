@@ -1,8 +1,8 @@
 'use client';
 
 import { type ReactElement, ReactNode } from 'react';
-import { CssBaseline } from '@metabuilder/m3';
-import '@metabuilder/scss';
+import { CssBaseline } from '@shared/m3';
+import '@shared/scss';
 
 /** Props for the application theme provider. */
 interface ThemeProviderProps {
@@ -15,7 +15,7 @@ interface ThemeProviderProps {
  *
  * Theming is handled via M3 CSS variables
  * (--mat-sys-primary, --mat-sys-surface, etc.)
- * imported from @metabuilder/scss globals.
+ * imported from @shared/scss globals.
  *
  * @param props - Component props.
  * @returns Themed component tree.

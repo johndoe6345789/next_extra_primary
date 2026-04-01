@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { aria } from '@metabuilder/utils/accessibility';
+import { aria } from '@shared/utils/accessibility';
 
 export interface PanHintProps {
   testId?: string;

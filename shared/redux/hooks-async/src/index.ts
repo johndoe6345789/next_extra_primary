@@ -1,5 +1,5 @@
 /**
- * @metabuilder/hooks-async
+ * @shared/hooks-async
  * Redux-backed async data and mutation hooks
  * 100% compatible with @tanstack/react-query API
  */

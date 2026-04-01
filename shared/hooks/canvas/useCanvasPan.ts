@@ -12,7 +12,7 @@ import {
   setDragging,
   selectIsDragging,
   type CanvasPosition
-} from '@metabuilder/redux-slices';
+} from '@shared/redux-slices';
 
 export interface UseCanvasPanReturn {
   pan: CanvasPosition;

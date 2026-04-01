@@ -3,7 +3,7 @@
 import {
   TextField, Button, Stack,
   Upload, Refresh,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import labels from '@/constants/ui-labels.json';
 
 /** @brief Props for ObjectToolbar molecule. */
@@ -26,12 +26,13 @@ export default function ObjectToolbar({
 }: ObjectToolbarProps) {
   return (
     <Stack
-      direction={{ xs: 'column', sm: 'row' }}
+      direction="row"
       spacing={1}
-      alignItems={{
-        xs: 'stretch', sm: 'center',
+      alignItems="center"
+      style={{
+        marginBottom: 16,
+        flexWrap: 'wrap',
       }}
-      style={{ marginBottom: 16 }}
     >
       <TextField
         size="small"

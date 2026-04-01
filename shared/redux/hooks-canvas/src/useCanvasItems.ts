@@ -12,25 +12,25 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useServices } from '@metabuilder/service-adapters'
+import { useServices } from '@shared/service-adapters'
 import {
   selectProjectIsLoading,
   selectProjectError,
   selectCurrentProjectId,
   setProjectLoading,
   setProjectError,
-} from '@metabuilder/redux-slices'
+} from '@shared/redux-slices'
 import {
   setCanvasItems,
   removeCanvasItem,
   selectCanvasItems,
-} from '@metabuilder/redux-slices'
+} from '@shared/redux-slices'
 import {
   selectIsResizing,
   setResizing,
-} from '@metabuilder/redux-slices'
-import type { ProjectCanvasItem } from '@metabuilder/service-adapters'
-import type { AppDispatch, RootState } from '@metabuilder/redux-slices'
+} from '@shared/redux-slices'
+import type { ProjectCanvasItem } from '@shared/service-adapters'
+import type { AppDispatch, RootState } from '@shared/redux-slices'
 
 export interface UseCanvasItemsReturn {
   canvasItems: ProjectCanvasItem[]

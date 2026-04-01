@@ -3,7 +3,7 @@
 import {
   List, ListItemButton,
   ListItemIcon, ListItemText, Logout,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import labels from '@/constants/ui-labels.json';
 
 /** @brief Props for DrawerLogout. */

@@ -3,7 +3,7 @@
  * @brief Colored HTTP method badge using M3 Chip.
  */
 
-import { Chip } from '@metabuilder/m3';
+import { Chip } from '@shared/m3';
 import type { HttpMethod } from '@/hooks/types';
 
 /** @brief Color map for HTTP methods. */

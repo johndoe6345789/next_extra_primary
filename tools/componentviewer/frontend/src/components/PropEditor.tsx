@@ -8,7 +8,7 @@
 import {
   TextField, Checkbox, Select,
   FormControlLabel, Typography, Stack,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import type { PropDef } from '../types';
 import type { PropValues } from
   '../hooks/usePropState';

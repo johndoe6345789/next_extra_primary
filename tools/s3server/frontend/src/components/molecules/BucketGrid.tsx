@@ -2,7 +2,7 @@
 
 import {
   Grid, Typography,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import type { Bucket } from '@/types';
 import BucketCard from './BucketCard';
 import labels from '@/constants/ui-labels.json';
@@ -25,7 +25,7 @@ export default function BucketGrid({
 }: BucketGridProps) {
   if (buckets.length === 0) {
     return (
-      <Typography color="text.secondary">
+      <Typography style={{ opacity: 0.7 }}>
         {labels.buckets.empty}
       </Typography>
     );
@@ -40,7 +40,7 @@ export default function BucketGrid({
       {buckets.map((b) => (
         <Grid
           key={b.name}
-          size={{ xs: 12, sm: 6, md: 4 }}
+          xs={12} sm={6} md={4}
         >
           <BucketCard
             bucket={b}

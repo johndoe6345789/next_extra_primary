@@ -1,5 +1,5 @@
 {
-  "name": "@metabuilder/icons",
+  "name": "@shared/icons",
   "version": "0.1.0",
   "private": true,
   "main": "./react/m3/index.ts",

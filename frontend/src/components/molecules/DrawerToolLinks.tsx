@@ -1,16 +1,16 @@
 'use client';
 
 import React from 'react';
-import Box from '@metabuilder/m3/Box';
-import Typography from '@metabuilder/m3/Typography';
-import ListItemButton from '@metabuilder/m3/ListItemButton';
-import ListItemIcon from '@metabuilder/m3/ListItemIcon';
-import ListItemText from '@metabuilder/m3/ListItemText';
-import EmailIcon from '@metabuilder/icons/Email';
-import StorageIcon from '@metabuilder/icons/Storage';
-import InventoryIcon from '@metabuilder/icons/Inventory';
-import CloudIcon from '@metabuilder/icons/CloudQueue';
-import OpenInNewIcon from '@metabuilder/icons/OpenInNew';
+import Box from '@shared/m3/Box';
+import Typography from '@shared/m3/Typography';
+import ListItemButton from '@shared/m3/ListItemButton';
+import ListItemIcon from '@shared/m3/ListItemIcon';
+import ListItemText from '@shared/m3/ListItemText';
+import EmailIcon from '@shared/icons/Email';
+import StorageIcon from '@shared/icons/Storage';
+import InventoryIcon from '@shared/icons/Inventory';
+import CloudIcon from '@shared/icons/CloudQueue';
+import OpenInNewIcon from '@shared/icons/OpenInNew';
 import { useTranslations } from 'next-intl';
 import toolLinks from '@/constants/tool-links.json';
 

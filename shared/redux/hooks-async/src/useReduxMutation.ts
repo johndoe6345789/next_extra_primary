@@ -15,7 +15,7 @@ import {
   mutateAsyncData,
   selectAsyncRequest,
   type RootState,
-} from '@metabuilder/redux-slices'
+} from '@shared/redux-slices'
 
 export interface UseMutationOptions<TData = unknown, TResponse = unknown> {
   /** Called on successful mutation */

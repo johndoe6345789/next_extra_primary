@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Box from '@metabuilder/m3/Box';
+import Box from '@shared/m3/Box';
 
 /** Props for the Kbd atom. */
 export interface KbdProps {

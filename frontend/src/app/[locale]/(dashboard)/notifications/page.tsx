@@ -12,7 +12,7 @@ import {
   List,
   ListItem,
   ListItemText,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 
 /** Props for the notifications page. */
 interface NotificationsPageProps {

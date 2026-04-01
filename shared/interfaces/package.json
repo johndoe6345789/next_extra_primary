@@ -1,5 +1,5 @@
 {
-  "name": "@metabuilder/interfaces",
+  "name": "@shared/interfaces",
   "version": "1.0.0",
   "description": "Shared service contracts and request/response interfaces for MetaBuilder",
   "main": "index.js",
@@ -39,7 +39,7 @@
     "*.js.map"
   ],
   "dependencies": {
-    "@metabuilder/types": "*"
+    "@shared/types": "*"
   },
   "keywords": [
     "interfaces",

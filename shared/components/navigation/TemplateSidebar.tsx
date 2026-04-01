@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Box, Button, Typography } from '../m3'
-import { TemplateCategoryInfo, TemplateCategory } from '@metabuilder/interfaces/templates'
+import { TemplateCategoryInfo, TemplateCategory } from '@shared/interfaces/templates'
 import styles from '../../scss/components/navigation/template-sidebar.module.scss'
 
 interface TemplateSidebarProps {

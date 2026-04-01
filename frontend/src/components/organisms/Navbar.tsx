@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import AppBar from '@metabuilder/m3/AppBar';
-import Toolbar from '@metabuilder/m3/Toolbar';
-import Box from '@metabuilder/m3/Box';
+import AppBar from '@shared/m3/AppBar';
+import Toolbar from '@shared/m3/Toolbar';
+import Box from '@shared/m3/Box';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
 import { useAuth } from '@/hooks';

@@ -5,8 +5,7 @@ import {
   AppBar, Toolbar, Typography,
   Button, Box, IconButton,
   Cloud, Menu,
-} from '@metabuilder/m3';
-import Link from 'next/link';
+} from '@shared/m3';
 import { useS3Auth } from '@/hooks';
 import labels from '@/constants/ui-labels.json';
 import routes from '@/constants/routes.json';
@@ -47,7 +46,6 @@ export default function AppNavbar() {
           </Typography>
           <Button
             color="inherit"
-            component={Link}
             href={routes.dashboard}
             size="small"
           >
@@ -55,7 +53,6 @@ export default function AppNavbar() {
           </Button>
           <Button
             color="inherit"
-            component={Link}
             href={routes.buckets}
             size="small"
           >

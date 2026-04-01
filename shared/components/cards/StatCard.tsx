@@ -6,7 +6,7 @@
 import React from 'react'
 import { StatIcon } from './StatIcon'
 import { StatValue } from './StatValue'
-import type { StatItem } from '@metabuilder/interfaces/dashboard'
+import type { StatItem } from '@shared/interfaces/dashboard'
 import styles from '../../scss/components/cards/stat-card.module.scss'
 
 interface StatCardProps {

@@ -9,7 +9,7 @@ export type {
   ExecutionResult,
   ExecutionStatus,
   ExecutionStats
-} from '@metabuilder/types';
+} from '@shared/types';
 
 /**
  * Node parameter definition

@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
-import { Box, Typography } from '@metabuilder/m3';
+import { Box, Typography } from '@shared/m3';
 import { ChatPanel } from '@/components/organisms/ChatPanel';
 
 /** Skip static prerendering for this page. */

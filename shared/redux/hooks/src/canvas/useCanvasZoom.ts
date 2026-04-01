@@ -5,12 +5,12 @@
 
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@metabuilder/redux-slices';
+import { AppDispatch, RootState } from '@shared/redux-slices';
 import {
   setCanvasZoom,
   resetCanvasView,
   selectCanvasZoom
-} from '@metabuilder/redux-slices/canvasSlice';
+} from '@shared/redux-slices/canvasSlice';
 
 export interface UseCanvasZoomReturn {
   zoom: number;

@@ -9,9 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@metabuilder/m3": "file:../../../shared/components/m3",
-    "@metabuilder/scss": "file:../../../shared/scss",
-    "@metabuilder/icons": "file:../../../shared/icons",
+    "@shared/m3": "file:../../../shared/components/m3",
+    "@shared/scss": "file:../../../shared/scss",
+    "@shared/icons": "file:../../../shared/icons",
     "next": "^16.2.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"

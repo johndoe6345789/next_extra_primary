@@ -2,7 +2,7 @@
  * @file theme.ts
  * @brief M3 theme entry point.
  *
- * Theming is now handled by @metabuilder/scss via CSS
+ * Theming is now handled by @shared/scss via CSS
  * variables (--mat-sys-primary, --mat-sys-surface, etc).
  * This module re-exports design token metadata for any
  * code that needs programmatic access to token values.

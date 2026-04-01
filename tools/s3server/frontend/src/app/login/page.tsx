@@ -3,7 +3,7 @@
 import {
   Box, Card, CardContent,
   Typography, Stack, Cloud,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import { LoginForm } from '@/components/organisms';
 import labels from '@/constants/ui-labels.json';
 
@@ -26,14 +26,11 @@ export default function LoginPage() {
             spacing={1}
             style={{ marginBottom: 24 }}
           >
-            <Cloud
-              color="primary"
-              style={{ fontSize: 48 }}
-            />
+            <Cloud />
             <Typography variant="h5">
               {labels.app.title}
             </Typography>
-            <Typography color="text.secondary">
+            <Typography style={{ opacity: 0.7 }}>
               {labels.login.title}
             </Typography>
           </Stack>

@@ -1,5 +1,5 @@
 /**
- * @metabuilder/redux-slices
+ * @shared/redux-slices
  * Redux Toolkit slices for workflow state management
  */
 

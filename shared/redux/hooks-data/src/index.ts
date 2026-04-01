@@ -1,5 +1,5 @@
 /**
- * @metabuilder/hooks-data
+ * @shared/hooks-data
  *
  * Data management hooks with service adapter injection.
  *
@@ -15,8 +15,8 @@
  *
  * @example
  * // In your app initialization:
- * import { ServiceProvider, DefaultProjectServiceAdapter } from '@metabuilder/service-adapters'
- * import { useProject } from '@metabuilder/hooks-data'
+ * import { ServiceProvider, DefaultProjectServiceAdapter } from '@shared/service-adapters'
+ * import { useProject } from '@shared/hooks-data'
  *
  * const services = {
  *   projectService: new DefaultProjectServiceAdapter('/api'),
@@ -56,4 +56,4 @@ export type {
   WorkflowConnection,
   ExecutionResult,
   ExecutionStats,
-} from '@metabuilder/service-adapters'
+} from '@shared/service-adapters'

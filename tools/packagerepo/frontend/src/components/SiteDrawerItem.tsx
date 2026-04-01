@@ -10,7 +10,7 @@ import {
   Storage,
   Package,
   CloudQueue,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 
 /** Map of icon name to M3 icon component. */
 const iconMap: Record<string, React.ReactNode> = {

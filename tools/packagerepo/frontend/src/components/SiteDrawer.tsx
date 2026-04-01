@@ -8,7 +8,7 @@ import {
   Divider,
   List,
   Close,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import siteLinks from '@/constants/site-links.json';
 import SiteDrawerItem from './SiteDrawerItem';
 import type { SiteLink } from './SiteDrawerItem';

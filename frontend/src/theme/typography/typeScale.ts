@@ -3,7 +3,7 @@
  * @brief MD3 Display and Headline size/weight scale.
  *
  * These values are kept as a programmatic reference.
- * Runtime styling is handled by @metabuilder/scss
+ * Runtime styling is handled by @shared/scss
  * CSS variables.
  */
 

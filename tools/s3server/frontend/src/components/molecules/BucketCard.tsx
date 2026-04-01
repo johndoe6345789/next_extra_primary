@@ -3,7 +3,7 @@
 import {
   Card, CardContent, CardActions,
   Typography, Button, Folder, Stack,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import type { Bucket } from '@/types';
 import labels from '@/constants/ui-labels.json';
 
@@ -33,14 +33,14 @@ export default function BucketCard({
       <CardContent>
         <Stack direction="row" spacing={1}
           alignItems="center">
-          <Folder color="primary" />
+          <Folder />
           <Typography variant="h6">
             {bucket.name}
           </Typography>
         </Stack>
         <Typography
           variant="caption"
-          color="text.secondary"
+          style={{ opacity: 0.7 }}
         >
           {labels.buckets.created}{' '}
           {new Date(

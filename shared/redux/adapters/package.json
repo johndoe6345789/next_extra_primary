@@ -1,5 +1,5 @@
 {
-  "name": "@metabuilder/service-adapters",
+  "name": "@shared/service-adapters",
   "version": "0.1.0",
   "type": "module",
   "description": "Service adapter interfaces for decoupling hooks from concrete implementations",
@@ -10,7 +10,7 @@
     "dev": "tsc --watch"
   },
   "dependencies": {
-    "@metabuilder/types": "*",
+    "@shared/types": "*",
     "react": "^19.2.4"
   },
   "peerDependencies": {

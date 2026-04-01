@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { ProjectCard } from './ProjectCard'
-import type { Project } from '@metabuilder/interfaces/workspace'
+import type { Project } from '@shared/interfaces/workspace'
 
 interface ProjectListProps {
   projects: Project[]

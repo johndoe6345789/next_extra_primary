@@ -3,7 +3,7 @@
  * @brief Renders a JSON schema as formatted code.
  */
 
-import { Box, Typography } from '@metabuilder/m3';
+import { Box, Typography } from '@shared/m3';
 import type { OApiSchema } from '@/hooks/types';
 
 /** @brief Props for SchemaView. */

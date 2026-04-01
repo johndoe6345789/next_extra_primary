@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import NotificationsIcon from '@metabuilder/icons/Notifications';
+import NotificationsIcon from '@shared/icons/Notifications';
 import { IconButton } from '../atoms';
 import { Badge } from '../atoms';
 import { useNotifications } from '@/hooks';

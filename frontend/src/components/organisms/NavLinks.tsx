@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import Box from '@metabuilder/m3/Box';
-import MuiLink from '@metabuilder/m3/Link';
-import MuiTooltip from '@metabuilder/m3/Tooltip';
+import Box from '@shared/m3/Box';
+import MuiLink from '@shared/m3/Link';
+import MuiTooltip from '@shared/m3/Tooltip';
 import { Link } from '@/i18n/navigation';
 import type { NavLink } from './MobileDrawer';
 import { Kbd } from '../atoms/Kbd';

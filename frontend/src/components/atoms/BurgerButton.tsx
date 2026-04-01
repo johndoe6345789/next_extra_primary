@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import MuiIconButton from '@metabuilder/m3/IconButton';
-import MenuIcon from '@metabuilder/icons/Menu';
+import MuiIconButton from '@shared/m3/IconButton';
+import MenuIcon from '@shared/icons/Menu';
 
 /** Props for BurgerButton. */
 export interface BurgerButtonProps {

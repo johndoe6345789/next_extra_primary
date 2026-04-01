@@ -2,7 +2,7 @@
 
 import {
   TextField, Button, Alert, Stack,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import { useLoginForm } from '@/hooks';
 import labels from '@/constants/ui-labels.json';
 

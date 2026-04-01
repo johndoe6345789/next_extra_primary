@@ -134,7 +134,7 @@ export { useAsyncData } from './useAsyncData'
 export { useAutoRefresh } from './useAutoRefresh'
 export { useCodeEditor } from './useCodeEditor'
 // useFileTree excluded from barrel export — it imports Node.js 'fs' module
-// which breaks client-side bundles. Import directly: import { useFileTree } from '@metabuilder/hooks/useFileTree'
+// which breaks client-side bundles. Import directly: import { useFileTree } from '@shared/hooks/useFileTree'
 export { useGitHubFetcher } from './useGitHubFetcher'
 export { useWorkflow, useWorkflowExecutions } from './useWorkflow'
 

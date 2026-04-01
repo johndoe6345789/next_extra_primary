@@ -1,5 +1,5 @@
 /**
- * @metabuilder/redux-persist
+ * @shared/redux-persist
  *
  * Unified Redux Persist integration with IndexedDB storage for MetaBuilder.
  * Replaces custom persistence middleware across all subprojects with a single
@@ -7,7 +7,7 @@
  *
  * Usage:
  * ```ts
- * import { createPersistedStore } from '@metabuilder/redux-persist'
+ * import { createPersistedStore } from '@shared/redux-persist'
  *
  * const { store, persistor } = createPersistedStore({
  *   reducers: { files, models, theme, settings },

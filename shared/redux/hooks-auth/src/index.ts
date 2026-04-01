@@ -1,5 +1,5 @@
 /**
- * @metabuilder/hooks-auth
+ * @shared/hooks-auth
  *
  * Authentication hooks with service adapter injection.
  *
@@ -16,8 +16,8 @@
  *
  * @example
  * // In your app initialization:
- * import { ServiceProvider, DefaultAuthServiceAdapter } from '@metabuilder/service-adapters'
- * import { useLoginLogic } from '@metabuilder/hooks-auth'
+ * import { ServiceProvider, DefaultAuthServiceAdapter } from '@shared/service-adapters'
+ * import { useLoginLogic } from '@shared/hooks-auth'
  *
  * const services = {
  *   authService: new DefaultAuthServiceAdapter('/api'),
@@ -48,4 +48,4 @@ export {
 } from './usePasswordValidation'
 
 // Re-export types from service adapters
-export type { IAuthServiceAdapter, AuthResponse, User } from '@metabuilder/service-adapters'
+export type { IAuthServiceAdapter, AuthResponse, User } from '@shared/service-adapters'

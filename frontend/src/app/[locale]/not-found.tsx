@@ -8,7 +8,7 @@ import {
   Box,
   Typography,
   Button,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 
 /**
  * Custom 404 page for locale-scoped routes.

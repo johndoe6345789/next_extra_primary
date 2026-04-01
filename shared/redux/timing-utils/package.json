@@ -1,5 +1,5 @@
 {
-  "name": "@metabuilder/timing-utils",
+  "name": "@shared/timing-utils",
   "version": "0.1.0",
   "type": "module",
   "description": "Timing and debounce utilities for React - debounced saves, debounce values, and save indicators",

@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useCallback } from 'react';
-import MuiSelect from '@metabuilder/m3/Select';
-import MenuItem from '@metabuilder/m3/MenuItem';
-import type { SelectChangeEvent } from '@metabuilder/m3';
+import MuiSelect from '@shared/m3/Select';
+import MenuItem from '@shared/m3/MenuItem';
+import type { SelectChangeEvent } from '@shared/m3';
 import { useLocale } from '@/hooks';
 
 /** Short labels for supported locales. */

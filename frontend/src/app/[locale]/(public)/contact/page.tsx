@@ -6,7 +6,7 @@ import {
 import {
   Typography,
   Container,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import { ContactForm } from
   '@/components/organisms/ContactForm';
 

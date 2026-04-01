@@ -8,7 +8,7 @@
 import { createElement } from 'react';
 import {
   Box, Typography, Paper,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import type { ComponentDef } from '../types';
 import type { PropValues } from
   '../hooks/usePropState';

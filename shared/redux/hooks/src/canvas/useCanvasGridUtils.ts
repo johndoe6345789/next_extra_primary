@@ -5,11 +5,11 @@
 
 import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '@metabuilder/redux-slices';
+import { RootState } from '@shared/redux-slices';
 import {
   selectGridSnap,
   selectSnapSize
-} from '@metabuilder/redux-slices/canvasSlice';
+} from '@shared/redux-slices/canvasSlice';
 
 export interface UseCanvasGridUtilsReturn {
   snapToGrid: (position: { x: number; y: number }) => { x: number; y: number };

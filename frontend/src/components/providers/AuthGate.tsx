@@ -7,7 +7,7 @@ import {
   Box,
   CircularProgress,
   Typography,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import type { RootState } from '@/store/store';
 
 /** Routes accessible without authentication. */

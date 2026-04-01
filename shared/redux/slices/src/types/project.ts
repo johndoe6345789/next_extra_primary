@@ -12,9 +12,9 @@ export type {
   UpdateProjectRequest,
   CreateWorkspaceRequest,
   UpdateWorkspaceRequest
-} from '@metabuilder/types';
+} from '@shared/types';
 
-import type { CanvasPosition, CanvasSize, ProjectCanvasItem } from '@metabuilder/types';
+import type { CanvasPosition, CanvasSize, ProjectCanvasItem } from '@shared/types';
 
 /**
  * Collaborative presence for real-time sync
@@ -116,13 +116,13 @@ export interface BulkUpdateCanvasItemsRequest {
  */
 
 export interface WorkspaceListResponse {
-  workspaces: import('@metabuilder/types').Workspace[];
+  workspaces: import('@shared/types').Workspace[];
   count: number;
   total: number;
 }
 
 export interface ProjectListResponse {
-  projects: import('@metabuilder/types').Project[];
+  projects: import('@shared/types').Project[];
   count: number;
   total: number;
 }

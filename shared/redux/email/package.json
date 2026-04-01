@@ -1,5 +1,5 @@
 {
-  "name": "@metabuilder/redux-email",
+  "name": "@shared/redux-email",
   "version": "1.0.0",
   "type": "module",
   "description": "Redux slices for email client state management (lists, details, compose, filters)",

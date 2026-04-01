@@ -1,7 +1,7 @@
 /**
  * Service Adapter Types
  *
- * Re-exports canonical types from @metabuilder/types and defines
+ * Re-exports canonical types from @shared/types and defines
  * adapter-specific interfaces for service implementations.
  */
 
@@ -18,7 +18,7 @@ export type {
   ExecutionStats,
   ExecutionStatus,
   NodeExecutionResult,
-} from '@metabuilder/types';
+} from '@shared/types';
 
 // Project types from canonical source
 export type {
@@ -32,7 +32,7 @@ export type {
   CanvasPosition,
   CanvasSize,
   ProjectCanvasState,
-} from '@metabuilder/types';
+} from '@shared/types';
 
 // ============================================================================
 // ADAPTER-SPECIFIC TYPES
@@ -89,7 +89,7 @@ import type {
   UpdateProjectRequest,
   CreateWorkspaceRequest,
   UpdateWorkspaceRequest,
-} from '@metabuilder/types';
+} from '@shared/types';
 
 export interface IProjectServiceAdapter {
   listProjects(tenantId: string, workspaceId?: string): Promise<Project[]>;

@@ -8,7 +8,7 @@ import {
   Box, Typography, Card, CardContent,
   Container, Divider, Button, TextField,
   Stack, Paper, Alert, CircularProgress,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import {
   useAuth, useLoginForm, useContactForm,
   useDashboard, useGamification,

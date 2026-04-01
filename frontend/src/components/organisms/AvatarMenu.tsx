@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import Menu from '@metabuilder/m3/Menu';
-import MenuItem from '@metabuilder/m3/MenuItem';
+import Menu from '@shared/m3/Menu';
+import MenuItem from '@shared/m3/MenuItem';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { Avatar } from '../atoms';

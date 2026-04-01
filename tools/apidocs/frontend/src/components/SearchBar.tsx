@@ -3,7 +3,7 @@
  * @brief Filter endpoints by path or summary.
  */
 
-import { TextField } from '@metabuilder/m3';
+import { TextField } from '@shared/m3';
 
 /** @brief Props for SearchBar. */
 interface SearchBarProps {

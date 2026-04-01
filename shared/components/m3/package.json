@@ -1,5 +1,5 @@
 {
-  "name": "@metabuilder/m3",
+  "name": "@shared/m3",
   "version": "1.0.0",
   "type": "module",
   "description": "Material Design 3 React Component Library for MetaBuilder",

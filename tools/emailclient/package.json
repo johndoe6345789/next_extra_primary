@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --webpack",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint . --config eslint.config.mjs",
     "lint:fix": "eslint . --config eslint.config.mjs --fix",
@@ -14,9 +14,15 @@
     "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
-    "@metabuilder/m3": "*",
-    "@metabuilder/hooks": "*",
-    "@metabuilder/redux-core": "*",
+    "@shared/m3": "file:../../shared/components/m3",
+    "@shared/hooks": "file:../../shared/hooks",
+    "@shared/redux-core": "file:../../shared/redux/core",
+    "@shared/redux-slices": "file:../../shared/redux/slices",
+    "@shared/service-adapters": "file:../../shared/redux/adapters",
+    "classnames": "^2.5.1",
+    "clsx": "^2.1.1",
+    "sass": "^1.89.0",
+    "@monaco-editor/react": "^4.7.0",
     "@reduxjs/toolkit": "^2.11.2",
     "next": "^16.1.6",
     "react": "^19.2.4",
@@ -25,7 +31,13 @@
   },
   "overrides": {
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "eslint-plugin-jsx-a11y": {
+      "eslint": "$eslint"
+    },
+    "eslint-plugin-react": {
+      "eslint": "$eslint"
+    }
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",

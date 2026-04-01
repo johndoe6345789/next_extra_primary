@@ -15,8 +15,8 @@ import {
   setCurrentWorkspace,
   setWorkspaceLoading,
   setWorkspaceError,
-} from '@metabuilder/redux-slices';
-import type { Workspace } from '@metabuilder/types';
+} from '@shared/redux-slices';
+import type { Workspace } from '@shared/types';
 import { useUINotifications } from './ui/useUINotifications';
 
 const dbalUrl = () =>
@@ -35,7 +35,7 @@ async function dbalFetch<T>(method: string, path: string, body?: unknown): Promi
 }
 
 // Re-export Workspace type for consumers
-export type { Workspace } from '@metabuilder/types';
+export type { Workspace } from '@shared/types';
 
 /** Create workspace request */
 export interface CreateWorkspaceRequest {

@@ -9,7 +9,7 @@ import {
   AccordionDetails,
   Typography,
   Box,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import type { OApiSchema } from '@/hooks/types';
 import SchemaView from './SchemaView';
 

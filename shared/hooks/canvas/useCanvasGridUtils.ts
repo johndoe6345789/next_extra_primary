@@ -5,7 +5,7 @@
 
 import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { selectGridSnap, selectSnapSize } from '@metabuilder/redux-slices';
+import { selectGridSnap, selectSnapSize } from '@shared/redux-slices';
 
 export interface UseCanvasGridUtilsReturn {
   snapToGrid: (position: { x: number; y: number }) => { x: number; y: number };

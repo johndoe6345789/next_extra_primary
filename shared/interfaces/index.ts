@@ -4,7 +4,7 @@
  * Service contracts and request/response interfaces used across MetaBuilder.
  *
  * Usage:
- *   import type { CreateProjectRequest } from '@metabuilder/interfaces';
+ *   import type { CreateProjectRequest } from '@shared/interfaces';
  */
 
 // Request/Response interfaces

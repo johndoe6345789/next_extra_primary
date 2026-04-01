@@ -1,5 +1,5 @@
 /**
- * @metabuilder/redux-middleware
+ * @shared/redux-middleware
  * Redux middleware for MetaBuilder applications
  */
 

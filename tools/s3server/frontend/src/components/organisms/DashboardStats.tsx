@@ -3,7 +3,7 @@
 import {
   Card, CardContent, Typography,
   Grid, Storage, Folder, Cloud,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import { formatBytes } from '@/utils';
 import labels from '@/constants/ui-labels.json';
 
@@ -35,7 +35,7 @@ function StatCard({
         >
           {value}
         </Typography>
-        <Typography color="text.secondary">
+        <Typography style={{ opacity: 0.7 }}>
           {label}
         </Typography>
       </CardContent>
@@ -57,31 +57,25 @@ export default function DashboardStats({
       data-testid="dashboard-stats"
       aria-label="Storage statistics"
     >
-      <Grid size={{ xs: 12, sm: 4 }}>
+      <Grid xs={12} sm={4}>
         <StatCard
-          icon={<Folder
-            color="primary"
-            style={{ fontSize: 40 }} />}
+          icon={<Folder />}
           label={labels.dashboard.buckets}
           value={String(bucketCount)}
           testId="stat-buckets"
         />
       </Grid>
-      <Grid size={{ xs: 12, sm: 4 }}>
+      <Grid xs={12} sm={4}>
         <StatCard
-          icon={<Storage
-            color="secondary"
-            style={{ fontSize: 40 }} />}
+          icon={<Storage />}
           label={labels.dashboard.objects}
           value={String(objectCount)}
           testId="stat-objects"
         />
       </Grid>
-      <Grid size={{ xs: 12, sm: 4 }}>
+      <Grid xs={12} sm={4}>
         <StatCard
-          icon={<Cloud
-            color="primary"
-            style={{ fontSize: 40 }} />}
+          icon={<Cloud />}
           label={labels.dashboard.storage}
           value={formatBytes(totalSize)}
           testId="stat-storage"

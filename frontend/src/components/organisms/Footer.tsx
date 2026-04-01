@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import Box from '@metabuilder/m3/Box';
-import Typography from '@metabuilder/m3/Typography';
-import MuiLink from '@metabuilder/m3/Link';
-import Container from '@metabuilder/m3/Container';
+import Box from '@shared/m3/Box';
+import Typography from '@shared/m3/Typography';
+import MuiLink from '@shared/m3/Link';
+import Container from '@shared/m3/Container';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 

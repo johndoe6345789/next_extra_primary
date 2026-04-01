@@ -46,7 +46,7 @@ export interface ApiMiddlewareConfig {
  *
  * @example
  * ```typescript
- * import { createApiMiddleware } from '@metabuilder/redux-middleware';
+ * import { createApiMiddleware } from '@shared/redux-middleware';
  * import { workflowService, executionService } from './services';
  * import { setSaving, setSaveError, saveWorkflow, ... } from './slices';
  *

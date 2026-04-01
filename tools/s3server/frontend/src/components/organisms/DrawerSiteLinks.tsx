@@ -5,7 +5,7 @@ import {
   ListItemText, Typography, Box,
   OpenInNew, Home, Email,
   Storage, Archive, CloudQueue,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import siteLinks from '@/constants/site-links.json';
 
 /** @brief Icon name to component mapping. */
@@ -71,10 +71,7 @@ export default function DrawerSiteLinks() {
               primary={link.label}
             />
             {!link.current && (
-              <OpenInNew
-                fontSize="small"
-                color="action"
-              />
+              <OpenInNew />
             )}
           </ListItemButton>
         ))}

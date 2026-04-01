@@ -6,7 +6,7 @@
  */
 
 import React, { useRef } from 'react';
-import { testId } from '@metabuilder/utils/accessibility';
+import { testId } from '@shared/utils/accessibility';
 
 interface CanvasContentProps {
   children: React.ReactNode;

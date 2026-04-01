@@ -38,7 +38,7 @@ COPY redux/persist/package.json ./redux/persist/
 RUN npm config set fetch-retries 5 \
     && npm config set fetch-retry-mintimeout 20000 \
     && npm config set maxsockets 5 \
-    && npm install --ignore-scripts --legacy-peer-deps
+    && npm install --ignore-scripts
 
 
 # --- Build stage ---

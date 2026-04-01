@@ -6,7 +6,7 @@ import {
 import {
   Typography,
   Container,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 
 /** Props for the about page. */
 interface AboutPageProps {

@@ -17,11 +17,17 @@
     "paths": {
       "@/*": ["./src/*"],
       "@scss/*": ["../../../shared/scss/*"],
-      "@metabuilder/m3": [
+      "@shared/m3": [
         "../../../shared/components/m3/index.ts"
       ],
-      "@metabuilder/m3/*": [
+      "@shared/m3/*": [
         "../../../shared/components/m3/*"
+      ],
+      "@shared/types": [
+        "../../../shared/redux/core/src/types/index.ts"
+      ],
+      "@shared/types/*": [
+        "../../../shared/redux/core/src/types/*.ts"
       ]
     }
   },

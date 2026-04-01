@@ -6,7 +6,7 @@ import {
   CardActions,
   Button,
   Typography,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 
 const meta: Meta<typeof Card> = {
   title: 'M3/Card',

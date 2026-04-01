@@ -19,8 +19,8 @@ const nextConfig: NextConfig = {
     ],
   },
   transpilePackages: [
-    '@metabuilder/m3',
-    '@metabuilder/icons',
+    '@shared/m3',
+    '@shared/icons',
   ],
   turbopack: { root: monorepoRoot },
 };

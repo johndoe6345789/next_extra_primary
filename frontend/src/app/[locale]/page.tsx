@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
-import { Box, Container } from '@metabuilder/m3';
+import { Box, Container } from '@shared/m3';
 import { HeroSection } from '@/components/organisms/HeroSection';
 import { FeatureGrid } from '@/components/organisms/FeatureGrid';
 

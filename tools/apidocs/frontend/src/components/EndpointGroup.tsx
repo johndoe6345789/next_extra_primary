@@ -11,7 +11,7 @@ import {
   AccordionDetails,
   Typography,
   Chip,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import type {
   EndpointGroup as GroupType,
 } from '@/hooks/types';

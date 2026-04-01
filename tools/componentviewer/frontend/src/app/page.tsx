@@ -6,7 +6,7 @@
  */
 'use client';
 
-import { Box, Typography } from '@metabuilder/m3';
+import { Box, Typography } from '@shared/m3';
 import { useComponentDefs } from
   '@/hooks/useComponentDefs';
 import { useSelectedComponent } from

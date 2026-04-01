@@ -5,13 +5,13 @@
 
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@metabuilder/redux-slices';
+import { RootState } from '@shared/redux-slices';
 import {
   setNotification,
   removeNotification,
   clearNotifications
-} from '@metabuilder/redux-slices/uiSlice';
-import { Notification } from '@metabuilder/redux-slices/uiSlice';
+} from '@shared/redux-slices/uiSlice';
+import { Notification } from '@shared/redux-slices/uiSlice';
 
 export interface UseUINotificationsReturn {
   notifications: Notification[];

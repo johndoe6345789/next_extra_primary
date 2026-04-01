@@ -1,5 +1,5 @@
 /**
- * @metabuilder/redux-email
+ * @shared/redux-email
  *
  * Redux state management package for email client functionality.
  * Provides slices for email lists, details, composition, and filtering.
@@ -12,7 +12,7 @@
  *   emailDetailSlice,
  *   emailComposeSlice,
  *   emailFiltersSlice
- * } from '@metabuilder/redux-email'
+ * } from '@shared/redux-email'
  *
  * const store = configureStore({
  *   reducer: {

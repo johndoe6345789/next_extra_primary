@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import {
   Accordion, AccordionSummary, AccordionDetails,
   AccordionGroup, ExpandMoreIcon,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 
 const meta: Meta<typeof Accordion> = {
   title: 'M3/Accordion',

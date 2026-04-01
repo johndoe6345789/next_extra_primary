@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Alert, AlertTitle } from '@metabuilder/m3';
+import { Alert, AlertTitle } from '@shared/m3';
 
 const meta: Meta<typeof Alert> = {
   title: 'M3/Alert',

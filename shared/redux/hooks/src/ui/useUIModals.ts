@@ -5,12 +5,12 @@
 
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@metabuilder/redux-slices';
+import { RootState } from '@shared/redux-slices';
 import {
   openModal,
   closeModal,
   toggleModal
-} from '@metabuilder/redux-slices/uiSlice';
+} from '@shared/redux-slices/uiSlice';
 
 export interface UseUIModalsReturn {
   modals: Record<string, boolean>;

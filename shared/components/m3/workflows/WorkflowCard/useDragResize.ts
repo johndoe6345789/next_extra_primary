@@ -1,6 +1,6 @@
 /**
- * useDragResize - Re-exported from @metabuilder/hooks
+ * useDragResize - Re-exported from @shared/hooks
  */
 
-export { useDragResize } from '@metabuilder/hooks';
-export type { DragResizeItem, UseDragResizeParams, UseDragResizeReturn } from '@metabuilder/hooks';
+export { useDragResize } from '@shared/hooks';
+export type { DragResizeItem, UseDragResizeParams, UseDragResizeReturn } from '@shared/hooks';

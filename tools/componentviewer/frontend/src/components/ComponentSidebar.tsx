@@ -8,7 +8,7 @@
 import {
   List, ListSubheader, ListItem,
   ListItemButton, ListItemText, Typography,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import type {
   ComponentDef, Category,
 } from '../types';

@@ -4,7 +4,7 @@ import {
   Table, TableBody, TableCell,
   TableContainer, TableHead,
   TableRow, Paper, Typography,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import type { S3Object } from '@/types';
 import ObjectRow from './ObjectRow';
 import labels from '@/constants/ui-labels.json';
@@ -25,14 +25,14 @@ export default function ObjectDataTable({
 }: ObjectDataTableProps) {
   if (objects.length === 0) {
     return (
-      <Typography color="text.secondary">
+      <Typography style={{ opacity: 0.7 }}>
         {labels.objects.empty}
       </Typography>
     );
   }
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer>
       <Table size="small">
         <TableHead>
           <TableRow>

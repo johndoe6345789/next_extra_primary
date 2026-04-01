@@ -3,7 +3,7 @@
 import {
   TableRow, TableCell, IconButton,
   Stack, Download, Delete,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import { FileIcon, SizeLabel } from '../atoms';
 import type { S3Object } from '@/types';
 import labels from '@/constants/ui-labels.json';
@@ -53,7 +53,7 @@ export default function ObjectRow({
             + ` ${object.key}`
           }
         >
-          <Download fontSize="small" />
+          <Download />
         </IconButton>
         <IconButton
           size="small"
@@ -65,7 +65,7 @@ export default function ObjectRow({
             + ` ${object.key}`
           }
         >
-          <Delete fontSize="small" />
+          <Delete />
         </IconButton>
       </TableCell>
     </TableRow>

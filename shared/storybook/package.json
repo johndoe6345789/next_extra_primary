@@ -1,5 +1,5 @@
 {
-  "name": "@metabuilder/storybook",
+  "name": "@shared/storybook",
   "version": "1.0.0",
   "private": true,
   "description": "Storybook for rendering MetaBuilder JSON packages and UI components",

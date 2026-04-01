@@ -2,7 +2,7 @@
  * Database Components - Reusable components for database admin UIs
  *
  * Usage:
- *   import { DataGrid, ConfirmDialog, SQLQueryTab } from '@metabuilder/components/m3/database'
+ *   import { DataGrid, ConfirmDialog, SQLQueryTab } from '@shared/components/m3/database'
  */
 
 // Grids

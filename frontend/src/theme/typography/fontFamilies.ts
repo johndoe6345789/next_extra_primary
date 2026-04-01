@@ -2,7 +2,7 @@
  * @file fontFamilies.ts
  * @brief System font stack reference for M3 typography.
  *
- * Runtime font loading is handled by @metabuilder/scss.
+ * Runtime font loading is handled by @shared/scss.
  * This value is kept for programmatic access.
  */
 

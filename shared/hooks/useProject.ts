@@ -15,11 +15,11 @@ import {
   setCurrentProject,
   setProjectLoading,
   setProjectError,
-} from '@metabuilder/redux-slices';
-import type { Project } from '@metabuilder/types';
+} from '@shared/redux-slices';
+import type { Project } from '@shared/types';
 
 // Re-export Project type for consumers
-export type { Project } from '@metabuilder/types';
+export type { Project } from '@shared/types';
 
 /** Create project request */
 export interface CreateProjectRequest {

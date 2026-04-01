@@ -6,7 +6,7 @@
 import { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // useRouter import removed — was unused (dead import)
-import { setError, setAuthLoading, selectAuthError, selectAuthLoading } from '@metabuilder/redux-slices';
+import { setError, setAuthLoading, selectAuthError, selectAuthLoading } from '@shared/redux-slices';
 
 export interface AuthFormState {
   email: string;

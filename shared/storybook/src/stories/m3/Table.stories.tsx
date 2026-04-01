@@ -4,7 +4,7 @@ import {
   Table, TableHead, TableBody, TableRow,
   TableCell, TableContainer, TablePagination,
   TableSortLabel,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 
 const meta: Meta<typeof Table> = {
   title: 'M3/Table',

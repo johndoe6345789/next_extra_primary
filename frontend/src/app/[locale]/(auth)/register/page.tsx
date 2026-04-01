@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
-import { Box } from '@metabuilder/m3';
+import { Box } from '@shared/m3';
 import { RegisterForm } from '@/components/organisms/RegisterForm';
 
 /** Skip static prerendering for this page. */

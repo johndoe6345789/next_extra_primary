@@ -5,7 +5,7 @@
  */
 
 import { useMemo } from 'react';
-import { useProjectCanvas } from '@metabuilder/hooks-canvas';
+import { useProjectCanvas } from '@shared/hooks-canvas';
 
 interface UseCanvasGridReturn {
   gridOffset: { x: number; y: number };

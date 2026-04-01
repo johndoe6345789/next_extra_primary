@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import MuiBadge from '@metabuilder/m3/Badge';
+import MuiBadge from '@shared/m3/Badge';
 
 /**
  * Props for the Badge component.

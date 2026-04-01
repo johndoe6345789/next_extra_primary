@@ -1,5 +1,5 @@
 /**
- * @metabuilder/core-hooks
+ * @shared/core-hooks
  *
  * Generic, reusable React hooks for common UI patterns.
  * Zero dependencies - no Redux, services, or external libraries required.
@@ -8,7 +8,7 @@
  *
  * @example
  * // Dialog management
- * import { useDialog } from '@metabuilder/core-hooks'
+ * import { useDialog } from '@shared/core-hooks'
  *
  * function MyComponent() {
  *   const dialog = useDialog()
@@ -22,7 +22,7 @@
  *
  * @example
  * // Tab switching
- * import { useTabs } from '@metabuilder/core-hooks'
+ * import { useTabs } from '@shared/core-hooks'
  *
  * function Tabs() {
  *   const tabs = useTabs('home')
@@ -43,7 +43,7 @@
  *
  * @example
  * // List operations with selection
- * import { useListOperations } from '@metabuilder/core-hooks'
+ * import { useListOperations } from '@shared/core-hooks'
  *
  * function ItemList() {
  *   const list = useListOperations<Item>({

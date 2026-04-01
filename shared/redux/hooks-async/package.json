@@ -1,5 +1,5 @@
 {
-  "name": "@metabuilder/hooks-async",
+  "name": "@shared/hooks-async",
   "version": "1.0.0",
   "description": "Redux-backed async hooks (useReduxAsyncData, useReduxMutation) - drop-in replacement for TanStack React Query",
   "type": "module",
@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@metabuilder/redux-slices": "*",
+    "@shared/redux-slices": "*",
     "@reduxjs/toolkit": "^2.11.2",
     "react-redux": "^9.2.0"
   },

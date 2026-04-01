@@ -17,7 +17,7 @@ import {
   refetchAsyncData,
   selectAsyncRequest,
   type RootState,
-} from '@metabuilder/redux-slices'
+} from '@shared/redux-slices'
 
 export interface UseAsyncDataOptions {
   /** Maximum number of retries (default: 3) */

@@ -8,8 +8,8 @@ import {
   EmailDetail,
   ThreadList,
   ComposeWindow,
-} from '@metabuilder/m3/email'
-import { Box, Typography } from '@metabuilder/m3'
+} from '@shared/m3/email'
+import { Box, Typography } from '@shared/m3'
 import { useEmailClient } from './hooks/useEmailClient'
 
 export default function EmailClientContent() {

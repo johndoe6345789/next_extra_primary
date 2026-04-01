@@ -9,7 +9,7 @@ import {
   Card,
   CardContent,
   Divider,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 
 /** Skip static prerendering for this page. */
 export const dynamic = 'force-dynamic';

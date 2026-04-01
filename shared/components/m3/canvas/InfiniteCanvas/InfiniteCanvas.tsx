@@ -15,18 +15,18 @@
 
 import React, { useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useProjectCanvas } from '@metabuilder/hooks-canvas';
-import { useCanvasKeyboard } from '@metabuilder/hooks-canvas';
+import { useProjectCanvas } from '@shared/hooks-canvas';
+import { useCanvasKeyboard } from '@shared/hooks-canvas';
 import { useCanvasTransform } from './useCanvasTransform';
 import { useCanvasGrid } from './useCanvasGrid';
-import { deleteCanvasItems, duplicateCanvasItems, selectCanvasItems } from '@metabuilder/redux-slices/canvasItemsSlice';
-import { selectSelectedItemIds, setSelection } from '@metabuilder/redux-slices/canvasSlice';
+import { deleteCanvasItems, duplicateCanvasItems, selectCanvasItems } from '@shared/redux-slices/canvasItemsSlice';
+import { selectSelectedItemIds, setSelection } from '@shared/redux-slices/canvasSlice';
 import { CanvasGrid } from './CanvasGrid';
 import { CanvasContent } from './CanvasContent';
 import { ZoomControls } from './ZoomControls';
 import { PanHint } from './PanHint';
 import { NavigationArrows } from './NavigationArrows';
-import { testId, aria } from '@metabuilder/utils/accessibility';
+import { testId, aria } from '@shared/utils/accessibility';
 
 interface InfiniteCanvasProps {
   children: React.ReactNode;

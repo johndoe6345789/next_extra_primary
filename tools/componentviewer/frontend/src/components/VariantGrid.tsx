@@ -8,7 +8,7 @@
 import { createElement } from 'react';
 import {
   Typography, Paper, Box,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import type { ComponentDef } from '../types';
 import { getComponent } from '../registry';
 

@@ -3,7 +3,7 @@
 import { ReactNode } from 'react'
 import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
-import { coreReducers } from '@metabuilder/redux-core'
+import { coreReducers } from '@shared/redux-core'
 
 // Configure Redux store
 const store = configureStore({

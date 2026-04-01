@@ -3,7 +3,7 @@
  * Now uses the C++ DBAL REST API via the KV store hook instead of
  * the TypeScript DBALClient directly.
  *
- * @deprecated Use useKVStore from './src/useKVStore' or '@metabuilder/hooks' instead.
+ * @deprecated Use useKVStore from './src/useKVStore' or '@shared/hooks' instead.
  */
 
 import { useKVStore } from './src/useKVStore'

@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { testId } from '@metabuilder/utils/accessibility';
+import { testId } from '@shared/utils/accessibility';
 
 interface ZoomControlsProps {
   zoom: number;

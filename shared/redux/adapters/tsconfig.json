@@ -15,8 +15,8 @@
     "resolveJsonModule": true,
     "jsx": "react-jsx",
     "paths": {
-      "@metabuilder/types": ["../../types"],
-      "@metabuilder/types/*": ["../../types/*"]
+      "@shared/types": ["../../types"],
+      "@shared/types/*": ["../../types/*"]
     },
     "baseUrl": "."
   },

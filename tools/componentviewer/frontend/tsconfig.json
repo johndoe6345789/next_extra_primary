@@ -17,10 +17,10 @@
     "paths": {
       "@/*": ["./src/*"],
       "@scss/*": ["./scss/*"],
-      "@metabuilder/m3": [
+      "@shared/m3": [
         "../../../shared/components/m3/index.ts"
       ],
-      "@metabuilder/m3/*": [
+      "@shared/m3/*": [
         "../../../shared/components/m3/*"
       ]
     }

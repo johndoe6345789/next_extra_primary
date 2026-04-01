@@ -12,23 +12,23 @@
 
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useServices } from '@metabuilder/service-adapters'
+import { useServices } from '@shared/service-adapters'
 import {
   setProjectLoading,
   setProjectError,
   selectCurrentProjectId,
-} from '@metabuilder/redux-slices'
+} from '@shared/redux-slices'
 import {
   addCanvasItem,
   updateCanvasItem,
   bulkUpdateCanvasItems,
-} from '@metabuilder/redux-slices'
+} from '@shared/redux-slices'
 import type {
   ProjectCanvasItem,
   CreateCanvasItemRequest,
   UpdateCanvasItemRequest,
-} from '@metabuilder/service-adapters'
-import type { AppDispatch, RootState } from '@metabuilder/redux-slices'
+} from '@shared/service-adapters'
+import type { AppDispatch, RootState } from '@shared/redux-slices'
 
 export interface UseCanvasItemsOperationsReturn {
   createCanvasItem: (data: CreateCanvasItemRequest) => Promise<ProjectCanvasItem | null>

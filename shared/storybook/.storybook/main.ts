@@ -35,7 +35,7 @@ const config: StorybookConfig = {
           '@packages': path.resolve(
             __dirname, '../../packages'
           ),
-          '@metabuilder/m3': path.resolve(
+          '@shared/m3': path.resolve(
             __dirname, '../../components/m3'
           ),
         },

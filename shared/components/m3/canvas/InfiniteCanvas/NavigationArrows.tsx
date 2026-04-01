@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { testId, aria } from '@metabuilder/utils/accessibility';
+import { testId, aria } from '@shared/utils/accessibility';
 
 interface NavigationArrowsProps {
   onPan: (direction: 'up' | 'down' | 'left' | 'right') => void;

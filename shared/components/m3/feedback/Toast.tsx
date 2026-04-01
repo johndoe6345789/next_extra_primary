@@ -16,7 +16,7 @@
  *   <Toaster />
  *
  *   // In any component or hook (no React context needed):
- *   import { toast } from '@metabuilder/components/m3'
+ *   import { toast } from '@shared/components/m3'
  *   toast.success('Saved!')
  */
 

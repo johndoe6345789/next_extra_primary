@@ -1,5 +1,5 @@
 {
-  "name": "@metabuilder/api-clients",
+  "name": "@shared/api-clients",
   "version": "0.1.0",
   "type": "module",
   "description": "API client hooks for MetaBuilder - DBAL, async data fetching, GitHub integration",
@@ -18,7 +18,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@metabuilder/hooks-async": "*",
+    "@shared/hooks-async": "*",
     "react": "^19.2.4",
     "react-redux": "^9.2.0",
     "redux": "^5.0.1"

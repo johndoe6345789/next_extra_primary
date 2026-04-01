@@ -5,7 +5,7 @@
 
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@metabuilder/redux-slices';
+import { AppDispatch, RootState } from '@shared/redux-slices';
 import {
   setGridSnap,
   setShowGrid,
@@ -13,7 +13,7 @@ import {
   selectGridSnap,
   selectShowGrid,
   selectSnapSize
-} from '@metabuilder/redux-slices/canvasSlice';
+} from '@shared/redux-slices/canvasSlice';
 
 export interface UseCanvasSettingsReturn {
   gridSnap: boolean;

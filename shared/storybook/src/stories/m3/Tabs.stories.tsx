@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Tabs, Tab, TabPanel } from '@metabuilder/m3';
+import { Tabs, Tab, TabPanel } from '@shared/m3';
 
 const meta: Meta<typeof Tabs> = {
   title: 'M3/Tabs',

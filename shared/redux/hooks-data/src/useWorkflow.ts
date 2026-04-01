@@ -13,7 +13,7 @@
 
 import { useCallback, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useServices } from '@metabuilder/service-adapters'
+import { useServices } from '@shared/service-adapters'
 import {
   addNode,
   updateNode,
@@ -27,9 +27,9 @@ import {
   selectWorkflowConnections,
   selectWorkflowIsDirty,
   selectWorkflowIsSaving,
-} from '@metabuilder/redux-slices'
-import type { Workflow, WorkflowNode, WorkflowConnection } from '@metabuilder/types'
-import type { AppDispatch, RootState } from '@metabuilder/redux-slices'
+} from '@shared/redux-slices'
+import type { Workflow, WorkflowNode, WorkflowConnection } from '@shared/types'
+import type { AppDispatch, RootState } from '@shared/redux-slices'
 
 /**
  * useWorkflow Hook

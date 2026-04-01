@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { StatCard } from '../cards/StatCard'
-import type { StatItem } from '@metabuilder/interfaces/dashboard'
+import type { StatItem } from '@shared/interfaces/dashboard'
 import styles from '../../scss/components/layout/stats-grid.module.scss'
 
 interface StatsGridProps {

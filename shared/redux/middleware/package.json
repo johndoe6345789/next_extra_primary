@@ -1,5 +1,5 @@
 {
-  "name": "@metabuilder/redux-middleware",
+  "name": "@shared/redux-middleware",
   "version": "1.0.0",
   "type": "module",
   "description": "Redux middleware for MetaBuilder applications",

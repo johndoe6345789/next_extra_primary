@@ -1,5 +1,5 @@
 /**
- * @metabuilder/hooks-canvas
+ * @shared/hooks-canvas
  *
  * Canvas operation hooks with service adapter injection.
  *
@@ -15,8 +15,8 @@
  *
  * @example
  * // In your app initialization:
- * import { ServiceProvider, DefaultProjectServiceAdapter } from '@metabuilder/service-adapters'
- * import { useCanvasItems } from '@metabuilder/hooks-canvas'
+ * import { ServiceProvider, DefaultProjectServiceAdapter } from '@shared/service-adapters'
+ * import { useCanvasItems } from '@shared/hooks-canvas'
  *
  * const services = {
  *   projectService: new DefaultProjectServiceAdapter('/api'),
@@ -47,4 +47,4 @@ export type {
   ProjectCanvasItem,
   CreateCanvasItemRequest,
   UpdateCanvasItemRequest,
-} from '@metabuilder/service-adapters'
+} from '@shared/service-adapters'

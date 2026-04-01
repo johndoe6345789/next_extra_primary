@@ -5,7 +5,7 @@
 
 import React from 'react'
 import Link from 'next/link'
-import type { Project } from '@metabuilder/interfaces/workspace'
+import type { Project } from '@shared/interfaces/workspace'
 import styles from '../../scss/components/cards/project-card.module.scss'
 
 interface ProjectCardProps {

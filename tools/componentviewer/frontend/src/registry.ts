@@ -14,7 +14,7 @@ import {
   DialogTitle, DialogContent,
   DialogContentText, DialogActions,
   TabPanel,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 
 /** Map of name to component for previews. */
 const REGISTRY: Record<

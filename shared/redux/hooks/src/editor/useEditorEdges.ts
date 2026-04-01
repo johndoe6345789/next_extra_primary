@@ -5,14 +5,14 @@
 
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@metabuilder/redux-slices';
+import { RootState } from '@shared/redux-slices';
 import {
   selectEdge,
   addEdgeToSelection,
   removeEdgeFromSelection,
   clearSelection,
   setSelection
-} from '@metabuilder/redux-slices/editorSlice';
+} from '@shared/redux-slices/editorSlice';
 
 export interface UseEditorEdgesReturn {
   selectedEdges: Set<string>;

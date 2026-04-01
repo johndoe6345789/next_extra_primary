@@ -1,5 +1,5 @@
 {
-  "name": "@metabuilder/hooks-utils",
+  "name": "@shared/hooks-utils",
   "version": "1.0.0",
   "type": "module",
   "description": "Utility hooks for MetaBuilder - data table, async operations, and core utilities",

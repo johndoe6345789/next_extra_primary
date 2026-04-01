@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import Box from '@metabuilder/m3/Box';
-import Typography from '@metabuilder/m3/Typography';
-import SmartToyIcon from '@metabuilder/icons/SmartToy';
-import PersonIcon from '@metabuilder/icons/Person';
+import Box from '@shared/m3/Box';
+import Typography from '@shared/m3/Typography';
+import SmartToyIcon from '@shared/icons/SmartToy';
+import PersonIcon from '@shared/icons/Person';
 import type { ChatMessage } from '@/types/chat';
 
 /** Props for the AiChatMessage organism. */

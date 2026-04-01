@@ -6,7 +6,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import { Typography, Paper } from '@metabuilder/m3';
+import { Typography, Paper } from '@shared/m3';
 import type { ComponentDef } from '../types';
 import type { PropValues } from
   '../hooks/usePropState';

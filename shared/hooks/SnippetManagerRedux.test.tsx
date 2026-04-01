@@ -24,7 +24,7 @@ jest.mock('@/lib/db', () => ({
   bulkMoveSnippets: jest.fn().mockResolvedValue(undefined),
 }))
 
-jest.mock('@metabuilder/components/m3', () => ({
+jest.mock('@shared/components/m3', () => ({
   toast: {
     success: jest.fn(),
     error: jest.fn(),

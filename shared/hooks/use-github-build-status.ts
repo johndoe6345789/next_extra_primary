@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { toast } from '@metabuilder/components/m3'
+import { toast } from '@shared/components/m3'
 import copy from '@/data/github-build-status.json'
 
 export interface WorkflowRun {

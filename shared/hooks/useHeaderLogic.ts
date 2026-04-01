@@ -6,7 +6,7 @@
 import { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { logout, selectUser, selectIsAuthenticated } from '@metabuilder/redux-slices';
+import { logout, selectUser, selectIsAuthenticated } from '@shared/redux-slices';
 
 export interface UseHeaderLogicReturn {
   user: any;

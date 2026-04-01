@@ -5,7 +5,7 @@
 
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@metabuilder/redux-slices';
+import { AppDispatch, RootState } from '@shared/redux-slices';
 import {
   selectCanvasItem,
   addToSelection,
@@ -14,12 +14,12 @@ import {
   setSelection,
   clearSelection,
   selectSelectedItemIds
-} from '@metabuilder/redux-slices/canvasSlice';
+} from '@shared/redux-slices/canvasSlice';
 import {
   selectCanvasItems,
   selectCanvasItemsByIds
-} from '@metabuilder/redux-slices/canvasItemsSlice';
-import { ProjectCanvasItem } from '@metabuilder/redux-slices';
+} from '@shared/redux-slices/canvasItemsSlice';
+import { ProjectCanvasItem } from '@shared/redux-slices';
 
 export interface UseCanvasSelectionReturn {
   selectedItemIds: string[];

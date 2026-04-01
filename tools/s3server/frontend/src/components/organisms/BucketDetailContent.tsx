@@ -6,8 +6,7 @@ import {
   Container, Typography, Breadcrumbs,
   Link as M3Link, CircularProgress,
   Box, Alert,
-} from '@metabuilder/m3';
-import Link from 'next/link';
+} from '@shared/m3';
 import AppNavbar from './AppNavbar';
 import ObjectTable from './ObjectTable';
 import { useObjects } from '@/hooks';
@@ -39,7 +38,6 @@ export default function BucketDetailContent() {
           style={{ marginBottom: 16 }}
         >
           <M3Link
-            component={Link}
             href={routes.buckets}
             underline="hover"
           >

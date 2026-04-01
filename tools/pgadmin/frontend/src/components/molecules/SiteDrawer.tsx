@@ -5,7 +5,7 @@ import {
   ListItemText, Typography, Divider, IconButton,
   Box, Close, Home, Email, Storage, Package,
   CloudQueue, OpenInNew,
-} from '@metabuilder/m3';
+} from '@shared/m3';
 import siteLinks from '@/constants/site-links.json';
 
 const iconMap: Record<string, React.ReactElement> = {

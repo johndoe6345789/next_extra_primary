@@ -6,7 +6,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Typography, Box } from '@metabuilder/m3';
+import { Typography, Box } from '@shared/m3';
 import type { EndpointEntry } from '@/hooks/types';
 import MethodChip from './MethodChip';
 import ParamsTable from './ParamsTable';

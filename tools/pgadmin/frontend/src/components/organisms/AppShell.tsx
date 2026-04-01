@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { IconButton } from '@metabuilder/m3';
+import { IconButton } from '@shared/m3';
 import { Menu as MenuIcon }
-  from '@metabuilder/m3/icons';
+  from '@shared/m3/icons';
 import SiteDrawer
   from '@/components/molecules/SiteDrawer';
 import navItems from '@/constants/nav-items.json';

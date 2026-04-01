@@ -13,8 +13,8 @@
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/navigation'
-import { useServices } from '@metabuilder/service-adapters'
-import { setAuthenticated, setAuthLoading, setError } from '@metabuilder/redux-slices'
+import { useServices } from '@shared/service-adapters'
+import { setAuthenticated, setAuthLoading, setError } from '@shared/redux-slices'
 
 export interface RegistrationData {
   name: string

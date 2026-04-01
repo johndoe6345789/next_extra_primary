@@ -2,7 +2,7 @@
  * @file typography.ts
  * @brief M3 typography token reference.
  *
- * Typography is now handled by @metabuilder/scss via
+ * Typography is now handled by @shared/scss via
  * CSS variables. These sub-module re-exports remain
  * available for programmatic access.
  *
