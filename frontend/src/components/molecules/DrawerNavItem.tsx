@@ -1,28 +1,20 @@
 'use client';
 
 import React from 'react';
-import ListItemButton from '@shared/m3/ListItemButton';
-import ListItemIcon from '@shared/m3/ListItemIcon';
-import ListItemText from '@shared/m3/ListItemText';
-import DashboardIcon from '@shared/icons/Dashboard';
-import LeaderboardIcon from '@shared/icons/EmojiEvents';
-import ChatIcon from '@shared/icons/Chat';
-import NotificationsIcon
-  from '@shared/icons/Notifications';
-import PersonIcon from '@shared/icons/Person';
-import InfoIcon from '@shared/icons/Info';
-import MailIcon from '@shared/icons/Mail';
+import {
+  Icon,
+} from '@shared/m3/data-display/Icon';
 import { Link } from '@/i18n/navigation';
 
-/** Icon map for known routes. */
-const ICONS: Record<string, React.ReactNode> = {
-  '/dashboard': <DashboardIcon />,
-  '/leaderboard': <LeaderboardIcon />,
-  '/chat': <ChatIcon />,
-  '/notifications': <NotificationsIcon />,
-  '/profile': <PersonIcon />,
-  '/about': <InfoIcon />,
-  '/contact': <MailIcon />,
+/** Icon names for known routes. */
+const ICONS: Record<string, string> = {
+  '/dashboard': 'dashboard',
+  '/leaderboard': 'emoji_events',
+  '/chat': 'chat',
+  '/notifications': 'notifications',
+  '/profile': 'person',
+  '/about': 'info',
+  '/contact': 'mail',
 };
 
 /** Props for DrawerNavItem. */
@@ -33,39 +25,30 @@ export interface DrawerNavItemProps {
 }
 
 /**
- * Styled nav item with icon for the mobile drawer.
+ * Nav item with icon for the mobile drawer.
  *
  * @param props - Component props.
  */
 export const DrawerNavItem: React.FC<
   DrawerNavItemProps
 > = ({ label, href, onClick }) => (
-  <ListItemButton
-    component={Link}
+  <Link
     href={href}
-    role="menuitem"
     onClick={onClick}
-    sx={{
-      mx: 1,
-      my: 0.5,
-      borderRadius: 2,
-      '&:hover': {
-        bgcolor: 'action.hover',
-      },
-    }}
+    role="menuitem"
+    className="list-item-button"
   >
     {ICONS[href] && (
-      <ListItemIcon sx={{ minWidth: 40, color: 'primary.main' }}>
-        {ICONS[href]}
-      </ListItemIcon>
+      <span className="list-item-icon">
+        <Icon size="sm" color="primary">
+          {ICONS[href]}
+        </Icon>
+      </span>
     )}
-    <ListItemText
-      primary={label}
-      primaryTypographyProps={{
-        fontWeight: 500,
-      }}
-    />
-  </ListItemButton>
+    <span className="list-item-text">
+      {label}
+    </span>
+  </Link>
 );
 
 export default DrawerNavItem;
