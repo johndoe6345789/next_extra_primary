@@ -1119,28 +1119,74 @@ a.btn--on-primary {
 }
 
 // ============================================
-// Auth card (login/register wrapper)
+// Auth card (Salesforce-style login)
 // ============================================
+.auth-page {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    160deg,
+    #6750a4 0%,
+    #1a6b5a 100%
+  );
+  padding: 2rem;
+}
+
 .auth-card {
-  max-width: 480px;
-  margin: 3rem auto;
+  max-width: 440px;
+  width: 100%;
   padding: 2.5rem;
-  background: var(--mat-sys-surface);
+  background: #fff;
   border-radius:
     var(--mat-sys-corner-large);
-  box-shadow: var(--mat-sys-level2);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.18);
+  color: #1d1b20;
 
   h1, h2 {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
     text-align: center;
+    color: #1d1b20;
   }
 
   form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+  }
+
+  .auth-form__links {
+    a { color: #6750a4; }
+  }
+
+  // Scoped light-mode overrides
+  .form-field label {
+    color: #49454f;
+  }
+
+  .form-field input,
+  .form-field textarea,
+  .form-field select {
+    background: #fff;
+    color: #1d1b20;
+    border-color: #79747e;
+  }
+
+  .form-field input:focus,
+  .form-field textarea:focus,
+  .form-field select:focus {
+    border-color: #6750a4;
+    box-shadow: 0 0 0 1px #6750a4;
+  }
+
+  form button[type="submit"],
+  form .btn {
+    background-color: #6750a4;
+    color: #fff;
   }
 }
 

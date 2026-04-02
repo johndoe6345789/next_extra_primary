@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
-import { Box } from '@shared/m3';
-import { RegisterForm } from '@/components/organisms/RegisterForm';
+import { RegisterForm }
+  from '@/components/organisms/RegisterForm';
 
 /** Skip static prerendering for this page. */
 export const dynamic = 'force-dynamic';
@@ -27,19 +27,12 @@ export default async function RegisterPage({
   setRequestLocale(locale);
 
   return (
-    <Box
-      component="main"
+    <main
+      className="auth-page"
       role="main"
-      aria-label="Create account"
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-        px: 2,
-      }}
+      aria-label="Register"
     >
       <RegisterForm />
-    </Box>
+    </main>
   );
 }

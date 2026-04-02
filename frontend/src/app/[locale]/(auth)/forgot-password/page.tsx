@@ -1,6 +1,5 @@
 import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
-import { Box } from '@shared/m3';
 import { ForgotPasswordForm } from
   '@/components/organisms/ForgotPasswordForm';
 
@@ -23,19 +22,12 @@ export default async function ForgotPasswordPage({
   setRequestLocale(locale);
 
   return (
-    <Box
-      component="main"
+    <main
+      className="auth-page"
       role="main"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '80vh',
-        px: 2,
-      }}
+      aria-label="Reset password"
     >
       <ForgotPasswordForm />
-    </Box>
+    </main>
   );
 }
