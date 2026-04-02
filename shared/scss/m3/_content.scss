@@ -1,0 +1,61 @@
+// ============================================
+// Content Page (about, contact, etc.)
+// ============================================
+.content-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+
+  h1, h2 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  h1 { font-size: 2rem; }
+
+  h2 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  p {
+    line-height: 1.8;
+    color: var(--mat-sys-on-surface-variant);
+    margin-bottom: 1rem;
+  }
+}
+
+// ============================================
+// App Footer
+// ============================================
+.app-footer {
+  border-top: 1px solid
+    var(--mat-sys-outline-variant);
+  background-color:
+    var(--mat-sys-surface-container);
+  padding: 1.5rem 2rem;
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  nav {
+    display: flex;
+    gap: 1.5rem;
+
+    a {
+      color: var(--mat-sys-primary);
+      text-decoration: none;
+      font-size: 14px;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Typography from '@shared/m3/Typography';
 import { Link } from '@/i18n/navigation';
 
 /** Props for NavbarLogo. */
@@ -11,32 +10,19 @@ export interface NavbarLogoProps {
 }
 
 /**
- * Navbar brand logo linking to the home page.
+ * Navbar brand logo linking to home.
  *
  * @param props - Component props.
  */
-export const NavbarLogo: React.FC<NavbarLogoProps> = ({
-  label,
-}) => (
+export const NavbarLogo: React.FC<
+  NavbarLogoProps
+> = ({ label }) => (
   <Link
     href="/"
-    style={{
-      textDecoration: 'none',
-      color: 'var(--mat-sys-primary)',
-      marginRight: '1.5rem',
-    }}
+    className="brand-logo"
     data-testid="navbar-logo"
   >
-    <Typography
-      variant="h6"
-      noWrap
-      style={{
-        fontWeight: 700,
-        letterSpacing: '-0.02em',
-      }}
-    >
-      {label}
-    </Typography>
+    {label}
   </Link>
 );
 

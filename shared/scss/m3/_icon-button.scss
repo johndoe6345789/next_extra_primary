@@ -1,0 +1,47 @@
+// ============================================
+// IconButton (icon-btn class)
+// ============================================
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border: none;
+  border-radius: var(--mat-sys-corner-full);
+  background-color: transparent;
+  color: var(--mat-sys-on-surface);
+  cursor: pointer;
+  transition: background-color 200ms ease;
+  flex-shrink: 0;
+
+  &:hover {
+    background-color: color-mix(
+      in srgb,
+      var(--mat-sys-on-surface) 8%,
+      transparent
+    );
+  }
+
+  &--sm, &--small {
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+  }
+  &--lg, &--large {
+    width: 48px;
+    height: 48px;
+    padding: 12px;
+  }
+  &--muted {
+    color: var(--mat-sys-on-surface-variant);
+  }
+  &--edge-start { margin-left: -12px; }
+  &--edge-end { margin-right: -12px; }
+}
+
+// Legacy class support
+.icon-button {
+  @extend .icon-btn;
+}

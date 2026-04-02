@@ -1,0 +1,58 @@
+// ============================================
+// Auth Card (light-mode forced card)
+// ============================================
+.auth-card {
+  max-width: 440px;
+  width: 100%;
+  padding: 2.5rem;
+  background: #fff;
+  border-radius:
+    var(--mat-sys-corner-large);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.18);
+  color: #1d1b20;
+
+  h1, h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #1d1b20;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .auth-form__links {
+    a { color: #6750a4; }
+  }
+
+  // Scoped light-mode overrides
+  .form-field label {
+    color: #49454f;
+  }
+
+  .form-field input,
+  .form-field textarea,
+  .form-field select {
+    background: #fff;
+    color: #1d1b20;
+    border-color: #79747e;
+  }
+
+  .form-field input:focus,
+  .form-field textarea:focus,
+  .form-field select:focus {
+    border-color: #6750a4;
+    box-shadow: 0 0 0 1px #6750a4;
+  }
+
+  form button[type="submit"],
+  form .btn {
+    background-color: #6750a4;
+    color: #fff;
+  }
+}

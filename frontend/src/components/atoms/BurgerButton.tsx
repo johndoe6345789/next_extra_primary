@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import MuiIconButton from '@shared/m3/IconButton';
-import MenuIcon from '@shared/icons/Menu';
+import {
+  Icon,
+} from '@shared/m3/data-display/Icon';
 
 /** Props for BurgerButton. */
 export interface BurgerButtonProps {
@@ -11,24 +12,22 @@ export interface BurgerButtonProps {
 }
 
 /**
- * Hamburger icon button, visible on xs/sm only.
+ * Hamburger icon button for mobile nav.
  *
  * @param props - Component props.
  */
 export const BurgerButton: React.FC<
   BurgerButtonProps
 > = ({ onClick }) => (
-  <MuiIconButton
-    aria-label="Open menu"
+  <button
+    type="button"
     className="burger-btn"
+    aria-label="Open menu"
     onClick={onClick}
-    color="inherit"
-    edge="start"
     data-testid="navbar-hamburger"
-    sx={{ display: { xs: 'flex', md: 'none' } }}
   >
-    <MenuIcon />
-  </MuiIconButton>
+    <Icon size="md">menu</Icon>
+  </button>
 );
 
 export default BurgerButton;

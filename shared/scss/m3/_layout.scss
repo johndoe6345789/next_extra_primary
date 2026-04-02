@@ -1,0 +1,63 @@
+// ============================================
+// Utility Classes
+// ============================================
+.gap-1 { gap: 4px; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.gap-4 { gap: 16px; }
+
+.mb-sm { margin-bottom: 8px; }
+.mb-md { margin-bottom: 16px; }
+.mb-lg { margin-bottom: 24px; }
+
+.mt-sm { margin-top: 8px; }
+.mt-md { margin-top: 16px; }
+.mt-lg { margin-top: 24px; }
+
+.text-text\.secondary {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+// ============================================
+// Main Content Area
+// ============================================
+main {
+  flex: 1;
+  background-color: var(--mat-sys-surface);
+}
+
+// ============================================
+// Page Header
+// ============================================
+.page-header {
+  margin-bottom: 24px;
+
+  h1, h2, h3 {
+    margin: 0 0 8px 0;
+  }
+}
+
+// ============================================
+// Spacer (flex: 1 utility)
+// ============================================
+.spacer {
+  flex: 1;
+}
+
+// ============================================
+// Container
+// ============================================
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+
+  &--no-gutters { padding: 0; }
+  &--xs { max-width: 444px; }
+  &--sm { max-width: 600px; }
+  &--md { max-width: 900px; }
+  &--lg { max-width: 1200px; }
+  &--xl { max-width: 1536px; }
+}
+
+@import 'hero';

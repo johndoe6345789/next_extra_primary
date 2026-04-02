@@ -1,0 +1,30 @@
+// ============================================
+// Snackbar
+// ============================================
+.snackbar {
+  position: fixed;
+  z-index: 1400;
+  padding: 16px;
+
+  &--bottom { bottom: 0; }
+  &--top { top: 0; }
+  &--left { left: 0; }
+  &--right { right: 0; }
+  &--center { left: 50%; transform: translateX(-50%); }
+}
+
+.snackbar-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background-color: var(--mat-sys-inverse-surface);
+  color: var(--mat-sys-inverse-on-surface);
+  border-radius: var(--mat-sys-corner-small);
+  box-shadow: var(--mat-sys-level3);
+
+  &--success { background-color: #1b5e20; }
+  &--error { background-color: var(--mat-sys-error); color: var(--mat-sys-on-error); }
+  &--warning { background-color: #e65100; }
+  &--info { background-color: var(--mat-sys-primary); color: var(--mat-sys-on-primary); }
+}

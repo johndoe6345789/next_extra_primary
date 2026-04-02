@@ -1,0 +1,70 @@
+// ============================================
+// Chip
+// ============================================
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: var(--mat-sys-corner-small);
+  font-size: 13px;
+  background-color: var(--mat-sys-surface-container-high);
+  color: var(--mat-sys-on-surface);
+
+  &--filled {
+    background-color: var(--mat-sys-secondary-container);
+    color: var(--mat-sys-on-secondary-container);
+  }
+  &--outlined {
+    background: transparent;
+    border: 1px solid var(--mat-sys-outline);
+  }
+  &--small { padding: 4px 8px; font-size: 12px; }
+}
+
+// ============================================
+// Badge
+// ============================================
+.badge {
+  position: relative;
+  display: inline-flex;
+
+  &__content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: var(--mat-sys-corner-full);
+    background-color: var(--mat-sys-error);
+    color: var(--mat-sys-on-error);
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+// ============================================
+// Backdrop
+// ============================================
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1100;
+}
+
+// ============================================
+// Progress
+// ============================================
+.circular-progress {
+  animation: rotate 1.4s linear infinite;
+}
+
+@keyframes rotate {
+  100% { transform: rotate(360deg); }
+}

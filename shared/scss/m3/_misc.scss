@@ -1,0 +1,77 @@
+// ============================================
+// CTA Button Group
+// ============================================
+.cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+// ============================================
+// Brand logo in toolbar
+// ============================================
+.brand-logo {
+  text-decoration: none;
+  color: var(--mat-sys-primary);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+// ============================================
+// Burger / menu button
+// ============================================
+.burger-btn {
+  @extend .icon-btn;
+  color: var(--mat-sys-on-surface);
+  width: 44px;
+  height: 44px;
+
+  span {
+    font-size: 28px;
+    font-weight: 600;
+  }
+
+  @media (min-width: 900px) {
+    display: none;
+  }
+}
+
+// ============================================
+// Accordion
+// ============================================
+.accordion {
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: var(--mat-sys-corner-small);
+
+  &--expanded { }
+  &--disabled { opacity: 0.38; pointer-events: none; }
+}
+
+.accordion-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 16px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: left;
+}
+
+.accordion-content {
+  padding: 0 16px 16px;
+}
+
+.accordion-actions {
+  padding: 8px 16px;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}

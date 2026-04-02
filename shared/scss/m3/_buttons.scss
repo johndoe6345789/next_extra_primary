@@ -1,0 +1,93 @@
+// ============================================
+// Button (btn class)
+// ============================================
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border: none;
+  border-radius: var(--mat-sys-corner-full);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 200ms ease;
+  text-decoration: none;
+  background-color: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+
+  &:hover {
+    box-shadow: var(--mat-sys-level1);
+    filter: brightness(1.1);
+  }
+
+  &--contained, &--filled {
+    background-color: var(--mat-sys-primary);
+    color: var(--mat-sys-on-primary);
+  }
+
+  &--outline, &--outlined {
+    background-color: transparent;
+    border: 1px solid var(--mat-sys-outline);
+    color: var(--mat-sys-primary);
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--mat-sys-primary) 8%, transparent);
+    }
+  }
+
+  &--text, &--ghost {
+    background-color: transparent;
+    color: var(--mat-sys-primary);
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--mat-sys-primary) 8%, transparent);
+    }
+  }
+
+  &--sm, &--small { padding: 6px 16px; font-size: 13px; }
+  &--lg, &--large { padding: 14px 32px; font-size: 15px; }
+  &--full-width { width: 100%; }
+
+  &--on-primary {
+    border-color: var(--mat-sys-on-primary);
+    color: var(--mat-sys-on-primary);
+    &:hover {
+      background-color:
+        rgba(255, 255, 255, 0.12);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+}
+
+.btn__content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn__start-icon {
+  display: flex;
+  margin-right: 4px;
+}
+
+.btn__end-icon {
+  display: flex;
+  margin-left: 4px;
+}
+
+// Legacy button class support
+.button {
+  @extend .btn;
+}
+
+// ============================================
+// IconButton (icon-btn class)
+// ============================================
+@import 'icon-button';

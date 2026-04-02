@@ -1,0 +1,18 @@
+// ============================================
+// Typography
+// ============================================
+.typography {
+  margin: 0;
+
+  &--h1 { font: var(--mat-sys-display-large-font); }
+  &--h2 { font: var(--mat-sys-display-medium-font); }
+  &--h3 { font: var(--mat-sys-display-small-font); }
+  &--h4 { font: var(--mat-sys-headline-large-font); }
+  &--h5 { font: var(--mat-sys-headline-medium-font); }
+  &--h6 { font: var(--mat-sys-headline-small-font); }
+  &--body1 { font: var(--mat-sys-body-large-font); }
+  &--body2 { font: var(--mat-sys-body-medium-font); }
+  &--subtitle1 { font: var(--mat-sys-title-medium-font); }
+  &--subtitle2 { font: var(--mat-sys-title-small-font); }
+  &--caption { font: var(--mat-sys-body-small-font); color: var(--mat-sys-on-surface-variant); }
+}

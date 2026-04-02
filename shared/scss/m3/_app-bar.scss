@@ -1,0 +1,55 @@
+// ============================================
+// AppBar & Toolbar
+// ============================================
+.app-bar {
+  display: flex;
+  flex-direction: column;
+  background: color-mix(
+    in srgb,
+    var(--mat-sys-surface-container) 85%,
+    transparent
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--mat-sys-on-surface);
+  border-bottom: 1px solid
+    var(--mat-sys-outline-variant);
+  z-index: 1100;
+  width: 100%;
+
+  &--sticky {
+    position: sticky;
+    top: 0;
+  }
+  &--fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  &--static { position: relative; }
+  &--relative { position: relative; }
+  &--absolute {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  min-height: 56px;
+  gap: 12px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  &--dense { min-height: 48px; }
+  &--no-gutters { padding: 0; }
+}
+
+@import 'desktop-actions';
+@import 'nav-links';
