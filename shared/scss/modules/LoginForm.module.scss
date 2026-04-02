@@ -1,25 +1,59 @@
 .root {
   max-width: 440px;
-  margin: 2rem auto;
-  padding: 2rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem;
   background: #fff;
-  border-radius: 1rem;
+  border-radius:
+    var(--mat-sys-corner-large, 16px);
   box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.12);
+    0 8px 32px rgba(0, 0, 0, 0.18);
+  color: #1d1b20;
 
-  h2 {
-    margin-bottom: 1.5rem;
+  h1, h2 {
+    font-size: 1.5rem;
     font-weight: 700;
-    color: #1c1b1f;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #1d1b20;
   }
 
-  label, input, button, a {
-    color: #1c1b1f;
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 
-  input {
-    background: #f5f5f5;
-    border: 1px solid #ccc;
+  // Force light colors on all nested
+  // elements regardless of dark mode
+  label,
+  [class*="formLabel"] {
+    color: #49454f;
+  }
+
+  input,
+  textarea,
+  select,
+  [class*="input"],
+  [class*="Input"] {
+    background: #fff;
+    color: #1d1b20;
+    border-color: #79747e;
+  }
+
+  input:focus,
+  textarea:focus,
+  [class*="input"]:focus {
+    border-color: #6750a4;
+    box-shadow: 0 0 0 1px #6750a4;
+  }
+
+  // Button inside auth card
+  button[type="submit"],
+  [class*="button"],
+  [class*="btn"] {
+    background-color: #6750a4;
+    color: #fff;
   }
 }
 
@@ -27,5 +61,15 @@
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
+
+  a {
+    color: #6750a4;
+    text-decoration: none;
+    font-size: 14px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }

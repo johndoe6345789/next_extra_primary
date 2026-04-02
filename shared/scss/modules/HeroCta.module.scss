@@ -3,4 +3,16 @@
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
+
+  // Primary CTA — white filled button
+  a [class*="button"],
+  a [class*="btn"] {
+    background: #fff;
+    color: #6750a4;
+    font-weight: 600;
+
+    &:hover {
+      background: #f0ecf8;
+    }
+  }
 }
