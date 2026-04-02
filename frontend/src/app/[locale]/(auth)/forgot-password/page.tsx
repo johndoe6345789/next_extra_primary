@@ -1,5 +1,7 @@
 import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
+import { AuthHero }
+  from '@/components/molecules/AuthHero';
 import { ForgotPasswordForm } from
   '@/components/organisms/ForgotPasswordForm';
 
@@ -27,7 +29,10 @@ export default async function ForgotPasswordPage({
       role="main"
       aria-label="Reset password"
     >
-      <ForgotPasswordForm />
+      <AuthHero />
+      <div className="auth-form-pane">
+        <ForgotPasswordForm />
+      </div>
     </main>
   );
 }

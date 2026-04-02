@@ -160,5 +160,13 @@
     "loading": "Content is loading",
     "expandSection": "Expand section",
     "collapseSection": "Collapse section"
+  },
+  "authHero": {
+    "title": "Level up your learning",
+    "subtitle": "Join thousands of learners using AI-powered tutoring with gamified progression.",
+    "f1": "Earn badges and climb leaderboards",
+    "f2": "AI tutor adapts to your pace",
+    "f3": "Enterprise-grade security",
+    "f4": "Track progress in real time"
   }
 }

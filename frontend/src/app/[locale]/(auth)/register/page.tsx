@@ -1,5 +1,7 @@
 import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
+import { AuthHero }
+  from '@/components/molecules/AuthHero';
 import { RegisterForm }
   from '@/components/organisms/RegisterForm';
 
@@ -32,7 +34,10 @@ export default async function RegisterPage({
       role="main"
       aria-label="Register"
     >
-      <RegisterForm />
+      <AuthHero />
+      <div className="auth-form-pane">
+        <RegisterForm />
+      </div>
     </main>
   );
 }
