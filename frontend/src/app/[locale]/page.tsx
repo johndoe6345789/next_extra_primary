@@ -36,10 +36,7 @@ export default async function LandingPage({
       <HeroSection />
       <Container
         maxWidth="lg"
-        style={{
-          paddingTop: '3rem',
-          paddingBottom: '5rem',
-        }}
+        className="section--features"
       >
         <FeatureGrid />
       </Container>

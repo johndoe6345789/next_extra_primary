@@ -38,6 +38,8 @@ export interface ButtonProps {
   ariaLabel?: string;
   /** Optional link href (renders as anchor). */
   href?: string;
+  /** Additional CSS class names. */
+  className?: string;
   /** data-testid attribute for testing. */
   testId?: string;
 }
@@ -59,6 +61,7 @@ export const Button: React.FC<ButtonProps> = ({
   endIcon,
   ariaLabel,
   href,
+  className,
   testId = 'button',
 }) => (
   <MuiButton
@@ -73,6 +76,7 @@ export const Button: React.FC<ButtonProps> = ({
     endIcon={endIcon}
     aria-label={ariaLabel}
     href={href}
+    className={className}
     data-testid={testId}
   >
     {children}

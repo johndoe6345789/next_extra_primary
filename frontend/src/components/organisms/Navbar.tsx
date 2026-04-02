@@ -3,7 +3,6 @@
 import React from 'react';
 import AppBar from '@shared/m3/AppBar';
 import Toolbar from '@shared/m3/Toolbar';
-import Box from '@shared/m3/Box';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
 import { useAuth } from '@/hooks';
@@ -58,16 +57,12 @@ export const Navbar: React.FC<NavbarProps> = ({
         role="navigation"
         aria-label="Main navigation"
         data-testid={testId}
-        sx={{
-          backgroundColor: 'var(--mat-sys-surface)',
-          color: 'var(--mat-sys-on-surface)',
-        }}
       >
-        <Toolbar sx={{ gap: '0.5rem' }}>
+        <Toolbar>
           <MobileDrawer links={ALL_LINKS} />
           <NavbarLogo label={tCommon('appName')} />
           <NavLinks links={TOP_LINKS} />
-          <Box sx={{ flexGrow: 1 }} />
+          <div className="spacer" />
           <DesktopActions
             onSearch={onSearch ?? (() => {})}
           />

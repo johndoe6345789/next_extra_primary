@@ -40,7 +40,7 @@ export const HeroCta: React.FC = () => {
       <Button
         variant="outlined"
         size="large"
-        color="inherit"
+        className="btn--on-primary"
         onClick={scrollToFeatures}
         testId="hero-cta-learn"
         ariaLabel={t('features')}

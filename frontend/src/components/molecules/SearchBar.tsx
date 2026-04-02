@@ -54,9 +54,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
   return (
     <div
+      className="search-bar"
       data-testid={testId}
       onKeyDown={onKeyDown}
-      style={{ minWidth: 120, maxWidth: 200 }}
     >
       <TextField
         label={placeholder}
