@@ -70,14 +70,24 @@ export const LoginForm: React.FC<LoginFormProps> = ({
           >
             {isLoading ? t('signingIn') : t('login')}
           </Button>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <MuiLink component={Link} tabIndex={0} href="/forgot-password" variant="body2">
+          <div className="auth-form__links">
+            <MuiLink
+              component={Link}
+              tabIndex={0}
+              href="/forgot-password"
+              variant="body2"
+            >
               {t('forgotPassword')}
             </MuiLink>
-            <MuiLink component={Link} tabIndex={0} href="/register" variant="body2">
+            <MuiLink
+              component={Link}
+              tabIndex={0}
+              href="/register"
+              variant="body2"
+            >
               {t('register')}
             </MuiLink>
-          </Box>
+          </div>
         </Box>
       </CardContent>
     </Card>

@@ -1,10 +1,8 @@
 'use client';
 
 import React from 'react';
-import Box from '@shared/m3/Box';
 import Typography from '@shared/m3/Typography';
 import MuiLink from '@shared/m3/Link';
-import Container from '@shared/m3/Container';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 
@@ -27,61 +25,35 @@ export const Footer: React.FC<FooterProps> = ({ testId = 'footer' }) => {
     { labelKey: 'contact' as const, href: '/contact' },
   ];
   return (
-    <Box
-      component="footer"
+    <footer
+      className="app-footer"
       role="contentinfo"
       data-testid={testId}
-      style={{
-        background:
-          'var(--mat-sys-surface-container)',
-      }}
-      sx={{
-        py: 4,
-        px: 3,
-        mt: 'auto',
-        borderTop: 1,
-        borderColor: 'divider',
-      }}
     >
-      <Container
-        maxWidth="lg"
-        sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: 2,
-        }}
-      >
+      <div className="footer-inner">
         <Typography
           variant="body2"
           color="text.secondary"
           data-testid="footer-copyright"
         >
-          &copy; {new Date().getFullYear()} {tCommon('appName')}
+          &copy; {new Date().getFullYear()}{' '}
+          {tCommon('appName')}
         </Typography>
-        <Box
-          component="nav"
-          aria-label="Footer navigation"
-          sx={{ display: 'flex', gap: 2 }}
-        >
+        <nav aria-label="Footer navigation">
           {links.map((l) => (
             <MuiLink
               key={l.href}
               component={Link}
               href={l.href}
-              color="text.secondary"
-              underline="hover"
-              variant="body2"
               tabIndex={0}
               data-testid={`footer-${l.labelKey}`}
             >
               {tNav(l.labelKey)}
             </MuiLink>
           ))}
-        </Box>
-      </Container>
-    </Box>
+        </nav>
+      </div>
+    </footer>
   );
 };
 

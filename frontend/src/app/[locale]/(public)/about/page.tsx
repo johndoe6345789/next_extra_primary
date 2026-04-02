@@ -3,10 +3,6 @@ import {
   setRequestLocale,
   getTranslations,
 } from 'next-intl/server';
-import {
-  Typography,
-  Container,
-} from '@shared/m3';
 
 /** Props for the about page. */
 interface AboutPageProps {
@@ -32,33 +28,16 @@ export default async function AboutPage({
   const t = await getTranslations('about');
 
   return (
-    <Container
-      component="main"
+    <div
+      className="content-page"
       role="main"
-      maxWidth="md"
-      sx={{ py: 6 }}
       aria-label={t('title')}
     >
-      <Typography variant="h3" component="h1" gutterBottom>
-        {t('title')}
-      </Typography>
-      <Typography variant="body1" paragraph>
-        {t('description')}
-      </Typography>
-      <Typography variant="body1" paragraph>
-        {t('description2')}
-      </Typography>
-      <Typography
-        variant="h5"
-        component="h2"
-        gutterBottom
-        sx={{ mt: 4 }}
-      >
-        {t('missionTitle')}
-      </Typography>
-      <Typography variant="body1">
-        {t('mission')}
-      </Typography>
-    </Container>
+      <h1>{t('title')}</h1>
+      <p>{t('description')}</p>
+      <p>{t('description2')}</p>
+      <h2>{t('missionTitle')}</h2>
+      <p>{t('mission')}</p>
+    </div>
   );
 }
