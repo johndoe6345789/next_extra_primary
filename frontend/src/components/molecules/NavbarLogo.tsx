@@ -22,8 +22,8 @@ export const NavbarLogo: React.FC<NavbarLogoProps> = ({
     href="/"
     style={{
       textDecoration: 'none',
-      color: 'inherit',
-      marginRight: 'var(--spacing-2, 16px)',
+      color: 'var(--mat-sys-primary)',
+      marginRight: '1.5rem',
     }}
     data-testid="navbar-logo"
   >

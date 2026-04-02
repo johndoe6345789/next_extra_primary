@@ -1,9 +1,7 @@
 'use client';
 
 import React from 'react';
-import Box from '@shared/m3/Box';
-import Container from '@shared/m3/Container';
-import Typography from '@shared/m3/Typography';
+import { Box, Container, Typography } from '@shared/m3';
 import { useTranslations } from 'next-intl';
 import { HeroCta } from '../molecules';
 
@@ -14,14 +12,13 @@ export interface HeroSectionProps {
 }
 
 /**
- * Full-width hero with heading, subtitle,
- * and two CTA buttons. Gradient background.
+ * Full-width hero with gradient background.
  *
  * @param props - Component props.
  */
-export const HeroSection: React.FC<HeroSectionProps> = ({
-  testId = 'hero-section',
-}) => {
+export const HeroSection: React.FC<
+  HeroSectionProps
+> = ({ testId = 'hero-section' }) => {
   const t = useTranslations('hero');
   const tCommon = useTranslations('common');
   return (
@@ -30,11 +27,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       data-testid={testId}
       aria-label="Hero section"
       style={{
-        paddingTop: '4rem',
-        paddingBottom: '4rem',
-        background:
-          'linear-gradient(135deg, var(--md-sys-color-primary) 0%, var(--md-sys-color-secondary) 100%)',
-        color: 'var(--md-sys-color-on-primary)',
+        padding: '6rem 1.5rem',
+        background: [
+          'linear-gradient(135deg,',
+          'var(--mat-sys-primary) 0%,',
+          'var(--mat-sys-tertiary) 100%)',
+        ].join(' '),
+        color: 'var(--mat-sys-on-primary)',
+        textAlign: 'center',
       }}
     >
       <Container maxWidth="md">
@@ -43,9 +43,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           component="h1"
           gutterBottom
           data-testid="hero-heading"
-          sx={{
-            fontWeight: 700,
-            fontSize: { xs: '2rem', md: '3rem' },
+          style={{
+            fontWeight: 800,
+            fontSize: '3rem',
+            letterSpacing: '-0.02em',
           }}
         >
           {tCommon('appName')}
@@ -54,10 +55,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           variant="h5"
           component="p"
           data-testid="hero-subtitle"
-          sx={{
-            mb: 4,
+          style={{
+            marginBottom: '2rem',
             opacity: 0.9,
-            fontSize: { xs: '1rem', md: '1.4rem' },
+            fontSize: '1.25rem',
           }}
         >
           {t('subtitle')}

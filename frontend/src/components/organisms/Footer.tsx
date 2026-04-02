@@ -31,9 +31,13 @@ export const Footer: React.FC<FooterProps> = ({ testId = 'footer' }) => {
       component="footer"
       role="contentinfo"
       data-testid={testId}
+      style={{
+        background:
+          'var(--mat-sys-surface-container)',
+      }}
       sx={{
-        py: 3,
-        px: 2,
+        py: 4,
+        px: 3,
         mt: 'auto',
         borderTop: 1,
         borderColor: 'divider',

@@ -58,8 +58,12 @@ export const Navbar: React.FC<NavbarProps> = ({
         role="navigation"
         aria-label="Main navigation"
         data-testid={testId}
+        sx={{
+          backgroundColor: 'var(--mat-sys-surface)',
+          color: 'var(--mat-sys-on-surface)',
+        }}
       >
-        <Toolbar sx={{ gap: 1 }}>
+        <Toolbar sx={{ gap: '0.5rem' }}>
           <MobileDrawer links={ALL_LINKS} />
           <NavbarLogo label={tCommon('appName')} />
           <NavLinks links={TOP_LINKS} />

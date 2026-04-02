@@ -1,22 +1,23 @@
 import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import { Box, Container } from '@shared/m3';
-import { HeroSection } from '@/components/organisms/HeroSection';
-import { FeatureGrid } from '@/components/organisms/FeatureGrid';
+import { HeroSection } from
+  '@/components/organisms/HeroSection';
+import { FeatureGrid } from
+  '@/components/organisms/FeatureGrid';
 
 /** Props for the landing page. */
 interface LandingPageProps {
   /** Route params containing the locale. */
-  readonly params: Promise<{ locale: string }>;
+  readonly params: Promise<{
+    locale: string;
+  }>;
 }
 
 /**
- * Landing page with hero and feature highlights.
+ * Landing page with hero and features.
  *
- * Server component that renders the public-facing
- * homepage with a hero banner and feature grid.
- *
- * @param props - Page props with locale params.
+ * @param props - Page props with locale.
  * @returns Landing page UI.
  */
 export default async function LandingPage({
@@ -30,10 +31,16 @@ export default async function LandingPage({
       component="main"
       role="main"
       aria-label="Landing page"
-      sx={{ minHeight: '100vh' }}
+      style={{ minHeight: '100vh' }}
     >
       <HeroSection />
-      <Container maxWidth="lg" sx={{ pt: { xs: 3, md: 5 }, pb: { xs: 6, md: 10 } }}>
+      <Container
+        maxWidth="lg"
+        style={{
+          paddingTop: '3rem',
+          paddingBottom: '5rem',
+        }}
+      >
         <FeatureGrid />
       </Container>
     </Box>

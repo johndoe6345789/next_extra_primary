@@ -1,9 +1,7 @@
 'use client';
 
 import React from 'react';
-import Box from '@shared/m3/Box';
-import MuiLink from '@shared/m3/Link';
-import MuiTooltip from '@shared/m3/Tooltip';
+import { Tooltip } from '@shared/m3';
 import { Link } from '@/i18n/navigation';
 import type { NavLink } from './MobileDrawer';
 import { Kbd } from '../atoms/Kbd';
@@ -19,7 +17,9 @@ const HINTS: NavHint[] = [
   { href: '/chat', combo: '⌘J' },
 ];
 
-const hintMap = new Map(HINTS.map((h) => [h.href, h.combo]));
+const hintMap = new Map(
+  HINTS.map((h) => [h.href, h.combo]),
+);
 
 /** Props for NavLinks. */
 export interface NavLinksProps {
@@ -28,20 +28,15 @@ export interface NavLinksProps {
 }
 
 /**
- * Desktop horizontal nav link bar with keyboard
- * shortcut hints shown in tooltips. Hidden on xs.
+ * Desktop nav links with keyboard hints.
  *
  * @param props - Component props.
  * @returns Nav link elements.
  */
-export const NavLinks: React.FC<NavLinksProps> = ({ links }) => (
-  <Box
-    sx={{
-      display: { xs: 'none', md: 'flex' },
-      gap: 2,
-      ml: 2,
-    }}
-  >
+export const NavLinks: React.FC<
+  NavLinksProps
+> = ({ links }) => (
+  <nav className="nav-links" aria-label="Main">
     {links.map((l) => {
       const combo = hintMap.get(l.href);
       const title = combo ? (
@@ -52,20 +47,16 @@ export const NavLinks: React.FC<NavLinksProps> = ({ links }) => (
         l.label
       );
       return (
-        <MuiTooltip key={l.href} title={title} arrow>
-          <MuiLink
-            component={Link}
-            href={l.href}
-            color="inherit"
-            underline="hover"
-            tabIndex={0}
-          >
-            {l.label}
-          </MuiLink>
-        </MuiTooltip>
+        <Tooltip
+          key={l.href}
+          title={title}
+          arrow
+        >
+          <Link href={l.href}>{l.label}</Link>
+        </Tooltip>
       );
     })}
-  </Box>
+  </nav>
 );
 
 export default NavLinks;
