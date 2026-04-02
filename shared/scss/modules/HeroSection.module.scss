@@ -1,5 +1,5 @@
 .root {
-  padding: 6rem 1.5rem;
+  padding: 5rem 1.5rem 4rem;
   text-align: center;
   color: #fff;
   background: linear-gradient(
@@ -7,15 +7,29 @@
     #6750a4 0%,
     #1a6b5a 100%
   );
+}
 
-  h1, h2 {
-    font-weight: 800;
-    letter-spacing: -0.02em;
+.heading {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 1rem;
+
+  @media (min-width: 900px) {
+    font-size: 3.5rem;
   }
 }
 
 .subtitle {
-  margin-bottom: 2rem;
-  opacity: 0.9;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
+  opacity: 0.85;
+  margin-bottom: 2.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+
+  @media (min-width: 900px) {
+    font-size: 1.25rem;
+  }
 }

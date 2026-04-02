@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Box, Container, Typography } from '@shared/m3';
+import { Box, Container } from '@shared/m3';
 import { useTranslations } from 'next-intl';
 import {
   HeroCta,
@@ -32,22 +32,18 @@ export const HeroSection: React.FC<
       className={s.root}
     >
       <Container maxWidth="md">
-        <Typography
-          variant="h2"
-          component="h1"
-          gutterBottom
+        <h1
+          className={s.heading}
           data-testid="hero-heading"
         >
           {tCommon('appName')}
-        </Typography>
-        <Typography
-          variant="h5"
-          component="p"
+        </h1>
+        <p
           className={s.subtitle}
           data-testid="hero-subtitle"
         >
           {t('subtitle')}
-        </Typography>
+        </p>
         <HeroCta
           ctaLabel={t('cta')}
           featuresLabel={t('features')}
