@@ -2,10 +2,6 @@
 
 import React from 'react';
 import Alert from '@shared/m3/Alert';
-import Card from '@shared/m3/Card';
-import CardContent from '@shared/m3/CardContent';
-import Typography from '@shared/m3/Typography';
-import Box from '@shared/m3/Box';
 import TextField from '@shared/m3/TextField';
 import MuiLink from '@shared/m3/Link';
 import { Link } from '@/i18n/navigation';
@@ -19,11 +15,7 @@ export interface ForgotPasswordFormProps {
   testId?: string;
 }
 
-/**
- * Forgot password card with email field.
- *
- * @param props - Component props.
- */
+/** Forgot password card with email field. */
 export const ForgotPasswordForm: React.FC<
   ForgotPasswordFormProps
 > = ({ testId = 'forgot-password-form' }) => {
@@ -34,83 +26,73 @@ export const ForgotPasswordForm: React.FC<
   } = useForgotPassword();
 
   return (
-    <Card
+    <div
+      className="auth-card"
       data-testid={testId}
-      sx={{ maxWidth: 420, mx: 'auto', mt: 4 }}
     >
-      <CardContent>
-        <Typography
-          variant="h5"
-          id="forgot-heading"
-          gutterBottom
-        >
-          {t('resetPassword')}
-        </Typography>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{ mb: 2 }}
-        >
-          {t('resetInstructions')}
-        </Typography>
-        <Box
-          component="form"
-          role="form"
-          aria-labelledby="forgot-heading"
-          onSubmit={submit}
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 2,
-          }}
-        >
-          {apiError && (
-            <Alert
-              severity="error"
-              data-testid="forgot-error"
-            >
-              {apiError}
-            </Alert>
-          )}
-          {success && (
-            <Alert
-              severity="success"
-              data-testid="forgot-success"
-            >
-              {t('resetSent')}
-            </Alert>
-          )}
+      <h2 id="forgot-heading">
+        {t('resetPassword')}
+      </h2>
+      <p className="text-text.secondary mb-md">
+        {t('resetInstructions')}
+      </p>
+      <form
+        role="form"
+        aria-labelledby="forgot-heading"
+        onSubmit={submit}
+      >
+        {apiError && (
+          <Alert
+            severity="error"
+            data-testid="forgot-error"
+          >
+            {apiError}
+          </Alert>
+        )}
+        {success && (
+          <Alert
+            severity="success"
+            data-testid="forgot-success"
+          >
+            {t('resetSent')}
+          </Alert>
+        )}
+        <div className="form-field">
           <TextField
             label={t('email')}
             type="email"
             value={email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setEmail(e.target.value)}
+            onChange={(e: React.ChangeEvent<
+              HTMLInputElement
+              | HTMLTextAreaElement
+            >) => setEmail(e.target.value)}
             required
             fullWidth
             autoComplete="email"
           />
-          <Button
-            type="submit"
-            fullWidth
-            disabled={isLoading}
-            testId="forgot-submit"
-          >
-            {isLoading
-              ? t('sending')
-              : t('resetPassword')}
-          </Button>
+        </div>
+        <Button
+          type="submit"
+          fullWidth
+          disabled={isLoading}
+          testId="forgot-submit"
+        >
+          {isLoading
+            ? t('sending')
+            : t('resetPassword')}
+        </Button>
+        <div className="auth-form__links">
           <MuiLink
             component={Link}
             href="/login"
             variant="body2"
             tabIndex={0}
-            sx={{ textAlign: 'center' }}
           >
             {t('backToLogin')}
           </MuiLink>
-        </Box>
-      </CardContent>
-    </Card>
+        </div>
+      </form>
+    </div>
   );
 };
 

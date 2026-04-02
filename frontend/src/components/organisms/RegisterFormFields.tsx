@@ -26,57 +26,67 @@ export const RegisterFormFields: React.FC<RegisterFieldsProps> = ({
     && f.password !== f.confirmPassword;
   return (
     <>
-      <TextField
-        label={t('username')}
-        value={f.username}
-        onChange={set('username')}
-        required
-        error={!!errors.username}
-        helperText={errors.username}
-        testId="register-username"
-      />
-      <TextField
-        label={t('email')}
-        value={f.email}
-        onChange={set('email')}
-        type="email"
-        required
-        error={!!errors.email}
-        helperText={errors.email}
-        testId="register-email"
-      />
-      <TextField
-        label={t('displayName')}
-        value={f.displayName}
-        onChange={set('displayName')}
-        required
-        error={!!errors.displayName}
-        helperText={errors.displayName}
-        testId="register-displayname"
-      />
-      <TextField
-        label={t('password')}
-        value={f.password}
-        onChange={set('password')}
-        type="password"
-        required
-        error={!!errors.password}
-        helperText={errors.password}
-        testId="register-password"
-      />
-      <TextField
-        label={t('confirmPassword')}
-        value={f.confirmPassword}
-        onChange={set('confirmPassword')}
-        type="password"
-        required
-        error={!!errors.confirmPassword || mm}
-        helperText={
-          errors.confirmPassword
-            ?? (mm ? t('passwordsMustMatch') : '')
-        }
-        testId="register-confirm"
-      />
+      <div className="form-field">
+        <TextField
+          label={t('username')}
+          value={f.username}
+          onChange={set('username')}
+          required
+          error={!!errors.username}
+          helperText={errors.username}
+          testId="register-username"
+        />
+      </div>
+      <div className="form-field">
+        <TextField
+          label={t('email')}
+          value={f.email}
+          onChange={set('email')}
+          type="email"
+          required
+          error={!!errors.email}
+          helperText={errors.email}
+          testId="register-email"
+        />
+      </div>
+      <div className="form-field">
+        <TextField
+          label={t('displayName')}
+          value={f.displayName}
+          onChange={set('displayName')}
+          required
+          error={!!errors.displayName}
+          helperText={errors.displayName}
+          testId="register-displayname"
+        />
+      </div>
+      <div className="form-field">
+        <TextField
+          label={t('password')}
+          value={f.password}
+          onChange={set('password')}
+          type="password"
+          required
+          error={!!errors.password}
+          helperText={errors.password}
+          testId="register-password"
+        />
+      </div>
+      <div className="form-field">
+        <TextField
+          label={t('confirmPassword')}
+          value={f.confirmPassword}
+          onChange={set('confirmPassword')}
+          type="password"
+          required
+          error={!!errors.confirmPassword || mm}
+          helperText={
+            errors.confirmPassword
+              ?? (mm ? t('passwordsMustMatch') : '')
+          }
+          testId="register-confirm"
+        />
+      </div>
     </>
   );
 };

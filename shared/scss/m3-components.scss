@@ -1002,11 +1002,11 @@ a.btn--on-primary {
 .hero-section {
   padding: 6rem 1.5rem;
   text-align: center;
-  color: var(--mat-sys-on-primary);
+  color: #fff;
   background: linear-gradient(
     135deg,
-    var(--mat-sys-primary) 0%,
-    var(--mat-sys-tertiary) 100%
+    #6750a4 0%,
+    #1a6b5a 100%
   );
 
   h1, h2 {
@@ -1135,6 +1135,12 @@ a.btn--on-primary {
     font-weight: 700;
     margin-bottom: 1.5rem;
     text-align: center;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 }
 

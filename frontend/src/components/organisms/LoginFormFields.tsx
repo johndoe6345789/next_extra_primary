@@ -34,28 +34,38 @@ export const LoginFormFields: React.FC<LoginFieldsProps> = ({
   const t = useTranslations('auth');
   return (
     <>
-      <TextField
-        label={t('email')}
-        value={email}
-        onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setEmail(e.target.value)}
-        type="email"
-        required
-        error={!!errors.email}
-        helperText={errors.email}
-        autoComplete="email"
-        testId="login-email"
-      />
-      <TextField
-        label={t('password')}
-        value={pw}
-        onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setPw(e.target.value)}
-        type="password"
-        required
-        error={!!errors.password}
-        helperText={errors.password}
-        autoComplete="current-password"
-        testId="login-password"
-      />
+      <div className="form-field">
+        <TextField
+          label={t('email')}
+          value={email}
+          onChange={(e: React.ChangeEvent<
+            HTMLInputElement
+            | HTMLTextAreaElement
+          >) => setEmail(e.target.value)}
+          type="email"
+          required
+          error={!!errors.email}
+          helperText={errors.email}
+          autoComplete="email"
+          testId="login-email"
+        />
+      </div>
+      <div className="form-field">
+        <TextField
+          label={t('password')}
+          value={pw}
+          onChange={(e: React.ChangeEvent<
+            HTMLInputElement
+            | HTMLTextAreaElement
+          >) => setPw(e.target.value)}
+          type="password"
+          required
+          error={!!errors.password}
+          helperText={errors.password}
+          autoComplete="current-password"
+          testId="login-password"
+        />
+      </div>
     </>
   );
 };
