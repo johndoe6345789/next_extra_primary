@@ -256,8 +256,11 @@ export const Grid: React.FC<GridProps> = ({
       [styles.gridItem]: item,
 
       // Flexbox gap (spacing prop)
+      // Skip for container — uses padding
       [flexGapClassMap[Number(spacing)]]:
-        typeof spacing === 'number' && flexGapClassMap[spacing],
+        !container
+        && typeof spacing === 'number'
+        && flexGapClassMap[spacing],
 
       // Responsive columns
       [getColClass(xs, colClassMap) || '']: xs !== undefined,
