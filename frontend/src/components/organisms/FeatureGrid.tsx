@@ -72,7 +72,6 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
       data-testid={testId}
       role="list"
       aria-label="Application features"
-      className="section--features"
     >
       {KEYS.map((k, idx) => (
         <Grid key={k} item xs={12} sm={6} md={4}>

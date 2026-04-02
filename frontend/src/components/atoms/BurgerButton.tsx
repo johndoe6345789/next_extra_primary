@@ -4,6 +4,7 @@ import React from 'react';
 import {
   Icon,
 } from '@shared/m3/data-display/Icon';
+import s from './BurgerButton.module.scss';
 
 /** Props for BurgerButton. */
 export interface BurgerButtonProps {
@@ -21,7 +22,7 @@ export const BurgerButton: React.FC<
 > = ({ onClick }) => (
   <button
     type="button"
-    className="burger-btn"
+    className={s.root}
     aria-label="Open menu"
     onClick={onClick}
     data-testid="navbar-hamburger"

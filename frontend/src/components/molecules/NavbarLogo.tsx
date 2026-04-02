@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Link } from '@/i18n/navigation';
+import s from './NavbarLogo.module.scss';
 
 /** Props for NavbarLogo. */
 export interface NavbarLogoProps {
@@ -19,7 +20,7 @@ export const NavbarLogo: React.FC<
 > = ({ label }) => (
   <Link
     href="/"
-    className="brand-logo"
+    className={s.root}
     data-testid="navbar-logo"
   >
     {label}

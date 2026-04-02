@@ -7,6 +7,7 @@ import {
   CardContent,
   Typography,
 } from '@shared/m3';
+import s from './FeatureCard.module.scss';
 
 /** Props for the FeatureCard sub-component. */
 export interface FeatureCardProps {
@@ -31,7 +32,7 @@ export const FeatureCard: React.FC<
     .replace(/\s/g, '-')}`;
   return (
     <Card
-      className="card--clickable"
+      className={s.root}
       role="listitem"
       aria-label={title}
       data-testid={testId}

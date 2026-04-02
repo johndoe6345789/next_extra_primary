@@ -1,0 +1,45 @@
+.root {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+
+  @media (min-width: 900px) {
+    display: flex;
+  }
+}
+
+.search {
+  max-width: 200px;
+  min-width: 140px;
+  overflow: hidden;
+
+  label { display: none; }
+
+  input {
+    padding: 8px 14px;
+    font-size: 13px;
+    border-radius:
+      var(--mat-sys-corner-full);
+    border: 1px solid
+      var(--mat-sys-outline-variant);
+    background: color-mix(
+      in srgb,
+      var(--mat-sys-on-surface) 4%,
+      transparent
+    );
+    height: 36px;
+
+    &::placeholder {
+      color:
+        var(--mat-sys-on-surface-variant);
+    }
+
+    &:focus {
+      border-color:
+        var(--mat-sys-primary);
+      background:
+        var(--mat-sys-surface);
+    }
+  }
+}

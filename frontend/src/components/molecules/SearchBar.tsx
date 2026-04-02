@@ -54,7 +54,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
   return (
     <div
-      className="search-bar"
       data-testid={testId}
       onKeyDown={onKeyDown}
     >

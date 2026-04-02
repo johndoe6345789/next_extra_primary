@@ -5,6 +5,7 @@ import {
   Icon,
 } from '@shared/m3/data-display/Icon';
 import { useTranslations } from 'next-intl';
+import s from './AuthHero.module.scss';
 
 const FEATURES = [
   { icon: 'emoji_events', key: 'f1' },
@@ -19,7 +20,7 @@ const FEATURES = [
 export const AuthHero: React.FC = () => {
   const t = useTranslations('authHero');
   return (
-    <div className="auth-hero">
+    <div className={s.root}>
       <h1>{t('title')}</h1>
       <p>{t('subtitle')}</p>
       <ul>

@@ -4,6 +4,7 @@ import React from 'react';
 import { Box, Container, Typography } from '@shared/m3';
 import { useTranslations } from 'next-intl';
 import { HeroCta } from '../molecules';
+import s from './HeroSection.module.scss';
 
 /** Props for the HeroSection organism. */
 export interface HeroSectionProps {
@@ -26,7 +27,7 @@ export const HeroSection: React.FC<
       component="section"
       data-testid={testId}
       aria-label="Hero section"
-      className="hero-section"
+      className={s.root}
     >
       <Container maxWidth="md">
         <Typography
@@ -40,7 +41,7 @@ export const HeroSection: React.FC<
         <Typography
           variant="h5"
           component="p"
-          className="hero-subtitle"
+          className={s.subtitle}
           data-testid="hero-subtitle"
         >
           {t('subtitle')}

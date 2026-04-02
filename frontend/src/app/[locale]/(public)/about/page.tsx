@@ -3,6 +3,7 @@ import {
   setRequestLocale,
   getTranslations,
 } from 'next-intl/server';
+import s from './page.module.scss';
 
 /** Props for the about page. */
 interface AboutPageProps {
@@ -29,7 +30,7 @@ export default async function AboutPage({
 
   return (
     <div
-      className="content-page"
+      className={s.root}
       role="main"
       aria-label={t('title')}
     >

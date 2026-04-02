@@ -4,6 +4,7 @@ import { AuthHero }
   from '@/components/molecules/AuthHero';
 import { ForgotPasswordForm } from
   '@/components/organisms/ForgotPasswordForm';
+import s from './page.module.scss';
 
 /** Props for the forgot-password page. */
 interface ForgotPasswordPageProps {
@@ -25,12 +26,12 @@ export default async function ForgotPasswordPage({
 
   return (
     <main
-      className="auth-page"
+      className={s.root}
       role="main"
       aria-label="Reset password"
     >
       <AuthHero />
-      <div className="auth-form-pane">
+      <div className={s.formPane}>
         <ForgotPasswordForm />
       </div>
     </main>

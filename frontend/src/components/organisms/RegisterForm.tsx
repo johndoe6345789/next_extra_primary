@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 import { Button } from '../atoms';
 import { RegisterFormFields } from './RegisterFormFields';
 import { useRegisterForm } from '@/hooks/useRegisterForm';
+import s from './LoginForm.module.scss';
 
 /** Props for the RegisterForm organism. */
 export interface RegisterFormProps {
@@ -29,7 +30,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
 
   return (
     <div
-      className="auth-card"
+      className={s.root}
       data-testid={testId}
     >
         <h2 id="register-heading">
@@ -59,7 +60,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
             href="/login"
             variant="body2"
             tabIndex={0}
-            className="auth-form__links"
+            className={s.links}
           >
             {t('hasAccount')}
           </MuiLink>

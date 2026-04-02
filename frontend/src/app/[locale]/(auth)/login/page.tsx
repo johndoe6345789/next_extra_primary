@@ -4,6 +4,7 @@ import { LoginForm } from
   '@/components/organisms/LoginForm';
 import { AuthHero } from
   '@/components/molecules/AuthHero';
+import s from './page.module.scss';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,12 +28,12 @@ export default async function LoginPage({
 
   return (
     <main
-      className="auth-page"
+      className={s.root}
       role="main"
       aria-label="Login"
     >
       <AuthHero />
-      <div className="auth-form-pane">
+      <div className={s.formPane}>
         <LoginForm />
       </div>
     </main>

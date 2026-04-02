@@ -5,6 +5,7 @@ import { HeroSection } from
   '@/components/organisms/HeroSection';
 import { FeatureGrid } from
   '@/components/organisms/FeatureGrid';
+import s from './page.module.scss';
 
 /** Props for the landing page. */
 interface LandingPageProps {
@@ -36,7 +37,7 @@ export default async function LandingPage({
       <HeroSection />
       <Container
         maxWidth="lg"
-        className="section--features"
+        className={s.features}
       >
         <FeatureGrid />
       </Container>

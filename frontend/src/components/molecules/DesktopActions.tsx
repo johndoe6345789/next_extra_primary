@@ -4,6 +4,7 @@ import React from 'react';
 import { SearchBar } from './SearchBar';
 import { ThemeToggle } from './ThemeToggle';
 import { LocaleSwitcher } from './LocaleSwitcher';
+import s from './DesktopActions.module.scss';
 
 /** Props for DesktopActions. */
 export interface DesktopActionsProps {
@@ -20,10 +21,12 @@ export const DesktopActions: React.FC<
   DesktopActionsProps
 > = ({ onSearch }) => (
   <div
-    className="desktop-actions"
+    className={s.root}
     data-testid="navbar-desktop-actions"
   >
-    <SearchBar compact onSearch={onSearch} />
+    <div className={s.search}>
+      <SearchBar compact onSearch={onSearch} />
+    </div>
     <ThemeToggle />
     <LocaleSwitcher />
   </div>

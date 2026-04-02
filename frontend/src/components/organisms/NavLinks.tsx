@@ -5,6 +5,7 @@ import { Tooltip } from '@shared/m3';
 import { Link } from '@/i18n/navigation';
 import type { NavLink } from './MobileDrawer';
 import { Kbd } from '../atoms/Kbd';
+import s from './NavLinks.module.scss';
 
 /** Shortcut hint attached to a nav link. */
 interface NavHint {
@@ -36,7 +37,7 @@ export interface NavLinksProps {
 export const NavLinks: React.FC<
   NavLinksProps
 > = ({ links }) => (
-  <nav className="nav-links" aria-label="Main">
+  <nav className={s.root} aria-label="Main">
     {links.map((l) => {
       const combo = hintMap.get(l.href);
       const title = combo ? (

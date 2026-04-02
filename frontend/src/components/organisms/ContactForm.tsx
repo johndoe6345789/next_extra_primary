@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import { Button } from '../atoms';
 import { useContactForm } from
   '@/hooks/useContactForm';
+import s from './ContactForm.module.scss';
 
 /** Props for the ContactForm organism. */
 export interface ContactFormProps {
@@ -27,7 +28,7 @@ export const ContactForm: React.FC<
   } = useContactForm();
 
   return (
-    <div className="content-page">
+    <div className={s.root}>
       <h1>{t('title')}</h1>
       <form
         role="form"
@@ -43,7 +44,7 @@ export const ContactForm: React.FC<
             {t('sent')}
           </Alert>
         )}
-        <div className="form-field">
+        <div className={s.field}>
           <TextField
             label={t('name')}
             name="name"
@@ -56,7 +57,7 @@ export const ContactForm: React.FC<
             autoComplete="name"
           />
         </div>
-        <div className="form-field">
+        <div className={s.field}>
           <TextField
             label={t('email')}
             name="email"
@@ -70,7 +71,7 @@ export const ContactForm: React.FC<
             autoComplete="email"
           />
         </div>
-        <div className="form-field">
+        <div className={s.field}>
           <TextField
             label={t('message')}
             name="message"

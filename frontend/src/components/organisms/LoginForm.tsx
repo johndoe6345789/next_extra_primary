@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 import { Button } from '../atoms';
 import { LoginFormFields } from './LoginFormFields';
 import { useLoginForm } from '@/hooks/useLoginForm';
+import s from './LoginForm.module.scss';
 
 /** Props for the LoginForm organism. */
 export interface LoginFormProps {
@@ -30,7 +31,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   } = useLoginForm();
 
   return (
-    <div className="auth-card" data-testid={testId}>
+    <div className={s.root} data-testid={testId}>
         <h2 id="login-heading">
           {t('login')}
         </h2>
@@ -59,7 +60,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
           >
             {isLoading ? t('signingIn') : t('login')}
           </Button>
-          <div className="auth-form__links">
+          <div className={s.links}>
             <MuiLink
               component={Link}
               tabIndex={0}

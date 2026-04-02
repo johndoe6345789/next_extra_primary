@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { Button } from '../atoms';
+import s from './HeroCta.module.scss';
 
 /**
  * CTA button pair for the hero section.
@@ -23,7 +24,7 @@ export const HeroCta: React.FC = () => {
 
   return (
     <div
-      className="cta-group"
+      className={s.root}
       data-testid="hero-cta-group"
     >
       <Link href="/register" style={{ textDecoration: 'none' }}>

@@ -8,6 +8,7 @@ import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { Button } from '../atoms';
 import { useForgotPassword } from '@/hooks/useForgotPassword';
+import s from './ForgotPasswordForm.module.scss';
 
 /** Props for ForgotPasswordForm. */
 export interface ForgotPasswordFormProps {
@@ -27,7 +28,7 @@ export const ForgotPasswordForm: React.FC<
 
   return (
     <div
-      className="auth-card"
+      className={s.root}
       data-testid={testId}
     >
       <h2 id="forgot-heading">
@@ -57,7 +58,7 @@ export const ForgotPasswordForm: React.FC<
             {t('resetSent')}
           </Alert>
         )}
-        <div className="form-field">
+        <div className={s.field}>
           <TextField
             label={t('email')}
             type="email"
@@ -81,7 +82,7 @@ export const ForgotPasswordForm: React.FC<
             ? t('sending')
             : t('resetPassword')}
         </Button>
-        <div className="auth-form__links">
+        <div className={s.links}>
           <MuiLink
             component={Link}
             href="/login"

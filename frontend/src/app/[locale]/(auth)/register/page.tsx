@@ -4,6 +4,7 @@ import { AuthHero }
   from '@/components/molecules/AuthHero';
 import { RegisterForm }
   from '@/components/organisms/RegisterForm';
+import s from './page.module.scss';
 
 /** Skip static prerendering for this page. */
 export const dynamic = 'force-dynamic';
@@ -30,12 +31,12 @@ export default async function RegisterPage({
 
   return (
     <main
-      className="auth-page"
+      className={s.root}
       role="main"
       aria-label="Register"
     >
       <AuthHero />
-      <div className="auth-form-pane">
+      <div className={s.formPane}>
         <RegisterForm />
       </div>
     </main>
