@@ -2,10 +2,6 @@
 
 import React from 'react';
 import Alert from '@shared/m3/Alert';
-import Card from '@shared/m3/Card';
-import CardContent from '@shared/m3/CardContent';
-import Typography from '@shared/m3/Typography';
-import Box from '@shared/m3/Box';
 import MuiLink from '@shared/m3/Link';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
@@ -34,21 +30,14 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   } = useLoginForm();
 
   return (
-    <Card data-testid={testId} sx={{ maxWidth: 420, mx: 'auto', mt: 4 }}>
-      <CardContent>
-        <Typography variant="h5" id="login-heading" gutterBottom>
+    <div className="auth-card" data-testid={testId}>
+        <h2 id="login-heading">
           {t('login')}
-        </Typography>
-        <Box
-          component="form"
+        </h2>
+        <form
           role="form"
           aria-labelledby="login-heading"
           onSubmit={submit}
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 2,
-          }}
         >
           {apiError && (
             <Alert severity="error" data-testid="login-error">
@@ -88,9 +77,8 @@ export const LoginForm: React.FC<LoginFormProps> = ({
               {t('register')}
             </MuiLink>
           </div>
-        </Box>
-      </CardContent>
-    </Card>
+        </form>
+    </div>
   );
 };
 

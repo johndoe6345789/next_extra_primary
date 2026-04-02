@@ -2,10 +2,6 @@
 
 import React from 'react';
 import Alert from '@shared/m3/Alert';
-import Card from '@shared/m3/Card';
-import CardContent from '@shared/m3/CardContent';
-import Typography from '@shared/m3/Typography';
-import Box from '@shared/m3/Box';
 import MuiLink from '@shared/m3/Link';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
@@ -32,21 +28,17 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
   } = useRegisterForm();
 
   return (
-    <Card data-testid={testId} sx={{ maxWidth: 420, mx: 'auto', mt: 4 }}>
-      <CardContent>
-        <Typography variant="h5" id="register-heading" gutterBottom>
+    <div
+      className="auth-card"
+      data-testid={testId}
+    >
+        <h2 id="register-heading">
           {t('register')}
-        </Typography>
-        <Box
-          component="form"
+        </h2>
+        <form
           role="form"
           aria-labelledby="register-heading"
           onSubmit={submit}
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 2,
-          }}
         >
           {apiError && (
             <Alert severity="error" data-testid="register-error">
@@ -67,13 +59,12 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
             href="/login"
             variant="body2"
             tabIndex={0}
-            sx={{ textAlign: 'center' }}
+            className="auth-form__links"
           >
             {t('hasAccount')}
           </MuiLink>
-        </Box>
-      </CardContent>
-    </Card>
+        </form>
+    </div>
   );
 };
 
