@@ -1145,6 +1145,28 @@ a.btn--on-primary {
 }
 
 // ============================================
+// CTA Button Group
+// ============================================
+.cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+// ============================================
+// Burger Button
+// ============================================
+.burger-btn {
+  color: var(--mat-sys-on-surface);
+
+  svg, span {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+// ============================================
 // App Footer
 // ============================================
 .app-footer {

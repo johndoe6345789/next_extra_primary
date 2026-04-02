@@ -20,6 +20,7 @@ export const BurgerButton: React.FC<
 > = ({ onClick }) => (
   <MuiIconButton
     aria-label="Open menu"
+    className="burger-btn"
     onClick={onClick}
     color="inherit"
     edge="start"

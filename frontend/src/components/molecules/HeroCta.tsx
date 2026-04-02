@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Stack from '@shared/m3/Stack';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { Button } from '../atoms';
@@ -23,9 +22,8 @@ export const HeroCta: React.FC = () => {
   };
 
   return (
-    <Stack
-      direction="row"
-      spacing={2}
+    <div
+      className="cta-group"
       data-testid="hero-cta-group"
     >
       <Link href="/register" style={{ textDecoration: 'none' }}>
@@ -47,7 +45,7 @@ export const HeroCta: React.FC = () => {
       >
         {t('features')}
       </Button>
-    </Stack>
+    </div>
   );
 };
 
