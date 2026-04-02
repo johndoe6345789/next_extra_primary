@@ -3,7 +3,7 @@ import {
   setRequestLocale,
   getTranslations,
 } from 'next-intl/server';
-import s from './page.module.scss';
+import s from '@shared/scss/modules/ContentPage.module.scss';
 
 /** Props for the about page. */
 interface AboutPageProps {

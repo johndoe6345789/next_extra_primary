@@ -4,7 +4,7 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { Button } from '../atoms';
-import s from './HeroCta.module.scss';
+import s from '@shared/scss/modules/HeroCta.module.scss';
 
 /**
  * CTA button pair for the hero section.

@@ -4,7 +4,7 @@ import { AuthHero }
   from '@/components/molecules/AuthHero';
 import { ForgotPasswordForm } from
   '@/components/organisms/ForgotPasswordForm';
-import s from './page.module.scss';
+import s from '@shared/scss/modules/AuthPage.module.scss';
 
 /** Props for the forgot-password page. */
 interface ForgotPasswordPageProps {

@@ -8,7 +8,7 @@ import { useTranslations } from 'next-intl';
 import { Button } from '../atoms';
 import { LoginFormFields } from './LoginFormFields';
 import { useLoginForm } from '@/hooks/useLoginForm';
-import s from './LoginForm.module.scss';
+import s from '@shared/scss/modules/LoginForm.module.scss';
 
 /** Props for the LoginForm organism. */
 export interface LoginFormProps {

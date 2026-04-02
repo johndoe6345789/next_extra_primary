@@ -7,7 +7,7 @@ import {
   CardContent,
   Typography,
 } from '@shared/m3';
-import s from './FeatureCard.module.scss';
+import s from '@shared/scss/modules/FeatureCard.module.scss';
 
 /** Props for the FeatureCard sub-component. */
 export interface FeatureCardProps {

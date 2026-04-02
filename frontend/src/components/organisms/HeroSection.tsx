@@ -4,7 +4,7 @@ import React from 'react';
 import { Box, Container, Typography } from '@shared/m3';
 import { useTranslations } from 'next-intl';
 import { HeroCta } from '../molecules';
-import s from './HeroSection.module.scss';
+import s from '@shared/scss/modules/HeroSection.module.scss';
 
 /** Props for the HeroSection organism. */
 export interface HeroSectionProps {

@@ -5,7 +5,7 @@ import {
   Icon,
 } from '@shared/m3/data-display/Icon';
 import { useTranslations } from 'next-intl';
-import s from './AuthHero.module.scss';
+import s from '@shared/scss/modules/AuthHero.module.scss';
 
 const FEATURES = [
   { icon: 'emoji_events', key: 'f1' },

@@ -4,7 +4,7 @@ import { LoginForm } from
   '@/components/organisms/LoginForm';
 import { AuthHero } from
   '@/components/molecules/AuthHero';
-import s from './page.module.scss';
+import s from '@shared/scss/modules/AuthPage.module.scss';
 
 export const dynamic = 'force-dynamic';
 

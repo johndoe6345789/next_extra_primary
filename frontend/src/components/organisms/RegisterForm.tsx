@@ -8,7 +8,7 @@ import { useTranslations } from 'next-intl';
 import { Button } from '../atoms';
 import { RegisterFormFields } from './RegisterFormFields';
 import { useRegisterForm } from '@/hooks/useRegisterForm';
-import s from './LoginForm.module.scss';
+import s from '@shared/scss/modules/LoginForm.module.scss';
 
 /** Props for the RegisterForm organism. */
 export interface RegisterFormProps {

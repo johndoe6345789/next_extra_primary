@@ -5,7 +5,7 @@ import { Tooltip } from '@shared/m3';
 import { Link } from '@/i18n/navigation';
 import type { NavLink } from './MobileDrawer';
 import { Kbd } from '../atoms/Kbd';
-import s from './NavLinks.module.scss';
+import s from '@shared/scss/modules/NavLinks.module.scss';
 
 /** Shortcut hint attached to a nav link. */
 interface NavHint {

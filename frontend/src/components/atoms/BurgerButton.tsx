@@ -4,7 +4,7 @@ import React from 'react';
 import {
   Icon,
 } from '@shared/m3/data-display/Icon';
-import s from './BurgerButton.module.scss';
+import s from '@shared/scss/modules/BurgerButton.module.scss';
 
 /** Props for BurgerButton. */
 export interface BurgerButtonProps {

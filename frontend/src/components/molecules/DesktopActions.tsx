@@ -4,7 +4,7 @@ import React from 'react';
 import { SearchBar } from './SearchBar';
 import { ThemeToggle } from './ThemeToggle';
 import { LocaleSwitcher } from './LocaleSwitcher';
-import s from './DesktopActions.module.scss';
+import s from '@shared/scss/modules/DesktopActions.module.scss';
 
 /** Props for DesktopActions. */
 export interface DesktopActionsProps {

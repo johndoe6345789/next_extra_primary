@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Link } from '@/i18n/navigation';
-import s from './NavbarLogo.module.scss';
+import s from '@shared/scss/modules/NavbarLogo.module.scss';
 
 /** Props for NavbarLogo. */
 export interface NavbarLogoProps {

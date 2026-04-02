@@ -5,7 +5,7 @@ import Typography from '@shared/m3/Typography';
 import MuiLink from '@shared/m3/Link';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
-import s from './Footer.module.scss';
+import s from '@shared/scss/modules/Footer.module.scss';
 
 /** Props for the Footer organism. */
 export interface FooterProps {

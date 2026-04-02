@@ -5,7 +5,7 @@ import { HeroSection } from
   '@/components/organisms/HeroSection';
 import { FeatureGrid } from
   '@/components/organisms/FeatureGrid';
-import s from './page.module.scss';
+import s from '@shared/scss/modules/Landing.module.scss';
 
 /** Props for the landing page. */
 interface LandingPageProps {

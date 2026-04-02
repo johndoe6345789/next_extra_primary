@@ -8,7 +8,7 @@ import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { Button } from '../atoms';
 import { useForgotPassword } from '@/hooks/useForgotPassword';
-import s from './ForgotPasswordForm.module.scss';
+import s from '@shared/scss/modules/ForgotPasswordForm.module.scss';
 
 /** Props for ForgotPasswordForm. */
 export interface ForgotPasswordFormProps {

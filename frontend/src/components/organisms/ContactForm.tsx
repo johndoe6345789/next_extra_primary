@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { Button } from '../atoms';
 import { useContactForm } from
   '@/hooks/useContactForm';
-import s from './ContactForm.module.scss';
+import s from '@shared/scss/modules/ContactForm.module.scss';
 
 /** Props for the ContactForm organism. */
 export interface ContactFormProps {
