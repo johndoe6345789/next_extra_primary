@@ -2,23 +2,26 @@
 
 import React from 'react';
 import Grid from '@shared/m3/Grid';
-import ChatIcon from '@shared/icons/Chat';
-import EmojiEventsIcon from '@shared/icons/EmojiEvents';
-import NotificationsActiveIcon from '@shared/icons/NotificationsActive';
-import DarkModeIcon from '@shared/icons/DarkMode';
-import TranslateIcon from '@shared/icons/Translate';
-import LockIcon from '@shared/icons/Lock';
+import {
+  Icon,
+} from '@shared/m3/data-display/Icon';
 import { useTranslations } from 'next-intl';
 import { FeatureCard } from './FeatureCard';
 
-const ICONS = [
-  <ChatIcon key="chat" />,
-  <EmojiEventsIcon key="gamification" />,
-  <NotificationsActiveIcon key="alerts" />,
-  <DarkModeIcon key="darkmode" />,
-  <TranslateIcon key="i18n" />,
-  <LockIcon key="auth" />,
+const ICON_NAMES = [
+  'chat',
+  'emoji_events',
+  'notifications_active',
+  'dark_mode',
+  'translate',
+  'lock',
 ];
+
+const ICONS = ICON_NAMES.map((name) => (
+  <Icon key={name} size="xl" color="primary">
+    {name}
+  </Icon>
+));
 
 type FeatureKey =
   | 'aiChat'

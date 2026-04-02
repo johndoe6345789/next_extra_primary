@@ -303,7 +303,7 @@
 }
 
 .card-content {
-  padding: 16px;
+  padding: 2rem 1.5rem;
 }
 
 .card-actions {
@@ -972,6 +972,39 @@ main {
 // ============================================
 // Section spacing utilities
 // ============================================
+// On-primary variant for buttons on primary bg
+.btn--on-primary {
+  border-color: var(--mat-sys-on-primary);
+  color: var(--mat-sys-on-primary);
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+}
+
+.hero-section {
+  padding: 6rem 1.5rem;
+  text-align: center;
+  color: var(--mat-sys-on-primary);
+  background: linear-gradient(
+    135deg,
+    var(--mat-sys-primary) 0%,
+    var(--mat-sys-tertiary) 100%
+  );
+
+  h1, h2 {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  h1 { font-size: 3rem; }
+}
+
+.hero-subtitle {
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  font-size: 1.25rem;
+}
+
 .section--features {
   padding-top: 3rem;
   padding-bottom: 5rem;
