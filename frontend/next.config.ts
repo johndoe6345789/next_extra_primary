@@ -27,6 +27,7 @@ const nextConfig: NextConfig = {
   transpilePackages: [
     '@shared/m3',
     '@shared/icons',
+    '@shared/ui',
     '@shared/components',
     '@shared/hooks',
     '@shared/redux-core',
@@ -38,6 +39,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: [
       '@shared/m3',
       '@shared/icons',
+      '@shared/ui',
       '@shared/components',
       '@shared/hooks',
     ],

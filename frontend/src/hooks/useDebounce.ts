@@ -1,26 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-
 /**
- * Returns a debounced version of the given value.
- * The returned value only updates after the
- * specified delay has elapsed without changes.
- *
- * @template T - Type of the value to debounce.
- * @param value - The raw value to debounce.
- * @param delay - Debounce delay in ms (default 300).
- * @returns The debounced value.
+ * Re-exports useDebounce from shared hooks.
+ * @module hooks/useDebounce
  */
-export function useDebounce<T>(value: T, delay = 300): T {
-  const [debounced, setDebounced] = useState<T>(value);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setDebounced(value), delay);
-    return () => clearTimeout(timer);
-  }, [value, delay]);
-
-  return debounced;
-}
-
-export default useDebounce;
+export { useDebounce } from '@shared/hooks';
+export { useDebounce as default } from '@shared/hooks';

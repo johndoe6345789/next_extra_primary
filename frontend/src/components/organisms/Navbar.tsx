@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
 import { useAuth } from '@/hooks';
 import { SkipLink } from '../molecules/SkipLink';
-import { NavbarLogo } from '../molecules/NavbarLogo';
+import { NavbarLogo } from '@shared/components/ui/NavbarLogo';
 import { DesktopActions } from '../molecules/DesktopActions';
 import { NotificationBell } from '../molecules/NotificationBell';
 import { AvatarMenu } from './AvatarMenu';

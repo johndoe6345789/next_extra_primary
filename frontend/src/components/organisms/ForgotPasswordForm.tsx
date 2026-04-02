@@ -1,14 +1,12 @@
 'use client';
 
 import React from 'react';
-import Alert from '@shared/m3/Alert';
-import TextField from '@shared/m3/TextField';
-import MuiLink from '@shared/m3/Link';
-import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
-import { Button } from '../atoms';
-import { useForgotPassword } from '@/hooks/useForgotPassword';
-import s from '@shared/scss/modules/ForgotPasswordForm.module.scss';
+import { ForgotPasswordForm as SharedForm }
+  from '@shared/ui/ForgotPasswordForm';
+import {
+  useForgotPassword,
+} from '@/hooks/useForgotPassword';
 
 /** Props for ForgotPasswordForm. */
 export interface ForgotPasswordFormProps {
@@ -16,7 +14,11 @@ export interface ForgotPasswordFormProps {
   testId?: string;
 }
 
-/** Forgot password card with email field. */
+/**
+ * Forgot password form wired to frontend hook.
+ *
+ * @param props - Component props.
+ */
 export const ForgotPasswordForm: React.FC<
   ForgotPasswordFormProps
 > = ({ testId = 'forgot-password-form' }) => {
@@ -27,73 +29,23 @@ export const ForgotPasswordForm: React.FC<
   } = useForgotPassword();
 
   return (
-    <div
-      className={s.root}
-      data-testid={testId}
-    >
-      <h2 id="forgot-heading">
-        {t('resetPassword')}
-      </h2>
-      <p className="text-text.secondary mb-md">
-        {t('resetInstructions')}
-      </p>
-      <form
-        role="form"
-        aria-labelledby="forgot-heading"
-        onSubmit={submit}
-      >
-        {apiError && (
-          <Alert
-            severity="error"
-            data-testid="forgot-error"
-          >
-            {apiError}
-          </Alert>
-        )}
-        {success && (
-          <Alert
-            severity="success"
-            data-testid="forgot-success"
-          >
-            {t('resetSent')}
-          </Alert>
-        )}
-        <div className={s.field}>
-          <TextField
-            label={t('email')}
-            type="email"
-            value={email}
-            onChange={(e: React.ChangeEvent<
-              HTMLInputElement
-              | HTMLTextAreaElement
-            >) => setEmail(e.target.value)}
-            required
-            fullWidth
-            autoComplete="email"
-          />
-        </div>
-        <Button
-          type="submit"
-          fullWidth
-          disabled={isLoading}
-          testId="forgot-submit"
-        >
-          {isLoading
-            ? t('sending')
-            : t('resetPassword')}
-        </Button>
-        <div className={s.links}>
-          <MuiLink
-            component={Link}
-            href="/login"
-            variant="body2"
-            tabIndex={0}
-          >
-            {t('backToLogin')}
-          </MuiLink>
-        </div>
-      </form>
-    </div>
+    <SharedForm
+      email={email}
+      setEmail={setEmail}
+      isLoading={isLoading}
+      success={success}
+      apiError={apiError}
+      submit={submit}
+      testId={testId}
+      labels={{
+        resetPassword: t('resetPassword'),
+        resetInstructions: t('resetInstructions'),
+        email: t('email'),
+        sending: t('sending'),
+        resetSent: t('resetSent'),
+        backToLogin: t('backToLogin'),
+      }}
+    />
   );
 };
 

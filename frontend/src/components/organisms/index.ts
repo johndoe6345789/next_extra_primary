@@ -7,7 +7,10 @@ export { Navbar } from './Navbar';
 export type { NavbarProps } from './Navbar';
 
 export { Footer } from './Footer';
-export type { FooterProps } from './Footer';
+export type {
+  FooterProps,
+  FooterLink,
+} from '@shared/components/ui/Footer';
 
 export { LoginForm } from './LoginForm';
 export type { LoginFormProps } from './LoginForm';
@@ -18,8 +21,9 @@ export type { RegisterFormProps } from './RegisterForm';
 export { HeroSection } from './HeroSection';
 export type { HeroSectionProps } from './HeroSection';
 
-export { FeatureGrid } from './FeatureGrid';
-export type { FeatureGridProps } from './FeatureGrid';
+export { FeatureGrid } from '@shared/ui';
+export type { FeatureGridProps }
+  from '@shared/ui';
 
 export { LeaderboardTable } from './LeaderboardTable';
 export type { LeaderboardTableProps } from './LeaderboardTable';

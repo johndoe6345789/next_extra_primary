@@ -30,6 +30,8 @@
       "@shared/scss/*": ["../shared/scss/*"],
       "@shared/hooks": ["../shared/hooks/index.ts"],
       "@shared/hooks/*": ["../shared/hooks/*.ts"],
+      "@shared/ui": ["../shared/components/ui/index.ts"],
+      "@shared/ui/*": ["../shared/components/ui/*.tsx"],
       "@shared/components": ["../shared/components/index.tsx"],
       "@shared/components/*": ["../shared/components/*.tsx"],
       "@shared/redux-core": ["../shared/redux/core/src/index.ts"],

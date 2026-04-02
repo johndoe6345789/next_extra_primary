@@ -1,14 +1,10 @@
 'use client';
 
 import React from 'react';
-import Alert from '@shared/m3/Alert';
-import MuiLink from '@shared/m3/Link';
-import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
-import { Button } from '../atoms';
-import { LoginFormFields } from './LoginFormFields';
+import { LoginForm as SharedLoginForm }
+  from '@shared/ui/LoginForm';
 import { useLoginForm } from '@/hooks/useLoginForm';
-import s from '@shared/scss/modules/LoginForm.module.scss';
 
 /** Props for the LoginForm organism. */
 export interface LoginFormProps {
@@ -16,8 +12,7 @@ export interface LoginFormProps {
 }
 
 /**
- * Login card with email, password, submit,
- * forgot password and register links.
+ * Login form wired to frontend auth hook.
  *
  * @param props - Component props.
  */
@@ -31,55 +26,25 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   } = useLoginForm();
 
   return (
-    <div className={s.root} data-testid={testId}>
-        <h2 id="login-heading">
-          {t('login')}
-        </h2>
-        <form
-          role="form"
-          aria-labelledby="login-heading"
-          onSubmit={submit}
-        >
-          {apiError && (
-            <Alert severity="error" data-testid="login-error">
-              {apiError}
-            </Alert>
-          )}
-          <LoginFormFields
-            email={email}
-            pw={pw}
-            setEmail={setEmail}
-            setPw={setPw}
-            errors={errors}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            disabled={isLoading}
-            testId="login-submit"
-          >
-            {isLoading ? t('signingIn') : t('login')}
-          </Button>
-          <div className={s.links}>
-            <MuiLink
-              component={Link}
-              tabIndex={0}
-              href="/forgot-password"
-              variant="body2"
-            >
-              {t('forgotPassword')}
-            </MuiLink>
-            <MuiLink
-              component={Link}
-              tabIndex={0}
-              href="/register"
-              variant="body2"
-            >
-              {t('register')}
-            </MuiLink>
-          </div>
-        </form>
-    </div>
+    <SharedLoginForm
+      email={email}
+      setEmail={setEmail}
+      pw={pw}
+      setPw={setPw}
+      isLoading={isLoading}
+      errors={errors}
+      apiError={apiError}
+      submit={submit}
+      testId={testId}
+      labels={{
+        login: t('login'),
+        signingIn: t('signingIn'),
+        forgotPassword: t('forgotPassword'),
+        register: t('register'),
+        email: t('email'),
+        password: t('password'),
+      }}
+    />
   );
 };
 

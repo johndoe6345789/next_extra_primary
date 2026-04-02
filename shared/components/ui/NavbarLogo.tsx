@@ -1,30 +1,33 @@
 'use client';
 
 import React from 'react';
-import { Link } from '@/i18n/navigation';
-import s from '@shared/scss/modules/NavbarLogo.module.scss';
+import s from '../../scss/modules/NavbarLogo.module.scss';
 
 /** Props for NavbarLogo. */
 export interface NavbarLogoProps {
   /** Application name text. */
   label: string;
+  /** Optional href override. */
+  href?: string;
 }
 
 /**
  * Navbar brand logo linking to home.
+ * Uses a plain anchor so the consumer can wrap
+ * with a framework-specific Link if needed.
  *
  * @param props - Component props.
  */
 export const NavbarLogo: React.FC<
   NavbarLogoProps
-> = ({ label }) => (
-  <Link
-    href="/"
+> = ({ label, href = '/' }) => (
+  <a
+    href={href}
     className={s.root}
     data-testid="navbar-logo"
   >
     {label}
-  </Link>
+  </a>
 );
 
 export default NavbarLogo;

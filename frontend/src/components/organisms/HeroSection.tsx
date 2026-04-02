@@ -3,7 +3,9 @@
 import React from 'react';
 import { Box, Container, Typography } from '@shared/m3';
 import { useTranslations } from 'next-intl';
-import { HeroCta } from '../molecules';
+import {
+  HeroCta,
+} from '@shared/components/ui/HeroCta';
 import s from '@shared/scss/modules/HeroSection.module.scss';
 
 /** Props for the HeroSection organism. */
@@ -46,7 +48,10 @@ export const HeroSection: React.FC<
         >
           {t('subtitle')}
         </Typography>
-        <HeroCta />
+        <HeroCta
+          ctaLabel={t('cta')}
+          featuresLabel={t('features')}
+        />
       </Container>
     </Box>
   );

@@ -5,12 +5,13 @@ import Drawer from '@shared/m3/Drawer';
 import Box from '@shared/m3/Box';
 import List from '@shared/m3/List';
 import Divider from '@shared/m3/Divider';
-import { Link } from '@/i18n/navigation';
 import { DrawerHeader } from '../molecules/DrawerHeader';
-import { DrawerNavItem } from '../molecules/DrawerNavItem';
+import {
+  DrawerNavItem,
+} from '@shared/components/ui/DrawerNavItem';
 import { DrawerFooter } from '../molecules/DrawerFooter';
 import { DrawerToolLinks } from '../molecules/DrawerToolLinks';
-import { BurgerButton } from '../atoms/BurgerButton';
+import { BurgerButton } from '@shared/ui';
 
 /** Navigation link shape. */
 export interface NavLink {

@@ -176,6 +176,7 @@ export { useAccordion } from './useAccordion'
 export type { UseAccordionReturn } from './useAccordion'
 export { useFormField, useForm } from './useFormField'
 export type { ValidationRule, FieldConfig, UseFormFieldReturn, FormConfig, UseFormReturn } from './useFormField'
+export { useDebounce } from './useDebounce'
 export { useDebouncedSave } from './useDebouncedSave'
 export { useLastSaved } from './useLastSaved'
 

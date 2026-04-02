@@ -3,8 +3,7 @@
 import React from 'react';
 import {
   Icon,
-} from '@shared/m3/data-display/Icon';
-import { Link } from '@/i18n/navigation';
+} from '../m3/data-display/Icon';
 
 /** Icon names for known routes. */
 const ICONS: Record<string, string> = {
@@ -32,7 +31,7 @@ export interface DrawerNavItemProps {
 export const DrawerNavItem: React.FC<
   DrawerNavItemProps
 > = ({ label, href, onClick }) => (
-  <Link
+  <a
     href={href}
     onClick={onClick}
     role="menuitem"
@@ -48,7 +47,7 @@ export const DrawerNavItem: React.FC<
     <span className="list-item-text">
       {label}
     </span>
-  </Link>
+  </a>
 );
 
 export default DrawerNavItem;

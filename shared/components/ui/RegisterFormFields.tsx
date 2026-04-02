@@ -1,34 +1,30 @@
 'use client';
 
 import React from 'react';
-import { useTranslations } from 'next-intl';
-import { TextField } from '../atoms';
-import type { RegFields, CE, Errs } from './registerRules';
+import TextField from '@shared/m3/TextField';
+import type { RegisterFieldsProps }
+  from './registerFormTypes';
 
-/** Props for RegisterFormFields. */
-export interface RegisterFieldsProps {
-  f: RegFields;
-  set: (k: string) => (e: CE) => void;
-  errors: Errs;
-}
+export type {
+  RegisterFieldsProps, RegFields,
+} from './registerFormTypes';
 
 /**
- * Five registration text fields extracted
- * from RegisterForm for the 100-LOC limit.
+ * Five registration text fields.
+ *
+ * @param props - Component props.
  */
-export const RegisterFormFields: React.FC<RegisterFieldsProps> = ({
-  f,
-  set,
-  errors,
-}) => {
-  const t = useTranslations('auth');
-  const mm = f.confirmPassword.length > 0
+export const RegisterFormFields: React.FC<
+  RegisterFieldsProps
+> = ({ f, set, errors, labels }) => {
+  const mm =
+    f.confirmPassword.length > 0
     && f.password !== f.confirmPassword;
   return (
     <>
       <div className="form-field">
         <TextField
-          label={t('username')}
+          label={labels.username}
           value={f.username}
           onChange={set('username')}
           required
@@ -39,7 +35,7 @@ export const RegisterFormFields: React.FC<RegisterFieldsProps> = ({
       </div>
       <div className="form-field">
         <TextField
-          label={t('email')}
+          label={labels.email}
           value={f.email}
           onChange={set('email')}
           type="email"
@@ -51,7 +47,7 @@ export const RegisterFormFields: React.FC<RegisterFieldsProps> = ({
       </div>
       <div className="form-field">
         <TextField
-          label={t('displayName')}
+          label={labels.displayName}
           value={f.displayName}
           onChange={set('displayName')}
           required
@@ -62,7 +58,7 @@ export const RegisterFormFields: React.FC<RegisterFieldsProps> = ({
       </div>
       <div className="form-field">
         <TextField
-          label={t('password')}
+          label={labels.password}
           value={f.password}
           onChange={set('password')}
           type="password"
@@ -74,7 +70,7 @@ export const RegisterFormFields: React.FC<RegisterFieldsProps> = ({
       </div>
       <div className="form-field">
         <TextField
-          label={t('confirmPassword')}
+          label={labels.confirmPassword}
           value={f.confirmPassword}
           onChange={set('confirmPassword')}
           type="password"
@@ -82,7 +78,7 @@ export const RegisterFormFields: React.FC<RegisterFieldsProps> = ({
           error={!!errors.confirmPassword || mm}
           helperText={
             errors.confirmPassword
-              ?? (mm ? t('passwordsMustMatch') : '')
+            ?? (mm ? labels.passwordsMustMatch : '')
           }
           testId="register-confirm"
         />

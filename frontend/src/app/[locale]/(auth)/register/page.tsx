@@ -1,7 +1,6 @@
 import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
-import { AuthHero }
-  from '@/components/molecules/AuthHero';
+import { AuthHero } from '@shared/ui';
 import { RegisterForm }
   from '@/components/organisms/RegisterForm';
 import s from '@shared/scss/modules/AuthPage.module.scss';
