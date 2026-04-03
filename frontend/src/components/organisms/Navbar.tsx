@@ -7,12 +7,17 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
 import { useAuth } from '@/hooks';
 import { SkipLink } from '../molecules/SkipLink';
-import { NavbarLogo } from '@shared/components/ui/NavbarLogo';
-import { DesktopActions } from '../molecules/DesktopActions';
-import { NotificationBell } from '../molecules/NotificationBell';
+import {
+  NavbarLogo,
+} from '@shared/components/ui/NavbarLogo';
+import {
+  DesktopActions,
+} from '../molecules/DesktopActions';
+import {
+  NotificationBell,
+} from '../molecules/NotificationBell';
 import { AvatarMenu } from './AvatarMenu';
 import { MobileDrawer } from './MobileDrawer';
-import { NavLinks } from './NavLinks';
 
 /** Props for the Navbar organism. */
 export interface NavbarProps {
@@ -22,12 +27,14 @@ export interface NavbarProps {
 }
 
 /**
- * Responsive app bar. Desktop: all controls visible.
- * Mobile: burger menu + bell + avatar only.
+ * App bar: burger, logo, spacer, actions.
+ * Nav links live in the drawer only.
  *
  * @param props - Component props.
  */
-export const Navbar: React.FC<NavbarProps> = ({
+export const Navbar: React.FC<
+  NavbarProps
+> = ({
   onNotificationClick,
   onSearch,
   testId = 'navbar',
@@ -37,21 +44,29 @@ export const Navbar: React.FC<NavbarProps> = ({
   const tCommon = useTranslations('common');
   const tNav = useTranslations('nav');
   const tA11y = useTranslations('a11y');
-  const TOP_LINKS = [
-    { label: tNav('dashboard'), href: '/dashboard' },
-    { label: tNav('leaderboard'), href: '/leaderboard' },
-    { label: tNav('chat'), href: '/chat' },
+
+  const LINKS = [
+    { label: tNav('dashboard'),
+      href: '/dashboard' },
+    { label: tNav('leaderboard'),
+      href: '/leaderboard' },
+    { label: tNav('chat'),
+      href: '/chat' },
+    { label: tNav('notifications'),
+      href: '/notifications' },
+    { label: tNav('profile'),
+      href: '/profile' },
+    { label: tNav('about'),
+      href: '/about' },
+    { label: tNav('contact'),
+      href: '/contact' },
   ];
-  const ALL_LINKS = [
-    ...TOP_LINKS,
-    { label: tNav('notifications'), href: '/notifications' },
-    { label: tNav('profile'), href: '/profile' },
-    { label: tNav('about'), href: '/about' },
-    { label: tNav('contact'), href: '/contact' },
-  ];
+
   return (
     <>
-      <SkipLink label={tA11y('skipToContent')} />
+      <SkipLink
+        label={tA11y('skipToContent')}
+      />
       <AppBar
         position="sticky"
         role="navigation"
@@ -59,16 +74,24 @@ export const Navbar: React.FC<NavbarProps> = ({
         data-testid={testId}
       >
         <Toolbar>
-          <MobileDrawer links={ALL_LINKS} />
-          <NavbarLogo label={tCommon('appName')} />
-          <NavLinks links={TOP_LINKS} />
+          <MobileDrawer links={LINKS} />
+          <NavbarLogo
+            label={tCommon('appName')}
+          />
           <div className="spacer" />
           <DesktopActions
-            onSearch={onSearch ?? (() => {})}
+            onSearch={
+              onSearch ?? (() => {})
+            }
           />
           <NotificationBell
-            onClick={onNotificationClick
-              ?? (() => router.push('/notifications'))}
+            onClick={
+              onNotificationClick
+              ?? (() =>
+                router.push(
+                  '/notifications',
+                ))
+            }
           />
           <AvatarMenu
             user={user}
