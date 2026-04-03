@@ -3,16 +3,54 @@
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
+  margin-top: 0.5rem;
 
-  // Primary CTA — white filled button
+  // Primary CTA
   a [class*="button"],
-  a [class*="btn"] {
+  a [class*="btn"],
+  a button {
     background: #fff;
     color: #6750a4;
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 14px 36px;
+    border-radius: 100px;
+    letter-spacing: 0.02em;
+    box-shadow:
+      0 4px 14px rgba(0, 0, 0, 0.2);
+    transition:
+      transform 200ms ease,
+      box-shadow 200ms ease;
 
     &:hover {
-      background: #f0ecf8;
+      background: #f5f0ff;
+      transform: translateY(-2px);
+      box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  // Secondary CTA
+  > [class*="button"],
+  > [class*="btn"],
+  > button {
+    font-weight: 600;
+    font-size: 16px;
+    padding: 13px 36px;
+    border: 2px solid
+      rgba(255, 255, 255, 0.7);
+    border-radius: 100px;
+    color: #fff;
+    background: transparent;
+    letter-spacing: 0.02em;
+    transition:
+      background 200ms ease,
+      border-color 200ms ease;
+
+    &:hover {
+      background:
+        rgba(255, 255, 255, 0.12);
+      border-color: #fff;
     }
   }
 }
