@@ -59,3 +59,6 @@ export type { ForgotPasswordFormProps }
 
 export { SearchBar } from './SearchBar';
 export type { SearchBarProps } from './SearchBar';
+
+export { LinkProvider, useLink } from './LinkContext';
+export type { LinkComponent } from './LinkContext';

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Button } from '../m3';
+import { useLink } from './LinkContext';
 import s from '../../scss/modules/HeroCta.module.scss';
 
 /** Props for HeroCta. */
@@ -26,6 +27,7 @@ export const HeroCta: React.FC<HeroCtaProps> = ({
   featuresLabel,
   registerHref = '/register',
 }) => {
+  const Link = useLink();
   const scrollToFeatures = () => {
     document
       .getElementById('feature-grid')
@@ -37,10 +39,7 @@ export const HeroCta: React.FC<HeroCtaProps> = ({
       className={s.root}
       data-testid="hero-cta-group"
     >
-      <a
-        href={registerHref}
-        style={{ textDecoration: 'none' }}
-      >
+      <Link href={registerHref}>
         <Button
           size="large"
           data-testid="hero-cta-start"
@@ -48,7 +47,7 @@ export const HeroCta: React.FC<HeroCtaProps> = ({
         >
           {ctaLabel}
         </Button>
-      </a>
+      </Link>
       <Button
         variant="outlined"
         size="large"

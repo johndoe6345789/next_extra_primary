@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useLink } from './LinkContext';
 import s from '../../scss/modules/NavbarLogo.module.scss';
 
 /** Props for NavbarLogo. */
@@ -20,14 +21,17 @@ export interface NavbarLogoProps {
  */
 export const NavbarLogo: React.FC<
   NavbarLogoProps
-> = ({ label, href = '/' }) => (
-  <a
-    href={href}
-    className={s.root}
-    data-testid="navbar-logo"
-  >
-    {label}
-  </a>
-);
+> = ({ label, href = '/' }) => {
+  const Link = useLink();
+  return (
+    <Link
+      href={href}
+      className={s.root}
+      data-testid="navbar-logo"
+    >
+      {label}
+    </Link>
+  );
+};
 
 export default NavbarLogo;

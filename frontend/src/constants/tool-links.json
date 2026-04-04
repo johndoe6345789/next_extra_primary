@@ -1,22 +1,22 @@
 [
   {
     "labelKey": "webmail",
-    "url": "http://localhost:8025",
+    "url": "/emailclient",
     "icon": "Email"
   },
   {
     "labelKey": "pgadmin",
-    "url": "http://localhost:3002",
+    "url": "/db",
     "icon": "Storage"
   },
   {
     "labelKey": "packageRepo",
-    "url": "http://localhost:5051",
+    "url": "/repo",
     "icon": "Inventory"
   },
   {
     "labelKey": "s3server",
-    "url": "http://localhost:3001",
+    "url": "/s3",
     "icon": "CloudQueue"
   }
 ]

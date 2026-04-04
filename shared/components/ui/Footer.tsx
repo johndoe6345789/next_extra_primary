@@ -1,10 +1,8 @@
 'use client';
 
 import React from 'react';
-import {
-  Typography,
-  Link as MuiLink,
-} from '../m3';
+import { Typography } from '../m3';
+import { useLink } from './LinkContext';
 import s from '../../scss/modules/Footer.module.scss';
 
 /** A single footer navigation link. */
@@ -38,7 +36,9 @@ export const Footer: React.FC<FooterProps> = ({
   appName,
   links,
   testId = 'footer',
-}) => (
+}) => {
+  const Link = useLink();
+  return (
   <footer
     className={s.root}
     role="contentinfo"
@@ -54,19 +54,18 @@ export const Footer: React.FC<FooterProps> = ({
       </Typography>
       <nav aria-label="Footer navigation">
         {links.map((l) => (
-          <MuiLink
+          <Link
             key={l.href}
-            component="a"
             href={l.href}
-            tabIndex={0}
             data-testid={l.testId}
           >
             {l.label}
-          </MuiLink>
+          </Link>
         ))}
       </nav>
     </div>
   </footer>
-);
+  );
+};
 
 export default Footer;

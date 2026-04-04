@@ -4,6 +4,7 @@ import { IntlProvider } from '@/components/providers/IntlProvider';
 import { AuthGate } from '@/components/providers/AuthGate';
 import { Navbar } from '@/components/organisms/Navbar';
 import { Footer } from '@/components/organisms/Footer';
+import { LinkAdapter } from '@/components/providers/LinkAdapter';
 
 /** All locale pages are dynamic (auth + Redux store). */
 export const dynamic = 'force-dynamic';
@@ -56,9 +57,11 @@ export default async function LocaleLayout({
 
   return (
     <IntlProvider locale={locale} messages={messages}>
-      <Navbar />
-      <AuthGate>{children}</AuthGate>
-      <Footer />
+      <LinkAdapter>
+        <Navbar />
+        <AuthGate>{children}</AuthGate>
+        <Footer />
+      </LinkAdapter>
     </IntlProvider>
   );
 }
