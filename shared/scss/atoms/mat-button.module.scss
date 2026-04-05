@@ -244,6 +244,13 @@ $fallbacks: m3-button.get-tokens();
     height: auto;
     border-radius: 12px;
     letter-spacing: 0.01em;
+    overflow: visible;
+
+    // Reset inner spans
+    > span {
+      background: transparent;
+      opacity: 1;
+    }
   }
 
   &:hover,
@@ -256,6 +263,14 @@ $fallbacks: m3-button.get-tokens();
 
   .mdc-button__label {
     color: #fff;
+  }
+
+  // Hide M3 state/ripple overlays
+  &::before,
+  .mat-mdc-button-ripple,
+  .mat-mdc-button-persistent-ripple,
+  .mat-focus-indicator {
+    display: none;
   }
 }
 
