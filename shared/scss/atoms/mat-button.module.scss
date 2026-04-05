@@ -229,15 +229,33 @@ $fallbacks: m3-button.get-tokens();
 .mat-warn {}
 
 .mat-on-primary {
-  color: #fff;
-  border-color: #fff;
-  background:
-    rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(4px);
+  &,
+  &.mat-mdc-outlined-button,
+  &.mat-mdc-button-base {
+    color: #fff;
+    border-color: #fff;
+    border-width: 2px;
+    background:
+      rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+    padding: 14px 38px;
+    font-size: 17px;
+    font-weight: 700;
+    height: auto;
+    border-radius: 12px;
+    letter-spacing: 0.01em;
+  }
 
-  &:hover {
+  &:hover,
+  &.mat-mdc-outlined-button:hover {
     background:
       rgba(255, 255, 255, 0.2);
+    border-color: #fff;
+    transform: translateY(-2px);
+  }
+
+  .mdc-button__label {
+    color: #fff;
   }
 }
 
