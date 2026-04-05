@@ -40,3 +40,28 @@
     }
   }
 }
+
+.locale {
+  border-radius:
+    var(--mat-sys-corner-full);
+  border: 1px solid
+    var(--mat-sys-outline-variant);
+  background: color-mix(
+    in srgb,
+    var(--mat-sys-on-surface) 4%,
+    transparent
+  );
+  height: 32px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 0 4px;
+
+  // Hide inner borders from M3 Select
+  * {
+    border: none;
+    outline: none;
+    background: transparent;
+    min-height: unset;
+  }
+}

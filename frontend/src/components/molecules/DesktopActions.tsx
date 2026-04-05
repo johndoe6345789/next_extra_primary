@@ -28,7 +28,9 @@ export const DesktopActions: React.FC<
       <SearchBar compact onSearch={onSearch} />
     </div>
     <ThemeToggle />
-    <LocaleSwitcher />
+    <div className={s.locale}>
+      <LocaleSwitcher />
+    </div>
   </div>
 );
 
