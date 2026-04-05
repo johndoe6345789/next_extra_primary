@@ -57,8 +57,9 @@
   overflow: hidden;
   padding: 0 4px;
 
-  // Hide inner borders from M3 Select
-  * {
+  // Reset M3 Select trigger — scope to trigger only, not the open panel
+  [role='combobox'],
+  [role='combobox'] * {
     border: none;
     outline: none;
     background: transparent;
