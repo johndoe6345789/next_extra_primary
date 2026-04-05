@@ -33,7 +33,7 @@
       "@shared/ui": ["../shared/components/ui/index.ts"],
       "@shared/ui/*": ["../shared/components/ui/*.tsx"],
       "@shared/components": ["../shared/components/index.tsx"],
-      "@shared/components/*": ["../shared/components/*.tsx"],
+      "@shared/components/*": ["../shared/components/*", "../shared/components/*.tsx"],
       "@shared/redux-core": ["../shared/redux/core/src/index.ts"],
       "@shared/redux-core/*": ["../shared/redux/core/src/*.ts"],
       "@shared/redux-slices": ["../shared/redux/slices/src/index.ts"],

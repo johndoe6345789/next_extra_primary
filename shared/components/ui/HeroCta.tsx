@@ -3,35 +3,39 @@
 import React from 'react';
 import { Button } from '../m3';
 import { useLink } from './LinkContext';
-import s from '../../scss/modules/HeroCta.module.scss';
+import s from
+  '../../scss/modules/HeroCta.module.scss';
 
 /** Props for HeroCta. */
 export interface HeroCtaProps {
-  /** Label for the primary CTA button. */
+  /** Label for the primary CTA. */
   ctaLabel: string;
-  /** Label for the secondary features button. */
+  /** Label for the secondary CTA. */
   featuresLabel: string;
-  /** Href for the register/signup link. */
+  /** Href for signup. */
   registerHref?: string;
 }
 
 /**
- * CTA button pair for the hero section.
- * "Get started" links to signup; "Explore features"
- * scrolls to the feature grid.
+ * Hero CTA buttons.
  *
  * @param props - Component props.
  */
-export const HeroCta: React.FC<HeroCtaProps> = ({
+export const HeroCta: React.FC<
+  HeroCtaProps
+> = ({
   ctaLabel,
   featuresLabel,
   registerHref = '/register',
 }) => {
   const Link = useLink();
-  const scrollToFeatures = () => {
+
+  const scroll = () => {
     document
       .getElementById('feature-grid')
-      ?.scrollIntoView({ behavior: 'smooth' });
+      ?.scrollIntoView({
+        behavior: 'smooth',
+      });
   };
 
   return (
@@ -39,20 +43,18 @@ export const HeroCta: React.FC<HeroCtaProps> = ({
       className={s.root}
       data-testid="hero-cta-group"
     >
-      <Link href={registerHref}>
-        <Button
-          size="large"
-          data-testid="hero-cta-start"
-          aria-label={ctaLabel}
-        >
-          {ctaLabel}
-        </Button>
+      <Link
+        href={registerHref}
+        className={s.primary}
+        data-testid="hero-cta-start"
+      >
+        {ctaLabel}
       </Link>
       <Button
         variant="outlined"
         size="large"
-        className="btn--on-primary"
-        onClick={scrollToFeatures}
+        className={s.secondary}
+        onClick={scroll}
         data-testid="hero-cta-learn"
         aria-label={featuresLabel}
       >
