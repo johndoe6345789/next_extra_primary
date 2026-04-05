@@ -1,0 +1,273 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "frontend-ui",
+  "description": "Frontend UI polish and interaction tests",
+  "tests": [
+    {
+      "name": "landing page renders hero",
+      "tags": ["@smoke", "@landing"],
+      "steps": [
+        { "action": "navigate",
+          "url": "/app/en" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "expect",
+          "testId": "hero-cta-start",
+          "assertion": {
+            "matcher": "toBeVisible"
+          }
+        },
+        { "action": "expect",
+          "testId": "hero-cta-learn",
+          "assertion": {
+            "matcher": "toBeVisible"
+          }
+        }
+      ]
+    },
+    {
+      "name": "feature grid shows 6 cards",
+      "tags": ["@smoke", "@landing"],
+      "steps": [
+        { "action": "navigate",
+          "url": "/app/en" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "expect",
+          "testId": "feature-grid",
+          "assertion": {
+            "matcher": "toBeVisible"
+          }
+        },
+        { "action": "expect",
+          "selector": "[role='listitem']",
+          "assertion": {
+            "matcher": "toHaveCount",
+            "count": 6
+          }
+        }
+      ]
+    },
+    {
+      "name": "burger opens drawer",
+      "tags": ["@smoke", "@nav"],
+      "steps": [
+        { "action": "navigate",
+          "url": "/app/en" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "click",
+          "testId": "navbar-hamburger" },
+        { "action": "expect",
+          "testId": "navbar-drawer",
+          "assertion": {
+            "matcher": "toBeVisible"
+          }
+        }
+      ]
+    },
+    {
+      "name": "drawer links navigate",
+      "tags": ["@nav"],
+      "steps": [
+        { "action": "navigate",
+          "url": "/app/en" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "click",
+          "testId": "navbar-hamburger" },
+        { "action": "click",
+          "role": "menuitem",
+          "text": "About" },
+        { "action": "waitForLoadState",
+          "state": "networkidle" },
+        { "action": "expect",
+          "selector": "body",
+          "assertion": {
+            "matcher": "toHaveURL",
+            "url": "/app/en/about"
+          }
+        }
+      ]
+    },
+    {
+      "name": "get started navigates to register",
+      "tags": ["@smoke", "@nav"],
+      "steps": [
+        { "action": "navigate",
+          "url": "/app/en" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "click",
+          "testId": "hero-cta-start" },
+        { "action": "waitForLoadState",
+          "state": "networkidle" },
+        { "action": "expect",
+          "selector": "body",
+          "assertion": {
+            "matcher": "toHaveURL",
+            "url": "/app/en/register"
+          }
+        }
+      ]
+    },
+    {
+      "name": "explore features scrolls to grid",
+      "tags": ["@landing"],
+      "steps": [
+        { "action": "navigate",
+          "url": "/app/en" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "click",
+          "testId": "hero-cta-learn" },
+        { "action": "expect",
+          "testId": "feature-grid",
+          "assertion": {
+            "matcher": "toBeInViewport"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher changes language",
+      "tags": ["@smoke", "@i18n"],
+      "steps": [
+        { "action": "navigate",
+          "url": "/app/en" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "click",
+          "testId": "locale-switcher" },
+        { "action": "click",
+          "testId": "locale-switcher-es" },
+        { "action": "waitForLoadState",
+          "state": "networkidle" },
+        { "action": "expect",
+          "selector": "body",
+          "assertion": {
+            "matcher": "toHaveURL",
+            "url": "/app/es"
+          }
+        }
+      ]
+    },
+    {
+      "name": "login page renders 2-pane",
+      "tags": ["@smoke", "@auth"],
+      "steps": [
+        { "action": "navigate",
+          "url": "/app/en/login" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "expect",
+          "role": "heading",
+          "text": "Sign In",
+          "assertion": {
+            "matcher": "toBeVisible"
+          }
+        },
+        { "action": "expect",
+          "role": "textbox",
+          "text": "Email",
+          "assertion": {
+            "matcher": "toBeVisible"
+          }
+        }
+      ]
+    },
+    {
+      "name": "login links work",
+      "tags": ["@auth"],
+      "steps": [
+        { "action": "navigate",
+          "url": "/app/en/login" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "click",
+          "role": "link",
+          "text": "Create Account" },
+        { "action": "waitForLoadState",
+          "state": "networkidle" },
+        { "action": "expect",
+          "selector": "body",
+          "assertion": {
+            "matcher": "toHaveURL",
+            "url": "/app/en/register"
+          }
+        }
+      ]
+    },
+    {
+      "name": "about page renders content",
+      "tags": ["@smoke", "@content"],
+      "steps": [
+        { "action": "navigate",
+          "url": "/app/en/about" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "expect",
+          "role": "heading",
+          "text": "About",
+          "assertion": {
+            "matcher": "toBeVisible"
+          }
+        },
+        { "action": "expect",
+          "role": "heading",
+          "text": "Our Mission",
+          "assertion": {
+            "matcher": "toBeVisible"
+          }
+        }
+      ]
+    },
+    {
+      "name": "contact page has form",
+      "tags": ["@smoke", "@content"],
+      "steps": [
+        { "action": "navigate",
+          "url": "/app/en/contact" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "expect",
+          "role": "heading",
+          "text": "Contact",
+          "assertion": {
+            "matcher": "toBeVisible"
+          }
+        },
+        { "action": "expect",
+          "role": "textbox",
+          "text": "Name",
+          "assertion": {
+            "matcher": "toBeVisible"
+          }
+        }
+      ]
+    },
+    {
+      "name": "footer shows links",
+      "tags": ["@smoke"],
+      "steps": [
+        { "action": "navigate",
+          "url": "/app/en/about" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "expect",
+          "role": "contentinfo",
+          "assertion": {
+            "matcher": "toBeVisible"
+          }
+        },
+        { "action": "expect",
+          "role": "link",
+          "text": "About",
+          "assertion": {
+            "matcher": "toBeVisible"
+          }
+        }
+      ]
+    }
+  ]
+}

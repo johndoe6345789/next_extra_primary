@@ -14,7 +14,10 @@ const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000/workfl
 
 export default defineConfig({
   testDir: './',
-  testMatch: '**/*.spec.ts',
+  testMatch: [
+    '*.spec.ts',
+    'packages/*/playwright/*.spec.ts',
+  ],
   globalSetup: './global.setup.ts',
   globalTeardown: './global.teardown.ts',
   fullyParallel: true,

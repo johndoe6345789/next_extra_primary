@@ -9,12 +9,12 @@ import type { JsonMockPackage, TemplateVariables } from './schema'
 import { processTemplates } from './schema'
 
 // Import all JSON mock files (Vite handles JSON imports natively)
-import dashboardMock from './data/dashboard.json'
-import dataTableMock from './data/data_table.json'
-import navMenuMock from './data/nav_menu.json'
-import uiLevel4Mock from './data/ui_level4.json'
-import uiLoginMock from './data/ui_login.json'
-import userManagerMock from './data/user_manager.json'
+import dashboardMock from '../../../../packages/storybook-mock-dashboard/dashboard.json'
+import dataTableMock from '../../../../packages/storybook-mock-data-table/data_table.json'
+import navMenuMock from '../../../../packages/storybook-mock-nav-menu/nav_menu.json'
+import uiLevel4Mock from '../../../../packages/storybook-mock-ui-level4/ui_level4.json'
+import uiLoginMock from '../../../../packages/storybook-mock-ui-login/ui_login.json'
+import userManagerMock from '../../../../packages/storybook-mock-user-manager/user_manager.json'
 
 export interface RenderContext {
   user?: {
