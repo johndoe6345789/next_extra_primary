@@ -227,6 +227,20 @@ $fallbacks: m3-button.get-tokens();
 .mat-primary {}
 .mat-accent {}
 .mat-warn {}
+
+.mat-on-primary {
+  color: #fff;
+  border-color: #fff;
+  background:
+    rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+
+  &:hover {
+    background:
+      rgba(255, 255, 255, 0.2);
+  }
+}
+
 .mat-mdc-button-disabled {}
 
 // ─── Ripple/touch/focus children ────────────────────────────────

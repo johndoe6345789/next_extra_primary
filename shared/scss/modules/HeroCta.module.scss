@@ -40,14 +40,15 @@
 }
 
 .secondary {
-  background: transparent;
+  background:
+    rgba(255, 255, 255, 0.1);
   color: #fff;
-  border: 2px solid
-    rgba(255, 255, 255, 0.6);
+  border: 2px solid #fff;
+  backdrop-filter: blur(4px);
 
   &:hover {
-    border-color: #fff;
     background:
-      rgba(255, 255, 255, 0.1);
+      rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
   }
 }

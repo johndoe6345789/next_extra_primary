@@ -53,7 +53,7 @@ export const HeroCta: React.FC<
       <Button
         variant="outlined"
         size="large"
-        className={s.secondary}
+        color="onPrimary"
         onClick={scroll}
         data-testid="hero-cta-learn"
         aria-label={featuresLabel}

@@ -26,7 +26,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   /** Button size */
   size?: ButtonSize
   /** MUI-style color prop */
-  color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success' | 'inherit'
+  color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success' | 'inherit' | 'onPrimary'
   /** @deprecated Use variant="filled" instead */
   primary?: boolean
   /** @deprecated Use variant="tonal" instead */
@@ -105,8 +105,12 @@ const getButtonClass = (props: ButtonProps): string => {
 const getColorClass = (props: ButtonProps): string => {
   const { variant, color } = props
 
-  if (variant === 'danger' || color === 'error') return 'mat-warn'
-  if (color === 'secondary') return 'mat-accent'
+  if (variant === 'danger' || color === 'error')
+    return 'mat-warn'
+  if (color === 'secondary')
+    return 'mat-accent'
+  if (color === 'onPrimary')
+    return 'mat-on-primary'
   return 'mat-primary'
 }
 
