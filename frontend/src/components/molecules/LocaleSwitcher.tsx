@@ -54,7 +54,7 @@ export const LocaleSwitcher: React.FC<LocaleSwitcherProps> = ({
       size="small"
       aria-label="Select language"
       data-testid={testId}
-      sx={{ minWidth: 64 }}
+      style={{ minWidth: '64px' }}
     >
       {locales.map((loc) => (
         <MenuItem key={loc} value={loc} data-testid={`${testId}-${loc}`}>

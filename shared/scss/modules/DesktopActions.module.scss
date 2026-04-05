@@ -1,23 +1,19 @@
 .root {
-  display: none;
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
   margin-left: auto;
-
-  @media (min-width: 900px) {
-    display: flex;
-  }
 }
 
 .search {
-  max-width: 200px;
-  min-width: 140px;
+  max-width: 160px;
+  min-width: 100px;
   overflow: hidden;
 
   label { display: none; }
 
   input {
-    padding: 8px 14px;
+    padding: 6px 12px;
     font-size: 13px;
     border-radius:
       var(--mat-sys-corner-full);
@@ -28,7 +24,8 @@
       var(--mat-sys-on-surface) 4%,
       transparent
     );
-    height: 36px;
+    height: 32px;
+    width: 100%;
 
     &::placeholder {
       color:

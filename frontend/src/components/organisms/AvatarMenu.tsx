@@ -35,8 +35,12 @@ export const AvatarMenu: React.FC<AvatarMenuProps> = ({
       <Avatar
         alt={user?.displayName ?? 'User'}
         src={user?.avatarUrl}
+        fallbackText={
+          user?.displayName?.[0] ?? '?'
+        }
         size="sm"
-        onClick={(e) => setEl(e.currentTarget)}
+        onClick={(e) =>
+          setEl(e.currentTarget)}
         testId="navbar-avatar"
       />
       <Menu

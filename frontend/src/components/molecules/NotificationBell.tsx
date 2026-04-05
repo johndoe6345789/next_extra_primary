@@ -38,12 +38,21 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
 
   return (
     <div data-testid={testId}>
-      <Badge
-        content={unreadCount}
-        color="error"
-        invisible={unreadCount === 0}
-        testId={`${testId}-badge`}
-      >
+      {unreadCount > 0 ? (
+        <Badge
+          content={unreadCount}
+          color="error"
+          testId={`${testId}-badge`}
+        >
+          <IconButton
+            icon={<NotificationsIcon />}
+            ariaLabel={label}
+            onClick={onClick}
+            tooltip="Notifications (⌘⇧N)"
+            testId={`${testId}-button`}
+          />
+        </Badge>
+      ) : (
         <IconButton
           icon={<NotificationsIcon />}
           ariaLabel={label}
@@ -51,7 +60,7 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
           tooltip="Notifications (⌘⇧N)"
           testId={`${testId}-button`}
         />
-      </Badge>
+      )}
     </div>
   );
 };
