@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import NextLink from 'next/link';
 import Alert from '@shared/m3/Alert';
 import MuiLink from '@shared/m3/Link';
 import { Button } from '@shared/m3/Button';
@@ -52,6 +53,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
       <div className={s.links}>
         <MuiLink
           tabIndex={0}
+          component={NextLink}
           href={
             links?.forgotPassword
             ?? '/forgot-password'
@@ -62,6 +64,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         </MuiLink>
         <MuiLink
           tabIndex={0}
+          component={NextLink}
           href={links?.register ?? '/register'}
           variant="body2"
         >

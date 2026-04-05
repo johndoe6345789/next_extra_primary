@@ -1,0 +1,13 @@
+{
+  "name": "e2e",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:frontend-ui": "playwright test tests.spec.ts --grep \"frontend-ui\""
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}
