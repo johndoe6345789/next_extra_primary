@@ -153,6 +153,101 @@
       ]
     },
     {
+      "name": "locale switcher pill shape in light mode",
+      "tags": ["@i18n", "@style"],
+      "steps": [
+        { "action": "navigate",
+          "url": "/app/en" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "expect",
+          "testId": "locale-switcher",
+          "assertion": {
+            "matcher": "toHaveCSS",
+            "property": "border-radius",
+            "value": "4px"
+          }
+        },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']",
+          "assertion": {
+            "matcher": "toHaveCSS",
+            "property": "border-radius",
+            "value": "4px"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher trigger has correct padding",
+      "tags": ["@i18n", "@style"],
+      "steps": [
+        { "action": "navigate",
+          "url": "/app/en" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']",
+          "assertion": {
+            "matcher": "toHaveCSS",
+            "property": "padding-top",
+            "value": "4px"
+          }
+        },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']",
+          "assertion": {
+            "matcher": "toHaveCSS",
+            "property": "padding-bottom",
+            "value": "4px"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher has visible border in light mode",
+      "tags": ["@i18n", "@style"],
+      "steps": [
+        { "action": "navigate",
+          "url": "/app/en" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']",
+          "assertion": {
+            "matcher": "toHaveCSS",
+            "property": "border-style",
+            "value": "solid"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher dark mode text is readable",
+      "tags": ["@i18n", "@style", "@dark"],
+      "steps": [
+        { "action": "navigate",
+          "url": "/app/en" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "evaluate",
+          "script": "document.documentElement.setAttribute('data-theme', 'dark')" },
+        { "action": "expect",
+          "testId": "locale-switcher",
+          "assertion": {
+            "matcher": "toBeVisible"
+          }
+        },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']",
+          "assertion": {
+            "matcher": "custom",
+            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-switcher'] [role='combobox']\"); const color = window.getComputedStyle(el).color; return color !== 'rgba(0, 0, 0, 0)' && color !== ''; })()"
+          }
+        }
+      ]
+    },
+    {
       "name": "login page renders 2-pane",
       "tags": ["@smoke", "@auth"],
       "steps": [

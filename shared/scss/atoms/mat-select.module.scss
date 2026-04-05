@@ -188,6 +188,8 @@ $select-placeholder-arrow-space: 2 * ($select-arrow-size + $select-arrow-margin)
 
 // React-specific variant wrappers
 .outlined {
+  border-radius: var(--mat-sys-corner-extra-small, 4px);
+
   .trigger {
     border: 1px solid var(--mat-sys-outline, rgba(0, 0, 0, 0.38));
     border-radius: var(--mat-sys-corner-extra-small, 4px);
