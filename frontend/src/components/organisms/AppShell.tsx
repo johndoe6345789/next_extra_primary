@@ -4,21 +4,24 @@ import React from 'react';
 import {
   DrawerProvider,
   useDrawer,
+  DRAWER_WIDTH,
 } from '@shared/components/ui/DrawerContext';
-import s from
-  '@shared/scss/modules/AppShell.module.scss';
 
-/** Wrapper that shifts when drawer opens. */
+/** Content area that shifts with drawer. */
 export const ShiftContent: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const { open } = useDrawer();
   return (
     <div
-      className={[
-        s.content,
-        open ? s.contentShifted : '',
-      ].join(' ')}
+      style={{
+        marginLeft: open
+          ? `${DRAWER_WIDTH}px`
+          : '0',
+        transition:
+          'margin-left 300ms '
+          + 'cubic-bezier(0.4,0,0.2,1)',
+      }}
     >
       {children}
     </div>

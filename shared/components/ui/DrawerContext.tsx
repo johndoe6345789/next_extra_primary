@@ -45,3 +45,6 @@ export const DrawerProvider: React.FC<{
 /** Hook to access drawer state. */
 export const useDrawer = () =>
   useContext(Ctx);
+
+/** Drawer width in pixels. */
+export const DRAWER_WIDTH = 256;

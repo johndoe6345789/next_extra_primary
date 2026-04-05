@@ -6,6 +6,7 @@ import List from '@shared/m3/List';
 import Divider from '@shared/m3/Divider';
 import {
   useDrawer,
+  DRAWER_WIDTH,
 } from '@shared/components/ui/DrawerContext';
 import { DrawerHeader } from
   '../molecules/DrawerHeader';
@@ -51,8 +52,8 @@ export const MobileDrawer: React.FC<
         onClose={close}
         data-testid="navbar-drawer"
         PaperProps={{
-          sx: {
-            width: 280,
+          style: {
+            width: `${DRAWER_WIDTH}px`,
             borderRadius:
               '0 16px 16px 0',
           },
