@@ -1,0 +1,10 @@
+.root {
+  transition:
+    transform 300ms
+    cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 100vh;
+}
+
+.shifted {
+  transform: translateX(280px);
+}

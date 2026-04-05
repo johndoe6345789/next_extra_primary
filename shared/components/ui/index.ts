@@ -62,3 +62,5 @@ export type { SearchBarProps } from './SearchBar';
 
 export { LinkProvider, useLink } from './LinkContext';
 export type { LinkComponent } from './LinkContext';
+
+export { DrawerProvider, useDrawer } from './DrawerContext';

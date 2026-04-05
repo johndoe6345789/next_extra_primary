@@ -4,9 +4,12 @@ import { IntlProvider } from '@/components/providers/IntlProvider';
 import { AuthGate } from '@/components/providers/AuthGate';
 import { Navbar } from '@/components/organisms/Navbar';
 import { Footer } from '@/components/organisms/Footer';
-import { LinkAdapter } from '@/components/providers/LinkAdapter';
+import { LinkAdapter } from
+  '@/components/providers/LinkAdapter';
+import { AppShell } from
+  '@/components/organisms/AppShell';
 
-/** All locale pages are dynamic (auth + Redux store). */
+/** All locale pages are dynamic. */
 export const dynamic = 'force-dynamic';
 
 /** Supported application locales. */
@@ -58,9 +61,11 @@ export default async function LocaleLayout({
   return (
     <IntlProvider locale={locale} messages={messages}>
       <LinkAdapter>
-        <Navbar />
-        <AuthGate>{children}</AuthGate>
-        <Footer />
+        <AppShell>
+          <Navbar />
+          <AuthGate>{children}</AuthGate>
+          <Footer />
+        </AppShell>
       </LinkAdapter>
     </IntlProvider>
   );
