@@ -6,8 +6,10 @@ import { Navbar } from '@/components/organisms/Navbar';
 import { Footer } from '@/components/organisms/Footer';
 import { LinkAdapter } from
   '@/components/providers/LinkAdapter';
-import { AppShell } from
-  '@/components/organisms/AppShell';
+import {
+  AppShell,
+  ShiftContent,
+} from '@/components/organisms/AppShell';
 
 /** All locale pages are dynamic. */
 export const dynamic = 'force-dynamic';
@@ -63,8 +65,12 @@ export default async function LocaleLayout({
       <LinkAdapter>
         <AppShell>
           <Navbar />
-          <AuthGate>{children}</AuthGate>
-          <Footer />
+          <ShiftContent>
+            <AuthGate>
+              {children}
+            </AuthGate>
+            <Footer />
+          </ShiftContent>
         </AppShell>
       </LinkAdapter>
     </IntlProvider>

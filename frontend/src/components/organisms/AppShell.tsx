@@ -8,16 +8,16 @@ import {
 import s from
   '@shared/scss/modules/AppShell.module.scss';
 
-/** Inner shell that reads drawer state. */
-const ShellInner: React.FC<{
+/** Wrapper that shifts when drawer opens. */
+export const ShiftContent: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const { open } = useDrawer();
   return (
     <div
       className={[
-        s.root,
-        open ? s.shifted : '',
+        s.content,
+        open ? s.contentShifted : '',
       ].join(' ')}
     >
       {children}
@@ -26,14 +26,14 @@ const ShellInner: React.FC<{
 };
 
 /**
- * App shell with drawer push effect.
- * Wraps entire page content.
+ * App shell — provides DrawerProvider.
+ * Navbar sits outside ShiftContent.
  */
 export const AppShell: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => (
   <DrawerProvider>
-    <ShellInner>{children}</ShellInner>
+    {children}
   </DrawerProvider>
 );
 
