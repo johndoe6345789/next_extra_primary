@@ -100,8 +100,13 @@ export const TextField = forwardRef<HTMLInputElement | HTMLDivElement, TextField
             error={error}
             data-testid={accessible['data-testid']}
             aria-invalid={error}
-            aria-describedby={helperText ? helperTextId : undefined}
+            aria-describedby={
+              helperText
+                ? helperTextId
+                : undefined
+            }
             {...props}
+            {...inputProps}
             size={inputSize}
           />
         )}

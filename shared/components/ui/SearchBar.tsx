@@ -61,14 +61,13 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   return (
     <div data-testid={testId} onKeyDown={onKeyDown}>
       <TextField
-        label={placeholder}
+        placeholder={placeholder}
         value={query}
         onChange={handleChange}
         size={compact ? 'small' : undefined}
         testId={`${testId}-input`}
         inputProps={{
           'aria-label': 'Search',
-          role: 'searchbox',
         }}
       />
     </div>
