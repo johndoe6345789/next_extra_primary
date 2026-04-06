@@ -13,8 +13,13 @@ import type { RootState } from '../store';
 import { clearCredentials, setCredentials } from '../slices/authSlice';
 import type { TokenPair, User } from '../../types/auth';
 
+/** Prefix for all API calls (includes basePath). */
+const API_BASE = `${
+  process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+}/api`;
+
 const rawBaseQuery = fetchBaseQuery({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '/api',
+  baseUrl: process.env.NEXT_PUBLIC_API_URL ?? API_BASE,
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;
     if (token) {

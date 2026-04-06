@@ -22,10 +22,13 @@ RUN ln -s /build/app/node_modules /build/node_modules
 # -- Stage 2: build (amd64) ---------------------------------
 FROM deps AS build
 ARG NEXT_BASE_PATH=
+ARG BACKEND_URL=http://localhost:8080
 WORKDIR /build/app
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NEXT_BASE_PATH=${NEXT_BASE_PATH}
+ENV NEXT_PUBLIC_BASE_PATH=${NEXT_BASE_PATH}
+ENV BACKEND_URL=${BACKEND_URL}
 RUN npm run build
 
 # -- Stage 3: runner (target arch) --------------------------

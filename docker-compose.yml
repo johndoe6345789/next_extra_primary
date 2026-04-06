@@ -196,6 +196,7 @@ services:
       args:
         RUNTIME_IMAGE: debian:sid-slim
         NEXT_BASE_PATH: /app
+        BACKEND_URL: http://backend:8080
     ports:
       - "3100:3000"
     depends_on:
