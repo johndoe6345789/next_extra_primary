@@ -54,7 +54,23 @@ export function readPackageE2eConfig(
 }
 
 /**
+ * Check if a URL is already reachable.
+ *
+ * @param url - URL to probe.
+ * @returns True if the server responds.
+ */
+async function isReachable(url: string): Promise<boolean> {
+  try {
+    const res = await fetch(url, { signal: AbortSignal.timeout(3000) });
+    return res.status < 500;
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Start Docker services declared in a package's e2e config.
+ * If the declared baseURL is already reachable, skips testcontainers.
  *
  * @param packageName - Name of the package under shared/packages.
  * @returns Teardown function to stop the environment.
@@ -65,6 +81,15 @@ export async function startPackageServices(
   const config = readPackageE2eConfig(packageName);
   if (!config || config.services.length === 0) {
     console.log(`[setup] No services declared for ${packageName}`);
+    return async () => {};
+  }
+
+  // If the stack is already up, skip starting containers
+  const baseURL = config.baseURL ?? 'http://localhost:8889';
+  if (await isReachable(baseURL)) {
+    console.log(
+      `[setup] ${baseURL} already reachable — skipping testcontainers`,
+    );
     return async () => {};
   }
 

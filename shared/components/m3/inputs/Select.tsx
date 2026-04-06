@@ -130,15 +130,22 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(
       }
     }, [valueProp])
 
-    // Close dropdown when clicking outside
+    // Close dropdown when clicking outside or pressing Escape
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
         if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
           setIsOpen(false)
         }
       }
+      const handleKeyUp = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') setIsOpen(false)
+      }
       document.addEventListener('mousedown', handleClickOutside)
-      return () => document.removeEventListener('mousedown', handleClickOutside)
+      document.addEventListener('keyup', handleKeyUp)
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside)
+        document.removeEventListener('keyup', handleKeyUp)
+      }
     }, [])
 
     // Get display text from children

@@ -476,11 +476,14 @@
       "steps": [
         { "action": "navigate", "url": "/app/en" },
         { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "waitForElement",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']",
+          "state": "visible" },
         { "action": "expect",
-          "selector": "[data-testid='locale-switcher'] [role='combobox'] span svg",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']",
           "assertion": {
             "matcher": "custom",
-            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-switcher'] [role='combobox']\"); const svg = el.querySelector('svg'); const t = window.getComputedStyle(svg).transform; return t === 'none' || t === 'matrix(1, 0, 0, 1, 0, 0)'; })()"
+            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-switcher'] [role='combobox']\"); if (!el) return false; const svg = el.querySelector('svg'); if (!svg) return false; const t = window.getComputedStyle(svg.parentElement).transform; return t === 'none' || t === 'matrix(1, 0, 0, 1, 0, 0)'; })()"
           }
         },
         { "action": "click",
@@ -489,11 +492,12 @@
           "selector": "[data-testid='locale-switcher'] [role='listbox']",
           "assertion": { "matcher": "toBeVisible" }
         },
+        { "action": "wait", "timeout": 350 },
         { "action": "expect",
-          "selector": "[data-testid='locale-switcher'] [role='combobox'] span svg",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']",
           "assertion": {
             "matcher": "custom",
-            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-switcher'] [role='combobox']\"); const svg = el.querySelector('svg'); const t = window.getComputedStyle(svg.parentElement).transform; return t !== 'none' && t !== 'matrix(1, 0, 0, 1, 0, 0)'; })()"
+            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-switcher'] [role='combobox']\"); if (!el) return false; const svg = el.querySelector('svg'); if (!svg) return false; const t = window.getComputedStyle(svg.parentElement).transform; return t !== 'none' && t !== 'matrix(1, 0, 0, 1, 0, 0)'; })()"
           }
         }
       ]
@@ -624,11 +628,14 @@
       "steps": [
         { "action": "navigate", "url": "/app/en" },
         { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "waitForElement",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']",
+          "state": "visible" },
         { "action": "expect",
           "selector": "[data-testid='locale-switcher'] [role='combobox']",
           "assertion": {
             "matcher": "custom",
-            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-switcher'] [role='combobox']\"); return el.scrollWidth <= el.clientWidth + 2; })()"
+            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-switcher'] [role='combobox']\"); if (!el) return false; return el.scrollWidth <= el.clientWidth + 2; })()"
           }
         }
       ]
@@ -661,11 +668,14 @@
       "steps": [
         { "action": "navigate", "url": "/app/en" },
         { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "waitForElement",
+          "selector": "[data-testid='locale-pill']",
+          "state": "visible" },
         { "action": "expect",
           "testId": "locale-pill",
           "assertion": {
             "matcher": "custom",
-            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-pill']\"); const bg = window.getComputedStyle(el).backgroundColor; return bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent'; })()"
+            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-pill']\"); if (!el) return false; const bg = window.getComputedStyle(el).backgroundColor; return bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent'; })()"
           }
         }
       ]
@@ -678,11 +688,14 @@
         { "action": "waitForLoadState", "state": "domcontentloaded" },
         { "action": "evaluate",
           "script": "document.documentElement.setAttribute('data-theme', 'dark')" },
+        { "action": "waitForElement",
+          "selector": "[data-testid='locale-pill']",
+          "state": "visible" },
         { "action": "expect",
           "testId": "locale-pill",
           "assertion": {
             "matcher": "custom",
-            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-pill']\"); const bg = window.getComputedStyle(el).backgroundColor; return bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent'; })()"
+            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-pill']\"); if (!el) return false; const bg = window.getComputedStyle(el).backgroundColor; return bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent'; })()"
           }
         }
       ]
