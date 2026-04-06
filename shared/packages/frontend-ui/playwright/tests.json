@@ -256,15 +256,13 @@
         { "action": "click", "selector": "[data-testid='locale-switcher'] [role='combobox']" },
         { "action": "expect",
           "selector": "[data-testid='locale-switcher'] [role='listbox']",
-          "assertion": {
-            "matcher": "toBeVisible"
-          }
+          "assertion": { "matcher": "toBeVisible" }
         },
         { "action": "expect",
           "selector": "[data-testid='locale-switcher'] [role='listbox']",
           "assertion": {
             "matcher": "custom",
-            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-switcher'] [role='listbox']\"); const bg = window.getComputedStyle(el).backgroundColor; return bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent'; })()"
+            "script": "(() => { const panel = document.querySelector(\"[data-testid='locale-switcher'] [role='listbox']\"); const bg = window.getComputedStyle(panel).backgroundColor; if (bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') return false; const body = window.getComputedStyle(document.body).backgroundColor; return bg === body || bg !== 'rgb(255, 255, 255)'; })()"
           }
         }
       ]
@@ -600,7 +598,7 @@
       ]
     },
     {
-      "name": "locale switcher dropdown panel has opaque background in dark mode",
+      "name": "locale switcher dropdown panel is not white in dark mode",
       "tags": ["@i18n", "@style", "@dark"],
       "steps": [
         { "action": "navigate", "url": "/app/en" },
@@ -617,7 +615,7 @@
           "selector": "[data-testid='locale-switcher'] [role='listbox']",
           "assertion": {
             "matcher": "custom",
-            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-switcher'] [role='listbox']\"); const bg = window.getComputedStyle(el).backgroundColor; return bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent'; })()"
+            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-switcher'] [role='listbox']\"); const bg = window.getComputedStyle(el).backgroundColor; return bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent' && bg !== 'rgb(255, 255, 255)'; })()"
           }
         }
       ]
