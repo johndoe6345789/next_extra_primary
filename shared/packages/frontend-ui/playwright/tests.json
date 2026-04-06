@@ -427,6 +427,283 @@
           }
         }
       ]
+    },
+    {
+      "name": "locale switcher dropdown panel is wide enough for items",
+      "tags": ["@i18n", "@style"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "click",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='listbox']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='listbox']",
+          "assertion": {
+            "matcher": "custom",
+            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-switcher'] [role='listbox']\"); return el.getBoundingClientRect().width >= 60; })()"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher dropdown panel is not clipped by navbar",
+      "tags": ["@i18n", "@style"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "click",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='listbox']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='listbox']",
+          "assertion": {
+            "matcher": "custom",
+            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-switcher'] [role='listbox']\"); const r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < window.innerHeight; })()"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher arrow rotates when open",
+      "tags": ["@i18n", "@style"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='combobox'] span svg",
+          "assertion": {
+            "matcher": "custom",
+            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-switcher'] [role='combobox']\"); const svg = el.querySelector('svg'); const t = window.getComputedStyle(svg).transform; return t === 'none' || t === 'matrix(1, 0, 0, 1, 0, 0)'; })()"
+          }
+        },
+        { "action": "click",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='listbox']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='combobox'] span svg",
+          "assertion": {
+            "matcher": "custom",
+            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-switcher'] [role='combobox']\"); const svg = el.querySelector('svg'); const t = window.getComputedStyle(svg.parentElement).transform; return t !== 'none' && t !== 'matrix(1, 0, 0, 1, 0, 0)'; })()"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher selected item is visually highlighted",
+      "tags": ["@i18n", "@style"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "click",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher-en']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher-en']",
+          "assertion": {
+            "matcher": "custom",
+            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-switcher-en']\"); const bg = window.getComputedStyle(el).backgroundColor; return bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent'; })()"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher closes on outside click",
+      "tags": ["@i18n"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "click",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='listbox']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        { "action": "click", "selector": "[data-testid='hero-cta-start']" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='listbox']",
+          "assertion": { "matcher": "toBeHidden" }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher opens with keyboard Enter",
+      "tags": ["@i18n", "@a11y"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "focus",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']" },
+        { "action": "keyboard", "key": "Enter" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='listbox']",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher closes with keyboard Escape",
+      "tags": ["@i18n", "@a11y"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "click",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='listbox']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        { "action": "keyboard", "key": "Escape" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='listbox']",
+          "assertion": { "matcher": "toBeHidden" }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher dropdown items have text visible in dark mode",
+      "tags": ["@i18n", "@style", "@dark"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "evaluate",
+          "script": "document.documentElement.setAttribute('data-theme', 'dark')" },
+        { "action": "click",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher-en']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher-en']",
+          "assertion": {
+            "matcher": "custom",
+            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-switcher-en']\"); const color = window.getComputedStyle(el).color; return color !== 'rgba(0, 0, 0, 0)' && color !== ''; })()"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher dropdown panel has opaque background in dark mode",
+      "tags": ["@i18n", "@style", "@dark"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "evaluate",
+          "script": "document.documentElement.setAttribute('data-theme', 'dark')" },
+        { "action": "click",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='listbox']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='listbox']",
+          "assertion": {
+            "matcher": "custom",
+            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-switcher'] [role='listbox']\"); const bg = window.getComputedStyle(el).backgroundColor; return bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent'; })()"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher trigger text is not truncated",
+      "tags": ["@i18n", "@style"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']",
+          "assertion": {
+            "matcher": "custom",
+            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-switcher'] [role='combobox']\"); return el.scrollWidth <= el.clientWidth + 2; })()"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher all locales are reachable in dropdown",
+      "tags": ["@i18n"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "click",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher-en']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher-es']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher-fr']",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher pill background is not transparent",
+      "tags": ["@i18n", "@style"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "expect",
+          "testId": "locale-pill",
+          "assertion": {
+            "matcher": "custom",
+            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-pill']\"); const bg = window.getComputedStyle(el).backgroundColor; return bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent'; })()"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher pill background is not transparent in dark mode",
+      "tags": ["@i18n", "@style", "@dark"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "evaluate",
+          "script": "document.documentElement.setAttribute('data-theme', 'dark')" },
+        { "action": "expect",
+          "testId": "locale-pill",
+          "assertion": {
+            "matcher": "custom",
+            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-pill']\"); const bg = window.getComputedStyle(el).backgroundColor; return bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent'; })()"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher has visible border in dark mode",
+      "tags": ["@i18n", "@style", "@dark"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "evaluate",
+          "script": "document.documentElement.setAttribute('data-theme', 'dark')" },
+        { "action": "expect",
+          "testId": "locale-pill",
+          "assertion": {
+            "matcher": "toHaveCSS",
+            "property": "border-style",
+            "value": "solid"
+          }
+        }
+      ]
     }
   ]
 }

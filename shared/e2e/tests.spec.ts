@@ -316,7 +316,7 @@ class PlaywrightTestInterpreter {
   }
 
   private async handleKeyboard(step: any): Promise<void> {
-    const keys = step.keys as string | string[]
+    const keys = (step.key ?? step.keys) as string | string[]
     if (Array.isArray(keys)) {
       for (const key of keys) {
         await this.page.keyboard.press(key)
