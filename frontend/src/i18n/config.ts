@@ -4,7 +4,10 @@
  * Add new locale codes here and provide matching
  * translation files in `src/messages/`.
  */
-export const locales = ['en', 'es'] as const;
+export const locales = [
+  'en', 'es', 'fr', 'de',
+  'ja', 'zh', 'nl', 'cy',
+] as const;
 
 /** Union type of all supported locale codes. */
 export type Locale = (typeof locales)[number];

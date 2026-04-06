@@ -118,6 +118,14 @@ Next.js (port 3000) <-- REST/JSON --> Drogon C++ API (port 8080)
 - Test user behavior, not implementation details.
 - Run: `cd frontend && npm test`.
 
+### E2E (Playwright - JSON-driven)
+
+- Tests defined in `shared/packages/<name>/playwright/tests.json`.
+- Auto-discovered by `shared/e2e/tests.spec.ts`.
+- Uses a custom DSL: actions (navigate, click, expect, keyboard,
+  evaluate) and matchers (toBeVisible, toHaveCSS, custom scripts).
+- Run: `cd shared/e2e && npm test`.
+
 ---
 
 ## Important Directories
@@ -139,6 +147,11 @@ Next.js (port 3000) <-- REST/JSON --> Drogon C++ API (port 8080)
 | `tools/manager/`            | Project management CLI (includes cmake-gen)|
 | `tools/packagerepo/`        | Package repository manager (own FE + BE)   |
 | `tools/s3server/`           | S3-compatible object store for offline use  |
+| `shared/`                   | Reusable library (see `shared/README.md`)  |
+| `shared/components/m3/`     | M3 component library (125+ components)     |
+| `shared/scss/`              | M3 SCSS tokens and atom stylesheets        |
+| `shared/e2e/`               | Playwright test infra + JSON test runner   |
+| `shared/packages/`          | Per-feature Playwright test suites         |
 | `docker/`                   | Pre-baked dependency Dockerfiles            |
 
 ---
@@ -166,10 +179,19 @@ Next.js (port 3000) <-- REST/JSON --> Drogon C++ API (port 8080)
 ### Adding a Translation
 
 1. Add the key to `frontend/src/messages/en.json`.
-2. Add the same key with translated text to `frontend/src/messages/es.json`
-   (and any other locale files).
+2. Add the same key with translated text to all other locale
+   files (`es.json`, `fr.json`, `de.json`, `ja.json`, `zh.json`,
+   `nl.json`, `cy.json`).
 3. Use `useTranslations('namespace')` in the component.
 4. Keys follow dot notation: `"auth.login.title"`.
+
+### Adding a New Locale
+
+1. Create `frontend/src/messages/<code>.json` matching
+   the structure of `en.json`.
+2. Add the code to `frontend/src/i18n/config.ts` `locales`.
+3. Add a label entry in `LocaleSwitcher.tsx` `LOCALE_LABELS`.
+4. Routing and navigation update automatically.
 
 ### Running the Full Stack
 

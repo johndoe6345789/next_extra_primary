@@ -1,0 +1,172 @@
+{
+  "common": {
+    "appName": "NextExtra",
+    "loading": "加载中...",
+    "error": "出了点问题",
+    "save": "保存",
+    "cancel": "取消",
+    "delete": "删除",
+    "search": "搜索",
+    "close": "关闭",
+    "confirm": "确认",
+    "back": "返回",
+    "next": "下一步",
+    "submit": "提交",
+    "edit": "编辑",
+    "view": "查看",
+    "retry": "重试"
+  },
+  "auth": {
+    "login": "登录",
+    "register": "创建账户",
+    "logout": "退出",
+    "email": "电子邮箱",
+    "password": "密码",
+    "forgotPassword": "忘记密码？",
+    "resetPassword": "重置密码",
+    "confirmPassword": "确认密码",
+    "rememberMe": "记住我",
+    "noAccount": "还没有账户？",
+    "hasAccount": "已有账户？登录",
+    "loginSuccess": "登录成功",
+    "logoutSuccess": "已退出登录",
+    "registerSuccess": "账户创建成功",
+    "invalidCredentials": "邮箱或密码无效",
+    "passwordMismatch": "密码不匹配",
+    "emailRequired": "请输入邮箱",
+    "passwordRequired": "请输入密码",
+    "username": "用户名",
+    "displayName": "显示名称",
+    "passwordsMustMatch": "密码必须一致",
+    "signingIn": "登录中...",
+    "creating": "创建中...",
+    "resetInstructions": "请输入您的邮箱，我们将发送重置链接。",
+    "resetSent": "重置链接已发送！请查看您的收件箱。",
+    "backToLogin": "返回登录",
+    "sending": "发送中..."
+  },
+  "nav": {
+    "home": "首页",
+    "dashboard": "仪表盘",
+    "leaderboard": "排行榜",
+    "profile": "个人资料",
+    "chat": "聊天",
+    "notifications": "通知",
+    "about": "关于",
+    "contact": "联系我们",
+    "settings": "设置",
+    "tools": "工具",
+    "webmail": "网页邮箱",
+    "pgadmin": "数据库管理",
+    "packageRepo": "包仓库",
+    "s3server": "S3存储"
+  },
+  "hero": {
+    "title": "提升你的学习之旅",
+    "subtitle": "参与、竞争，在游戏化平台中共同成长",
+    "cta": "开始使用",
+    "features": "探索功能"
+  },
+  "gamification": {
+    "points": "积分",
+    "level": "等级",
+    "streak": "连续天数",
+    "badges": "徽章",
+    "leaderboard": "排行榜",
+    "xpEarned": "获得 {amount} XP",
+    "levelUp": "升级！",
+    "newBadge": "解锁新徽章！",
+    "dailyStreak": "连续 {count} 天",
+    "rank": "排名 #{position}"
+  },
+  "notifications": {
+    "title": "通知",
+    "markAllRead": "全部标为已读",
+    "noNotifications": "暂无新通知",
+    "clearAll": "清除全部"
+  },
+  "chat": {
+    "placeholder": "输入消息...",
+    "send": "发送",
+    "switchProvider": "切换提供商",
+    "noMessages": "暂无消息",
+    "typing": "输入中..."
+  },
+  "features": {
+    "aiChat": {
+      "title": "AI聊天",
+      "desc": "与AI模型对话。"
+    },
+    "gamification": {
+      "title": "游戏化",
+      "desc": "徽章和排行榜。"
+    },
+    "alerts": {
+      "title": "实时提醒",
+      "desc": "即时通知。"
+    },
+    "darkMode": {
+      "title": "暗黑模式",
+      "desc": "明暗主题切换。"
+    },
+    "multiLang": {
+      "title": "多语言",
+      "desc": "支持多种语言。"
+    },
+    "secureAuth": {
+      "title": "安全认证",
+      "desc": "JWT刷新令牌。"
+    }
+  },
+  "dashboard": {
+    "title": "仪表盘",
+    "currentStreak": "当前连续天数",
+    "totalPoints": "总积分",
+    "badgesEarned": "获得徽章",
+    "rank": "排名",
+    "noData": "--"
+  },
+  "profile": {
+    "title": "个人资料",
+    "userInfo": "用户信息",
+    "userInfoDesc": "姓名、邮箱和账户详情将在此处显示。",
+    "badges": "徽章",
+    "badgesDesc": "您获得的徽章将在此处展示。",
+    "statistics": "统计",
+    "statisticsDesc": "累计统计和进度将在此处显示。"
+  },
+  "contact": {
+    "title": "联系我们",
+    "name": "姓名",
+    "email": "邮箱",
+    "message": "消息",
+    "send": "发送消息",
+    "sending": "发送中...",
+    "sent": "消息已发送！我们会尽快回复您。"
+  },
+  "about": {
+    "title": "关于ExtraPrimary",
+    "description": "ExtraPrimary是一个将AI驱动的辅导与游戏化进度机制相结合的学习平台。",
+    "description2": "获得徽章，保持连续记录，攀登排行榜，借助个性化AI辅助按自己的节奏学习。",
+    "missionTitle": "我们的使命",
+    "mission": "让教育对每一位学习者都触手可及、引人入胜且富有回报。"
+  },
+  "a11y": {
+    "skipToContent": "跳至主要内容",
+    "openMenu": "打开导航菜单",
+    "closeMenu": "关闭导航菜单",
+    "toggleTheme": "切换颜色主题",
+    "switchLanguage": "切换语言",
+    "loading": "内容加载中",
+    "expandSection": "展开部分",
+    "collapseSection": "折叠部分"
+  },
+  "authHero": {
+    "title": "提升你的学习",
+    "subtitle": "加入数千名学习者，使用AI驱动的辅导和游戏化进度系统。",
+    "f1": "获得徽章，攀登排行榜",
+    "f2": "AI导师适应你的节奏",
+    "f3": "企业级安全保障",
+    "f4": "实时追踪进度"
+  }
+}

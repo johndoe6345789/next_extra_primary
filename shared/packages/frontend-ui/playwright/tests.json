@@ -657,6 +657,10 @@
         { "action": "expect",
           "selector": "[data-testid='locale-switcher-fr']",
           "assertion": { "matcher": "toBeVisible" }
+        },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher-de']",
+          "assertion": { "matcher": "toBeVisible" }
         }
       ]
     },
@@ -712,6 +716,231 @@
             "matcher": "toHaveCSS",
             "property": "border-style",
             "value": "solid"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale dropdown items are hit-testable",
+      "tags": ["@i18n", "@regression"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "click",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher-es']",
+          "assertion": {
+            "matcher": "custom",
+            "script": "(() => { const el = document.querySelector(\"[data-testid='locale-switcher-es']\"); if (!el) return false; const r = el.getBoundingClientRect(); const hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2); return el === hit || el.contains(hit) || (hit && hit.closest('[data-testid=locale-switcher-es]') !== null); })()"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale dropdown panel overflows parent",
+      "tags": ["@i18n", "@regression"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "click",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='listbox']",
+          "assertion": {
+            "matcher": "custom",
+            "script": "(() => { const panel = document.querySelector(\"[data-testid='locale-switcher'] [role='listbox']\"); if (!panel) return false; const pr = panel.getBoundingClientRect(); const pill = document.querySelector(\"[data-testid='locale-pill']\"); if (!pill) return false; const pir = pill.getBoundingClientRect(); return pr.bottom > pir.bottom + 10; })()"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale FR page renders content",
+      "tags": ["@i18n", "@regression"],
+      "steps": [
+        { "action": "navigate", "url": "/app/fr" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "expect",
+          "testId": "hero-cta-start",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        { "action": "expect",
+          "testId": "hero-cta-start",
+          "assertion": {
+            "matcher": "toContainText",
+            "text": "Commencer"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale DE page renders content",
+      "tags": ["@i18n", "@regression"],
+      "steps": [
+        { "action": "navigate", "url": "/app/de" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "expect",
+          "testId": "hero-cta-start",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        { "action": "expect",
+          "testId": "hero-cta-start",
+          "assertion": {
+            "matcher": "toContainText",
+            "text": "Jetzt starten"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher navigates to French",
+      "tags": ["@i18n", "@regression"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "click",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']" },
+        { "action": "click",
+          "testId": "locale-switcher-fr" },
+        { "action": "waitForLoadState",
+          "state": "networkidle" },
+        { "action": "expect",
+          "selector": "body",
+          "assertion": {
+            "matcher": "toHaveURL",
+            "url": "/app/fr"
+          }
+        },
+        { "action": "expect",
+          "testId": "hero-cta-start",
+          "assertion": {
+            "matcher": "toContainText",
+            "text": "Commencer"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher navigates to German",
+      "tags": ["@i18n", "@regression"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "click",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']" },
+        { "action": "click",
+          "testId": "locale-switcher-de" },
+        { "action": "waitForLoadState",
+          "state": "networkidle" },
+        { "action": "expect",
+          "selector": "body",
+          "assertion": {
+            "matcher": "toHaveURL",
+            "url": "/app/de"
+          }
+        },
+        { "action": "expect",
+          "testId": "hero-cta-start",
+          "assertion": {
+            "matcher": "toContainText",
+            "text": "Jetzt starten"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher shows exactly 8 locales",
+      "tags": ["@i18n", "@regression"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "click",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher'] [role='listbox'] button",
+          "assertion": {
+            "matcher": "toHaveCount",
+            "count": 8
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher does not offer unsupported locales",
+      "tags": ["@i18n", "@regression"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "click",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']" },
+        { "action": "expect",
+          "selector": "[data-testid='locale-switcher-ko']",
+          "assertion": { "matcher": "toBeHidden" }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher round-trips EN to FR and back",
+      "tags": ["@i18n", "@regression"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "click",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']" },
+        { "action": "click",
+          "testId": "locale-switcher-fr" },
+        { "action": "waitForLoadState",
+          "state": "networkidle" },
+        { "action": "expect",
+          "testId": "hero-cta-start",
+          "assertion": {
+            "matcher": "toContainText",
+            "text": "Commencer"
+          }
+        },
+        { "action": "click",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']" },
+        { "action": "click",
+          "testId": "locale-switcher-en" },
+        { "action": "waitForLoadState",
+          "state": "networkidle" },
+        { "action": "expect",
+          "testId": "hero-cta-start",
+          "assertion": {
+            "matcher": "toContainText",
+            "text": "Get started"
+          }
+        }
+      ]
+    },
+    {
+      "name": "locale switcher preserves path on switch",
+      "tags": ["@i18n", "@regression"],
+      "steps": [
+        { "action": "navigate",
+          "url": "/app/en/about" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "click",
+          "selector": "[data-testid='locale-switcher'] [role='combobox']" },
+        { "action": "click",
+          "testId": "locale-switcher-es" },
+        { "action": "waitForLoadState",
+          "state": "networkidle" },
+        { "action": "expect",
+          "selector": "body",
+          "assertion": {
+            "matcher": "toHaveURL",
+            "url": "/app/es/about"
           }
         }
       ]

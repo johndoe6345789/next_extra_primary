@@ -1,0 +1,172 @@
+{
+  "common": {
+    "appName": "NextExtra",
+    "loading": "読み込み中...",
+    "error": "エラーが発生しました",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "search": "検索",
+    "close": "閉じる",
+    "confirm": "確認",
+    "back": "戻る",
+    "next": "次へ",
+    "submit": "送信",
+    "edit": "編集",
+    "view": "表示",
+    "retry": "再試行"
+  },
+  "auth": {
+    "login": "ログイン",
+    "register": "アカウント作成",
+    "logout": "ログアウト",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "forgotPassword": "パスワードをお忘れですか？",
+    "resetPassword": "パスワードをリセット",
+    "confirmPassword": "パスワードを確認",
+    "rememberMe": "ログイン状態を保持",
+    "noAccount": "アカウントをお持ちでないですか？",
+    "hasAccount": "すでにアカウントをお持ちですか？ログイン",
+    "loginSuccess": "ログインしました",
+    "logoutSuccess": "ログアウトしました",
+    "registerSuccess": "アカウントが作成されました",
+    "invalidCredentials": "メールまたはパスワードが無効です",
+    "passwordMismatch": "パスワードが一致しません",
+    "emailRequired": "メールアドレスは必須です",
+    "passwordRequired": "パスワードは必須です",
+    "username": "ユーザー名",
+    "displayName": "表示名",
+    "passwordsMustMatch": "パスワードが一致する必要があります",
+    "signingIn": "ログイン中...",
+    "creating": "作成中...",
+    "resetInstructions": "メールアドレスを入力してください。リセットリンクを送信します。",
+    "resetSent": "リセットリンクを送信しました。受信トレイをご確認ください。",
+    "backToLogin": "ログインに戻る",
+    "sending": "送信中..."
+  },
+  "nav": {
+    "home": "ホーム",
+    "dashboard": "ダッシュボード",
+    "leaderboard": "ランキング",
+    "profile": "プロフィール",
+    "chat": "チャット",
+    "notifications": "通知",
+    "about": "概要",
+    "contact": "お問い合わせ",
+    "settings": "設定",
+    "tools": "ツール",
+    "webmail": "ウェブメール",
+    "pgadmin": "データベース管理",
+    "packageRepo": "パッケージリポジトリ",
+    "s3server": "S3ストレージ"
+  },
+  "hero": {
+    "title": "学びをレベルアップしよう",
+    "subtitle": "ゲーミフィケーションで参加し、競い、成長しよう",
+    "cta": "始める",
+    "features": "機能を見る"
+  },
+  "gamification": {
+    "points": "ポイント",
+    "level": "レベル",
+    "streak": "連続記録",
+    "badges": "バッジ",
+    "leaderboard": "ランキング",
+    "xpEarned": "{amount} XP獲得",
+    "levelUp": "レベルアップ！",
+    "newBadge": "新しいバッジを獲得！",
+    "dailyStreak": "{count}日連続",
+    "rank": "ランク #{position}"
+  },
+  "notifications": {
+    "title": "通知",
+    "markAllRead": "すべて既読にする",
+    "noNotifications": "新しい通知はありません",
+    "clearAll": "すべてクリア"
+  },
+  "chat": {
+    "placeholder": "メッセージを入力...",
+    "send": "送信",
+    "switchProvider": "プロバイダーを切り替え",
+    "noMessages": "メッセージはまだありません",
+    "typing": "入力中..."
+  },
+  "features": {
+    "aiChat": {
+      "title": "AIチャット",
+      "desc": "AIモデルとチャット。"
+    },
+    "gamification": {
+      "title": "ゲーミフィケーション",
+      "desc": "バッジとランキング。"
+    },
+    "alerts": {
+      "title": "リアルタイム通知",
+      "desc": "即時通知。"
+    },
+    "darkMode": {
+      "title": "ダークモード",
+      "desc": "ライトとダークテーマ。"
+    },
+    "multiLang": {
+      "title": "多言語対応",
+      "desc": "複数の言語に対応。"
+    },
+    "secureAuth": {
+      "title": "セキュア認証",
+      "desc": "JWTリフレッシュトークン。"
+    }
+  },
+  "dashboard": {
+    "title": "ダッシュボード",
+    "currentStreak": "現在の連続記録",
+    "totalPoints": "合計ポイント",
+    "badgesEarned": "獲得バッジ",
+    "rank": "ランク",
+    "noData": "--"
+  },
+  "profile": {
+    "title": "プロフィール",
+    "userInfo": "ユーザー情報",
+    "userInfoDesc": "名前、メール、アカウント情報がここに表示されます。",
+    "badges": "バッジ",
+    "badgesDesc": "獲得したバッジがここに表示されます。",
+    "statistics": "統計",
+    "statisticsDesc": "累計統計と進捗がここに表示されます。"
+  },
+  "contact": {
+    "title": "お問い合わせ",
+    "name": "名前",
+    "email": "メール",
+    "message": "メッセージ",
+    "send": "メッセージを送信",
+    "sending": "送信中...",
+    "sent": "メッセージが送信されました。折り返しご連絡いたします。"
+  },
+  "about": {
+    "title": "ExtraPrimaryについて",
+    "description": "ExtraPrimaryはAI搭載のチュータリングと魅力的な進行メカニクスを組み合わせたゲーミフィケーション学習プラットフォームです。",
+    "description2": "バッジを獲得し、連続記録を維持し、ランキングを上げ、パーソナライズされたAIアシスタントで自分のペースで学びましょう。",
+    "missionTitle": "私たちのミッション",
+    "mission": "あらゆる学習者に教育をアクセスしやすく、魅力的で、やりがいのあるものにすること。"
+  },
+  "a11y": {
+    "skipToContent": "メインコンテンツへスキップ",
+    "openMenu": "ナビゲーションメニューを開く",
+    "closeMenu": "ナビゲーションメニューを閉じる",
+    "toggleTheme": "カラーテーマを切り替え",
+    "switchLanguage": "言語を切り替え",
+    "loading": "コンテンツを読み込み中",
+    "expandSection": "セクションを展開",
+    "collapseSection": "セクションを折りたたむ"
+  },
+  "authHero": {
+    "title": "学びをレベルアップ",
+    "subtitle": "ゲーミフィケーションでAI搭載のチュータリングを利用する数千人の学習者に加わりましょう。",
+    "f1": "バッジを獲得しランキングを上げる",
+    "f2": "AIチューターがあなたのペースに合わせます",
+    "f3": "エンタープライズグレードのセキュリティ",
+    "f4": "リアルタイムで進捗を追跡"
+  }
+}

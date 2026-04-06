@@ -1,0 +1,172 @@
+{
+  "common": {
+    "appName": "NextExtra",
+    "loading": "Yn llwytho...",
+    "error": "Aeth rhywbeth o'i le",
+    "save": "Cadw",
+    "cancel": "Canslo",
+    "delete": "Dileu",
+    "search": "Chwilio",
+    "close": "Cau",
+    "confirm": "Cadarnhau",
+    "back": "Yn \u00f4l",
+    "next": "Nesaf",
+    "submit": "Cyflwyno",
+    "edit": "Golygu",
+    "view": "Gweld",
+    "retry": "Ailgeisio"
+  },
+  "auth": {
+    "login": "Mewngofnodi",
+    "register": "Creu Cyfrif",
+    "logout": "Allgofnodi",
+    "email": "Cyfeiriad e-bost",
+    "password": "Cyfrinair",
+    "forgotPassword": "Wedi anghofio cyfrinair?",
+    "resetPassword": "Ailosod cyfrinair",
+    "confirmPassword": "Cadarnhau cyfrinair",
+    "rememberMe": "Cofiwch fi",
+    "noAccount": "Heb gyfrif eto?",
+    "hasAccount": "Oes gyfrif gennych? Mewngofnodi",
+    "loginSuccess": "Mewngofnodwyd yn llwyddiannus",
+    "logoutSuccess": "Allgofnodwyd yn llwyddiannus",
+    "registerSuccess": "Cyfrif wedi'i greu yn llwyddiannus",
+    "invalidCredentials": "E-bost neu gyfrinair annilys",
+    "passwordMismatch": "Nid yw'r cyfrineiriau'n cyfateb",
+    "emailRequired": "Mae angen e-bost",
+    "passwordRequired": "Mae angen cyfrinair",
+    "username": "Enw defnyddiwr",
+    "displayName": "Enw Arddangos",
+    "passwordsMustMatch": "Rhaid i gyfrineiriau gyfateb",
+    "signingIn": "Yn mewngofnodi...",
+    "creating": "Yn creu...",
+    "resetInstructions": "Rhowch eich e-bost a byddwn yn anfon dolen ailosod atoch.",
+    "resetSent": "Dolen ailosod wedi'i hanfon! Gwiriwch eich mewnflwch.",
+    "backToLogin": "Yn \u00f4l i fewngofnodi",
+    "sending": "Yn anfon..."
+  },
+  "nav": {
+    "home": "Hafan",
+    "dashboard": "Dangosfwrdd",
+    "leaderboard": "Bwrdd arweinwyr",
+    "profile": "Proffil",
+    "chat": "Sgwrs",
+    "notifications": "Hysbysiadau",
+    "about": "Amdanom ni",
+    "contact": "Cysylltu",
+    "settings": "Gosodiadau",
+    "tools": "Offer",
+    "webmail": "Gwe-bost",
+    "pgadmin": "Gweinyddu Cronfa Ddata",
+    "packageRepo": "Storfa Pecynnau",
+    "s3server": "Storfa S3"
+  },
+  "hero": {
+    "title": "Codwch lefel eich taith ddysgu",
+    "subtitle": "Ymgysylltwch, cystadlwch a thyfwch gyda'n platfform gameiddiedig",
+    "cta": "Dechrau arni",
+    "features": "Darganfod nodweddion"
+  },
+  "gamification": {
+    "points": "Pwyntiau",
+    "level": "Lefel",
+    "streak": "Rhediad",
+    "badges": "Bathodynnau",
+    "leaderboard": "Bwrdd arweinwyr",
+    "xpEarned": "{amount} XP wedi'i ennill",
+    "levelUp": "Lefel i fyny!",
+    "newBadge": "Bathodyn newydd wedi'i ddatgloi!",
+    "dailyStreak": "Rhediad {count}-diwrnod",
+    "rank": "Safle #{position}"
+  },
+  "notifications": {
+    "title": "Hysbysiadau",
+    "markAllRead": "Marcio popeth fel wedi'i ddarllen",
+    "noNotifications": "Dim hysbysiadau newydd",
+    "clearAll": "Clirio popeth"
+  },
+  "chat": {
+    "placeholder": "Teipiwch neges...",
+    "send": "Anfon",
+    "switchProvider": "Newid darparwr",
+    "noMessages": "Dim negeseuon eto",
+    "typing": "Yn teipio..."
+  },
+  "features": {
+    "aiChat": {
+      "title": "Sgwrs AI",
+      "desc": "Sgwrsio gyda modelau AI."
+    },
+    "gamification": {
+      "title": "Gameiddiaeth",
+      "desc": "Bathodynnau a byrddau arweinwyr."
+    },
+    "alerts": {
+      "title": "Rhybuddion Amser Real",
+      "desc": "Hysbysiadau ar unwaith."
+    },
+    "darkMode": {
+      "title": "Modd Tywyll",
+      "desc": "Themau golau a thywyll."
+    },
+    "multiLang": {
+      "title": "Aml-iaith",
+      "desc": "Cefnogaeth i sawl iaith."
+    },
+    "secureAuth": {
+      "title": "Dilysu Diogel",
+      "desc": "JWT gyda thocynnau adnewyddu."
+    }
+  },
+  "dashboard": {
+    "title": "Dangosfwrdd",
+    "currentStreak": "Rhediad Presennol",
+    "totalPoints": "Cyfanswm Pwyntiau",
+    "badgesEarned": "Bathodynnau a Enillwyd",
+    "rank": "Safle",
+    "noData": "--"
+  },
+  "profile": {
+    "title": "Proffil",
+    "userInfo": "Gwybodaeth Defnyddiwr",
+    "userInfoDesc": "Bydd enw, e-bost a manylion cyfrif yn ymddangos yma.",
+    "badges": "Bathodynnau",
+    "badgesDesc": "Bydd eich bathodynnau a enillwyd yn cael eu harddangos yma.",
+    "statistics": "Ystadegau",
+    "statisticsDesc": "Bydd ystadegau cronnus a chynnydd yn ymddangos yma."
+  },
+  "contact": {
+    "title": "Cysylltwch \u00e2 Ni",
+    "name": "Enw",
+    "email": "E-bost",
+    "message": "Neges",
+    "send": "Anfon Neges",
+    "sending": "Yn anfon...",
+    "sent": "Neges wedi'i hanfon! Byddwn yn cysylltu \u00e2 chi'n fuan."
+  },
+  "about": {
+    "title": "Am ExtraPrimary",
+    "description": "Mae ExtraPrimary yn blatfform dysgu gameiddiedig sy'n cyfuno tiwtora AI \u00e2 mecanweithiau cynnydd deniadol.",
+    "description2": "Enillwch fathodynnau, cynhaliwch rediadau, dringwch fyrddau arweinwyr, a dysgwch ar eich cyflymder eich hun gyda chymorth AI personol.",
+    "missionTitle": "Ein Cenhadaeth",
+    "mission": "Gwneud addysg yn hygyrch, yn ddeniadol ac yn werth chweil i ddysgwyr ym mhobman."
+  },
+  "a11y": {
+    "skipToContent": "Neidio i'r prif gynnwys",
+    "openMenu": "Agor dewislen llywio",
+    "closeMenu": "Cau dewislen llywio",
+    "toggleTheme": "Toglo thema lliw",
+    "switchLanguage": "Newid iaith",
+    "loading": "Mae cynnwys yn llwytho",
+    "expandSection": "Ehangu adran",
+    "collapseSection": "Cwympo adran"
+  },
+  "authHero": {
+    "title": "Codwch lefel eich dysgu",
+    "subtitle": "Ymunwch \u00e2 miloedd o ddysgwyr sy'n defnyddio tiwtora AI gyda chynnydd gameiddiedig.",
+    "f1": "Enillwch fathodynnau a dringo byrddau arweinwyr",
+    "f2": "Mae'r tiwtor AI yn addasu i'ch cyflymder",
+    "f3": "Diogelwch ar lefel menter",
+    "f4": "Olrhain cynnydd mewn amser real"
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "common": {
+    "appName": "NextExtra",
+    "loading": "Laden...",
+    "error": "Er ging iets mis",
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "delete": "Verwijderen",
+    "search": "Zoeken",
+    "close": "Sluiten",
+    "confirm": "Bevestigen",
+    "back": "Terug",
+    "next": "Volgende",
+    "submit": "Verzenden",
+    "edit": "Bewerken",
+    "view": "Bekijken",
+    "retry": "Opnieuw proberen"
+  },
+  "auth": {
+    "login": "Inloggen",
+    "register": "Account aanmaken",
+    "logout": "Uitloggen",
+    "email": "E-mailadres",
+    "password": "Wachtwoord",
+    "forgotPassword": "Wachtwoord vergeten?",
+    "resetPassword": "Wachtwoord herstellen",
+    "confirmPassword": "Wachtwoord bevestigen",
+    "rememberMe": "Onthoud mij",
+    "noAccount": "Nog geen account?",
+    "hasAccount": "Heb je al een account? Inloggen",
+    "loginSuccess": "Succesvol ingelogd",
+    "logoutSuccess": "Succesvol uitgelogd",
+    "registerSuccess": "Account succesvol aangemaakt",
+    "invalidCredentials": "Ongeldig e-mailadres of wachtwoord",
+    "passwordMismatch": "Wachtwoorden komen niet overeen",
+    "emailRequired": "E-mailadres is verplicht",
+    "passwordRequired": "Wachtwoord is verplicht",
+    "username": "Gebruikersnaam",
+    "displayName": "Weergavenaam",
+    "passwordsMustMatch": "Wachtwoorden moeten overeenkomen",
+    "signingIn": "Inloggen...",
+    "creating": "Aanmaken...",
+    "resetInstructions": "Voer je e-mailadres in en we sturen je een herstellink.",
+    "resetSent": "Herstellink verzonden! Controleer je inbox.",
+    "backToLogin": "Terug naar inloggen",
+    "sending": "Verzenden..."
+  },
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "leaderboard": "Ranglijst",
+    "profile": "Profiel",
+    "chat": "Chat",
+    "notifications": "Meldingen",
+    "about": "Over ons",
+    "contact": "Contact",
+    "settings": "Instellingen",
+    "tools": "Hulpmiddelen",
+    "webmail": "Webmail",
+    "pgadmin": "Databasebeheer",
+    "packageRepo": "Pakketrepository",
+    "s3server": "S3-opslag"
+  },
+  "hero": {
+    "title": "Breng je leertraject naar een hoger niveau",
+    "subtitle": "Doe mee, concurreer en groei met ons gegamificeerd platform",
+    "cta": "Aan de slag",
+    "features": "Functies ontdekken"
+  },
+  "gamification": {
+    "points": "Punten",
+    "level": "Niveau",
+    "streak": "Reeks",
+    "badges": "Badges",
+    "leaderboard": "Ranglijst",
+    "xpEarned": "{amount} XP verdiend",
+    "levelUp": "Niveau omhoog!",
+    "newBadge": "Nieuwe badge ontgrendeld!",
+    "dailyStreak": "{count}-daagse reeks",
+    "rank": "Rang #{position}"
+  },
+  "notifications": {
+    "title": "Meldingen",
+    "markAllRead": "Alles als gelezen markeren",
+    "noNotifications": "Geen nieuwe meldingen",
+    "clearAll": "Alles wissen"
+  },
+  "chat": {
+    "placeholder": "Typ een bericht...",
+    "send": "Verzenden",
+    "switchProvider": "Van aanbieder wisselen",
+    "noMessages": "Nog geen berichten",
+    "typing": "Typen..."
+  },
+  "features": {
+    "aiChat": {
+      "title": "AI Chat",
+      "desc": "Chat met AI-modellen."
+    },
+    "gamification": {
+      "title": "Gamificatie",
+      "desc": "Badges en ranglijsten."
+    },
+    "alerts": {
+      "title": "Realtime meldingen",
+      "desc": "Directe notificaties."
+    },
+    "darkMode": {
+      "title": "Donkere modus",
+      "desc": "Licht en donker thema."
+    },
+    "multiLang": {
+      "title": "Meertalig",
+      "desc": "Meerdere talen ondersteund."
+    },
+    "secureAuth": {
+      "title": "Veilige verificatie",
+      "desc": "JWT met vernieuwingstokens."
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "currentStreak": "Huidige reeks",
+    "totalPoints": "Totaal punten",
+    "badgesEarned": "Verdiende badges",
+    "rank": "Rang",
+    "noData": "--"
+  },
+  "profile": {
+    "title": "Profiel",
+    "userInfo": "Gebruikersinformatie",
+    "userInfoDesc": "Naam, e-mail en accountgegevens verschijnen hier.",
+    "badges": "Badges",
+    "badgesDesc": "Je verdiende badges worden hier getoond.",
+    "statistics": "Statistieken",
+    "statisticsDesc": "Cumulatieve statistieken en voortgang verschijnen hier."
+  },
+  "contact": {
+    "title": "Neem contact op",
+    "name": "Naam",
+    "email": "E-mail",
+    "message": "Bericht",
+    "send": "Bericht verzenden",
+    "sending": "Verzenden...",
+    "sent": "Bericht verzonden! We nemen snel contact met je op."
+  },
+  "about": {
+    "title": "Over ExtraPrimary",
+    "description": "ExtraPrimary is een gegamificeerd leerplatform dat AI-aangedreven bijles combineert met boeiende voortgangsmechanismen.",
+    "description2": "Verdien badges, houd je reeks vol, beklim ranglijsten en leer op je eigen tempo met gepersonaliseerde AI-assistentie.",
+    "missionTitle": "Onze missie",
+    "mission": "Onderwijs toegankelijk, boeiend en lonend maken voor leerlingen overal."
+  },
+  "a11y": {
+    "skipToContent": "Ga naar hoofdinhoud",
+    "openMenu": "Navigatiemenu openen",
+    "closeMenu": "Navigatiemenu sluiten",
+    "toggleTheme": "Kleurthema wisselen",
+    "switchLanguage": "Taal wisselen",
+    "loading": "Inhoud wordt geladen",
+    "expandSection": "Sectie uitvouwen",
+    "collapseSection": "Sectie invouwen"
+  },
+  "authHero": {
+    "title": "Breng je leren naar een hoger niveau",
+    "subtitle": "Sluit je aan bij duizenden leerlingen die AI-aangedreven bijles gebruiken met gegamificeerde voortgang.",
+    "f1": "Verdien badges en beklim ranglijsten",
+    "f2": "AI-tutor past zich aan jouw tempo aan",
+    "f3": "Beveiliging op bedrijfsniveau",
+    "f4": "Volg voortgang in realtime"
+  }
+}

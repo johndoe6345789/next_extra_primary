@@ -2,13 +2,8 @@
 
 import { useCallback } from 'react';
 import { useLocale as useNextIntlLocale } from 'next-intl';
-import { useRouter, usePathname } from 'next/navigation';
-
-/** Supported application locales. */
-const LOCALES = ['en', 'es', 'fr', 'de', 'ja'] as const;
-
-/** A single supported locale string. */
-type Locale = (typeof LOCALES)[number];
+import { useRouter, usePathname } from '@/i18n/navigation';
+import { locales, type Locale } from '@/i18n/config';
 
 /** Return type for the useLocale hook. */
 interface UseLocaleReturn {
@@ -34,10 +29,7 @@ export function useLocale(): UseLocaleReturn {
 
   const setLocale = useCallback(
     (next: Locale) => {
-      const stripped = pathname.replace(
-        /^\/[a-z]{2}(?:-[A-Z]{2})?(?=\/|$)/, '',
-      );
-      router.push(`/${next}${stripped || '/'}`);
+      router.push(pathname, { locale: next });
     },
     [pathname, router],
   );
@@ -45,7 +37,7 @@ export function useLocale(): UseLocaleReturn {
   return {
     locale,
     setLocale,
-    locales: LOCALES,
+    locales,
   };
 }
 

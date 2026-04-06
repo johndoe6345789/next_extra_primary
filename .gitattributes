@@ -1,0 +1,2 @@
+# Keep shell scripts with LF endings for Docker containers.
+*.sh text eol=lf
