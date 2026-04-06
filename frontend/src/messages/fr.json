@@ -120,11 +120,24 @@
   },
   "dashboard": {
     "title": "Tableau de bord",
-    "currentStreak": "S\u00e9rie actuelle",
+    "currentStreak": "Série actuelle",
     "totalPoints": "Points totaux",
     "badgesEarned": "Badges obtenus",
     "rank": "Rang",
-    "noData": "--"
+    "noData": "--",
+    "widgetStats": "Stats rapides",
+    "widgetStreak": "Série",
+    "widgetProgress": "Progression de niveau",
+    "widgetPoints": "Points",
+    "widgetBadges": "Badges",
+    "widgetLeaderboard": "Classement",
+    "addWidget": "Ajouter un widget",
+    "resetLayout": "Réinitialiser la disposition",
+    "manageWidgets": "Gérer les widgets",
+    "longestStreak": "Record : {days} jours",
+    "levelLabel": "Niveau {level}",
+    "levelProgress": "Progression de niveau",
+    "pointsToNext": "{points} points pour le prochain niveau"
   },
   "profile": {
     "title": "Profil",

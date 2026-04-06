@@ -76,13 +76,14 @@ void SessionService::loginUser(
                  row["email"].as<std::string>()},
                 {"username",
                  row["username"].as<std::string>()},
-                {"display_name",
+                {"displayName",
                  row["display_name"]
                      .as<std::string>()},
                 {"role", role}};
 
-            json payload = {{"accessToken", access},
-                            {"refreshToken", refresh},
+            json tokens = {{"accessToken", access},
+                            {"refreshToken", refresh}};
+            json payload = {{"tokens", tokens},
                             {"user", user}};
 
             spdlog::info("User logged in: {}", userId);

@@ -124,7 +124,20 @@
     "totalPoints": "Totaal punten",
     "badgesEarned": "Verdiende badges",
     "rank": "Rang",
-    "noData": "--"
+    "noData": "--",
+    "widgetStats": "Snelle statistieken",
+    "widgetStreak": "Reeks",
+    "widgetProgress": "Niveauvoortgang",
+    "widgetPoints": "Punten",
+    "widgetBadges": "Badges",
+    "widgetLeaderboard": "Ranglijst",
+    "addWidget": "Widget toevoegen",
+    "resetLayout": "Indeling herstellen",
+    "manageWidgets": "Widgets beheren",
+    "longestStreak": "Langste: {days} dagen",
+    "levelLabel": "Niveau {level}",
+    "levelProgress": "Niveauvoortgang",
+    "pointsToNext": "{points} punten tot volgend niveau"
   },
   "profile": {
     "title": "Profiel",

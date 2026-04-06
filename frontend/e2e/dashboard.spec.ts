@@ -16,14 +16,14 @@ test.describe('Dashboard', () => {
     ).not.toBeEmpty();
   });
 
-  test('dashboard displays stats section', async ({
+  test('dashboard displays widget grid', async ({
     page,
   }) => {
     await page.goto('/en/dashboard', {
       waitUntil: 'domcontentloaded',
     });
-    const stats = page.getByTestId('dashboard-stats');
-    await expect(stats).toBeVisible();
+    const grid = page.getByTestId('dashboard-grid');
+    await expect(grid).toBeVisible();
   });
 
   test('dashboard displays user greeting', async ({

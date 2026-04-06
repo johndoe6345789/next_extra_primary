@@ -69,11 +69,11 @@ void RegistrationService::registerUser(
                  r["email"].as<std::string>()},
                 {"username",
                  r["username"].as<std::string>()},
-                {"display_name",
+                {"displayName",
                  r["display_name"]
                      .as<std::string>()},
-                {"email_confirmed", false},
-                {"created_at",
+                {"emailConfirmed", false},
+                {"createdAt",
                  r["created_at"].as<std::string>()}};
             spdlog::info("User registered: {} ({})",
                          username, email);

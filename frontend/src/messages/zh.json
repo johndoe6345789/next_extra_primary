@@ -124,7 +124,20 @@
     "totalPoints": "总积分",
     "badgesEarned": "获得徽章",
     "rank": "排名",
-    "noData": "--"
+    "noData": "--",
+    "widgetStats": "快速统计",
+    "widgetStreak": "连续天数",
+    "widgetProgress": "等级进度",
+    "widgetPoints": "积分",
+    "widgetBadges": "徽章",
+    "widgetLeaderboard": "排行榜",
+    "addWidget": "添加小组件",
+    "resetLayout": "重置布局",
+    "manageWidgets": "管理小组件",
+    "longestStreak": "最长: {days}天",
+    "levelLabel": "等级 {level}",
+    "levelProgress": "等级进度",
+    "pointsToNext": "距离下一等级还需{points}积分"
   },
   "profile": {
     "title": "个人资料",

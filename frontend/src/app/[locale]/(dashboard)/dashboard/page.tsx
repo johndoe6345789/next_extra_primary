@@ -4,8 +4,8 @@ import {
   getTranslations,
 } from 'next-intl/server';
 import { Box, Typography } from '@shared/m3';
-import DashboardStats from
-  '@/components/organisms/DashboardStats';
+import DashboardGrid from
+  '@/components/organisms/DashboardGrid';
 
 /** Skip static prerendering for this page. */
 export const dynamic = 'force-dynamic';
@@ -16,7 +16,7 @@ interface DashboardPageProps {
 }
 
 /**
- * Dashboard home page with live stats grid.
+ * Dashboard home page with draggable widget grid.
  *
  * @param props - Page props with locale params.
  * @returns Dashboard overview UI.
@@ -37,7 +37,7 @@ export default async function DashboardPage({
       >
         {t('title')}
       </Typography>
-      <DashboardStats />
+      <DashboardGrid />
     </Box>
   );
 }

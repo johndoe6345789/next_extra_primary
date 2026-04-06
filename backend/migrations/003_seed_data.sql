@@ -13,7 +13,7 @@ BEGIN;
 -- ----------------------------------------------------------
 INSERT INTO users
     (email, username, display_name, role,
-     is_active, is_confirmed,
+     is_active, email_confirmed,
      total_points, current_level, password_hash)
 VALUES
     ('admin@nextra.local', 'admin', 'Admin User',

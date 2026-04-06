@@ -26,4 +26,6 @@ export type { UseContactFormReturn } from './useContactForm';
 export { useForgotPassword } from './useForgotPassword';
 export type { UseForgotPasswordReturn } from './useForgotPassword';
 export { useDashboard } from './useDashboard';
+export { useDashboardLayout } from './useDashboardLayout';
+export type { UseDashboardLayoutReturn } from './useDashboardLayout';
 export { useFeatureToggle } from './useFeatureToggle';

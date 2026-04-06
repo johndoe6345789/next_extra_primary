@@ -124,7 +124,20 @@
     "totalPoints": "Puntos totales",
     "badgesEarned": "Insignias obtenidas",
     "rank": "Puesto",
-    "noData": "--"
+    "noData": "--",
+    "widgetStats": "Estadísticas rápidas",
+    "widgetStreak": "Racha",
+    "widgetProgress": "Progreso de nivel",
+    "widgetPoints": "Puntos",
+    "widgetBadges": "Insignias",
+    "widgetLeaderboard": "Tabla de posiciones",
+    "addWidget": "Agregar widget",
+    "resetLayout": "Restablecer diseño",
+    "manageWidgets": "Gestionar widgets",
+    "longestStreak": "Mejor: {days} días",
+    "levelLabel": "Nivel {level}",
+    "levelProgress": "Progreso de nivel",
+    "pointsToNext": "{points} puntos para el siguiente nivel"
   },
   "profile": {
     "title": "Perfil",

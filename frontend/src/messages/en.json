@@ -124,7 +124,20 @@
     "totalPoints": "Total Points",
     "badgesEarned": "Badges Earned",
     "rank": "Rank",
-    "noData": "--"
+    "noData": "--",
+    "widgetStats": "Quick Stats",
+    "widgetStreak": "Streak",
+    "widgetProgress": "Level Progress",
+    "widgetPoints": "Points",
+    "widgetBadges": "Badges",
+    "widgetLeaderboard": "Leaderboard",
+    "addWidget": "Add widget",
+    "resetLayout": "Reset layout",
+    "manageWidgets": "Manage Widgets",
+    "longestStreak": "Longest: {days} days",
+    "levelLabel": "Level {level}",
+    "levelProgress": "Level progress",
+    "pointsToNext": "{points} points to next level"
   },
   "profile": {
     "title": "Profile",

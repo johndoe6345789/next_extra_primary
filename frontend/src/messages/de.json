@@ -119,12 +119,25 @@
     }
   },
   "dashboard": {
-    "title": "\u00dcbersicht",
+    "title": "Übersicht",
     "currentStreak": "Aktuelle Serie",
     "totalPoints": "Gesamtpunkte",
     "badgesEarned": "Erhaltene Abzeichen",
     "rank": "Rang",
-    "noData": "--"
+    "noData": "--",
+    "widgetStats": "Schnellübersicht",
+    "widgetStreak": "Serie",
+    "widgetProgress": "Level-Fortschritt",
+    "widgetPoints": "Punkte",
+    "widgetBadges": "Abzeichen",
+    "widgetLeaderboard": "Bestenliste",
+    "addWidget": "Widget hinzufügen",
+    "resetLayout": "Layout zurücksetzen",
+    "manageWidgets": "Widgets verwalten",
+    "longestStreak": "Rekord: {days} Tage",
+    "levelLabel": "Level {level}",
+    "levelProgress": "Level-Fortschritt",
+    "pointsToNext": "{points} Punkte bis zum nächsten Level"
   },
   "profile": {
     "title": "Profil",

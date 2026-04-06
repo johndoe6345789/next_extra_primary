@@ -9,3 +9,4 @@ export * from './notification';
 export * from './gamification';
 export * from './chat';
 export * from './api';
+export * from './dashboard';

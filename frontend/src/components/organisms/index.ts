@@ -54,3 +54,6 @@ export type { ForgotPasswordFormProps } from './ForgotPasswordForm';
 
 export { default as DashboardStats }
   from './DashboardStats';
+
+export { default as DashboardGrid }
+  from './DashboardGrid';

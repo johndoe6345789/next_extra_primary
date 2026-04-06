@@ -124,7 +124,20 @@
     "totalPoints": "合計ポイント",
     "badgesEarned": "獲得バッジ",
     "rank": "ランク",
-    "noData": "--"
+    "noData": "--",
+    "widgetStats": "概要",
+    "widgetStreak": "連続記録",
+    "widgetProgress": "レベル進捗",
+    "widgetPoints": "ポイント",
+    "widgetBadges": "バッジ",
+    "widgetLeaderboard": "ランキング",
+    "addWidget": "ウィジェットを追加",
+    "resetLayout": "レイアウトをリセット",
+    "manageWidgets": "ウィジェット管理",
+    "longestStreak": "最長: {days}日",
+    "levelLabel": "レベル {level}",
+    "levelProgress": "レベル進捗",
+    "pointsToNext": "次のレベルまで{points}ポイント"
   },
   "profile": {
     "title": "プロフィール",

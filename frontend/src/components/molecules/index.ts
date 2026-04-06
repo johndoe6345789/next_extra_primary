@@ -52,3 +52,6 @@ export type {
 export { DrawerFooter } from './DrawerFooter';
 
 export { DrawerToolLinks } from './DrawerToolLinks';
+
+export { default as DraggableWidget } from './DraggableWidget';
+export type { DraggableWidgetProps } from './DraggableWidget';

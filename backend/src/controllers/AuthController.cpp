@@ -6,8 +6,6 @@
 #include "AuthController.h"
 #include "../services/AuthService.h"
 #include "../utils/JsonResponse.h"
-#include "../utils/PasswordHash.h"
-#include "../utils/Validators.h"
 
 #include <nlohmann/json.hpp>
 #include <string>
@@ -36,32 +34,19 @@ void AuthController::registerUser(
     auto email = body["email"].get<std::string>();
     auto username = body["username"].get<std::string>();
     auto password = body["password"].get<std::string>();
+    auto displayName =
+        body.value("display_name", username);
 
-    if (!::utils::isValidEmail(email)) {
-        cb(::utils::jsonError(drogon::k400BadRequest,
-                              "Invalid email format"));
-        return;
-    }
-    if (!::utils::isValidUsername(username)) {
-        cb(::utils::jsonError(drogon::k400BadRequest,
-                              "Invalid username"));
-        return;
-    }
-    if (!::utils::isValidPassword(password)) {
-        cb(::utils::jsonError(drogon::k400BadRequest,
-                              "Password too weak"));
-        return;
-    }
-
-    auto hashed = ::utils::hashPassword(password);
-    auto displayName = body.value("display_name", username);
-
-    // TODO: persist user to database.
-    json user = {{"id", "generated-uuid"},
-                 {"email", email},
-                 {"username", username},
-                 {"display_name", displayName}};
-    cb(::utils::jsonCreated(user));
+    services::AuthService auth;
+    auth.registerUser(
+        email, username, password, displayName,
+        [cb](const services::json& payload) {
+            cb(::utils::jsonCreated(payload));
+        },
+        [cb](drogon::HttpStatusCode code,
+             const std::string& msg) {
+            cb(::utils::jsonError(code, msg));
+        });
 }
 
 // ----------------------------------------------------------
