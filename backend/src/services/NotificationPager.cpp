@@ -49,13 +49,15 @@ void NotificationPager::getNotifications(const std::string& userId,
         }
         const std::string dataSql = R"(
                 SELECT id, user_id, title, body, type,
-                       metadata, read, created_at
+                       is_read, created_at
                 FROM notifications
                 WHERE user_id = $1
                 ORDER BY created_at DESC
                 LIMIT $2 OFFSET $3
             )";
-        *dbClient << dataSql << userId << perPage << offset >>
+        *dbClient << dataSql << userId
+                  << static_cast<std::int64_t>(perPage)
+                  << offset >>
             [total, page, perPage, onSuccess](const Result& result) {
                 json items = json::array();
                 for (const auto& r : result) {

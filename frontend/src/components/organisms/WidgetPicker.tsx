@@ -3,15 +3,15 @@
 import Dialog from '@shared/m3/Dialog';
 import DialogTitle from '@shared/m3/DialogTitle';
 import DialogContent from '@shared/m3/DialogContent';
-import List from '@shared/m3/List';
-import ListItemButton
-  from '@shared/m3/ListItemButton';
-import ListItemText from '@shared/m3/ListItemText';
-import { Switch } from '@shared/m3/inputs/Switch';
+import Box from '@shared/m3/Box';
+import Typography from '@shared/m3/Typography';
+import WidgetCard
+  from '@/components/molecules/WidgetCard';
 import { useTranslations } from 'next-intl';
 import type {
   DashboardLayout, WidgetId,
 } from '@/types/dashboard';
+import { widgetMap } from './widgets/widgetMap';
 import registryJson from
   '@/constants/dashboard-widgets.json';
 
@@ -28,14 +28,14 @@ export interface WidgetPickerProps {
 }
 
 /**
- * Dialog listing all available widgets with
- * toggle switches to show/hide each one.
+ * Dialog with a gallery of widget cards. Each
+ * card shows a live mini-preview, the widget
+ * name, description, and a toggle switch.
  */
 export default function WidgetPicker({
   open, layout, onToggle, onClose,
 }: WidgetPickerProps) {
   const t = useTranslations('dashboard');
-
   const visMap = Object.fromEntries(
     layout.map((w) => [w.id, w.visible]),
   );
@@ -46,31 +46,40 @@ export default function WidgetPicker({
       onClose={onClose}
       aria-labelledby="widget-picker-title"
       data-testid="widget-picker"
-      maxWidth="xs"
+      maxWidth="sm"
       fullWidth
     >
       <DialogTitle id="widget-picker-title">
         {t('manageWidgets')}
       </DialogTitle>
       <DialogContent>
-        <List>
-          {registryJson.map((w) => (
-            <ListItemButton key={w.id}>
-              <ListItemText
-                primary={t(w.labelKey)}
+        <div style={gridStyle}>
+          {registryJson.map((w) => {
+            const Comp = widgetMap[
+              w.id as WidgetId
+            ];
+            const on = visMap[w.id] ?? true;
+            return (
+              <WidgetCard
+                key={w.id}
+                id={w.id as WidgetId}
+                icon={w.icon}
+                label={t(w.labelKey)}
+                desc={t(w.descKey)}
+                on={on}
+                onToggle={onToggle}
+                Comp={Comp}
               />
-              <Switch
-                checked={visMap[w.id] ?? true}
-                onChange={() =>
-                  onToggle(w.id as WidgetId)
-                }
-                aria-label={t(w.labelKey)}
-                testId={`toggle-${w.id}`}
-              />
-            </ListItemButton>
-          ))}
-        </List>
+            );
+          })}
+        </div>
       </DialogContent>
     </Dialog>
   );
 }
+
+const gridStyle: React.CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(2, 1fr)',
+  gap: '12px',
+};

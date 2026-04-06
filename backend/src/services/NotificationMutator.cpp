@@ -29,13 +29,13 @@ void NotificationMutator::createNotification(
     const std::string sql = R"(
         INSERT INTO notifications
             (user_id, title, body, type,
-             metadata, read, created_at)
-        VALUES ($1, $2, $3, $4, $5, false, NOW())
+             is_read, created_at)
+        VALUES ($1, $2, $3, $4, false, NOW())
         RETURNING id, user_id, title, body, type,
-                  metadata, read, created_at
+                  is_read, created_at
     )";
 
-    *dbClient << sql << userId << title << body << type << metadata.dump() >>
+    *dbClient << sql << userId << title << body << type >>
         [onSuccess](const Result& result) {
             if (result.empty()) {
                 onSuccess(json::object());
@@ -56,7 +56,7 @@ void NotificationMutator::markAsRead(const std::string& notificationId,
     auto dbClient = db();
     const std::string sql = R"(
         UPDATE notifications
-        SET read = true
+        SET is_read = true
         WHERE id = $1 AND user_id = $2
         RETURNING id
     )";

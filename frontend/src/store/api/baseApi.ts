@@ -80,7 +80,7 @@ export const baseApi = createApi({
   tagTypes: [
     'Auth', 'User', 'Notification',
     'Gamification', 'Chat',
-    'Dashboard', 'Features',
+    'Dashboard', 'Features', 'Comments',
   ],
   endpoints: () => ({}),
 });

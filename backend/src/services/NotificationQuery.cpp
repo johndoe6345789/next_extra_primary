@@ -26,7 +26,7 @@ void NotificationQuery::getUnreadCount(const std::string& userId,
     const std::string sql = R"(
         SELECT COUNT(*) AS count
         FROM notifications
-        WHERE user_id = $1 AND read = false
+        WHERE user_id = $1 AND is_read = false
     )";
 
     *dbClient << sql << userId >> [onSuccess](const Result& result) {

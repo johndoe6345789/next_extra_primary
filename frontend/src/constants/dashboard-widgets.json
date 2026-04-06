@@ -2,31 +2,43 @@
   {
     "id": "stats",
     "labelKey": "widgetStats",
+    "descKey": "widgetStatsDesc",
+    "icon": "bar_chart",
     "defaultSpan": 12
   },
   {
     "id": "streak",
     "labelKey": "widgetStreak",
+    "descKey": "widgetStreakDesc",
+    "icon": "local_fire_department",
     "defaultSpan": 4
   },
   {
     "id": "progress",
     "labelKey": "widgetProgress",
+    "descKey": "widgetProgressDesc",
+    "icon": "trending_up",
     "defaultSpan": 4
   },
   {
     "id": "points",
     "labelKey": "widgetPoints",
+    "descKey": "widgetPointsDesc",
+    "icon": "star",
     "defaultSpan": 4
   },
   {
     "id": "badges",
     "labelKey": "widgetBadges",
+    "descKey": "widgetBadgesDesc",
+    "icon": "military_tech",
     "defaultSpan": 8
   },
   {
     "id": "leaderboard",
     "labelKey": "widgetLeaderboard",
+    "descKey": "widgetLeaderboardDesc",
+    "icon": "leaderboard",
     "defaultSpan": 12
   }
 ]

@@ -1,12 +1,12 @@
 /**
- * @file NotificationController.cpp
- * @brief Read-only notification endpoints: list, unread count.
+ * @file NotificationActions.cpp
+ * @brief Mutation notification endpoints: mark-read,
+ *        mark-all-read, delete.
  */
 
 #include "NotificationController.h"
 #include "../services/NotificationService.h"
 #include "../utils/JsonResponse.h"
-#include "../utils/parse_helpers.h"
 
 #include <nlohmann/json.hpp>
 
@@ -17,20 +17,16 @@ using Cb =
 namespace controllers
 {
 
-void NotificationController::list(
-    const drogon::HttpRequestPtr& req, Cb&& cb)
+void NotificationController::markRead(
+    const drogon::HttpRequestPtr& req, Cb&& cb,
+    const std::string& id)
 {
     auto userId =
         req->attributes()->get<std::string>("user_id");
-    auto page = ::utils::safeStoll(
-        req->getParameter("page"), 1);
-    auto perPage = ::utils::safeStoll(
-        req->getParameter("per_page"), 20);
 
     services::NotificationService svc;
-    svc.getNotifications(
-        userId, static_cast<int32_t>(page),
-        static_cast<int32_t>(perPage),
+    svc.markAsRead(
+        id, userId,
         [cb](const json& data) {
             cb(::utils::jsonOk(data));
         },
@@ -40,19 +36,36 @@ void NotificationController::list(
         });
 }
 
-void NotificationController::unreadCount(
+void NotificationController::markAllRead(
     const drogon::HttpRequestPtr& req, Cb&& cb)
 {
     auto userId =
         req->attributes()->get<std::string>("user_id");
 
     services::NotificationService svc;
-    svc.getUnreadCount(
+    svc.markAllAsRead(
         userId,
         [cb](const json& data) {
-            json mapped = {
-                {"unread_count", data.value("count", 0)}};
-            cb(::utils::jsonOk(mapped));
+            cb(::utils::jsonOk(data));
+        },
+        [cb](drogon::HttpStatusCode code,
+             const std::string& msg) {
+            cb(::utils::jsonError(code, msg));
+        });
+}
+
+void NotificationController::remove(
+    const drogon::HttpRequestPtr& req, Cb&& cb,
+    const std::string& id)
+{
+    auto userId =
+        req->attributes()->get<std::string>("user_id");
+
+    services::NotificationService svc;
+    svc.deleteNotification(
+        id, userId,
+        [cb](const json& data) {
+            cb(::utils::jsonOk(data));
         },
         [cb](drogon::HttpStatusCode code,
              const std::string& msg) {

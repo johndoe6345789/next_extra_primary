@@ -1,0 +1,28 @@
+{
+  "points": [
+    {
+      "username": "demo",
+      "entries": [
+        {"amount": 10, "reason": "Daily login", "source": "login", "days_ago": 3},
+        {"amount": 5, "reason": "AI chat message", "source": "chat", "days_ago": 3},
+        {"amount": 50, "reason": "Badge: Early Adopter", "source": "badge", "days_ago": 2},
+        {"amount": 10, "reason": "Daily login", "source": "login", "days_ago": 2},
+        {"amount": 5, "reason": "AI chat message", "source": "chat", "days_ago": 2},
+        {"amount": 5, "reason": "AI chat message", "source": "chat", "days_ago": 1},
+        {"amount": 10, "reason": "Daily login", "source": "login", "days_ago": 1},
+        {"amount": 100, "reason": "Streak milestone: 3 days", "source": "streak", "days_ago": 1},
+        {"amount": 10, "reason": "Daily login", "source": "login", "days_ago": 0},
+        {"amount": 25, "reason": "Profile completed", "source": "profile", "days_ago": 0}
+      ]
+    }
+  ],
+  "streaks": [
+    {"username": "demo", "current": 4, "longest": 4}
+  ],
+  "badges": [
+    {"username": "demo", "badge_name": "Early Adopter", "days_ago": 2}
+  ],
+  "user_totals": [
+    {"username": "demo", "total_points": 230, "current_level": 3}
+  ]
+}

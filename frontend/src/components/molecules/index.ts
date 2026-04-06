@@ -55,3 +55,9 @@ export { DrawerToolLinks } from './DrawerToolLinks';
 
 export { default as DraggableWidget } from './DraggableWidget';
 export type { DraggableWidgetProps } from './DraggableWidget';
+
+export { default as WidgetCard } from './WidgetCard';
+export type { WidgetCardProps } from './WidgetCard';
+
+export { default as CommentRow } from './CommentRow';
+export type { CommentRowProps } from './CommentRow';

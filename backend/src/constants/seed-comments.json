@@ -1,0 +1,37 @@
+[
+  {
+    "username": "admin",
+    "content": "Welcome to NextExtra! Excited to have everyone here.",
+    "days_ago": 3
+  },
+  {
+    "username": "testuser",
+    "content": "Just hit level 5, the gamification system is addictive!",
+    "days_ago": 2
+  },
+  {
+    "username": "apidemo",
+    "content": "Anyone tried the AI chat feature yet? Pretty impressive.",
+    "days_ago": 1
+  },
+  {
+    "username": "admin",
+    "content": "New badges dropping next week. Stay tuned!",
+    "hours_ago": 12
+  },
+  {
+    "username": "testuser",
+    "content": "The dark mode theme is really well done.",
+    "hours_ago": 6
+  },
+  {
+    "username": "system",
+    "content": "System maintenance completed successfully.",
+    "hours_ago": 2
+  },
+  {
+    "username": "apidemo",
+    "content": "Loving the leaderboard competition this week!",
+    "minutes_ago": 30
+  }
+]

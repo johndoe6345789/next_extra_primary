@@ -26,8 +26,8 @@ void NotificationDeleter::markAllAsRead(const std::string& userId,
     const std::string sql = R"(
         WITH updated AS (
             UPDATE notifications
-            SET read = true
-            WHERE user_id = $1 AND read = false
+            SET is_read = true
+            WHERE user_id = $1 AND is_read = false
             RETURNING id
         )
         SELECT COUNT(*) AS count FROM updated

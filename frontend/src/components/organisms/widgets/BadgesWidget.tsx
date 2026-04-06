@@ -4,6 +4,7 @@ import Box from '@shared/m3/Box';
 import Grid from '@shared/m3/Grid';
 import Typography from '@shared/m3/Typography';
 import Skeleton from '@shared/m3/Skeleton';
+import { Icon } from '@shared/m3/data-display/Icon';
 import { useGamification } from '@/hooks';
 
 /**
@@ -38,11 +39,16 @@ export default function BadgesWidget() {
                 opacity: b.earnedAt ? 1 : 0.4,
               }}
             >
-              <img
-                src={b.iconUrl}
-                alt={b.name}
-                style={{ width: 40, height: 40 }}
-              />
+              <Icon
+                size="lg"
+                color={
+                  b.earnedAt
+                    ? 'primary'
+                    : 'onSurfaceVariant'
+                }
+              >
+                {b.iconUrl || 'emoji_events'}
+              </Icon>
               <Typography
                 variant="caption"
                 noWrap

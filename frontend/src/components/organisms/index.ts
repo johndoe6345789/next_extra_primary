@@ -57,3 +57,12 @@ export { default as DashboardStats }
 
 export { default as DashboardGrid }
   from './DashboardGrid';
+
+export { default as ProfileContent }
+  from './ProfileContent';
+export { default as ProfileHeader }
+  from './ProfileHeader';
+export { default as ProfileBadges }
+  from './ProfileBadges';
+export { default as ProfileActivity }
+  from './ProfileActivity';

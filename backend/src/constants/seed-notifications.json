@@ -1,0 +1,51 @@
+[
+  {
+    "username": "demo",
+    "title": "Welcome to NextExtra!",
+    "body": "Thanks for signing up. Start exploring to earn your first badge.",
+    "type": "info",
+    "hours_ago": 1
+  },
+  {
+    "username": "demo",
+    "title": "Badge Unlocked: Early Adopter",
+    "body": "You earned the Early Adopter badge! +50 points.",
+    "type": "achievement",
+    "minutes_ago": 45
+  },
+  {
+    "username": "demo",
+    "title": "New Leaderboard Position",
+    "body": "You climbed to #12 on the weekly leaderboard.",
+    "type": "info",
+    "minutes_ago": 30
+  },
+  {
+    "username": "demo",
+    "title": "Streak Milestone: 3 Days",
+    "body": "You've been active 3 days in a row! Keep it up.",
+    "type": "achievement",
+    "minutes_ago": 15
+  },
+  {
+    "username": "demo",
+    "title": "System Update",
+    "body": "New AI chat model deployed. Try asking it something!",
+    "type": "system",
+    "minutes_ago": 5
+  },
+  {
+    "username": "admin",
+    "title": "Weekly Report Ready",
+    "body": "Your platform usage report for this week is available.",
+    "type": "info",
+    "hours_ago": 3
+  },
+  {
+    "username": "testuser",
+    "title": "Badge Unlocked: First Chat",
+    "body": "You sent your first AI chat message! +50 points.",
+    "type": "achievement",
+    "hours_ago": 5
+  }
+]
