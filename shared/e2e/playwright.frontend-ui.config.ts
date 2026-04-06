@@ -9,6 +9,8 @@ export default defineConfig({
   fullyParallel: true,
   retries: 0,
   reporter: 'list',
+  globalSetup: './frontend-ui.setup.ts',
+  globalTeardown: './frontend-ui.teardown.ts',
   use: {
     baseURL,
     trace: 'on-first-retry',

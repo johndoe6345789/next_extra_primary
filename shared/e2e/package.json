@@ -8,6 +8,7 @@
     "test:frontend-ui": "playwright test tests.spec.ts --grep \"frontend-ui\""
   },
   "devDependencies": {
-    "@playwright/test": "^1.49.0"
+    "@playwright/test": "^1.49.0",
+    "testcontainers": "^10.0.0"
   }
 }

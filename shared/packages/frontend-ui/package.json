@@ -1,0 +1,9 @@
+{
+  "name": "frontend-ui",
+  "version": "1.0.0",
+  "private": true,
+  "e2e": {
+    "services": ["db", "backend", "frontend", "portal"],
+    "baseURL": "http://localhost:8889"
+  }
+}
