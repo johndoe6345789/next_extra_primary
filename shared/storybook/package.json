@@ -25,7 +25,7 @@
     "sass": "^1.97.3",
     "storybook": "10.2.19",
     "typescript": "^5.9.3",
-    "vite": "^7.3.1"
+    "vite": "^7.3.2"
   },
   "overrides": {
     "storybook": "10.2.19",
