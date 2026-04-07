@@ -89,6 +89,17 @@ docker compose up --build
 This starts PostgreSQL on port 5432, the C++ API on port 8080, and the
 Next.js frontend on port 3000. Open http://localhost:3000 in your browser.
 
+### Default Credentials
+
+| Role  | Email              | Password   |
+|-------|--------------------|------------|
+| Admin | admin@nextra.local | Admin123!  |
+| User  | user@nextra.local  | User123!   |
+
+These accounts are created by the seed migration
+(`backend/migrations/003_seed_data.sql`). Change them immediately in
+any non-development environment.
+
 To run in detached mode:
 
 ```bash

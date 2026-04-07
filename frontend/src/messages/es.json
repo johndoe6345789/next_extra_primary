@@ -181,11 +181,24 @@
     "collapseSection": "Contraer sección"
   },
   "authHero": {
-    "title": "Mejora tu aprendizaje",
-    "subtitle": "Únete a miles de estudiantes con tutoría IA y progresión gamificada.",
-    "f1": "Gana insignias y sube en el ranking",
-    "f2": "Tutor IA que se adapta a tu ritmo",
-    "f3": "Seguridad de nivel empresarial",
-    "f4": "Sigue tu progreso en tiempo real"
+    "title": "Aprende mejor, no más",
+    "subtitle": "Un tutor IA que te encuentra donde estás y crece contigo.",
+    "f1": "Rutas de aprendizaje personalizadas",
+    "f2": "Progreso que puedes ver y sentir",
+    "f3": "Diseñado para la privacidad y la confianza",
+    "f4": "De la primera lección al dominio"
+  },
+  "settings": {
+    "account": "Cuenta",
+    "preferences": "Preferencias",
+    "language": "Idioma",
+    "email": "Correo electrónico",
+    "username": "Usuario",
+    "displayName": "Nombre visible",
+    "role": "Rol",
+    "darkMode": "Modo oscuro",
+    "admin": "Administración",
+    "manageTranslations": "Gestionar traducciones",
+    "comingSoon": "Más ajustes próximamente."
   }
 }

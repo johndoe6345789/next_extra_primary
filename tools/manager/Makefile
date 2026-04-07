@@ -29,6 +29,8 @@ SRCS := main.cpp \
         commands/ElasticCmdInit.cpp \
         commands/ElasticCmdReindex.cpp \
         commands/ElasticCmdStatus.cpp \
+        commands/SeedTransCmd.cpp \
+        commands/SeedTransGen.cpp \
         commands/WorkflowCtx.cpp \
         commands/WorkflowExec.cpp \
         commands/WorkflowLoad.cpp \

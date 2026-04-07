@@ -37,6 +37,8 @@ add_executable(manager
     commands/PackageRepoCmdReg.cpp
     commands/S3Cmd.cpp
     commands/S3CmdUp.cpp
+    commands/SeedTransCmd.cpp
+    commands/SeedTransGen.cpp
     commands/SetupExoticArchCmd.cpp
     commands/TestCmd.cpp
     commands/WorkflowCtx.cpp

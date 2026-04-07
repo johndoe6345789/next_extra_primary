@@ -1,0 +1,89 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "dark-mode-contrast",
+  "description": "Dark mode contrast and i18n rendering tests",
+  "tests": [
+    {
+      "name": "login form labels visible on white card in dark mode",
+      "tags": ["@contrast", "@login"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en/login" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "click", "testId": "theme-toggle-button" },
+        { "action": "wait", "timeout": 500 },
+        { "action": "evaluate", "script": "(() => { const labels = document.querySelectorAll('[data-testid=\"login-form\"] label, [data-testid=\"login-form\"] .form-label'); if (!labels.length) throw new Error('No labels found'); labels.forEach(l => { const m = getComputedStyle(l).color.match(/\\d+/g); if (!m) throw new Error('No color on label'); const [r,g,b] = m.map(Number); if (r+g+b > 500) throw new Error('Label too light on white card: rgb('+r+','+g+','+b+')'); }); })()" }
+      ]
+    },
+    {
+      "name": "login uses M3 checkbox not native input",
+      "tags": ["@contrast", "@login"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en/login" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "evaluate", "script": "if (!document.querySelector('[data-testid=\"login-form\"] [class*=\"mdc-checkbox\"]')) throw new Error('Expected M3 Checkbox component')" }
+      ]
+    },
+    {
+      "name": "locale dropdown text readable in dark mode",
+      "tags": ["@contrast", "@nav"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en/login" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "click", "testId": "theme-toggle-button" },
+        { "action": "wait", "timeout": 500 },
+        { "action": "evaluate", "script": "(() => { const el = document.querySelector('[data-testid=\"locale-switcher\"]'); if (!el) throw new Error('locale-switcher not found'); const m = getComputedStyle(el).color.match(/\\d+/g); if (!m) throw new Error('No color on switcher'); const [r,g,b] = m.map(Number); if (r+g+b < 300) throw new Error('Dropdown text too dark for dark bg: rgb('+r+','+g+','+b+')'); })()" }
+      ]
+    },
+    {
+      "name": "locale dropdown menu items visible when open",
+      "tags": ["@contrast", "@nav"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en/login" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "click", "testId": "theme-toggle-button" },
+        { "action": "wait", "timeout": 500 },
+        { "action": "click", "testId": "locale-switcher" },
+        { "action": "wait", "timeout": 500 },
+        { "action": "evaluate", "script": "(() => { const items = document.querySelectorAll('[class*=\"mat-mdc-menu-item\"]'); if (!items.length) throw new Error('No menu items found'); const panel = items[0].closest('[class*=\"panel\"]'); if (!panel) throw new Error('No panel ancestor found'); const bgM = getComputedStyle(panel).backgroundColor.match(/\\d+/g); if (!bgM) throw new Error('No bg color on panel'); const bgSum = bgM.map(Number).reduce((a,b)=>a+b,0); items.forEach(i => { const m = getComputedStyle(i).color.match(/\\d+/g); if (!m) throw new Error('No color on menu item'); const sum = m.map(Number).reduce((a,b)=>a+b,0); if (bgSum < 300 && sum < 300) throw new Error('Dark text on dark bg'); if (bgSum > 500 && sum > 500) throw new Error('Light text on light bg'); }); })()" }
+      ]
+    },
+    {
+      "name": "theme toggle icon has sufficient stroke width",
+      "tags": ["@contrast", "@nav"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en/login" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "evaluate", "script": "(() => { const svg = document.querySelector('[data-testid=\"theme-toggle-button\"] svg'); if (!svg) throw new Error('No theme icon SVG'); const sw = Number(svg.getAttribute('stroke-width')); if (sw < 10) throw new Error('strokeWidth too thin: '+sw+' (need >=10)'); })()" }
+      ]
+    },
+    {
+      "name": "bell icon has sufficient stroke width",
+      "tags": ["@contrast", "@nav"],
+      "steps": [
+        { "action": "navigate", "url": "/app/en/login" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "evaluate", "script": "(() => { const svg = document.querySelector('[data-testid=\"notification-bell-button\"] svg'); if (!svg) throw new Error('No bell icon SVG'); const sw = Number(svg.getAttribute('stroke-width')); if (sw < 10) throw new Error('strokeWidth too thin: '+sw+' (need >=10)'); })()" }
+      ]
+    },
+    {
+      "name": "html lang matches locale for Japanese",
+      "tags": ["@i18n", "@locale"],
+      "steps": [
+        { "action": "navigate", "url": "/app/ja/contact" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "wait", "timeout": 1000 },
+        { "action": "evaluate", "script": "if (document.documentElement.lang !== 'ja') throw new Error('Expected lang=ja, got '+document.documentElement.lang)" }
+      ]
+    },
+    {
+      "name": "Japanese locale renders Japanese text",
+      "tags": ["@i18n", "@locale"],
+      "steps": [
+        { "action": "navigate", "url": "/app/ja/contact" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "expect", "selector": "h1, h2, [role='heading']",
+          "assertion": { "matcher": "toContainText", "expected": "お問い合わせ" } }
+      ]
+    }
+  ]
+}

@@ -16,18 +16,26 @@ INSERT INTO users
      is_active, email_confirmed,
      total_points, current_level, password_hash)
 VALUES
+    -- admin / Admin123!
     ('admin@nextra.local', 'admin', 'Admin User',
      'admin', TRUE, TRUE, 500, 8,
-     '$2a$10$8Kx9YqZvW1J0rJQwXzKvNO'
-     'dF3Gk5mGpZ0hK8lM2nO4pQ6rS8tU0vW'),
+     'd93aef3e5b36973a841b911c78d92f1a'
+     '$600000$'
+     '8dbc2ae5c2bcde0cdae9d40c16805dc3'
+     'cdfd3b85b0b7c8ba192f0ca464b983aa'),
+    -- testuser / User123!
     ('user@nextra.local', 'testuser', 'Test User',
      'user', TRUE, TRUE, 150, 3,
-     '$2a$10$8Kx9YqZvW1J0rJQwXzKvNO'
-     'dF3Gk5mGpZ0hK8lM2nO4pQ6rS8tU0vW'),
+     '1eca5055645a490144b007c9aa9ee0a7'
+     '$600000$'
+     'e34eb0cc26a04be77f57d6120fdf6a54'
+     '6641d524c1f318981226f129a4f050cc'),
     ('noreply@nextra.local', 'system', 'System',
      'admin', TRUE, TRUE, 0, 1,
-     '$2a$10$8Kx9YqZvW1J0rJQwXzKvNO'
-     'dF3Gk5mGpZ0hK8lM2nO4pQ6rS8tU0vW')
+     'd93aef3e5b36973a841b911c78d92f1a'
+     '$600000$'
+     '8dbc2ae5c2bcde0cdae9d40c16805dc3'
+     'cdfd3b85b0b7c8ba192f0ca464b983aa')
 ON CONFLICT (email) DO NOTHING;
 
 -- ----------------------------------------------------------

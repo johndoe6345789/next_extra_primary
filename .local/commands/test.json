@@ -1,58 +1,68 @@
 {
   "name": "test",
-  "description": "Build in Debug mode and run tests with ctest",
+  "description": "Run tests: backend (ctest), frontend (jest), e2e (playwright)",
   "options": [
+    {
+      "name": "scope",
+      "default": "all",
+      "help": "Test scope: all, backend, frontend, e2e"
+    },
     {
       "name": "filter",
       "default": "",
-      "help": "Test name regex filter"
+      "help": "Backend ctest name regex filter"
     }
   ],
   "steps": [
     {
+      "type": "capture",
+      "command": "case {opt.scope} in all|backend) echo true;; esac",
+      "var": "run_backend"
+    },
+    {
+      "type": "capture",
+      "command": "case {opt.scope} in all|frontend) echo true;; esac",
+      "var": "run_frontend"
+    },
+    {
+      "type": "capture",
+      "command": "case {opt.scope} in all|e2e) echo true;; esac",
+      "var": "run_e2e"
+    },
+    {
       "type": "print",
-      "text": "[test] Building Debug configuration for testing"
+      "text": "[test] ── Backend (ctest) ──",
+      "when": "{run_backend}"
     },
     {
       "type": "set",
       "var": "build_dir",
-      "value": "build/Debug"
-    },
-    {
-      "type": "print",
-      "text": "[test] Installing Conan dependencies"
+      "value": "build/Debug",
+      "when": "{run_backend}"
     },
     {
       "type": "shell",
       "tag": "test",
-      "command": "conan install . --output-folder={build_dir} --build=missing -s build_type=Debug"
-    },
-    {
-      "type": "print",
-      "text": "[test] Configuring CMake"
+      "command": "conan install . --output-folder={build_dir} --build=missing -s build_type=Debug",
+      "when": "{run_backend}"
     },
     {
       "type": "shell",
       "tag": "test",
-      "command": "cmake -B {build_dir} -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE={build_dir}/conan_toolchain.cmake"
-    },
-    {
-      "type": "print",
-      "text": "[test] Compiling"
+      "command": "cmake -B {build_dir} -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE={build_dir}/conan_toolchain.cmake",
+      "when": "{run_backend}"
     },
     {
       "type": "shell",
       "tag": "test",
-      "command": "cmake --build {build_dir} --parallel"
-    },
-    {
-      "type": "print",
-      "text": "[test] Running tests"
+      "command": "cmake --build {build_dir} --parallel",
+      "when": "{run_backend}"
     },
     {
       "type": "set",
       "var": "filter_flag",
-      "value": ""
+      "value": "",
+      "when": "{run_backend}"
     },
     {
       "type": "set",
@@ -63,11 +73,34 @@
     {
       "type": "shell",
       "tag": "test",
-      "command": "ctest --test-dir {build_dir} --output-on-failure --parallel {filter_flag}"
+      "command": "ctest --test-dir {build_dir} --output-on-failure --parallel {filter_flag}",
+      "when": "{run_backend}"
     },
     {
       "type": "print",
-      "text": "[test] Tests complete"
+      "text": "[test] ── Frontend (jest) ──",
+      "when": "{run_frontend}"
+    },
+    {
+      "type": "shell",
+      "tag": "test",
+      "command": "cd frontend && npm test -- --passWithNoTests",
+      "when": "{run_frontend}"
+    },
+    {
+      "type": "print",
+      "text": "[test] ── E2E (playwright) ──",
+      "when": "{run_e2e}"
+    },
+    {
+      "type": "shell",
+      "tag": "test",
+      "command": "cd shared/e2e && npm test",
+      "when": "{run_e2e}"
+    },
+    {
+      "type": "print",
+      "text": "[test] All requested tests complete."
     }
   ]
 }

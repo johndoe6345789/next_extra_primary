@@ -1,12 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import AppBar from '@shared/m3/AppBar';
 import Toolbar from '@shared/m3/Toolbar';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/hooks';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { toggleNotificationPanel } from '@/store/slices/uiSlice';
 import { SkipLink } from '../molecules/SkipLink';
 import { NavbarLogo } from '@shared/components/ui/NavbarLogo';
 import { DesktopActions } from '../molecules/DesktopActions';
@@ -17,25 +15,25 @@ import { NotificationPanel } from './NotificationPanel';
 
 /** Props for the Navbar organism. */
 export interface NavbarProps {
-  onNotificationClick?: () => void;
   onSearch?: (q: string) => void;
   testId?: string;
 }
 
-/** App bar with drawer, logo, actions, panel. */
+/** App bar with drawer, logo, actions, balloon. */
 export const Navbar: React.FC<NavbarProps> = ({
-  onNotificationClick,
   onSearch,
   testId = 'navbar',
 }) => {
-  const dispatch = useAppDispatch();
-  const panelOpen = useAppSelector(
-    (s) => s.ui.notificationPanelOpen,
-  );
+  const [panelOpen, setPanelOpen] = useState(false);
   const { user, logout } = useAuth();
   const tCommon = useTranslations('common');
   const tNav = useTranslations('nav');
   const tA11y = useTranslations('a11y');
+
+  const toggle = useCallback(
+    () => setPanelOpen((v) => !v),
+    [],
+  );
 
   const LINKS = [
     { label: tNav('dashboard'), href: '/dashboard' },
@@ -49,9 +47,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <>
-      <SkipLink
-        label={tA11y('skipToContent')}
-      />
+      <SkipLink label={tA11y('skipToContent')} />
       <AppBar
         position="sticky"
         role="navigation"
@@ -65,19 +61,9 @@ export const Navbar: React.FC<NavbarProps> = ({
           />
           <div className="spacer" />
           <DesktopActions
-            onSearch={
-              onSearch ?? (() => {})
-            }
+            onSearch={onSearch ?? (() => {})}
           />
-          <NotificationBell
-            onClick={
-              onNotificationClick
-              ?? (() =>
-                dispatch(
-                  toggleNotificationPanel(),
-                ))
-            }
-          />
+          <NotificationBell onClick={toggle} />
           <AvatarMenu
             user={user}
             onLogout={logout}
@@ -86,9 +72,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       </AppBar>
       <NotificationPanel
         open={panelOpen}
-        onClose={() =>
-          dispatch(toggleNotificationPanel())
-        }
+        onClose={() => setPanelOpen(false)}
       />
     </>
   );

@@ -181,11 +181,24 @@
     "collapseSection": "Sectie invouwen"
   },
   "authHero": {
-    "title": "Breng je leren naar een hoger niveau",
-    "subtitle": "Sluit je aan bij duizenden leerlingen die AI-aangedreven bijles gebruiken met gegamificeerde voortgang.",
-    "f1": "Verdien badges en beklim ranglijsten",
-    "f2": "AI-tutor past zich aan jouw tempo aan",
-    "f3": "Beveiliging op bedrijfsniveau",
-    "f4": "Volg voortgang in realtime"
+    "title": "Slimmer leren, niet harder",
+    "subtitle": "Een AI-tutor die je ontmoet waar je bent en met je meegroeit.",
+    "f1": "Gepersonaliseerde leerpaden",
+    "f2": "Voortgang die je ziet en voelt",
+    "f3": "Gebouwd op privacy en vertrouwen",
+    "f4": "Van eerste les tot meesterschap"
+  },
+  "settings": {
+    "account": "Account",
+    "preferences": "Voorkeuren",
+    "language": "Taal",
+    "email": "E-mail",
+    "username": "Gebruikersnaam",
+    "displayName": "Weergavenaam",
+    "role": "Rol",
+    "darkMode": "Donkere modus",
+    "admin": "Beheer",
+    "manageTranslations": "Vertalingen beheren",
+    "comingSoon": "Meer instellingen volgen binnenkort."
   }
 }

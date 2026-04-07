@@ -27,8 +27,9 @@
   // Force light colors on all nested
   // elements regardless of dark mode
   label,
-  [class*="formLabel"] {
-    color: #49454f;
+  [class*="formLabel"],
+  :global(.form-label) {
+    color: #49454f !important;
   }
 
   input,
@@ -46,6 +47,17 @@
   [class*="input"]:focus {
     border-color: #6750a4;
     box-shadow: 0 0 0 1px #6750a4;
+  }
+
+  // M3 Checkbox uses dark-mode tokens;
+  // force light-mode border on this card.
+  [class*="mdc-checkbox__background"] {
+    border-color: #79747e !important;
+  }
+
+  // Compact checkbox for the login card.
+  .compactCheckbox [class*="mdc-checkbox"] {
+    padding: 3px;
   }
 
   // Button inside auth card

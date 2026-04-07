@@ -6,17 +6,9 @@ import MenuItem from '@shared/m3/MenuItem';
 import type { SelectChangeEvent } from '@shared/m3';
 import { useLocale } from '@/hooks';
 
-/** Short labels for supported locales. */
-const LOCALE_LABELS: Record<string, string> = {
-  en: 'EN',
-  es: 'ES',
-  fr: 'FR',
-  de: 'DE',
-  ja: 'JA',
-  zh: 'ZH',
-  nl: 'NL',
-  cy: 'CY',
-};
+/** Derive label from locale code. */
+const localeLabel = (code: string): string =>
+  code.toUpperCase();
 
 /**
  * Props for the LocaleSwitcher component.
@@ -61,7 +53,7 @@ export const LocaleSwitcher: React.FC<LocaleSwitcherProps> = ({
     >
       {locales.map((loc) => (
         <MenuItem key={loc} value={loc} data-testid={`${testId}-${loc}`}>
-          {LOCALE_LABELS[loc] ?? loc}
+          {localeLabel(loc)}
         </MenuItem>
       ))}
     </MuiSelect>

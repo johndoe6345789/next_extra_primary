@@ -179,5 +179,26 @@
     "loading": "Le contenu est en cours de chargement",
     "expandSection": "D\u00e9plier la section",
     "collapseSection": "R\u00e9duire la section"
+  },
+  "authHero": {
+    "title": "Apprendre mieux, pas plus",
+    "subtitle": "Un tuteur IA qui vous accompagne et grandit avec vous.",
+    "f1": "Parcours d'apprentissage personnalis\u00e9s",
+    "f2": "Des progr\u00e8s visibles et concrets",
+    "f3": "Con\u00e7u pour la confidentialit\u00e9",
+    "f4": "Du premier cours \u00e0 la ma\u00eetrise"
+  },
+  "settings": {
+    "account": "Compte",
+    "preferences": "Pr\u00e9f\u00e9rences",
+    "language": "Langue",
+    "email": "Adresse e-mail",
+    "username": "Identifiant",
+    "displayName": "Nom affiché",
+    "role": "Rôle",
+    "darkMode": "Mode sombre",
+    "admin": "Administration",
+    "manageTranslations": "Gérer les traductions",
+    "comingSoon": "Plus de paramètres bientôt."
   }
 }

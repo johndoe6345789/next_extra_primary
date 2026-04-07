@@ -15,6 +15,10 @@ export interface UseLoginFormReturn {
   pw: string;
   /** Password setter. */
   setPw: (v: string) => void;
+  /** Whether "remember me" is checked. */
+  rememberMe: boolean;
+  /** Remember-me setter. */
+  setRememberMe: (v: boolean) => void;
   /** Whether an auth request is in flight. */
   isLoading: boolean;
   /** Validation errors keyed by field name. */
@@ -33,6 +37,7 @@ export interface UseLoginFormReturn {
 export function useLoginForm(): UseLoginFormReturn {
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const [apiError, setApiError] =
     useState<string | null>(null);
   const { login, isLoading } = useAuth();
@@ -61,6 +66,7 @@ export function useLoginForm(): UseLoginFormReturn {
 
   return {
     email, setEmail, pw, setPw,
+    rememberMe, setRememberMe,
     isLoading, errors, apiError, submit,
   };
 }

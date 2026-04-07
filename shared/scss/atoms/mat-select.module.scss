@@ -27,7 +27,7 @@ $select-placeholder-arrow-space: 2 * ($select-arrow-size + $select-arrow-margin)
   position: relative;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: var(--mat-select-enabled-trigger-text-color, rgba(0, 0, 0, 0.87));
+  color: var(--mat-select-enabled-trigger-text-color, var(--mat-sys-on-surface, rgba(0, 0, 0, 0.87)));
   font-family: var(--mat-select-trigger-text-font, Roboto, sans-serif);
   line-height: var(--mat-select-trigger-text-line-height, 1.5);
   font-size: var(--mat-select-trigger-text-size, 1rem);
@@ -98,7 +98,7 @@ $select-placeholder-arrow-space: 2 * ($select-arrow-size + $select-arrow-margin)
   width: $select-arrow-size * 2;
   height: $select-arrow-size;
   position: relative;
-  color: var(--mat-select-enabled-arrow-color, rgba(0, 0, 0, 0.54));
+  color: var(--mat-select-enabled-arrow-color, var(--mat-sys-on-surface-variant, rgba(0, 0, 0, 0.54)));
   transition: transform 0.25s ease;
 
   svg {

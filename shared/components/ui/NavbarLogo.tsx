@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useLink } from './LinkContext';
+import { NextExtraLogo } from './NextExtraLogo';
 import s from '../../scss/modules/NavbarLogo.module.scss';
 
 /** Props for NavbarLogo. */
@@ -14,8 +15,8 @@ export interface NavbarLogoProps {
 
 /**
  * Navbar brand logo linking to home.
- * Uses a plain anchor so the consumer can wrap
- * with a framework-specific Link if needed.
+ * Renders an SVG wordmark inside a
+ * framework-agnostic Link.
  *
  * @param props - Component props.
  */
@@ -29,7 +30,10 @@ export const NavbarLogo: React.FC<
       className={s.root}
       data-testid="navbar-logo"
     >
-      {label}
+      <NextExtraLogo
+        height={36}
+        ariaLabel={label}
+      />
     </Link>
   );
 };

@@ -1167,7 +1167,7 @@
     width: 40px;
     height: 40px;
     border-radius: 8px;
-    background: linear-gradient(135deg, #3b82f6, #a855f7);
+    background: var(--mat-sys-primary);
     display: flex;
     align-items: center;
     justify-content: center;

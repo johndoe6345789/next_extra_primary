@@ -1,40 +1,48 @@
 'use client';
 
-import React, { useCallback, useEffect } from 'react';
-import Drawer from '@shared/m3/Drawer';
+import React, { useEffect, useCallback } from 'react';
 import Box from '@shared/m3/Box';
 import Typography from '@shared/m3/Typography';
 import List from '@shared/m3/List';
 import { Button } from '../atoms';
+import { useTranslations } from 'next-intl';
 import { useNotifications } from '@/hooks';
 import type { Notification } from '@/types/notification';
 import { NotificationItem } from './NotificationItem';
+import s from './NotificationPanel.module.scss';
 
 /** Props for the NotificationPanel organism. */
 export interface NotificationPanelProps {
+  /** Whether the balloon is visible. */
   open: boolean;
+  /** Close handler. */
   onClose: () => void;
+  /** Test ID. */
   testId?: string;
 }
 
 /**
- * Right-side drawer with notifications.
- * Escape closes. Mark one or all read.
+ * Notification balloon dropdown.
  *
  * @param props - Component props.
  */
-export const NotificationPanel: React.FC<NotificationPanelProps> = ({
-  open,
-  onClose,
-  testId = 'notif-panel',
-}) => {
-  const { notifications, markAsRead, markAllAsRead } = useNotifications();
+export const NotificationPanel: React.FC<
+  NotificationPanelProps
+> = ({ open, onClose, testId = 'notif-panel' }) => {
+  const t = useTranslations('notifications');
+  const {
+    notifications,
+    markAsRead,
+    markAllAsRead,
+  } = useNotifications();
+
   const onKey = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     },
     [onClose],
   );
+
   useEffect(() => {
     if (open) {
       document.addEventListener('keydown', onKey);
@@ -44,46 +52,66 @@ export const NotificationPanel: React.FC<NotificationPanelProps> = ({
     };
   }, [open, onKey]);
 
+  if (!open) return null;
+
   const items = notifications as Notification[];
   return (
-    <Drawer
-      anchor="right"
-      open={open}
-      onClose={onClose}
-      data-testid={testId}
-      aria-label="Notifications panel"
-    >
-      <Box sx={{ width: 360, p: 2 }}>
+    <>
+      <div
+        className={s.backdrop}
+        onClick={onClose}
+        aria-hidden="true"
+      />
+      <div
+        className={s.balloon}
+        role="dialog"
+        aria-label="Notifications"
+        data-testid={testId}
+      >
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
-            mb: 2,
+            alignItems: 'center',
+            mb: 1,
           }}
         >
-          <Typography variant="h6">Notifications</Typography>
+          <Typography variant="subtitle1">
+            {t('title')}
+          </Typography>
           <Button
             variant="text"
             size="small"
             onClick={markAllAsRead}
             testId="notif-mark-all"
           >
-            Mark all read
+            {t('markAllRead')}
           </Button>
         </Box>
         {items.length === 0 ? (
-          <Typography color="text.secondary" data-testid="notif-empty">
-            No notifications
+          <Typography
+            color="text.secondary"
+            variant="body2"
+            data-testid="notif-empty"
+          >
+            {t('noNotifications')}
           </Typography>
         ) : (
-          <List role="list">
+          <List
+            role="list"
+            sx={{ overflow: 'auto', maxHeight: 320 }}
+          >
             {items.map((n) => (
-              <NotificationItem key={n.id} item={n} onRead={markAsRead} />
+              <NotificationItem
+                key={n.id}
+                item={n}
+                onRead={markAsRead}
+              />
             ))}
           </List>
         )}
-      </Box>
-    </Drawer>
+      </div>
+    </>
   );
 };
 

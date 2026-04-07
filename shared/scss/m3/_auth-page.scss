@@ -13,11 +13,7 @@
   justify-content: center;
   padding: 4rem;
   color: #fff;
-  background: linear-gradient(
-    160deg,
-    #6750a4 0%,
-    #1a6b5a 100%
-  );
+  background: #6750a4;
 
   @media (min-width: 900px) {
     display: flex;
@@ -64,10 +60,6 @@
   background: var(--mat-sys-surface);
 
   @media (max-width: 899px) {
-    background: linear-gradient(
-      160deg,
-      #6750a4 0%,
-      #1a6b5a 100%
-    );
+    background: #6750a4;
   }
 }

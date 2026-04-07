@@ -3,6 +3,7 @@
 import Box from '@shared/m3/Box';
 import Typography from '@shared/m3/Typography';
 import { Icon } from '@shared/m3/data-display/Icon';
+import { useTranslations } from 'next-intl';
 import { useAuth, useGamification } from '@/hooks';
 
 /** Stat pill shown in the header. */
@@ -27,6 +28,7 @@ function Stat({ icon, value, label }: {
  * member-since date, and key stat pills.
  */
 export default function ProfileHeader() {
+  const t = useTranslations('gamification');
   const { user } = useAuth();
   const { level, points, badges, streak } =
     useGamification();
@@ -63,15 +65,16 @@ export default function ProfileHeader() {
       </div>
       <div style={statsRow}>
         <Stat icon="star" value={`${points}`}
-          label="Points" />
+          label={t('points')} />
         <Stat icon="trending_up"
-          value={`Lv ${level}`} label="Level" />
+          value={`Lv ${level}`}
+          label={t('level')} />
         <Stat icon="military_tech"
           value={`${earned.length}`}
-          label="Badges" />
+          label={t('badges')} />
         <Stat icon="local_fire_department"
           value={`${streak?.current ?? 0}`}
-          label="Streak" />
+          label={t('streak')} />
       </div>
     </Box>
   );

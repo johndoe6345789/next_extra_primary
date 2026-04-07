@@ -32,7 +32,7 @@ export const DrawerHeader: React.FC<
         alignItems: 'center',
         justifyContent: 'space-between',
         background:
-          'linear-gradient(135deg, var(--md-sys-color-primary) 0%, var(--md-sys-color-primary-container) 100%)',
+          'var(--md-sys-color-primary)',
         color: 'var(--md-sys-color-on-primary)',
       }}
       data-testid="drawer-header"

@@ -1,6 +1,14 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import {
+  useCallback, useEffect, useState,
+} from 'react';
+import { useSelector } from 'react-redux';
+import type { RootState } from '@/store/store';
+import {
+  useGetPreferencesQuery,
+  useUpdatePreferencesMutation,
+} from '@/store/api/preferencesApi';
 
 /** Supported theme mode values. */
 type Mode = 'light' | 'dark' | 'system';
@@ -15,27 +23,31 @@ interface UseThemeModeReturn {
   toggleMode: () => void;
 }
 
-/**
- * Manages the application color scheme via M3
- * CSS class toggling on the document root.
- * Sets 'light' or 'dark' class on <html>.
- *
- * When the current mode is 'system', toggling
- * resolves to 'dark' to establish an explicit
- * mode.
- *
- * @returns Theme mode state and controls.
- */
 /** Detect OS preference via matchMedia. */
 function getSystemPref(): 'light' | 'dark' {
   if (typeof window === 'undefined') return 'light';
-  const mq = window.matchMedia(
+  return window.matchMedia(
     '(prefers-color-scheme: dark)',
-  );
-  return mq.matches ? 'dark' : 'light';
+  ).matches ? 'dark' : 'light';
 }
 
+/**
+ * Manages the application color scheme.
+ * Syncs preference with the backend when
+ * the user is authenticated.
+ *
+ * @returns Theme mode state and controls.
+ */
 export function useThemeMode(): UseThemeModeReturn {
+  const loggedIn = useSelector(
+    (s: RootState) => s.auth.isAuthenticated,
+  );
+  const { data: prefs } = useGetPreferencesQuery(
+    undefined, { skip: !loggedIn },
+  );
+  const [savePref] =
+    useUpdatePreferencesMutation();
+
   const [mode, setModeState] = useState<Mode>(() => {
     if (typeof window === 'undefined') return 'light';
     return (
@@ -47,23 +59,28 @@ export function useThemeMode(): UseThemeModeReturn {
     'light' | 'dark'
   >(getSystemPref);
 
+  /* Apply backend preference on login. */
+  useEffect(() => {
+    if (prefs?.themeMode) {
+      setModeState(prefs.themeMode);
+    }
+  }, [prefs?.themeMode]);
+
+  /* Track OS dark mode changes. */
   useEffect(() => {
     const mq = window.matchMedia(
       '(prefers-color-scheme: dark)',
     );
-    const handler = (e: MediaQueryListEvent) => {
+    const h = (e: MediaQueryListEvent) =>
       setSysPref(e.matches ? 'dark' : 'light');
-    };
-    mq.addEventListener('change', handler);
-    return () => {
-      mq.removeEventListener('change', handler);
-    };
+    mq.addEventListener('change', h);
+    return () => mq.removeEventListener('change', h);
   }, []);
 
   const resolved = mode === 'system'
-    ? sysPref
-    : mode;
+    ? sysPref : mode;
 
+  /* Apply class + persist locally. */
   useEffect(() => {
     const root = document.documentElement;
     root.classList.remove('light', 'dark');
@@ -73,12 +90,12 @@ export function useThemeMode(): UseThemeModeReturn {
 
   const setMode = useCallback((m: Mode) => {
     setModeState(m);
-  }, []);
+    if (loggedIn) savePref({ themeMode: m });
+  }, [loggedIn, savePref]);
 
   const toggleMode = useCallback(() => {
     const next = resolved === 'dark'
-      ? 'light'
-      : 'dark';
+      ? 'light' : 'dark';
     setMode(next);
   }, [resolved, setMode]);
 

@@ -22,6 +22,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   const t = useTranslations('auth');
   const {
     email, setEmail, pw, setPw,
+    rememberMe, setRememberMe,
     isLoading, errors, apiError, submit,
   } = useLoginForm();
 
@@ -31,6 +32,8 @@ export const LoginForm: React.FC<LoginFormProps> = ({
       setEmail={setEmail}
       pw={pw}
       setPw={setPw}
+      rememberMe={rememberMe}
+      setRememberMe={setRememberMe}
       isLoading={isLoading}
       errors={errors}
       apiError={apiError}
@@ -43,6 +46,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         register: t('register'),
         email: t('email'),
         password: t('password'),
+        rememberMe: t('rememberMe'),
       }}
     />
   );

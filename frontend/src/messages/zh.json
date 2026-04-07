@@ -181,11 +181,24 @@
     "collapseSection": "折叠部分"
   },
   "authHero": {
-    "title": "提升你的学习",
-    "subtitle": "加入数千名学习者，使用AI驱动的辅导和游戏化进度系统。",
-    "f1": "获得徽章，攀登排行榜",
-    "f2": "AI导师适应你的节奏",
-    "f3": "企业级安全保障",
-    "f4": "实时追踪进度"
+    "title": "更聪明地学习",
+    "subtitle": "一个与你同行、伴你成长的AI导师。",
+    "f1": "个性化学习路径",
+    "f2": "看得见、感受得到的进步",
+    "f3": "为隐私和信任而生",
+    "f4": "从入门到精通"
+  },
+  "settings": {
+    "account": "账户",
+    "preferences": "偏好设置",
+    "language": "语言",
+    "email": "电子邮件",
+    "username": "用户名",
+    "displayName": "显示名称",
+    "role": "角色",
+    "darkMode": "深色模式",
+    "admin": "管理",
+    "manageTranslations": "管理翻译",
+    "comingSoon": "更多设置即将推出。"
   }
 }

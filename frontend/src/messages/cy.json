@@ -181,11 +181,24 @@
     "collapseSection": "Cwympo adran"
   },
   "authHero": {
-    "title": "Codwch lefel eich dysgu",
-    "subtitle": "Ymunwch \u00e2 miloedd o ddysgwyr sy'n defnyddio tiwtora AI gyda chynnydd gameiddiedig.",
-    "f1": "Enillwch fathodynnau a dringo byrddau arweinwyr",
-    "f2": "Mae'r tiwtor AI yn addasu i'ch cyflymder",
-    "f3": "Diogelwch ar lefel menter",
-    "f4": "Olrhain cynnydd mewn amser real"
+    "title": "Dysgu'n ddoethach, nid yn galetach",
+    "subtitle": "Tiwtor AI sy'n cwrdd â chi lle rydych chi ac yn tyfu gyda chi.",
+    "f1": "Llwybrau dysgu personol",
+    "f2": "Cynnydd y gallwch ei weld a'i deimlo",
+    "f3": "Adeiladwyd ar breifatrwydd ac ymddiriedaeth",
+    "f4": "O'r wers gyntaf i feistroli"
+  },
+  "settings": {
+    "account": "Cyfrif",
+    "preferences": "Dewisiadau",
+    "language": "Iaith",
+    "email": "E-bost",
+    "username": "Enw defnyddiwr",
+    "displayName": "Enw arddangos",
+    "role": "Rôl",
+    "darkMode": "Modd tywyll",
+    "admin": "Gweinyddu",
+    "manageTranslations": "Rheoli cyfieithiadau",
+    "comingSoon": "Mwy o osodiadau yn dod yn fuan."
   }
 }

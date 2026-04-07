@@ -2,14 +2,16 @@
 
 import React from 'react';
 import MuiBadge from '@shared/m3/Badge';
+import type {
+  BadgeSize,
+  OverlapShape,
+} from '@shared/m3/Badge';
 
-/**
- * Props for the Badge component.
- */
+/** Props for the Badge component. */
 export interface BadgeProps {
-  /** Badge content (number or string) */
+  /** Badge content (number or string). */
   content?: number | string;
-  /** MUI badge color */
+  /** Badge color. */
   color?:
     | 'primary'
     | 'secondary'
@@ -18,21 +20,26 @@ export interface BadgeProps {
     | 'info'
     | 'success'
     | 'default';
-  /** Display variant */
+  /** Display variant. */
   variant?: 'dot' | 'standard';
-  /** Whether the badge is hidden */
+  /** Whether the badge is hidden. */
   invisible?: boolean;
-  /** Max count before showing "N+" */
+  /** Max count before showing "N+". */
   max?: number;
-  /** Element the badge is attached to */
+  /** Badge size. */
+  size?: BadgeSize;
+  /** Overlap shape. */
+  overlap?: OverlapShape;
+  /** Element the badge is attached to. */
   children: React.ReactNode;
-  /** data-testid attribute for testing */
+  /** data-testid for testing. */
   testId?: string;
 }
 
 /**
- * A badge indicator component wrapping MUI Badge.
- * Displays a count or dot on top of its child element.
+ * Badge indicator wrapping the M3 Badge.
+ *
+ * @param props - Component props.
  */
 export const Badge: React.FC<BadgeProps> = ({
   content,
@@ -40,21 +47,23 @@ export const Badge: React.FC<BadgeProps> = ({
   variant = 'standard',
   invisible = false,
   max = 99,
+  size,
+  overlap,
   children,
   testId = 'badge',
-}) => {
-  return (
-    <MuiBadge
-      content={content}
-      color={color}
-      variant={variant}
-      invisible={invisible}
-      max={max}
-      data-testid={testId}
-    >
-      {children}
-    </MuiBadge>
-  );
-};
+}) => (
+  <MuiBadge
+    content={content}
+    color={color}
+    variant={variant}
+    invisible={invisible}
+    max={max}
+    size={size}
+    overlap={overlap}
+    data-testid={testId}
+  >
+    {children}
+  </MuiBadge>
+);
 
 export default Badge;

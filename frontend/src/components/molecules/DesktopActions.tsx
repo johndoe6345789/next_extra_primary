@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import { SearchBar } from './SearchBar';
 import { ThemeToggle } from './ThemeToggle';
 import { LocaleSwitcher } from './LocaleSwitcher';
@@ -19,13 +20,19 @@ export interface DesktopActionsProps {
  */
 export const DesktopActions: React.FC<
   DesktopActionsProps
-> = ({ onSearch }) => (
+> = ({ onSearch }) => {
+  const t = useTranslations('common');
+  return (
   <div
     className={s.root}
     data-testid="navbar-desktop-actions"
   >
     <div className={s.search}>
-      <SearchBar compact onSearch={onSearch} />
+      <SearchBar
+        compact
+        onSearch={onSearch}
+        placeholder={`${t('search')}...`}
+      />
     </div>
     <ThemeToggle />
     <div
@@ -35,6 +42,7 @@ export const DesktopActions: React.FC<
       <LocaleSwitcher />
     </div>
   </div>
-);
+  );
+};
 
 export default DesktopActions;

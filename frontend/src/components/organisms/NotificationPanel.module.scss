@@ -1,0 +1,19 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+}
+
+.balloon {
+  position: fixed;
+  top: 56px;
+  right: 64px;
+  z-index: 1201;
+  width: 320px;
+  max-height: 420px;
+  padding: 16px;
+  border-radius: var(--mat-sys-corner-large, 16px);
+  background: var(--mat-sys-surface-container, #fff);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}

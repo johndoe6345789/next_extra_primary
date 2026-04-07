@@ -28,6 +28,8 @@ export type { SkeletonProps } from './Skeleton';
 export { Kbd } from './Kbd';
 export type { KbdProps } from './Kbd';
 
+export { HtmlLang } from './HtmlLang';
+
 export { BurgerButton } from '@shared/ui';
 export type { BurgerButtonProps }
   from '@shared/ui';

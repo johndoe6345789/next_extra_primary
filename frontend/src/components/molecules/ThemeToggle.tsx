@@ -37,8 +37,14 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
       <IconButton
         icon={
           isDark
-            ? <DarkModeIcon size={28} />
-            : <LightModeIcon size={28} />
+            ? <DarkModeIcon
+                size={28} strokeWidth={16}
+                style={{ color: '#fff' }}
+              />
+            : <LightModeIcon
+                size={28} strokeWidth={16}
+                style={{ color: '#fff' }}
+              />
         }
         ariaLabel={label}
         onClick={toggleMode}

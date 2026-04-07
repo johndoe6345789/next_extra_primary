@@ -5,6 +5,7 @@ import NextLink from 'next/link';
 import Alert from '@shared/m3/Alert';
 import MuiLink from '@shared/m3/Link';
 import { Button } from '@shared/m3/Button';
+import { Checkbox } from '@shared/m3/inputs/Checkbox';
 import { LoginFormFields } from './LoginFormFields';
 import type { LoginFormProps } from './loginFormTypes';
 import s from '@shared/scss/modules/LoginForm.module.scss';
@@ -19,6 +20,7 @@ export type { LoginFormProps } from './loginFormTypes';
  */
 export const LoginForm: React.FC<LoginFormProps> = ({
   email, setEmail, pw, setPw,
+  rememberMe, setRememberMe,
   isLoading, errors, apiError, submit,
   labels, links, testId = 'login-form',
 }) => (
@@ -42,6 +44,15 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         errors={errors}
         labels={labels}
       />
+      <div className={s.compactCheckbox}>
+        <Checkbox
+          label={labels.rememberMe}
+          checked={rememberMe}
+          onChange={(e) =>
+            setRememberMe(e.target.checked)}
+          testId="login-remember"
+        />
+      </div>
       <Button
         type="submit"
         fullWidth

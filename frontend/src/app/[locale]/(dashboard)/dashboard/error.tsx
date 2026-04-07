@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import Box from '@shared/m3/Box';
 import Typography from '@shared/m3/Typography';
+import { useTranslations } from 'next-intl';
 
 /**
  * Error boundary for the dashboard route.
@@ -15,6 +16,8 @@ export default function DashboardError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const t = useTranslations('dashboard');
+  const tc = useTranslations('common');
   useEffect(() => {
     console.error('Dashboard error:', error);
   }, [error]);
@@ -25,7 +28,7 @@ export default function DashboardError({
       sx={{ p: 3 }}
     >
       <Typography variant="h5" color="error">
-        Dashboard Error
+        {t('title')} {tc('error')}
       </Typography>
       <Typography
         variant="body2"
@@ -44,7 +47,7 @@ export default function DashboardError({
         {error.stack}
       </Typography>
       <button onClick={reset}>
-        Try again
+        {tc('retry')}
       </button>
     </Box>
   );

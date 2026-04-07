@@ -13,7 +13,7 @@
   flex-direction: column;
   min-width: 112px;
   max-width: 280px;
-  background: var(--md-sys-color-surface-container, var(--mat-menu-container-color, #fff));
+  background: var(--mat-sys-surface-container, var(--mat-menu-container-color, #fff));
   border-radius: var(--mat-menu-container-shape, 4px);
   box-shadow: var(--mat-menu-container-elevation-shadow, 0 2px 4px -1px rgba(0 0 0 / 0.2), 0 4px 5px rgba(0 0 0 / 0.14), 0 1px 10px rgba(0 0 0 / 0.12));
   overflow: auto;
@@ -40,7 +40,7 @@
   font-family: inherit;
   font-size: 0.875rem;
   text-align: start;
-  color: var(--md-sys-color-on-surface, var(--mat-menu-item-label-text-color, rgba(0 0 0 / 0.87)));
+  color: var(--mat-sys-on-surface, var(--mat-menu-item-label-text-color, rgba(0 0 0 / 0.87)));
 
   &:hover {
     background: var(--mat-menu-item-hover-state-layer-color, rgba(0 0 0 / 0.04));

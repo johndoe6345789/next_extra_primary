@@ -163,11 +163,7 @@
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: linear-gradient(
-    135deg,
-    var(--mat-sys-primary),
-    var(--mat-sys-tertiary, var(--mat-sys-secondary))
-  );
+  background: var(--mat-sys-primary);
   display: flex;
   align-items: center;
   justify-content: center;

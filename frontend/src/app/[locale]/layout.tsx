@@ -6,6 +6,7 @@ import { Navbar } from '@/components/organisms/Navbar';
 import { Footer } from '@/components/organisms/Footer';
 import { LinkAdapter } from
   '@/components/providers/LinkAdapter';
+import { HtmlLang } from '@/components/atoms/HtmlLang';
 import {
   AppShell,
   ShiftContent,
@@ -15,7 +16,10 @@ import {
 export const dynamic = 'force-dynamic';
 
 /** Supported application locales. */
-const LOCALES = ['en', 'es', 'fr', 'de'] as const;
+const LOCALES = [
+  'en', 'es', 'fr', 'de',
+  'ja', 'zh', 'nl', 'cy',
+] as const;
 
 /** Props for the locale layout. */
 interface LocaleLayoutProps {
@@ -25,11 +29,7 @@ interface LocaleLayoutProps {
   readonly params: Promise<{ locale: string }>;
 }
 
-/**
- * Generates static params for all locales.
- *
- * @returns Array of locale param objects.
- */
+/** Generates static params for all locales. */
 export function generateStaticParams(): Array<{
   locale: string;
 }> {
@@ -55,13 +55,32 @@ export default async function LocaleLayout({
 
   let messages: Record<string, unknown> = {};
   try {
-    messages = (await import(`@/messages/${locale}.json`)).default;
+    const apiUrl = process.env.INTERNAL_API_URL
+      ?? 'http://localhost:8080';
+    const res = await fetch(
+      `${apiUrl}/api/translations/${locale}`,
+      { next: { revalidate: 60 } },
+    );
+    if (res.ok) {
+      messages = (await res.json()) as Record<
+        string, unknown
+      >;
+    } else {
+      throw new Error(`API ${res.status}`);
+    }
   } catch {
-    /* Falls back to empty messages. */
+    try {
+      messages = (
+        await import(`@/messages/${locale}.json`)
+      ).default;
+    } catch {
+      /* Falls back to empty messages. */
+    }
   }
 
   return (
     <IntlProvider locale={locale} messages={messages}>
+      <HtmlLang locale={locale} />
       <LinkAdapter>
         <AppShell>
           <Navbar />

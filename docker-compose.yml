@@ -203,6 +203,7 @@ services:
       - backend
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:8080
+      INTERNAL_API_URL: http://backend:8080
     restart: unless-stopped
 
   # ---- Nginx reverse proxy / portal --------------------------

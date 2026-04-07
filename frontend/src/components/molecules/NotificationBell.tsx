@@ -6,29 +6,22 @@ import { IconButton } from '../atoms';
 import { Badge } from '../atoms';
 import { useNotifications } from '@/hooks';
 
-/**
- * Props for the NotificationBell component.
- */
+/** Props for the NotificationBell component. */
 export interface NotificationBellProps {
-  /** Callback fired when the bell is clicked. */
+  /** Click handler. */
   onClick?: () => void;
   /** data-testid attribute for testing. */
   testId?: string;
 }
 
 /**
- * An icon button with a badge overlay showing the
- * unread notification count. Clicking toggles the
- * notification panel. The aria-label dynamically
- * reflects how many unread notifications exist.
+ * Bell icon with unread count badge overlay.
  *
  * @param props - Component props.
- * @returns The notification bell element.
  */
-export const NotificationBell: React.FC<NotificationBellProps> = ({
-  onClick,
-  testId = 'notification-bell',
-}) => {
+export const NotificationBell: React.FC<
+  NotificationBellProps
+> = ({ onClick, testId = 'notification-bell' }) => {
   const { unreadCount } = useNotifications();
 
   const label =
@@ -36,32 +29,61 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
       ? `${unreadCount} unread notifications`
       : 'No unread notifications';
 
-  return (
-    <div data-testid={testId}>
-      {unreadCount > 0 ? (
-        <Badge
-          content={unreadCount}
-          color="error"
-          testId={`${testId}-badge`}
-        >
-          <IconButton
-            icon={<NotificationsIcon />}
-            ariaLabel={label}
-            onClick={onClick}
-            tooltip="Notifications (⌘⇧N)"
-            testId={`${testId}-button`}
-          />
-        </Badge>
-      ) : (
-        <IconButton
-          icon={<NotificationsIcon />}
-          ariaLabel={label}
-          onClick={onClick}
-          tooltip="Notifications (⌘⇧N)"
-          testId={`${testId}-button`}
+  const button = (
+    <IconButton
+      icon={
+        <NotificationsIcon
+          size={28}
+          strokeWidth={16}
+          style={{ color: '#fff' }}
         />
-      )}
-    </div>
+      }
+      ariaLabel={label}
+      onClick={onClick}
+      tooltip="Notifications (⌘⇧N)"
+      testId={`${testId}-button`}
+    />
+  );
+
+  if (unreadCount === 0) {
+    return (
+      <span data-testid={testId}>{button}</span>
+    );
+  }
+
+  return (
+    <span
+      data-testid={testId}
+      style={{
+        position: 'relative',
+        display: 'inline-flex',
+      }}
+    >
+      {button}
+      <span
+        data-testid={`${testId}-badge`}
+        style={{
+          position: 'absolute',
+          top: 4,
+          right: 4,
+          minWidth: 14,
+          height: 14,
+          borderRadius: 7,
+          background: 'var(--mat-sys-error, #b3261e)',
+          color: 'var(--mat-sys-on-error, #fff)',
+          fontSize: 9,
+          fontWeight: 600,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '0 4px',
+          pointerEvents: 'none',
+          lineHeight: 1,
+        }}
+      >
+        {unreadCount > 99 ? '99+' : unreadCount}
+      </span>
+    </span>
   );
 };
 

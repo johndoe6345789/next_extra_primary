@@ -81,6 +81,7 @@ export const baseApi = createApi({
     'Auth', 'User', 'Notification',
     'Gamification', 'Chat',
     'Dashboard', 'Features', 'Comments',
+    'Translation', 'Preferences',
   ],
   endpoints: () => ({}),
 });

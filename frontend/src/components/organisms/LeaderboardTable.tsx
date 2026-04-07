@@ -10,6 +10,7 @@ import TableRow from '@shared/m3/TableRow';
 import TableSortLabel from '@shared/m3/TableSortLabel';
 import Paper from '@shared/m3/Paper';
 import Box from '@shared/m3/Box';
+import { useTranslations } from 'next-intl';
 import { useGamification } from '@/hooks';
 import { LeaderboardRow } from './LeaderboardRow';
 import { PeriodFilter } from './PeriodFilter';
@@ -29,6 +30,8 @@ export interface LeaderboardTableProps {
 export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
   testId = 'leaderboard-table',
 }) => {
+  const tg = useTranslations('gamification');
+  const td = useTranslations('dashboard');
   const { leaderboard } = useGamification();
   const [sk, setSk] = useState<SK>('rank');
   const [asc, setAsc] = useState(true);
@@ -42,6 +45,11 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
       setAsc(true);
     }
   };
+  const labels: Record<SK, string> = {
+    rank: td('rank'),
+    points: tg('points'),
+    level: tg('level'),
+  };
   const hdr = (k: SK) => (
     <TableCell key={k}>
       <TableSortLabel
@@ -49,7 +57,7 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
         direction={asc ? 'asc' : 'desc'}
         onClick={() => tog(k)}
       >
-        {k.charAt(0).toUpperCase() + k.slice(1)}
+        {labels[k]}
       </TableSortLabel>
     </TableCell>
   );
@@ -58,7 +66,7 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
     <Box data-testid={testId}>
       <PeriodFilter />
       <TableContainer component={Paper}>
-        <Table aria-label="Leaderboard" role="grid">
+        <Table aria-label={tg('leaderboard')} role="grid">
           <TableHead>
             <TableRow>
               {hdr('rank')}

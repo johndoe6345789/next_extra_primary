@@ -13,3 +13,5 @@ export * from './contactApi';
 export * from './dashboardApi';
 export * from './featureApi';
 export * from './commentsApi';
+export * from './translationApi';
+export * from './preferencesApi';

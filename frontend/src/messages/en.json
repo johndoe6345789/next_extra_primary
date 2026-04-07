@@ -181,11 +181,24 @@
     "collapseSection": "Collapse section"
   },
   "authHero": {
-    "title": "Level up your learning",
-    "subtitle": "Join thousands of learners using AI-powered tutoring with gamified progression.",
-    "f1": "Earn badges and climb leaderboards",
-    "f2": "AI tutor adapts to your pace",
-    "f3": "Enterprise-grade security",
-    "f4": "Track progress in real time"
+    "title": "Learn smarter, not harder",
+    "subtitle": "An AI tutor that meets you where you are and grows with you.",
+    "f1": "Personalised learning paths",
+    "f2": "Progress you can see and feel",
+    "f3": "Built for privacy and trust",
+    "f4": "From first lesson to mastery"
+  },
+  "settings": {
+    "account": "Account",
+    "preferences": "Preferences",
+    "language": "Language",
+    "email": "Email",
+    "username": "Username",
+    "displayName": "Display name",
+    "role": "Role",
+    "darkMode": "Dark mode",
+    "admin": "Admin",
+    "manageTranslations": "Manage translations",
+    "comingSoon": "More settings coming soon."
   }
 }

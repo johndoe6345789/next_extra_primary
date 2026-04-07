@@ -179,5 +179,26 @@
     "loading": "Inhalt wird geladen",
     "expandSection": "Abschnitt aufklappen",
     "collapseSection": "Abschnitt zuklappen"
+  },
+  "authHero": {
+    "title": "Klüger lernen, nicht härter",
+    "subtitle": "Ein KI-Tutor, der dich dort abholt, wo du stehst.",
+    "f1": "Personalisierte Lernpfade",
+    "f2": "Fortschritt, den du sehen und spüren kannst",
+    "f3": "Für Datenschutz und Vertrauen gebaut",
+    "f4": "Von der ersten Lektion zur Meisterschaft"
+  },
+  "settings": {
+    "account": "Konto",
+    "preferences": "Einstellungen",
+    "language": "Sprache",
+    "email": "E-Mail",
+    "username": "Benutzername",
+    "displayName": "Anzeigename",
+    "role": "Rolle",
+    "darkMode": "Dunkelmodus",
+    "admin": "Verwaltung",
+    "manageTranslations": "Übersetzungen verwalten",
+    "comingSoon": "Weitere Einstellungen folgen."
   }
 }

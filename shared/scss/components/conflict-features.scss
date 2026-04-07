@@ -599,15 +599,7 @@
     margin: 0;
     font-size: 32px;
     font-weight: 700;
-    background: linear-gradient(
-      90deg,
-      var(--mat-sys-primary),
-      color-mix(in srgb, var(--mat-sys-primary) 70%, var(--mat-sys-on-surface-variant))
-    );
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
+    color: var(--mat-sys-primary);
   }
 
   &__subtitle {

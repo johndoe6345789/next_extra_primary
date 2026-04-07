@@ -4,6 +4,7 @@ import React, { useRef, useEffect } from 'react';
 import Box from '@shared/m3/Box';
 import Typography from '@shared/m3/Typography';
 import CircularProgress from '@shared/m3/CircularProgress';
+import { useTranslations } from 'next-intl';
 import { AiChatMessage } from './AiChatMessage';
 import type { ChatMessage } from '@/types/chat';
 
@@ -25,6 +26,7 @@ export const ChatMessageList: React.FC<ChatMessageListProps> = ({
   messages,
   isStreaming,
 }) => {
+  const t = useTranslations('chat');
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -43,7 +45,7 @@ export const ChatMessageList: React.FC<ChatMessageListProps> = ({
     >
       {messages.length === 0 && (
         <Typography color="text.secondary" style={{ textAlign: 'center' }}>
-          Start a conversation
+          {t('noMessages')}
         </Typography>
       )}
       {messages.map((m) => (

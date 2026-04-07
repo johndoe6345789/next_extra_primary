@@ -6,6 +6,10 @@
 export { NavbarLogo } from './NavbarLogo';
 export type { NavbarLogoProps } from './NavbarLogo';
 
+export { NextExtraLogo } from './NextExtraLogo';
+export type { NextExtraLogoProps }
+  from './NextExtraLogo';
+
 export { HeroCta } from './HeroCta';
 export type { HeroCtaProps } from './HeroCta';
 

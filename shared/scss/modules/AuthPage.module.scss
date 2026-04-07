@@ -12,10 +12,6 @@
   background: var(--mat-sys-surface);
 
   @media (max-width: 899px) {
-    background: linear-gradient(
-      160deg,
-      #6750a4 0%,
-      #1a6b5a 100%
-    );
+    background: #6750a4;
   }
 }

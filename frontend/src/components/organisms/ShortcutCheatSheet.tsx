@@ -6,6 +6,7 @@ import DialogTitle from '@shared/m3/DialogTitle';
 import DialogContent from '@shared/m3/DialogContent';
 import Box from '@shared/m3/Box';
 import Typography from '@shared/m3/Typography';
+import { useTranslations } from 'next-intl';
 import { Kbd } from '../atoms/Kbd';
 import shortcuts from '@/constants/keyboard-shortcuts.json';
 import { shortcutLabel, type ShortcutDef } from '@/lib/shortcutLabel';
@@ -20,11 +21,15 @@ export interface ShortcutCheatSheetProps {
 
 type Section = Record<string, ShortcutDef>;
 
-const SECTIONS: { title: string; data: Section }[] = [
-  { title: 'Global', data: shortcuts.global as Section },
-  { title: 'Chat', data: shortcuts.chat as Section },
+type SectionKey = 'global' | 'chat' | 'navigation';
+
+const SECTION_KEYS: {
+  key: SectionKey; data: Section;
+}[] = [
+  { key: 'global', data: shortcuts.global as Section },
+  { key: 'chat', data: shortcuts.chat as Section },
   {
-    title: 'Navigation',
+    key: 'navigation',
     data: shortcuts.navigation as Section,
   },
 ];
@@ -39,7 +44,14 @@ const SECTIONS: { title: string; data: Section }[] = [
 export const ShortcutCheatSheet: React.FC<ShortcutCheatSheetProps> = ({
   open,
   onClose,
-}) => (
+}) => {
+  const tn = useTranslations('nav');
+  const labels: Record<SectionKey, string> = {
+    global: 'Global',
+    chat: tn('chat'),
+    navigation: 'Navigation',
+  };
+  return (
   <Dialog
     open={open}
     onClose={onClose}
@@ -50,10 +62,10 @@ export const ShortcutCheatSheet: React.FC<ShortcutCheatSheetProps> = ({
   >
     <DialogTitle>Keyboard Shortcuts</DialogTitle>
     <DialogContent dividers>
-      {SECTIONS.map(({ title, data }) => (
-        <Box key={title} sx={{ mb: 2 }}>
+      {SECTION_KEYS.map(({ key, data }) => (
+        <Box key={key} sx={{ mb: 2 }}>
           <Typography variant="overline" color="text.secondary">
-            {title}
+            {labels[key]}
           </Typography>
           {Object.values(data).map((def) => (
             <Box
@@ -73,6 +85,7 @@ export const ShortcutCheatSheet: React.FC<ShortcutCheatSheetProps> = ({
       ))}
     </DialogContent>
   </Dialog>
-);
+  );
+};
 
 export default ShortcutCheatSheet;

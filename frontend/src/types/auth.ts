@@ -10,7 +10,7 @@ export interface User {
   username: string;
   displayName: string;
   avatarUrl?: string;
-  role: 'user' | 'admin' | 'moderator';
+  role: 'guest' | 'user' | 'moderator' | 'admin';
   createdAt: string;
   updatedAt: string;
 }
