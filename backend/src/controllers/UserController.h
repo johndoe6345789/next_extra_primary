@@ -24,6 +24,10 @@ class UserController : public drogon::HttpController<UserController>
                   drogon::Get);
     ADD_METHOD_TO(UserController::getStats, "/api/users/{id}/stats",
                   drogon::Get);
+    ADD_METHOD_TO(UserController::setRole, "/api/admin/users/{id}/role",
+                  drogon::Patch, "filters::JwtAuthFilter");
+    ADD_METHOD_TO(UserController::setActive, "/api/admin/users/{id}/active",
+                  drogon::Patch, "filters::JwtAuthFilter");
     METHOD_LIST_END
 
     /** @brief List users with pagination (admin only). */
@@ -49,6 +53,20 @@ class UserController : public drogon::HttpController<UserController>
     void getStats(const drogon::HttpRequestPtr& req,
                   std::function<void(const drogon::HttpResponsePtr&)>&& cb,
                   const std::string& id);
+
+    /** @brief Change a user's role (admin). */
+    void setRole(
+        const drogon::HttpRequestPtr& req,
+        std::function<void(
+            const drogon::HttpResponsePtr&)>&& cb,
+        const std::string& id);
+
+    /** @brief Toggle user active status (admin). */
+    void setActive(
+        const drogon::HttpRequestPtr& req,
+        std::function<void(
+            const drogon::HttpResponsePtr&)>&& cb,
+        const std::string& id);
 };
 
 } // namespace controllers

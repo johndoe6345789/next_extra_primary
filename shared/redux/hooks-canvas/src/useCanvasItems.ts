@@ -1,13 +1,7 @@
 /**
  * useCanvasItems Hook (Tier 2)
- * Manages canvas items loading and deletion with service adapter injection
- *
- * Features:
- * - Load canvas items from service adapter
- * - Delete canvas items
- * - Resizing state management
- * - Auto-loads on project change
- * - Redux integration
+ * Manages canvas items loading and deletion
+ * with service adapter injection.
  */
 
 import { useCallback, useEffect, useState } from 'react'
@@ -19,117 +13,74 @@ import {
   selectCurrentProjectId,
   setProjectLoading,
   setProjectError,
-} from '@shared/redux-slices'
-import {
   setCanvasItems,
   removeCanvasItem,
   selectCanvasItems,
-} from '@shared/redux-slices'
-import {
   selectIsResizing,
   setResizing,
 } from '@shared/redux-slices'
-import type { ProjectCanvasItem } from '@shared/service-adapters'
 import type { AppDispatch, RootState } from '@shared/redux-slices'
+import type { UseCanvasItemsReturn } from './canvasItemsTypes'
 
-export interface UseCanvasItemsReturn {
-  canvasItems: ProjectCanvasItem[]
-  isLoading: boolean
-  error: string | null
-  isResizing: boolean
-  loadCanvasItems: () => Promise<void>
-  deleteCanvasItem: (itemId: string) => Promise<void>
-  setResizingState: (isResizing: boolean) => void
-}
+export type { UseCanvasItemsReturn } from './canvasItemsTypes'
 
-/**
- * useCanvasItems Hook
- * Manages canvas item loading and deletion with service adapter injection
- *
- * @example
- * const { canvasItems, loadCanvasItems, deleteCanvasItem } = useCanvasItems();
- * await deleteCanvasItem('item-123');
- */
+/** @brief Canvas items load/delete hook */
 export function useCanvasItems(): UseCanvasItemsReturn {
   const dispatch = useDispatch<AppDispatch>()
   const { projectService } = useServices()
-  const [isInitialized, setIsInitialized] = useState(false)
+  const [isInit, setIsInit] = useState(false)
 
-  const projectId = useSelector((state: RootState) => selectCurrentProjectId(state))
-  const canvasItems = useSelector((state: RootState) => selectCanvasItems(state))
-  const isLoading = useSelector((state: RootState) => selectProjectIsLoading(state))
-  const error = useSelector((state: RootState) => selectProjectError(state))
-  const isResizing = useSelector((state: RootState) => selectIsResizing(state))
+  const projectId = useSelector((s: RootState) => selectCurrentProjectId(s))
+  const canvasItems = useSelector((s: RootState) => selectCanvasItems(s))
+  const isLoading = useSelector((s: RootState) => selectProjectIsLoading(s))
+  const error = useSelector((s: RootState) => selectProjectError(s))
+  const isResizing = useSelector((s: RootState) => selectIsResizing(s))
 
-  /**
-   * Auto-load canvas items when project changes
-   */
-  useEffect(() => {
-    if (projectId && !isInitialized) {
-      loadCanvasItems()
-      setIsInitialized(true)
-    }
-  }, [projectId, isInitialized])
-
-  /**
-   * Load canvas items from service adapter
-   */
   const loadCanvasItems = useCallback(async () => {
     if (!projectId) return
-
     dispatch(setProjectLoading(true))
     try {
       const items = await projectService.getCanvasItems(projectId)
       dispatch(setCanvasItems(items))
       dispatch(setProjectError(null))
     } catch (err) {
-      const errorMsg = err instanceof Error ? err.message : 'Failed to load canvas items'
-      dispatch(setProjectError(errorMsg))
+      const msg = err instanceof Error ? err.message : 'Failed to load canvas items'
+      dispatch(setProjectError(msg))
       throw err
     } finally {
       dispatch(setProjectLoading(false))
     }
   }, [projectId, dispatch, projectService])
 
-  /**
-   * Delete canvas item
-   */
-  const deleteCanvasItem = useCallback(
-    async (itemId: string) => {
-      if (!projectId) return
+  useEffect(() => {
+    if (projectId && !isInit) {
+      loadCanvasItems()
+      setIsInit(true)
+    }
+  }, [projectId, isInit])
 
-      dispatch(setProjectLoading(true))
-      try {
-        await projectService.deleteCanvasItem(projectId, itemId)
-        dispatch(removeCanvasItem(itemId))
-      } catch (err) {
-        const errorMsg = err instanceof Error ? err.message : 'Failed to delete canvas item'
-        dispatch(setProjectError(errorMsg))
-        throw err
-      } finally {
-        dispatch(setProjectLoading(false))
-      }
-    },
-    [projectId, dispatch, projectService]
-  )
+  const deleteCanvasItem = useCallback(async (itemId: string) => {
+    if (!projectId) return
+    dispatch(setProjectLoading(true))
+    try {
+      await projectService.deleteCanvasItem(projectId, itemId)
+      dispatch(removeCanvasItem(itemId))
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Failed to delete canvas item'
+      dispatch(setProjectError(msg))
+      throw err
+    } finally {
+      dispatch(setProjectLoading(false))
+    }
+  }, [projectId, dispatch, projectService])
 
-  /**
-   * Update resizing state
-   */
-  const setResizingState = useCallback(
-    (isResizingState: boolean) => {
-      dispatch(setResizing(isResizingState))
-    },
-    [dispatch]
-  )
+  const setResizingState = useCallback((v: boolean) => {
+    dispatch(setResizing(v))
+  }, [dispatch])
 
   return {
-    canvasItems,
-    isLoading,
-    error,
-    isResizing,
-    loadCanvasItems,
-    deleteCanvasItem,
+    canvasItems, isLoading, error, isResizing,
+    loadCanvasItems, deleteCanvasItem,
     setResizingState,
   }
 }

@@ -1,6 +1,7 @@
 /** @file registration_service.cpp */
 #include "services/registration_service.h"
 #include "services/auth_helpers.h"
+#include "services/registration_db_handler.h"
 #include "utils/PasswordHash.h"
 #include <drogon/drogon.h>
 #include <drogon/orm/DbClient.h>
@@ -62,39 +63,14 @@ void RegistrationService::registerUser(
                         "Internal server error");
                 return;
             }
-            const auto& r = result[0];
-            json user = {
-                {"id", r["id"].as<std::string>()},
-                {"email",
-                 r["email"].as<std::string>()},
-                {"username",
-                 r["username"].as<std::string>()},
-                {"displayName",
-                 r["display_name"]
-                     .as<std::string>()},
-                {"emailConfirmed", false},
-                {"createdAt",
-                 r["created_at"].as<std::string>()}};
+            auto user = buildRegisteredUser(
+                result[0]);
             spdlog::info("User registered: {} ({})",
                          username, email);
             onSuccess(user);
         } >>
         [onError](const DrogonDbException& e) {
-            std::string msg = e.base().what();
-            if (msg.find("users_email_key") !=
-                std::string::npos)
-                onError(k409Conflict,
-                        "Email already registered");
-            else if (msg.find("users_username_key") !=
-                     std::string::npos)
-                onError(k409Conflict,
-                        "Username already taken");
-            else {
-                spdlog::error(
-                    "registerUser DB error: {}", msg);
-                onError(k500InternalServerError,
-                        "Internal server error");
-            }
+            handleRegistrationDbError(e, onError);
         };
 }
 } // namespace services

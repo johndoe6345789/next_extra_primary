@@ -1,0 +1,12 @@
+[
+  { "labelKey": "dashboard", "href": "/dashboard" },
+  { "labelKey": "leaderboard", "href": "/leaderboard" },
+  { "labelKey": "chat", "href": "/chat" },
+  {
+    "labelKey": "notifications",
+    "href": "/notifications"
+  },
+  { "labelKey": "profile", "href": "/profile" },
+  { "labelKey": "about", "href": "/about" },
+  { "labelKey": "contact", "href": "/contact" }
+]

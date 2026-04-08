@@ -31,7 +31,7 @@ class AiService
      * @brief Send a user message to the AI provider.
      *
      * 1. Stores the user message.
-     * 2. Loads recent conversation history from the DB.
+     * 2. Loads recent conversation history.
      * 3. Sends the prompt to Claude or OpenAI.
      * 4. Persists the assistant reply.
      * 5. Returns the assistant reply via @p onSuccess.
@@ -39,11 +39,18 @@ class AiService
      * @param userId    Authenticated user ID.
      * @param message   User's plain-text message.
      * @param provider  Which backend to use.
+     * @param apiKey    Resolved API key (empty = env).
+     * @param model     Model override (empty = default).
      * @param onSuccess Callback with AiResponse JSON.
      * @param onError   Callback on failure.
      */
-    void chat(const std::string& userId, const std::string& message,
-              AiProvider provider, Callback onSuccess, ErrCallback onError);
+    void chat(const std::string& userId,
+              const std::string& message,
+              AiProvider provider,
+              const std::string& apiKey,
+              const std::string& model,
+              Callback onSuccess,
+              ErrCallback onError);
 
   private:
     AiHistoryStore historyStore_;

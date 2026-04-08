@@ -59,7 +59,8 @@
     "webmail": "Gwe-bost",
     "pgadmin": "Gweinyddu Cronfa Ddata",
     "packageRepo": "Storfa Pecynnau",
-    "s3server": "Storfa S3"
+    "s3server": "Storfa S3",
+    "search": "Chwilio"
   },
   "hero": {
     "title": "Codwch lefel eich taith ddysgu",
@@ -199,6 +200,38 @@
     "darkMode": "Modd tywyll",
     "admin": "Gweinyddu",
     "manageTranslations": "Rheoli cyfieithiadau",
+    "manageApiKeys": "Rheoli allweddi API'r system",
+    "manageEnvVars": "Newidynnau amgylchedd",
+    "manageUsers": "Rheoli defnyddwyr",
+    "debugPanel": "Panel dadfygio",
+    "apiKeys": "Allweddi API AI",
+    "apiKeysDesc": "Ychwanegwch eich allweddi API eich hun ar gyfer Claude ac OpenAI. Gadewch yn wag i ddefnyddio rhagosodiadau'r system.",
+    "apiKey": "Allwedd API",
+    "modelLabel": "Model",
+    "editKey": "Golygu",
+    "deleteKey": "Dileu",
+    "save": "Cadw",
     "comingSoon": "Mwy o osodiadau yn dod yn fuan."
+  },
+  "admin": {
+    "systemKeys": "Allweddi API'r System",
+    "systemKeysDesc": "Gosod allweddi API wrth gefn ar gyfer pob defnyddiwr.",
+    "apiKeyLabel": "Allwedd API",
+    "save": "Cadw",
+    "envVars": "Newidynnau Amgylchedd",
+    "set": "Wedi gosod",
+    "notSet": "Heb ei osod",
+    "userManagement": "Rheoli Defnyddwyr",
+    "noUsers": "Dim defnyddwyr wedi'u canfod.",
+    "active": "Gweithredol",
+    "disabled": "Analluog",
+    "disable": "Analluogi",
+    "enable": "Galluogi",
+    "debugPanel": "Panel Dadfygio",
+    "authState": "Cyflwr Dilysu",
+    "environment": "Amgylchedd",
+    "apiCalls": "Galwadau API",
+    "clear": "Clirio",
+    "noApiCalls": "Dim galwadau API wedi'u cofnodi eto."
   }
 }

@@ -8,4 +8,4 @@ export type {
   QueryResult,
   QueryOperator,
   WhereCondition,
-} from './QueryBuilderTab';
+} from './queryBuilderTypes';

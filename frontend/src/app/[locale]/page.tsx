@@ -4,6 +4,8 @@ import { Box, Container } from '@shared/m3';
 import { HeroSection } from
   '@/components/organisms/HeroSection';
 import { FeatureGrid } from '@shared/ui';
+import features from
+  '@/constants/features.json';
 import s from '@shared/scss/modules/Landing.module.scss';
 
 /** Props for the landing page. */
@@ -16,6 +18,7 @@ interface LandingPageProps {
 
 /**
  * Landing page with hero and features.
+ * Feature cards are driven by features.json.
  *
  * @param props - Page props with locale.
  * @returns Landing page UI.
@@ -38,7 +41,7 @@ export default async function LandingPage({
         maxWidth="lg"
         className={s.features}
       >
-        <FeatureGrid />
+        <FeatureGrid features={features} />
       </Container>
     </Box>
   );

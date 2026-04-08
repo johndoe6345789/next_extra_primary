@@ -1,202 +1,85 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
+  Dialog, DialogTitle,
+  DialogContent, DialogActions,
 } from '../../utils';
-import { Typography } from '../../data-display';
-import { Button, TextField, Select } from '../../inputs';
+import { Button } from '../../inputs';
+import { useConstraintDialog }
+  from './useConstraintDialog';
+import { isConstraintFormValid }
+  from './constraintDialogHelpers';
+import { ConstraintDialogContent }
+  from './ConstraintDialogContent';
+import { buildConstraintPayload }
+  from './constraintSubmit';
+import type { ConstraintDialogProps }
+  from './constraintDialogTypes';
 
-export type ConstraintType = {
-  name: string;
-  description: string;
-  requiresColumn: boolean;
-  requiresExpression: boolean;
-};
-
-export type ConstraintInfo = {
-  constraint_name: string;
-  constraint_type?: string;
-  column_name?: string;
-  check_clause?: string;
-};
-
-export type ConstraintDialogMode = 'add' | 'delete';
-
-export type ConstraintDialogProps = {
-  open: boolean;
-  mode: ConstraintDialogMode;
-  constraintTypes: ConstraintType[];
-  selectedConstraint?: ConstraintInfo | null;
-  onClose: () => void;
-  onSubmit: (data: Record<string, unknown>) => Promise<void>;
-  testId?: string;
-};
+export type {
+  ConstraintType, ConstraintInfo,
+  ConstraintDialogMode,
+  ConstraintDialogProps,
+} from './constraintDialogTypes';
 
 /**
- * ConstraintDialog - A dialog for managing database constraints.
- * Supports adding and deleting constraints.
+ * ConstraintDialog - Dialog for managing
+ * database constraints. Supports add/delete.
  */
 export function ConstraintDialog({
-  open,
-  mode,
-  constraintTypes,
-  selectedConstraint,
-  onClose,
-  onSubmit,
-  testId,
+  open, mode, constraintTypes,
+  selectedConstraint, onClose,
+  onSubmit, testId,
 }: ConstraintDialogProps) {
-  const [constraintName, setConstraintName] = useState('');
-  const [constraintType, setConstraintType] = useState('UNIQUE');
-  const [columnName, setColumnName] = useState('');
-  const [checkExpression, setCheckExpression] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (!open) {
-      // Reset form when dialog closes
-      setConstraintName('');
-      setConstraintType('UNIQUE');
-      setColumnName('');
-      setCheckExpression('');
-    }
-  }, [open]);
-
+  const d = useConstraintDialog(
+    open, constraintTypes);
   const handleSubmit = async () => {
-    setLoading(true);
+    d.setLoading(true);
     try {
       if (mode === 'add') {
-        const data: Record<string, unknown> = {
-          constraintName,
-          constraintType,
-        };
-
-        // Get the current constraint type config
-        const currentType = constraintTypes.find(
-          (ct) => ct.name === constraintType
-        );
-
-        if (currentType?.requiresColumn) {
-          data.columnName = columnName;
-        }
-
-        if (currentType?.requiresExpression) {
-          data.checkExpression = checkExpression;
-        }
-
-        await onSubmit(data);
-      } else if (mode === 'delete') {
-        // For delete, we just need to confirm
-        await onSubmit({});
-      }
+        await onSubmit(buildConstraintPayload(
+          d.constraintName, d.constraintType,
+          d.currentType, d.columnName,
+          d.checkExpression));
+      } else { await onSubmit({}); }
       onClose();
-    } finally {
-      setLoading(false);
-    }
+    } finally { d.setLoading(false); }
   };
-
-  const getTitle = () => {
-    if (mode === 'add') {
-      return 'Add Constraint';
-    }
-    return `Delete Constraint: ${selectedConstraint?.constraint_name}`;
-  };
-
-  const isFormValid = () => {
-    if (mode === 'delete') {
-      return true; // Always valid for delete
-    }
-
-    if (!constraintName.trim() || !constraintType) {
-      return false;
-    }
-
-    const currentType = constraintTypes.find(
-      (ct) => ct.name === constraintType
-    );
-
-    if (currentType?.requiresColumn && !columnName.trim()) {
-      return false;
-    }
-
-    if (currentType?.requiresExpression && !checkExpression.trim()) {
-      return false;
-    }
-
-    return true;
-  };
-
-  const currentType = constraintTypes.find((ct) => ct.name === constraintType);
-
+  const title = mode === 'add'
+    ? 'Add Constraint'
+    : `Delete: ${selectedConstraint?.constraint_name}`;
+  const labelId = testId
+    ? `${testId}-title` : undefined;
+  const valid = isConstraintFormValid(
+    mode, d.constraintName,
+    d.constraintType, d.currentType,
+    d.columnName, d.checkExpression);
   return (
-    <Dialog open={open} onClose={onClose} data-testid={testId} aria-labelledby={testId ? `${testId}-title` : undefined}>
-      <DialogTitle id={testId ? `${testId}-title` : undefined}>{getTitle()}</DialogTitle>
+    <Dialog open={open} onClose={onClose}
+      data-testid={testId}
+      aria-labelledby={labelId}>
+      <DialogTitle id={labelId}>
+        {title}
+      </DialogTitle>
       <DialogContent>
-        {mode === 'delete' ? (
-          <Typography variant="body2" color="error" gutterBottom>
-            Are you sure you want to delete the constraint "
-            {selectedConstraint?.constraint_name}"? This action cannot be undone.
-          </Typography>
-        ) : (
-          <>
-            <TextField
-              fullWidth
-              label="Constraint Name"
-              value={constraintName}
-              onChange={(e) => setConstraintName(e.target.value)}
-              sx={{ mt: 2, mb: 2 }}
-              helperText="A unique name for this constraint"
-            />
-
-            <Select
-              fullWidth
-              value={constraintType}
-              onChange={(e) => setConstraintType(e.target.value as string)}
-              sx={{ mb: 2 }}
-            >
-              {constraintTypes.map((type) => (
-                <option key={type.name} value={type.name}>
-                  {type.name} - {type.description}
-                </option>
-              ))}
-            </Select>
-
-            {currentType?.requiresColumn && (
-              <TextField
-                fullWidth
-                label="Column Name"
-                value={columnName}
-                onChange={(e) => setColumnName(e.target.value)}
-                sx={{ mb: 2 }}
-                helperText="The column to apply this constraint to"
-              />
-            )}
-
-            {currentType?.requiresExpression && (
-              <TextField
-                fullWidth
-                label="Check Expression"
-                value={checkExpression}
-                onChange={(e) => setCheckExpression(e.target.value)}
-                sx={{ mb: 2 }}
-                helperText="Boolean expression for the check constraint (e.g., price > 0)"
-              />
-            )}
-          </>
-        )}
+        <ConstraintDialogContent
+          mode={mode}
+          selectedConstraint={
+            selectedConstraint}
+          {...d}
+          constraintTypes={constraintTypes} />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button
-          onClick={handleSubmit}
+        <Button onClick={onClose}>
+          Cancel
+        </Button>
+        <Button onClick={handleSubmit}
           variant="contained"
-          color={mode === 'delete' ? 'error' : 'primary'}
-          disabled={loading || !isFormValid()}
-        >
-          {mode === 'add' ? 'Add Constraint' : 'Delete Constraint'}
+          color={mode === 'delete'
+            ? 'error' : 'primary'}
+          disabled={d.loading || !valid}>
+          {mode === 'add'
+            ? 'Add' : 'Delete'}
         </Button>
       </DialogActions>
     </Dialog>

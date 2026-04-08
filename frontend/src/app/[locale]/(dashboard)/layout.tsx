@@ -33,7 +33,8 @@ export default async function DashboardLayout({
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '100vh',
+        flex: 1,
+        minHeight: 0,
       }}
     >
       <DashboardShortcuts />
@@ -41,7 +42,13 @@ export default async function DashboardLayout({
         component="main"
         role="main"
         aria-label="Dashboard content"
-        sx={{ flex: 1, p: 3 }}
+        sx={{
+          flex: 1, p: 3,
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: 0,
+          overflow: 'auto',
+        }}
       >
         {children}
       </Box>

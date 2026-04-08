@@ -59,7 +59,8 @@
     "webmail": "Messagerie",
     "pgadmin": "Admin BD",
     "packageRepo": "D\u00e9p\u00f4t de paquets",
-    "s3server": "Stockage S3"
+    "s3server": "Stockage S3",
+    "search": "Rechercher"
   },
   "hero": {
     "title": "Passez au niveau sup\u00e9rieur",
@@ -199,6 +200,38 @@
     "darkMode": "Mode sombre",
     "admin": "Administration",
     "manageTranslations": "Gérer les traductions",
+    "manageApiKeys": "Gérer les clés API système",
+    "manageEnvVars": "Variables d'environnement",
+    "manageUsers": "Gestion des utilisateurs",
+    "debugPanel": "Panneau de débogage",
+    "apiKeys": "Clés API IA",
+    "apiKeysDesc": "Ajoutez vos propres clés API pour Claude et OpenAI. Laissez vide pour utiliser les valeurs par défaut.",
+    "apiKey": "Clé API",
+    "modelLabel": "Modèle",
+    "editKey": "Modifier",
+    "deleteKey": "Supprimer",
+    "save": "Enregistrer",
     "comingSoon": "Plus de paramètres bientôt."
+  },
+  "admin": {
+    "systemKeys": "Clés API système",
+    "systemKeysDesc": "Définir les clés API de secours pour tous les utilisateurs.",
+    "apiKeyLabel": "Clé API",
+    "save": "Enregistrer",
+    "envVars": "Variables d'Environnement",
+    "set": "Défini",
+    "notSet": "Non défini",
+    "userManagement": "Gestion des Utilisateurs",
+    "noUsers": "Aucun utilisateur trouvé.",
+    "active": "Actif",
+    "disabled": "Désactivé",
+    "disable": "Désactiver",
+    "enable": "Activer",
+    "debugPanel": "Panneau de Débogage",
+    "authState": "État d'Authentification",
+    "environment": "Environnement",
+    "apiCalls": "Appels API",
+    "clear": "Effacer",
+    "noApiCalls": "Aucun appel API enregistré pour le moment."
   }
 }

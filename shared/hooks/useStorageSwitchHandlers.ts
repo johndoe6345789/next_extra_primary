@@ -1,33 +1,19 @@
 import { useCallback, useState } from 'react'
-import { formatStorageError } from './storageSettingsUtils'
-import { storageSettingsCopy, type StorageBackendKey } from './storageSettingsConfig'
-import type { ToastNotifier } from './useStorageDataHandlers'
+import {
+  formatStorageError,
+} from './storageSettingsUtils'
+import {
+  storageSettingsCopy,
+} from './storageSettingsConfig'
+import type {
+  SwitchHandlersParams,
+} from './storageSwitchTypes'
+import { noopToast } from './storageSwitchTypes'
+import { useFlaskSwitchHandler } from './storageSwitchFlask'
 
-/**
- * Extended toast notifier with info method for informational messages
- */
-export type ToastNotifierWithInfo = ToastNotifier & {
-  info: (message: string) => void
-}
-
-/**
- * Default no-op toast implementation
- */
-const noopToast: ToastNotifierWithInfo = {
-  success: () => {},
-  error: () => {},
-  info: () => {},
-}
-
-type SwitchHandlers = {
-  backend: StorageBackendKey | null
-  flaskUrl: string
-  switchToFlask: (url: string) => Promise<void>
-  switchToSQLite: () => Promise<void>
-  switchToIndexedDB: () => Promise<void>
-  /** Optional toast notifier - if not provided, notifications are silently ignored */
-  toast?: ToastNotifierWithInfo
-}
+export type {
+  ToastNotifierWithInfo,
+} from './storageSwitchTypes'
 
 export const useStorageSwitchHandlers = ({
   backend,
@@ -36,64 +22,61 @@ export const useStorageSwitchHandlers = ({
   switchToSQLite,
   switchToIndexedDB,
   toast = noopToast,
-}: SwitchHandlers) => {
-  const [isSwitching, setIsSwitching] = useState(false)
+}: SwitchHandlersParams) => {
+  const [isSwitching, setIsSwitching] =
+    useState(false)
+  const c = storageSettingsCopy.toasts
 
-  const handleSwitchToFlask = useCallback(async () => {
-    if (backend === 'flask') {
-      toast.info(storageSettingsCopy.toasts.alreadyUsing.flask)
-      return
-    }
+  const handleSwitchToFlask =
+    useFlaskSwitchHandler(
+      { backend, flaskUrl, switchToFlask },
+      toast,
+      setIsSwitching
+    )
 
-    if (!flaskUrl) {
-      toast.error(storageSettingsCopy.toasts.errors.missingFlaskUrl)
-      return
-    }
+  const handleSwitchToSQLite = useCallback(
+    async () => {
+      if (backend === 'sqlite') {
+        toast.info(c.alreadyUsing.sqlite)
+        return
+      }
+      setIsSwitching(true)
+      try {
+        await switchToSQLite()
+        toast.success(c.success.switchSQLite)
+      } catch (err) {
+        toast.error(
+          `${c.failure.switchSQLite}: ` +
+            formatStorageError(err)
+        )
+      } finally {
+        setIsSwitching(false)
+      }
+    },
+    [backend, switchToSQLite, toast, c]
+  )
 
-    setIsSwitching(true)
-    try {
-      await switchToFlask(flaskUrl)
-      toast.success(storageSettingsCopy.toasts.success.switchFlask)
-    } catch (error) {
-      toast.error(`${storageSettingsCopy.toasts.failure.switchFlask}: ${formatStorageError(error)}`)
-    } finally {
-      setIsSwitching(false)
-    }
-  }, [backend, flaskUrl, switchToFlask, toast])
-
-  const handleSwitchToSQLite = useCallback(async () => {
-    if (backend === 'sqlite') {
-      toast.info(storageSettingsCopy.toasts.alreadyUsing.sqlite)
-      return
-    }
-
-    setIsSwitching(true)
-    try {
-      await switchToSQLite()
-      toast.success(storageSettingsCopy.toasts.success.switchSQLite)
-    } catch (error) {
-      toast.error(`${storageSettingsCopy.toasts.failure.switchSQLite}: ${formatStorageError(error)}`)
-    } finally {
-      setIsSwitching(false)
-    }
-  }, [backend, switchToSQLite, toast])
-
-  const handleSwitchToIndexedDB = useCallback(async () => {
-    if (backend === 'indexeddb') {
-      toast.info(storageSettingsCopy.toasts.alreadyUsing.indexeddb)
-      return
-    }
-
-    setIsSwitching(true)
-    try {
-      await switchToIndexedDB()
-      toast.success(storageSettingsCopy.toasts.success.switchIndexedDB)
-    } catch (error) {
-      toast.error(`${storageSettingsCopy.toasts.failure.switchIndexedDB}: ${formatStorageError(error)}`)
-    } finally {
-      setIsSwitching(false)
-    }
-  }, [backend, switchToIndexedDB, toast])
+  const handleSwitchToIndexedDB = useCallback(
+    async () => {
+      if (backend === 'indexeddb') {
+        toast.info(c.alreadyUsing.indexeddb)
+        return
+      }
+      setIsSwitching(true)
+      try {
+        await switchToIndexedDB()
+        toast.success(c.success.switchIndexedDB)
+      } catch (err) {
+        toast.error(
+          `${c.failure.switchIndexedDB}: ` +
+            formatStorageError(err)
+        )
+      } finally {
+        setIsSwitching(false)
+      }
+    },
+    [backend, switchToIndexedDB, toast, c]
+  )
 
   return {
     isSwitching,

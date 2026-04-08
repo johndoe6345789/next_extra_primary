@@ -7,29 +7,12 @@
 #include "../services/AuthService.h"
 #include "../utils/JsonResponse.h"
 #include "../utils/Validators.h"
+#include "auth_password_helpers.h"
 
 #include <nlohmann/json.hpp>
 #include <string>
 
 using json = nlohmann::json;
-using Cb =
-    std::function<void(const drogon::HttpResponsePtr&)>;
-using Ok = std::function<void(const services::json&)>;
-using Err = services::ErrCallback;
-
-static Ok okCb(Cb cb)
-{
-    return [cb](const services::json& r) {
-        cb(::utils::jsonOk(r));
-    };
-}
-static Err errCb(Cb cb)
-{
-    return [cb](drogon::HttpStatusCode c,
-                const std::string& m) {
-        cb(::utils::jsonError(c, m));
-    };
-}
 
 namespace controllers
 {
@@ -82,7 +65,8 @@ void AuthPasswordController::resetPassword(
 }
 
 void AuthPasswordController::confirmEmail(
-    const drogon::HttpRequestPtr& /*req*/, Cb&& cb,
+    const drogon::HttpRequestPtr& /*req*/,
+    Cb&& cb,
     const std::string& token)
 {
     if (token.empty()) {

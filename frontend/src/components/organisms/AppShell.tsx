@@ -21,6 +21,9 @@ export const ShiftContent: React.FC<{
         transition:
           'margin-left 300ms '
           + 'cubic-bezier(0.4,0,0.2,1)',
+        display: 'flex',
+        flexDirection: 'column' as const,
+        minHeight: 'calc(100vh - 57px)',
       }}
     >
       {children}

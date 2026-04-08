@@ -5,6 +5,7 @@
 
 #include "DashboardController.h"
 #include "../utils/JsonResponse.h"
+#include "dashboard_query.h"
 
 #include <drogon/drogon.h>
 #include <nlohmann/json.hpp>
@@ -25,37 +26,9 @@ void DashboardController::stats(
     auto userId = req->attributes()->get<
         std::string>("user_id");
 
-    std::string sql = R"(
-        SELECT
-            u.total_points,
-            u.current_level,
-            COALESCE(s.current_streak, 0)
-                AS current_streak,
-            COALESCE(s.longest_streak, 0)
-                AS longest_streak,
-            COUNT(DISTINCT ub.badge_id)
-                AS badge_count,
-            (SELECT COUNT(*) FROM notifications n
-             WHERE n.user_id = u.id
-               AND n.is_read = FALSE)
-                AS unread_count,
-            (SELECT RANK() OVER (
-                 ORDER BY total_points DESC)
-             FROM users
-             WHERE id = u.id)
-                AS rank
-        FROM users u
-        LEFT JOIN streaks s
-            ON s.user_id = u.id
-        LEFT JOIN user_badges ub
-            ON ub.user_id = u.id
-        WHERE u.id = $1
-        GROUP BY u.id, s.current_streak,
-                 s.longest_streak
-    )";
-
     auto dbClient = app().getDbClient();
-    *dbClient << sql << userId
+    *dbClient << std::string(kDashboardStatsSql)
+              << userId
               >> [cb](const Result& r) {
                      if (r.empty()) {
                          cb(::utils::jsonError(

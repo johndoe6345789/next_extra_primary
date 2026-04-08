@@ -2,7 +2,7 @@ import type { Preview } from '@storybook/react'
 import React, { useEffect } from 'react'
 
 import '../src/styles/globals.scss'
-import { loadAndInjectStyles } from '../src/styles/compiler'
+import { loadAndInjectStyles } from '../src/styles/compilerLoader'
 import { discoverPackagesWithStyles } from '../src/utils/packageDiscovery'
 
 // Dynamically load all package styles

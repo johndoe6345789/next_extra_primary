@@ -1,104 +1,88 @@
+/**
+ * Alert - severity-based notification banner
+ * with title, actions, and close button.
+ */
+
 import React from 'react'
-import styles from '../../../scss/atoms/alert.module.scss'
+import styles
+  from '../../../scss/atoms/alert.module.scss'
+import type {
+  AlertProps, AlertTitleProps,
+  AlertDescriptionProps,
+} from './AlertTypes'
+import {
+  defaultIconMap, severityMap, variantMap,
+} from './alertMaps'
 
-export type AlertSeverity = 'error' | 'warning' | 'info' | 'success'
-export type AlertVariant = 'standard' | 'filled' | 'outlined'
+export type {
+  AlertProps, AlertSeverity,
+  AlertVariant, AlertTitleProps,
+  AlertDescriptionProps,
+} from './AlertTypes'
 
-export interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
-  children?: React.ReactNode
-  title?: React.ReactNode
-  severity?: AlertSeverity
-  icon?: React.ReactNode | false
-  action?: React.ReactNode
-  variant?: AlertVariant
-  onClose?: (event: React.MouseEvent<HTMLButtonElement>) => void
-  testId?: string
-}
-
-function getDefaultIcon(severity: AlertSeverity): string {
-  switch (severity) {
-    case 'error':
-      return '✕'
-    case 'warning':
-      return '⚠'
-    case 'info':
-      return 'ℹ'
-    case 'success':
-      return '✓'
-    default:
-      return 'ℹ'
-  }
-}
-
-const severityClassMap: Record<AlertSeverity, string> = {
-  error: styles.alertError,
-  warning: styles.alertWarning,
-  info: styles.alertInfo,
-  success: styles.alertSuccess,
-}
-
-const variantClassMap: Record<AlertVariant, string | undefined> = {
-  standard: undefined,
-  filled: styles.alertFilled,
-  outlined: styles.alertOutlined,
-}
-
+/** Alert banner with severity and actions. */
 export const Alert: React.FC<AlertProps> = ({
-  children,
-  title,
-  severity = 'info',
-  icon,
-  action,
-  variant = 'standard',
-  onClose,
-  testId,
-  className = '',
-  ...props
+  children, title, severity = 'info',
+  icon, action, variant = 'standard',
+  onClose, testId, className = '', ...props
 }) => {
-  const classNames = [
-    styles.alert,
-    severityClassMap[severity],
-    variantClassMap[variant],
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ')
-
+  const cls = [
+    styles.alert, severityMap[severity],
+    variantMap[variant], className,
+  ].filter(Boolean).join(' ')
+  const label = props['aria-label']
+    || `${severity.charAt(0).toUpperCase()
+      + severity.slice(1)} alert`
   return (
-    <div className={classNames} role="alert" aria-live="assertive" aria-label={props['aria-label'] || `${severity.charAt(0).toUpperCase() + severity.slice(1)} alert`} data-testid={testId} {...props}>
-      {icon !== false && <span className={styles.alertIcon}>{icon || getDefaultIcon(severity)}</span>}
+    <div className={cls} role="alert"
+      aria-live="assertive"
+      aria-label={label}
+      data-testid={testId} {...props}>
+      {icon !== false && (
+        <span className={styles.alertIcon}>
+          {icon || defaultIconMap[severity]}
+        </span>
+      )}
       <div className={styles.alertContent}>
-        {title && <AlertTitle>{title}</AlertTitle>}
+        {title && (
+          <AlertTitle>{title}</AlertTitle>
+        )}
         {children}
       </div>
-      {action && <div className={styles.alertActions}>{action}</div>}
+      {action && (
+        <div className={styles.alertActions}>
+          {action}
+        </div>
+      )}
       {onClose && (
-        <button className={styles.alertClose} onClick={onClose} aria-label="Close">
-          ×
+        <button className={styles.alertClose}
+          onClick={onClose}
+          aria-label="Close">
+          &times;
         </button>
       )}
     </div>
   )
 }
 
-export interface AlertTitleProps extends React.HTMLAttributes<HTMLDivElement> {
-  children?: React.ReactNode
-}
-
-export const AlertTitle: React.FC<AlertTitleProps> = ({ children, className = '', ...props }) => (
-  <div className={`${styles.alertTitle} ${className}`.trim()} {...props}>
-    {children}
-  </div>
+/** Title row inside an Alert. */
+export const AlertTitle: React.FC<
+  AlertTitleProps
+> = ({ children, className = '',
+  ...props }) => (
+  <div className={
+    `${styles.alertTitle} ${className}`.trim()
+  } {...props}>{children}</div>
 )
 
-export interface AlertDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {
-  children?: React.ReactNode
-}
-
-export const AlertDescription: React.FC<AlertDescriptionProps> = ({ children, className = '', ...props }) => (
-  <p className={`${styles.alertMessage} ${className}`.trim()} {...props}>
-    {children}
-  </p>
+/** Description paragraph inside an Alert. */
+export const AlertDescription: React.FC<
+  AlertDescriptionProps
+> = ({ children, className = '',
+  ...props }) => (
+  <p className={
+    `${styles.alertMessage} ${className}`.trim()
+  } {...props}>{children}</p>
 )
 
 export default Alert

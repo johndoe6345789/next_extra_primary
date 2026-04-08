@@ -19,5 +19,26 @@
     "not_found": "Resource not found",
     "internal_error": "Internal server error",
     "rate_limited": "Too many requests, please try again later"
+  },
+  "codes": {
+    "AUTH_001": "invalid_credentials",
+    "AUTH_002": "email_taken",
+    "AUTH_003": "username_taken",
+    "AUTH_004": "token_expired",
+    "AUTH_005": "token_invalid",
+    "AUTH_006": "unauthorized",
+    "AUTH_007": "forbidden",
+    "AUTH_008": "email_not_confirmed",
+    "VAL_001": "invalid_email",
+    "VAL_002": "invalid_username",
+    "VAL_003": "weak_password",
+    "VAL_004": "required_field",
+    "GEN_001": "not_found",
+    "GEN_002": "internal_error",
+    "GEN_003": "rate_limited",
+    "CHAT_001": "no_api_key",
+    "CHAT_002": "provider_error",
+    "ADMIN_001": "admin_required",
+    "DB_001": "query_failed"
   }
 }

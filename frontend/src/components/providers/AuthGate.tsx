@@ -41,6 +41,9 @@ export function AuthGate(
   const isAuthenticated = useSelector(
     (s: RootState) => s.auth?.isAuthenticated,
   );
+  const rehydrated = useSelector(
+    (s: RootState) => s._persist?.rehydrated,
+  );
 
   const stripped =
     pathname.replace(
@@ -51,12 +54,12 @@ export function AuthGate(
   );
 
   useEffect(() => {
-    if (!isAuthenticated && !isPublic) {
+    if (rehydrated && !isAuthenticated && !isPublic) {
       router.replace('/login');
     }
-  }, [isAuthenticated, isPublic, router]);
+  }, [rehydrated, isAuthenticated, isPublic, router]);
 
-  if (!isAuthenticated && !isPublic) {
+  if (!rehydrated || (!isAuthenticated && !isPublic)) {
     return (
       <Box
         sx={{
@@ -71,7 +74,9 @@ export function AuthGate(
       >
         <CircularProgress />
         <Typography color="text.secondary">
-          Redirecting to login...
+          {!rehydrated
+            ? 'Loading...'
+            : 'Redirecting to login...'}
         </Typography>
       </Box>
     );

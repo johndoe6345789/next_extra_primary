@@ -1,27 +1,31 @@
-// m3/react/components/email/data-display/EmailHeader.tsx
 import React from 'react'
-import { Box, BoxProps, Typography } from '../..'
-import { useAccessible } from '../../../../hooks/useAccessible'
+import { Box, BoxProps, Typography }
+  from '../..'
+import { useAccessible }
+  from '../../../../hooks/useAccessible'
 import { StarButton } from '../atoms'
+import { EmailHeaderDetails }
+  from './EmailHeaderDetails'
 
-export interface EmailHeaderProps extends BoxProps {
+/** Props for EmailHeader component. */
+export interface EmailHeaderProps
+  extends BoxProps {
   from: string
   to: string[]
   cc?: string[]
   subject: string
   receivedAt: number
   isStarred?: boolean
-  onToggleStar?: (starred: boolean) => void
+  onToggleStar?: (
+    starred: boolean
+  ) => void
   testId?: string
 }
 
+/** Email detail header with subject/star. */
 export const EmailHeader = ({
-  from,
-  to,
-  cc,
-  subject,
-  receivedAt,
-  isStarred = false,
+  from, to, cc, subject,
+  receivedAt, isStarred = false,
   onToggleStar,
   testId: customTestId,
   ...props
@@ -29,64 +33,25 @@ export const EmailHeader = ({
   const accessible = useAccessible({
     feature: 'email',
     component: 'email-header',
-    identifier: customTestId || subject
+    identifier: customTestId || subject,
   })
-  const iso = new Date(receivedAt).toISOString()
-  const display = new Date(receivedAt).toLocaleString()
-
   return (
-    <Box
-      role="banner"
+    <Box role="banner"
       aria-label="Email details"
       className="email-header"
-      {...accessible}
-      {...props}
-    >
+      {...accessible} {...props}>
       <div className="header-top">
-        <Typography
-          variant="h5"
+        <Typography variant="h5"
           id="email-subject"
-          className="subject"
-        >
+          className="subject">
           {subject}
         </Typography>
-        <StarButton
-          isStarred={isStarred}
-          onToggleStar={onToggleStar}
-        />
+        <StarButton isStarred={isStarred}
+          onToggleStar={onToggleStar} />
       </div>
-      <div className="header-details">
-        <Typography
-          variant="body2"
-          className="from"
-          data-testid="email-from"
-        >
-          From: <strong>{from}</strong>
-        </Typography>
-        <Typography
-          variant="body2"
-          className="to"
-          data-testid="email-to"
-        >
-          To: <strong>{to.join(', ')}</strong>
-        </Typography>
-        {cc && cc.length > 0 && (
-          <Typography
-            variant="body2"
-            className="cc"
-            data-testid="email-cc"
-          >
-            Cc: <strong>{cc.join(', ')}</strong>
-          </Typography>
-        )}
-        <Typography
-          variant="caption"
-          className="date"
-          data-testid="email-date"
-        >
-          <time dateTime={iso}>{display}</time>
-        </Typography>
-      </div>
+      <EmailHeaderDetails
+        from={from} to={to}
+        cc={cc} receivedAt={receivedAt} />
     </Box>
   )
 }

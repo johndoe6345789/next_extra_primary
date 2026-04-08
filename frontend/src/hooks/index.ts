@@ -29,3 +29,6 @@ export { useDashboard } from './useDashboard';
 export { useDashboardLayout } from './useDashboardLayout';
 export type { UseDashboardLayoutReturn } from './useDashboardLayout';
 export { useFeatureToggle } from './useFeatureToggle';
+export { useDebugPanel } from './useDebugPanel';
+export type { DebugPanelData } from './useDebugPanel';
+export { useEscapeKey } from './useEscapeKey';

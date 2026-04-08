@@ -4,6 +4,7 @@
  */
 
 #include "services/PreferencesService.h"
+#include "services/preferences_queries.h"
 
 #include <drogon/drogon.h>
 #include <spdlog/spdlog.h>
@@ -23,26 +24,13 @@ void PreferencesService::get(
     const std::string& userId,
     Callback onOk, ErrCallback onErr)
 {
-    const std::string sql =
-        "SELECT theme_mode, preferred_locale "
-        "FROM users WHERE id = $1";
-
-    *db() << sql << userId
+    *db() << std::string(kPrefsGetSql) << userId
         >> [onOk](const Result& r) {
             if (r.empty()) {
-                onOk({{"themeMode", "system"},
-                      {"locale", "en"}});
+                onOk(defaultPrefs());
                 return;
             }
-            const auto& row = r[0];
-            onOk({
-                {"themeMode",
-                 row["theme_mode"]
-                     .as<std::string>()},
-                {"locale",
-                 row["preferred_locale"]
-                     .as<std::string>()},
-            });
+            onOk(prefsFromRow(r[0]));
         }
         >> [onErr](const DrogonDbException& e) {
             spdlog::error(
@@ -59,30 +47,14 @@ void PreferencesService::update(
     const std::string& locale,
     Callback onOk, ErrCallback onErr)
 {
-    const std::string sql =
-        "UPDATE users "
-        "SET theme_mode = $1, "
-        "    preferred_locale = $2, "
-        "    updated_at = NOW() "
-        "WHERE id = $3 "
-        "RETURNING theme_mode, preferred_locale";
-
-    *db() << sql << themeMode << locale << userId
+    *db() << std::string(kPrefsUpdateSql)
+          << themeMode << locale << userId
         >> [onOk](const Result& r) {
             if (r.empty()) {
-                onOk({{"themeMode", "system"},
-                      {"locale", "en"}});
+                onOk(defaultPrefs());
                 return;
             }
-            const auto& row = r[0];
-            onOk({
-                {"themeMode",
-                 row["theme_mode"]
-                     .as<std::string>()},
-                {"locale",
-                 row["preferred_locale"]
-                     .as<std::string>()},
-            });
+            onOk(prefsFromRow(r[0]));
         }
         >> [onErr](const DrogonDbException& e) {
             spdlog::error(

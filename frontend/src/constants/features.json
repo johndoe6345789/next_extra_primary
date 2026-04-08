@@ -1,0 +1,32 @@
+[
+  {
+    "key": "aiChat",
+    "icon": "chat",
+    "href": "/chat"
+  },
+  {
+    "key": "gamification",
+    "icon": "emoji_events",
+    "href": "/leaderboard"
+  },
+  {
+    "key": "alerts",
+    "icon": "notifications_active",
+    "href": "/notifications"
+  },
+  {
+    "key": "darkMode",
+    "icon": "dark_mode",
+    "href": "/dashboard"
+  },
+  {
+    "key": "multiLang",
+    "icon": "translate",
+    "href": "/about"
+  },
+  {
+    "key": "secureAuth",
+    "icon": "lock",
+    "href": "/register"
+  }
+]

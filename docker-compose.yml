@@ -184,6 +184,7 @@ services:
       ES_PORT: "9200"
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      FRONTEND_VERSION: "0.1.0"
     restart: unless-stopped
 
   # ---- Next.js frontend --------------------------------------

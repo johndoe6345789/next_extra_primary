@@ -1,8 +1,9 @@
 /**
  * Vanilla React Components
  *
- * Pure React components with no external UI library dependencies.
- * These components use only React and inline styles.
+ * Pure React components with no external UI
+ * library dependencies. These use only React
+ * and inline styles.
  */
 
 // Loading components
@@ -25,20 +26,6 @@ export {
   type ErrorReporter,
   type ErrorDisplayProps,
 } from './error'
-
-// Empty state components
-export {
-  EmptyState,
-  NoDataFound,
-  NoResultsFound,
-  NoItemsYet,
-  AccessDeniedState,
-  ErrorState,
-  NoConnectionState,
-  LoadingCompleteState,
-  emptyStateStyles,
-  type EmptyStateProps,
-} from './empty-state'
 
 // Skeleton components
 export {
@@ -66,28 +53,5 @@ export {
   type AccessDeniedProps,
 } from './access-denied'
 
-// Notification components
-export {
-  NotificationContainer,
-  NotificationItem,
-  useNotificationState,
-  notificationStyles,
-  type NotificationData,
-  type NotificationType,
-  type NotificationPosition,
-  type NotificationContainerProps,
-  type NotificationItemProps,
-} from './notifications'
-
-// Status indicator components
-export {
-  StatusBadge,
-  ConnectionStatus,
-  BackendStatus,
-  statusIndicatorStyles,
-  type StatusVariant,
-  type BackendStatusType,
-  type StatusBadgeProps,
-  type ConnectionStatusProps,
-  type BackendStatusProps,
-} from './status-indicators'
+// Re-export additional modules
+export * from './vanillaExports'

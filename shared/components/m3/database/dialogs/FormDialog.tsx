@@ -1,105 +1,80 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
+  Dialog, DialogTitle,
+  DialogContent, DialogActions,
 } from '../../utils';
 import { Button, TextField } from '../../inputs';
+import { useFormDialog }
+  from './useFormDialog';
+import type {
+  FormDialogProps, FormField,
+} from './formDialogTypes';
 
-export type FormField = {
-  name: string;
-  label: string;
-  type?: string;
-  required?: boolean;
-  defaultValue?: string | number | boolean;
-};
-
-export type FormDialogProps = {
-  open: boolean;
-  title: string;
-  fields: FormField[];
-  initialData?: Record<string, unknown>;
-  onClose: () => void;
-  onSubmit: (data: Record<string, unknown>) => Promise<void>;
-  submitLabel?: string;
-  testId?: string;
-};
+export type { FormDialogProps, FormField };
 
 /**
- * FormDialog - A reusable form dialog component.
- * Renders a dynamic form based on field definitions.
+ * FormDialog - A reusable form dialog.
+ * Renders a dynamic form from field defs.
  */
 export function FormDialog({
-  open,
-  title,
-  fields,
-  initialData,
-  onClose,
-  onSubmit,
-  submitLabel = 'Submit',
-  testId,
+  open, title, fields, initialData,
+  onClose, onSubmit,
+  submitLabel = 'Submit', testId,
 }: FormDialogProps) {
-  const [formData, setFormData] = useState<Record<string, unknown>>({});
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (initialData) {
-      setFormData(initialData);
-    } else {
-      setFormData({});
-    }
-  }, [initialData, open]);
+  const d = useFormDialog(initialData, open);
 
   const handleSubmit = async () => {
-    setLoading(true);
+    d.setLoading(true);
     try {
-      await onSubmit(formData);
-      setFormData({});
+      await onSubmit(d.formData);
+      d.setFormData({});
       onClose();
     } catch (error) {
-      console.error('Form submission error:', error);
-    } finally {
-      setLoading(false);
-    }
+      console.error(
+        'Form submission error:', error
+      );
+    } finally { d.setLoading(false); }
   };
 
-  const handleChange = (fieldName: string, value: unknown) => {
-    setFormData((prev) => ({
-      ...prev,
-      [fieldName]: value,
-    }));
-  };
+  const labelId = testId
+    ? `${testId}-title` : undefined;
 
   return (
-    <Dialog open={open} onClose={onClose} data-testid={testId} aria-labelledby={testId ? `${testId}-title` : undefined}>
-      <DialogTitle id={testId ? `${testId}-title` : undefined}>{title}</DialogTitle>
+    <Dialog open={open} onClose={onClose}
+      data-testid={testId}
+      aria-labelledby={labelId}>
+      <DialogTitle id={labelId}>
+        {title}
+      </DialogTitle>
       <DialogContent>
         {fields.map((field) => (
-          <TextField
-            key={field.name}
-            fullWidth
+          <TextField key={field.name} fullWidth
             label={field.label}
             type={field.type || 'text'}
             required={field.required}
             value={
-              formData[field.name] !== undefined
-                ? String(formData[field.name])
-                : String(field.defaultValue ?? '')
+              d.formData[field.name] !== undefined
+                ? String(d.formData[field.name])
+                : String(
+                    field.defaultValue ?? '')
             }
-            onChange={(e) => handleChange(field.name, e.target.value)}
-            disabled={loading}
-            sx={{ mb: 2 }}
-          />
+            onChange={(e) =>
+              d.handleChange(
+                field.name, e.target.value
+              )}
+            disabled={d.loading}
+            sx={{ mb: 2 }} />
         ))}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} disabled={loading}>
+        <Button onClick={onClose}
+          disabled={d.loading}>
           Cancel
         </Button>
-        <Button onClick={handleSubmit} variant="contained" disabled={loading}>
+        <Button onClick={handleSubmit}
+          variant="contained"
+          disabled={d.loading}>
           {submitLabel}
         </Button>
       </DialogActions>

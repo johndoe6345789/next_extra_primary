@@ -1,23 +1,26 @@
 /**
  * @shared/hooks-async
  * Redux-backed async data and mutation hooks
- * 100% compatible with @tanstack/react-query API
  */
 
-// useReduxAsyncData - Primary async data hook
-export { useReduxAsyncData, useReduxPaginatedAsyncData } from './useReduxAsyncData'
+export { useReduxAsyncData } from
+  './useReduxAsyncData';
 export type {
-  UseAsyncDataOptions,
-  UseAsyncDataResult,
-  UsePaginatedAsyncDataOptions,
-  UsePaginatedAsyncDataResult,
-} from './useReduxAsyncData'
+  UseAsyncDataOptions, UseAsyncDataResult,
+} from './asyncDataTypes';
 
-// useReduxMutation - Mutation hook for write operations
-export { useReduxMutation, useReduxMultiMutation } from './useReduxMutation'
+export {
+  useReduxPaginatedAsyncData,
+} from './useReduxPaginatedData';
 export type {
-  UseMutationOptions,
-  UseMutationResult,
-  MultiMutationStep,
-  UseMultiMutationResult,
-} from './useReduxMutation'
+  UsePaginatedOptions, UsePaginatedResult,
+} from './useReduxPaginatedData';
+
+export { useReduxMutation } from
+  './useReduxMutation';
+export { useReduxMultiMutation } from
+  './useReduxMultiMutation';
+export type {
+  UseMutationOptions, UseMutationResult,
+  MultiMutationStep, UseMultiMutationResult,
+} from './mutationTypes';

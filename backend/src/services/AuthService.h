@@ -1,11 +1,8 @@
 #pragma once
 /**
  * @file AuthService.h
- * @brief Thin coordinator that delegates to focused
+ * @brief Thin facade that delegates to focused
  *        authentication sub-services.
- *
- * Keeps backward compatibility for callers that already
- * instantiate AuthService directly.
  */
 
 #include "auth_service_types.h"
@@ -16,7 +13,6 @@
 #include "session_service.h"
 #include "token_refresh_service.h"
 #include "token_service.h"
-
 #include <functional>
 #include <string>
 
@@ -25,8 +21,7 @@ namespace services
 
 /**
  * @class AuthService
- * @brief Facade that delegates every operation to a
- *        single-responsibility sub-service.
+ * @brief Facade delegating to sub-services.
  */
 class AuthService
 {
@@ -40,44 +35,44 @@ class AuthService
         const std::string& username,
         const std::string& password,
         const std::string& displayName,
-        Callback onSuccess, ErrCallback onError);
+        Callback onOk, ErrCallback onErr);
 
-    /** @brief Authenticate with email + password. */
+    /** @brief Login via email + password. */
     void loginUser(
         const std::string& email,
         const std::string& password,
-        Callback onSuccess, ErrCallback onError);
+        Callback onOk, ErrCallback onErr);
 
     /** @brief Refresh an expired access token. */
     void refreshAccessToken(
         const std::string& refreshToken,
-        Callback onSuccess, ErrCallback onError);
+        Callback onOk, ErrCallback onErr);
 
     /** @brief Block a token JTI (logout). */
     void logoutUser(
         const std::string& jti,
-        Callback onSuccess, ErrCallback onError);
+        Callback onOk, ErrCallback onErr);
 
     /** @brief Confirm email via one-time token. */
     void confirmEmail(
         const std::string& token,
-        Callback onSuccess, ErrCallback onError);
+        Callback onOk, ErrCallback onErr);
 
     /** @brief Request a password-reset email. */
     void requestPasswordReset(
         const std::string& email,
-        Callback onSuccess, ErrCallback onError);
+        Callback onOk, ErrCallback onErr);
 
     /** @brief Execute a password reset. */
     void resetPassword(
         const std::string& token,
         const std::string& newPassword,
-        Callback onSuccess, ErrCallback onError);
+        Callback onOk, ErrCallback onErr);
 
     /** @brief Check if a JTI is blocklisted. */
     void isTokenBlocked(
         const std::string& jti,
-        std::function<void(bool)> callback);
+        std::function<void(bool)> cb);
 
   private:
     RegistrationService registration_;

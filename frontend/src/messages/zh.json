@@ -59,7 +59,8 @@
     "webmail": "网页邮箱",
     "pgadmin": "数据库管理",
     "packageRepo": "包仓库",
-    "s3server": "S3存储"
+    "s3server": "S3存储",
+    "search": "搜索"
   },
   "hero": {
     "title": "提升你的学习之旅",
@@ -199,6 +200,38 @@
     "darkMode": "深色模式",
     "admin": "管理",
     "manageTranslations": "管理翻译",
+    "manageApiKeys": "管理系统API密钥",
+    "manageEnvVars": "环境变量",
+    "manageUsers": "用户管理",
+    "debugPanel": "调试面板",
+    "apiKeys": "AI API密钥",
+    "apiKeysDesc": "添加您自己的Claude和OpenAI API密钥。留空则使用系统默认值。",
+    "apiKey": "API密钥",
+    "modelLabel": "模型",
+    "editKey": "编辑",
+    "deleteKey": "删除",
+    "save": "保存",
     "comingSoon": "更多设置即将推出。"
+  },
+  "admin": {
+    "systemKeys": "系统API密钥",
+    "systemKeysDesc": "为没有自己密钥的用户设置备用API密钥。",
+    "apiKeyLabel": "API密钥",
+    "save": "保存",
+    "envVars": "环境变量",
+    "set": "已设置",
+    "notSet": "未设置",
+    "userManagement": "用户管理",
+    "noUsers": "未找到用户。",
+    "active": "活跃",
+    "disabled": "已禁用",
+    "disable": "禁用",
+    "enable": "启用",
+    "debugPanel": "调试面板",
+    "authState": "认证状态",
+    "environment": "环境",
+    "apiCalls": "API调用",
+    "clear": "清除",
+    "noApiCalls": "尚未记录任何API调用。"
   }
 }

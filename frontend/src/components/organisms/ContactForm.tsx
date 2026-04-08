@@ -2,12 +2,14 @@
 
 import React from 'react';
 import Alert from '@shared/m3/Alert';
-import TextField from '@shared/m3/TextField';
 import { useTranslations } from 'next-intl';
 import { Button } from '../atoms';
 import { useContactForm } from
   '@/hooks/useContactForm';
-import s from '@shared/scss/modules/ContactForm.module.scss';
+import ContactFormFields from
+  './ContactFormFields';
+import s from
+  '@shared/scss/modules/ContactForm.module.scss';
 
 /** Props for the ContactForm organism. */
 export interface ContactFormProps {
@@ -44,54 +46,25 @@ export const ContactForm: React.FC<
             {t('sent')}
           </Alert>
         )}
-        <div className={s.field}>
-          <TextField
-            label={t('name')}
-            name="name"
-            value={name}
-            onChange={(e) => setName(
-              e.target.value,
-            )}
-            required
-            fullWidth
-            autoComplete="name"
-          />
-        </div>
-        <div className={s.field}>
-          <TextField
-            label={t('email')}
-            name="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(
-              e.target.value,
-            )}
-            required
-            fullWidth
-            autoComplete="email"
-          />
-        </div>
-        <div className={s.field}>
-          <TextField
-            label={t('message')}
-            name="message"
-            value={message}
-            onChange={(e) => setMessage(
-              e.target.value,
-            )}
-            required
-            fullWidth
-            multiline
-            rows={5}
-          />
-        </div>
+        <ContactFormFields
+          name={name} setName={setName}
+          email={email} setEmail={setEmail}
+          message={message}
+          setMessage={setMessage}
+          labels={{
+            name: t('name'),
+            email: t('email'),
+            message: t('message'),
+          }}
+        />
         <Button
           type="submit"
           fullWidth
           disabled={isLoading}
           testId="contact-submit"
         >
-          {isLoading ? t('sending') : t('send')}
+          {isLoading
+            ? t('sending') : t('send')}
         </Button>
       </form>
     </div>

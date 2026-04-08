@@ -1,101 +1,68 @@
 /**
  * useLoginLogic Hook (Tier 2)
- * User login business logic with service adapter injection
- *
- * Features:
- * - Email and password validation
- * - Service adapter integration
- * - LocalStorage persistence
- * - Redux state management
- * - Navigation on success
+ * User login with service adapter injection
  */
 
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/navigation'
 import { useServices } from '@shared/service-adapters'
-import { setAuthenticated, setUILoading, setError } from '@shared/redux-slices'
+import { setUILoading, setError } from '@shared/redux-slices'
 import type { AppDispatch } from '@shared/redux-slices'
+import type { LoginData } from './loginValidation'
+import { validateLogin } from './loginValidation'
+import { persistAuthResult } from './authPersistence'
 
-export interface LoginData {
-  email: string
-  password: string
-}
+export type { LoginData } from './loginValidation'
 
+/** @brief Return type for useLoginLogic */
 export interface UseLoginLogicReturn {
-  handleLogin: (data: LoginData) => Promise<void>
+  handleLogin: (
+    data: LoginData
+  ) => Promise<void>
 }
 
 /**
- * Validation rules for login form
- */
-const validateLogin = (data: LoginData): string | null => {
-  const { email, password } = data
-
-  if (!email.trim()) {
-    return 'Email is required'
-  }
-  if (!password) {
-    return 'Password is required'
-  }
-
-  return null
-}
-
-/**
- * useLoginLogic Hook
- * Handles user login with service adapter injection
- *
+ * Login hook with validation.
  * @example
- * const { handleLogin } = useLoginLogic();
- * await handleLogin({ email: 'user@example.com', password: 'password' });
+ * const { handleLogin } = useLoginLogic()
  */
-export const useLoginLogic = (): UseLoginLogicReturn => {
-  const dispatch = useDispatch<AppDispatch>()
-  const router = useRouter()
-  const { authService } = useServices()
+export const useLoginLogic =
+  (): UseLoginLogicReturn => {
+    const dispatch = useDispatch<AppDispatch>()
+    const router = useRouter()
+    const { authService } = useServices()
 
-  const handleLogin = useCallback(
-    async (data: LoginData) => {
-      dispatch(setError(null))
-      dispatch(setUILoading(true))
+    const handleLogin = useCallback(
+      async (data: LoginData) => {
+        dispatch(setError(null))
+        dispatch(setUILoading(true))
+        try {
+          const err = validateLogin(data)
+          if (err) throw new Error(err)
 
-      try {
-        // Validate form
-        const validationError = validateLogin(data)
-        if (validationError) {
-          throw new Error(validationError)
+          const response =
+            await authService.login(
+              data.email,
+              data.password
+            )
+          persistAuthResult(dispatch, response)
+          router.push('/')
+        } catch (error) {
+          const msg =
+            error instanceof Error
+              ? error.message
+              : 'Login failed'
+          dispatch(setError(msg))
+          throw error
+        } finally {
+          dispatch(setUILoading(false))
         }
+      },
+      [dispatch, router, authService]
+    )
 
-        // Call auth service
-        const response = await authService.login(data.email, data.password)
-
-        // Save to localStorage
-        localStorage.setItem('auth_token', response.token)
-        localStorage.setItem('current_user', JSON.stringify(response.user))
-
-        // Update Redux state
-        dispatch(
-          setAuthenticated({
-            user: response.user,
-            token: response.token,
-          })
-        )
-
-        // Redirect to dashboard
-        router.push('/')
-      } catch (error) {
-        const message = error instanceof Error ? error.message : 'Login failed'
-        dispatch(setError(message))
-        throw error
-      } finally {
-        dispatch(setUILoading(false))
-      }
-    },
-    [dispatch, router, authService]
-  )
-
-  return { handleLogin }
-}
+    return { handleLogin }
+  }
 
 export default useLoginLogic

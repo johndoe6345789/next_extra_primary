@@ -1,70 +1,59 @@
 /**
  * NodePalette Component
- * Right sidebar with search, language filter, and categorized node list
+ * Right sidebar with search and categorized
+ * nodes.
  */
 
 'use client';
 
-import React, { DragEvent } from 'react';
-import type { NodeType } from './types';
-import { NODE_CATEGORIES, NODE_TYPES } from './node-definitions';
-import { PaletteNode } from './PaletteNode';
+import React from 'react';
+import {
+  NODE_CATEGORIES, NODE_TYPES,
+} from './node-definitions';
 import { PaletteHeader } from './PaletteHeader';
-import { PaletteCategories } from './PaletteCategories';
+import { PaletteCategories }
+  from './PaletteCategories';
+import { PaletteSearchResults }
+  from './PaletteSearchResults';
+import type { NodePaletteProps }
+  from './nodePaletteTypes';
 import styles from '../../scss/atoms/workflow-editor.module.scss';
 
-export interface NodePaletteProps {
-  nodeSearch: string;
-  onSearchChange: (value: string) => void;
-  expandedCategories: Record<string, boolean>;
-  onToggleCategory: (category: string) => void;
-  onExpandAll: () => void;
-  onCollapseAll: () => void;
-  onDragStart: (e: DragEvent, nodeType: NodeType) => void;
-  nodeTypes?: NodeType[];
-  categories?: Record<string, { id: string; name: string; color: string }>;
-  languages?: string[];
-  languageHealth?: Record<string, boolean>;
-  selectedLanguage?: string | null;
-  onLanguageChange?: (lang: string | null) => void;
-  isLoading?: boolean;
-}
+export type { NodePaletteProps }
+  from './nodePaletteTypes';
 
+/** Right sidebar palette for adding nodes. */
 export function NodePalette({
-  nodeSearch,
-  onSearchChange,
-  expandedCategories,
-  onToggleCategory,
-  onExpandAll,
-  onCollapseAll,
-  onDragStart,
-  nodeTypes,
-  categories,
-  languages = [],
-  languageHealth = {},
-  selectedLanguage = null,
-  onLanguageChange,
+  nodeSearch, onSearchChange,
+  expandedCategories, onToggleCategory,
+  onExpandAll, onCollapseAll, onDragStart,
+  nodeTypes, categories,
+  languages = [], languageHealth = {},
+  selectedLanguage = null, onLanguageChange,
   isLoading = false,
 }: NodePaletteProps): React.ReactElement {
-  const unhealthyLanguages = languages.filter(lang => languageHealth[lang] === false);
-  const allNodeTypes = nodeTypes || NODE_TYPES;
-  const allCategories = categories || NODE_CATEGORIES;
-
-  const filteredNodeTypes = allNodeTypes.filter(n => {
-    if (selectedLanguage && n.language && n.language !== selectedLanguage) return false;
-    if (nodeSearch.trim()) {
-      const query = nodeSearch.toLowerCase();
-      return n.name.toLowerCase().includes(query) || n.description.toLowerCase().includes(query) ||
-        n.category.toLowerCase().includes(query) || (n.language && n.language.toLowerCase().includes(query));
-    }
-    return true;
+  const unhealthy = languages.filter(
+    (l) => languageHealth[l] === false);
+  const allTypes = nodeTypes || NODE_TYPES;
+  const allCats = categories || NODE_CATEGORIES;
+  const filtered = allTypes.filter((n) => {
+    if (selectedLanguage && n.language
+      && n.language !== selectedLanguage)
+      return false;
+    if (!nodeSearch.trim()) return true;
+    const q = nodeSearch.toLowerCase();
+    return (
+      n.name.toLowerCase().includes(q)
+      || n.description.toLowerCase().includes(q)
+      || n.category.toLowerCase().includes(q)
+      || (n.language?.toLowerCase().includes(q))
+    );
   });
-
   return (
     <aside className={styles.palette}>
       <PaletteHeader
         isLoading={isLoading}
-        unhealthyLanguages={unhealthyLanguages}
+        unhealthyLanguages={unhealthy}
         nodeSearch={nodeSearch}
         onSearchChange={onSearchChange}
         onExpandAll={onExpandAll}
@@ -73,25 +62,19 @@ export function NodePalette({
         languageHealth={languageHealth}
         selectedLanguage={selectedLanguage}
         onLanguageChange={onLanguageChange}
-        filteredCount={filteredNodeTypes.length}
-      />
-
+        filteredCount={filtered.length} />
       {nodeSearch.trim() ? (
-        <div className={styles.categoryContent}>
-          {filteredNodeTypes.length === 0 ? (
-            <p style={{ padding: 16, textAlign: 'center', color: 'var(--mat-sys-on-surface-variant)' }}>No nodes found</p>
-          ) : (
-            filteredNodeTypes.map(nodeType => <PaletteNode key={nodeType.id} nodeType={nodeType} onDragStart={onDragStart} />)
-          )}
-        </div>
+        <PaletteSearchResults
+          filtered={filtered}
+          onDragStart={onDragStart} />
       ) : (
         <PaletteCategories
-          categories={allCategories}
-          nodeTypes={filteredNodeTypes}
-          expandedCategories={expandedCategories}
+          categories={allCats}
+          nodeTypes={filtered}
+          expandedCategories={
+            expandedCategories}
           onToggleCategory={onToggleCategory}
-          onDragStart={onDragStart}
-        />
+          onDragStart={onDragStart} />
       )}
     </aside>
   );

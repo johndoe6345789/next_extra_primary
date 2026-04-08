@@ -4,54 +4,15 @@
 
 import { useEffect, useState } from 'react'
 import { getSessionUser } from '@/lib/routing'
+import type { AuthState } from './authTypes'
+import { toAuthUser } from './authTypes'
 
-export interface AuthUser {
-  id: string
-  username: string
-  email: string
-  role: string
-  level: number
-  tenantId?: string
-}
+export type {
+  AuthUser,
+  AuthState,
+} from './authTypes'
 
-export interface AuthState {
-  user: AuthUser | null
-  isLoading: boolean
-  isAuthenticated: boolean
-}
-
-const toAuthUser = (value: Record<string, unknown>): AuthUser | null => {
-  const id = value.id
-  const username = value.username
-  const email = value.email
-  const role = value.role
-  const level = value.level
-
-  if (
-    typeof id !== 'string' ||
-    typeof username !== 'string' ||
-    typeof email !== 'string' ||
-    typeof role !== 'string'
-  ) {
-    return null
-  }
-
-  let resolvedLevel = 0
-  if (typeof level === 'number') {
-    resolvedLevel = level
-  } else if (typeof level === 'bigint') {
-    resolvedLevel = Number(level)
-  }
-
-  return {
-    id,
-    username,
-    email,
-    role,
-    level: resolvedLevel,
-  }
-}
-
+/** Hook for authentication state */
 export function useAuth(): AuthState {
   const [state, setState] = useState<AuthState>({
     user: null,
@@ -62,21 +23,13 @@ export function useAuth(): AuthState {
   useEffect(() => {
     const loadUser = async () => {
       try {
-        const sessionUser = await getSessionUser()
-        if (sessionUser.user !== null) {
-          const user = toAuthUser(sessionUser.user)
-          if (user === null) {
-            setState({
-              user: null,
-              isLoading: false,
-              isAuthenticated: false,
-            })
-            return
-          }
+        const session = await getSessionUser()
+        if (session.user !== null) {
+          const user = toAuthUser(session.user)
           setState({
             user,
             isLoading: false,
-            isAuthenticated: true,
+            isAuthenticated: user !== null,
           })
         } else {
           setState({
@@ -86,8 +39,9 @@ export function useAuth(): AuthState {
           })
         }
       } catch {
-        // Error loading user - log in development only
-        if (process.env.NODE_ENV === 'development') {
+        if (
+          process.env.NODE_ENV === 'development'
+        ) {
           console.error('Error loading user')
         }
         setState({
@@ -97,7 +51,6 @@ export function useAuth(): AuthState {
         })
       }
     }
-
     void loadUser()
   }, [])
 

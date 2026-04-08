@@ -4,122 +4,59 @@ import { classNames } from '../utils/classNames'
 import styles from '../../../scss/atoms/form.module.scss'
 import { FormLabel } from './FormLabel'
 import { FormHelperText } from './FormHelperText'
-import { Input, InputProps } from './Input'
+import { Input } from './Input'
 import { Select } from './Select'
 import { useAccessible } from '../../../hooks/useAccessible'
 import { sxToStyle } from '../utils/sx'
+import { TextFieldProps } from './TextFieldTypes'
+import { TextFieldMultiline } from './TextFieldMultiline'
 
-export interface TextFieldProps extends Omit<InputProps, 'size' | 'label' | 'helperText'> {
-  label?: React.ReactNode
-  helperText?: React.ReactNode
-  error?: boolean
-  /** Render as a select dropdown instead of input */
-  select?: boolean
-  /** Children (for select mode - MenuItem components) */
-  children?: React.ReactNode
-  /** Render as textarea for multi-line input */
-  multiline?: boolean
-  /** Number of rows for multiline */
-  rows?: number
-  /** Props passed to the underlying input element */
-  inputProps?: React.InputHTMLAttributes<HTMLInputElement>
-  /** Props passed to the helper text element */
-  FormHelperTextProps?: Record<string, unknown>
-  /** Input size */
-  size?: 'small' | 'medium'
-  /** Unique identifier for testing and accessibility */
-  testId?: string
-  /** MUI sx prop for styling */
-  sx?: Record<string, unknown>
-}
+export type { TextFieldProps } from './TextFieldTypes'
 
+/** TextField - combined label/input/helper field */
 export const TextField = forwardRef<HTMLInputElement | HTMLDivElement, TextFieldProps>(
-  ({ label, helperText, error, className = '', id: providedId, select, children, size, testId: customTestId, sx, style, multiline, rows, inputProps, FormHelperTextProps: _fhtp, ...props }, ref) => {
+  ({ label, helperText, error, className = '', id: providedId, select, children,
+     size, testId: customTestId, sx, style, multiline, rows, inputProps,
+     FormHelperTextProps: _fhtp, ...props }, ref) => {
     const generatedId = useId()
     const id = providedId ?? generatedId
-    const helperTextId = `${id}-helper-text`
-
-    // Convert size prop to Input's expected format
+    const htId = `${id}-helper-text`
     const inputSize = size === 'small' ? 'sm' : size === 'medium' ? 'md' : undefined
-
     const accessible = useAccessible({
-      feature: 'form',
-      component: select ? 'select' : 'input',
+      feature: 'form', component: select ? 'select' : 'input',
       identifier: customTestId || String(label)?.substring(0, 20),
-      ariaDescribedBy: helperText ? helperTextId : undefined,
+      ariaDescribedBy: helperText ? htId : undefined,
     })
-
-    const wrapperClasses = classNames(
-      styles.formGroup,
-      className
-    )
-
-    const selectClasses = classNames(styles.inputFullWidth)
+    const tid = accessible['data-testid']
 
     return (
-      <div className={wrapperClasses} style={{ ...sxToStyle(sx), ...style }}>
+      <div className={classNames(styles.formGroup, className)} style={{ ...sxToStyle(sx), ...style }}>
         {label && <FormLabel htmlFor={id}>{label}</FormLabel>}
         {select ? (
-          <Select
-            ref={ref as React.Ref<HTMLDivElement>}
-            id={id}
-            error={error}
-            className={selectClasses}
-            data-testid={accessible['data-testid']}
-            aria-invalid={error}
-            aria-describedby={helperText ? helperTextId : undefined}
+          <Select ref={ref as React.Ref<HTMLDivElement>} id={id} error={error}
+            className={classNames(styles.inputFullWidth)} data-testid={tid} aria-invalid={error}
+            aria-describedby={helperText ? htId : undefined}
             value={props.value as string | string[] | undefined}
-            onChange={props.onChange as unknown as ((event: { target: { value: string | string[]; name?: string } }) => void) | undefined}
-            name={props.name}
-            disabled={props.disabled}
-            required={props.required}
-          >
+            onChange={props.onChange as unknown as ((e: { target: { value: string | string[]; name?: string } }) => void) | undefined}
+            name={props.name} disabled={props.disabled} required={props.required}>
             {children}
           </Select>
         ) : multiline ? (
-          <textarea
-            ref={ref as React.Ref<HTMLTextAreaElement>}
-            id={id}
-            className={classNames(styles.input, styles.inputFullWidth, error && styles.inputError)}
-            rows={rows ?? 4}
-            data-testid={accessible['data-testid']}
-            aria-invalid={error || undefined}
-            aria-describedby={helperText ? helperTextId : undefined}
-            value={props.value as string}
-            onChange={props.onChange as never}
-            name={props.name}
-            disabled={props.disabled}
-            required={props.required}
-            placeholder={props.placeholder}
-            {...(inputProps as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
-          />
+          <TextFieldMultiline innerRef={ref as React.Ref<HTMLTextAreaElement>} id={id} error={error} rows={rows}
+            testId={tid} helperTextId={helperText ? htId : undefined} value={props.value as string}
+            onChange={props.onChange as never} name={props.name} disabled={props.disabled}
+            required={props.required} placeholder={props.placeholder}
+            inputProps={inputProps as React.TextareaHTMLAttributes<HTMLTextAreaElement>} />
         ) : (
-          <Input
-            ref={ref as React.Ref<HTMLInputElement>}
-            id={id}
-            error={error}
-            data-testid={accessible['data-testid']}
-            aria-invalid={error}
-            aria-describedby={
-              helperText
-                ? helperTextId
-                : undefined
-            }
-            {...props}
-            {...inputProps}
-            size={inputSize}
-          />
+          <Input ref={ref as React.Ref<HTMLInputElement>} id={id} error={error} data-testid={tid}
+            aria-invalid={error} aria-describedby={helperText ? htId : undefined}
+            {...props} {...inputProps} size={inputSize} />
         )}
-        {helperText && (
-          <FormHelperText error={error} id={helperTextId} role="status">
-            {helperText}
-          </FormHelperText>
-        )}
+        {helperText && <FormHelperText error={error} id={htId} role="status">{helperText}</FormHelperText>}
       </div>
     )
   }
 )
 
 TextField.displayName = 'TextField'
-
 export default TextField

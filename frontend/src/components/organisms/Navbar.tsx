@@ -4,6 +4,8 @@ import React, { useCallback, useState } from 'react';
 import AppBar from '@shared/m3/AppBar';
 import Toolbar from '@shared/m3/Toolbar';
 import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
+import { Button } from '@shared/m3/Button';
 import { useAuth } from '@/hooks';
 import { SkipLink } from '../molecules/SkipLink';
 import { NavbarLogo } from '@shared/components/ui/NavbarLogo';
@@ -12,6 +14,7 @@ import { NotificationBell } from '../molecules/NotificationBell';
 import { AvatarMenu } from './AvatarMenu';
 import { MobileDrawer } from './MobileDrawer';
 import { NotificationPanel } from './NotificationPanel';
+import navLinks from '@/constants/nav-links.json';
 
 /** Props for the Navbar organism. */
 export interface NavbarProps {
@@ -25,9 +28,10 @@ export const Navbar: React.FC<NavbarProps> = ({
   testId = 'navbar',
 }) => {
   const [panelOpen, setPanelOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
   const tCommon = useTranslations('common');
   const tNav = useTranslations('nav');
+  const tAuth = useTranslations('auth');
   const tA11y = useTranslations('a11y');
 
   const toggle = useCallback(
@@ -35,15 +39,10 @@ export const Navbar: React.FC<NavbarProps> = ({
     [],
   );
 
-  const LINKS = [
-    { label: tNav('dashboard'), href: '/dashboard' },
-    { label: tNav('leaderboard'), href: '/leaderboard' },
-    { label: tNav('chat'), href: '/chat' },
-    { label: tNav('notifications'), href: '/notifications' },
-    { label: tNav('profile'), href: '/profile' },
-    { label: tNav('about'), href: '/about' },
-    { label: tNav('contact'), href: '/contact' },
-  ];
+  const LINKS = navLinks.map((l) => ({
+    label: tNav(l.labelKey),
+    href: l.href,
+  }));
 
   return (
     <>
@@ -63,11 +62,24 @@ export const Navbar: React.FC<NavbarProps> = ({
           <DesktopActions
             onSearch={onSearch ?? (() => {})}
           />
-          <NotificationBell onClick={toggle} />
-          <AvatarMenu
-            user={user}
-            onLogout={logout}
-          />
+          {isAuthenticated ? (
+            <>
+              <NotificationBell onClick={toggle} />
+              <AvatarMenu
+                user={user}
+                onLogout={logout}
+              />
+            </>
+          ) : (
+            <Button
+              component={Link}
+              href="/login"
+              variant="text"
+              testId="navbar-login"
+            >
+              {tAuth('login')}
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
       <NotificationPanel

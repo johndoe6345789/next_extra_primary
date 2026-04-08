@@ -1,91 +1,85 @@
 /**
  * @file UserController.cpp
- * @brief User management endpoint implementations.
+ * @brief User list endpoint (admin-only, paginated).
  */
 
 #include "UserController.h"
+#include "user_list_helpers.h"
+#include "user_list_query.h"
 #include "../utils/JsonResponse.h"
 #include "../utils/parse_helpers.h"
 
+#include <drogon/drogon.h>
 #include <nlohmann/json.hpp>
-#include <string>
+#include <spdlog/spdlog.h>
 
 using json = nlohmann::json;
-using Cb = std::function<void(const drogon::HttpResponsePtr&)>;
+using Cb = std::function<void(
+    const drogon::HttpResponsePtr&)>;
+using namespace drogon::orm;
 
 namespace controllers
 {
 
-void UserController::list(const drogon::HttpRequestPtr& req, Cb&& cb)
+void UserController::list(
+    const drogon::HttpRequestPtr& req,
+    Cb&& cb)
 {
-    auto role = req->attributes()->get<std::string>("user_role");
+    auto role = req->attributes()
+        ->get<std::string>("user_role");
     if (role != "admin") {
-        cb(::utils::jsonError(drogon::k403Forbidden, "Admin access required"));
+        cb(::utils::jsonError(
+            drogon::k403Forbidden,
+            "Admin access required"));
         return;
     }
 
     auto pageStr = req->getParameter("page");
-    auto perPageStr = req->getParameter("per_page");
-    int64_t page = ::utils::safeStoll(pageStr, 1);
-    int64_t perPage = ::utils::safeStoll(perPageStr, 20);
+    auto ppStr =
+        req->getParameter("per_page");
+    int64_t page =
+        ::utils::safeStoll(pageStr, 1);
+    int64_t perPage =
+        ::utils::safeStoll(ppStr, 20);
+    int64_t offset = (page - 1) * perPage;
 
-    // TODO: query database with LIMIT/OFFSET.
-    json users = json::array();
-    cb(::utils::jsonPaginated(users, 0, page, perPage));
-}
+    auto db = drogon::app().getDbClient();
 
-// ----------------------------------------------------------
-void UserController::getProfile(const drogon::HttpRequestPtr& /*req*/, Cb&& cb,
-                                const std::string& id)
-{
-    // TODO: look up user by id in database.
-    json user = {{"id", id},
-                 {"username", "placeholder"},
-                 {"display_name", "Placeholder User"},
-                 {"created_at", "2025-01-01T00:00:00Z"}};
-    cb(::utils::jsonOk(user));
-}
-
-// ----------------------------------------------------------
-void UserController::updateProfile(const drogon::HttpRequestPtr& req, Cb&& cb,
-                                   const std::string& id)
-{
-    auto callerId = req->attributes()->get<std::string>("user_id");
-    if (callerId != id) {
-        cb(::utils::jsonError(drogon::k403Forbidden,
-                              "Can only update own profile"));
-        return;
-    }
-
-    auto body = json::parse(
-        req->bodyData(), req->bodyData() + req->bodyLength(), nullptr, false);
-    if (body.is_discarded()) {
-        cb(::utils::jsonError(drogon::k400BadRequest, "Invalid JSON body"));
-        return;
-    }
-
-    // TODO: apply partial update to database.
-    json updated = {{"id", id}, {"message", "Profile updated"}};
-    cb(::utils::jsonOk(updated));
-}
-
-// ----------------------------------------------------------
-void UserController::getBadges(const drogon::HttpRequestPtr& /*req*/, Cb&& cb,
-                               const std::string& id)
-{
-    // TODO: fetch badges from database.
-    json badges = json::array();
-    cb(::utils::jsonOk({{"user_id", id}, {"badges", badges}}));
-}
-
-// ----------------------------------------------------------
-void UserController::getStats(const drogon::HttpRequestPtr& /*req*/, Cb&& cb,
-                              const std::string& id)
-{
-    // TODO: fetch gamification stats from database.
-    json stats = {
-        {"user_id", id}, {"total_points", 0}, {"level", 1}, {"streak_days", 0}};
-    cb(::utils::jsonOk(stats));
+    *db << std::string(kUserCountSql)
+        >> [db, page, perPage, offset, cb](
+               const Result& cr) {
+            int64_t total =
+                cr[0]["total"].as<int64_t>();
+            *db << std::string(kUserListSql)
+                << perPage << offset
+                >> [total, page, perPage, cb](
+                       const Result& r) {
+                    json users = json::array();
+                    for (const auto& row : r)
+                        users.push_back(
+                            detail::userFromRow(
+                                row));
+                    cb(::utils::jsonPaginated(
+                        users, total, page,
+                        perPage));
+                }
+                >> [cb](const DrogonDbException&
+                            e) {
+                    spdlog::error(
+                        "user list: {}",
+                        e.base().what());
+                    cb(::utils::jsonError(
+                        drogon::k500InternalServerError,
+                        "Failed to list users"));
+                };
+        }
+        >> [cb](const DrogonDbException& e) {
+            spdlog::error("user count: {}",
+                          e.base().what());
+            cb(::utils::jsonError(
+                drogon::k500InternalServerError,
+                "Failed to list users"));
+        };
 }
 
 } // namespace controllers

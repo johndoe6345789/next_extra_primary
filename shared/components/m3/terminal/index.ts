@@ -5,14 +5,18 @@
  */
 
 export {
-  Terminal,
-  type TerminalProps,
-  type TerminalLine,
-  TerminalHeader,
-  TerminalOutput,
-  TerminalInput,
+  Terminal, type TerminalProps,
 } from './Terminal'
-
-export { type TerminalOutputProps } from './TerminalOutput'
-export { type TerminalInputProps } from './TerminalInput'
-export { type TerminalHeaderProps } from './TerminalHeader'
+export { type TerminalLine } from './TerminalOutput'
+export {
+  TerminalOutput,
+  type TerminalOutputProps,
+} from './TerminalOutput'
+export {
+  TerminalInput,
+  type TerminalInputProps,
+} from './TerminalInput'
+export {
+  TerminalHeader,
+  type TerminalHeaderProps,
+} from './TerminalHeader'

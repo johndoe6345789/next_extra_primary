@@ -41,7 +41,10 @@ export const ChatMessageList: React.FC<ChatMessageListProps> = ({
       aria-live="polite"
       aria-label="Chat messages"
       data-testid="chat-messages"
-      sx={{ flex: 1, overflow: 'auto', p: 2 }}
+      style={{
+        flex: 1, overflow: 'auto',
+        padding: 16, minHeight: 0,
+      }}
     >
       {messages.length === 0 && (
         <Typography color="text.secondary" style={{ textAlign: 'center' }}>
@@ -52,7 +55,7 @@ export const ChatMessageList: React.FC<ChatMessageListProps> = ({
         <AiChatMessage key={m.id} message={m} testId={`msg-${m.id}`} />
       ))}
       {isStreaming && (
-        <Box sx={{ textAlign: 'center', py: 1 }}>
+        <Box style={{ textAlign: 'center', padding: '8px 0' }}>
           <CircularProgress size={20} />
         </Box>
       )}

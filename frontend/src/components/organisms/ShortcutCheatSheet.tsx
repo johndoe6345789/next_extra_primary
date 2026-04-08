@@ -3,13 +3,17 @@
 import React from 'react';
 import Dialog from '@shared/m3/Dialog';
 import DialogTitle from '@shared/m3/DialogTitle';
-import DialogContent from '@shared/m3/DialogContent';
+import DialogContent from
+  '@shared/m3/DialogContent';
 import Box from '@shared/m3/Box';
 import Typography from '@shared/m3/Typography';
 import { useTranslations } from 'next-intl';
 import { Kbd } from '../atoms/Kbd';
-import shortcuts from '@/constants/keyboard-shortcuts.json';
-import { shortcutLabel, type ShortcutDef } from '@/lib/shortcutLabel';
+import { shortcutLabel } from
+  '@/lib/shortcutLabel';
+import {
+  SECTION_KEYS, type SectionKey,
+} from './shortcutCheatSheetConfig';
 
 /** Props for the ShortcutCheatSheet dialog. */
 export interface ShortcutCheatSheetProps {
@@ -19,32 +23,16 @@ export interface ShortcutCheatSheetProps {
   onClose: () => void;
 }
 
-type Section = Record<string, ShortcutDef>;
-
-type SectionKey = 'global' | 'chat' | 'navigation';
-
-const SECTION_KEYS: {
-  key: SectionKey; data: Section;
-}[] = [
-  { key: 'global', data: shortcuts.global as Section },
-  { key: 'chat', data: shortcuts.chat as Section },
-  {
-    key: 'navigation',
-    data: shortcuts.navigation as Section,
-  },
-];
-
 /**
- * A dialog listing all keyboard shortcuts grouped
- * by category. Triggered by pressing `?`.
+ * A dialog listing all keyboard shortcuts
+ * grouped by category. Triggered by `?`.
  *
  * @param props - Component props.
  * @returns The cheat sheet dialog element.
  */
-export const ShortcutCheatSheet: React.FC<ShortcutCheatSheetProps> = ({
-  open,
-  onClose,
-}) => {
+export const ShortcutCheatSheet: React.FC<
+  ShortcutCheatSheetProps
+> = ({ open, onClose }) => {
   const tn = useTranslations('nav');
   const labels: Record<SectionKey, string> = {
     global: 'Global',
@@ -52,39 +40,49 @@ export const ShortcutCheatSheet: React.FC<ShortcutCheatSheetProps> = ({
     navigation: 'Navigation',
   };
   return (
-  <Dialog
-    open={open}
-    onClose={onClose}
-    maxWidth="xs"
-    fullWidth
-    data-testid="shortcut-cheat-sheet"
-    aria-label="Keyboard shortcuts"
-  >
-    <DialogTitle>Keyboard Shortcuts</DialogTitle>
-    <DialogContent dividers>
-      {SECTION_KEYS.map(({ key, data }) => (
-        <Box key={key} sx={{ mb: 2 }}>
-          <Typography variant="overline" color="text.secondary">
-            {labels[key]}
-          </Typography>
-          {Object.values(data).map((def) => (
-            <Box
-              key={def.description}
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                py: 0.5,
-              }}
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="xs"
+      fullWidth
+      data-testid="shortcut-cheat-sheet"
+      aria-label="Keyboard shortcuts"
+    >
+      <DialogTitle>
+        Keyboard Shortcuts
+      </DialogTitle>
+      <DialogContent dividers>
+        {SECTION_KEYS.map(({ key, data }) => (
+          <Box key={key} sx={{ mb: 2 }}>
+            <Typography
+              variant="overline"
+              color="text.secondary"
             >
-              <Typography variant="body2">{def.description}</Typography>
-              <Kbd combo={shortcutLabel(def)} />
-            </Box>
-          ))}
-        </Box>
-      ))}
-    </DialogContent>
-  </Dialog>
+              {labels[key]}
+            </Typography>
+            {Object.values(data).map((def) => (
+              <Box
+                key={def.description}
+                sx={{
+                  display: 'flex',
+                  justifyContent:
+                    'space-between',
+                  alignItems: 'center',
+                  py: 0.5,
+                }}
+              >
+                <Typography variant="body2">
+                  {def.description}
+                </Typography>
+                <Kbd
+                  combo={shortcutLabel(def)}
+                />
+              </Box>
+            ))}
+          </Box>
+        ))}
+      </DialogContent>
+    </Dialog>
   );
 };
 

@@ -36,7 +36,9 @@ export const AvatarMenu: React.FC<AvatarMenuProps> = ({
         alt={user?.displayName ?? 'User'}
         src={user?.avatarUrl}
         fallbackText={
-          user?.displayName?.[0] ?? '?'
+          user?.displayName?.[0]
+          || user?.username?.[0]
+          || '?'
         }
         size="sm"
         onClick={(e) =>

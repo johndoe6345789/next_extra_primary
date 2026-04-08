@@ -11,6 +11,7 @@ import {
   AppShell,
   ShiftContent,
 } from '@/components/organisms/AppShell';
+import { loadMessages } from './loadMessages';
 
 /** All locale pages are dynamic. */
 export const dynamic = 'force-dynamic';
@@ -37,11 +38,9 @@ export function generateStaticParams(): Array<{
 }
 
 /**
- * Locale-scoped layout for internationalised routes.
- *
- * Loads translation messages for the active locale,
- * sets the request locale for server components, and
- * wraps children in `IntlProvider` and `AuthGate`.
+ * Locale-scoped layout for internationalised
+ * routes. Loads translation messages, sets the
+ * request locale, and wraps children in providers.
  *
  * @param props - Layout props with locale params.
  * @returns Locale-wrapped component tree.
@@ -52,31 +51,7 @@ export default async function LocaleLayout({
 }: LocaleLayoutProps): Promise<ReactElement> {
   const { locale } = await params;
   setRequestLocale(locale);
-
-  let messages: Record<string, unknown> = {};
-  try {
-    const apiUrl = process.env.INTERNAL_API_URL
-      ?? 'http://localhost:8080';
-    const res = await fetch(
-      `${apiUrl}/api/translations/${locale}`,
-      { next: { revalidate: 60 } },
-    );
-    if (res.ok) {
-      messages = (await res.json()) as Record<
-        string, unknown
-      >;
-    } else {
-      throw new Error(`API ${res.status}`);
-    }
-  } catch {
-    try {
-      messages = (
-        await import(`@/messages/${locale}.json`)
-      ).default;
-    } catch {
-      /* Falls back to empty messages. */
-    }
-  }
+  const messages = await loadMessages(locale);
 
   return (
     <IntlProvider locale={locale} messages={messages}>

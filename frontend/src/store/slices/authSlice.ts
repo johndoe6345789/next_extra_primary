@@ -3,7 +3,6 @@
  * @module store/slices/authSlice
  */
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { REHYDRATE } from 'redux-persist';
 import type { AuthState, User } from '../../types/auth';
 import { addAuthMatchers } from './authMatchers';
 
@@ -50,9 +49,6 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(REHYDRATE, (state) => {
-      state.isLoading = false;
-    });
     addAuthMatchers(builder);
   },
 });

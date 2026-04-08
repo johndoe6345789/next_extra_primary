@@ -59,7 +59,8 @@
     "webmail": "Webmail",
     "pgadmin": "Datenbank-Admin",
     "packageRepo": "Paket-Repo",
-    "s3server": "S3-Speicher"
+    "s3server": "S3-Speicher",
+    "search": "Suchen"
   },
   "hero": {
     "title": "Bringe dein Lernen auf das n\u00e4chste Level",
@@ -199,6 +200,38 @@
     "darkMode": "Dunkelmodus",
     "admin": "Verwaltung",
     "manageTranslations": "Übersetzungen verwalten",
+    "manageApiKeys": "System-API-Schlüssel verwalten",
+    "manageEnvVars": "Umgebungsvariablen",
+    "manageUsers": "Benutzerverwaltung",
+    "debugPanel": "Debug-Panel",
+    "apiKeys": "KI-API-Schlüssel",
+    "apiKeysDesc": "Fügen Sie Ihre eigenen API-Schlüssel für Claude und OpenAI hinzu. Leer lassen für Systemstandards.",
+    "apiKey": "API-Schlüssel",
+    "modelLabel": "Modell",
+    "editKey": "Bearbeiten",
+    "deleteKey": "Entfernen",
+    "save": "Speichern",
     "comingSoon": "Weitere Einstellungen folgen."
+  },
+  "admin": {
+    "systemKeys": "System-API-Schlüssel",
+    "systemKeysDesc": "Fallback-API-Schlüssel für alle Benutzer festlegen.",
+    "apiKeyLabel": "API-Schlüssel",
+    "save": "Speichern",
+    "envVars": "Umgebungsvariablen",
+    "set": "Gesetzt",
+    "notSet": "Nicht gesetzt",
+    "userManagement": "Benutzerverwaltung",
+    "noUsers": "Keine Benutzer gefunden.",
+    "active": "Aktiv",
+    "disabled": "Deaktiviert",
+    "disable": "Deaktivieren",
+    "enable": "Aktivieren",
+    "debugPanel": "Debug-Panel",
+    "authState": "Authentifizierungsstatus",
+    "environment": "Umgebung",
+    "apiCalls": "API-Aufrufe",
+    "clear": "Löschen",
+    "noApiCalls": "Noch keine API-Aufrufe aufgezeichnet."
   }
 }

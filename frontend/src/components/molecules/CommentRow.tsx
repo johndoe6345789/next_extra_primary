@@ -4,6 +4,9 @@ import Link from 'next/link';
 import Typography from '@shared/m3/Typography';
 import Box from '@shared/m3/Box';
 import { Icon } from '@shared/m3/data-display/Icon';
+import {
+  avatarStyle, nameLink, delBtn,
+} from './commentRowStyles';
 
 /** Props for a single comment row. */
 export interface CommentRowProps {
@@ -25,8 +28,8 @@ export interface CommentRowProps {
 
 /** Renders one comment with avatar and link. */
 export default function CommentRow({
-  content, username, displayName, createdAt,
-  mine, onDelete,
+  content, username, displayName,
+  createdAt, mine, onDelete,
 }: CommentRowProps) {
   const initial = (displayName || username)?.[0]
     ?.toUpperCase() ?? '?';
@@ -35,12 +38,14 @@ export default function CommentRow({
     <Box sx={{
         mt: 2, pt: 2, display: 'flex', gap: 1.5,
         borderTop: '1px solid',
-        borderColor: 'var(--mat-sys-outline-variant)',
+        borderColor:
+          'var(--mat-sys-outline-variant)',
       }}
       data-testid="comment-row"
     >
       <Link href={`/profile/${username}`}
-        style={avatarStyle} aria-label={displayName}
+        style={avatarStyle}
+        aria-label={displayName}
       >
         {initial}
       </Link>
@@ -73,23 +78,3 @@ export default function CommentRow({
     </Box>
   );
 }
-
-const avatarStyle: React.CSSProperties = {
-  width: 32, height: 32, borderRadius: '50%',
-  background: 'var(--mat-sys-primary)',
-  color: 'var(--mat-sys-on-primary, #fff)',
-  display: 'flex', alignItems: 'center',
-  justifyContent: 'center', flexShrink: 0,
-  fontSize: 14, fontWeight: 700,
-  textDecoration: 'none', marginTop: 2,
-};
-const nameLink: React.CSSProperties = {
-  color: 'var(--mat-sys-primary)',
-  textDecoration: 'none', cursor: 'pointer',
-  fontWeight: 600,
-};
-const delBtn: React.CSSProperties = {
-  background: 'none', border: 'none',
-  cursor: 'pointer', marginLeft: 4,
-  verticalAlign: 'middle', padding: 0,
-};

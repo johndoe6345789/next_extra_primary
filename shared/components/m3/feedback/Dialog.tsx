@@ -1,7 +1,6 @@
 /**
- * Dialog Component
- * Material Design 3 dialog with backdrop and content panel
- * Wraps DialogOverlay and DialogPanel for consistent styling with Angular Material
+ * Dialog - M3 modal dialog with backdrop,
+ * focus trap, and portal rendering.
  */
 
 'use client';
@@ -10,22 +9,11 @@ import React, { useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { DialogOverlay, DialogPanel } from '../utils/Dialog';
 import { useFocusTrap } from '../../../hooks/useAccessible';
+import type { DialogProps } from './DialogTypes';
 
-export interface DialogProps {
-  open: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
-  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
-  fullWidth?: boolean;
-  fullScreen?: boolean;
-  disableEscapeKeyDown?: boolean;
-  disableBackdropClick?: boolean;
-  /** Test ID for automated testing */
-  testId?: string;
-  /** ID of the element labelling this dialog (for aria-labelledby) */
-  'aria-labelledby'?: string;
-}
+export type { DialogProps } from './DialogTypes';
 
+/** Modal dialog with escape-key and backdrop close. */
 export function Dialog({
   open,
   onClose,
@@ -38,17 +26,15 @@ export function Dialog({
   testId,
   'aria-labelledby': ariaLabelledBy,
 }: DialogProps): React.ReactElement | null {
-  // Focus trapping
   const { focusTrapRef } = useFocusTrap(open);
 
-  // Handle escape key
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === 'Escape' && !disableEscapeKeyDown) {
         onClose();
       }
     },
-    [onClose, disableEscapeKeyDown]
+    [onClose, disableEscapeKeyDown],
   );
 
   useEffect(() => {
@@ -65,12 +51,9 @@ export function Dialog({
   if (!open) return null;
 
   const handleBackdropClick = () => {
-    if (!disableBackdropClick) {
-      onClose();
-    }
+    if (!disableBackdropClick) onClose();
   };
 
-  // Map maxWidth to DialogPanel size props
   const sizeProps = {
     sm: maxWidth === 'xs' || maxWidth === 'sm',
     lg: maxWidth === 'md' || maxWidth === 'lg',
@@ -97,11 +80,9 @@ export function Dialog({
     </DialogOverlay>
   );
 
-  // Use portal to render at document root
   if (typeof document !== 'undefined') {
     return createPortal(dialog, document.body);
   }
-
   return dialog;
 }
 

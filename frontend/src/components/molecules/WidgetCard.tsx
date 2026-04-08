@@ -4,6 +4,10 @@ import type { ComponentType } from 'react';
 import Typography from '@shared/m3/Typography';
 import { Icon } from '@shared/m3/data-display/Icon';
 import type { WidgetId } from '@/types/dashboard';
+import {
+  pillOn, pillOff, previewBox,
+  cardStyle, headerStyle,
+} from './widgetCardStyles';
 
 /** Props for WidgetCard. */
 export interface WidgetCardProps {
@@ -22,36 +26,6 @@ export interface WidgetCardProps {
   /** The widget component to preview. */
   Comp: ComponentType;
 }
-
-/** Pill toggle styles. */
-const pillOn: React.CSSProperties = {
-  padding: '2px 10px',
-  borderRadius: 99,
-  fontSize: 12,
-  fontWeight: 600,
-  border: 'none',
-  cursor: 'pointer',
-  background: 'var(--md-sys-color-primary)',
-  color: 'var(--md-sys-color-on-primary)',
-};
-const pillOff: React.CSSProperties = {
-  ...pillOn,
-  background: 'var(--md-sys-color-surface-variant)',
-  color: 'var(--md-sys-color-on-surface-variant)',
-};
-
-/** Scaled-down live preview of a widget. */
-const previewBox: React.CSSProperties = {
-  height: 100,
-  overflow: 'hidden',
-  borderRadius: 8,
-  border: '1px solid var(--outline-variant)',
-  transform: 'scale(0.55)',
-  transformOrigin: 'top left',
-  width: '182%',
-  pointerEvents: 'none',
-  marginBottom: -40,
-};
 
 /**
  * A card showing a mini live preview of a
@@ -84,7 +58,9 @@ export default function WidgetCard({
             e.stopPropagation();
             onToggle(id);
           }}
-          aria-label={`${label} ${on ? 'on' : 'off'}`}
+          aria-label={
+            `${label} ${on ? 'on' : 'off'}`
+          }
           data-testid={`toggle-${id}`}
         >
           {on ? 'ON' : 'OFF'}
@@ -102,19 +78,3 @@ export default function WidgetCard({
     </div>
   );
 }
-
-const cardStyle: React.CSSProperties = {
-  padding: 12,
-  borderRadius: 12,
-  border: '1px solid var(--outline-variant)',
-  cursor: 'pointer',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 6,
-};
-
-const headerStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  gap: 8,
-};

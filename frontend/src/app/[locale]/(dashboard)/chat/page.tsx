@@ -29,18 +29,20 @@ export default async function ChatPage({
   return (
     <Box
       aria-label="AI Chat"
-      sx={{
+      style={{
         display: 'flex',
         flexDirection: 'column',
-        height: 'calc(100vh - 128px)',
+        flex: 1,
+        minHeight: 0,
       }}
     >
-      <Typography variant="h4" component="h1" gutterBottom>
+      <Typography
+        variant="h4" component="h1"
+        gutterBottom
+      >
         AI Tutor
       </Typography>
-      <Box sx={{ flex: 1, minHeight: 0 }}>
-        <ChatPanel />
-      </Box>
+      <ChatPanel />
     </Box>
   );
 }

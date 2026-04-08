@@ -9,13 +9,8 @@ import Skeleton from '@shared/m3/Skeleton';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { useDashboard } from '@/hooks';
-
-/** Stat card definition. */
-interface StatCard {
-  labelKey: string;
-  value: number | null;
-  href: string;
-}
+import { buildStatCards } from
+  './DashboardStatCards';
 
 /**
  * Dashboard stats grid with live data from API.
@@ -24,35 +19,11 @@ interface StatCard {
 export default function DashboardStats() {
   const t = useTranslations('dashboard');
   const { stats, isLoading } = useDashboard();
-
-  const cards: StatCard[] = [
-    {
-      labelKey: 'currentStreak',
-      value: stats?.currentStreak ?? null,
-      href: '/profile',
-    },
-    {
-      labelKey: 'totalPoints',
-      value: stats?.totalPoints ?? null,
-      href: '/leaderboard',
-    },
-    {
-      labelKey: 'badgesEarned',
-      value: stats?.badgeCount ?? null,
-      href: '/profile',
-    },
-    {
-      labelKey: 'rank',
-      value: stats?.rank ?? null,
-      href: '/leaderboard',
-    },
-  ];
+  const cards = buildStatCards(stats ?? undefined);
 
   return (
     <Grid
-      container
-      spacing={3}
-      role="list"
+      container spacing={3} role="list"
       aria-label={t('title')}
       data-testid="dashboard-stats"
     >
@@ -62,7 +33,13 @@ export default function DashboardStats() {
           item xs={12} sm={6} md={3}
         >
           <Card role="listitem">
-            <Link href={card.href} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Link
+              href={card.href}
+              style={{
+                textDecoration: 'none',
+                color: 'inherit',
+              }}
+            >
             <CardActionArea>
               <CardContent>
                 <Typography
@@ -74,13 +51,10 @@ export default function DashboardStats() {
                 {isLoading ? (
                   <Skeleton
                     variant="text"
-                    width={60}
-                    height={40}
+                    width={60} height={40}
                   />
                 ) : (
-                  <Typography
-                    variant="h4"
-                  >
+                  <Typography variant="h4">
                     {card.value ?? t('noData')}
                   </Typography>
                 )}

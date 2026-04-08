@@ -1,29 +1,34 @@
 /**
  * @file AuthTokenController.cpp
- * @brief Token management: logout, refresh, and me.
+ * @brief Token management: logout and refresh.
+ *
+ * The "me" endpoint is in AuthTokenMe.cpp.
  */
 
 #include "AuthTokenController.h"
 #include "../services/AuthService.h"
 #include "../utils/JsonResponse.h"
+#include "auth_token_refresh.h"
 
 #include <nlohmann/json.hpp>
 #include <string>
 
 using json = nlohmann::json;
-using Cb = std::function<void(const drogon::HttpResponsePtr&)>;
+using Cb = std::function<void(
+    const drogon::HttpResponsePtr&)>;
 
 namespace controllers
 {
 
-/** @brief Invalidate the caller's access token. */
 void AuthTokenController::logout(
     const drogon::HttpRequestPtr& req, Cb&& cb)
 {
-    auto authHeader = req->getHeader("Authorization");
+    auto authHeader =
+        req->getHeader("Authorization");
     if (authHeader.size() <= 7) {
-        cb(::utils::jsonError(drogon::k400BadRequest,
-                              "Missing or malformed token"));
+        cb(::utils::jsonError(
+            drogon::k400BadRequest,
+            "Missing or malformed token"));
         return;
     }
     auto token = authHeader.substr(7);
@@ -41,7 +46,6 @@ void AuthTokenController::logout(
         });
 }
 
-// ----------------------------------------------------------
 void AuthTokenController::refresh(
     const drogon::HttpRequestPtr& req, Cb&& cb)
 {
@@ -56,13 +60,7 @@ void AuthTokenController::refresh(
         return;
     }
 
-    std::string rt;
-    if (body.contains("refreshToken")) {
-        rt = body["refreshToken"].get<std::string>();
-    } else if (body.contains("refresh_token")) {
-        rt = body["refresh_token"]
-                 .get<std::string>();
-    }
+    auto rt = extractRefreshToken(body);
     if (rt.empty()) {
         cb(::utils::jsonError(
             drogon::k400BadRequest,
@@ -80,21 +78,6 @@ void AuthTokenController::refresh(
              const std::string& m) {
             cb(::utils::jsonError(c, m));
         });
-}
-
-// ----------------------------------------------------------
-void AuthTokenController::me(
-    const drogon::HttpRequestPtr& req, Cb&& cb)
-{
-    auto userId =
-        req->attributes()->get<std::string>("user_id");
-    // TODO: fetch full user from DB.
-    json user = {
-        {"id", userId},
-        {"email", "user@example.com"},
-        {"role",
-         req->attributes()->get<std::string>("user_role")}};
-    cb(::utils::jsonOk(user));
 }
 
 } // namespace controllers

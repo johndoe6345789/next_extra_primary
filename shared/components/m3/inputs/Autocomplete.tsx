@@ -1,203 +1,84 @@
 'use client'
 
-import React, { useState, useRef, useEffect } from 'react'
+import React from 'react'
 import { classNames } from '../utils/classNames'
+import type {
+  AutocompleteRenderInputParams,
+  AutocompleteProps,
+} from './AutocompleteTypes'
+import { AutocompleteListbox }
+  from './AutocompleteListbox'
+import { AutocompleteTags }
+  from './AutocompleteTags'
+import { useAutocompleteCore }
+  from './useAutocompleteCore'
 
-export interface AutocompleteRenderInputParams {
-  value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onFocus: () => void
-  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void
-  disabled: boolean
-}
+export type {
+  AutocompleteRenderInputParams,
+  AutocompleteRenderOptionState,
+  AutocompleteProps,
+} from './AutocompleteTypes'
 
-export interface AutocompleteRenderOptionState {
-  index: number
-}
-
-export interface AutocompleteProps<T = any> extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
-  testId?: string
-  options?: T[]
-  value?: T | T[] | null
-  onChange?: (event: React.SyntheticEvent | null, value: T | T[] | null) => void
-  inputValue?: string
-  onInputChange?: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void
-  getOptionLabel?: (option: T) => string
-  renderOption?: (option: T, state: AutocompleteRenderOptionState) => React.ReactNode
-  renderInput?: (params: AutocompleteRenderInputParams) => React.ReactNode
-  multiple?: boolean
-  freeSolo?: boolean
-  disabled?: boolean
-  loading?: boolean
-  loadingText?: string
-  noOptionsText?: string
-  placeholder?: string
-}
-
-export function Autocomplete<T = any>({
-  options = [],
-  value,
-  onChange,
-  inputValue,
-  onInputChange,
-  getOptionLabel = (option: any) => option?.label ?? option ?? '',
-  renderOption,
-  renderInput,
-  multiple = false,
-  freeSolo = false,
+/** Autocomplete - combobox with filtering */
+export function Autocomplete<T = unknown>({
+  options = [], value, onChange,
+  inputValue, onInputChange,
+  getOptionLabel = (o: T) =>
+    (o as Record<string, string>)?.label
+    ?? String(o ?? ''),
+  renderOption, renderInput,
+  multiple = false, freeSolo: _freeSolo,
   disabled = false,
   loading = false,
-  loadingText = 'Loading…',
+  loadingText = 'Loading\u2026',
   noOptionsText = 'No options',
-  placeholder,
-  testId,
-  className,
-  ...props
+  placeholder, testId, className, ...props
 }: AutocompleteProps<T>) {
-  const [open, setOpen] = useState(false)
-  const [internalInputValue, setInternalInputValue] = useState('')
-  const [highlightedIndex, setHighlightedIndex] = useState(-1)
-  const inputRef = useRef<HTMLDivElement>(null)
-  const listRef = useRef<HTMLUListElement>(null)
-
-  const controlledInputValue = inputValue ?? internalInputValue
-
-  const filteredOptions = options.filter((option) =>
-    getOptionLabel(option).toLowerCase().includes(controlledInputValue.toLowerCase())
-  )
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value
-    if (onInputChange) {
-      onInputChange(e, newValue)
-    } else {
-      setInternalInputValue(newValue)
-    }
-    setOpen(true)
+  const h = useAutocompleteCore<T>({
+    options, value, onChange, inputValue,
+    onInputChange, getOptionLabel, multiple,
+  })
+  const defInput = (
+    p: AutocompleteRenderInputParams
+  ) => (<input {...p} type="text"
+    className="m3-autocomplete-input"
+    placeholder={placeholder} />)
+  const params = {
+    value: h.controlled,
+    onChange: h.handleInput,
+    onFocus: () => h.setOpen(true),
+    onKeyDown: h.handleKey, disabled,
   }
-
-  const handleOptionClick = (option: T) => {
-    if (multiple) {
-      const currentValue = (value as T[]) || []
-      const newValue = [...currentValue, option]
-      onChange?.(null, newValue)
-    } else {
-      onChange?.(null, option)
-      setInternalInputValue(getOptionLabel(option))
-    }
-    setOpen(false)
-  }
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'ArrowDown') {
-      e.preventDefault()
-      setHighlightedIndex((prev) => Math.min(prev + 1, filteredOptions.length - 1))
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault()
-      setHighlightedIndex((prev) => Math.max(prev - 1, 0))
-    } else if (e.key === 'Enter' && highlightedIndex >= 0) {
-      e.preventDefault()
-      const selectedOption = filteredOptions[highlightedIndex]
-      if (selectedOption !== undefined) {
-        handleOptionClick(selectedOption)
-      }
-    } else if (e.key === 'Escape') {
-      setOpen(false)
-    }
-  }
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
-        setOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
-
-  const defaultRenderInput = (params: AutocompleteRenderInputParams) => (
-    <input
-      {...params}
-      type="text"
-      className="m3-autocomplete-input"
-      placeholder={placeholder}
-    />
-  )
-
   return (
-    <div
-      className={classNames('m3-autocomplete', className, {
-        'm3-autocomplete-disabled': disabled,
-      })}
-      ref={inputRef}
-      role="combobox"
-      aria-expanded={open}
+    <div className={classNames(
+      'm3-autocomplete', className,
+      { 'm3-autocomplete-disabled': disabled },
+    )} ref={h.inputRef} role="combobox"
+      aria-expanded={h.open}
       aria-haspopup="listbox"
-      aria-label={typeof placeholder === 'string' ? placeholder : undefined}
-      data-testid={testId}
-      {...props}
-    >
-      <div className="m3-autocomplete-input-wrapper">
-        {multiple && Array.isArray(value) && value.length > 0 && (
-          <div className="m3-autocomplete-tags">
-            {value.map((item, index) => (
-              <span key={index} className="m3-autocomplete-tag">
-                {getOptionLabel(item)}
-                <button
-                  type="button"
-                  className="m3-autocomplete-tag-remove"
-                  onClick={() => {
-                    const newValue = value.filter((_, i) => i !== index)
-                    onChange?.(null, newValue)
-                  }}
-                >
-                  ×
-                </button>
-              </span>
-            ))}
-          </div>
+      aria-label={placeholder}
+      data-testid={testId} {...props}>
+      <div className={
+        'm3-autocomplete-input-wrapper'}>
+        {multiple && Array.isArray(value) && (
+          <AutocompleteTags value={value}
+            getOptionLabel={getOptionLabel}
+            onChange={onChange as never} />
         )}
-        {renderInput ? (
-          renderInput({
-            value: controlledInputValue,
-            onChange: handleInputChange,
-            onFocus: () => setOpen(true),
-            onKeyDown: handleKeyDown,
-            disabled,
-          })
-        ) : (
-          defaultRenderInput({
-            value: controlledInputValue,
-            onChange: handleInputChange,
-            onFocus: () => setOpen(true),
-            onKeyDown: handleKeyDown,
-            disabled,
-          })
-        )}
+        {(renderInput ?? defInput)(params)}
       </div>
-
-      {open && (
-        <ul className="m3-autocomplete-listbox" ref={listRef}>
-          {loading ? (
-            <li className="m3-autocomplete-loading">{loadingText}</li>
-          ) : filteredOptions.length === 0 ? (
-            <li className="m3-autocomplete-no-options">{noOptionsText}</li>
-          ) : (
-            filteredOptions.map((option, index) => (
-              <li
-                key={index}
-                className={classNames('m3-autocomplete-option', {
-                  'm3-autocomplete-option-highlighted': index === highlightedIndex,
-                })}
-                onClick={() => handleOptionClick(option)}
-                onMouseEnter={() => setHighlightedIndex(index)}
-              >
-                {renderOption ? renderOption(option, { index }) : getOptionLabel(option)}
-              </li>
-            ))
-          )}
-        </ul>
+      {h.open && (
+        <AutocompleteListbox
+          filteredOptions={h.filtered}
+          loading={loading}
+          loadingText={loadingText}
+          noOptionsText={noOptionsText}
+          highlightedIndex={h.highlighted}
+          getOptionLabel={getOptionLabel}
+          renderOption={renderOption}
+          onOptionClick={h.handleOption}
+          onMouseEnter={h.setHighlighted}
+          listRef={h.listRef} />
       )}
     </div>
   )

@@ -59,7 +59,8 @@
     "webmail": "ウェブメール",
     "pgadmin": "データベース管理",
     "packageRepo": "パッケージリポジトリ",
-    "s3server": "S3ストレージ"
+    "s3server": "S3ストレージ",
+    "search": "検索"
   },
   "hero": {
     "title": "学びをレベルアップしよう",
@@ -199,6 +200,38 @@
     "darkMode": "ダークモード",
     "admin": "管理",
     "manageTranslations": "翻訳管理",
+    "manageApiKeys": "システムAPIキーの管理",
+    "manageEnvVars": "環境変数",
+    "manageUsers": "ユーザー管理",
+    "debugPanel": "デバッグパネル",
+    "apiKeys": "AI APIキー",
+    "apiKeysDesc": "ClaudeとOpenAIのAPIキーを追加してください。空欄の場合はシステムのデフォルトを使用します。",
+    "apiKey": "APIキー",
+    "modelLabel": "モデル",
+    "editKey": "編集",
+    "deleteKey": "削除",
+    "save": "保存",
     "comingSoon": "その他の設定は近日公開。"
+  },
+  "admin": {
+    "systemKeys": "システムAPIキー",
+    "systemKeysDesc": "自分のキーを持たないユーザー向けのフォールバックAPIキーを設定します。",
+    "apiKeyLabel": "APIキー",
+    "save": "保存",
+    "envVars": "環境変数",
+    "set": "設定済み",
+    "notSet": "未設定",
+    "userManagement": "ユーザー管理",
+    "noUsers": "ユーザーが見つかりません。",
+    "active": "有効",
+    "disabled": "無効",
+    "disable": "無効にする",
+    "enable": "有効にする",
+    "debugPanel": "デバッグパネル",
+    "authState": "認証状態",
+    "environment": "環境",
+    "apiCalls": "API呼び出し",
+    "clear": "クリア",
+    "noApiCalls": "まだAPI呼び出しは記録されていません。"
   }
 }

@@ -23,7 +23,8 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   const {
     email, setEmail, pw, setPw,
     rememberMe, setRememberMe,
-    isLoading, errors, apiError, submit,
+    isLoading, errors, apiError, errorCode,
+    submit,
   } = useLoginForm();
 
   return (
@@ -37,6 +38,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
       isLoading={isLoading}
       errors={errors}
       apiError={apiError}
+      errorCode={errorCode}
       submit={submit}
       testId={testId}
       labels={{

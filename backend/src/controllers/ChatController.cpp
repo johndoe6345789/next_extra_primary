@@ -4,69 +4,75 @@
  */
 
 #include "ChatController.h"
+#include "../services/AiService.h"
+#include "../services/ApiKeyService.h"
 #include "../utils/JsonResponse.h"
-#include "../utils/parse_helpers.h"
+#include "chat_send_handler.h"
 
 #include <nlohmann/json.hpp>
-#include <string>
+#include <spdlog/spdlog.h>
 
 using json = nlohmann::json;
-using Cb = std::function<void(const drogon::HttpResponsePtr&)>;
+using Cb = std::function<void(
+    const drogon::HttpResponsePtr&)>;
 
 namespace controllers
 {
 
-void ChatController::sendMessage(const drogon::HttpRequestPtr& req, Cb&& cb)
-{
-    auto userId = req->attributes()->get<std::string>("user_id");
+static services::AiService aiService;
 
-    auto body = json::parse(
-        req->bodyData(), req->bodyData() + req->bodyLength(), nullptr, false);
-    if (body.is_discarded() || !body.contains("message")) {
-        cb(::utils::jsonError(drogon::k400BadRequest,
-                              "message field required"));
+void ChatController::sendMessage(
+    const drogon::HttpRequestPtr& req,
+    Cb&& cb)
+{
+    auto input = parseChatRequest(req);
+    if (!input.has_value()) {
+        cb(::utils::jsonError(
+            drogon::k400BadRequest,
+            "message field required",
+            "VAL_004"));
         return;
     }
 
-    auto message = body["message"].get<std::string>();
-    auto provider = body.value("provider", "default");
+    auto provider = services::parseProvider(
+        input->providerStr);
 
-    if (message.empty()) {
-        cb(::utils::jsonError(drogon::k400BadRequest,
-                              "message cannot be empty"));
-        return;
-    }
+    services::ApiKeyService::resolve(
+        input->userId, provider,
+        [userId = input->userId,
+         message = input->message,
+         provider, cb](json resolved) {
+            auto apiKey =
+                resolved.value("apiKey", "");
+            auto model =
+                resolved.value("model", "");
 
-    // TODO: forward to AI provider, persist exchange.
-    json result = {{"id", "msg-uuid"},
-                   {"user_id", userId},
-                   {"message", message},
-                   {"provider", provider},
-                   {"response", "AI response placeholder"},
-                   {"created_at", "2025-01-01T00:00:00Z"}};
-    cb(::utils::jsonCreated(result));
-}
+            if (apiKey.empty()) {
+                cb(::utils::jsonError(
+                    drogon::k503ServiceUnavailable,
+                    "No API key configured",
+                    "CHAT_001"));
+                return;
+            }
 
-// ----------------------------------------------------------
-void ChatController::history(const drogon::HttpRequestPtr& req, Cb&& cb)
-{
-    auto userId = req->attributes()->get<std::string>("user_id");
-    auto pageStr = req->getParameter("page");
-    auto perPageStr = req->getParameter("per_page");
-    int64_t page = ::utils::safeStoll(pageStr, 1);
-    int64_t perPage = ::utils::safeStoll(perPageStr, 20);
-
-    // TODO: query chat history from database.
-    json messages = json::array();
-    cb(::utils::jsonPaginated(messages, 0, page, perPage));
-}
-
-// ----------------------------------------------------------
-void ChatController::clearHistory(const drogon::HttpRequestPtr& req, Cb&& cb)
-{
-    auto userId = req->attributes()->get<std::string>("user_id");
-    // TODO: delete all chat records for userId from DB.
-    cb(::utils::jsonOk({{"message", "Chat history cleared"}}));
+            aiService.chat(
+                userId, message, provider,
+                apiKey, model,
+                [cb](json result) {
+                    cb(::utils::jsonCreated(
+                        result));
+                },
+                [cb](drogon::HttpStatusCode s,
+                     std::string msg) {
+                    cb(::utils::jsonError(
+                        s, msg, "CHAT_002"));
+                });
+        },
+        [cb](drogon::HttpStatusCode s,
+             std::string msg) {
+            cb(::utils::jsonError(
+                s, msg, "CHAT_001"));
+        });
 }
 
 } // namespace controllers

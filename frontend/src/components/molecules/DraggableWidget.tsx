@@ -5,12 +5,8 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import Card from '@shared/m3/Card';
 import CardContent from '@shared/m3/CardContent';
-import Typography from '@shared/m3/Typography';
-import IconButton from '@shared/m3/IconButton';
-import Box from '@shared/m3/Box';
-import { DragIndicator as DragIndicatorIcon }
-  from '@shared/icons/DragIndicator';
-import CloseIcon from '@shared/icons/Close';
+import DraggableWidgetHeader from
+  './DraggableWidgetHeader';
 
 /** Props for the DraggableWidget wrapper. */
 export interface DraggableWidgetProps {
@@ -53,40 +49,13 @@ export default function DraggableWidget({
       aria-label={title}
       sx={{ height: '100%' }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          px: 2, pt: 1.5,
-          gap: 1,
-        }}
-      >
-        <IconButton
-          {...attributes}
-          {...listeners}
-          size="small"
-          aria-label="Drag to reorder"
-          data-testid={`${testId}-drag`}
-          sx={{ cursor: 'grab' }}
-        >
-          <DragIndicatorIcon size={18} />
-        </IconButton>
-        <Typography
-          variant="subtitle2"
-          color="text.secondary"
-          sx={{ flexGrow: 1 }}
-        >
-          {title}
-        </Typography>
-        <IconButton
-          size="small"
-          onClick={onRemove}
-          aria-label={`Remove ${title}`}
-          data-testid={`${testId}-remove`}
-        >
-          <CloseIcon size={18} />
-        </IconButton>
-      </Box>
+      <DraggableWidgetHeader
+        title={title}
+        attributes={attributes}
+        listeners={listeners}
+        onRemove={onRemove}
+        testId={testId}
+      />
       <CardContent sx={{ pt: 0.5 }}>
         {children}
       </CardContent>

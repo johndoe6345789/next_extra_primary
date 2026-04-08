@@ -2,107 +2,45 @@
 
 import React, { useState } from 'react'
 import { classNames } from '../utils/classNames'
+import { RatingProps } from './RatingTypes'
+import { RatingIcon } from './RatingIcon'
 
-export interface RatingProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'onChange'> {
-  testId?: string
-  value?: number
-  onChange?: (event: React.SyntheticEvent | null, value: number) => void
-  max?: number
-  precision?: number
-  size?: 'small' | 'medium' | 'large'
-  disabled?: boolean
-  readOnly?: boolean
-  name?: string
-  emptyIcon?: React.ReactNode
-  icon?: React.ReactNode
-  highlightSelectedOnly?: boolean
-}
+export type { RatingProps } from './RatingTypes'
 
+/** Rating - star-based rating input */
 export function Rating({
-  value = 0,
-  onChange,
-  max = 5,
-  precision = 1,
-  size = 'medium',
-  disabled = false,
-  readOnly = false,
-  name,
-  emptyIcon = '☆',
-  icon = '★',
-  highlightSelectedOnly = false,
-  testId,
-  className,
-  ...props
+  value = 0, onChange, max = 5, precision = 1, size = 'medium',
+  disabled = false, readOnly = false, name, emptyIcon = '\u2606',
+  icon = '\u2605', highlightSelectedOnly = false, testId, className, ...props
 }: RatingProps) {
   const [hoverValue, setHoverValue] = useState<number>(-1)
+  const display = hoverValue >= 0 ? hoverValue : value
 
-  const displayValue = hoverValue >= 0 ? hoverValue : value
-
-  const handleClick = (newValue: number) => {
+  const handleClick = (v: number) => {
     if (disabled || readOnly) return
-    onChange?.(null, newValue === value ? 0 : newValue)
+    onChange?.(null, v === value ? 0 : v)
   }
 
   const handleMouseMove = (e: React.MouseEvent<HTMLSpanElement>, index: number) => {
     if (disabled || readOnly) return
     const rect = e.currentTarget.getBoundingClientRect()
-    const percent = (e.clientX - rect.left) / rect.width
-    if (precision === 0.5) {
-      setHoverValue(index + (percent < 0.5 ? 0.5 : 1))
-    } else {
-      setHoverValue(index + 1)
-    }
-  }
-
-  const handleMouseLeave = () => {
-    setHoverValue(-1)
-  }
-
-  const renderIcon = (index: number) => {
-    const filled = displayValue >= index + 1
-    const halfFilled = displayValue >= index + 0.5 && displayValue < index + 1
-
-    return (
-      <span
-        key={index}
-        className={classNames('m3-rating-icon', {
-          'm3-rating-icon-filled': filled,
-          'm3-rating-icon-half': halfFilled,
-          'm3-rating-icon-empty': !filled && !halfFilled,
-        })}
-        onMouseMove={(e) => handleMouseMove(e, index)}
-        onClick={() => handleClick(index + 1)}
-      >
-        {halfFilled ? (
-          <span className="m3-rating-icon-half-container">
-            <span className="m3-rating-icon-half-filled">{icon}</span>
-            <span className="m3-rating-icon-half-empty">{emptyIcon}</span>
-          </span>
-        ) : filled ? (
-          icon
-        ) : (
-          emptyIcon
-        )}
-      </span>
-    )
+    const pct = (e.clientX - rect.left) / rect.width
+    setHoverValue(precision === 0.5 ? index + (pct < 0.5 ? 0.5 : 1) : index + 1)
   }
 
   return (
     <span
       className={classNames('m3-rating', `m3-rating-size-${size}`, className, {
-        'm3-rating-disabled': disabled,
-        'm3-rating-readonly': readOnly,
+        'm3-rating-disabled': disabled, 'm3-rating-readonly': readOnly,
       })}
-      onMouseLeave={handleMouseLeave}
-      role="slider"
-      aria-valuenow={value}
-      aria-valuemin={0}
-      aria-valuemax={max}
-      data-testid={testId}
-      {...props}
-    >
+      onMouseLeave={() => setHoverValue(-1)} role="slider"
+      aria-valuenow={value} aria-valuemin={0} aria-valuemax={max}
+      data-testid={testId} {...props}>
       {name && <input type="hidden" name={name} value={value} />}
-      {Array.from({ length: max }, (_, index) => renderIcon(index))}
+      {Array.from({ length: max }, (_, i) => (
+        <RatingIcon key={i} index={i} displayValue={display} icon={icon} emptyIcon={emptyIcon}
+          onMouseMove={(e) => handleMouseMove(e, i)} onClick={() => handleClick(i + 1)} />
+      ))}
     </span>
   )
 }

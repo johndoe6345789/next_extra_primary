@@ -59,7 +59,8 @@
     "webmail": "Webmail",
     "pgadmin": "Database Admin",
     "packageRepo": "Package Repo",
-    "s3server": "S3 Storage"
+    "s3server": "S3 Storage",
+    "search": "Search"
   },
   "hero": {
     "title": "Level up your learning journey",
@@ -199,6 +200,38 @@
     "darkMode": "Dark mode",
     "admin": "Admin",
     "manageTranslations": "Manage translations",
+    "manageApiKeys": "Manage system API keys",
+    "manageEnvVars": "Environment variables",
+    "manageUsers": "User management",
+    "debugPanel": "Debug panel",
+    "apiKeys": "AI API Keys",
+    "apiKeysDesc": "Add your own API keys for Claude and OpenAI. Leave blank to use system defaults.",
+    "apiKey": "API Key",
+    "modelLabel": "Model",
+    "editKey": "Edit",
+    "deleteKey": "Remove",
+    "save": "Save",
     "comingSoon": "More settings coming soon."
+  },
+  "admin": {
+    "systemKeys": "System API Keys",
+    "systemKeysDesc": "Set fallback API keys for all users who don't have their own.",
+    "apiKeyLabel": "API Key",
+    "save": "Save",
+    "envVars": "Environment Variables",
+    "set": "Set",
+    "notSet": "Not set",
+    "userManagement": "User Management",
+    "noUsers": "No users found.",
+    "active": "Active",
+    "disabled": "Disabled",
+    "disable": "Disable",
+    "enable": "Enable",
+    "debugPanel": "Debug Panel",
+    "authState": "Auth State",
+    "environment": "Environment",
+    "apiCalls": "API Calls",
+    "clear": "Clear",
+    "noApiCalls": "No API calls recorded yet."
   }
 }

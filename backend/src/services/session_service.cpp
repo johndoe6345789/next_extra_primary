@@ -5,6 +5,7 @@
 
 #include "services/session_service.h"
 #include "services/auth_helpers.h"
+#include "services/session_login_handler.h"
 #include "utils/JwtUtil.h"
 #include "utils/PasswordHash.h"
 
@@ -70,24 +71,8 @@ void SessionService::loginUser(
             auto refresh =
                 ::utils::generateRefreshToken(userId);
 
-            json user = {
-                {"id", userId},
-                {"email",
-                 row["email"].as<std::string>()},
-                {"username",
-                 row["username"].as<std::string>()},
-                {"displayName",
-                 row["display_name"]
-                     .as<std::string>()},
-                {"role", role}};
-
-            json tokens = {{"accessToken", access},
-                            {"refreshToken", refresh}};
-            json payload = {{"tokens", tokens},
-                            {"user", user}};
-
-            spdlog::info("User logged in: {}", userId);
-            onSuccess(payload);
+            onSuccess(buildLoginPayload(
+                row, access, refresh));
         } >>
         [onError](const DrogonDbException& e) {
             spdlog::error("loginUser DB error: {}",

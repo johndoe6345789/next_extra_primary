@@ -1,99 +1,87 @@
 /**
  * useUILoading Hook
- * Manages loading state and loading messages
- *
- * Requires: ui slice with loading and loadingMessage state
- * Actions: setLoading, setLoadingMessage from uiSlice
+ * Manages loading state and messages
  */
 
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import type { UnknownAction } from 'redux';
+import type {
+  RootState,
+  SetLoadingAction,
+  SetLoadingMessageAction,
+  UseUILoadingReturn,
+} from './uiLoadingTypes';
 
-// Generic UI state interface - consumers must ensure their store matches
-interface UIState {
-  loading: boolean;
-  loadingMessage: string | null;
-}
+export type {
+  UseUILoadingReturn,
+} from './uiLoadingTypes';
 
-interface RootState {
-  ui: UIState;
-}
-
-// Action types compatible with Redux
-type SetLoadingAction = UnknownAction & { payload: boolean };
-type SetLoadingMessageAction = UnknownAction & { payload: string | null };
-
-export interface UseUILoadingReturn {
-  loading: boolean;
-  loadingMessage: string | null;
-  setLoading: (isLoading: boolean) => void;
-  setLoadingMessage: (message: string | null) => void;
-}
-
-/**
- * Factory to create useUILoading with custom action creators
- */
+/** Factory for custom action creators */
 export function createUseUILoading(
-  setLoadingAction: (payload: boolean) => SetLoadingAction,
-  setLoadingMessageAction: (payload: string | null) => SetLoadingMessageAction
+  setLoadingAction: (
+    p: boolean
+  ) => SetLoadingAction,
+  setLoadingMessageAction: (
+    p: string | null
+  ) => SetLoadingMessageAction
 ) {
   return function useUILoading(): UseUILoadingReturn {
     const dispatch = useDispatch();
-    const loading = useSelector((state: RootState) => state.ui.loading);
-    const loadingMessage = useSelector((state: RootState) => state.ui.loadingMessage);
-
-    const setIsLoading = useCallback(
-      (isLoading: boolean) => {
-        dispatch(setLoadingAction(isLoading));
-      },
+    const loading = useSelector(
+      (s: RootState) => s.ui.loading
+    );
+    const loadingMessage = useSelector(
+      (s: RootState) => s.ui.loadingMessage
+    );
+    const setLoading = useCallback(
+      (v: boolean) =>
+        dispatch(setLoadingAction(v)),
       [dispatch]
     );
-
-    const setLoadMsg = useCallback(
-      (message: string | null) => {
-        dispatch(setLoadingMessageAction(message));
-      },
+    const setLoadingMessage = useCallback(
+      (m: string | null) =>
+        dispatch(setLoadingMessageAction(m)),
       [dispatch]
     );
-
     return {
       loading,
       loadingMessage,
-      setLoading: setIsLoading,
-      setLoadingMessage: setLoadMsg
+      setLoading,
+      setLoadingMessage,
     };
   };
 }
 
-/**
- * Default hook - requires ui slice actions to be available
- * Import setLoading and setLoadingMessage from your uiSlice
- */
+/** Default hook using action type strings */
 export function useUILoading(): UseUILoadingReturn {
   const dispatch = useDispatch();
-  const loading = useSelector((state: RootState) => state.ui.loading);
-  const loadingMessage = useSelector((state: RootState) => state.ui.loadingMessage);
-
-  const setIsLoading = useCallback(
-    (isLoading: boolean) => {
-      dispatch({ type: 'ui/setLoading', payload: isLoading });
-    },
+  const loading = useSelector(
+    (s: RootState) => s.ui.loading
+  );
+  const loadingMessage = useSelector(
+    (s: RootState) => s.ui.loadingMessage
+  );
+  const setLoading = useCallback(
+    (v: boolean) =>
+      dispatch({
+        type: 'ui/setLoading',
+        payload: v,
+      }),
     [dispatch]
   );
-
-  const setLoadMsg = useCallback(
-    (message: string | null) => {
-      dispatch({ type: 'ui/setLoadingMessage', payload: message });
-    },
+  const setLoadingMessage = useCallback(
+    (m: string | null) =>
+      dispatch({
+        type: 'ui/setLoadingMessage',
+        payload: m,
+      }),
     [dispatch]
   );
-
   return {
     loading,
     loadingMessage,
-    setLoading: setIsLoading,
-    setLoadingMessage: setLoadMsg
+    setLoading,
+    setLoadingMessage,
   };
 }
 

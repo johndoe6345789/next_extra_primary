@@ -1,10 +1,10 @@
 /**
  * Project Template Type Definitions
- * Types for pre-built project templates with starter workflows
+ * Types for pre-built project templates
  */
 
 /**
- * Template workflow - minimal workflow definition for templates
+ * Template workflow - minimal workflow definition
  */
 export interface TemplateWorkflow {
   name: string;
@@ -21,7 +21,7 @@ export interface TemplateWorkflow {
 }
 
 /**
- * Project Template - reusable project blueprint with starter workflows
+ * Project Template - reusable project blueprint
  */
 export interface ProjectTemplate {
   id: string;
@@ -31,7 +31,10 @@ export interface ProjectTemplate {
   category: TemplateCategory;
   icon: string;
   color: string;
-  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  difficulty:
+    | 'beginner'
+    | 'intermediate'
+    | 'advanced';
   tags: string[];
   workflows: TemplateWorkflow[];
   metadata: {
@@ -67,51 +70,9 @@ export type TemplateCategory =
   | 'hr'
   | 'custom';
 
-/**
- * Template Filter Options
- */
-export interface TemplateFilters {
-  category?: TemplateCategory | TemplateCategory[];
-  difficulty?: 'beginner' | 'intermediate' | 'advanced';
-  featured?: boolean;
-  searchQuery?: string;
-  tags?: string[];
-}
-
-/**
- * Template Creation Request
- */
-export interface CreateProjectFromTemplateRequest {
-  templateId: string;
-  projectName: string;
-  projectDescription?: string;
-  workspaceId: string;
-  customizeWorkflows?: boolean;
-}
-
-/**
- * Template Usage Statistics
- */
-export interface TemplateStats {
-  templateId: string;
-  totalCreated: number;
-  averageCompletionTime?: number;
-  userRatings?: {
-    average: number;
-    count: number;
-  };
-  tags: string[];
-  lastUsed?: number;
-}
-
-/**
- * Template Category with metadata
- */
-export interface TemplateCategoryInfo {
-  id: TemplateCategory;
-  name: string;
-  description: string;
-  icon: string;
-  color: string;
-  templateCount: number;
-}
+export type {
+  TemplateFilters,
+  CreateProjectFromTemplateRequest,
+  TemplateStats,
+  TemplateCategoryInfo
+} from './templateFilters';

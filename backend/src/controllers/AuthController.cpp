@@ -27,7 +27,8 @@ void AuthController::registerUser(
         !body.contains("username") ||
         !body.contains("password")) {
         cb(::utils::jsonError(drogon::k400BadRequest,
-                              "Missing required fields"));
+                              "Missing required fields",
+                              "VAL_004"));
         return;
     }
 
@@ -60,7 +61,8 @@ void AuthController::login(
     if (body.is_discarded() || !body.contains("email") ||
         !body.contains("password")) {
         cb(::utils::jsonError(drogon::k400BadRequest,
-                              "Email and password required"));
+                              "Email and password required",
+                              "VAL_004"));
         return;
     }
 
@@ -75,7 +77,11 @@ void AuthController::login(
         },
         [cb](drogon::HttpStatusCode code,
              const std::string& msg) {
-            cb(::utils::jsonError(code, msg));
+            std::string errCode = "AUTH_001";
+            if (code == drogon::k403Forbidden) {
+                errCode = "AUTH_008";
+            }
+            cb(::utils::jsonError(code, msg, errCode));
         });
 }
 

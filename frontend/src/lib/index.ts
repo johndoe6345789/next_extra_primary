@@ -5,5 +5,7 @@
 
 export * from './api';
 export * from './validators';
+export * from './passwordValidator';
+export * from './validatorTypes';
 export * from './formatters';
 export * from './shortcutLabel';

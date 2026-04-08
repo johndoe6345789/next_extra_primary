@@ -1,100 +1,75 @@
 /**
  * useEditorNodes Hook
- * Manages editor node selection state and node-related actions
- *
- * Note: This hook requires Redux store with editor slice.
- * Import paths should be configured by the consuming application.
+ * Manages editor node selection state
  */
 
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import type {
+  RootState,
+  UseEditorNodesReturn,
+  UseEditorNodesOptions,
+} from './editorNodesTypes';
 
-// Type for the editor state slice
-export interface EditorState {
-  selectedNodes: Set<string>;
-}
+export type {
+  UseEditorNodesReturn,
+  UseEditorNodesOptions,
+} from './editorNodesTypes';
 
-// Type for the root state (to be extended by consuming app)
-export interface RootState {
-  editor: EditorState;
-}
-
-// Action creators - these should be imported from the app's editorSlice
-export interface EditorActions {
-  selectNode: (nodeId: string) => any;
-  addNodeToSelection: (nodeId: string) => any;
-  removeNodeFromSelection: (nodeId: string) => any;
-  toggleNodeSelection: (nodeId: string) => any;
-  clearSelection: () => any;
-  setSelection: (payload: { nodes?: string[]; edges?: string[] }) => any;
-}
-
-export interface UseEditorNodesReturn {
-  selectedNodes: Set<string>;
-  selectNode: (nodeId: string) => void;
-  addNodeToSelection: (nodeId: string) => void;
-  removeNodeFromSelection: (nodeId: string) => void;
-  toggleNodeSelection: (nodeId: string) => void;
-  clearSelection: () => void;
-  setNodeSelection: (nodes: string[], edges?: string[]) => void;
-}
-
-export interface UseEditorNodesOptions {
-  actions: EditorActions;
-}
-
-export function useEditorNodes(options: UseEditorNodesOptions): UseEditorNodesReturn {
+/** Hook for editor node selection */
+export function useEditorNodes(
+  options: UseEditorNodesOptions
+): UseEditorNodesReturn {
   const { actions } = options;
   const dispatch = useDispatch();
-  const selectedNodes = useSelector((state: RootState) => state.editor.selectedNodes);
-
-  const selectNodeAction = useCallback(
-    (nodeId: string) => {
-      dispatch(actions.selectNode(nodeId));
-    },
-    [dispatch, actions]
+  const selectedNodes = useSelector(
+    (s: RootState) => s.editor.selectedNodes
   );
 
-  const addToNodeSelection = useCallback(
-    (nodeId: string) => {
-      dispatch(actions.addNodeToSelection(nodeId));
-    },
+  const selectNode = useCallback(
+    (id: string) =>
+      dispatch(actions.selectNode(id)),
     [dispatch, actions]
   );
-
-  const removeFromNodeSelection = useCallback(
-    (nodeId: string) => {
-      dispatch(actions.removeNodeFromSelection(nodeId));
-    },
+  const addNodeToSelection = useCallback(
+    (id: string) =>
+      dispatch(actions.addNodeToSelection(id)),
     [dispatch, actions]
   );
-
-  const toggleNode = useCallback(
-    (nodeId: string) => {
-      dispatch(actions.toggleNodeSelection(nodeId));
-    },
+  const removeNodeFromSelection = useCallback(
+    (id: string) =>
+      dispatch(
+        actions.removeNodeFromSelection(id)
+      ),
     [dispatch, actions]
   );
-
-  const clearNodeSelection = useCallback(() => {
-    dispatch(actions.clearSelection());
-  }, [dispatch, actions]);
-
+  const toggleNodeSelection = useCallback(
+    (id: string) =>
+      dispatch(
+        actions.toggleNodeSelection(id)
+      ),
+    [dispatch, actions]
+  );
+  const clearSelection = useCallback(
+    () => dispatch(actions.clearSelection()),
+    [dispatch, actions]
+  );
   const setNodeSelection = useCallback(
-    (nodes: string[], edges?: string[]) => {
-      dispatch(actions.setSelection({ nodes, edges }));
-    },
+    (nodes: string[], edges?: string[]) =>
+      dispatch(
+        actions.setSelection({ nodes, edges })
+      ),
     [dispatch, actions]
   );
 
   return {
     selectedNodes,
-    selectNode: selectNodeAction,
-    addNodeToSelection: addToNodeSelection,
-    removeNodeFromSelection: removeFromNodeSelection,
-    toggleNodeSelection: toggleNode,
-    clearSelection: clearNodeSelection,
-    setNodeSelection
+    selectNode,
+    addNodeToSelection,
+    removeNodeFromSelection,
+    toggleNodeSelection,
+    clearSelection,
+    setNodeSelection,
   };
 }
 

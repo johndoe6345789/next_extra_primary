@@ -15,3 +15,5 @@ export * from './featureApi';
 export * from './commentsApi';
 export * from './translationApi';
 export * from './preferencesApi';
+export * from './apiKeyApi';
+export * from './adminApi';

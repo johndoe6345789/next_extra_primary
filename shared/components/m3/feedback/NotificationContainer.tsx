@@ -1,70 +1,26 @@
 'use client'
 
-import React, { useEffect, useCallback } from 'react'
+/**
+ * NotificationContainer - positioned stack of
+ * auto-dismissing notification items.
+ */
+
+import React, { useCallback } from 'react'
 import { classNames } from '../utils/classNames'
+import type { NotificationContainerProps } from './NotificationTypes'
+import { NotificationItem } from './NotificationItem'
 
-export type NotificationType = 'success' | 'error' | 'warning' | 'info'
-export type NotificationPosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'top-center' | 'bottom-center'
+export type {
+  NotificationType,
+  NotificationPosition,
+  NotificationData,
+  NotificationContainerProps,
+} from './NotificationTypes'
 
-export interface NotificationData {
-  id: string
-  type: NotificationType
-  message: string
-  duration?: number
-}
-
-export interface NotificationContainerProps {
-  notifications: NotificationData[]
-  onClose: (id: string) => void
-  position?: NotificationPosition
-  maxVisible?: number
-  className?: string
-  testId?: string
-}
-
-const ICONS: Record<NotificationType, string> = {
-  success: '✓',
-  error: '✕',
-  warning: '⚠',
-  info: 'ℹ',
-}
-
-interface NotificationItemProps {
-  notification: NotificationData
-  onClose: (id: string) => void
-}
-
-const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onClose }) => {
-  const { id, type, message, duration = 5000 } = notification
-
-  useEffect(() => {
-    if (duration > 0) {
-      const timer = setTimeout(() => onClose(id), duration)
-      return () => clearTimeout(timer)
-    }
-  }, [id, duration, onClose])
-
-  const rootClass = classNames(
-    'm3-notification',
-    `m3-notification--${type}`
-  )
-
-  return (
-    <div className={rootClass} role="alert" aria-live="polite">
-      <span className="m3-notification__icon">{ICONS[type]}</span>
-      <span className="m3-notification__message">{message}</span>
-      <button
-        className="m3-notification__close"
-        onClick={() => onClose(id)}
-        aria-label="Close notification"
-      >
-        ×
-      </button>
-    </div>
-  )
-}
-
-export const NotificationContainer: React.FC<NotificationContainerProps> = ({
+/** Renders a stack of notification items. */
+export const NotificationContainer: React.FC<
+  NotificationContainerProps
+> = ({
   notifications,
   onClose,
   position = 'top-right',
@@ -72,26 +28,32 @@ export const NotificationContainer: React.FC<NotificationContainerProps> = ({
   className = '',
   testId,
 }) => {
-  const handleClose = useCallback((id: string) => {
-    onClose(id)
-  }, [onClose])
+  const handleClose = useCallback(
+    (id: string) => onClose(id),
+    [onClose],
+  )
 
-  const visibleNotifications = notifications.slice(0, maxVisible)
+  const visible = notifications.slice(0, maxVisible)
+  if (visible.length === 0) return null
 
-  if (visibleNotifications.length === 0) return null
-
-  const rootClass = classNames(
+  const cls = classNames(
     'm3-notification-container',
     `m3-notification-container--${position}`,
-    className
+    className,
   )
 
   return (
-    <div className={rootClass} data-testid={testId} role="region" aria-label="Notifications" aria-live="polite">
-      {visibleNotifications.map((notification) => (
+    <div
+      className={cls}
+      data-testid={testId}
+      role="region"
+      aria-label="Notifications"
+      aria-live="polite"
+    >
+      {visible.map((n) => (
         <NotificationItem
-          key={notification.id}
-          notification={notification}
+          key={n.id}
+          notification={n}
           onClose={handleClose}
         />
       ))}

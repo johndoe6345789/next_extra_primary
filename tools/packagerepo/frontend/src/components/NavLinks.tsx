@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import styles from './Navbar.module.scss';
+import nav from '../constants/nav-links.json';
 
 /** Shape of the user object for nav display. */
 interface NavbarUser {
@@ -21,80 +22,59 @@ export default function NavLinks(
 ) {
   return (
     <ul className={styles.navbar__nav}>
-      <li>
-        <Link
-          href="/"
-          className={styles.navbar__link}
-        >
-          Home
-        </Link>
-      </li>
-      <li>
-        <Link
-          href="/browse"
-          className={styles.navbar__link}
-        >
-          Browse
-        </Link>
-      </li>
-      {user && (
-        <li>
+      {nav.public.map((l) => (
+        <li key={l.href}>
           <Link
-            href="/publish"
+            href={l.href}
             className={styles.navbar__link}
           >
-            Publish
+            {l.label}
           </Link>
         </li>
-      )}
-      <li>
-        <Link
-          href="/docs"
-          className={styles.navbar__link}
-        >
-          Docs
-        </Link>
-      </li>
+      ))}
+      {user && nav.auth.map((l) => (
+        <li key={l.href}>
+          <Link
+            href={l.href}
+            className={styles.navbar__link}
+          >
+            {l.href === '/account'
+              ? `${l.label} (${user.username})`
+              : l.label}
+          </Link>
+        </li>
+      ))}
+      {user?.scopes?.includes('admin')
+        && nav.admin.map((l) => (
+        <li key={l.href}>
+          <Link
+            href={l.href}
+            className={styles.navbar__link}
+          >
+            {l.label}
+          </Link>
+        </li>
+      ))}
       {user ? (
-        <>
-          {user.scopes?.includes('admin') && (
-            <li>
-              <Link
-                href="/admin"
-                className={styles.navbar__link}
-              >
-                Admin
-              </Link>
-            </li>
-          )}
-          <li>
-            <Link
-              href="/account"
-              className={styles.navbar__link}
-            >
-              Account ({user.username})
-            </Link>
-          </li>
-          <li>
-            <button
-              onClick={onLogout}
-              className={styles.navbar__button}
-              aria-label="Logout"
-            >
-              Logout
-            </button>
-          </li>
-        </>
-      ) : (
         <li>
+          <button
+            onClick={onLogout}
+            className={styles.navbar__button}
+            aria-label={nav.logoutLabel}
+          >
+            {nav.logoutLabel}
+          </button>
+        </li>
+      ) : nav.guest.map((l) => (
+        <li key={l.href}>
           <Link
-            href="/login"
+            href={l.href}
             className={styles.navbar__link}
           >
-            Login
+            {l.label}
           </Link>
         </li>
-      )}
+      ))}
     </ul>
   );
 }

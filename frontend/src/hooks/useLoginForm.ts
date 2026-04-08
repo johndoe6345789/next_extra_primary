@@ -25,6 +25,8 @@ export interface UseLoginFormReturn {
   errors: Record<string, string | undefined>;
   /** Server-side error message. */
   apiError: string | null;
+  /** Backend error code (e.g. AUTH_001). */
+  errorCode: string | null;
   /** Form submit handler. */
   submit: (e: React.FormEvent) => Promise<void>;
 }
@@ -40,6 +42,8 @@ export function useLoginForm(): UseLoginFormReturn {
   const [rememberMe, setRememberMe] = useState(false);
   const [apiError, setApiError] =
     useState<string | null>(null);
+  const [errorCode, setErrorCode] =
+    useState<string | null>(null);
   const { login, isLoading } = useAuth();
   const { validate, errors } =
     useFormValidation(LOGIN_RULES);
@@ -48,6 +52,7 @@ export function useLoginForm(): UseLoginFormReturn {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setApiError(null);
+    setErrorCode(null);
     const ok =
       validate('email', email)
       && validate('password', pw);
@@ -56,17 +61,21 @@ export function useLoginForm(): UseLoginFormReturn {
       await login({ email, password: pw });
       router.push('/dashboard');
     } catch (err: unknown) {
-      const msg =
-        (err as { data?: { message?: string } })
-          ?.data?.message
-        ?? 'Login failed. Please try again.';
-      setApiError(msg);
+      const data = (err as {
+        data?: { error?: string; code?: string };
+      })?.data;
+      setApiError(
+        data?.error
+        ?? 'Login failed. Please try again.',
+      );
+      setErrorCode(data?.code ?? null);
     }
   };
 
   return {
     email, setEmail, pw, setPw,
     rememberMe, setRememberMe,
-    isLoading, errors, apiError, submit,
+    isLoading, errors, apiError, errorCode,
+    submit,
   };
 }

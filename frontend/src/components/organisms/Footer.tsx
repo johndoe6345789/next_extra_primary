@@ -6,6 +6,8 @@ import { Link } from '@/i18n/navigation';
 import {
   Footer as SharedFooter,
 } from '@shared/components/ui/Footer';
+import footerLinks from
+  '@/constants/footer-links.json';
 
 /**
  * Frontend Footer wrapper that injects i18n
@@ -16,18 +18,11 @@ export const Footer: React.FC = () => {
   const tCommon = useTranslations('common');
   const tNav = useTranslations('nav');
 
-  const links = [
-    {
-      href: '/about',
-      label: tNav('about'),
-      testId: 'footer-about',
-    },
-    {
-      href: '/contact',
-      label: tNav('contact'),
-      testId: 'footer-contact',
-    },
-  ];
+  const links = footerLinks.map((l) => ({
+    href: l.href,
+    label: tNav(l.labelKey),
+    testId: `footer-${l.labelKey}`,
+  }));
 
   return (
     <SharedFooter

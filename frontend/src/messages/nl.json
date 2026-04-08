@@ -59,7 +59,8 @@
     "webmail": "Webmail",
     "pgadmin": "Databasebeheer",
     "packageRepo": "Pakketrepository",
-    "s3server": "S3-opslag"
+    "s3server": "S3-opslag",
+    "search": "Zoeken"
   },
   "hero": {
     "title": "Breng je leertraject naar een hoger niveau",
@@ -199,6 +200,38 @@
     "darkMode": "Donkere modus",
     "admin": "Beheer",
     "manageTranslations": "Vertalingen beheren",
+    "manageApiKeys": "Systeem-API-sleutels beheren",
+    "manageEnvVars": "Omgevingsvariabelen",
+    "manageUsers": "Gebruikersbeheer",
+    "debugPanel": "Debugpaneel",
+    "apiKeys": "AI API-sleutels",
+    "apiKeysDesc": "Voeg uw eigen API-sleutels toe voor Claude en OpenAI. Laat leeg om systeemstandaarden te gebruiken.",
+    "apiKey": "API-sleutel",
+    "modelLabel": "Model",
+    "editKey": "Bewerken",
+    "deleteKey": "Verwijderen",
+    "save": "Opslaan",
     "comingSoon": "Meer instellingen volgen binnenkort."
+  },
+  "admin": {
+    "systemKeys": "Systeem-API-sleutels",
+    "systemKeysDesc": "Stel terugval-API-sleutels in voor alle gebruikers.",
+    "apiKeyLabel": "API-sleutel",
+    "save": "Opslaan",
+    "envVars": "Omgevingsvariabelen",
+    "set": "Ingesteld",
+    "notSet": "Niet ingesteld",
+    "userManagement": "Gebruikersbeheer",
+    "noUsers": "Geen gebruikers gevonden.",
+    "active": "Actief",
+    "disabled": "Uitgeschakeld",
+    "disable": "Uitschakelen",
+    "enable": "Inschakelen",
+    "debugPanel": "Debugpaneel",
+    "authState": "Authenticatiestatus",
+    "environment": "Omgeving",
+    "apiCalls": "API-aanroepen",
+    "clear": "Wissen",
+    "noApiCalls": "Nog geen API-aanroepen geregistreerd."
   }
 }

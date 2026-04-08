@@ -26,13 +26,15 @@ void JwtAuthFilter::doFilter(const drogon::HttpRequestPtr& req,
     auto authHeader = req->getHeader("Authorization");
     if (authHeader.empty()) {
         cb(::utils::jsonError(drogon::k401Unauthorized,
-                              "Missing Authorization header"));
+                              "Missing Authorization header",
+                              "AUTH_006"));
         return;
     }
 
     if (authHeader.substr(0, kBearerPrefix.size()) != kBearerPrefix) {
         cb(::utils::jsonError(drogon::k401Unauthorized,
-                              "Invalid Authorization format"));
+                              "Invalid Authorization format",
+                              "AUTH_005"));
         return;
     }
 
@@ -42,7 +44,8 @@ void JwtAuthFilter::doFilter(const drogon::HttpRequestPtr& req,
         auto claims = ::utils::verifyToken(token);
         if (claims.isRefresh) {
             cb(::utils::jsonError(drogon::k401Unauthorized,
-                                  "Refresh tokens cannot be used here"));
+                                  "Refresh tokens cannot be used here",
+                                  "AUTH_005"));
             return;
         }
 
@@ -56,7 +59,8 @@ void JwtAuthFilter::doFilter(const drogon::HttpRequestPtr& req,
                                     role](bool blocked) mutable {
             if (blocked) {
                 cb(::utils::jsonError(drogon::k401Unauthorized,
-                                      "Token has been revoked"));
+                                      "Token has been revoked",
+                                      "AUTH_004"));
                 return;
             }
             req->attributes()->insert("user_id", userId);
@@ -64,8 +68,10 @@ void JwtAuthFilter::doFilter(const drogon::HttpRequestPtr& req,
             ccb();
         });
     } catch (const std::exception& ex) {
-        cb(::utils::jsonError(drogon::k401Unauthorized,
-                              std::string{"Invalid token: "} + ex.what()));
+        cb(::utils::jsonError(
+            drogon::k401Unauthorized,
+            std::string{"Invalid token: "} + ex.what(),
+            "AUTH_005"));
     }
 }
 

@@ -1,103 +1,57 @@
 /**
  * useUINotifications Hook
- * Manages notifications (success, error, warning, info)
+ * Manages notifications (success, error,
+ * warning, info) with auto-dismiss.
  */
 
-import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@shared/redux-slices';
+import { useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '@shared/redux-slices'
 import {
   setNotification,
   removeNotification,
-  clearNotifications
-} from '@shared/redux-slices/uiSlice';
-import { Notification } from '@shared/redux-slices/uiSlice';
+  clearNotifications,
+} from '@shared/redux-slices/uiSlice'
+import type { UseUINotificationsReturn } from './notificationTypes'
 
-export interface UseUINotificationsReturn {
-  notifications: Notification[];
-  notify: (message: string, type?: 'success' | 'error' | 'warning' | 'info', duration?: number) => void;
-  success: (message: string, duration?: number) => void;
-  error: (message: string, duration?: number) => void;
-  warning: (message: string, duration?: number) => void;
-  info: (message: string, duration?: number) => void;
-  removeNotification: (id: string) => void;
-  clearNotifications: () => void;
-}
+export type { UseUINotificationsReturn } from './notificationTypes'
 
+/** @brief Notification management hook */
 export function useUINotifications(): UseUINotificationsReturn {
-  const dispatch = useDispatch();
-  const notifications = useSelector((state: RootState) => state.ui.notifications);
+  const dispatch = useDispatch()
+  const notifications = useSelector(
+    (s: RootState) => s.ui.notifications
+  )
 
   const notify = useCallback(
-    (message: string, type: 'success' | 'error' | 'warning' | 'info' = 'info', duration: number = 5000) => {
-      const id = `notification-${Date.now()}-${Math.random()}`;
-      dispatch(
-        setNotification({
-          id,
-          type,
-          message,
-          duration
-        })
-      );
-      // Auto-remove notification after duration (side effect belongs in hook, not reducer)
+    (msg: string, type: 'success' | 'error' | 'warning' | 'info' = 'info', duration = 5000) => {
+      const id = `notification-${Date.now()}-${Math.random()}`
+      dispatch(setNotification({ id, type, message: msg, duration }))
       if (duration > 0) {
-        setTimeout(() => {
-          dispatch(removeNotification(id));
-        }, duration);
+        setTimeout(() => dispatch(removeNotification(id)), duration)
       }
-    },
-    [dispatch]
-  );
+    }, [dispatch]
+  )
 
-  const success = useCallback(
-    (message: string, duration?: number) => {
-      notify(message, 'success', duration);
-    },
-    [notify]
-  );
+  const success = useCallback((msg: string, d?: number) => notify(msg, 'success', d), [notify])
+  const error = useCallback((msg: string, d?: number) => notify(msg, 'error', d), [notify])
+  const warning = useCallback((msg: string, d?: number) => notify(msg, 'warning', d), [notify])
+  const info = useCallback((msg: string, d?: number) => notify(msg, 'info', d), [notify])
 
-  const error = useCallback(
-    (message: string, duration?: number) => {
-      notify(message, 'error', duration);
-    },
-    [notify]
-  );
+  const removeNotify = useCallback((id: string) => {
+    dispatch(removeNotification(id))
+  }, [dispatch])
 
-  const warning = useCallback(
-    (message: string, duration?: number) => {
-      notify(message, 'warning', duration);
-    },
-    [notify]
-  );
-
-  const info = useCallback(
-    (message: string, duration?: number) => {
-      notify(message, 'info', duration);
-    },
-    [notify]
-  );
-
-  const removeNotify = useCallback(
-    (id: string) => {
-      dispatch(removeNotification(id));
-    },
-    [dispatch]
-  );
-
-  const clearAllNotifications = useCallback(() => {
-    dispatch(clearNotifications());
-  }, [dispatch]);
+  const clearAll = useCallback(() => {
+    dispatch(clearNotifications())
+  }, [dispatch])
 
   return {
-    notifications,
-    notify,
-    success,
-    error,
-    warning,
-    info,
+    notifications, notify, success, error,
+    warning, info,
     removeNotification: removeNotify,
-    clearNotifications: clearAllNotifications
-  };
+    clearNotifications: clearAll,
+  }
 }
 
-export default useUINotifications;
+export default useUINotifications

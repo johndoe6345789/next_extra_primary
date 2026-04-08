@@ -38,12 +38,30 @@ class AiOpenAiClient
      * @param onError   Called with status + message on
      *                  failure.
      */
-    void call(const json& messages, Callback onSuccess, ErrCallback onError);
+    void call(const json& messages,
+              Callback onSuccess,
+              ErrCallback onError);
+
+    /**
+     * @brief Send with an explicit API key and model.
+     *
+     * @param messages  JSON array of role/content objects.
+     * @param apiKey    API key to use (overrides env).
+     * @param model     Model to use (empty = default).
+     * @param onSuccess Called with result JSON.
+     * @param onError   Called on failure.
+     */
+    void call(const json& messages,
+              const std::string& apiKey,
+              const std::string& model,
+              Callback onSuccess,
+              ErrCallback onError);
 
   private:
     std::string apiKey_;
 
-    static constexpr const char* kModel = "gpt-4o";
+    static constexpr const char* kModel =
+        "gpt-4o-mini";
     static constexpr std::int32_t kMaxTokens = 1024;
 };
 

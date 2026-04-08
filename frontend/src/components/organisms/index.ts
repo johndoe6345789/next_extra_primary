@@ -66,3 +66,18 @@ export { default as ProfileBadges }
   from './ProfileBadges';
 export { default as ProfileActivity }
   from './ProfileActivity';
+
+export { ErrorBoundary } from './ErrorBoundary';
+export { default as AdminDebugPanel }
+  from './AdminDebugPanel';
+
+export {
+  SettingsCard, SettingsRow,
+} from './SettingsCard';
+export type {
+  SettingsCardProps, SettingsRowProps,
+} from './SettingsCard';
+export { default as SettingsAdminCard }
+  from './SettingsAdminCard';
+export { default as SettingsPreferences }
+  from './SettingsPreferences';

@@ -1,6 +1,10 @@
 export { Box, type BoxProps } from './Box'
 export { Container, type ContainerProps } from './Container'
-export { Grid, type GridProps } from './Grid'
+export { Grid, GridItem, type GridProps } from './Grid'
 export { Stack, type StackProps } from './Stack'
 export { Flex, type FlexProps } from './Flex'
-export { ImageList, ImageListItem, ImageListItemBar } from './ImageList'
+export {
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
+} from './ImageList'

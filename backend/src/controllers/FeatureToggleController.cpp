@@ -5,6 +5,7 @@
 
 #include "FeatureToggleController.h"
 #include "../utils/JsonResponse.h"
+#include "feature_toggle_list.h"
 
 #include <drogon/drogon.h>
 #include <nlohmann/json.hpp>
@@ -27,17 +28,9 @@ void FeatureToggleController::list(
                  "scope FROM feature_toggles "
                  "ORDER BY key"
               >> [cb](const Result& r) {
-                     json arr = json::array();
-                     for (const auto& row : r) {
-                         arr.push_back({
-                             {"key", row["key"].as<std::string>()},
-                             {"enabled", row["enabled"].as<bool>()},
-                             {"description",
-                              row["description"].as<std::string>()},
-                             {"scope", row["scope"].as<std::string>()},
-                         });
-                     }
-                     cb(::utils::jsonOk({{"features", arr}}));
+                     cb(::utils::jsonOk(
+                         {{"features",
+                           featureRowsToJson(r)}}));
                  }
               >> [cb](const DrogonDbException& e) {
                      spdlog::error("features list: {}",
@@ -56,7 +49,8 @@ void FeatureToggleController::toggle(
         std::string>("user_role");
     if (role != "admin") {
         cb(::utils::jsonError(
-            k403Forbidden, "Admin access required"));
+            k403Forbidden,
+            "Admin access required"));
         return;
     }
 
@@ -76,9 +70,11 @@ void FeatureToggleController::toggle(
                      }
                      cb(::utils::jsonOk({
                          {"key",
-                          r[0]["key"].as<std::string>()},
+                          r[0]["key"]
+                              .as<std::string>()},
                          {"enabled",
-                          r[0]["enabled"].as<bool>()},
+                          r[0]["enabled"]
+                              .as<bool>()},
                      }));
                  }
               >> [cb](const DrogonDbException& e) {

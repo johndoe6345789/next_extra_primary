@@ -34,7 +34,9 @@ Next.js (port 3000) <-- REST/JSON --> Drogon C++ API (port 8080)
 - **No hardcoded strings**: All user-facing text in translation JSON files.
   All configuration values in JSON constant files.
 - **File size**: No file should exceed 100 lines of code. If it does, split
-  it into smaller modules.
+  it into smaller modules. Files approaching the limit (90+ lines) should
+  be proactively split — never compress formatting or trim whitespace to
+  squeeze under the limit.
 
 ### C++ (Backend)
 

@@ -22,6 +22,7 @@ export interface LoginFormProps {
   isLoading: boolean;
   errors: Errs;
   apiError: string | null;
+  errorCode?: string | null;
   rememberMe: boolean;
   setRememberMe: (v: boolean) => void;
   submit: (e: React.FormEvent) => void;

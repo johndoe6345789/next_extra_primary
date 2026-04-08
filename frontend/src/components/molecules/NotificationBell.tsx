@@ -1,10 +1,12 @@
 'use client';
 
 import React from 'react';
-import NotificationsIcon from '@shared/icons/Notifications';
+import NotificationsIcon from
+  '@shared/icons/Notifications';
 import { IconButton } from '../atoms';
-import { Badge } from '../atoms';
 import { useNotifications } from '@/hooks';
+import NotificationBadge from
+  './NotificationBadge';
 
 /** Props for the NotificationBell component. */
 export interface NotificationBellProps {
@@ -47,7 +49,9 @@ export const NotificationBell: React.FC<
 
   if (unreadCount === 0) {
     return (
-      <span data-testid={testId}>{button}</span>
+      <span data-testid={testId}>
+        {button}
+      </span>
     );
   }
 
@@ -60,29 +64,10 @@ export const NotificationBell: React.FC<
       }}
     >
       {button}
-      <span
-        data-testid={`${testId}-badge`}
-        style={{
-          position: 'absolute',
-          top: 4,
-          right: 4,
-          minWidth: 14,
-          height: 14,
-          borderRadius: 7,
-          background: 'var(--mat-sys-error, #b3261e)',
-          color: 'var(--mat-sys-on-error, #fff)',
-          fontSize: 9,
-          fontWeight: 600,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '0 4px',
-          pointerEvents: 'none',
-          lineHeight: 1,
-        }}
-      >
-        {unreadCount > 99 ? '99+' : unreadCount}
-      </span>
+      <NotificationBadge
+        count={unreadCount}
+        testId={testId}
+      />
     </span>
   );
 };
