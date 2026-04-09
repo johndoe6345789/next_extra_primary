@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import Typography from '@shared/m3/Typography';
-import { TextField, Button } from '../atoms';
+import Button from '@shared/m3/Button';
+import { TextField } from '../atoms';
 
 /** Props for SystemKeyRow. */
 export interface SystemKeyRowProps {
@@ -53,8 +54,8 @@ const SystemKeyRow: React.FC<
           if (key) { onSave(key); setKey(''); }
         }}
         disabled={!key}
-        testId={`sys-save-${provider}`}
-        ariaLabel={labels.save}>
+        data-testid={`sys-save-${provider}`}
+        aria-label={labels.save}>
         {labels.save}
       </Button>
     </div>

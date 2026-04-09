@@ -4,8 +4,6 @@ import {
   getTranslations,
 } from 'next-intl/server';
 import { Box, Typography } from '@shared/m3';
-import { RoleGuard } from
-  '@/components/providers/RoleGuard';
 import AdminDebugPanel from
   '@/components/organisms/AdminDebugPanel';
 
@@ -45,9 +43,7 @@ export default async function DebugPage({
       >
         {t('debugPanel')}
       </Typography>
-      <RoleGuard required="admin">
-        <AdminDebugPanel />
-      </RoleGuard>
+      <AdminDebugPanel />
     </Box>
   );
 }

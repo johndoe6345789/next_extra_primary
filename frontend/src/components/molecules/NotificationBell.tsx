@@ -4,6 +4,7 @@ import React from 'react';
 import NotificationsIcon from
   '@shared/icons/Notifications';
 import { IconButton } from '../atoms';
+import { t as tk } from '@shared/theme/tokens';
 import { useNotifications } from '@/hooks';
 import NotificationBadge from
   './NotificationBadge';
@@ -35,9 +36,8 @@ export const NotificationBell: React.FC<
     <IconButton
       icon={
         <NotificationsIcon
-          size={28}
-          strokeWidth={16}
-          style={{ color: '#fff' }}
+          size={28} strokeWidth={16}
+          style={{ color: tk.onSurface }}
         />
       }
       ariaLabel={label}

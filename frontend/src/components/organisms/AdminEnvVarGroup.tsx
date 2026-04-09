@@ -3,7 +3,8 @@
 import React from 'react';
 import Box from '@shared/m3/Box';
 import Typography from '@shared/m3/Typography';
-import { Chip } from '../atoms';
+import { t } from '@shared/theme/tokens';
+import Chip from '@shared/m3/Chip';
 import type { EnvVar } from '@/store/api/adminTypes';
 
 /** Props for the env var group component. */
@@ -27,11 +28,8 @@ export const AdminEnvVarGroup: React.FC<
 > = ({ group, vars, setLabel, notSetLabel }) => (
   <Box style={{
     marginBottom: 16, padding: 16,
-    borderRadius:
-      'var(--mat-sys-corner-large, 16px)',
-    background:
-      'var(--mat-sys-surface-container'
-      + ', #f5f5f5)',
+    borderRadius: t.large,
+    background: t.surfaceContainer,
   }}>
     <Typography variant="subtitle2" style={{
       fontWeight: 600,
@@ -55,7 +53,10 @@ export const AdminEnvVarGroup: React.FC<
           label={v.set
             ? v.value || setLabel
             : notSetLabel}
-          testId={`env-${v.name}`}
+          aria-label={v.set
+            ? v.value || setLabel
+            : notSetLabel}
+          data-testid={`env-${v.name}`}
         />
       </div>
     ))}

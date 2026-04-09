@@ -5,7 +5,8 @@ import Typography from '@shared/m3/Typography';
 import { Select, MenuItem } from '@shared/m3';
 import type { SelectChangeEvent } from
   '@shared/m3';
-import { Button, Chip } from '../atoms';
+import Button from '@shared/m3/Button';
+import Chip from '@shared/m3/Chip';
 import type { UserRowProps } from
   './userRowTypes';
 import { rowStyle } from './userRowTypes';
@@ -36,7 +37,9 @@ const UserRow: React.FC<UserRowProps> = ({
     <Chip
       label={user.isActive
         ? t('active') : t('disabled')}
-      testId={`status-${user.id}`}
+      aria-label={user.isActive
+        ? t('active') : t('disabled')}
+      data-testid={`status-${user.id}`}
     />
     <Select
       value={user.role}
@@ -57,8 +60,8 @@ const UserRow: React.FC<UserRowProps> = ({
     </Select>
     <Button
       onClick={onToggleActive}
-      testId={`toggle-${user.id}`}
-      ariaLabel={user.isActive
+      data-testid={`toggle-${user.id}`}
+      aria-label={user.isActive
         ? t('disable') : t('enable')}>
       {user.isActive
         ? t('disable') : t('enable')}

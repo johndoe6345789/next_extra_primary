@@ -4,6 +4,7 @@ import React from 'react';
 import Box from '@shared/m3/Box';
 import Typography from '@shared/m3/Typography';
 import { useTranslations } from 'next-intl';
+import { t as tk } from '@shared/theme/tokens';
 import {
   useGetSystemKeysQuery,
   useSaveSystemKeyMutation,
@@ -39,8 +40,7 @@ export const AdminSystemKeys: React.FC<
     <Box data-testid={testId}>
       <Typography variant="body2"
         style={{
-          color: 'var(--mat-sys-on-surface'
-            + '-variant, #666)',
+          color: tk.onSurfaceVariant,
           marginBottom: 16,
         }}>
         {t('systemKeysDesc')}

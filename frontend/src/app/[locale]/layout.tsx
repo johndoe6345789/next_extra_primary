@@ -11,6 +11,8 @@ import {
   AppShell,
   ShiftContent,
 } from '@/components/organisms/AppShell';
+import { DebugBar } from
+  '@/components/molecules/DebugBar';
 import { loadMessages } from './loadMessages';
 
 /** All locale pages are dynamic. */
@@ -66,6 +68,7 @@ export default async function LocaleLayout({
             <Footer />
           </ShiftContent>
         </AppShell>
+        <DebugBar />
       </LinkAdapter>
     </IntlProvider>
   );

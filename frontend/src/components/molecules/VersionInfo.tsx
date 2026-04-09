@@ -3,6 +3,7 @@
 import React from 'react';
 import Box from '@shared/m3/Box';
 import Typography from '@shared/m3/Typography';
+import { t } from '@shared/theme/tokens';
 import { useGetVersionQuery } from
   '@/store/api/adminApi';
 import pkg from '../../../package.json';
@@ -27,12 +28,8 @@ export const VersionInfo: React.FC<
       data-testid={testId}
       style={{
         marginBottom: 16, padding: 16,
-        borderRadius:
-          'var(--mat-sys-corner-large'
-          + ', 16px)',
-        background:
-          'var(--mat-sys-surface'
-          + '-container, #f5f5f5)',
+        borderRadius: t.large,
+        background: t.surfaceContainer,
       }}
     >
       <Typography variant="subtitle2"

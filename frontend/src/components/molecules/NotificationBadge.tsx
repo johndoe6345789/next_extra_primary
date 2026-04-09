@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { t } from '@shared/theme/tokens';
 
 /** Props for NotificationBadge. */
 export interface NotificationBadgeProps {
@@ -18,10 +19,8 @@ const badgeStyle: React.CSSProperties = {
   minWidth: 14,
   height: 14,
   borderRadius: 7,
-  background:
-    'var(--mat-sys-error, #b3261e)',
-  color:
-    'var(--mat-sys-on-error, #fff)',
+  background: t.error,
+  color: t.onError,
   fontSize: 9,
   fontWeight: 600,
   display: 'flex',

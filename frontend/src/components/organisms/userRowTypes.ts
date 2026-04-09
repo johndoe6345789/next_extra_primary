@@ -3,6 +3,7 @@
  * @module components/organisms/userRowTypes
  */
 import type { CSSProperties } from 'react';
+import { t as tk } from '@shared/theme/tokens';
 import type { useTranslations } from 'next-intl';
 
 /** Shape of a user record for display. */
@@ -40,8 +41,6 @@ export const rowStyle: CSSProperties = {
   alignItems: 'center',
   padding: '10px 16px',
   borderRadius: 12,
-  background:
-    'var(--mat-sys-surface'
-    + '-container, #f5f5f5)',
+  background: tk.surfaceContainer,
   marginBottom: 8,
 };

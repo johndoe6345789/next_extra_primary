@@ -3,14 +3,15 @@
  * @module components/molecules/commentRowStyles
  */
 import type React from 'react';
+import { t } from '@shared/theme/tokens';
 
 /** Circular avatar link style. */
 export const avatarStyle: React.CSSProperties = {
   width: 32,
   height: 32,
   borderRadius: '50%',
-  background: 'var(--mat-sys-primary)',
-  color: 'var(--mat-sys-on-primary, #fff)',
+  background: t.primary,
+  color: t.onPrimary,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -23,7 +24,7 @@ export const avatarStyle: React.CSSProperties = {
 
 /** Author name link style. */
 export const nameLink: React.CSSProperties = {
-  color: 'var(--mat-sys-primary)',
+  color: t.primary,
   textDecoration: 'none',
   cursor: 'pointer',
   fontWeight: 600,

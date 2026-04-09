@@ -3,7 +3,7 @@
 import React from 'react';
 import Box from '@shared/m3/Box';
 import Typography from '@shared/m3/Typography';
-import { Button } from '../atoms';
+import Button from '@shared/m3/Button';
 import { useTranslations } from 'next-intl';
 import { useNotifications } from '@/hooks';
 import { useEscapeKey } from
@@ -68,7 +68,7 @@ export const NotificationPanel: React.FC<
           <Button
             variant="text" size="small"
             onClick={markAllAsRead}
-            testId="notif-mark-all"
+            data-testid="notif-mark-all"
           >
             {t('markAllRead')}
           </Button>

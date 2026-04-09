@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Typography from '@shared/m3/Typography';
-import { Button } from '../atoms';
+import Button from '@shared/m3/Button';
 
 /** Props for ApiKeyDisplay. */
 export interface ApiKeyDisplayProps {
@@ -48,14 +48,14 @@ const ApiKeyDisplay: React.FC<
     </Typography>
     <Button
       onClick={onEdit}
-      testId={`edit-key-${provider}`}
-      ariaLabel={labels.edit}>
+      data-testid={`edit-key-${provider}`}
+      aria-label={labels.edit}>
       {labels.edit}
     </Button>
     <Button
       onClick={onDelete}
-      testId={`del-key-${provider}`}
-      ariaLabel={labels.remove}>
+      data-testid={`del-key-${provider}`}
+      aria-label={labels.remove}>
       {labels.remove}
     </Button>
   </div>

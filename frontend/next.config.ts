@@ -34,6 +34,7 @@ const nextConfig: NextConfig = {
     '@shared/redux-slices',
     '@shared/service-adapters',
     '@shared/scss',
+    '@shared/theme',
   ],
   experimental: {
     optimizePackageImports: [

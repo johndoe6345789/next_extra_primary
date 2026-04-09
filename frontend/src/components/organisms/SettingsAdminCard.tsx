@@ -3,12 +3,13 @@
 import React from 'react';
 import Typography from '@shared/m3/Typography';
 import { useTranslations } from 'next-intl';
+import { t as tk } from '@shared/theme/tokens';
 import { Link } from '@/i18n/navigation';
 import { SettingsCard } from './SettingsCard';
 
 /** Shared style for admin links. */
 const linkStyle = {
-  color: 'var(--mat-sys-primary, #6750a4)',
+  color: tk.primary,
   fontSize: 14,
   display: 'block' as const,
   marginBottom: 8,

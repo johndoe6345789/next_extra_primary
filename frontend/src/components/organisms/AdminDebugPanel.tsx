@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Box, Typography } from '@shared/m3';
-import { Button } from '../atoms';
+import Button from '@shared/m3/Button';
 import { DebugApiRow } from '../molecules/DebugApiRow';
 import { useDebugPanel } from '@/hooks/useDebugPanel';
 import { useTranslations } from 'next-intl';
@@ -57,8 +57,8 @@ export const AdminDebugPanel: React.FC = () => {
           </Typography>
           <Button
             onClick={clear}
-            testId="debug-clear"
-            ariaLabel={t('clear')}
+            data-testid="debug-clear"
+            aria-label={t('clear')}
           >
             {t('clear')}
           </Button>

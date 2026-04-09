@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Box, Typography } from '@shared/m3';
+import { t } from '@shared/theme/tokens';
 import type { DebugEntry } from '@/utils/debugStore';
 
 /** Props for DebugApiRow. */
@@ -28,7 +29,7 @@ export const DebugApiRow: React.FC<
       display: 'flex', gap: 1, py: 0.5,
       fontFamily: 'monospace', fontSize: 12,
       borderBottom:
-        '1px solid var(--mat-sys-outline-variant)',
+        `1px solid ${t.outlineVariant}`,
       flexWrap: 'wrap', alignItems: 'center',
     }}
     data-testid="debug-api-row"

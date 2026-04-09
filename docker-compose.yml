@@ -187,24 +187,22 @@ services:
       FRONTEND_VERSION: "0.1.0"
     restart: unless-stopped
 
-  # ---- Next.js frontend --------------------------------------
+  # ---- Next.js frontend (dev mode) ----------------------------
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
       additional_contexts:
         shared: ./shared
-      args:
-        RUNTIME_IMAGE: debian:sid-slim
-        NEXT_BASE_PATH: /app
-        BACKEND_URL: http://backend:8080
     ports:
       - "3100:3000"
     depends_on:
       - backend
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8080
+      NEXT_PUBLIC_BASE_PATH: /app
       INTERNAL_API_URL: http://backend:8080
+      NEXT_BASE_PATH: /app
+      BACKEND_URL: http://backend:8080
     restart: unless-stopped
 
   # ---- Nginx reverse proxy / portal --------------------------

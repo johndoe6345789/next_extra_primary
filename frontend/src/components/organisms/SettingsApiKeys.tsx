@@ -4,6 +4,7 @@ import React from 'react';
 import Box from '@shared/m3/Box';
 import Typography from '@shared/m3/Typography';
 import { useTranslations } from 'next-intl';
+import { t as tk } from '@shared/theme/tokens';
 import {
   useGetUserKeysQuery,
   useSaveUserKeyMutation,
@@ -57,8 +58,7 @@ export const SettingsApiKeys: React.FC<
       <Typography
         variant="body2"
         style={{
-          color: 'var(--mat-sys-on-surface'
-            + '-variant, #666)',
+          color: tk.onSurfaceVariant,
           marginBottom: 8,
         }}>
         {t('apiKeysDesc')}

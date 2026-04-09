@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Typography from '@shared/m3/Typography';
 import Box from '@shared/m3/Box';
 import { Icon } from '@shared/m3/data-display/Icon';
+import { t } from '@shared/theme/tokens';
 import {
   avatarStyle, nameLink, delBtn,
 } from './commentRowStyles';
@@ -38,8 +39,7 @@ export default function CommentRow({
     <Box sx={{
         mt: 2, pt: 2, display: 'flex', gap: 1.5,
         borderTop: '1px solid',
-        borderColor:
-          'var(--mat-sys-outline-variant)',
+        borderColor: t.outlineVariant,
       }}
       data-testid="comment-row"
     >

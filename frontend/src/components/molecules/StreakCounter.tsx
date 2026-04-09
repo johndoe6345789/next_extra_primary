@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Chip } from '../atoms';
+import Chip from '@shared/m3/Chip';
 
 /**
  * Props for the StreakCounter component.
@@ -53,7 +53,8 @@ export const StreakCounter: React.FC<StreakCounterProps> = ({
         color={getColor(days)}
         variant={isActive ? 'filled' : 'outlined'}
         size="medium"
-        testId={`${testId}-chip`}
+        aria-label={label}
+        data-testid={`${testId}-chip`}
       />
     </span>
   );

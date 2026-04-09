@@ -3,7 +3,7 @@
 import React from 'react';
 import Alert from '@shared/m3/Alert';
 import { useTranslations } from 'next-intl';
-import { Button } from '../atoms';
+import Button from '@shared/m3/Button';
 import { useContactForm } from
   '@/hooks/useContactForm';
 import ContactFormFields from
@@ -61,7 +61,7 @@ export const ContactForm: React.FC<
           type="submit"
           fullWidth
           disabled={isLoading}
-          testId="contact-submit"
+          data-testid="contact-submit"
         >
           {isLoading
             ? t('sending') : t('send')}

@@ -5,6 +5,7 @@ import Box from '@shared/m3/Box';
 import Typography from '@shared/m3/Typography';
 import IconButton from '@shared/m3/IconButton';
 import CloseIcon from '@shared/icons/Close';
+import { t as tk } from '@shared/theme/tokens';
 import { useTranslations } from 'next-intl';
 
 /** Props for DrawerHeader. */
@@ -31,9 +32,8 @@ export const DrawerHeader: React.FC<
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        background:
-          'var(--md-sys-color-primary)',
-        color: 'var(--md-sys-color-on-primary)',
+        background: tk.primary,
+        color: tk.onPrimary,
       }}
       data-testid="drawer-header"
     >

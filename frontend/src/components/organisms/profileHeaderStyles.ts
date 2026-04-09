@@ -4,6 +4,7 @@
  * @module components/organisms/profileHeaderStyles
  */
 import type { CSSProperties } from 'react';
+import { t } from '@shared/theme/tokens';
 
 /** Wrapper flex container. */
 export const wrapStyle: CSSProperties = {
@@ -18,8 +19,8 @@ export const avatarStyle: CSSProperties = {
   width: 72,
   height: 72,
   borderRadius: '50%',
-  background: 'var(--mat-sys-primary)',
-  color: 'var(--mat-sys-on-primary, #fff)',
+  background: t.primary,
+  color: t.onPrimary,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',

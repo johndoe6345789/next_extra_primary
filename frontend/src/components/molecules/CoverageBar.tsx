@@ -1,10 +1,11 @@
 'use client';
 
 import { type ReactElement } from 'react';
+import { t } from '@shared/theme/tokens';
 
 /** Single locale bar colour based on %. */
 function barColor(pct: number): string {
-  if (pct >= 100) return 'var(--mat-sys-primary)';
+  if (pct >= 100) return t.primary;
   if (pct >= 80) return '#f59e0b';
   return '#ef4444';
 }
@@ -48,8 +49,7 @@ export default function CoverageBar({
       </span>
       <div style={{
         flex: 1, height: 14, borderRadius: 7,
-        background:
-          'var(--mat-sys-surface-variant)',
+        background: t.surfaceVariant,
         overflow: 'hidden',
       }}>
         <div style={{

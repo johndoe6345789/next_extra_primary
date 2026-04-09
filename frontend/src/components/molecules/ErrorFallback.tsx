@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { Box, Typography } from '@shared/m3';
-import { Button } from '../atoms';
+import { t } from '@shared/theme/tokens';
+import Button from '@shared/m3/Button';
 import { buildDebugInfo } from './buildDebugInfo';
 
 /** Props for ErrorFallback. */
@@ -52,8 +53,7 @@ export const ErrorFallback: React.FC<
         sx={{
           fontFamily: 'monospace', fontSize: 18,
           p: 1, borderRadius: 1,
-          bgcolor:
-            'var(--mat-sys-surface-container)',
+          bgcolor: t.surfaceContainer,
         }}
         data-testid="debug-code"
       >
@@ -65,15 +65,15 @@ export const ErrorFallback: React.FC<
       <Box sx={{ display: 'flex', gap: 1 }}>
         <Button
           onClick={handleCopy}
-          testId="copy-debug"
-          ariaLabel="Copy debug info"
+          data-testid="copy-debug"
+          aria-label="Copy debug info"
         >
           {copied ? 'Copied!' : 'Copy Debug Info'}
         </Button>
         <Button
           onClick={onReset}
-          testId="error-reset"
-          ariaLabel="Try again"
+          data-testid="error-reset"
+          aria-label="Try again"
         >
           Try Again
         </Button>

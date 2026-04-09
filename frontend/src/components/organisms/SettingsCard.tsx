@@ -3,6 +3,7 @@
 import React from 'react';
 import Box from '@shared/m3/Box';
 import Typography from '@shared/m3/Typography';
+import { t } from '@shared/theme/tokens';
 
 /** Props for the SettingsCard container. */
 export interface SettingsCardProps {
@@ -20,10 +21,8 @@ export const SettingsCard: React.FC<
     data-testid={testId}
     style={{
       padding: 20,
-      borderRadius:
-        'var(--mat-sys-corner-large, 16px)',
-      background:
-        'var(--mat-sys-surface-container, #f5f5f5)',
+      borderRadius: t.large,
+      background: t.surfaceContainer,
       marginBottom: 16,
     }}
   >

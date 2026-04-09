@@ -3,6 +3,7 @@
  * @module components/organisms/ChatInputStyles
  */
 import type React from 'react';
+import { t } from '@shared/theme/tokens';
 
 /** Container style for the input bar. */
 export const containerStyle: React.CSSProperties = {
@@ -10,8 +11,7 @@ export const containerStyle: React.CSSProperties = {
   gap: 8,
   padding: 16,
   borderTop:
-    '1px solid var(--mat-sys-outline-variant'
-    + ', #ccc)',
+    `1px solid ${t.outlineVariant}`,
   alignItems: 'center',
 };
 

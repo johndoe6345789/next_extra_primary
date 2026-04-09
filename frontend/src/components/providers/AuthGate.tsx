@@ -1,12 +1,13 @@
 'use client';
 
-import { type ReactElement, ReactNode, useEffect } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import {
+  type ReactElement, ReactNode, useEffect,
+} from 'react';
+import { usePathname, useRouter } from
+  'next/navigation';
 import { useSelector } from 'react-redux';
 import {
-  Box,
-  CircularProgress,
-  Typography,
+  Box, CircularProgress, Typography,
 } from '@shared/m3';
 import type { RootState } from '@/store/store';
 
@@ -17,6 +18,7 @@ const PUBLIC_ROUTES: ReadonlyArray<string> = [
   '/register',
   '/about',
   '/contact',
+  '/forgot-password',
 ];
 
 /** Props for the authentication gate. */
@@ -27,11 +29,13 @@ interface AuthGateProps {
 
 /**
  * Guards routes behind authentication.
- * Shows a loading spinner while redirecting
- * unauthenticated users to `/login`.
+ *
+ * PersistGate in StoreProvider ensures the store
+ * is rehydrated before this component renders,
+ * so auth state is always available here.
  *
  * @param props - Component props.
- * @returns Children, loading, or redirect.
+ * @returns Children or redirect spinner.
  */
 export function AuthGate(
   { children }: AuthGateProps,
@@ -39,27 +43,29 @@ export function AuthGate(
   const pathname = usePathname();
   const router = useRouter();
   const isAuthenticated = useSelector(
-    (s: RootState) => s.auth?.isAuthenticated,
-  );
-  const rehydrated = useSelector(
-    (s: RootState) => s._persist?.rehydrated,
+    (s: RootState) => s.auth.isAuthenticated,
   );
 
   const stripped =
     pathname.replace(
-      /^\/[a-z]{2}(?:-[A-Z]{2})?(?=\/|$)/, '',
+      /^\/[a-z]{2}(?:-[A-Z]{2})?(?=\/|$)/,
+      '',
     ) || '/';
+  const locale =
+    pathname.match(
+      /^\/([a-z]{2}(?:-[A-Z]{2})?)/,
+    )?.[1] ?? 'en';
   const isPublic = PUBLIC_ROUTES.some(
     (r) => stripped === r,
   );
 
   useEffect(() => {
-    if (rehydrated && !isAuthenticated && !isPublic) {
-      router.replace('/login');
+    if (!isAuthenticated && !isPublic) {
+      router.replace(`/${locale}/login`);
     }
-  }, [rehydrated, isAuthenticated, isPublic, router]);
+  }, [isAuthenticated, isPublic, router, locale]);
 
-  if (!rehydrated || (!isAuthenticated && !isPublic)) {
+  if (!isAuthenticated && !isPublic) {
     return (
       <Box
         sx={{
@@ -74,9 +80,7 @@ export function AuthGate(
       >
         <CircularProgress />
         <Typography color="text.secondary">
-          {!rehydrated
-            ? 'Loading...'
-            : 'Redirecting to login...'}
+          Redirecting to login...
         </Typography>
       </Box>
     );

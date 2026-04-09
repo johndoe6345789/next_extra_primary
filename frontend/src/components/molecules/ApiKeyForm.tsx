@@ -5,7 +5,8 @@ import Typography from '@shared/m3/Typography';
 import Select from '@shared/m3/inputs/Select';
 import MenuItem from
   '@shared/m3/navigation/MenuItem';
-import { TextField, Button } from '../atoms';
+import Button from '@shared/m3/Button';
+import { TextField } from '../atoms';
 
 /** A selectable model option. */
 interface ModelOpt {
@@ -80,8 +81,8 @@ const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
       <Button
         onClick={onSave}
         disabled={!keyValue}
-        testId={`save-key-${provider}`}
-        ariaLabel={labels.save}>
+        data-testid={`save-key-${provider}`}
+        aria-label={labels.save}>
         {labels.save}
       </Button>
     </div>

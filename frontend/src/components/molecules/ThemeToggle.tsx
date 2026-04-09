@@ -4,6 +4,7 @@ import React from 'react';
 import LightModeIcon from '@shared/icons/LightMode';
 import DarkModeIcon from '@shared/icons/DarkMode';
 import { IconButton } from '../atoms';
+import { t as tk } from '@shared/theme/tokens';
 import { useThemeMode } from '@/hooks';
 
 /**
@@ -39,11 +40,11 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
           isDark
             ? <DarkModeIcon
                 size={28} strokeWidth={16}
-                style={{ color: '#fff' }}
+                style={{ color: tk.onSurface }}
               />
             : <LightModeIcon
                 size={28} strokeWidth={16}
-                style={{ color: '#fff' }}
+                style={{ color: tk.onSurface }}
               />
         }
         ariaLabel={label}

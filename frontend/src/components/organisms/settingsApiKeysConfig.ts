@@ -3,6 +3,7 @@
  * @module components/organisms/settingsApiKeysConfig
  */
 import type { CSSProperties } from 'react';
+import { t } from '@shared/theme/tokens';
 import models from '@/constants/ai-models.json';
 
 /** A selectable model option. */
@@ -25,10 +26,7 @@ export const MODEL_OPTIONS: Record<
 /** Container box style. */
 export const containerStyle: CSSProperties = {
   padding: 20,
-  borderRadius:
-    'var(--mat-sys-corner-large, 16px)',
-  background:
-    'var(--mat-sys-surface-container'
-    + ', #f5f5f5)',
+  borderRadius: t.large,
+  background: t.surfaceContainer,
   marginBottom: 16,
 };

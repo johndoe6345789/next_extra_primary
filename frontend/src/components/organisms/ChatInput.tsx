@@ -5,7 +5,8 @@ import Box from '@shared/m3/Box';
 import ToggleButtonGroup from '@shared/m3/ToggleButtonGroup';
 import ToggleButton from '@shared/m3/ToggleButton';
 import { useTranslations } from 'next-intl';
-import { TextField, Button } from '../atoms';
+import Button from '@shared/m3/Button';
+import { TextField } from '../atoms';
 import { ChatProvider } from '@/types/chat';
 import {
   containerStyle, fieldWrapper,
@@ -67,8 +68,8 @@ export const ChatInput: React.FC<ChatInputProps> = ({
       <Button
         onClick={onSend}
         disabled={disabled}
-        testId="chat-send"
-        ariaLabel={t('send')}
+        data-testid="chat-send"
+        aria-label={t('send')}
       >
         {t('send')}
       </Button>

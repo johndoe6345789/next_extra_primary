@@ -3,6 +3,7 @@
  * @module components/molecules/widgetCardStyles
  */
 import type { CSSProperties } from 'react';
+import { t } from '@shared/theme/tokens';
 
 /** Pill toggle style when enabled. */
 export const pillOn: CSSProperties = {
@@ -12,19 +13,15 @@ export const pillOn: CSSProperties = {
   fontWeight: 600,
   border: 'none',
   cursor: 'pointer',
-  background:
-    'var(--md-sys-color-primary)',
-  color:
-    'var(--md-sys-color-on-primary)',
+  background: t.primary,
+  color: t.onPrimary,
 };
 
 /** Pill toggle style when disabled. */
 export const pillOff: CSSProperties = {
   ...pillOn,
-  background:
-    'var(--md-sys-color-surface-variant)',
-  color:
-    'var(--md-sys-color-on-surface-variant)',
+  background: t.surfaceVariant,
+  color: t.onSurfaceVariant,
 };
 
 /** Scaled-down live preview of a widget. */
@@ -32,8 +29,7 @@ export const previewBox: CSSProperties = {
   height: 100,
   overflow: 'hidden',
   borderRadius: 8,
-  border:
-    '1px solid var(--outline-variant)',
+  border: `1px solid ${t.outlineVariant}`,
   transform: 'scale(0.55)',
   transformOrigin: 'top left',
   width: '182%',
@@ -45,8 +41,7 @@ export const previewBox: CSSProperties = {
 export const cardStyle: CSSProperties = {
   padding: 12,
   borderRadius: 12,
-  border:
-    '1px solid var(--outline-variant)',
+  border: `1px solid ${t.outlineVariant}`,
   cursor: 'pointer',
   display: 'flex',
   flexDirection: 'column',

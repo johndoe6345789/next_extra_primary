@@ -41,7 +41,8 @@
       "@shared/service-adapters": ["../shared/redux/adapters/src/index.ts"],
       "@shared/service-adapters/*": ["../shared/redux/adapters/src/*.ts"],
       "@shared/types": ["../shared/redux/core/src/types/index.ts"],
-      "@shared/types/*": ["../shared/redux/core/src/types/*.ts"]
+      "@shared/types/*": ["../shared/redux/core/src/types/*.ts"],
+      "@shared/theme/*": ["../shared/theme/*.ts"]
     }
   },
   "include": [

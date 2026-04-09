@@ -4,6 +4,7 @@
  * @module components/organisms/profileActivityStyles
  */
 import type { CSSProperties } from 'react';
+import { t } from '@shared/theme/tokens';
 
 /** Row wrapping input and send button. */
 export const inputRow: CSSProperties = {
@@ -19,11 +20,9 @@ export const inputStyle: CSSProperties = {
   padding: '12px 16px',
   borderRadius: 24,
   fontSize: 14,
-  border:
-    '2px solid var(--mat-sys-outline)',
-  background:
-    'var(--mat-sys-surface-container-high)',
-  color: 'var(--mat-sys-on-surface)',
+  border: `2px solid ${t.outline}`,
+  background: t.surfaceContainerHigh,
+  color: t.onSurface,
   outline: 'none',
   boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
 };
