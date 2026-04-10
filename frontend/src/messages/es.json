@@ -60,7 +60,15 @@
     "pgadmin": "Admin de BD",
     "packageRepo": "Repositorio",
     "s3server": "Almacenamiento S3",
-    "search": "Buscar"
+    "search": "Buscar",
+    "level": "Nivel {level}",
+    "points": "{pts} pts",
+    "streak": "{days}d racha",
+    "badges": "{count} insignias",
+    "role": "{role}",
+    "chooseAvatar": "Elegir avatar",
+    "removeAvatar": "Quitar avatar",
+    "guest": "Invitado"
   },
   "hero": {
     "title": "Sube de nivel en tu camino de aprendizaje",
@@ -91,7 +99,15 @@
     "send": "Enviar",
     "switchProvider": "Cambiar proveedor",
     "noMessages": "Aún no hay mensajes",
-    "typing": "Escribiendo..."
+    "typing": "Escribiendo...",
+    "errors": {
+      "overloaded": "El servicio de IA está ocupado. Inténtelo de nuevo.",
+      "rateLimit": "Demasiadas solicitudes. Espere un momento.",
+      "invalidKey": "Su clave API no es válida. Revise la configuración.",
+      "noKey": "No hay clave API configurada para este proveedor.",
+      "tooLong": "El mensaje es demasiado largo. Acórtelo.",
+      "generic": "Algo salió mal. Inténtelo de nuevo."
+    }
   },
   "features": {
     "aiChat": {

@@ -59,13 +59,18 @@ void PreferencesController::update(
         [cb, userId, body](const json& cur) {
             auto tm = body.value(
                 "themeMode",
-                cur.value("themeMode", "system"));
+                cur.value("themeMode",
+                          "system"));
             auto lc = body.value(
                 "locale",
                 cur.value("locale", "en"));
+            auto ap = body.value(
+                "aiProvider",
+                cur.value("aiProvider",
+                          "claude"));
 
             services::PreferencesService::update(
-                userId, tm, lc,
+                userId, tm, lc, ap,
                 [cb](const json& d) {
                     cb(::utils::jsonOk(d));
                 },

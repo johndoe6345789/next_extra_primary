@@ -1,0 +1,8 @@
+{
+  "threshold": 0.179,
+  "lightL": 0.90,
+  "lightS": 0.6,
+  "darkL": 0.12,
+  "darkS": 0.35,
+  "minContrast": 4.5
+}

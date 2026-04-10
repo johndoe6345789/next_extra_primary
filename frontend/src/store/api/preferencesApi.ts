@@ -8,6 +8,7 @@ import { baseApi } from './baseApi';
 export interface UserPreferences {
   themeMode: 'light' | 'dark' | 'system';
   locale: string;
+  aiProvider: 'claude' | 'openai';
 }
 
 /** Preferences endpoints. */

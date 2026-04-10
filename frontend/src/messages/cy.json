@@ -60,7 +60,15 @@
     "pgadmin": "Gweinyddu Cronfa Ddata",
     "packageRepo": "Storfa Pecynnau",
     "s3server": "Storfa S3",
-    "search": "Chwilio"
+    "search": "Chwilio",
+    "level": "Lefel {level}",
+    "points": "{pts} pwynt",
+    "streak": "{days}d rhediad",
+    "badges": "{count} bathodynnau",
+    "role": "{role}",
+    "chooseAvatar": "Dewis afatar",
+    "removeAvatar": "Tynnu afatar",
+    "guest": "Gwestai"
   },
   "hero": {
     "title": "Codwch lefel eich taith ddysgu",
@@ -91,7 +99,15 @@
     "send": "Anfon",
     "switchProvider": "Newid darparwr",
     "noMessages": "Dim negeseuon eto",
-    "typing": "Yn teipio..."
+    "typing": "Yn teipio...",
+    "errors": {
+      "overloaded": "Mae'r gwasanaeth AI yn brysur. Rhowch gynnig arni eto.",
+      "rateLimit": "Gormod o geisiadau. Arhoswch eiliad.",
+      "invalidKey": "Mae eich allwedd API yn annilys. Gwiriwch eich gosodiadau.",
+      "noKey": "Dim allwedd API wedi'i ffurfweddu ar gyfer y darparwr hwn.",
+      "tooLong": "Mae'r neges yn rhy hir. Byrhewch hi.",
+      "generic": "Aeth rhywbeth o'i le. Rhowch gynnig arni eto."
+    }
   },
   "features": {
     "aiChat": {

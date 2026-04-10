@@ -39,7 +39,7 @@ export interface UseLoginFormReturn {
 export function useLoginForm(): UseLoginFormReturn {
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const [apiError, setApiError] =
     useState<string | null>(null);
   const [errorCode, setErrorCode] =

@@ -60,7 +60,15 @@
     "pgadmin": "データベース管理",
     "packageRepo": "パッケージリポジトリ",
     "s3server": "S3ストレージ",
-    "search": "検索"
+    "search": "検索",
+    "level": "レベル {level}",
+    "points": "{pts} ポイント",
+    "streak": "{days}日連続",
+    "badges": "{count} バッジ",
+    "role": "{role}",
+    "chooseAvatar": "アバターを選ぶ",
+    "removeAvatar": "アバターを削除",
+    "guest": "ゲスト"
   },
   "hero": {
     "title": "学びをレベルアップしよう",
@@ -91,7 +99,15 @@
     "send": "送信",
     "switchProvider": "プロバイダーを切り替え",
     "noMessages": "メッセージはまだありません",
-    "typing": "入力中..."
+    "typing": "入力中...",
+    "errors": {
+      "overloaded": "AIサービスが混雑しています。しばらくしてから再試行してください。",
+      "rateLimit": "リクエストが多すぎます。少々お待ちください。",
+      "invalidKey": "APIキーが無効です。設定を確認してください。",
+      "noKey": "このプロバイダーのAPIキーが設定されていません。",
+      "tooLong": "メッセージが長すぎます。短くしてください。",
+      "generic": "エラーが発生しました。もう一度お試しください。"
+    }
   },
   "features": {
     "aiChat": {

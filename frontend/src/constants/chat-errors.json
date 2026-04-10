@@ -1,0 +1,7 @@
+{
+  "overloaded": "chat.errors.overloaded",
+  "rate_limit": "chat.errors.rateLimit",
+  "invalid_api_key": "chat.errors.invalidKey",
+  "not configured": "chat.errors.noKey",
+  "context_length": "chat.errors.tooLong"
+}

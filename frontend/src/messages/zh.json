@@ -60,7 +60,15 @@
     "pgadmin": "数据库管理",
     "packageRepo": "包仓库",
     "s3server": "S3存储",
-    "search": "搜索"
+    "search": "搜索",
+    "level": "{level} 级",
+    "points": "{pts} 分",
+    "streak": "{days}天连续",
+    "badges": "{count} 徽章",
+    "role": "{role}",
+    "chooseAvatar": "选择头像",
+    "removeAvatar": "移除头像",
+    "guest": "访客"
   },
   "hero": {
     "title": "提升你的学习之旅",
@@ -91,7 +99,15 @@
     "send": "发送",
     "switchProvider": "切换提供商",
     "noMessages": "暂无消息",
-    "typing": "输入中..."
+    "typing": "输入中...",
+    "errors": {
+      "overloaded": "AI服务繁忙，请稍后重试。",
+      "rateLimit": "请求过多，请稍候。",
+      "invalidKey": "API密钥无效，请检查设置。",
+      "noKey": "未配置此提供商的API密钥。",
+      "tooLong": "消息过长，请缩短。",
+      "generic": "出了点问题，请重试。"
+    }
   },
   "features": {
     "aiChat": {

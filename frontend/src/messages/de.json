@@ -60,7 +60,15 @@
     "pgadmin": "Datenbank-Admin",
     "packageRepo": "Paket-Repo",
     "s3server": "S3-Speicher",
-    "search": "Suchen"
+    "search": "Suchen",
+    "level": "Level {level}",
+    "points": "{pts} Pkt",
+    "streak": "{days}T Serie",
+    "badges": "{count} Abzeichen",
+    "role": "{role}",
+    "chooseAvatar": "Avatar wählen",
+    "removeAvatar": "Avatar entfernen",
+    "guest": "Gast"
   },
   "hero": {
     "title": "Bringe dein Lernen auf das n\u00e4chste Level",
@@ -91,7 +99,15 @@
     "send": "Senden",
     "switchProvider": "Anbieter wechseln",
     "noMessages": "Noch keine Nachrichten",
-    "typing": "Schreibt..."
+    "typing": "Schreibt...",
+    "errors": {
+      "overloaded": "Der KI-Dienst ist ausgelastet. Bitte versuchen Sie es gleich erneut.",
+      "rateLimit": "Zu viele Anfragen. Bitte warten Sie einen Moment.",
+      "invalidKey": "Ihr API-Schlüssel ist ungültig. Überprüfen Sie Ihre Einstellungen.",
+      "noKey": "Kein API-Schlüssel für diesen Anbieter konfiguriert.",
+      "tooLong": "Die Nachricht ist zu lang. Bitte kürzen Sie sie.",
+      "generic": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+    }
   },
   "features": {
     "aiChat": {

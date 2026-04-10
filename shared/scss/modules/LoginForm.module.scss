@@ -49,15 +49,27 @@
     box-shadow: 0 0 0 1px #6750a4;
   }
 
-  // M3 Checkbox uses dark-mode tokens;
-  // force light-mode border on this card.
-  [class*="mdc-checkbox__background"] {
-    border-color: #79747e !important;
+  // Light-mode border for unchecked box only;
+  // let checked state keep its primary fill.
+  [class*="native-control"]:not(:checked)
+  ~ [class*="mdc-checkbox__background"] {
+    border-color: #79747e;
   }
 
-  // Compact checkbox for the login card.
-  .compactCheckbox [class*="mdc-checkbox"] {
-    padding: 3px;
+  // Bump checked border to match fill so the
+  // tick is clearly visible on a white card.
+  [class*="native-control"]:checked
+  ~ [class*="mdc-checkbox__background"] {
+    border-color: #6750a4;
+    background-color: #6750a4;
+  }
+
+  // Bigger checkbox for the login card so the
+  // tick is easy to see on a white background.
+  .compactCheckbox [class*="background"] {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
   }
 
   // Button inside auth card

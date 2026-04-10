@@ -60,7 +60,15 @@
     "pgadmin": "Admin BD",
     "packageRepo": "D\u00e9p\u00f4t de paquets",
     "s3server": "Stockage S3",
-    "search": "Rechercher"
+    "search": "Rechercher",
+    "level": "Niveau {level}",
+    "points": "{pts} pts",
+    "streak": "{days}j série",
+    "badges": "{count} badges",
+    "role": "{role}",
+    "chooseAvatar": "Choisir un avatar",
+    "removeAvatar": "Supprimer l'avatar",
+    "guest": "Invité"
   },
   "hero": {
     "title": "Passez au niveau sup\u00e9rieur",
@@ -91,7 +99,15 @@
     "send": "Envoyer",
     "switchProvider": "Changer de fournisseur",
     "noMessages": "Pas encore de messages",
-    "typing": "En cours de saisie..."
+    "typing": "En cours de saisie...",
+    "errors": {
+      "overloaded": "Le service IA est occupé. Réessayez bientôt.",
+      "rateLimit": "Trop de requêtes. Veuillez patienter.",
+      "invalidKey": "Votre clé API est invalide. Vérifiez vos paramètres.",
+      "noKey": "Aucune clé API configurée pour ce fournisseur.",
+      "tooLong": "Le message est trop long. Raccourcissez-le.",
+      "generic": "Une erreur est survenue. Réessayez."
+    }
   },
   "features": {
     "aiChat": {

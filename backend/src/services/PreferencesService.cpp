@@ -1,6 +1,7 @@
 /**
  * @file PreferencesService.cpp
- * @brief Read/write user theme and locale prefs.
+ * @brief Read/write user theme, locale, and
+ *        AI provider preferences.
  */
 
 #include "services/PreferencesService.h"
@@ -45,10 +46,12 @@ void PreferencesService::update(
     const std::string& userId,
     const std::string& themeMode,
     const std::string& locale,
+    const std::string& aiProvider,
     Callback onOk, ErrCallback onErr)
 {
     *db() << std::string(kPrefsUpdateSql)
-          << themeMode << locale << userId
+          << themeMode << locale
+          << aiProvider << userId
         >> [onOk](const Result& r) {
             if (r.empty()) {
                 onOk(defaultPrefs());

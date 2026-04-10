@@ -4,9 +4,15 @@ export const colorMap: Record<string, string> = {
   'primary.light':
     'var(--mat-sys-primary-container)',
   'primary.dark': 'var(--mat-sys-primary)',
+  'primary.contrastText':
+    'var(--mat-sys-on-primary)',
   'secondary.main':
     'var(--mat-sys-secondary)',
+  'secondary.contrastText':
+    'var(--mat-sys-on-secondary)',
   'error.main': 'var(--mat-sys-error)',
+  'error.contrastText':
+    'var(--mat-sys-on-error)',
   'warning.main': 'var(--mat-sys-tertiary)',
   'info.main': 'var(--mat-sys-primary)',
   'success.main': 'var(--mat-sys-tertiary)',
@@ -18,6 +24,10 @@ export const colorMap: Record<string, string> = {
   'background.paper':
     'var(--mat-sys-surface)',
   'background.default':
+    'var(--mat-sys-surface-container)',
+  'grey.100':
+    'var(--mat-sys-surface-variant)',
+  'grey.200':
     'var(--mat-sys-surface-container)',
   divider:
     'var(--mat-sys-outline-variant)',

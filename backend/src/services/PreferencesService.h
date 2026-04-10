@@ -2,7 +2,8 @@
 /**
  * @file PreferencesService.h
  * @brief Read/write user display preferences
- *        (theme_mode, preferred_locale).
+ *        (theme_mode, preferred_locale,
+ *         ai_provider).
  */
 
 #include "services/gamification_types.h"
@@ -14,8 +15,8 @@ namespace services
 
 /**
  * @class PreferencesService
- * @brief Persists per-user theme and locale
- *        preferences in the users table.
+ * @brief Persists per-user theme, locale, and
+ *        AI provider preferences in users table.
  */
 class PreferencesService
 {
@@ -23,7 +24,7 @@ class PreferencesService
     /**
      * @brief Fetch preferences for a user.
      * @param userId UUID of the user.
-     * @param onOk JSON with theme_mode, locale.
+     * @param onOk JSON with preferences.
      * @param onErr Error callback.
      */
     static void get(
@@ -31,10 +32,11 @@ class PreferencesService
         Callback onOk, ErrCallback onErr);
 
     /**
-     * @brief Update one or both preferences.
+     * @brief Update preferences.
      * @param userId UUID of the user.
-     * @param themeMode "light", "dark", or "system".
+     * @param themeMode "light","dark","system".
      * @param locale Preferred locale code.
+     * @param aiProvider "claude" or "openai".
      * @param onOk JSON echo of saved values.
      * @param onErr Error callback.
      */
@@ -42,6 +44,7 @@ class PreferencesService
         const std::string& userId,
         const std::string& themeMode,
         const std::string& locale,
+        const std::string& aiProvider,
         Callback onOk, ErrCallback onErr);
 
   private:

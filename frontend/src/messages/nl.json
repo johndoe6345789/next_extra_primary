@@ -60,7 +60,15 @@
     "pgadmin": "Databasebeheer",
     "packageRepo": "Pakketrepository",
     "s3server": "S3-opslag",
-    "search": "Zoeken"
+    "search": "Zoeken",
+    "level": "Niveau {level}",
+    "points": "{pts} ptn",
+    "streak": "{days}d reeks",
+    "badges": "{count} badges",
+    "role": "{role}",
+    "chooseAvatar": "Kies avatar",
+    "removeAvatar": "Avatar verwijderen",
+    "guest": "Gast"
   },
   "hero": {
     "title": "Breng je leertraject naar een hoger niveau",
@@ -91,7 +99,15 @@
     "send": "Verzenden",
     "switchProvider": "Van aanbieder wisselen",
     "noMessages": "Nog geen berichten",
-    "typing": "Typen..."
+    "typing": "Typen...",
+    "errors": {
+      "overloaded": "De AI-service is bezet. Probeer het zo opnieuw.",
+      "rateLimit": "Te veel verzoeken. Even geduld.",
+      "invalidKey": "Uw API-sleutel is ongeldig. Controleer uw instellingen.",
+      "noKey": "Geen API-sleutel geconfigureerd voor deze provider.",
+      "tooLong": "Bericht is te lang. Maak het korter.",
+      "generic": "Er ging iets mis. Probeer het opnieuw."
+    }
   },
   "features": {
     "aiChat": {

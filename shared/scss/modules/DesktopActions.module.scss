@@ -3,6 +3,12 @@
   align-items: center;
   gap: 0.25rem;
   margin-left: auto;
+
+  // Hide on narrow viewports — search, theme
+  // and locale move to the mobile drawer.
+  @media (max-width: 599px) {
+    display: none;
+  }
 }
 
 .search {

@@ -82,3 +82,18 @@ export type { ApiKeyFormProps } from './ApiKeyForm';
 
 export { default as NotificationBadge } from './NotificationBadge';
 export type { NotificationBadgeProps } from './NotificationBadge';
+
+export { UserProfileCard } from './UserProfileCard';
+export type { UserProfileCardProps } from './UserProfileCard';
+
+export { UserQuickStats } from './UserQuickStats';
+export type { UserQuickStatsProps } from './UserQuickStats';
+
+export { AvatarPicker } from './AvatarPicker';
+export type { AvatarPickerProps } from './AvatarPicker';
+
+export { UserProfileInfo } from './UserProfileInfo';
+export type { UserProfileInfoProps } from './UserProfileInfo';
+
+export { AvatarOption } from './AvatarOption';
+export type { AvatarOptionProps } from './AvatarOption';

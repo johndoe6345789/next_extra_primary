@@ -1,0 +1,14 @@
+[
+  { "id": "cat", "src": "/avatars/cat.svg" },
+  { "id": "fox", "src": "/avatars/fox.svg" },
+  { "id": "bear", "src": "/avatars/bear.svg" },
+  { "id": "owl", "src": "/avatars/owl.svg" },
+  { "id": "penguin", "src": "/avatars/penguin.svg" },
+  { "id": "robot", "src": "/avatars/robot.svg" },
+  { "id": "rocket", "src": "/avatars/rocket.svg" },
+  { "id": "star", "src": "/avatars/star.svg" },
+  { "id": "mountain", "src": "/avatars/mountain.svg" },
+  { "id": "wave", "src": "/avatars/wave.svg" },
+  { "id": "bolt", "src": "/avatars/bolt.svg" },
+  { "id": "leaf", "src": "/avatars/leaf.svg" }
+]

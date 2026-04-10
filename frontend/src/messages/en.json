@@ -60,7 +60,15 @@
     "pgadmin": "Database Admin",
     "packageRepo": "Package Repo",
     "s3server": "S3 Storage",
-    "search": "Search"
+    "search": "Search",
+    "level": "Level {level}",
+    "points": "{pts} pts",
+    "streak": "{days}d streak",
+    "badges": "{count} badges",
+    "role": "{role}",
+    "chooseAvatar": "Choose avatar",
+    "removeAvatar": "Remove avatar",
+    "guest": "Guest"
   },
   "hero": {
     "title": "Level up your learning journey",
@@ -91,7 +99,15 @@
     "send": "Send",
     "switchProvider": "Switch provider",
     "noMessages": "No messages yet",
-    "typing": "Typing..."
+    "typing": "Typing...",
+    "errors": {
+      "overloaded": "The AI service is busy. Please try again shortly.",
+      "rateLimit": "Too many requests. Please wait a moment.",
+      "invalidKey": "Your API key is invalid. Check your settings.",
+      "noKey": "No API key configured for this provider.",
+      "tooLong": "Message is too long. Please shorten it.",
+      "generic": "Something went wrong. Please try again."
+    }
   },
   "features": {
     "aiChat": {
