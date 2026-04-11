@@ -14,6 +14,10 @@ export const GUEST_AVATAR =
 /** Menu panel style: responsive to viewport. */
 export const menuStyle: React.CSSProperties = {
   width: 'min(320px, calc(100vw - 24px))',
+  maxHeight: 'calc(100dvh - 72px)',
+  overflowY: 'auto',
+  overscrollBehavior: 'contain',
+  marginTop: 8,
 };
 
 /** Shared inline style for menu link items. */

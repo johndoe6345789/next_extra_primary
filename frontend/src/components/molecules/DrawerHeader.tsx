@@ -2,11 +2,12 @@
 
 import React from 'react';
 import Box from '@shared/m3/Box';
-import Typography from '@shared/m3/Typography';
 import IconButton from '@shared/m3/IconButton';
 import CloseIcon from '@shared/icons/Close';
 import { t as tk } from '@shared/theme/tokens';
-import { useTranslations } from 'next-intl';
+import {
+  NextExtraLogo,
+} from '@shared/components/ui/NextExtraLogo';
 
 /** Props for DrawerHeader. */
 export interface DrawerHeaderProps {
@@ -22,37 +23,28 @@ export interface DrawerHeaderProps {
  */
 export const DrawerHeader: React.FC<
   DrawerHeaderProps
-> = ({ onClose }) => {
-  const t = useTranslations('common');
-  return (
+> = ({ onClose }) => (
     <Box
       sx={{
         px: 2,
-        py: 2.5,
+        py: 1.5,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        background: tk.primary,
-        color: tk.onPrimary,
+        background: tk.surfaceContainer,
       }}
       data-testid="drawer-header"
     >
-      <Typography
-        variant="h6"
-        sx={{ fontWeight: 700 }}
-      >
-        {t('appName')}
-      </Typography>
+      <NextExtraLogo height={28} />
       <IconButton
         onClick={onClose}
         size="small"
         aria-label="Close menu"
-        sx={{ color: 'inherit' }}
+        sx={{ color: tk.onSurfaceVariant }}
       >
         <CloseIcon />
       </IconButton>
     </Box>
-  );
-};
+);
 
 export default DrawerHeader;

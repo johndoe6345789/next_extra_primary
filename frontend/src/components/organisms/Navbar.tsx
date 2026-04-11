@@ -54,7 +54,10 @@ export const Navbar: React.FC<NavbarProps> = ({
         data-testid={testId}
       >
         <Toolbar>
-          <MobileDrawer links={LINKS} />
+          <MobileDrawer
+            links={LINKS}
+            onSearch={onSearch}
+          />
           <NavbarLogo
             label={tCommon('appName')}
           />
@@ -76,6 +79,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               href="/login"
               variant="text"
               testId="navbar-login"
+              style={{ whiteSpace: 'nowrap',
+                flexShrink: 0 }}
             >
               {tAuth('login')}
             </Button>

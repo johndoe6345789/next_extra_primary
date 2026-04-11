@@ -44,3 +44,15 @@ export const rowStyle: CSSProperties = {
   background: tk.surfaceContainer,
   marginBottom: 8,
 };
+
+/** Wrapper div constraining the role selector. */
+export const selectStyle: CSSProperties = {
+  width: 140,
+  flexShrink: 0,
+};
+
+/** Fixed width for the action button. */
+export const buttonStyle: CSSProperties = {
+  flexShrink: 0,
+  minWidth: 80,
+};

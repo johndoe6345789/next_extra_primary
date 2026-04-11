@@ -68,7 +68,8 @@ export default async function LocaleLayout({
             <Footer />
           </ShiftContent>
         </AppShell>
-        <DebugBar />
+        {process.env.NEXT_PUBLIC_DEBUG_BAR
+          === '1' && <DebugBar />}
       </LinkAdapter>
     </IntlProvider>
   );

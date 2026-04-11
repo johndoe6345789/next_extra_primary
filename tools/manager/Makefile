@@ -16,6 +16,7 @@ MAKEFLAGS += -j$(NPROCS)
 
 CXX      ?= g++
 CXXFLAGS := -std=c++20 -O3 -Wall -Wextra -I.
+LDLIBS   := -lssl -lcrypto
 BUILDDIR := build/obj
 
 SRCS := main.cpp \
@@ -31,6 +32,8 @@ SRCS := main.cpp \
         commands/ElasticCmdStatus.cpp \
         commands/SeedTransCmd.cpp \
         commands/SeedTransGen.cpp \
+        commands/UserCmdReg.cpp \
+        commands/UserCmdGen.cpp \
         commands/WorkflowCtx.cpp \
         commands/WorkflowExec.cpp \
         commands/WorkflowLoad.cpp \
@@ -45,7 +48,7 @@ JSON_URL  := https://github.com/nlohmann/json/releases/download/v3.11.3/json.hpp
 INJA_URL  := https://github.com/pantor/inja/releases/download/v3.4.0/inja.hpp
 
 manager: $(OBJS)
-	$(CXX) $(CXXFLAGS) $^ -o $@
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDLIBS)
 
 $(BUILDDIR)/%.o: %.cpp $(HDRS)
 	@mkdir -p $(dir $@)

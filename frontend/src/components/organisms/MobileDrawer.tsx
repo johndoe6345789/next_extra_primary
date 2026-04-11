@@ -2,22 +2,17 @@
 
 import React from 'react';
 import Drawer from '@shared/m3/Drawer';
-import List from '@shared/m3/List';
 import Divider from '@shared/m3/Divider';
 import {
   useDrawer,
   DRAWER_WIDTH,
 } from '@shared/components/ui/DrawerContext';
+import { useScrollLock } from '@/hooks/useScrollLock';
 import { DrawerHeader } from
   '../molecules/DrawerHeader';
-import {
-  DrawerNavItem,
-} from '@shared/components/ui/DrawerNavItem';
-import { DrawerFooter } from
-  '../molecules/DrawerFooter';
-import { DrawerToolLinks } from
-  '../molecules/DrawerToolLinks';
 import { BurgerButton } from '@shared/ui';
+import { DrawerContent } from
+  './DrawerContent';
 
 /** Navigation link shape. */
 export interface NavLink {
@@ -28,6 +23,8 @@ export interface NavLink {
 /** Props for MobileDrawer. */
 export interface MobileDrawerProps {
   links: NavLink[];
+  /** Search callback for drawer search. */
+  onSearch?: (q: string) => void;
 }
 
 /**
@@ -38,9 +35,10 @@ export interface MobileDrawerProps {
  */
 export const MobileDrawer: React.FC<
   MobileDrawerProps
-> = ({ links }) => {
+> = ({ links, onSearch }) => {
   const { open, setOpen, close } =
     useDrawer();
+  useScrollLock(open);
   return (
     <>
       <BurgerButton
@@ -51,33 +49,20 @@ export const MobileDrawer: React.FC<
         open={open}
         onClose={close}
         data-testid="navbar-drawer"
-        PaperProps={{
-          style: {
-            width: `${DRAWER_WIDTH}px`,
-            borderRadius:
-              '0 16px 16px 0',
-          },
-        }}
+        PaperProps={{ style: {
+          width: `${DRAWER_WIDTH}px`,
+          borderRadius: '0 16px 16px 0',
+          display: 'flex',
+          flexDirection: 'column',
+        } }}
       >
         <DrawerHeader onClose={close} />
         <Divider />
-        <List
-          sx={{ flex: 1, py: 1 }}
-          role="menu"
-        >
-          {links.map((l) => (
-            <DrawerNavItem
-              key={l.href}
-              label={l.label}
-              href={l.href}
-              onClick={close}
-            />
-          ))}
-        </List>
-        <Divider />
-        <DrawerToolLinks />
-        <Divider />
-        <DrawerFooter />
+        <DrawerContent
+          links={links}
+          onSearch={onSearch ?? (() => {})}
+          onClose={close}
+        />
       </Drawer>
     </>
   );

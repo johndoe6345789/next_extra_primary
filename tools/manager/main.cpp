@@ -12,6 +12,7 @@
 #include "commands/ActCmd.h"
 #include "commands/ElasticCmd.h"
 #include "commands/SeedTransCmd.h"
+#include "commands/UserCmd.h"
 #include "commands/WorkflowEngine.h"
 
 int main(int argc, char** argv)
@@ -23,6 +24,7 @@ int main(int argc, char** argv)
     manager::ActCmd::registerAll(app);
     manager::ElasticCmd::registerAll(app);
     manager::SeedTransCmd::registerAll(app);
+    manager::UserCmd::registerAll(app);
 
     // ---- JSON workflow commands (.local/commands/) ----
     manager::registerWorkflows(app);

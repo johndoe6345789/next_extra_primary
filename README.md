@@ -24,17 +24,17 @@ repository manager, and an S3-compatible object store for offline use.
 
 ```
                        HTTPS
-  Browser ──────────────────────────────► Nginx Reverse Proxy
+  Browser ──────────────────────────────► Nginx Portal  :8889
                                               │
-                ┌─────────────────────────────┤
-                │                             │
-                ▼                             ▼
-  ┌──────────────────────┐     ┌──────────────────────┐
-  │   Next.js 16         │     │   Drogon C++ API     │
-  │   (TypeScript)       │     │   (native binary)    │
-  │   MUI + Redux + RTK  │     │   REST / JSON        │
-  │   port 3000          │     │   port 8080          │
-  └──────────────────────┘     └──────────┬───────────┘
+              ┌───────────────────────────────┤
+              │  /app                         │  /api
+              ▼                               ▼
+┌──────────────────────┐       ┌──────────────────────┐
+│   Next.js 16         │       │   Drogon C++ API     │
+│   (TypeScript)       │       │   (native binary)    │
+│   MUI + Redux + RTK  │       │   REST / JSON        │
+│   port 3100          │       │   port 8080          │
+└──────────────────────┘       └──────────┬───────────┘
                                           │
                               ┌───────────┼───────────┐
                               │           │           │
@@ -86,19 +86,37 @@ cp frontend/.env.example frontend/.env
 docker compose up --build
 ```
 
-This starts PostgreSQL on port 5432, the C++ API on port 8080, and the
-Next.js frontend on port 3000. Open http://localhost:3000 in your browser.
+This starts PostgreSQL on port 5432, the C++ API on port 8080, the
+Next.js frontend on port 3100, and the Nginx portal on port 8889.
 
-### Default Credentials
+Open **http://localhost:8889/app/en** in your browser.
 
-| Role  | Email              | Password   |
-|-------|--------------------|------------|
-| Admin | admin@nextra.local | Admin123!  |
-| User  | user@nextra.local  | User123!   |
+### Dev Credentials
 
-These accounts are created by the seed migration
-(`backend/migrations/003_seed_data.sql`). Change them immediately in
-any non-development environment.
+| Role      | Username   | Email                  | Password   |
+|-----------|------------|------------------------|------------|
+| Admin     | devadmin   | dev.admin@nextra.local | DevAdmin1  |
+| Moderator | devmod     | dev.mod@nextra.local   | DevMod1a   |
+| User      | devuser    | dev.user@nextra.local  | DevUser1   |
+
+User definitions live in `backend/seeds/users.json`.
+The `./manager` CLI can regenerate seed SQL or reset passwords:
+
+```bash
+# Generate SQL for all seed users (hashes passwords via PBKDF2-SHA256)
+./manager user seed                          # stdout
+./manager user seed --output users.sql       # to file
+
+# Apply to the running database
+./manager user seed | docker compose exec -T db \
+  psql -U nextra -d nextra_db
+
+# Reset a single user's password
+./manager user reset --user devadmin --password NewPass1
+./manager user reset --user dev.admin@nextra.local --password NewPass1
+```
+
+**Never use these credentials in production.**
 
 To run in detached mode:
 
@@ -155,17 +173,18 @@ npm ci
 npm run dev
 ```
 
-Open http://localhost:3000. The frontend proxies API calls to
-`http://localhost:8080` by default (configurable via `NEXT_PUBLIC_API_URL`).
+Open http://localhost:8889/app/en (via Nginx) or http://localhost:3100
+directly. The frontend proxies API calls to `http://localhost:8080` by
+default (configurable via `NEXT_PUBLIC_API_URL`).
 
 ### Database
 
 Create a PostgreSQL 16 database:
 
 ```sql
-CREATE DATABASE nextra;
-CREATE USER nextra_user WITH PASSWORD 'your_password';
-GRANT ALL PRIVILEGES ON DATABASE nextra TO nextra_user;
+CREATE DATABASE nextra_db;
+CREATE USER nextra WITH PASSWORD 'your_password';
+GRANT ALL PRIVILEGES ON DATABASE nextra_db TO nextra;
 ```
 
 Set the connection string in `backend/.env`:
@@ -173,8 +192,8 @@ Set the connection string in `backend/.env`:
 ```
 DB_HOST=localhost
 DB_PORT=5432
-DB_NAME=nextra
-DB_USER=nextra_user
+DB_NAME=nextra_db
+DB_USER=nextra
 DB_PASSWORD=your_password
 ```
 
@@ -199,7 +218,7 @@ nextra/
 │   ├── config/                 # Drogon server configuration
 │   ├── migrations/             # SQL migration files
 │   ├── seed/                   # JSON seed data
-│   ├── seeds/                  # Extended seed data
+│   ├── seeds/                  # Extended seed data (users.json)
 │   ├── src/
 │   │   ├── main.cpp            # CLI entry point (CLI11)
 │   │   ├── commands/           # CLI subcommand handlers
@@ -225,6 +244,7 @@ nextra/
 │   │   ├── messages/           # Translation JSON files
 │   │   ├── constants/          # App constants (JSON)
 │   │   ├── lib/                # Utility functions
+│   │   ├── styles/             # globals.scss (authoritative CSS)
 │   │   ├── types/              # TypeScript type definitions
 │   │   └── seed/               # Mock data for development
 │   └── public/                 # Static assets
@@ -265,11 +285,18 @@ All development tasks are driven through the C++ manager CLI (no shell
 scripts or Python):
 
 ```bash
-cd tools/manager && mkdir build && cd build
-conan install .. --build=missing
-cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake
-cmake --build .
+# Build the manager tool
+# On Linux/macOS:
+cd tools/manager && make
 
+# On Windows (MSYS2 has no compiler — use Docker):
+docker run --rm \
+  --volume "//d/GitHub/next_extra_primary://src" \
+  -w //src/tools/manager \
+  gcc:13 bash -c "apt-get install -y libssl-dev -q && make"
+```
+
+```bash
 # Core workflow
 ./manager build --debug          # Build backend
 ./manager quick-build            # Fast incremental build
@@ -281,6 +308,11 @@ cmake --build .
 ./manager generate models        # Regenerate Drogon ORM models
 ./manager migrate --up           # Run migrations
 ./manager seed                   # Seed database
+
+# User management
+./manager user seed              # Hash passwords, emit INSERT SQL
+./manager user seed --output u.sql
+./manager user reset --user devadmin --password NewPass1
 
 # Docker orchestration
 ./manager docker up              # Docker Compose up

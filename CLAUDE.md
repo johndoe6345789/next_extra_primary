@@ -19,10 +19,15 @@ Nextra is a full-stack gamified web application with AI chat integration.
 ### Architecture
 
 ```
-Next.js (port 3000) <-- REST/JSON --> Drogon C++ API (port 8080)
-                                            |
-                                      PostgreSQL (port 5432)
+Browser --> Nginx portal (port 8889) --> Next.js (port 3100)
+                                     --> Drogon C++ API (port 8080)
+                                               |
+                                         PostgreSQL (port 5432)
 ```
+
+The app is accessed at **`http://localhost:8889/app/en`** (not port 3000
+directly). Nginx reverse-proxies `/app` to the Next.js container and
+`/api` to the Drogon container.
 
 ---
 
@@ -104,6 +109,78 @@ Next.js (port 3000) <-- REST/JSON --> Drogon C++ API (port 8080)
 
 ---
 
+## CSS / Styling Rules
+
+These rules were established through live debugging — violations cause
+hard-to-trace bugs.
+
+### Authoritative Global CSS File
+
+`frontend/src/styles/globals.scss` is the **only** global CSS file that
+the Next.js app actually loads. Do not put global rules in
+`shared/scss/global/_reset.scss` expecting them to affect the frontend;
+that file is not imported by the app layout.
+
+### Viewport Height
+
+Always use `100dvh` (dynamic viewport height), never `100vh`.
+On mobile browsers, `100vh` does not account for the browser chrome
+(address bar, bottom navigation), causing content to be cut off.
+
+```scss
+// Correct
+min-height: 100dvh;
+
+// Wrong — breaks mobile
+min-height: 100vh;
+```
+
+### Overflow and Horizontal Scroll
+
+`overflow-x: hidden` belongs on the `html` element in
+`frontend/src/styles/globals.scss`, not in the shared reset.
+
+### Overlay Scroll Containment
+
+Any overlay (drawer, modal, bottom sheet) must have
+`overscroll-behavior: contain` to prevent scroll events from
+propagating to the body behind it.
+
+```scss
+.drawer {
+  overscroll-behavior: contain;
+}
+```
+
+### Body Scroll Lock
+
+Use the `useScrollLock(open: boolean)` hook from
+`frontend/src/hooks/useScrollLock.ts` whenever an overlay is open.
+It uses `position: fixed` + `top: -Npx` to freeze the body while
+preserving scroll position so the page does not jump on close.
+
+### CSS Specificity
+
+Never use `!important`. Win specificity through selector structure.
+
+---
+
+## Debug / Development Flags
+
+### Custom Debug Bar
+
+The in-app debug bar is hidden by default. To enable it:
+
+```bash
+# In frontend/.env.local or Docker environment
+NEXT_PUBLIC_DEBUG_BAR=1
+```
+
+Do not use `process.env.NODE_ENV === 'development'` as the gate — that
+is always true in the Docker dev container and the bar would always show.
+
+---
+
 ## Testing
 
 ### Backend (GTest)
@@ -127,6 +204,18 @@ Next.js (port 3000) <-- REST/JSON --> Drogon C++ API (port 8080)
 - Uses a custom DSL: actions (navigate, click, expect, keyboard,
   evaluate) and matchers (toBeVisible, toHaveCSS, custom scripts).
 - Run: `cd shared/e2e && npm test`.
+
+### Running Tests on Windows
+
+MSYS2 / Windows does not have a native GCC. Run backend builds and
+tests inside Docker:
+
+```bash
+docker run --rm \
+  --volume "//d/GitHub/next_extra_primary://src" \
+  -w //src/tools/manager \
+  gcc:13 bash -c "apt-get install -y libssl-dev -q && make"
+```
 
 ---
 
@@ -195,26 +284,82 @@ Next.js (port 3000) <-- REST/JSON --> Drogon C++ API (port 8080)
 3. Add a label entry in `LocaleSwitcher.tsx` `LOCALE_LABELS`.
 4. Routing and navigation update automatically.
 
+### Managing Seed Users
+
+Seed user definitions live in `backend/seeds/users.json` and store
+plaintext passwords (hashed only at SQL generation time).
+
+```bash
+# Generate INSERT SQL (hashes passwords via PBKDF2-SHA256)
+./manager user seed                          # stdout
+./manager user seed --output users.sql       # to file
+
+# Apply to the running database
+./manager user seed | docker compose exec -T db \
+  psql -U nextra -d nextra_db
+
+# Reset a single user's password (outputs SQL UPDATE)
+./manager user reset --user devadmin --password NewPass1
+./manager user reset --user dev.admin@nextra.local --password NewPass1
+```
+
+Password format: `saltHex$600000$dkHex` (PBKDF2-HMAC-SHA256,
+16-byte salt, 32-byte DK, 600 000 iterations — NIST SP 800-132).
+
+### Building the Manager Tool
+
+The manager CLI links against OpenSSL (`-lssl -lcrypto`).
+On Windows, build inside Docker because MSYS2 has no C++ compiler:
+
+```bash
+docker run --rm \
+  --volume "//d/GitHub/next_extra_primary://src" \
+  -w //src/tools/manager \
+  gcc:13 bash -c "apt-get install -y libssl-dev -q && make"
+```
+
+After the build the `manager` binary appears in `tools/manager/`.
+
 ### Running the Full Stack
 
 ```bash
 docker compose up --build        # All services
-# or manually:
-cd backend && ./nextra-api serve --port 8080
-cd frontend && npm run dev
+# App available at http://localhost:8889/app/en
 ```
+
+Or to run services individually:
+
+```bash
+cd backend && ./nextra-api serve --port 8080
+cd frontend && npm run dev       # port 3100 by default
+```
+
+### Applying Frontend Code Changes
+
+The frontend container bakes source at build time — there are no
+bind mounts. After editing frontend source files, rebuild only the
+frontend container (does not restart backend/db/etc):
+
+```bash
+docker compose up --build --no-deps frontend
+```
+
+Do NOT use `docker cp` to patch files into a running container.
+Rebuild is the correct and only supported workflow.
 
 ---
 
 ## Key Files to Understand First
 
-1. `plan.md` -- Full implementation plan and architecture decisions.
-2. `backend/src/main.cpp` -- Backend entry point with CLI11 subcommands.
-3. `backend/config/config.json` -- Drogon server configuration.
-4. `frontend/src/app/layout.tsx` -- Root layout with provider stack.
-5. `frontend/src/store/store.ts` -- Redux store configuration.
-6. `frontend/src/theme/theme.ts` -- MUI theme with color schemes.
-7. `docker-compose.yml` -- Service orchestration.
+1. `plan.md` — Full implementation plan and architecture decisions.
+2. `backend/src/main.cpp` — Backend entry point with CLI11 subcommands.
+3. `backend/config/config.json` — Drogon server configuration.
+4. `frontend/src/app/[locale]/layout.tsx` — Root layout with providers.
+5. `frontend/src/styles/globals.scss` — Authoritative global CSS.
+6. `frontend/src/store/store.ts` — Redux store configuration.
+7. `frontend/src/theme/theme.ts` — MUI theme with color schemes.
+8. `docker-compose.yml` — Service orchestration.
+9. `docker/nginx/` — Nginx portal config (routes `/app` and `/api`).
 
 ---
 
@@ -231,3 +376,9 @@ cd frontend && npm run dev
 - Skip accessibility attributes on interactive components.
 - Use raw SQL queries in controllers (use the services layer).
 - Commit `.env` files or secrets.
+- Put global frontend CSS rules in `shared/scss/global/_reset.scss`
+  (that file is not loaded by the Next.js app).
+- Use `100vh` for full-height layouts — use `100dvh` instead.
+- Use `!important` in CSS — fix specificity through selectors.
+- Gate debug UI on `NODE_ENV === 'development'` — use
+  `NEXT_PUBLIC_DEBUG_BAR=1` instead.

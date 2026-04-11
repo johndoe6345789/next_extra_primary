@@ -9,6 +9,7 @@
 }
 
 html {
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
@@ -17,7 +18,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  min-height: 100vh;
+  min-height: 100dvh;
   transition: background-color 0.2s ease,
     color 0.2s ease;
 }

@@ -9,7 +9,11 @@ import Button from '@shared/m3/Button';
 import Chip from '@shared/m3/Chip';
 import type { UserRowProps } from
   './userRowTypes';
-import { rowStyle } from './userRowTypes';
+import {
+  rowStyle,
+  selectStyle,
+  buttonStyle,
+} from './userRowTypes';
 
 export type {
   UserRecord, UserRowProps,
@@ -24,13 +28,26 @@ const UserRow: React.FC<UserRowProps> = ({
     style={rowStyle}
     data-testid={`user-row-${user.id}`}
   >
-    <div style={{ flex: 1, minWidth: 0 }}>
+    <div style={{
+      flex: 1, minWidth: 0, overflow: 'hidden',
+    }}>
       <Typography variant="body2"
-        style={{ fontWeight: 600 }}>
+        style={{
+          fontWeight: 600,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        }}>
         {user.username}
       </Typography>
       <Typography variant="caption"
-        color="text.secondary">
+        color="text.secondary"
+        style={{
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          display: 'block',
+        }}>
         {user.email}
       </Typography>
     </div>
@@ -41,28 +58,34 @@ const UserRow: React.FC<UserRowProps> = ({
         ? t('active') : t('disabled')}
       data-testid={`status-${user.id}`}
     />
-    <Select
-      value={user.role}
-      onChange={(
-        e: SelectChangeEvent<
-          string | string[]>,
-      ) => onRoleChange(
-        e.target.value as string,
-      )}
-      size="small"
-      testId={`role-${user.id}`}
-    >
-      <MenuItem value="user">User</MenuItem>
-      <MenuItem value="moderator">
-        Mod
-      </MenuItem>
-      <MenuItem value="admin">Admin</MenuItem>
-    </Select>
+    <div style={selectStyle}>
+      <Select
+        value={user.role}
+        onChange={(
+          e: SelectChangeEvent<
+            string | string[]>,
+        ) => onRoleChange(
+          e.target.value as string,
+        )}
+        size="small"
+        testId={`role-${user.id}`}
+        fullWidth
+      >
+        <MenuItem value="user">User</MenuItem>
+        <MenuItem value="moderator">
+          Mod
+        </MenuItem>
+        <MenuItem value="admin">
+          Admin
+        </MenuItem>
+      </Select>
+    </div>
     <Button
       onClick={onToggleActive}
       data-testid={`toggle-${user.id}`}
       aria-label={user.isActive
-        ? t('disable') : t('enable')}>
+        ? t('disable') : t('enable')}
+      style={buttonStyle}>
       {user.isActive
         ? t('disable') : t('enable')}
     </Button>
