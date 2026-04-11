@@ -1,9 +1,10 @@
 'use client';
 import React, { useState } from 'react';
-import {
-  writeAuthState,
-  type LoginPayload,
-} from '@/lib/writeAuthState';
+
+/** Shape of the login API response. */
+interface LoginPayload {
+  user?: { role?: string };
+}
 
 /** Props for SsoLoginForm. */
 interface SsoLoginFormProps {
@@ -47,7 +48,9 @@ export default function SsoLoginForm({
         setError('This account does not have portal access.');
         return;
       }
-      writeAuthState(payload);
+      // The backend has set the nextra_sso HttpOnly cookie.
+      // The main app bootstraps auth from that cookie via
+      // GET /api/auth/sso-session on startup.
       window.location.href = next;
     } catch {
       setError('Network error. Please retry.');

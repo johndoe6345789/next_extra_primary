@@ -1,9 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import {
-  writeAuthState,
-  type LoginPayload,
-} from '@/lib/writeAuthState';
 
 /** Props for SsoRegisterForm. */
 interface SsoRegisterFormProps {
@@ -12,8 +8,10 @@ interface SsoRegisterFormProps {
 }
 
 /**
- * Registration form: creates account, auto-logs
- * in, writes tokens to localStorage, redirects.
+ * Registration form: creates account, auto-logs in
+ * (which sets the nextra_sso HttpOnly cookie), then
+ * redirects.  The main app bootstraps auth from the
+ * cookie via GET /api/auth/sso-session on startup.
  */
 export default function SsoRegisterForm({
   next,
@@ -55,7 +53,8 @@ export default function SsoRegisterForm({
         window.location.href = '/sso/login';
         return;
       }
-      writeAuthState(ld as LoginPayload);
+      // nextra_sso cookie set by the login response.
+      void ld;
       window.location.href = next;
     } catch {
       setError('Network error. Please retry.');

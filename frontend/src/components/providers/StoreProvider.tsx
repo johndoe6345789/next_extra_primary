@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from
   'redux-persist/integration/react';
 import { makeStore } from '@/store/store';
+import { useInitAuth } from '@/hooks/useInitAuth';
 
 /** Props for the Redux store provider. */
 interface StoreProviderProps {
@@ -15,12 +16,22 @@ interface StoreProviderProps {
 }
 
 /**
+ * Calls useInitAuth inside the Provider tree.
+ * Must be a separate component so it can access
+ * the Redux dispatch provided by <Provider> above.
+ */
+function AuthInitializer({
+  children,
+}: StoreProviderProps): ReactElement {
+  useInitAuth();
+  return <>{children}</>;
+}
+
+/**
  * Provides Redux store with persistence.
- *
- * Uses PersistGate to delay rendering until
- * localStorage has been read into the store,
- * ensuring auth state is available before any
- * route guard checks.
+ * Auth state is NOT persisted to localStorage —
+ * it is bootstrapped on every startup via the
+ * HttpOnly SSO cookie (useInitAuth).
  *
  * @param props - Component props.
  * @returns Store-connected component tree.
@@ -37,7 +48,9 @@ export function StoreProvider({
         loading={null}
         persistor={persistor}
       >
-        {children}
+        <AuthInitializer>
+          {children}
+        </AuthInitializer>
       </PersistGate>
     </Provider>
   );

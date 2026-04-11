@@ -33,5 +33,5 @@ export function safeNext(
     SAFE_PATHS.test(raw) &&
     !AUTH_PATHS.test(raw)
   ) return raw;
-  return '/';
+  return '/app/en';
 }

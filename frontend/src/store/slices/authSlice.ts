@@ -18,7 +18,9 @@ const initialState: AuthState = {
 interface CredentialsPayload {
   user: User;
   accessToken: string;
-  refreshToken: string;
+  /** Optional — absent when session is bootstrapped
+   *  from HttpOnly SSO cookie via /api/auth/sso-session. */
+  refreshToken?: string;
 }
 
 const authSlice = createSlice({
@@ -33,7 +35,7 @@ const authSlice = createSlice({
         action.payload;
       state.user = user;
       state.accessToken = accessToken;
-      state.refreshToken = refreshToken;
+      state.refreshToken = refreshToken ?? null;
       state.isAuthenticated = true;
     },
     /** Clear session on logout or token failure. */

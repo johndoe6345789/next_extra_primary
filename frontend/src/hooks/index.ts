@@ -33,3 +33,4 @@ export { useDebugPanel } from './useDebugPanel';
 export type { DebugPanelData } from './useDebugPanel';
 export { useEscapeKey } from './useEscapeKey';
 export { useScrollLock } from './useScrollLock';
+export { useInitAuth } from './useInitAuth';
