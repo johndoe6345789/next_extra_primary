@@ -1,6 +1,9 @@
 'use client';
-
 import React, { useState } from 'react';
+import {
+  writeAuthState,
+  type LoginPayload,
+} from '@/lib/writeAuthState';
 
 /** Props for SsoLoginForm. */
 interface SsoLoginFormProps {
@@ -9,10 +12,8 @@ interface SsoLoginFormProps {
 }
 
 /**
- * Client-side login form for the SSO portal.
- * POSTs credentials to /api/auth/login which
- * sets the nextra_sso HttpOnly cookie, then
- * redirects the browser to `next`.
+ * Login form: POSTs to /api/auth/login, writes
+ * tokens to localStorage, then redirects to next.
  */
 export default function SsoLoginForm({
   next,
@@ -42,16 +43,17 @@ export default function SsoLoginForm({
           }),
         },
       );
+      const d = await res.json().catch(
+        () => ({}),
+      );
       if (!res.ok) {
-        const d = await res.json().catch(
-          () => ({}),
-        );
         setError(
           (d as { error?: string }).error
           ?? 'Invalid credentials.',
         );
         return;
       }
+      writeAuthState(d as LoginPayload);
       window.location.href = next;
     } catch {
       setError('Network error. Please retry.');
@@ -78,8 +80,7 @@ export default function SsoLoginForm({
         autoComplete="email"
         required
       />
-      <label htmlFor="sso-pw">Password</label>
-      <input
+      <label htmlFor="sso-pw">Password</label><input
         id="sso-pw"
         type="password"
         value={pw}
