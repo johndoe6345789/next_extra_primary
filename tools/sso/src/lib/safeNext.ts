@@ -4,8 +4,12 @@
  * so only same-host paths are ever followed.
  */
 
-/** Only plain same-host paths are allowed. */
-const SAFE_PATHS = /^\/[a-zA-Z0-9/_?=&%-]*$/;
+/**
+ * Must start with / then an alphanumeric char.
+ * Prevents protocol-relative URLs (//evil.com),
+ * backslash tricks (/\evil), and empty paths.
+ */
+const SAFE_PATHS = /^\/[a-zA-Z0-9][a-zA-Z0-9/_?=&%-]*$/;
 
 /**
  * Auth pages must never be used as redirect
