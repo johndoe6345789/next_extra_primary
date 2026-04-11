@@ -23,29 +23,18 @@ export default function SsoLoginForm({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
 
-  const submit = async (
-    e: React.FormEvent,
-  ) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true);
     setError('');
     try {
-      const res = await fetch(
-        '/api/auth/login',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-          body: JSON.stringify({
-            email, password: pw,
-          }),
-        },
-      );
-      const d = await res.json().catch(
-        () => ({}),
-      );
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email, password: pw }),
+      });
+      const d = await res.json().catch(() => ({}));
       if (!res.ok) {
         setError(
           (d as { error?: string }).error
@@ -53,7 +42,12 @@ export default function SsoLoginForm({
         );
         return;
       }
-      writeAuthState(d as LoginPayload);
+      const payload = d as LoginPayload;
+      if (payload.user?.role === 'guest') {
+        setError('This account does not have portal access.');
+        return;
+      }
+      writeAuthState(payload);
       window.location.href = next;
     } catch {
       setError('Network error. Please retry.');
@@ -69,9 +63,7 @@ export default function SsoLoginForm({
           {error}
         </div>
       )}
-      <label htmlFor="sso-email">
-        Email address
-      </label>
+      <label htmlFor="sso-email">Email address</label>
       <input
         id="sso-email"
         type="email"
