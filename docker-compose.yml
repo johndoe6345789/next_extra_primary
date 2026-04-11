@@ -205,6 +205,20 @@ services:
       BACKEND_URL: http://backend:8080
     restart: unless-stopped
 
+  # ---- SSO portal (login gate for all tools) -----------------
+  sso:
+    build:
+      context: ./tools/sso
+      dockerfile: Dockerfile
+    ports:
+      - "3099:3000"
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_ORIGIN: http://localhost:8889
+      NODE_ENV: production
+    restart: unless-stopped
+
   # ---- Nginx reverse proxy / portal --------------------------
   portal:
     image: nginx:alpine
@@ -216,6 +230,7 @@ services:
     depends_on:
       - frontend
       - backend
+      - sso
     restart: unless-stopped
 
 

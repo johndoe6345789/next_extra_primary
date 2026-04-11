@@ -9,6 +9,8 @@ import { useLoginForm } from '@/hooks/useLoginForm';
 /** Props for the LoginForm organism. */
 export interface LoginFormProps {
   testId?: string;
+  /** URL to redirect to after successful login (SSO). */
+  next?: string;
 }
 
 /**
@@ -18,6 +20,7 @@ export interface LoginFormProps {
  */
 export const LoginForm: React.FC<LoginFormProps> = ({
   testId = 'login-form',
+  next,
 }) => {
   const t = useTranslations('auth');
   const {
@@ -25,7 +28,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
     rememberMe, setRememberMe,
     isLoading, errors, apiError, errorCode,
     submit,
-  } = useLoginForm();
+  } = useLoginForm({ next });
 
   return (
     <SharedLoginForm

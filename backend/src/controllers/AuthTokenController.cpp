@@ -37,8 +37,16 @@ void AuthTokenController::logout(
     auth.logoutUser(
         token,
         [cb](const services::json&) {
-            cb(::utils::jsonOk(
-                {{"message", "Logged out"}}));
+            auto resp = ::utils::jsonOk(
+                {{"message", "Logged out"}});
+            // Clear the SSO cookie on logout.
+            drogon::Cookie sso(
+                "nextra_sso", "");
+            sso.setHttpOnly(true);
+            sso.setPath("/");
+            sso.setMaxAge(0);
+            resp->addCookie(sso);
+            cb(resp);
         },
         [cb](drogon::HttpStatusCode code,
              const std::string& msg) {

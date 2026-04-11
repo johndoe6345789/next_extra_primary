@@ -3,7 +3,17 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth, useFormValidation } from '@/hooks';
-import { LOGIN_RULES } from '@/components/organisms/loginRules';
+import { LOGIN_RULES }
+  from '@/components/organisms/loginRules';
+
+/** Options for useLoginForm. */
+export interface UseLoginFormOptions {
+  /**
+   * URL to redirect after login (SSO next-param).
+   * Falls back to /dashboard when absent.
+   */
+  next?: string;
+}
 
 /** Return type for the useLoginForm hook. */
 export interface UseLoginFormReturn {
@@ -33,13 +43,20 @@ export interface UseLoginFormReturn {
 
 /**
  * Encapsulates state and logic for the login form.
+ * Redirects to `next` after success (for SSO flows),
+ * or to /dashboard when `next` is absent.
  *
+ * @param opts - Optional next-redirect URL.
  * @returns Login form state and handlers.
  */
-export function useLoginForm(): UseLoginFormReturn {
+export function useLoginForm(
+  opts: UseLoginFormOptions = {},
+): UseLoginFormReturn {
+  const { next } = opts;
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
-  const [rememberMe, setRememberMe] = useState(true);
+  const [rememberMe, setRememberMe] =
+    useState(true);
   const [apiError, setApiError] =
     useState<string | null>(null);
   const [errorCode, setErrorCode] =
@@ -49,7 +66,9 @@ export function useLoginForm(): UseLoginFormReturn {
     useFormValidation(LOGIN_RULES);
   const router = useRouter();
 
-  const submit = async (e: React.FormEvent) => {
+  const submit = async (
+    e: React.FormEvent,
+  ) => {
     e.preventDefault();
     setApiError(null);
     setErrorCode(null);
@@ -59,10 +78,13 @@ export function useLoginForm(): UseLoginFormReturn {
     if (!ok) return;
     try {
       await login({ email, password: pw });
-      router.push('/dashboard');
+      router.push(next ?? '/dashboard');
     } catch (err: unknown) {
       const data = (err as {
-        data?: { error?: string; code?: string };
+        data?: {
+          error?: string;
+          code?: string;
+        };
       })?.data;
       setApiError(
         data?.error
