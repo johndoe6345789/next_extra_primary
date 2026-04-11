@@ -1,18 +1,8 @@
 import SsoLoginForm from '@/components/SsoLoginForm';
-
-/** Allowed redirect origins (same-host only). */
-const SAFE_PATHS = /^\/[a-zA-Z0-9/_?=&%-]*$/;
-
-/** Validate and sanitise the next param. */
-function safeNext(raw: string | undefined): string {
-  if (raw && SAFE_PATHS.test(raw)) return raw;
-  return '/';
-}
+import { safeNext } from '@/lib/safeNext';
 
 interface LoginPageProps {
-  searchParams: Promise<{
-    next?: string;
-  }>;
+  searchParams: Promise<{ next?: string }>;
 }
 
 /**
@@ -26,6 +16,7 @@ export default async function LoginPage({
 }: LoginPageProps) {
   const { next: raw } = await searchParams;
   const next = safeNext(raw);
+  const qs = next !== '/' ? `?next=${encodeURIComponent(next)}` : '';
 
   return (
     <div className="card">
@@ -37,6 +28,20 @@ export default async function LoginPage({
         )}
       </p>
       <SsoLoginForm next={next} />
+      <div className="sso-links">
+        <a
+          href={`/sso/forgot-password${qs}`}
+          className="link"
+        >
+          Forgot password?
+        </a>
+        <a
+          href={`/sso/register${qs}`}
+          className="link"
+        >
+          Create account
+        </a>
+      </div>
     </div>
   );
 }

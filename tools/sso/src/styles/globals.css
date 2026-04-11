@@ -40,7 +40,8 @@ label {
 }
 
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="text"] {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid #d1d5db;
@@ -69,6 +70,21 @@ input:focus { border-color: #6750a4; }
 
 .btn:hover { background: #7965af; }
 .btn:disabled { opacity: .6; cursor: default; }
+
+.sso-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.link {
+  font-size: .8rem;
+  color: #6750a4;
+  text-decoration: none;
+}
+.link:hover { text-decoration: underline; }
 
 .error {
   background: #fef2f2;
