@@ -56,3 +56,4 @@ export const buttonStyle: CSSProperties = {
   flexShrink: 0,
   minWidth: 80,
 };
+

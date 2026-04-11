@@ -3,7 +3,10 @@
     "allow": [
       "Bash(docker --version)",
       "Bash(docker compose:*)",
-      "Bash(docker info:*)"
+      "Bash(docker info:*)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(netstat -ano)",
+      "Bash(findstr :8889)"
     ]
   }
 }
