@@ -48,4 +48,8 @@ export interface AuthState {
   refreshToken: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  /** True until the SSO-cookie bootstrap fetch
+   *  (useInitAuth) has completed.  AuthGate must
+   *  not redirect while this is true. */
+  isInitializing: boolean;
 }

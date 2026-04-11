@@ -30,9 +30,10 @@ interface AuthGateProps {
 /**
  * Guards routes behind authentication.
  *
- * PersistGate in StoreProvider ensures the store
- * is rehydrated before this component renders,
- * so auth state is always available here.
+ * Waits for useInitAuth (isInitializing) to finish
+ * its GET /api/auth/sso-session fetch before deciding
+ * whether to redirect, preventing a false redirect on
+ * the first render when auth state is not yet known.
  *
  * @param props - Component props.
  * @returns Children or redirect spinner.
@@ -42,9 +43,8 @@ export function AuthGate(
 ): ReactElement | null {
   const pathname = usePathname();
   const router = useRouter();
-  const isAuthenticated = useSelector(
-    (s: RootState) => s.auth.isAuthenticated,
-  );
+  const { isAuthenticated, isInitializing } =
+    useSelector((s: RootState) => s.auth);
 
   const stripped =
     pathname.replace(
@@ -60,12 +60,12 @@ export function AuthGate(
   );
 
   useEffect(() => {
-    if (!isAuthenticated && !isPublic) {
+    if (!isInitializing && !isAuthenticated && !isPublic) {
       router.replace(`/${locale}/login`);
     }
-  }, [isAuthenticated, isPublic, router, locale]);
+  }, [isInitializing, isAuthenticated, isPublic, router, locale]);
 
-  if (!isAuthenticated && !isPublic) {
+  if (isInitializing || (!isAuthenticated && !isPublic)) {
     return (
       <Box
         sx={{

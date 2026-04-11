@@ -12,6 +12,7 @@ const initialState: AuthState = {
   refreshToken: null,
   isAuthenticated: false,
   isLoading: false,
+  isInitializing: true,
 };
 
 /** Payload accepted by setCredentials. */
@@ -49,6 +50,10 @@ const authSlice = createSlice({
     setUser(state, action: PayloadAction<User>) {
       state.user = action.payload;
     },
+    /** Called when useInitAuth bootstrap completes. */
+    initComplete(state) {
+      state.isInitializing = false;
+    },
   },
   extraReducers: (builder) => {
     addAuthMatchers(builder);
@@ -56,7 +61,7 @@ const authSlice = createSlice({
 });
 
 export const {
-  setCredentials, clearCredentials, setUser,
+  setCredentials, clearCredentials, setUser, initComplete,
 } = authSlice.actions;
 
 export default authSlice.reducer;

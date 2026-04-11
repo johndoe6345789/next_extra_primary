@@ -7,7 +7,10 @@
 
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setCredentials } from '@/store/slices/authSlice';
+import {
+  setCredentials,
+  initComplete,
+} from '@/store/slices/authSlice';
 import type { User } from '@/types/auth';
 
 /** Shape returned by GET /api/auth/sso-session. */
@@ -32,18 +35,21 @@ export function useInitAuth(): void {
       credentials: 'include',
     })
       .then(async (res) => {
-        if (!res.ok) return;
-        const data =
-          (await res.json()) as SsoSessionResponse;
-        dispatch(
-          setCredentials({
-            user: data.user,
-            accessToken: data.accessToken,
-          }),
-        );
+        if (res.ok) {
+          const data =
+            (await res.json()) as SsoSessionResponse;
+          dispatch(
+            setCredentials({
+              user: data.user,
+              accessToken: data.accessToken,
+            }),
+          );
+        }
+        dispatch(initComplete());
       })
       .catch(() => {
         // No cookie or network error — stay unauthenticated.
+        dispatch(initComplete());
       });
   }, [dispatch]);
 }
