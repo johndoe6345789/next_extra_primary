@@ -91,8 +91,11 @@ void AuthController::login(
             auto resp = ::utils::jsonOk(payload);
             // Set SSO cookie from the refresh token
             // so nginx auth_request can gate tools.
-            if (payload.contains("refresh_token")) {
-                auto rt = payload["refresh_token"]
+            if (payload.contains("tokens") &&
+                payload["tokens"]
+                    .contains("refreshToken")) {
+                auto rt =
+                    payload["tokens"]["refreshToken"]
                     .get<std::string>();
                 drogon::Cookie sso("nextra_sso", rt);
                 sso.setHttpOnly(true);
