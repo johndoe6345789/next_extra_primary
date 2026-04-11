@@ -11,6 +11,7 @@
 #include "../services/AuthService.h"
 #include "../utils/JwtUtil.h"
 #include "../utils/JsonResponse.h"
+#include "../utils/RoleCheck.h"
 
 #include <drogon/HttpResponse.h>
 #include <string>
@@ -47,6 +48,15 @@ void AuthValidateController::validate(
     // Refresh tokens are accepted here — the cookie holds
     // the refresh token intentionally for longer sessions.
     // (It is never forwarded to upstream APIs as a Bearer.)
+
+    // Guest-role users must not pass the SSO gate.
+    if (!utils::hasRole(claims.role, "user")) {
+        cb(::utils::jsonError(
+            drogon::k401Unauthorized,
+            "Insufficient privileges", "AUTH_009"));
+        return;
+    }
+
     services::AuthService auth;
     auto userId = claims.userId;
     auth.isTokenBlocked(
