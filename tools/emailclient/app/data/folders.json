@@ -1,8 +1,8 @@
 [
-  { "id": "inbox", "label": "Inbox", "icon": "inbox", "unreadCount": 3 },
+  { "id": "inbox", "label": "Inbox", "icon": "inbox" },
   { "id": "starred", "label": "Starred", "icon": "star" },
   { "id": "sent", "label": "Sent", "icon": "send" },
-  { "id": "drafts", "label": "Drafts", "icon": "drafts", "unreadCount": 1 },
+  { "id": "drafts", "label": "Drafts", "icon": "drafts" },
   { "id": "spam", "label": "Spam", "icon": "report" },
   { "id": "trash", "label": "Trash", "icon": "delete" }
 ]

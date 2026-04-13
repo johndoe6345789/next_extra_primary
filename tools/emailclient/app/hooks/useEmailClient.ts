@@ -50,9 +50,14 @@ export function useEmailClient() {
     body: m.preview,
   }))
 
+  const inboxUnread =
+    emails.filter(e => !e.isRead).length
+
   const folders = FOLDERS.map(f => ({
     ...f,
     isActive: f.id === activeFolder,
+    unreadCount: f.id === 'inbox'
+      ? inboxUnread : undefined,
   }))
 
   const selectedEmail =
