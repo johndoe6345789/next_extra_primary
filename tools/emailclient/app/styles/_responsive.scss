@@ -1,0 +1,44 @@
+// =============================================
+// Responsive Breakpoints
+// =============================================
+
+@media (max-width: 768px) {
+  .compose-window {
+    width: 100%;
+    max-width: 100%;
+    right: 0;
+  }
+
+  .mailbox-content {
+    position: relative;
+  }
+
+  .mailbox-sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 50;
+    width: 280px;
+    box-shadow: var(--mat-sys-level3);
+    transition:
+      transform 0.25s ease,
+      opacity 0.25s ease;
+
+    &.mailbox-sidebar--hidden {
+      transform: translateX(-100%);
+      opacity: 0;
+      pointer-events: none;
+      width: 280px;
+      overflow: hidden;
+    }
+  }
+
+  .mailbox-detail {
+    width: 100%;
+    max-width: 100%;
+    border-left: none;
+    border-top: 1px solid
+      var(--mat-sys-outline-variant);
+  }
+}

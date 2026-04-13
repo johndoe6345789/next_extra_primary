@@ -1,0 +1,98 @@
+// =============================================
+// Email Card (thread list item)
+// =============================================
+
+.email-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 16px;
+  cursor: pointer;
+  border: none;
+  border-bottom: 1px solid
+    var(--mat-sys-surface-variant);
+  border-radius: 0;
+  background-color: transparent;
+  box-shadow: none;
+  transition: background-color
+    var(--mat-sys-motion-duration-short4)
+    var(--mat-sys-motion-easing-standard);
+
+  &:hover {
+    background-color:
+      var(--mat-sys-surface-container);
+  }
+
+  // Selected card highlight
+  &[aria-current='true'] {
+    background-color:
+      var(--mat-sys-secondary-container);
+    border-left: 3px solid var(--mat-sys-primary);
+    padding-left: 13px;
+  }
+
+  &--unread {
+    background-color:
+      var(--mat-sys-surface-container-lowest);
+    border-left: 3px solid var(--mat-sys-primary);
+    padding-left: 13px;
+
+    .email-from,
+    .email-subject {
+      font-weight: 700;
+    }
+  }
+
+  &--read {
+    background-color: transparent;
+    opacity: 1;
+  }
+}
+
+.email-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.email-from {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--mat-sys-on-surface);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.email-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.email-subject {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--mat-sys-on-surface);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.email-preview {
+  font-size: 0.8125rem;
+  color: var(--mat-sys-on-surface-variant);
+  margin-top: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.email-date {
+  font-size: 0.75rem;
+  color: var(--mat-sys-on-surface-variant);
+  white-space: nowrap;
+}

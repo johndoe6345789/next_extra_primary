@@ -56,6 +56,13 @@ const SettingsAdminCard: React.FC = () => {
         {t('manageUsers')}
       </Link>
       <Link
+        href="/admin/email"
+        style={linkStyle}
+        data-testid="settings-admin-email"
+      >
+        {t('testEmail')}
+      </Link>
+      <Link
         href="/admin/debug"
         style={{ ...linkStyle, marginBottom: 0 }}
         data-testid="settings-admin-debug"

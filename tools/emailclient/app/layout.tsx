@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import type { Metadata } from 'next'
 import { Providers } from './providers'
 
-import './globals.css'
+import './styles/globals.scss'
 
 export const metadata: Metadata = {
   title: 'Email Client',

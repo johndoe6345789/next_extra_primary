@@ -2,7 +2,7 @@
  * Supported application locales.
  *
  * Add new locale codes here and provide matching
- * translation files in `src/messages/`.
+ * translation JSON in `backend/seed/translations/`.
  */
 export const locales = [
   'en', 'es', 'fr', 'de',

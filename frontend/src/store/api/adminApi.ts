@@ -72,6 +72,19 @@ export const adminApi =
         }),
         invalidatesTags: ['Admin'],
       }),
+
+      /** Send a test email via SMTP. */
+      sendTestEmail: build.mutation<
+        { message: string },
+        { to: string; subject: string; body: string }
+      >({
+        query: (data) => ({
+          url: '/admin/email/test',
+          method: 'POST',
+          body: data,
+        }),
+      }),
+
     }),
   });
 
@@ -81,4 +94,5 @@ export const {
   useListAdminUsersQuery,
   useSetUserRoleMutation,
   useSetUserActiveMutation,
+  useSendTestEmailMutation,
 } = adminApi;

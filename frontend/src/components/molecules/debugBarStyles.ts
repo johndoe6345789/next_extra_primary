@@ -3,6 +3,8 @@
  * @module components/molecules/debugBarStyles
  */
 import type { CSSProperties } from 'react';
+import { debugBarLogStyles }
+  from './debugBarLogStyles';
 
 const mono: CSSProperties = {
   fontFamily: 'monospace',
@@ -10,7 +12,9 @@ const mono: CSSProperties = {
 };
 
 /** Status colour based on HTTP code. */
-const statusClr = (s: number): string => {
+export const statusClr = (
+  s: number,
+): string => {
   if (s >= 500) return '#f44';
   if (s >= 400) return '#fa0';
   return '#4c8';
@@ -92,22 +96,5 @@ export const debugBarStyles = {
     marginLeft: 'auto',
   } as CSSProperties,
 
-  log: {
-    maxHeight: 220,
-    overflowY: 'auto',
-    borderTop: '1px solid #333',
-  } as CSSProperties,
-
-  row: {
-    display: 'flex',
-    gap: 6,
-    padding: '2px 10px',
-    borderBottom: '1px solid #222',
-  } as CSSProperties,
-
-  ts: {
-    color: '#666',
-    flexShrink: 0,
-    minWidth: 60,
-  } as CSSProperties,
+  ...debugBarLogStyles,
 };

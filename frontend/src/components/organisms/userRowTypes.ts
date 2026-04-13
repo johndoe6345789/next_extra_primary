@@ -30,6 +30,8 @@ export interface UserRowProps {
   onRoleChange: (role: string) => void;
   /** Toggle active handler. */
   onToggleActive: () => void;
+  /** Impersonate handler. */
+  onImpersonate: () => void;
   /** Translation function. */
   t: ReturnType<typeof useTranslations>;
 }

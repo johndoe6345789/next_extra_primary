@@ -1,0 +1,25 @@
+// Star / Favourite Button
+
+.star-button {
+  background: none;
+  border: none;
+  font-size: 1.125rem;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--mat-sys-corner-full);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color
+    var(--mat-sys-motion-duration-short4);
+
+  &:hover {
+    background-color:
+      var(--mat-sys-surface-container-high);
+  }
+
+  &--active,
+  &--active .material-symbols-outlined {
+    color: #f9a825;
+  }
+}

@@ -55,6 +55,11 @@ RUN ARGS="--build=missing -s build_type=Release" && \
 # -- Source + build ------------------------------------------
 COPY CMakeLists.txt .
 COPY src/ src/
+COPY seed/ seed/
+COPY migrations/ migrations/
+RUN manager seed-trans \
+        --dir seed/translations \
+        --output migrations/011_seed_translations.sql
 RUN cmake -S . -B build/Release \
         -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake \
         -DCMAKE_BUILD_TYPE=Release \
@@ -90,7 +95,8 @@ WORKDIR /app
 COPY --from=builder \
     /build/build/Release/nextra-api ./nextra-api
 COPY config/     ./config/
-COPY migrations/ ./migrations/
+COPY --from=builder \
+    /build/migrations/ ./migrations/
 COPY seed/       ./seed/
 RUN mkdir -p logs uploads public && \
     chown -R nextra:nextra /app

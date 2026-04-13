@@ -1,0 +1,75 @@
+// Email Detail / Reading Pane
+
+.email-detail {
+  height: 100%;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.email-detail-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.email-detail-back {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.email-detail-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.email-detail-body {
+  margin-top: 24px;
+  font-size: 0.875rem;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  color: var(--mat-sys-on-surface);
+}
+
+.email-detail-reply-bar {
+  margin-top: 32px;
+  border-top: 1px solid
+    var(--mat-sys-outline-variant);
+  padding-top: 16px;
+  display: flex;
+  gap: 8px;
+}
+
+.email-detail-reply-btn {
+  border-radius:
+    var(--mat-sys-corner-extra-large);
+  text-transform: none;
+}
+
+// Email header metadata
+.email-header {
+  border-bottom: 1px solid
+    var(--mat-sys-outline-variant);
+  padding-bottom: 16px;
+
+  h5 {
+    font-size: 1.375rem;
+    font-weight: 400;
+    color: var(--mat-sys-on-surface);
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+}
+
+.header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.header-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 12px;
+}

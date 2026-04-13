@@ -11,8 +11,7 @@ const API_URL =
  * Per-request i18n configuration.
  *
  * Fetches translations from the C++ backend API
- * (backed by PostgreSQL). Falls back to static
- * JSON files when the API is unreachable.
+ * (backed by PostgreSQL).
  */
 export default getRequestConfig(async ({ requestLocale }) => {
   const requested = await requestLocale;
@@ -30,16 +29,15 @@ export default getRequestConfig(async ({ requestLocale }) => {
       { next: { revalidate: 60 } },
     );
     if (res.ok) {
-      messages = (await res.json()) as Record<
+      const data = (await res.json()) as Record<
         string, unknown
       >;
-    } else {
-      throw new Error(`API ${res.status}`);
+      if (Object.keys(data).length > 0) {
+        messages = data;
+      }
     }
   } catch {
-    messages = (
-      await import(`../messages/${locale}.json`)
-    ).default as Record<string, unknown>;
+    /* API unreachable — messages stay empty. */
   }
 
   return { locale, messages };

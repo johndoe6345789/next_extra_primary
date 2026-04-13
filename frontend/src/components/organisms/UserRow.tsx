@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Typography from '@shared/m3/Typography';
 import { Select, MenuItem } from '@shared/m3';
 import type { SelectChangeEvent } from
   '@shared/m3';
@@ -10,10 +9,9 @@ import Chip from '@shared/m3/Chip';
 import type { UserRowProps } from
   './userRowTypes';
 import {
-  rowStyle,
-  selectStyle,
-  buttonStyle,
+  rowStyle, selectStyle, buttonStyle,
 } from './userRowTypes';
+import UserRowInfo from './UserRowInfo';
 
 export type {
   UserRecord, UserRowProps,
@@ -22,35 +20,16 @@ export type {
 /** Single user row in the admin list. */
 const UserRow: React.FC<UserRowProps> = ({
   user, onRoleChange,
-  onToggleActive, t,
+  onToggleActive, onImpersonate, t,
 }) => (
   <div
     style={rowStyle}
     data-testid={`user-row-${user.id}`}
   >
-    <div style={{
-      flex: 1, minWidth: 0, overflow: 'hidden',
-    }}>
-      <Typography variant="body2"
-        style={{
-          fontWeight: 600,
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-        }}>
-        {user.username}
-      </Typography>
-      <Typography variant="caption"
-        color="text.secondary"
-        style={{
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-          display: 'block',
-        }}>
-        {user.email}
-      </Typography>
-    </div>
+    <UserRowInfo
+      username={user.username}
+      email={user.email}
+    />
     <Chip
       label={user.isActive
         ? t('active') : t('disabled')}
@@ -88,6 +67,13 @@ const UserRow: React.FC<UserRowProps> = ({
       style={buttonStyle}>
       {user.isActive
         ? t('disable') : t('enable')}
+    </Button>
+    <Button
+      onClick={onImpersonate}
+      data-testid={`impersonate-${user.id}`}
+      aria-label={t('impersonate')}
+      style={buttonStyle}>
+      {t('impersonate')}
     </Button>
   </div>
 );

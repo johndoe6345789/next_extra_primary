@@ -2,6 +2,7 @@ import { ReactNode, type ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import { Box } from '@shared/m3';
 import { DashboardShortcuts } from '@/components/organisms/DashboardShortcuts';
+import ImpersonationBanner from '@/components/molecules/ImpersonationBanner';
 
 /** Props for the dashboard layout. */
 interface DashboardLayoutProps {
@@ -37,6 +38,7 @@ export default async function DashboardLayout({
         minHeight: 0,
       }}
     >
+      <ImpersonationBanner />
       <DashboardShortcuts />
       <Box
         component="main"

@@ -1,0 +1,29 @@
+// =============================================
+// MetaMail Global Styles
+// Imports shared M3 tokens + app-specific CSS
+// =============================================
+
+// Shared M3 design system
+@use 'foundation';
+
+// Layout
+@use 'layout';
+@use 'responsive';
+
+// Header
+@use 'header';
+@use 'header-actions';
+@use 'search';
+
+// Sidebar
+@use 'folder-nav';
+
+// Email views
+@use 'email-card';
+@use 'email-detail';
+@use 'star-button';
+@use 'thread-panel';
+
+// Compose
+@use 'compose';
+@use 'compose-form';

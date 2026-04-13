@@ -4,11 +4,8 @@ import React from 'react';
 import Box from '@shared/m3/Box';
 import Typography from '@shared/m3/Typography';
 import { useTranslations } from 'next-intl';
-import {
-  useListAdminUsersQuery,
-  useSetUserRoleMutation,
-  useSetUserActiveMutation,
-} from '@/store/api/adminApi';
+import { useAdminUsers }
+  from '@/hooks/useAdminUsers';
 import UserRow from './UserRow';
 
 /**
@@ -17,14 +14,9 @@ import UserRow from './UserRow';
  */
 export const AdminUserList: React.FC = () => {
   const t = useTranslations('admin');
-  const { data } = useListAdminUsersQuery({
-    page: 1, perPage: 50,
-  });
-  const [setRole] = useSetUserRoleMutation();
-  const [setActive] =
-    useSetUserActiveMutation();
-
-  const users = data?.data ?? [];
+  const {
+    users, setRole, toggleActive, impersonate,
+  } = useAdminUsers();
 
   return (
     <Box data-testid="admin-user-list">
@@ -37,12 +29,11 @@ export const AdminUserList: React.FC = () => {
         <UserRow
           key={u.id} user={u}
           onRoleChange={(role) =>
-            setRole({ id: u.id, role })}
+            setRole(u.id, role)}
           onToggleActive={() =>
-            setActive({
-              id: u.id,
-              active: !u.isActive,
-            })}
+            toggleActive(u.id, u.isActive)}
+          onImpersonate={() =>
+            impersonate(u.id)}
           t={t}
         />
       ))}

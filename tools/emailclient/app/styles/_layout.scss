@@ -1,0 +1,61 @@
+// =============================================
+// Mailbox Layout (3-column)
+// =============================================
+
+.mailbox-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  background-color: var(--mat-sys-surface);
+}
+
+.mailbox-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.mailbox-sidebar {
+  width: 256px;
+  overflow-y: auto;
+  background-color: var(--mat-sys-surface);
+  flex-shrink: 0;
+  padding-top: 8px;
+  transition:
+    width 0.2s ease,
+    opacity 0.2s ease;
+
+  &--hidden {
+    width: 0;
+    overflow: hidden;
+    opacity: 0;
+    padding: 0;
+  }
+}
+
+.mailbox-sidebar-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.mailbox-sidebar-compose {
+  padding: 16px;
+}
+
+.mailbox-main {
+  flex: 1;
+  overflow-y: auto;
+  background-color:
+    var(--mat-sys-surface-container-lowest);
+  min-width: 300px;
+}
+
+.mailbox-detail {
+  width: 50%;
+  max-width: 600px;
+  overflow-y: auto;
+  border-left: 1px solid
+    var(--mat-sys-outline-variant);
+  background-color: var(--mat-sys-surface);
+}

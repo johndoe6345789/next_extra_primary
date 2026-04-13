@@ -34,3 +34,6 @@ export type { DebugPanelData } from './useDebugPanel';
 export { useEscapeKey } from './useEscapeKey';
 export { useScrollLock } from './useScrollLock';
 export { useInitAuth } from './useInitAuth';
+export { useTestEmail } from './useTestEmail';
+export { useImpersonation } from './useImpersonation';
+export { useAdminUsers } from './useAdminUsers';

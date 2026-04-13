@@ -49,10 +49,10 @@ auto EmailService::sendEmail(
             "html", "utf-8");
         msg.content(htmlBody);
 
-        mailio::smtps conn(cfg_.host, cfg_.port);
+        mailio::smtp conn(cfg_.host, cfg_.port);
         conn.authenticate(
             cfg_.user, cfg_.pass,
-            mailio::smtps::auth_method_t::LOGIN);
+            mailio::smtp::auth_method_t::LOGIN);
         conn.submit(msg);
 
         spdlog::info(

@@ -44,15 +44,14 @@ const nextConfig = {
     return {
       beforeFiles: [
         {
-          source: "/api/v1/:path*",
-          destination: "http://localhost:3001/api/v1/:path*",
-          has: [
-            {
-              type: "query",
-              key: "bypass",
-              value: "false",
-            },
-          ],
+          source: "/api/email/:path*",
+          destination:
+            "http://localhost:8080/api/email/:path*",
+        },
+        {
+          source: "/api/:path*",
+          destination:
+            "http://localhost:8080/api/:path*",
         },
       ],
     };
@@ -143,6 +142,9 @@ const nextConfig = {
 
   turbopack: {
     root: monorepoRoot,
+    resolveExtensions: [
+      ".tsx", ".ts", ".jsx", ".js",
+    ],
   },
 };
 

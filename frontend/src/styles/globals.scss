@@ -1,6 +1,7 @@
 // Global styles — MUI theme handles component
 // styling; this covers html/body defaults and
 // color scheme transitions.
+@use './autocomplete';
 
 *,
 *::before,

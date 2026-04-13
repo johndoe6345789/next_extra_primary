@@ -39,12 +39,14 @@ def create_app():
     from src.routes.compose import compose_bp
     from src.routes.folders import folders_bp
     from src.routes.sync import sync_bp
+    from src.routes.messages import messages_bp
 
     app.register_blueprint(health_bp)
     app.register_blueprint(accounts_bp, url_prefix="/api/accounts")
     app.register_blueprint(compose_bp, url_prefix="/api/compose")
     app.register_blueprint(folders_bp, url_prefix="/api/folders")
     app.register_blueprint(sync_bp, url_prefix="/api/sync")
+    app.register_blueprint(messages_bp, url_prefix="/api/messages")
 
     with app.app_context():
         try:

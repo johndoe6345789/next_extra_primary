@@ -119,8 +119,7 @@ services:
       SMTP_HOST: mailserver
       SMTP_PORT: "587"
       DATABASE_URL: >-
-        postgresql://emailclient:emailclient
-        @emailclient-db:5432/emailclient
+        postgresql://emailclient:emailclient@emailclient-db:5432/emailclient
       FLASK_ENV: development
       FLASK_DEBUG: "1"
       IMAP_SYNC_INTERVAL: "300"

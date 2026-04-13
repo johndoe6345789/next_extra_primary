@@ -1,0 +1,46 @@
+// Search Bar
+
+.mailbox-header-search {
+  flex: 1;
+  max-width: 680px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.mailbox-search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--mat-sys-on-surface-variant);
+  pointer-events: none;
+}
+
+.mailbox-search-input {
+  width: 100%;
+  padding: 8px 16px 8px 44px;
+  border-radius: var(--mat-sys-corner-extra-large);
+  border: none;
+  background-color:
+    var(--mat-sys-surface-container-high);
+  color: var(--mat-sys-on-surface);
+  font-size: 0.875rem;
+  outline: none;
+  transition:
+    background-color
+      var(--mat-sys-motion-duration-short4)
+      var(--mat-sys-motion-easing-standard),
+    box-shadow
+      var(--mat-sys-motion-duration-short4)
+      var(--mat-sys-motion-easing-standard);
+
+  &:focus {
+    background-color:
+      var(--mat-sys-surface-container-highest);
+    box-shadow: var(--mat-sys-level1);
+  }
+
+  &::placeholder {
+    color: var(--mat-sys-on-surface-variant);
+  }
+}

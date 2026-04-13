@@ -1,0 +1,91 @@
+// M3 Autocomplete component styles
+
+.m3-autocomplete {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.m3-autocomplete-input-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-25%);
+    border: 7px solid transparent;
+    border-top-color: var(
+      --mui-palette-text-secondary, #999
+    );
+    pointer-events: none;
+  }
+}
+
+.m3-autocomplete-input {
+  border: 1px solid var(
+    --mui-palette-divider, #555
+  );
+  background: transparent;
+  color: var(
+    --mui-palette-text-primary, #fff
+  );
+  padding: 10px 32px 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  width: 100%;
+  outline: none;
+
+  &:focus {
+    border-color: var(
+      --mui-palette-primary-main, #7c4dff
+    );
+  }
+}
+
+.m3-autocomplete-listbox {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1300;
+  margin: 4px 0 0;
+  padding: 4px 0;
+  list-style: none;
+  background: var(
+    --mui-palette-background-paper, #2a2a2a
+  );
+  border: 1px solid var(
+    --mui-palette-divider, #444
+  );
+  border-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.m3-autocomplete-option {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(
+    --mui-palette-text-primary, #fff
+  );
+
+  &:hover,
+  &.m3-autocomplete-option-highlighted {
+    background: var(
+      --mui-palette-action-hover,
+      rgba(255, 255, 255, 0.08)
+    );
+  }
+}
+
+.m3-autocomplete-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}

@@ -8,6 +8,8 @@ export interface MailboxLayoutProps extends BoxProps {
   main: React.ReactNode
   detail?: React.ReactNode
   header?: React.ReactNode
+  /** Controls sidebar visibility. */
+  sidebarOpen?: boolean
   testId?: string
 }
 
@@ -16,6 +18,7 @@ export const MailboxLayout = ({
   main,
   detail,
   header,
+  sidebarOpen = true,
   testId: customTestId,
   ...props
 }: MailboxLayoutProps) => {
@@ -37,7 +40,7 @@ export const MailboxLayout = ({
         </AppBar>
       )}
       <Box className="mailbox-content">
-        <aside className="mailbox-sidebar">{sidebar}</aside>
+        <aside className={`mailbox-sidebar${sidebarOpen ? '' : ' mailbox-sidebar--hidden'}`}>{sidebar}</aside>
         <main className="mailbox-main">{main}</main>
         {detail && <article className="mailbox-detail">{detail}</article>}
       </Box>

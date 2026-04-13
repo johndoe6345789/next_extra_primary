@@ -1,0 +1,77 @@
+// =============================================
+// Header Action Buttons & Badges
+// =============================================
+
+.mailbox-header-icon-btn {
+  color: var(--mat-sys-on-surface-variant);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--mat-sys-corner-full);
+  transition: background-color
+    var(--mat-sys-motion-duration-short4);
+
+  &:hover {
+    background-color:
+      var(--mat-sys-surface-container-high);
+  }
+}
+
+.mailbox-header-alert-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.mailbox-header-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 16px;
+  height: 16px;
+  border-radius: var(--mat-sys-corner-full);
+  background-color: var(--mat-sys-error);
+  color: var(--mat-sys-on-error);
+  font-size: 0.625rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  pointer-events: none;
+}
+
+.mailbox-header-lang-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border-radius: var(--mat-sys-corner-full);
+  background: none;
+  border: none;
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: background-color
+    var(--mat-sys-motion-duration-short4);
+
+  &:hover {
+    background-color:
+      var(--mat-sys-surface-container-high);
+  }
+}
+
+.mailbox-header-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--mat-sys-corner-full);
+  background-color: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 4px;
+}

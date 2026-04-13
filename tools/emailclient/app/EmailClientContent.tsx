@@ -127,6 +127,7 @@ export default function EmailClientContent() {
         sidebar={sidebar}
         main={main}
         detail={detail}
+        sidebarOpen={state.sidebarOpen}
       />
       {state.showCompose && (
         <ComposeWindow

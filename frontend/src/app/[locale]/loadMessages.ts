@@ -1,18 +1,15 @@
 /**
  * Loads translation messages for a given locale.
- * Tries the backend API first, falls back to local
- * JSON files.
+ * Fetches from the backend translation API (Postgres).
  * @module app/[locale]/loadMessages
  */
 
 /**
  * Fetch translation messages for the active locale.
  *
- * 1. Attempts to load from the backend translation
- *    API with a 60-second revalidation window.
- * 2. Falls back to the bundled JSON file if the API
- *    is unavailable.
- * 3. Returns an empty record as a last resort.
+ * Loads from the backend translation API with a
+ * 60-second revalidation window. Returns an empty
+ * record if the API is unavailable.
  *
  * @param locale - The BCP 47 locale code.
  * @returns A record of translation messages.
@@ -28,18 +25,13 @@ export async function loadMessages(
       { next: { revalidate: 60 } },
     );
     if (res.ok) {
-      return (await res.json()) as Record<
+      const data = (await res.json()) as Record<
         string, unknown
       >;
+      if (Object.keys(data).length > 0) return data;
     }
-    throw new Error(`API ${res.status}`);
   } catch {
-    try {
-      return (
-        await import(`@/messages/${locale}.json`)
-      ).default;
-    } catch {
-      return {};
-    }
+    /* API unreachable — return empty. */
   }
+  return {};
 }

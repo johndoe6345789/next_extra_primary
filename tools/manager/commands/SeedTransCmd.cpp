@@ -31,8 +31,8 @@ void SeedTransCmd::registerAll(CLI::App& parent)
         std::filesystem::path msgDir;
         if (dir.empty()) {
             auto root = repoRoot();
-            msgDir = root / "frontend" / "src"
-                     / "messages";
+            msgDir = root / "backend" / "seed"
+                     / "translations";
         } else {
             msgDir = dir;
         }

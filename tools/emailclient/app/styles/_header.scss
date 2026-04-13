@@ -1,0 +1,55 @@
+// Mailbox Header Bar
+
+.mailbox-header {
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  box-shadow: none;
+  border-bottom: 1px solid
+    var(--mat-sys-outline-variant);
+
+  .mat-toolbar {
+    min-height: 64px;
+    padding: 0 8px;
+  }
+}
+
+.mailbox-header-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 0 8px;
+}
+
+.mailbox-header-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  min-width: 200px;
+}
+
+.mailbox-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.mailbox-header-logo {
+  color: var(--mat-sys-primary);
+}
+
+.mailbox-header-title {
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--mat-sys-on-surface);
+  white-space: nowrap;
+}
+
+.mailbox-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
