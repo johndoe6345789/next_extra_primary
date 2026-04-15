@@ -271,6 +271,39 @@ services:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     restart: unless-stopped
 
+  # ---- Video transcoder daemon (Phase 4.2) -------------------
+  # NOTE: runtime image must provide /usr/bin/ffmpeg.  If the
+  # base runtime (debian:sid-slim) is missing ffmpeg, add the
+  # following apt stanza to backend/Dockerfile's runtime stage:
+  #   RUN apt-get update && apt-get install -y --no-install-recommends \
+  #       ffmpeg && rm -rf /var/lib/apt/lists/*
+  video-transcoder:
+    build:
+      context: ./backend
+      additional_contexts:
+        manager: ./tools/manager
+        commands: ./.local/commands
+      args:
+        DEPS_IMAGE: debian:sid
+        RUNTIME_IMAGE: debian:sid-slim
+    command: ["./nextra-api", "video-transcoder",
+              "--config", "config/config.json"]
+    depends_on:
+      db:
+        condition: service_healthy
+      job-scheduler:
+        condition: service_started
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: nextra_db
+      DB_USER: nextra
+      DB_PASSWORD: nextra_dev
+      S3_ENDPOINT: http://s3server:3001
+    volumes:
+      - transcode-work:/tmp/nextra-transcode
+    restart: unless-stopped
+
   # ---- Cron manager daemon (scheduled_jobs -> job_queue) -----
   cron-manager:
     build:
@@ -897,3 +930,4 @@ volumes:
   packagerepo-dbdata:
   s3-dbdata:
   s3-data:
+  transcode-work:

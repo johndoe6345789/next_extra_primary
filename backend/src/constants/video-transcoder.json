@@ -1,0 +1,37 @@
+{
+    "ffmpegPath": "/usr/bin/ffmpeg",
+    "ffprobePath": "/usr/bin/ffprobe",
+    "workerCount": 2,
+    "pollIntervalMs": 2000,
+    "workDir": "/tmp/nextra-transcode",
+    "s3": {
+        "endpoint": "http://s3server:3001",
+        "bucket": "video-renditions",
+        "accessKey": "nextra-dev",
+        "secretKey": "nextra-dev"
+    },
+    "thumbSeconds": 3,
+    "ladders": [
+        {
+            "name": "360p",
+            "width": 640,
+            "height": 360,
+            "videoBitrateK": 800,
+            "audioBitrateK": 96
+        },
+        {
+            "name": "720p",
+            "width": 1280,
+            "height": 720,
+            "videoBitrateK": 2500,
+            "audioBitrateK": 128
+        },
+        {
+            "name": "1080p",
+            "width": 1920,
+            "height": 1080,
+            "videoBitrateK": 5000,
+            "audioBitrateK": 160
+        }
+    ]
+}
