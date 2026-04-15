@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 512 512"
+     role="img"
+     aria-label="Nextra Email icon">
+  <rect x="0" y="0" width="512" height="512"
+        rx="96" ry="96" fill="#B3261E"/>
+  <path d="M96 160 L256 288 L416 160 V160 H96 Z
+           M96 200 V384 H416 V200 L256 320 Z"
+        fill="#FFFFFF"/>
+</svg>

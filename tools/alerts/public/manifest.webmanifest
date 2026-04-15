@@ -1,0 +1,19 @@
+{
+  "name": "Nextra Alerts",
+  "short_name": "Alerts",
+  "description": "Nextra alerts and notifications.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#D97706",
+  "background_color": "#FFFFFF",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "128x128 192x192 256x256 384x384 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

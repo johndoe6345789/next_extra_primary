@@ -15,6 +15,8 @@ export type { KbdProps } from './Kbd';
 
 export { HtmlLang } from './HtmlLang';
 
+export { PwaRegister } from './PwaRegister';
+
 export { BurgerButton } from '@shared/ui';
 export type { BurgerButtonProps }
   from '@shared/ui';

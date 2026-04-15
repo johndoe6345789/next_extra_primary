@@ -13,6 +13,9 @@ import {
 } from '@/components/organisms/AppShell';
 import { DebugBar } from
   '@/components/molecules/DebugBar';
+import { PwaRegister } from
+  '@/components/atoms/PwaRegister';
+import { PwaHead } from './pwa-head';
 import { loadMessages } from './loadMessages';
 
 /** All locale pages are dynamic. */
@@ -58,6 +61,8 @@ export default async function LocaleLayout({
   return (
     <IntlProvider locale={locale} messages={messages}>
       <HtmlLang locale={locale} />
+      <PwaHead />
+      <PwaRegister />
       <LinkAdapter>
         <AppShell>
           <Navbar />
