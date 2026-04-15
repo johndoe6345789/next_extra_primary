@@ -1,0 +1,43 @@
+{
+  "esHost": "elasticsearch",
+  "esPort": 9200,
+  "batchSize": 500,
+  "reindexIntervalSeconds": 3600,
+  "kafkaTopic": "search.reindex",
+  "kafkaGroup": "search-indexer",
+  "httpPort": 8086,
+  "indexes": [
+    {
+      "name": "users",
+      "targetTable": "users",
+      "esIndex": "nextra-users",
+      "fields": ["id", "email", "username",
+                 "display_name", "bio"],
+      "idField": "id"
+    },
+    {
+      "name": "comments",
+      "targetTable": "comments",
+      "esIndex": "nextra-comments",
+      "fields": ["id", "author_id", "resource_type",
+                 "resource_id", "body", "created_at"],
+      "idField": "id"
+    },
+    {
+      "name": "blog_articles",
+      "targetTable": "blog_articles",
+      "esIndex": "nextra-blog",
+      "fields": ["id", "slug", "title", "body",
+                 "author_id", "published_at"],
+      "idField": "id"
+    },
+    {
+      "name": "packages",
+      "targetTable": "packages",
+      "esIndex": "nextra-packages",
+      "fields": ["id", "name", "version",
+                 "description", "owner_id"],
+      "idField": "id"
+    }
+  ]
+}
