@@ -1,0 +1,307 @@
+{
+  "$schema":
+    "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "primetime",
+  "description":
+    "Cross-tool portal primetime suite",
+  "tests": [
+    {
+      "name": "portal root loads",
+      "tags": ["@primetime", "@smoke"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "expect",
+          "selector": "body",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    },
+    {
+      "name": "sso login form renders",
+      "tags": ["@primetime", "@sso"],
+      "steps": [
+        { "action": "navigate",
+          "url":
+            "http://localhost:8889/sso/login" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "expect",
+          "selector":
+            "input[type='email'], input[name='email']",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect",
+          "selector": "input[type='password']",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    },
+    {
+      "name": "/jobs redirects unauthenticated to sso",
+      "tags": ["@primetime", "@sso"],
+      "steps": [
+        { "action": "navigate",
+          "url":
+            "http://localhost:8889/jobs" },
+        { "action": "expect",
+          "assertion": {
+            "matcher": "toHaveURL",
+            "url":
+              "/sso/login?next=%2Fjobs"
+          } }
+      ]
+    },
+    {
+      "name": "/cron redirects unauthenticated",
+      "tags": ["@primetime", "@sso"],
+      "steps": [
+        { "action": "navigate",
+          "url":
+            "http://localhost:8889/cron" },
+        { "action": "expect",
+          "assertion": {
+            "matcher": "toHaveURL",
+            "url":
+              "/sso/login?next=%2Fcron"
+          } }
+      ]
+    },
+    {
+      "name": "/alerts redirects unauthenticated",
+      "tags": ["@primetime", "@sso"],
+      "steps": [
+        { "action": "navigate",
+          "url":
+            "http://localhost:8889/alerts" },
+        { "action": "expect",
+          "assertion": {
+            "matcher": "toHaveURL",
+            "url":
+              "/sso/login?next=%2Falerts"
+          } }
+      ]
+    },
+    {
+      "name": "/emailclient redirects unauthenticated",
+      "tags": ["@primetime", "@sso"],
+      "steps": [
+        { "action": "navigate",
+          "url":
+            "http://localhost:8889/emailclient" },
+        { "action": "expect",
+          "assertion": {
+            "matcher": "toHaveURL",
+            "url":
+              "/sso/login?next=%2Femailclient"
+          } }
+      ]
+    },
+    {
+      "name": "/repo redirects unauthenticated",
+      "tags": ["@primetime", "@sso"],
+      "steps": [
+        { "action": "navigate",
+          "url":
+            "http://localhost:8889/repo" },
+        { "action": "expect",
+          "assertion": {
+            "matcher": "toHaveURL",
+            "url":
+              "/sso/login?next=%2Frepo"
+          } }
+      ]
+    },
+    {
+      "name": "/s3 redirects unauthenticated",
+      "tags": ["@primetime", "@sso"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/s3" },
+        { "action": "expect",
+          "assertion": {
+            "matcher": "toHaveURL",
+            "url":
+              "/sso/login?next=%2Fs3"
+          } }
+      ]
+    },
+    {
+      "name": "/db redirects unauthenticated",
+      "tags": ["@primetime", "@sso"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/db" },
+        { "action": "expect",
+          "assertion": {
+            "matcher": "toHaveURL",
+            "url":
+              "/sso/login?next=%2Fdb"
+          } }
+      ]
+    },
+    {
+      "name": "/status is public and 200",
+      "tags": ["@primetime", "@public"],
+      "steps": [
+        { "action": "navigate",
+          "url":
+            "http://localhost:8889/status" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "expect",
+          "selector": "body",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    },
+    {
+      "name": "/api/healthz returns infra keys",
+      "tags": ["@primetime", "@api"],
+      "steps": [
+        { "action": "navigate",
+          "url":
+            "http://localhost:8889/api/healthz" },
+        { "action": "expect",
+          "selector": "body",
+          "assertion": {
+            "matcher": "toContainText",
+            "expected": "db"
+          } },
+        { "action": "expect",
+          "selector": "body",
+          "assertion": {
+            "matcher": "toContainText",
+            "expected": "redis"
+          } },
+        { "action": "expect",
+          "selector": "body",
+          "assertion": {
+            "matcher": "toContainText",
+            "expected": "kafka"
+          } },
+        { "action": "expect",
+          "selector": "body",
+          "assertion": {
+            "matcher": "toContainText",
+            "expected": "elasticsearch"
+          } }
+      ]
+    },
+    {
+      "name":
+        "sso login form submits and lands on /app",
+      "tags": ["@primetime", "@auth"],
+      "steps": [
+        { "action": "navigate",
+          "url":
+            "http://localhost:8889/sso/login" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "fill",
+          "selector":
+            "input[type='email'], input[name='email']",
+          "value":
+            "dev.admin@nextra.local" },
+        { "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1" },
+        { "action": "click",
+          "role": "button",
+          "text": "Sign in" },
+        { "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000 },
+        { "action": "expect",
+          "selector": "body",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    },
+    {
+      "name": "create-a-job flow in /jobs",
+      "tags": ["@primetime", "@jobs"],
+      "steps": [
+        { "action": "navigate",
+          "url":
+            "http://localhost:8889/sso/login" },
+        { "action": "fill",
+          "selector":
+            "input[type='email'], input[name='email']",
+          "value":
+            "dev.admin@nextra.local" },
+        { "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1" },
+        { "action": "click",
+          "role": "button",
+          "text": "Sign in" },
+        { "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000 },
+        { "action": "navigate",
+          "url":
+            "http://localhost:8889/jobs" },
+        { "action": "waitForLoadState",
+          "state": "networkidle" },
+        { "action": "click",
+          "testId": "jobs-create-btn",
+          "optional": true },
+        { "action": "fill",
+          "testId": "jobs-handler-input",
+          "value": "smoke.echo" },
+        { "action": "click",
+          "testId": "jobs-submit-btn" },
+        { "action": "expect",
+          "testId": "jobs-list",
+          "assertion": {
+            "matcher": "toContainText",
+            "expected": "smoke.echo"
+          } }
+      ]
+    },
+    {
+      "name":
+        "create-a-schedule flow in /cron with preview",
+      "tags": ["@primetime", "@cron"],
+      "steps": [
+        { "action": "navigate",
+          "url":
+            "http://localhost:8889/sso/login" },
+        { "action": "fill",
+          "selector":
+            "input[type='email'], input[name='email']",
+          "value":
+            "dev.admin@nextra.local" },
+        { "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1" },
+        { "action": "click",
+          "role": "button",
+          "text": "Sign in" },
+        { "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000 },
+        { "action": "navigate",
+          "url":
+            "http://localhost:8889/cron" },
+        { "action": "waitForLoadState",
+          "state": "networkidle" },
+        { "action": "fill",
+          "testId": "cron-name-input",
+          "value": "primetime-smoke" },
+        { "action": "fill",
+          "testId": "cron-expr-input",
+          "value": "*/5 * * * *" },
+        { "action": "expect",
+          "testId": "cron-preview",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "click",
+          "testId": "cron-submit-btn" },
+        { "action": "expect",
+          "testId": "cron-list",
+          "assertion": {
+            "matcher": "toContainText",
+            "expected": "primetime-smoke"
+          } }
+      ]
+    }
+  ]
+}
