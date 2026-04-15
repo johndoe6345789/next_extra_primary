@@ -44,14 +44,26 @@ void ContactController::submit(
 
     spdlog::info("Contact from {} <{}>", name, email);
 
+    // Detached thread: any uncaught exception would
+    // terminate the whole process. Wrap in try/catch.
     std::thread([name, email, msg]() {
-        services::EmailService svc;
-        auto html = fmt::format(
-            "<h3>Contact from {} &lt;{}&gt;</h3>"
-            "<p>{}</p>",
-            name, email, msg);
-        svc.sendEmail("admin@nextra.local",
-                      "Contact: " + name, html);
+        try {
+            services::EmailService svc;
+            auto html = fmt::format(
+                "<h3>Contact from {} &lt;{}&gt;</h3>"
+                "<p>{}</p>",
+                name, email, msg);
+            svc.sendEmail(
+                "admin@nextra.local",
+                "Contact: " + name, html);
+        } catch (const std::exception& e) {
+            spdlog::error(
+                "Contact email failed: {}",
+                e.what());
+        } catch (...) {
+            spdlog::error(
+                "Contact email failed: unknown");
+        }
     }).detach();
 
     cb(::utils::jsonOk(

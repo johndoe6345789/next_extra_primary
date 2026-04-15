@@ -52,9 +52,20 @@ void AdminEmailController::sendTest(
 
     spdlog::info("Admin test email to {}", to);
 
+    // Detached thread: any uncaught exception would
+    // terminate the whole process. Wrap in try/catch.
     std::thread([to, subj, html]() {
-        services::EmailService svc;
-        svc.sendEmail(to, subj, html);
+        try {
+            services::EmailService svc;
+            svc.sendEmail(to, subj, html);
+        } catch (const std::exception& e) {
+            spdlog::error(
+                "sendTest email failed: {}",
+                e.what());
+        } catch (...) {
+            spdlog::error(
+                "sendTest email failed: unknown");
+        }
     }).detach();
 
     cb(::utils::jsonOk(

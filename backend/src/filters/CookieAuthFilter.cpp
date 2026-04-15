@@ -56,6 +56,18 @@ void CookieAuthFilter::doFilter(
         return;
     }
 
+    // Reject refresh tokens: they must NEVER be
+    // accepted as access tokens. A refresh token
+    // used here would bypass the short-lived
+    // access-token policy entirely.
+    if (claims.isRefresh) {
+        cb(::utils::jsonError(
+            drogon::k401Unauthorized,
+            "Refresh token not allowed",
+            "AUTH_007"));
+        return;
+    }
+
     auto userId = claims.userId;
     auto role = claims.role;
 
