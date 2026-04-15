@@ -1,0 +1,70 @@
+/* Streams operator tool — global styles.
+   Uses 100dvh (not 100vh) per CLAUDE.md rule. */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, sans-serif;
+  background: #0d0f13;
+  color: #e8ebf0;
+  min-height: 100dvh;
+}
+
+.streams-shell {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.streams-shell h1 {
+  font-size: 28px;
+  margin: 0 0 16px;
+}
+
+.stream-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns:
+    repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.stream-card {
+  background: #151821;
+  border: 1px solid #262a36;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.stream-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.stream-card .badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #23303f;
+}
+
+.stream-card .badge.live {
+  background: #7a1e2c;
+}
+
+.stream-card code {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  word-break: break-all;
+  background: #0b0d12;
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.stream-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
