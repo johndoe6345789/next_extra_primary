@@ -8,6 +8,7 @@ dist/
 .turbo/
 coverage/
 test-results/
+playwright-report/
 
 # =============================================================================
 # C / C++
@@ -38,6 +39,10 @@ __pycache__/
 .env.local
 .env.*.local
 .local/dev-token
+
+# Generated TLS material for the mail container (regenerated at first boot
+# by docker/mail/entrypoint). Never commit keys into a template.
+docker/mail/config/ssl/
 
 # =============================================================================
 # OS files

@@ -186,6 +186,88 @@ services:
       FRONTEND_VERSION: "0.1.0"
     restart: unless-stopped
 
+  # ---- Job scheduler daemon (durable ad-hoc queue) -----------
+  job-scheduler:
+    build:
+      context: ./backend
+      additional_contexts:
+        manager: ./tools/manager
+        commands: ./.local/commands
+      args:
+        DEPS_IMAGE: debian:sid
+        RUNTIME_IMAGE: debian:sid-slim
+    command: ["./nextra-api", "job-scheduler",
+              "--config", "config/config.json"]
+    depends_on:
+      db:
+        condition: service_healthy
+      backend:
+        condition: service_started
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: nextra_db
+      DB_USER: nextra
+      DB_PASSWORD: nextra_dev
+    restart: unless-stopped
+
+  # ---- Cron manager daemon (scheduled_jobs -> job_queue) -----
+  cron-manager:
+    build:
+      context: ./backend
+      additional_contexts:
+        manager: ./tools/manager
+        commands: ./.local/commands
+      args:
+        DEPS_IMAGE: debian:sid
+        RUNTIME_IMAGE: debian:sid-slim
+    command: ["./nextra-api", "cron-manager",
+              "--config", "config/config.json"]
+    depends_on:
+      db:
+        condition: service_healthy
+      job-scheduler:
+        condition: service_started
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: nextra_db
+      DB_USER: nextra
+      DB_PASSWORD: nextra_dev
+    restart: unless-stopped
+
+  # ---- Jobs operator tool (T3 Next.js frontend) --------------
+  jobs:
+    build:
+      context: ./tools/jobs
+      dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
+      args:
+        NEXT_BASE_PATH: /jobs
+    depends_on:
+      - job-scheduler
+    environment:
+      NEXT_PUBLIC_BASE_PATH: /jobs
+      BACKEND_URL: http://backend:8080
+    restart: unless-stopped
+
+  # ---- Cron operator tool (schedule CRUD + preview) ----------
+  cron:
+    build:
+      context: ./tools/cron
+      dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
+      args:
+        NEXT_BASE_PATH: /cron
+    depends_on:
+      - cron-manager
+    environment:
+      NEXT_PUBLIC_BASE_PATH: /cron
+      BACKEND_URL: http://backend:8080
+    restart: unless-stopped
+
   # ---- Next.js frontend (dev mode) ----------------------------
   frontend:
     build:
@@ -231,6 +313,8 @@ services:
       - backend
       - sso
       - alerts
+      - jobs
+      - cron
     restart: unless-stopped
 
 
