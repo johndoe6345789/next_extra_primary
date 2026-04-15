@@ -35,6 +35,7 @@ struct TokenResponse
 {
     std::string accessToken;
     std::string idToken;
+    std::string refreshToken;
     std::string tokenType;
     int expiresIn{0};
 };

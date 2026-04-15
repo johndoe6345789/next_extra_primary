@@ -11,6 +11,7 @@
 #include "PasskeyController.h"
 #include "../services/auth/passkeys/Base64Url.h"
 #include "../services/auth/passkeys/ChallengeStore.h"
+#include "../services/auth/passkeys/RpConfig.h"
 #include "../utils/JsonResponse.h"
 
 #include <nlohmann/json.hpp>
@@ -39,7 +40,7 @@ void PasskeyController::assertBegin(
 
     json payload = {
         {"challenge", key},
-        {"rpId", "localhost"},
+        {"rpId", pk::RpConfig::instance().id()},
         {"timeout", 60000},
         {"userVerification", "preferred"}};
     cb(::utils::jsonOk(payload));

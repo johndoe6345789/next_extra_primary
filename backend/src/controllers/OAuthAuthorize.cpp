@@ -9,6 +9,7 @@
 
 #include "OAuthController.h"
 #include "../services/auth/oauth/OAuthClient.h"
+#include "../services/auth/oauth/ProviderConfigLoader.h"
 #include "../services/auth/oauth/StateStore.h"
 #include "../services/auth/passkeys/Base64Url.h"
 #include "../utils/JsonResponse.h"
@@ -29,16 +30,14 @@ void OAuthController::authorize(
     const drogon::HttpRequestPtr& req, Cb&& cb,
     const std::string& provider)
 {
-    // Config is typically loaded from constants JSON; we
-    // assemble a minimal ProviderConfig here so the flow is
-    // testable.  Real wiring reads env vars named in the
-    // constants file (clientIdEnv / clientSecretEnv).
-    oa::ProviderConfig cfg;
-    cfg.name = provider;
-    cfg.authorizeUrl =
-        "https://example.invalid/authorize/" + provider;
-    cfg.scope = "openid email profile";
-    cfg.clientId = "TODO_FROM_ENV";
+    auto maybeCfg = oa::loadProviderConfig(provider);
+    if (!maybeCfg) {
+        cb(::utils::jsonError(
+            drogon::k400BadRequest,
+            "unknown provider", "OAUTH_000"));
+        return;
+    }
+    auto cfg = *maybeCfg;
 
     auto [verifier, challenge] = oa::generatePkcePair();
     std::vector<std::uint8_t> s(24);
@@ -49,10 +48,7 @@ void OAuthController::authorize(
     RAND_bytes(n.data(), n.size());
     auto nonce =
         services::auth::passkeys::b64urlEncode(n);
-    auto redir =
-        req->getHeader("x-forwarded-proto").empty()
-        ? std::string("http://localhost:8889")
-        : std::string();
+    auto redir = oa::defaultPortalOrigin();
     redir += "/api/auth/oauth/" + provider + "/callback";
 
     oa::StoredState st{

@@ -4,7 +4,9 @@
  */
 
 #include "serve_advice.h"
+#include "../services/auth/passkeys/ChallengeStore.h"
 
+#include <chrono>
 #include <drogon/drogon.h>
 #include <string>
 
@@ -61,10 +63,28 @@ void registerResponseAdvice()
 namespace commands
 {
 
+/// @brief Schedule a periodic sweep of expired WebAuthn
+///        challenges so in-memory TTL is enforced.  The
+///        registration is deferred to after drogon start
+///        so the main event loop exists.
+static void registerChallengeSweep()
+{
+    drogon::app().registerBeginningAdvice([] {
+        drogon::app().getLoop()->runEvery(
+            std::chrono::seconds(60), [] {
+                namespace pk =
+                    services::auth::passkeys;
+                pk::ChallengeStore::instance()
+                    .sweep(300);
+            });
+    });
+}
+
 void registerHttpAdvice()
 {
     registerRequestIdAdvice();
     registerResponseAdvice();
+    registerChallengeSweep();
 }
 
 } // namespace commands

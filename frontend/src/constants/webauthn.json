@@ -1,0 +1,15 @@
+{
+    "timeoutMs": 60000,
+    "userVerification": "preferred",
+    "attestation": "none",
+    "endpoints": {
+        "registerBegin":
+            "/api/auth/passkeys/register/begin",
+        "registerFinish":
+            "/api/auth/passkeys/register/finish",
+        "assertBegin":
+            "/api/auth/passkeys/assert/begin",
+        "assertFinish":
+            "/api/auth/passkeys/assert/finish"
+    }
+}

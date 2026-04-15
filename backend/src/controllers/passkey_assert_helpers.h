@@ -8,6 +8,9 @@
 #include "../services/auth/passkeys/CoseKey.h"
 
 #include <cstdint>
+#include <drogon/HttpResponse.h>
+#include <functional>
+#include <string>
 #include <vector>
 
 namespace controllers::passkey_assert
@@ -23,5 +26,18 @@ inline services::auth::passkeys::CoseKeyParsed parsePubKey(
     auto m = std::get_if<pk::cbor::Map>(&v->data);
     return pk::parseCoseKey(*m);
 }
+
+/**
+ * @brief Build the signed-in JSON response, attach the
+ *        nextra_sso cookie, and async-touch last_used_at.
+ * @param userId Local user UUID from the credential row.
+ * @param credId Raw credential id bytes for the UPDATE.
+ * @param cb     Controller response callback to invoke.
+ */
+void issuePasskeySession(
+    const std::string& userId,
+    const std::vector<std::uint8_t>& credId,
+    std::function<void(
+        const drogon::HttpResponsePtr&)> cb);
 
 } // namespace controllers::passkey_assert
