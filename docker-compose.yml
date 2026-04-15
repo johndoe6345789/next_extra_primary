@@ -600,6 +600,51 @@ services:
       BACKEND_URL: http://backend:8080
     restart: unless-stopped
 
+  # ---- Backup manager daemon (pg_dump + encrypt + upload) ---
+  backup-manager:
+    build:
+      context: ./backend
+      additional_contexts:
+        manager: ./tools/manager
+        commands: ./.local/commands
+      args:
+        DEPS_IMAGE: debian:sid
+        RUNTIME_IMAGE: debian:sid-slim
+    command: ["./nextra-api", "backup-manager",
+              "--config", "config/config.json"]
+    depends_on:
+      db:
+        condition: service_healthy
+      job-scheduler:
+        condition: service_started
+      s3:
+        condition: service_started
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: nextra_db
+      DB_USER: nextra
+      DB_PASSWORD: nextra_dev
+      BACKUP_KMS_KEY: >-
+        ${BACKUP_KMS_KEY:-changeme-32-bytes-of-entropy-pad}
+    restart: unless-stopped
+
+  # ---- Backups operator tool (Next.js frontend) -------------
+  backups:
+    build:
+      context: ./tools/backups
+      dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
+      args:
+        NEXT_BASE_PATH: /backups
+    depends_on:
+      - backup-manager
+    environment:
+      NEXT_PUBLIC_BASE_PATH: /backups
+      BACKEND_URL: http://backend:8080
+    restart: unless-stopped
+
   # ---- Next.js frontend (dev mode) ----------------------------
   frontend:
     build:
@@ -715,6 +760,9 @@ services:
       NEXT_PUBLIC_BASE_PATH: /flags
       BACKEND_API_URL: http://backend:8080
       NODE_ENV: production
+      - audit
+      - search
+      - backups
     restart: unless-stopped
 
 
