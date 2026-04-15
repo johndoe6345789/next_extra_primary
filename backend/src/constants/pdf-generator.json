@@ -1,0 +1,12 @@
+{
+  "gotenbergUrl": "http://gotenberg:3000",
+  "gotenbergPath": "/forms/chromium/convert/html",
+  "timeoutMs": 60000,
+  "workerCount": 2,
+  "s3Bucket": "pdf-renders",
+  "s3Endpoint": "http://s3:9000",
+  "handlerName": "pdf.render",
+  "_note1": "PDF generator daemon config (Phase 6.2).",
+  "_note2": "Workers claim pdf.render jobs, POST HTML to Gotenberg,",
+  "_note3": "upload the binary PDF to s3server, and update pdf_renders."
+}
