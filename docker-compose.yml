@@ -764,6 +764,48 @@ services:
       - polls
       - webhooks
       - blog
+      - gallery
+      - social-admin
+    restart: unless-stopped
+
+
+  # ---- Social admin operator tool (Phase 7) -----------------
+  social-admin:
+    build:
+      context: ./tools/social-admin
+      dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
+      args:
+        NEXT_BASE_PATH: /social-admin
+    ports:
+      - "9018:3000"
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_BASE_PATH: /social-admin
+      BACKEND_API_URL: http://backend:8080
+      NODE_ENV: production
+    restart: unless-stopped
+
+
+  # ---- Photo gallery operator tool (Phase 4.4) --------------
+  gallery:
+    build:
+      context: ./tools/gallery
+      dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
+      args:
+        NEXT_BASE_PATH: /gallery
+    ports:
+      - "9016:3000"
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_BASE_PATH: /gallery
+      BACKEND_API_URL: http://backend:8080
+      NODE_ENV: production
     restart: unless-stopped
 
 
