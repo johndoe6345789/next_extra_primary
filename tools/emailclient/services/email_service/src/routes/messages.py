@@ -1,26 +1,40 @@
-"""Email message list and detail endpoints."""
+"""Email message list and detail endpoints.
+
+Tenant isolation is derived from the JWT session
+(see src.auth.require_session), NOT from the
+X-Tenant-Id header which was previously spoofable.
+"""
 
 import logging
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, g, jsonify, request
+from src.auth import require_session
+from src.extensions import db
 from src.models.message import EmailMessage
 
 logger = logging.getLogger(__name__)
 messages_bp = Blueprint("messages", __name__)
 
 
+def _find_msg(message_id):
+    return EmailMessage.query.filter_by(
+        id=message_id, tenant_id=g.tenant_id
+    ).first()
+
+
+def _not_found():
+    return jsonify(
+        {"error": "Message not found"}
+    ), 404
+
+
 @messages_bp.route("/", methods=["GET"])
+@require_session
 def list_messages():
-    tenant_id = request.headers.get(
-        "X-Tenant-Id", "default"
-    )
-    account_id = request.args.get(
-        "accountId", type=int
-    )
+    tenant_id = g.tenant_id
+    account_id = request.args.get("accountId", type=int)
     folder = request.args.get("folder", "INBOX")
     page = request.args.get("page", 1, type=int)
-    page_size = request.args.get(
-        "pageSize", 50, type=int
-    )
+    page_size = request.args.get("pageSize", 50, type=int)
 
     query = EmailMessage.query.filter_by(
         tenant_id=tenant_id, folder=folder
@@ -49,38 +63,23 @@ def list_messages():
 @messages_bp.route(
     "/<int:message_id>", methods=["GET"]
 )
+@require_session
 def get_message(message_id):
-    tenant_id = request.headers.get(
-        "X-Tenant-Id", "default"
-    )
-    msg = EmailMessage.query.filter_by(
-        id=message_id, tenant_id=tenant_id
-    ).first()
+    msg = _find_msg(message_id)
     if not msg:
-        return jsonify(
-            {"error": "Message not found"}
-        ), 404
+        return _not_found()
     return jsonify(msg.to_dict())
 
 
 @messages_bp.route(
     "/<int:message_id>/read", methods=["PUT"]
 )
+@require_session
 def mark_read(message_id):
-    tenant_id = request.headers.get(
-        "X-Tenant-Id", "default"
-    )
-    msg = EmailMessage.query.filter_by(
-        id=message_id, tenant_id=tenant_id
-    ).first()
+    msg = _find_msg(message_id)
     if not msg:
-        return jsonify(
-            {"error": "Message not found"}
-        ), 404
-    from src.extensions import db
-    msg.is_read = request.json.get(
-        "isRead", True
-    )
+        return _not_found()
+    msg.is_read = request.json.get("isRead", True)
     db.session.commit()
     return jsonify(msg.to_dict())
 
@@ -88,20 +87,11 @@ def mark_read(message_id):
 @messages_bp.route(
     "/<int:message_id>/star", methods=["PUT"]
 )
+@require_session
 def toggle_star(message_id):
-    tenant_id = request.headers.get(
-        "X-Tenant-Id", "default"
-    )
-    msg = EmailMessage.query.filter_by(
-        id=message_id, tenant_id=tenant_id
-    ).first()
+    msg = _find_msg(message_id)
     if not msg:
-        return jsonify(
-            {"error": "Message not found"}
-        ), 404
-    from src.extensions import db
-    msg.is_starred = request.json.get(
-        "isStarred", True
-    )
+        return _not_found()
+    msg.is_starred = request.json.get("isStarred", True)
     db.session.commit()
     return jsonify(msg.to_dict())

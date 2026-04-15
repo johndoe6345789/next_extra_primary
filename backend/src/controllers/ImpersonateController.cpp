@@ -8,11 +8,10 @@
  */
 
 #include "ImpersonateController.h"
+#include "impersonate_cookies.h"
 #include "../services/sso_session_lookup.h"
-#include "../utils/JwtUtil.h"
 #include "../utils/JsonResponse.h"
 
-#include <drogon/Cookie.h>
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 
@@ -59,29 +58,26 @@ void ImpersonateController::impersonate(
         "Admin {} impersonating user {}",
         adminId, targetId);
 
+    // Chosen mitigation: option (b) from the spec.
+    // Issue a short-lived ACCESS token (not refresh)
+    // as nextra_sso, 5 min, HttpOnly+Secure+Strict.
+    // The admin refresh token is stashed only in the
+    // backup cookie for stopImpersonate. Refresh
+    // while impersonating is implicitly forbidden:
+    // the cookie is an access token and
+    // AuthTokenController::refresh only accepts
+    // refresh tokens (JwtAuthFilter rejects access
+    // tokens on the refresh path).
     services::ssoSessionLookup(
         targetId,
-        [cb, targetId,
-         adminCookie](const json& payload) {
-            auto rt =
-                ::utils::generateRefreshToken(
-                    targetId);
+        [cb, adminCookie](const json& payload) {
+            auto access =
+                payload.value("accessToken", "");
             auto resp = ::utils::jsonOk(payload);
-            drogon::Cookie sso("nextra_sso", rt);
-            sso.setHttpOnly(true);
-            sso.setPath("/");
-            sso.setSameSite(
-                drogon::Cookie::SameSite::kLax);
-            sso.setMaxAge(30 * 24 * 3600);
-            resp->addCookie(sso);
-            drogon::Cookie backup(
-                "nextra_sso_admin", adminCookie);
-            backup.setHttpOnly(true);
-            backup.setPath("/");
-            backup.setSameSite(
-                drogon::Cookie::SameSite::kLax);
-            backup.setMaxAge(30 * 24 * 3600);
-            resp->addCookie(backup);
+            resp->addCookie(
+                makeImpersonationCookie(access));
+            resp->addCookie(
+                makeAdminBackupCookie(adminCookie));
             cb(resp);
         },
         [cb](drogon::HttpStatusCode code,
