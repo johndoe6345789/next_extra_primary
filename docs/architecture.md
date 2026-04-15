@@ -1,44 +1,71 @@
 # System Architecture
 
+This document describes how the Nextra template wires together
+its many moving parts. For per-daemon detail see
+`docs/services.md`; for per-tool detail see `docs/tools.md`.
+
 ---
 
 ## High-Level Overview
 
+Everything a browser sees goes through the nginx portal on port
+`8889`. Nginx reverse-proxies each sub-path to a different
+upstream container — the main Next.js app, the SSO portal, the
+backend API, or one of the operator tools.
+
+```mermaid
+flowchart TB
+    Browser["Browser"]
+    Browser -->|http://localhost:8889| Portal["nginx portal<br/>:8889"]
+
+    Portal -->|/app| FE["Next.js main app<br/>:3100"]
+    Portal -->|/sso| SSO["sso portal<br/>:3099"]
+    Portal -->|/emailclient| EmailFE["emailclient (Next.js)"]
+    Portal -->|/alerts| Alerts["alerts (Next.js)"]
+    Portal -->|/jobs| JobsUI["jobs (Next.js)"]
+    Portal -->|/cron| CronUI["cron (Next.js)"]
+    Portal -->|/repo| RepoFE["packagerepo-frontend"]
+    Portal -->|/s3| S3FE["s3-frontend"]
+    Portal -->|/db| PgAdminFE["pgadmin-frontend"]
+    Portal -->|/api| Backend["Drogon backend<br/>:8080"]
+    Portal -->|/mail-api| EmailAPI["emailclient-api<br/>Flask"]
+
+    Backend --> PG[("PostgreSQL<br/>nextra_db")]
+    Backend --> ES[("Elasticsearch")]
+    Backend --> Mail["mailserver<br/>(Postfix + Dovecot)"]
+    Backend --> Claude["Claude API"]
+    Backend --> OpenAI["OpenAI API"]
+
+    JobScheduler["job-scheduler daemon"] --> PG
+    CronManager["cron-manager daemon"] --> PG
+    CronManager -->|enqueues| PG
+
+    EmailAPI --> Mail
+    EmailAPI --> EmailDB[("emailclient-db")]
+
+    RepoFE --> RepoBE["packagerepo-backend"]
+    RepoBE --> S3["s3 object store"]
+    RepoBE --> RepoDB[("packagerepo-db")]
+
+    S3FE --> S3
+    S3 --> S3DB[("s3-db")]
+
+    PgAdminFE --> PgAdminBE["pgadmin-backend"]
+    PgAdminBE --> PG
 ```
-┌─────────────────────────────────────────────────────────┐
-│                      Browser                            │
-│  Next.js App (React + MUI + Redux Toolkit)              │
-└──────────────────────┬──────────────────────────────────┘
-                       │ HTTPS (REST/JSON)
-                       ▼
-┌──────────────────────────────────────────────────────────┐
-│                 Reverse Proxy (CapRover / Nginx)         │
-└──────────┬──────────────────────────────┬────────────────┘
-           │                              │
-           ▼                              ▼
-┌─────────────────────┐    ┌──────────────────────────────┐
-│   Next.js 16        │    │   Drogon C++ API Server      │
-│   (Node.js runtime) │    │   (native binary)            │
-│   Port 3000         │    │   Port 8080                  │
-│                     │    │                              │
-│   - SSR / SSG       │    │   - Controllers (routes)     │
-│   - App Router      │    │   - Filters (auth, CORS)     │
-│   - Static assets   │    │   - Services (business logic)│
-└─────────────────────┘    │   - ORM Models               │
-                           └──────────────┬───────────────┘
-                                          │
-                           ┌──────────────▼───────────────┐
-                           │        PostgreSQL 16          │
-                           │        Port 5432              │
-                           └──────────────────────────────┘
-                                          │
-              ┌───────────────────────────┼──────────────┐
-              │                           │              │
-    ┌─────────▼──────┐      ┌─────────────▼──┐   ┌──────▼──────┐
-    │ Claude API     │      │ OpenAI API     │   │ SMTP Server │
-    │ (Anthropic)    │      │                │   │ (Gmail)     │
-    └────────────────┘      └────────────────┘   └─────────────┘
-```
+
+The `backend`, `job-scheduler`, and `cron-manager` services all
+come from the same `nextra-api` binary — they are the `serve`,
+`job-scheduler`, and `cron-manager` CLI subcommands defined in
+`backend/src/main.cpp`. See `docs/services.md` for the full
+catalog.
+
+The operator tools (`emailclient`, `alerts`, `jobs`, `cron`,
+`packagerepo-frontend`, `s3-frontend`, `pgadmin-frontend`) are
+independent Next.js apps mounted into the portal by nginx
+`location` blocks. All UI-facing tools sit behind the nginx
+`auth_request /_sso_validate` SSO gate; the sso tool itself is
+the only ungated UI. See `docs/tools.md`.
 
 ---
 
