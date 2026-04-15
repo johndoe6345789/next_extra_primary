@@ -1,0 +1,35 @@
+{
+  "features": {
+    "follows":   true,
+    "dm":        true,
+    "presence":  true,
+    "reactions": true,
+    "mentions":  true,
+    "groups":    true
+  },
+  "presence": {
+    "ttl_seconds":    60,
+    "idle_after_sec": 300,
+    "key_prefix":     "social:presence:"
+  },
+  "dm": {
+    "max_body_chars": 4000,
+    "page_size":      50
+  },
+  "reactions": {
+    "allowed_emoji": [
+      "+1", "-1", "heart", "laugh",
+      "tada", "eyes", "fire"
+    ],
+    "max_per_target_per_user": 5
+  },
+  "mentions": {
+    "pattern":         "@[a-zA-Z0-9_]+",
+    "max_per_message": 20
+  },
+  "groups": {
+    "max_members":        500,
+    "slug_pattern":       "^[a-z0-9-]{3,48}$",
+    "allowed_roles":      ["owner", "admin", "member"]
+  }
+}

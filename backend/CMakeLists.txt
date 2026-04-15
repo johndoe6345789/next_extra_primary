@@ -62,6 +62,13 @@ file(GLOB NEXTRA_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/services/auth/totp/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/services/auth/oauth/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/services/ecommerce/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/services/social/follows/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/services/social/dm/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/services/social/presence/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/services/social/reactions/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/services/social/mentions/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/services/social/groups/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/controllers/social/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/utils/*.cpp"
 )
 
