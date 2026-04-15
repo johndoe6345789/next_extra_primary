@@ -64,7 +64,7 @@ void cmdNotificationRouter(const std::string& config)
     spdlog::info(
         "notification-router ready, topic={}", cfg.topic);
 
-    notif::StubKafkaConsumer consumer;
+    notif::InfraConsumerAdapter consumer("notification-router");
     consumer.subscribe(cfg.topic);
     std::thread httpThread([] { drogon::app().run(); });
 

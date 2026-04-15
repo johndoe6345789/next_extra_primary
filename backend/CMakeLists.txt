@@ -36,6 +36,22 @@ find_package(fmt          REQUIRED)
 find_package(spdlog       REQUIRED)
 find_package(OpenSSL      REQUIRED)
 
+# librdkafka is OPTIONAL. When the package is present we define
+# NEXTRA_HAVE_KAFKA and the real RdKafkaConsumer / RdKafkaProducer
+# translation units are pulled in and linked. When it is absent
+# the stub implementations in StubKafkaConsumer.h / kafka_producer_stub.cpp
+# are used instead and the daemons still compile and boot. This
+# makes the template usable by downstream consumers who cannot
+# or do not wish to ship librdkafka.
+find_package(RdKafka      QUIET)
+if(RdKafka_FOUND)
+    message(STATUS "librdkafka found — NEXTRA_HAVE_KAFKA enabled")
+else()
+    message(STATUS
+        "librdkafka NOT found — stub Kafka consumers/producers"
+    )
+endif()
+
 # ----------------------------------------------------------------
 # Collect source files
 #
@@ -98,9 +114,15 @@ target_link_libraries(${PROJECT_NAME}
         fmt::fmt
         spdlog::spdlog
         hiredis::hiredis
-        RdKafka::rdkafka
         OpenSSL::Crypto
 )
+
+if(RdKafka_FOUND)
+    target_link_libraries(${PROJECT_NAME}
+        PRIVATE RdKafka::rdkafka)
+    target_compile_definitions(${PROJECT_NAME}
+        PRIVATE NEXTRA_HAVE_KAFKA)
+endif()
 
 # ----------------------------------------------------------------
 # Optional: unit / integration tests

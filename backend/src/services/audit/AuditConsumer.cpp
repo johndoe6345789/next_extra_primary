@@ -1,10 +1,14 @@
 /**
  * @file AuditConsumer.cpp
- * @brief Consumer factory + decode/write loop.
+ * @brief Consumer factory + decode/write loop. The adapter
+ *        that bridges the audit-local @ref IKafkaConsumer
+ *        shape onto @ref nextra::infra::IKafkaConsumer lives
+ *        in audit_consumer_adapter.{h,cpp}.
  */
 
 #include "services/audit/AuditConsumer.h"
 #include "services/audit/AuditWriter.h"
+#include "services/audit/audit_consumer_adapter.h"
 
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
@@ -17,30 +21,6 @@ namespace nextra::audit
 {
 namespace
 {
-
-/** @brief No-op consumer used until librdkafka is wired. */
-class StubKafkaConsumer : public IKafkaConsumer
-{
-public:
-    void subscribe(const std::string& topic) override
-    {
-        spdlog::info(
-            "audit stub consumer: subscribe({})", topic);
-    }
-
-    int poll(std::function<bool(const std::string&)>,
-             int) override
-    {
-        std::this_thread::sleep_for(
-            std::chrono::milliseconds{500});
-        return 0;
-    }
-
-    void close() override
-    {
-        spdlog::info("audit stub consumer: close");
-    }
-};
 
 AuditEvent decode(const nlohmann::json& j)
 {
@@ -65,15 +45,8 @@ std::unique_ptr<IKafkaConsumer>
 makeKafkaConsumer(const std::string& brokers,
                   const std::string& group)
 {
-#ifdef NEXTRA_HAVE_KAFKA
-    // Real implementation lives in infra/KafkaConsumer.* —
-    // Phase 0.4 will drop it in and this branch will compile.
-    return makeRealKafkaConsumer(brokers, group);
-#else
-    (void)brokers;
-    (void)group;
-    return std::make_unique<StubKafkaConsumer>();
-#endif
+    return std::make_unique<InfraConsumerAdapter>(
+        brokers, group);
 }
 
 void runConsumerLoop(IKafkaConsumer& consumer,

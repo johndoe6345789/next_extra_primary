@@ -7,12 +7,16 @@
  */
 
 #include "commands/notification_router.h"
+#include "services/infra/IKafkaConsumer.h"
 
 #include <nlohmann/json.hpp>
 
+#include <deque>
 #include <fstream>
+#include <memory>
 #include <stdexcept>
 #include <string>
+#include <utility>
 
 namespace commands::notif
 {
@@ -45,13 +49,29 @@ inline RouterConfig loadConfig(const std::string& path)
     return cfg;
 }
 
-/// Placeholder until Phase 0.4 lands the real Kafka client.
-class StubKafkaConsumer : public IKafkaConsumer
+/**
+ * @brief Adapter bridging the legacy single-shot
+ *        @c pollOnce API onto the unified
+ *        @ref nextra::infra::IKafkaConsumer handler model.
+ *
+ * Buffers incoming messages in a small queue so the existing
+ * notification_router.cpp main loop (which repeatedly calls
+ * @c pollOnce) does not need to change.
+ */
+class InfraConsumerAdapter : public IKafkaConsumer
 {
   public:
-    void subscribe(const std::string&) override {}
-    bool pollOnce(std::string&) override { return false; }
-    void close() override {}
+    explicit InfraConsumerAdapter(std::string group)
+        : group_(std::move(group)) {}
+
+    void subscribe(const std::string& topic) override;
+    bool pollOnce(std::string& out) override;
+    void close() override;
+
+  private:
+    std::unique_ptr<nextra::infra::IKafkaConsumer> inner_;
+    std::deque<std::string> queue_;
+    std::string group_;
 };
 
 }  // namespace commands::notif
