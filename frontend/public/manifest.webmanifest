@@ -1,0 +1,23 @@
+{
+  "name": "Nextra",
+  "short_name": "Nextra",
+  "description": "Nextra gamified web app with AI chat.",
+  "start_url": "/app/en",
+  "scope": "/app/",
+  "id": "/app/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#6750A4",
+  "background_color": "#FFFBFE",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/app/icon.svg",
+      "sizes": "128x128 192x192 256x256 384x384 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
