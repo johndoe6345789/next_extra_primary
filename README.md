@@ -15,8 +15,45 @@ include authentication, a points-and-badges gamification system, real-time
 notifications, AI chat (Claude and OpenAI), full-text search via
 Elasticsearch, feature toggles, contact forms, a documentation viewer,
 internationalization, and dark mode support. The project also ships
-ancillary tools: an email client, a PostgreSQL admin dashboard, a package
-repository manager, and an S3-compatible object store for offline use.
+ancillary tools: a real webmail client (Postfix + Dovecot + IMAP),
+an alerts centre, a job-scheduler operator dashboard, a cron-manager
+operator dashboard, a PostgreSQL admin dashboard, a package repository
+manager, and an S3-compatible object store for offline use.
+
+This repository is a GitHub **template**. Every file is a feature
+that downstream consumers inherit — the defaults are designed to
+be extended and corrected, not stripped.
+
+## Service Catalogue
+
+### Drogon C++ daemons (`backend/src/commands/`)
+
+| CLI subcommand   | Compose service  | Purpose                                  |
+|------------------|------------------|------------------------------------------|
+| `serve`          | `backend`        | Main REST API on port 8080               |
+| `job-scheduler`  | `job-scheduler`  | Durable background worker pool           |
+| `cron-manager`   | `cron-manager`   | Enqueues `scheduled_jobs` into `job_queue`|
+| `migrate`        | (one-shot)       | Apply SQL migrations                     |
+| `seed`           | (one-shot)       | Seed demo data                            |
+| `create-admin`   | (one-shot)       | Bootstrap first admin user               |
+
+See [docs/services.md](docs/services.md) for the full per-daemon
+reference (env vars, config files, controller surface).
+
+### Next.js tools (`tools/`)
+
+| Path           | Nginx URL       | SSO gated | Purpose                         |
+|----------------|-----------------|-----------|---------------------------------|
+| `sso`          | `/sso`          | no        | Login / logout / token exchange |
+| `emailclient`  | `/emailclient`  | yes       | Real webmail (IMAP + SMTP)      |
+| `alerts`       | `/alerts`       | yes       | Operator alert centre           |
+| `jobs`         | `/jobs`         | yes       | job-scheduler dashboard         |
+| `cron`         | `/cron`         | yes       | cron-manager dashboard          |
+| `packagerepo`  | `/repo`         | yes       | Package repo browser            |
+| `s3server`     | `/s3`           | yes       | S3 object store browser         |
+| `pgadmin`      | `/db`           | yes       | Postgres admin UI               |
+
+See [docs/tools.md](docs/tools.md) for the per-tool reference.
 
 ---
 
@@ -86,10 +123,18 @@ cp frontend/.env.example frontend/.env
 docker compose up --build
 ```
 
-This starts PostgreSQL on port 5432, the C++ API on port 8080, the
-Next.js frontend on port 3100, and the Nginx portal on port 8889.
+This starts PostgreSQL on port 5432, Elasticsearch on 9200, the
+mailserver (Postfix + Dovecot) on 25/143/587, the C++ `backend`
+API on port 8080, the `job-scheduler` and `cron-manager` daemons,
+the Next.js frontend on port 3100, every operator tool listed
+above, and finally the Nginx portal on port **8889**.
 
-Open **http://localhost:8889/app/en** in your browser.
+Open **http://localhost:8889** for the portal homepage,
+or **http://localhost:8889/app/en** for the main app.
+
+> The `docker-compose.yml` header comment still mentions
+> `:8000` for historical reasons — the portal actually listens
+> on `:8889`. Use 8889.
 
 ### Dev Credentials
 
@@ -265,14 +310,24 @@ nextra/
 │   └── nginx/                  # Reverse proxy + portal
 ├── tools/
 │   ├── manager/                # Dev workflow CLI (cmake-gen)
-│   ├── emailclient/            # Email client application
+│   ├── sso/                    # SSO login portal (Next.js)
+│   ├── emailclient/            # Real webmail (IMAP + SMTP)
+│   ├── alerts/                 # Alerts centre (Next.js)
+│   ├── jobs/                   # job-scheduler dashboard
+│   ├── cron/                   # cron-manager dashboard
 │   ├── pgadmin/                # PostgreSQL admin dashboard
 │   ├── packagerepo/            # Package repository manager
 │   └── s3server/               # S3-compatible object store
 └── docs/
     ├── api.md                  # Full API reference
     ├── deployment.md           # CapRover deployment guide
-    └── architecture.md         # System architecture docs
+    ├── architecture.md         # System architecture + diagrams
+    ├── services.md             # Drogon daemons catalogue
+    ├── tools.md                # Next.js tools catalogue
+    ├── cron.md                 # Vixie cron dialect + seed flow
+    ├── jobs.md                 # job_queue + REST endpoints
+    ├── adding-a-daemon.md      # Walkthrough: new backend daemon
+    └── adding-a-tool.md        # Walkthrough: new frontend tool
 ```
 
 ---
@@ -378,6 +433,32 @@ prefixed with `/api`.
 
 For the full endpoint reference with request/response schemas, see
 [docs/api.md](docs/api.md).
+
+The job-scheduler and cron-manager controllers add another
+endpoint group:
+
+| Group          | Base Path       | Description                       |
+|----------------|-----------------|-----------------------------------|
+| Jobs           | `/api/jobs`     | Queue, runs, dead-letter, enqueue |
+| Cron           | `/api/cron`     | `scheduled_jobs` CRUD + force-tick |
+
+See [docs/jobs.md](docs/jobs.md) and [docs/cron.md](docs/cron.md).
+
+---
+
+## Further Documentation
+
+| File                                     | What it covers                      |
+|------------------------------------------|--------------------------------------|
+| [docs/architecture.md](docs/architecture.md) | Full system diagram + data flow  |
+| [docs/services.md](docs/services.md)     | Every Drogon daemon                 |
+| [docs/tools.md](docs/tools.md)           | Every Next.js tool                  |
+| [docs/cron.md](docs/cron.md)             | Vixie dialect + scheduled_jobs      |
+| [docs/jobs.md](docs/jobs.md)             | job_queue + REST API                |
+| [docs/adding-a-daemon.md](docs/adding-a-daemon.md) | Walkthrough: new backend daemon |
+| [docs/adding-a-tool.md](docs/adding-a-tool.md) | Walkthrough: new frontend tool  |
+| [docs/api.md](docs/api.md)               | REST endpoint reference             |
+| [docs/deployment.md](docs/deployment.md) | CapRover deployment guide           |
 
 ---
 
