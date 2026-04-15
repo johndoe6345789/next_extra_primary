@@ -252,6 +252,49 @@ services:
       BACKEND_URL: http://backend:8080
     restart: unless-stopped
 
+  # ---- Notification router daemon (Phase 1.3) ---------------
+  notification-router:
+    build:
+      context: ./backend
+      additional_contexts:
+        manager: ./tools/manager
+        commands: ./.local/commands
+      args:
+        DEPS_IMAGE: debian:sid
+        RUNTIME_IMAGE: debian:sid-slim
+    command: ["./nextra-api", "notification-router",
+              "--config", "config/config.json"]
+    depends_on:
+      db:
+        condition: service_healthy
+      backend:
+        condition: service_started
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: nextra_db
+      DB_USER: nextra
+      DB_PASSWORD: nextra_dev
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      EMAIL_API_URL: http://emailclient-api:5000
+    restart: unless-stopped
+
+  # ---- Notifications operator tool (Phase 1.3) --------------
+  notifications:
+    build:
+      context: ./tools/notifications
+      dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
+      args:
+        NEXT_BASE_PATH: /notifications
+    depends_on:
+      - notification-router
+    environment:
+      NEXT_PUBLIC_BASE_PATH: /notifications
+      BACKEND_URL: http://backend:8080
+    restart: unless-stopped
+
   # ---- Cron operator tool (schedule CRUD + preview) ----------
   cron:
     build:
@@ -315,6 +358,7 @@ services:
       - alerts
       - jobs
       - cron
+      - notifications
     restart: unless-stopped
 
 

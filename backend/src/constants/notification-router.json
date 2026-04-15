@@ -1,0 +1,26 @@
+{
+  "kafkaTopic": "notifications.outbox",
+  "consumerGroup": "notification-router",
+  "defaultRetries": 5,
+  "retryBaseMs": 2000,
+  "retryMaxMs": 600000,
+  "channels": [
+    {
+      "name": "email",
+      "endpoint": "http://emailclient-api:5000/send"
+    },
+    {
+      "name": "webhook",
+      "endpoint": ""
+    },
+    {
+      "name": "inapp",
+      "endpoint": ""
+    },
+    {
+      "name": "push",
+      "endpoint": ""
+    }
+  ],
+  "httpPort": 8084
+}
