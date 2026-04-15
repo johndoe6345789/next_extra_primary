@@ -3,14 +3,16 @@
 /**
  * Shared alerts bell for every tool's header.
  *
- * Renders a bell icon with a live unread-count
- * badge and navigates to /alerts on click. Works
- * inside any Next.js basePath via absolute URLs.
+ * Renders a bell icon anchor with a live unread
+ * badge that cross-navigates to the portal-level
+ * /alerts route. Using an anchor (not onClick +
+ * window.location) preserves middle-click,
+ * cmd-click, screen readers, and SSO state.
  */
 
 import React from 'react'
 import { Bell } from '../../../icons/react/m3/Bell'
-import { IconButton } from '../inputs/IconButton'
+import { Link } from '../navigation/Link'
 import {
   useAlertsBell, UseAlertsBellOptions,
 } from './useAlertsBell'
@@ -30,8 +32,8 @@ export interface AlertsBellProps
 }
 
 /**
- * Bell button that navigates to the alerts centre
- * and shows the unread count as a badge.
+ * Bell anchor that navigates to the alerts
+ * centre and shows the unread count as a badge.
  */
 export const AlertsBell: React.FC<AlertsBellProps> = ({
   href = '/alerts',
@@ -47,24 +49,24 @@ export const AlertsBell: React.FC<AlertsBellProps> = ({
     unreadCount > 0
       ? `${unreadCount} unread alerts`
       : 'No unread alerts'
+  const isExternal = /^https?:\/\//.test(href)
+  const rel = isExternal
+    ? 'noopener noreferrer'
+    : undefined
 
-  const go = () => {
-    // Absolute href — bypasses Next.js basePath so
-    // it reaches the portal-level /alerts route.
-    window.location.href = href
-  }
+  const anchor = (
+    <Link
+      href={href}
+      aria-label={label}
+      testId={testId}
+      rel={rel}
+      underline="none"
+    >
+      <Bell size={size} />
+    </Link>
+  )
 
-  if (unreadCount === 0) {
-    return (
-      <IconButton
-        aria-label={label}
-        onClick={go}
-        testId={testId}
-      >
-        <Bell size={size} />
-      </IconButton>
-    )
-  }
+  if (unreadCount === 0) return anchor
 
   const display =
     unreadCount > 99 ? '99+' : String(unreadCount)
@@ -74,13 +76,7 @@ export const AlertsBell: React.FC<AlertsBellProps> = ({
       data-testid={`${testId}-wrap`}
       style={WRAP_STYLE}
     >
-      <IconButton
-        aria-label={label}
-        onClick={go}
-        testId={testId}
-      >
-        <Bell size={size} />
-      </IconButton>
+      {anchor}
       <span style={BADGE_STYLE} aria-hidden="true">
         {display}
       </span>

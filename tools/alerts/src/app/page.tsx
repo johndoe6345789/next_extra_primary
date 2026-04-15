@@ -5,12 +5,13 @@
  * feed across all Nextra services.
  */
 
+import { Alert, Typography } from '@shared/m3'
 import { useAlerts } from '@/hooks/useAlerts'
 import { AlertList } from './AlertList'
 
 export default function AlertsPage() {
   const {
-    alerts, loading, unreadCount, markRead,
+    alerts, loading, error, unreadCount, markRead,
   } = useAlerts()
 
   return (
@@ -20,28 +21,45 @@ export default function AlertsPage() {
           <span className={
             'material-symbols-outlined ' +
             'alerts-icon'
-          }>
+          } aria-hidden="true">
             notifications
           </span>
-          <h1 style={{ margin: 0 }}>
+          <Typography
+            variant="h1"
+            testId="alerts-heading"
+          >
             Alerts
             {unreadCount > 0 && (
-              <span style={{
-                fontSize: '0.875rem',
-                fontWeight: 400,
-                marginLeft: 8,
-                opacity: 0.7,
-              }}>
-                {unreadCount} unread
-              </span>
+              <Typography
+                as="span"
+                variant="caption"
+                className="alerts-unread-count"
+              >
+                {` ${unreadCount} unread`}
+              </Typography>
             )}
-          </h1>
+          </Typography>
         </div>
       </header>
 
+      {error && (
+        <Alert
+          severity="error"
+          title="Could not load alerts"
+          testId="alerts-error"
+        >
+          {error}
+        </Alert>
+      )}
+
       {loading ? (
-        <div className="alerts-empty">
-          Loading…
+        <div
+          className="alerts-empty"
+          data-testid="alerts-loading"
+        >
+          <Typography variant="body1">
+            Loading…
+          </Typography>
         </div>
       ) : (
         <AlertList

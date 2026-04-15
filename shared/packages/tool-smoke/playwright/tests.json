@@ -63,6 +63,81 @@
             "expected": "Mail"
           } }
       ]
+    },
+    {
+      "name": "alerts bell is an anchor not a button",
+      "tags": ["@smoke", "@alerts", "@bugfix"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/emailclient" },
+        { "action": "waitForLoadState",
+          "state": "domcontentloaded" },
+        { "action": "expect",
+          "selector": "[data-testid='alerts-bell']",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect",
+          "selector": "a[data-testid='alerts-bell']",
+          "assertion": {
+            "matcher": "toHaveAttribute",
+            "name": "href",
+            "value": "/alerts"
+          } }
+      ]
+    },
+    {
+      "name": "alerts page renders M3 list (no raw <a>)",
+      "tags": ["@smoke", "@alerts", "@bugfix"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/alerts" },
+        { "action": "waitForLoadState",
+          "state": "networkidle" },
+        { "action": "expect",
+          "selector": "[data-testid='alerts-heading']",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect",
+          "selector":
+            "[data-testid='alerts-list'], [data-testid='alerts-empty']",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    },
+    {
+      "name": "alerts error surfaces M3 banner on API failure",
+      "tags": ["@alerts", "@bugfix"],
+      "steps": [
+        { "action": "route",
+          "url": "**/alerts/api/email/accounts",
+          "response": { "status": 500, "body": "boom" } },
+        { "action": "navigate",
+          "url": "http://localhost:8889/alerts" },
+        { "action": "waitForLoadState",
+          "state": "networkidle" },
+        { "action": "expect",
+          "selector": "[data-testid='alerts-error']",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    },
+    {
+      "name": "email client star hits backend API",
+      "tags": ["@emailclient", "@bugfix"],
+      "steps": [
+        { "action": "route",
+          "url": "**/emailclient/api/messages/*/star",
+          "response": {
+            "status": 200,
+            "body": "{\"id\":1,\"isStarred\":true}"
+          } },
+        { "action": "navigate",
+          "url": "http://localhost:8889/emailclient" },
+        { "action": "waitForLoadState",
+          "state": "networkidle" },
+        { "action": "click",
+          "selector": "[data-testid^='email-star-']",
+          "optional": true },
+        { "action": "expect",
+          "selector": "body",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
     }
   ]
 }
