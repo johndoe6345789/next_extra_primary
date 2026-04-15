@@ -1,0 +1,7 @@
+{
+  "maxItemsPerAlbum": 500,
+  "thumbnailVariantName": "thumb",
+  "maxBulkBatchSize": 100,
+  "defaultListLimit": 200,
+  "_note": "Consumed by the gallery daemon (Phase 4.4). maxItemsPerAlbum caps gallery_items per gallery; thumbnailVariantName names the image_variants row the grid uses as its cover render."
+}
