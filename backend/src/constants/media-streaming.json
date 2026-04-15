@@ -1,0 +1,14 @@
+{
+  "mediamtxAdminUrl": "http://mediamtx:9997",
+  "mediamtxRtspHost": "mediamtx",
+  "rtspPort": 8554,
+  "webrtcPort": 8889,
+  "hlsPort": 8888,
+  "ingestKeyBytes": 24,
+  "sessionGracePeriodSeconds": 15,
+  "recordingBucket": "streams",
+  "maxConcurrentStreams": 128,
+  "_note1": "mediamtx webrtc internal port stays 8889.",
+  "_note2": "docker-compose maps it to host 8890 because",
+  "_note3": "8889 is already the nginx portal."
+}
