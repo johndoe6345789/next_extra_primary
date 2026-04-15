@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { IconButton, Menu } from '@shared/m3';
-import SiteDrawer from './SiteDrawer';
+import { AppHeaderActions } from '@shared/m3';
 import NavLinks from './NavLinks';
 import styles from './Navbar.module.scss';
 
@@ -16,10 +15,8 @@ interface NavbarUser {
 
 /** Top-level navigation bar with auth-aware links. */
 export default function Navbar() {
-  const [user, setUser] = useState<NavbarUser | null>(
-    null,
-  );
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [user, setUser] =
+    useState<NavbarUser | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -28,11 +25,13 @@ export default function Navbar() {
       if (!raw) { setUser(null); return; }
       try {
         setUser(JSON.parse(raw) as NavbarUser);
-      } catch { /* corrupt localStorage — ignore */ }
+      } catch { /* ignore corrupt */ }
     };
     syncUser();
     window.addEventListener('storage', syncUser);
-    return () => window.removeEventListener('storage', syncUser);
+    return () => window.removeEventListener(
+      'storage', syncUser,
+    );
   }, []);
 
   const handleLogout = () => {
@@ -49,20 +48,9 @@ export default function Navbar() {
       aria-label="Main navigation"
     >
       <div className={styles.navbar__container}>
-        <IconButton
-          onClick={() => setDrawerOpen(true)}
-          aria-label="Open site menu"
-          style={{
-            color: 'white',
-            padding: 8,
-            marginRight: 8,
-          }}
-        >
-          <Menu />
-        </IconButton>
-        <SiteDrawer
-          open={drawerOpen}
-          onClose={() => setDrawerOpen(false)}
+        <AppHeaderActions
+          activePath="/repo"
+          onLogout={handleLogout}
         />
         <Link
           href="/"

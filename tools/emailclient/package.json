@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@shared/m3": "file:../../shared/components/m3",
+    "@shared/scss": "file:../../shared/scss",
     "@shared/hooks": "file:../../shared/hooks",
     "@shared/redux-core": "file:../../shared/redux/core",
     "@shared/redux-slices": "file:../../shared/redux/slices",

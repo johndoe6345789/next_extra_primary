@@ -11,6 +11,7 @@ import { SkipLink } from '../molecules/SkipLink';
 import { NavbarLogo } from '@shared/components/ui/NavbarLogo';
 import { DesktopActions } from '../molecules/DesktopActions';
 import { NotificationBell } from '../molecules/NotificationBell';
+import { AppHeaderActions } from '@shared/m3/feedback';
 import { AvatarMenu } from './AvatarMenu';
 import { MobileDrawer } from './MobileDrawer';
 import { NotificationPanel } from './NotificationPanel';
@@ -54,33 +55,25 @@ export const Navbar: React.FC<NavbarProps> = ({
         data-testid={testId}
       >
         <Toolbar>
-          <MobileDrawer
-            links={LINKS}
-            onSearch={onSearch}
-          />
-          <NavbarLogo
-            label={tCommon('appName')}
-          />
+          <MobileDrawer links={LINKS} onSearch={onSearch} />
+          <NavbarLogo label={tCommon('appName')} />
           <div className="spacer" />
-          <DesktopActions
-            onSearch={onSearch ?? (() => {})}
-          />
+          <DesktopActions onSearch={onSearch ?? (() => {})} />
           {isAuthenticated ? (
             <>
-              <NotificationBell onClick={toggle} />
-              <AvatarMenu
-                user={user}
+              <AppHeaderActions
+                activePath="/app"
                 onLogout={logout}
+                hideUser
               />
+              <NotificationBell onClick={toggle} />
+              <AvatarMenu user={user} onLogout={logout} />
             </>
           ) : (
             <Button
-              component={Link}
-              href="/login"
-              variant="text"
-              testId="navbar-login"
-              style={{ whiteSpace: 'nowrap',
-                flexShrink: 0 }}
+              component={Link} href="/login"
+              variant="text" testId="navbar-login"
+              style={LOGIN_STYLE}
             >
               {tAuth('login')}
             </Button>
@@ -93,6 +86,11 @@ export const Navbar: React.FC<NavbarProps> = ({
       />
     </>
   );
+};
+
+const LOGIN_STYLE = {
+  whiteSpace: 'nowrap' as const,
+  flexShrink: 0,
 };
 
 export default Navbar;

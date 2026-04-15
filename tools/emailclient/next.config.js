@@ -39,19 +39,16 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
 
-  // API proxy for development
+  // API proxy to Flask email-service backend
   rewrites: async () => {
+    const emailApi =
+      process.env.BACKEND_URL ||
+      "http://localhost:8500";
     return {
       beforeFiles: [
         {
-          source: "/api/email/:path*",
-          destination:
-            "http://localhost:8080/api/email/:path*",
-        },
-        {
           source: "/api/:path*",
-          destination:
-            "http://localhost:8080/api/:path*",
+          destination: `${emailApi}/api/:path*`,
         },
       ],
     };

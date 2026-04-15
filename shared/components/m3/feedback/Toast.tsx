@@ -31,7 +31,7 @@ export function Toaster({
   const toasts = useSyncExternalStore(
     subscribe,
     getSnapshot,
-    () => [] as ToastEntry[],
+    getSnapshot,
   )
 
   if (toasts.length === 0) return null

@@ -1,6 +1,6 @@
 'use client';
 
-import '@scss/globals.scss';
+import '@shared/scss/globals.scss';
 import '@scss/apidocs.scss';
 
 /** @brief Root layout with M3 SCSS theme. */

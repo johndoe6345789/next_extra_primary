@@ -160,6 +160,12 @@ export {
   NotificationContainer,
   toast,
   Toaster,
+  AlertsBell,
+  useAlertsBell,
+  ThemeToggle,
+  UserBubble,
+  AppDrawer,
+  AppHeaderActions,
 } from './feedback'
 export type { ToasterProps } from './feedback'
 export type {

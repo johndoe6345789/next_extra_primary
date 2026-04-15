@@ -1,0 +1,91 @@
+.alert-item {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  border-radius:
+    var(--mat-sys-corner-medium);
+  background:
+    var(--mat-sys-surface-container);
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background:
+      var(--mat-sys-surface-container-high);
+  }
+
+  &--unread {
+    border-left: 3px solid
+      var(--mat-sys-primary);
+  }
+}
+
+.alert-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--mat-sys-primary);
+  flex-shrink: 0;
+  margin-top: 6px;
+
+  &--read {
+    background: transparent;
+  }
+}
+
+.alert-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.alert-subject {
+  font-weight: 500;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alert-source-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  background:
+    var(--mat-sys-secondary-container);
+  color:
+    var(--mat-sys-on-secondary-container);
+  flex-shrink: 0;
+
+  &[data-source='email'] {
+    background:
+      var(--mat-sys-primary-container);
+    color:
+      var(--mat-sys-on-primary-container);
+  }
+
+  &[data-source='system'] {
+    background:
+      var(--mat-sys-tertiary-container);
+    color:
+      var(--mat-sys-on-tertiary-container);
+  }
+}
+
+.alert-meta {
+  font-size: 0.8125rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.alert-time {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  color: var(--mat-sys-on-surface-variant);
+  margin-top: 2px;
+}

@@ -1,5 +1,7 @@
 'use client';
 
+import '@shared/scss/globals.scss';
+
 /** @brief Root layout with M3 design tokens. */
 export default function RootLayout({
   children,

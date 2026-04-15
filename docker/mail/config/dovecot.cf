@@ -1,0 +1,4 @@
+## Allow plaintext auth on internal Docker net
+## TLS is still available but not required
+ssl = yes
+disable_plaintext_auth = no

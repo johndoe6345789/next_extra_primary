@@ -2,7 +2,7 @@
 
 /**
  * Hooks for fetching email data from the
- * Drogon backend via /api/email/* endpoints.
+ * Flask email-service backend via /api/*.
  */
 
 import {
@@ -11,7 +11,7 @@ import {
 
 /** Email message shape from the API. */
 export interface ApiEmail {
-  id: string
+  id: number
   uid: number
   folder: string
   subject: string
@@ -23,26 +23,28 @@ export interface ApiEmail {
   receivedAt: string
 }
 
-/** Fetch accounts for the current user. */
+const HEADERS = { 'X-Tenant-Id': 'default' }
+
+/** Fetch accounts for the current tenant. */
 export async function fetchAccounts() {
   const res = await fetch(
-    '/api/email/accounts',
-    { credentials: 'include' },
+    '/emailclient/api/accounts',
+    { headers: HEADERS },
   )
   if (!res.ok) return []
   const data = await res.json()
-  return data.accounts ?? []
+  return data ?? []
 }
 
 /** Trigger IMAP sync for an account. */
 export async function triggerSync(
-  accountId: string,
+  accountId: number,
 ) {
   const res = await fetch(
-    `/api/email/sync/${accountId}`,
+    `/emailclient/api/sync/${accountId}`,
     {
       method: 'POST',
-      credentials: 'include',
+      headers: HEADERS,
     },
   )
   if (!res.ok) return { newMessages: 0 }
@@ -51,34 +53,51 @@ export async function triggerSync(
 
 /** Fetch messages for an account. */
 export async function fetchMessages(
-  accountId: string,
+  accountId: number,
   folder = 'INBOX',
 ) {
   const url =
-    `/api/email/messages?accountId=` +
-    `${accountId}&folder=${folder}`
+    `/emailclient/api/messages` +
+    `?accountId=${accountId}&folder=${folder}`
   const res = await fetch(url, {
-    credentials: 'include',
+    headers: HEADERS,
   })
   if (!res.ok) return []
   const data = await res.json()
-  return (data.messages ?? []) as ApiEmail[]
+  return (data.messages ?? []).map(
+    (m: Record<string, unknown>) => ({
+      id: m.id,
+      uid: m.uid,
+      folder: m.folder,
+      subject: m.subject,
+      from: m.from,
+      to: m.to,
+      preview: m.bodyText ?? '',
+      isRead: m.isRead,
+      isStarred: m.isStarred,
+      receivedAt: m.dateReceived,
+    }),
+  ) as ApiEmail[]
 }
 
 /**
  * Hook to load and sync emails.
- * @param accountId Email account UUID.
+ * @param accountId Email account numeric ID.
  * @returns Messages array and loading state.
  */
-export function useEmailApi(accountId: string) {
+export function useEmailApi(
+  accountId: number | null,
+) {
   const [msgs, setMsgs] =
     useState<ApiEmail[]>([])
   const [loading, setLoading] = useState(true)
 
   const refresh = useCallback(async () => {
+    if (!accountId) return
     setLoading(true)
     await triggerSync(accountId)
-    const data = await fetchMessages(accountId)
+    const data =
+      await fetchMessages(accountId)
     setMsgs(data)
     setLoading(false)
   }, [accountId])

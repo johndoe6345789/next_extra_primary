@@ -1,11 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { IconButton } from '@shared/m3';
-import { Menu as MenuIcon }
-  from '@shared/m3/icons';
-import SiteDrawer
-  from '@/components/molecules/SiteDrawer';
+import { AppHeaderActions } from '@shared/m3';
 import navItems from '@/constants/nav-items.json';
 import labels from '@/constants/ui-labels.json';
 import shell
@@ -21,15 +17,12 @@ interface AppShellProps {
   children: React.ReactNode;
 }
 
-const burgerStyle = { color: 'inherit', padding: 4 };
-
 /** @brief Main layout with sidebar + content. */
 export default function AppShell(
   { activeTab, onTabChange, onLogout, children }
     : AppShellProps,
 ) {
   const [collapsed, setCollapsed] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const sidebarCls = collapsed
     ? sidebar.sidebarCollapsed : sidebar.sidebar;
 
@@ -37,18 +30,12 @@ export default function AppShell(
     <div className={shell.appShell} data-testid="app-shell">
       <nav className={sidebarCls} aria-label="Main navigation">
         <div className={sidebar.sidebarHeader}>
-          <IconButton
-            onClick={() => setDrawerOpen(true)}
-            aria-label="Open site drawer"
-            data-testid="site-drawer-toggle"
-            style={burgerStyle}
-          >
-            <MenuIcon />
-          </IconButton>
-          <SiteDrawer
-            open={drawerOpen}
-            onClose={() => setDrawerOpen(false)}
-          />
+          {!collapsed && (
+            <AppHeaderActions
+              activePath="/db"
+              onLogout={onLogout}
+            />
+          )}
           <h2 className={sidebar.sidebarTitle}>
             {labels.app.title}
           </h2>

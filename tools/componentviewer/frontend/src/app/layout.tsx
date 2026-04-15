@@ -1,6 +1,6 @@
 'use client';
 
-import '@scss/globals.scss';
+import '@shared/scss/globals.scss';
 
 /** @brief Root layout with M3 SCSS theme. */
 export default function RootLayout({

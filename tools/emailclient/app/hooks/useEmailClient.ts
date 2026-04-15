@@ -10,11 +10,9 @@ const FOLDERS: FolderNavigationItem[] =
 
 export function useEmailClient() {
   const [accountId, setAccountId] =
-    useState<string | null>(null)
+    useState<number | null>(null)
   const [activeFolder, setActiveFolder] =
     useState('inbox')
-  const [selectedEmailId, setSelectedEmailId] =
-    useState<string | null>(null)
   const [showCompose, setShowCompose] =
     useState(false)
   const [searchQuery, setSearchQuery] =
@@ -24,7 +22,6 @@ export function useEmailClient() {
   const [sidebarOpen, setSidebarOpen] =
     useState(true)
 
-  // Auto-detect account on mount
   useEffect(() => {
     fetchAccounts().then((accs) => {
       if (accs.length > 0) {
@@ -34,17 +31,18 @@ export function useEmailClient() {
   }, [])
 
   const { messages, loading, refresh } =
-    useEmailApi(accountId ?? '')
+    useEmailApi(accountId)
 
-  // Map API messages to component format
   const emails = messages.map(m => ({
-    id: m.id,
-    testId: m.id,
+    id: String(m.id),
+    testId: String(m.id),
     from: m.from,
     to: [m.to],
     subject: m.subject,
     preview: m.preview,
-    receivedAt: new Date(m.receivedAt).getTime(),
+    receivedAt: new Date(
+      m.receivedAt,
+    ).getTime(),
     isRead: m.isRead,
     isStarred: m.isStarred,
     body: m.preview,
@@ -59,10 +57,6 @@ export function useEmailClient() {
     unreadCount: f.id === 'inbox'
       ? inboxUnread : undefined,
   }))
-
-  const selectedEmail =
-    emails.find(e => e.id === selectedEmailId)
-    || null
 
   const filteredEmails = emails.filter(e => {
     if (activeFolder === 'starred')
@@ -82,11 +76,6 @@ export function useEmailClient() {
   const unreadCount =
     filteredEmails.filter(e => !e.isRead).length
 
-  const handleSelectEmail = useCallback(
-    (emailId: string) => {
-      setSelectedEmailId(emailId)
-    }, [])
-
   const handleToggleRead = useCallback(
     (_: string, __: boolean) => {}, [])
 
@@ -102,23 +91,21 @@ export function useEmailClient() {
   const handleNavigateFolder = useCallback(
     (folderId: string) => {
       setActiveFolder(folderId)
-      setSelectedEmailId(null)
     }, [])
 
   return {
+    accountId,
     state: {
-      activeFolder, selectedEmailId,
-      emails, showCompose, searchQuery,
-      isDarkMode, sidebarOpen, folders,
-      selectedEmail, filteredEmails,
-      unreadCount,
+      activeFolder, emails, showCompose,
+      searchQuery, isDarkMode, sidebarOpen,
+      folders, filteredEmails, unreadCount,
     },
     actions: {
-      setSelectedEmailId, setSearchQuery,
-      setShowCompose, setIsDarkMode,
-      setSidebarOpen, handleSelectEmail,
+      setSearchQuery, setShowCompose,
+      setIsDarkMode, setSidebarOpen,
       handleToggleRead, handleToggleStar,
       handleSend, handleNavigateFolder,
+      refresh,
     },
   }
 }

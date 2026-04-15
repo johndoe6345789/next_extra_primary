@@ -8,6 +8,7 @@
 import {
   List, ListSubheader, ListItem,
   ListItemButton, ListItemText, Typography,
+  AppHeaderActions,
 } from '@shared/m3';
 import type {
   ComponentDef, Category,
@@ -46,9 +47,16 @@ export default function ComponentSidebar({
       data-testid="component-sidebar"
       style={{ width: 240, overflowY: 'auto' }}
     >
-      <Typography variant="h6" style={{ padding: 16 }}>
-        M3 Components
-      </Typography>
+      <div style={{
+        padding: 16, display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}>
+        <Typography variant="h6">
+          M3 Components
+        </Typography>
+        <AppHeaderActions activePath="/components" />
+      </div>
       {CATEGORIES.map((cat) => {
         const defs = grouped.get(cat);
         if (!defs?.length) return null;

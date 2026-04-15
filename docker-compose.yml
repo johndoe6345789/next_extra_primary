@@ -66,7 +66,7 @@ services:
       ENABLE_FAIL2BAN: 0
       ENABLE_POSTGREY: 0
       ENABLE_AMAVIS: 0
-      SSL_TYPE: ""
+      SSL_TYPE: "self-signed"
       PERMIT_DOCKER: network
       ONE_DIR: 1
       OVERRIDE_HOSTNAME: mail.nextra.local
@@ -230,8 +230,28 @@ services:
       - frontend
       - backend
       - sso
+      - alerts
     restart: unless-stopped
 
+
+  # ---- Alerts centre -----------------------------------------
+  alerts:
+    build:
+      context: ./tools/alerts
+      dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
+      args:
+        NEXT_BASE_PATH: /alerts
+    ports:
+      - "8999:3000"
+    depends_on:
+      emailclient-api:
+        condition: service_started
+    environment:
+      EMAIL_API_URL: http://emailclient-api:5000
+      NODE_ENV: production
+    restart: unless-stopped
 
 # ==============================================================
 #  Tool services
