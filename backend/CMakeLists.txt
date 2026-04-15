@@ -55,6 +55,7 @@ file(GLOB NEXTRA_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/services/image/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/services/flags/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/services/gallery/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/services/wiki/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/utils/*.cpp"
 )
 

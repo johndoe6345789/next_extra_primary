@@ -593,6 +593,10 @@ services:
   backups:
     build:
       context: ./tools/backups
+  # ---- Wiki tool (collaborative editor + history) ------------
+  wiki:
+    build:
+      context: ./tools/wiki
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -602,6 +606,11 @@ services:
       - backup-manager
     environment:
       NEXT_PUBLIC_BASE_PATH: /backups
+        NEXT_BASE_PATH: /wiki
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_BASE_PATH: /wiki
       BACKEND_URL: http://backend:8080
     restart: unless-stopped
 
@@ -725,6 +734,7 @@ services:
       - search
       - backups
       - status
+      - wiki
     restart: unless-stopped
 
   # ---- Public status page (NOT SSO gated) -------------------

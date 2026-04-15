@@ -1,0 +1,92 @@
+@use '@shared/scss/tokens' as *;
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100dvh;
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  font-family: 'Roboto', system-ui, sans-serif;
+}
+
+.wiki-shell {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  max-width: 1440px;
+  margin: 0 auto;
+  min-height: 100dvh;
+}
+
+.wiki-tree {
+  background: var(--md-sys-color-surface-container);
+  border: 1px solid
+    var(--md-sys-color-outline-variant);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  overflow-y: auto;
+
+  ul {
+    list-style: none;
+    padding: 0 0 0 0.75rem;
+    margin: 0;
+  }
+
+  button {
+    all: unset;
+    cursor: pointer;
+    display: block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    color: var(--md-sys-color-on-surface);
+
+    &[data-active='true'] {
+      background: var(
+        --md-sys-color-secondary-container);
+    }
+  }
+}
+
+.wiki-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.wiki-editor textarea {
+  width: 100%;
+  min-height: 60vh;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.875rem;
+  background:
+    var(--md-sys-color-surface-container-low);
+  color: var(--md-sys-color-on-surface);
+  border: 1px solid
+    var(--md-sys-color-outline-variant);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+}
+
+.wiki-diff {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.8125rem;
+  background:
+    var(--md-sys-color-surface-container-low);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+
+  .line {
+    padding: 0 0.5rem;
+    white-space: pre-wrap;
+
+    &[data-op='+'] {
+      background: rgba(0, 160, 0, 0.18);
+    }
+
+    &[data-op='-'] {
+      background: rgba(200, 0, 0, 0.18);
+    }
+  }
+}

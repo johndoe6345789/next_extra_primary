@@ -1,0 +1,7 @@
+{
+  "maxDepth": 8,
+  "revisionKeep": 50,
+  "defaultTreeLimit": 500,
+  "maxTitleLength": 200,
+  "maxBodyBytes": 524288
+}
