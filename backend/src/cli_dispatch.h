@@ -8,6 +8,7 @@
 
 #include "cli_options.h"
 #include "commands/create_admin.h"
+#include "commands/ecommerce_api.h"
 #include "commands/migrate.h"
 #include "commands/seed.h"
 #include "commands/serve.h"
@@ -35,9 +36,11 @@ inline int dispatchCommand(
     CLI::App* migrateCmd,
     CLI::App* seedCmd,
     CLI::App* adminCmd,
+    CLI::App* ecommerceCmd,
     const MigrateOpts& migrateOpts,
     const SeedOpts& seedOpts,
     const AdminOpts& adminOpts,
+    const EcommerceOpts& ecommerceOpts,
     std::uint16_t port,
     const std::string& config)
 {
@@ -53,6 +56,9 @@ inline int dispatchCommand(
             commands::cmdCreateAdmin(
                 adminOpts.email,
                 adminOpts.password);
+        } else if (*ecommerceCmd) {
+            commands::cmdEcommerceApi(
+                ecommerceOpts.config);
         } else {
             commands::cmdServe(port, config);
         }

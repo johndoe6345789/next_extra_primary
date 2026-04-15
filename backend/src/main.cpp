@@ -47,12 +47,15 @@ int main(int argc, char* argv[])
     MigrateOpts migrateOpts;
     SeedOpts seedOpts;
     AdminOpts adminOpts;
+    EcommerceOpts ecommerceOpts;
     auto* migrateCmd =
         addMigrateCmd(app, migrateOpts);
     auto* seedCmd =
         addSeedCmd(app, seedOpts);
     auto* adminCmd =
         addAdminCmd(app, adminOpts);
+    auto* ecommerceCmd =
+        addEcommerceCmd(app, ecommerceOpts);
 
     // -- audit-manager (Phase 1.2 Kafka consumer) --
     std::string auditConfig{"config/config.json"};
@@ -77,7 +80,7 @@ int main(int argc, char* argv[])
     }
 
     return dispatchCommand(
-        migrateCmd, seedCmd, adminCmd,
-        migrateOpts, seedOpts, adminOpts,
+        migrateCmd, seedCmd, adminCmd, ecommerceCmd,
+        migrateOpts, seedOpts, adminOpts, ecommerceOpts,
         servePort, serveConfig);
 }

@@ -34,6 +34,7 @@ find_package(inja         REQUIRED)
 find_package(mailio       REQUIRED)
 find_package(fmt          REQUIRED)
 find_package(spdlog       REQUIRED)
+find_package(OpenSSL      REQUIRED)
 
 # ----------------------------------------------------------------
 # Collect source files
@@ -60,6 +61,7 @@ file(GLOB NEXTRA_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/services/auth/passkeys/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/services/auth/totp/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/services/auth/oauth/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/services/ecommerce/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/utils/*.cpp"
 )
 
@@ -90,6 +92,7 @@ target_link_libraries(${PROJECT_NAME}
         spdlog::spdlog
         hiredis::hiredis
         RdKafka::rdkafka
+        OpenSSL::Crypto
 )
 
 # ----------------------------------------------------------------

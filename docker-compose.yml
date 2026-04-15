@@ -421,6 +421,49 @@ services:
       S3_ENDPOINT: http://s3:9000
     restart: unless-stopped
 
+  # ---- Ecommerce daemon (products, cart, Stripe) -------------
+  ecommerce-api:
+    build:
+      context: ./backend
+      additional_contexts:
+        manager: ./tools/manager
+        commands: ./.local/commands
+      args:
+        DEPS_IMAGE: debian:sid
+        RUNTIME_IMAGE: debian:sid-slim
+    command: ["./nextra-api", "ecommerce-api",
+              "--config", "config/config.json"]
+    depends_on:
+      db:
+        condition: service_healthy
+      backend:
+        condition: service_started
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: nextra_db
+      DB_USER: nextra
+      DB_PASSWORD: nextra_dev
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+    restart: unless-stopped
+
+  # ---- Shop admin operator tool ------------------------------
+  shop-admin:
+    build:
+      context: ./tools/shop-admin
+      dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
+      args:
+        NEXT_BASE_PATH: /shop-admin
+    depends_on:
+      - ecommerce-api
+    environment:
+      NEXT_PUBLIC_BASE_PATH: /shop-admin
+      BACKEND_URL: http://ecommerce-api:8080
+    restart: unless-stopped
+
   # ---- Jobs operator tool (T3 Next.js frontend) --------------
   jobs:
     build:
@@ -806,6 +849,7 @@ services:
       NEXT_PUBLIC_BASE_PATH: /gallery
       BACKEND_API_URL: http://backend:8080
       NODE_ENV: production
+      - shop-admin
     restart: unless-stopped
 
 

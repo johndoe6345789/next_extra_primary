@@ -73,3 +73,22 @@ inline CLI::App* addAdminCmd(
         ->required();
     return cmd;
 }
+
+/**
+ * @brief Register the "ecommerce-api" sub-command.
+ * @param app  Root CLI11 application.
+ * @param opts Output struct filled after parse.
+ * @return Pointer to the sub-command.
+ */
+inline CLI::App* addEcommerceCmd(
+    CLI::App& app, EcommerceOpts& opts)
+{
+    auto* cmd = app.add_subcommand(
+        "ecommerce-api",
+        "Run the ecommerce / Stripe daemon");
+    cmd->add_option(
+        "-c,--config", opts.config,
+        "Path to Drogon JSON config")
+        ->default_val("config/config.json");
+    return cmd;
+}

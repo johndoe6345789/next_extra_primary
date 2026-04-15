@@ -1,0 +1,9 @@
+{
+  "currency": "USD",
+  "taxRate": 0.0,
+  "stripeApiBase": "https://api.stripe.com",
+  "stripeApiVersion": "2024-06-20",
+  "defaultShippingCents": 0,
+  "maxCartItems": 50,
+  "maxCartQty": 99
+}

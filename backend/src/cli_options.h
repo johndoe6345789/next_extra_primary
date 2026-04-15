@@ -31,3 +31,9 @@ struct AdminOpts
     std::string email;
     std::string password;
 };
+
+/// @brief Options from the "ecommerce-api" sub-command.
+struct EcommerceOpts
+{
+    std::string config{"config/config.json"};
+};
