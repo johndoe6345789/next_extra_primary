@@ -1,89 +1,28 @@
 'use client'
 
 /**
- * Hooks for fetching email data from the
- * Flask email-service backend via /api/*.
+ * React hook that loads and syncs emails
+ * from the Flask email-service backend.
  */
 
 import {
   useState, useEffect, useCallback,
 } from 'react'
+import {
+  ApiEmail, triggerSync, fetchMessages,
+} from './emailApiFetchers'
 
-/** Email message shape from the API. */
-export interface ApiEmail {
-  id: number
-  uid: number
-  folder: string
-  subject: string
-  from: string
-  to: string
-  preview: string
-  isRead: boolean
-  isStarred: boolean
-  receivedAt: string
-}
-
-const HEADERS = { 'X-Tenant-Id': 'default' }
-
-/** Fetch accounts for the current tenant. */
-export async function fetchAccounts() {
-  const res = await fetch(
-    '/emailclient/api/accounts',
-    { headers: HEADERS },
-  )
-  if (!res.ok) return []
-  const data = await res.json()
-  return data ?? []
-}
-
-/** Trigger IMAP sync for an account. */
-export async function triggerSync(
-  accountId: number,
-) {
-  const res = await fetch(
-    `/emailclient/api/sync/${accountId}`,
-    {
-      method: 'POST',
-      headers: HEADERS,
-    },
-  )
-  if (!res.ok) return { newMessages: 0 }
-  return res.json()
-}
-
-/** Fetch messages for an account. */
-export async function fetchMessages(
-  accountId: number,
-  folder = 'INBOX',
-) {
-  const url =
-    `/emailclient/api/messages` +
-    `?accountId=${accountId}&folder=${folder}`
-  const res = await fetch(url, {
-    headers: HEADERS,
-  })
-  if (!res.ok) return []
-  const data = await res.json()
-  return (data.messages ?? []).map(
-    (m: Record<string, unknown>) => ({
-      id: m.id,
-      uid: m.uid,
-      folder: m.folder,
-      subject: m.subject,
-      from: m.from,
-      to: m.to,
-      preview: m.bodyText ?? '',
-      isRead: m.isRead,
-      isStarred: m.isStarred,
-      receivedAt: m.dateReceived,
-    }),
-  ) as ApiEmail[]
-}
+export type { ApiEmail } from './emailApiFetchers'
+export {
+  fetchAccounts, triggerSync, fetchMessages,
+} from './emailApiFetchers'
 
 /**
  * Hook to load and sync emails.
  * @param accountId Email account numeric ID.
- * @returns Messages array and loading state.
+ * @returns Messages array, loading state,
+ *   a refresh action, and patchMessage for
+ *   optimistic updates.
  */
 export function useEmailApi(
   accountId: number | null,
@@ -96,13 +35,23 @@ export function useEmailApi(
     if (!accountId) return
     setLoading(true)
     await triggerSync(accountId)
-    const data =
-      await fetchMessages(accountId)
+    const data = await fetchMessages(accountId)
     setMsgs(data)
     setLoading(false)
   }, [accountId])
 
   useEffect(() => { refresh() }, [refresh])
 
-  return { messages: msgs, loading, refresh }
+  /** Locally patch one message (optimistic). */
+  const patchMessage = useCallback(
+    (id: number, patch: Partial<ApiEmail>) => {
+      setMsgs(prev => prev.map(m =>
+        m.id === id ? { ...m, ...patch } : m,
+      ))
+    }, [],
+  )
+
+  return {
+    messages: msgs, loading, refresh, patchMessage,
+  }
 }
