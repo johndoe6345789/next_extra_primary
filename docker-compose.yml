@@ -236,6 +236,46 @@ services:
       DB_PASSWORD: nextra_dev
     restart: unless-stopped
 
+  # ---- Gotenberg sidecar (HTML -> PDF) -----------------------
+  gotenberg:
+    image: gotenberg/gotenberg:8
+    command:
+      - "gotenberg"
+      - "--api-port=3000"
+      - "--chromium-disable-javascript=false"
+    restart: unless-stopped
+
+  # ---- PDF generator daemon (Phase 6.2) ----------------------
+  pdf-generator:
+    build:
+      context: ./backend
+      additional_contexts:
+        manager: ./tools/manager
+        commands: ./.local/commands
+      args:
+        DEPS_IMAGE: debian:sid
+        RUNTIME_IMAGE: debian:sid-slim
+    command: ["./nextra-api", "pdf-generator",
+              "--config", "config/config.json"]
+    depends_on:
+      db:
+        condition: service_healthy
+      job-scheduler:
+        condition: service_started
+      gotenberg:
+        condition: service_started
+      s3:
+        condition: service_started
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: nextra_db
+      DB_USER: nextra
+      DB_PASSWORD: nextra_dev
+      GOTENBERG_URL: http://gotenberg:3000
+      S3_ENDPOINT: http://s3:9000
+    restart: unless-stopped
+
   # ---- Jobs operator tool (T3 Next.js frontend) --------------
   jobs:
     build:
