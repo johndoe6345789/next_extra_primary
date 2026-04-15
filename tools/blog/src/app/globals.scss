@@ -1,0 +1,32 @@
+/* Global styles for the blog operator tool. */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, sans-serif;
+  background: #0f1115;
+  color: #e6e8ee;
+  min-height: 100dvh;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.blog-shell {
+  padding: 1.5rem;
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: 18rem 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+}

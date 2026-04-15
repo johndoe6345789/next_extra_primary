@@ -649,6 +649,22 @@ services:
       BACKEND_URL: http://backend:8080
     restart: unless-stopped
 
+  # ---- Blog operator tool (markdown editor + scheduler) -----
+  blog:
+    build:
+      context: ./tools/blog
+      dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
+      args:
+        NEXT_BASE_PATH: /blog
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_BASE_PATH: /blog
+      BACKEND_URL: http://backend:8080
+    restart: unless-stopped
+
   # ---- Next.js frontend (dev mode) ----------------------------
   frontend:
     build:
@@ -747,6 +763,7 @@ services:
       - backups
       - polls
       - webhooks
+      - blog
     restart: unless-stopped
 
 

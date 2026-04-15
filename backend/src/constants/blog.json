@@ -1,0 +1,7 @@
+{
+  "slugMaxLen": 160,
+  "tagsMax": 16,
+  "revisionKeep": 50,
+  "listDefaultLimit": 50,
+  "listMaxLimit": 200
+}

@@ -6,6 +6,7 @@
 #include "commands/job_scheduler.h"
 
 #include "services/JobScheduler.h"
+#include "services/blog/ScheduledPublisher.h"
 
 #include <drogon/drogon.h>
 #include <nlohmann/json.hpp>
@@ -61,6 +62,9 @@ void cmdJobScheduler(const std::string& config)
 
     auto cfg = loadConfig("constants/job-scheduler.json");
     nextra::jobs::JobScheduler scheduler(db, cfg);
+    scheduler.registerHandler(
+        "blog.publish_due",
+        nextra::blog::ScheduledPublisher::makeHandler(db));
     scheduler.start();
     spdlog::info("job-scheduler daemon ready ({} workers)", cfg.workers);
 

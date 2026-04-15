@@ -50,6 +50,7 @@ file(GLOB NEXTRA_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/filters/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/models/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/services/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/services/blog/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/services/cron/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/services/infra/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/services/image/*.cpp"
