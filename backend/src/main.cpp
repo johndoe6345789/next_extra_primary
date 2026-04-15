@@ -2,14 +2,17 @@
  * @file main.cpp
  * @brief Entry point for the nextra-api service.
  *
- * Parses CLI arguments via CLI11, then dispatches
- * to the matching sub-command handler.
+ * Parses CLI args via CLI11, then dispatches to the
+ * matching sub-command handler.
  *
  * @copyright 2024 Nextra Contributors
  */
 
+#include "cli_daemon_opts.h"
 #include "cli_dispatch.h"
+#include "cli_dispatch_daemons.h"
 #include "cli_setup.h"
+#include "cli_setup_daemons.h"
 #include "commands/audit_manager.h"
 
 #include <cstdint>
@@ -43,19 +46,18 @@ int main(int argc, char* argv[])
         "Path to Drogon JSON config")
         ->default_val("config/config.json");
 
-    // -- migrate / seed / create-admin --
     MigrateOpts migrateOpts;
     SeedOpts seedOpts;
     AdminOpts adminOpts;
     EcommerceOpts ecommerceOpts;
-    auto* migrateCmd =
-        addMigrateCmd(app, migrateOpts);
-    auto* seedCmd =
-        addSeedCmd(app, seedOpts);
-    auto* adminCmd =
-        addAdminCmd(app, adminOpts);
+    DaemonOpts daemonOpts;
+    DaemonCmds daemonCmds;
+    auto* migrateCmd = addMigrateCmd(app, migrateOpts);
+    auto* seedCmd = addSeedCmd(app, seedOpts);
+    auto* adminCmd = addAdminCmd(app, adminOpts);
     auto* ecommerceCmd =
         addEcommerceCmd(app, ecommerceOpts);
+    addDaemonCmds(app, daemonOpts, daemonCmds);
 
     // -- audit-manager (Phase 1.2 Kafka consumer) --
     std::string auditConfig{"config/config.json"};
@@ -74,9 +76,16 @@ int main(int argc, char* argv[])
             commands::cmdAuditManager(auditConfig);
             return EXIT_SUCCESS;
         } catch (const std::exception& ex) {
-            spdlog::error("audit-manager: {}", ex.what());
+            spdlog::error(
+                "audit-manager: {}", ex.what());
             return EXIT_FAILURE;
         }
+    }
+
+    int daemonRc{EXIT_SUCCESS};
+    if (dispatchDaemonCommand(
+            daemonCmds, daemonOpts, daemonRc)) {
+        return daemonRc;
     }
 
     return dispatchCommand(
