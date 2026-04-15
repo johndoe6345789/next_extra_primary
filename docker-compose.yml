@@ -148,7 +148,7 @@ services:
   # ---- Email client API (Flask backend) ----------------------
   emailclient-api:
     build:
-      context: ./tools/emailclient
+      context: ./services/email/webmail
       dockerfile: deployment/docker/email-service/Dockerfile
     ports:
       - "8500:5000"
@@ -175,7 +175,7 @@ services:
   # ---- Email client frontend (Next.js) -----------------------
   emailclient:
     build:
-      context: ./tools/emailclient
+      context: ./services/email/webmail
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -196,9 +196,10 @@ services:
   # ---- C++ API backend ---------------------------------------
   backend:
     build:
-      context: ./backend
+      context: .
+      dockerfile: services/drogon-host/Dockerfile
       additional_contexts:
-        manager: ./tools/manager
+        manager: ./services/manager-cli/cli
         commands: ./.local/commands
       args:
         DEPS_IMAGE: debian:sid
@@ -242,9 +243,10 @@ services:
   # ---- Job scheduler daemon (durable ad-hoc queue) -----------
   job-scheduler:
     build:
-      context: ./backend
+      context: .
+      dockerfile: services/drogon-host/Dockerfile
       additional_contexts:
-        manager: ./tools/manager
+        manager: ./services/manager-cli/cli
         commands: ./.local/commands
       args:
         DEPS_IMAGE: debian:sid
@@ -279,9 +281,10 @@ services:
   #       ffmpeg && rm -rf /var/lib/apt/lists/*
   video-transcoder:
     build:
-      context: ./backend
+      context: .
+      dockerfile: services/drogon-host/Dockerfile
       additional_contexts:
-        manager: ./tools/manager
+        manager: ./services/manager-cli/cli
         commands: ./.local/commands
       args:
         DEPS_IMAGE: debian:sid
@@ -307,9 +310,10 @@ services:
   # ---- Cron manager daemon (scheduled_jobs -> job_queue) -----
   cron-manager:
     build:
-      context: ./backend
+      context: .
+      dockerfile: services/drogon-host/Dockerfile
       additional_contexts:
-        manager: ./tools/manager
+        manager: ./services/manager-cli/cli
         commands: ./.local/commands
       args:
         DEPS_IMAGE: debian:sid
@@ -339,9 +343,10 @@ services:
   # ---- Notification router daemon (Phase 1.3) ----------------
   notification-router:
     build:
-      context: ./backend
+      context: .
+      dockerfile: services/drogon-host/Dockerfile
       additional_contexts:
-        manager: ./tools/manager
+        manager: ./services/manager-cli/cli
         commands: ./.local/commands
       args:
         DEPS_IMAGE: debian:sid
@@ -368,7 +373,7 @@ services:
   # ---- Notifications operator tool (Phase 1.3) ---------------
   notifications:
     build:
-      context: ./tools/notifications
+      context: ./services/notifications/admin
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -384,9 +389,10 @@ services:
   # ---- Image processor daemon (Phase 4.3) --------------------
   image-processor:
     build:
-      context: ./backend
+      context: .
+      dockerfile: services/drogon-host/Dockerfile
       additional_contexts:
-        manager: ./tools/manager
+        manager: ./services/manager-cli/cli
         commands: ./.local/commands
       args:
         DEPS_IMAGE: debian:sid
@@ -413,7 +419,7 @@ services:
   # ---- Image processor operator tool (Phase 4.3) -------------
   image-processor-frontend:
     build:
-      context: ./tools/image-processor
+      context: ./services/image/admin
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -438,9 +444,10 @@ services:
   # ---- PDF generator daemon (Phase 6.2) ----------------------
   pdf-generator:
     build:
-      context: ./backend
+      context: .
+      dockerfile: services/drogon-host/Dockerfile
       additional_contexts:
-        manager: ./tools/manager
+        manager: ./services/manager-cli/cli
         commands: ./.local/commands
       args:
         DEPS_IMAGE: debian:sid
@@ -469,9 +476,10 @@ services:
   # ---- Ecommerce daemon (products, cart, Stripe) -------------
   ecommerce-api:
     build:
-      context: ./backend
+      context: .
+      dockerfile: services/drogon-host/Dockerfile
       additional_contexts:
-        manager: ./tools/manager
+        manager: ./services/manager-cli/cli
         commands: ./.local/commands
       args:
         DEPS_IMAGE: debian:sid
@@ -496,7 +504,7 @@ services:
   # ---- Shop admin operator tool ------------------------------
   shop-admin:
     build:
-      context: ./tools/shop-admin
+      context: ./services/ecommerce/admin
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -512,7 +520,7 @@ services:
   # ---- Jobs operator tool (T3 Next.js frontend) --------------
   jobs:
     build:
-      context: ./tools/jobs
+      context: ./services/job-queue/admin
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -528,9 +536,10 @@ services:
   # ---- Search indexer daemon (Phase 4.5) --------------------
   search-indexer:
     build:
-      context: ./backend
+      context: .
+      dockerfile: services/drogon-host/Dockerfile
       additional_contexts:
-        manager: ./tools/manager
+        manager: ./services/manager-cli/cli
         commands: ./.local/commands
       args:
         DEPS_IMAGE: debian:sid
@@ -557,7 +566,7 @@ services:
   # ---- Search operator tool (Next.js frontend) --------------
   search:
     build:
-      context: ./tools/search
+      context: ./services/search/admin
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -591,9 +600,10 @@ services:
   # ---- media-streaming daemon (control plane) ---------------
   media-streaming:
     build:
-      context: ./backend
+      context: .
+      dockerfile: services/drogon-host/Dockerfile
       additional_contexts:
-        manager: ./tools/manager
+        manager: ./services/manager-cli/cli
         commands: ./.local/commands
       args:
         DEPS_IMAGE: debian:sid
@@ -619,7 +629,7 @@ services:
   # ---- Streams operator tool (Next.js frontend) -------------
   streams:
     build:
-      context: ./tools/streams
+      context: ./services/streaming/admin
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -635,7 +645,7 @@ services:
   # ---- Cron operator tool (schedule CRUD + preview) ----------
   cron:
     build:
-      context: ./tools/cron
+      context: ./services/cron/admin
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -651,9 +661,10 @@ services:
   # ---- Backup manager daemon (pg_dump + encrypt + upload) ---
   backup-manager:
     build:
-      context: ./backend
+      context: .
+      dockerfile: services/drogon-host/Dockerfile
       additional_contexts:
-        manager: ./tools/manager
+        manager: ./services/manager-cli/cli
         commands: ./.local/commands
       args:
         DEPS_IMAGE: debian:sid
@@ -680,9 +691,10 @@ services:
   # ---- Webhook dispatcher daemon -----------------------------
   webhook-dispatcher:
     build:
-      context: ./backend
+      context: .
+      dockerfile: services/drogon-host/Dockerfile
       additional_contexts:
-        manager: ./tools/manager
+        manager: ./services/manager-cli/cli
         commands: ./.local/commands
       args:
         DEPS_IMAGE: debian:sid
@@ -708,7 +720,7 @@ services:
   # ---- Backups operator tool (Next.js frontend) -------------
   backups:
     build:
-      context: ./tools/backups
+      context: ./services/backup/admin
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -724,7 +736,7 @@ services:
   # ---- Wiki tool (collaborative editor + history) ------------
   wiki:
     build:
-      context: ./tools/wiki
+      context: ./services/wiki/admin
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -740,7 +752,7 @@ services:
   # ---- Webhooks operator tool (T3 Next.js frontend) ----------
   webhooks:
     build:
-      context: ./tools/webhooks
+      context: ./services/webhooks/admin
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -756,7 +768,7 @@ services:
   # ---- Polls operator tool (Phase 3.2) -----------------------
   polls:
     build:
-      context: ./tools/polls
+      context: ./services/polls/admin
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -772,7 +784,7 @@ services:
   # ---- Blog operator tool (markdown editor + scheduler) -----
   blog:
     build:
-      context: ./tools/blog
+      context: ./services/blog/admin
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -806,7 +818,7 @@ services:
   # ---- SSO portal (login gate for all tools) -----------------
   sso:
     build:
-      context: ./tools/sso
+      context: ./services/sso/portal
       dockerfile: Dockerfile
     ports:
       - "3099:3000"
@@ -820,9 +832,10 @@ services:
   # ---- Audit manager daemon (Kafka → PG hash chain) ----------
   audit-manager:
     build:
-      context: ./backend
+      context: .
+      dockerfile: services/drogon-host/Dockerfile
       additional_contexts:
-        manager: ./tools/manager
+        manager: ./services/manager-cli/cli
         commands: ./.local/commands
       args:
         DEPS_IMAGE: debian:sid
@@ -846,7 +859,7 @@ services:
   # ---- Audit operator tool (T2 Next.js frontend) -------------
   audit:
     build:
-      context: ./tools/audit
+      context: ./services/audit/admin
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -897,7 +910,7 @@ services:
   # ---- Social admin operator tool (Phase 7) -----------------
   social-admin:
     build:
-      context: ./tools/social-admin
+      context: ./services/social/admin
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -917,7 +930,7 @@ services:
   # ---- Photo gallery operator tool (Phase 4.4) --------------
   gallery:
     build:
-      context: ./tools/gallery
+      context: ./services/gallery/admin
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -937,7 +950,7 @@ services:
   # ---- Feature flags operator tool ---------------------------
   flags:
     build:
-      context: ./tools/flags
+      context: ./services/feature-flags/admin
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -957,7 +970,7 @@ services:
   # ---- Analytics dashboard (admin tool) ---------------------
   analytics:
     build:
-      context: ./tools/analytics
+      context: ./services/analytics/admin
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -976,7 +989,7 @@ services:
   # ---- Public status page (NOT SSO gated) -------------------
   status:
     build:
-      context: ./tools/status
+      context: ./services/status-page/public
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -995,7 +1008,7 @@ services:
   # ---- Alerts centre -----------------------------------------
   alerts:
     build:
-      context: ./tools/alerts
+      context: ./services/alerts/admin
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -1014,7 +1027,7 @@ services:
   # ---- Forum moderation tool ---------------------------------
   forum:
     build:
-      context: ./tools/forum
+      context: ./services/comments/admin
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -1059,7 +1072,7 @@ services:
   # ---- S3-compatible object store ----------------------------
   s3:
     build:
-      context: ./tools/s3server
+      context: ./services/object-store/server
       dockerfile: backend/Dockerfile
     ports:
       - "9000:9000"
@@ -1087,7 +1100,7 @@ services:
   # ---- S3 server frontend ------------------------------------
   s3-frontend:
     build:
-      context: ./tools/s3server/frontend
+      context: ./services/object-store/server/frontend
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -1104,7 +1117,7 @@ services:
   # ---- Package repo backend ----------------------------------
   packagerepo-backend:
     build:
-      context: ./tools/packagerepo
+      context: ./services/package-repository/root
       dockerfile: backend/Dockerfile
     ports:
       - "5050:5000"
@@ -1133,7 +1146,7 @@ services:
   # ---- Package repo frontend ---------------------------------
   packagerepo-frontend:
     build:
-      context: ./tools/packagerepo/frontend
+      context: ./services/package-repository/root/frontend
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -1151,7 +1164,7 @@ services:
   # ---- PgAdmin backend (connects to main app DB) -------------
   pgadmin-backend:
     build:
-      context: ./tools/pgadmin
+      context: ./services/database/admin
       dockerfile: backend/Dockerfile
     ports:
       - "5060:5060"
@@ -1174,7 +1187,7 @@ services:
   # ---- PgAdmin frontend -------------------------------------
   pgadmin-frontend:
     build:
-      context: ./tools/pgadmin/frontend
+      context: ./services/database/admin/frontend
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared

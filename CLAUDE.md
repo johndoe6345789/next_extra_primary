@@ -94,7 +94,8 @@ directly). Nginx reverse-proxies `/app` to the Next.js container and
 
 - All constant values stored in JSON files under `constants/` directories.
 - Frontend: `frontend/src/constants/*.json`
-- Backend: `backend/src/constants/*.json`
+- Backend: `services/<domain>/constants.json` (or
+  `services/<domain>/constants/*.json` on collision)
 - Never hardcode magic numbers, URLs, or configuration values.
 
 ### File Naming
@@ -185,7 +186,8 @@ is always true in the Docker dev container and the bar would always show.
 
 ### Backend (GTest)
 
-- Test files in `backend/tests/`, named `test_<module>.cpp`.
+- Test files in `services/<domain>/tests/`, named
+  `test_<module>.cpp`.
 - One test file per service or utility module.
 - Use GTest fixtures for setup/teardown.
 - Run: `./manager test` or `ctest` in the build directory.
@@ -219,31 +221,69 @@ docker run --rm \
 
 ---
 
+## Domain layout (post-refactor)
+
+The backend is sliced into domains under `services/`. Every domain
+lives at `services/<domain>/` and can contain any of these
+canonical subfolders:
+
+```
+services/<domain>/
+  backend/          # C++ service code
+  controllers/      # C++ Drogon controllers
+  migrations/       # SQL migrations (numbered per-domain from 001)
+  tests/            # GTest unit tests
+  admin/            # Next.js operator UI (SSO-gated)
+  site/             # Next.js end-user UI
+  public/           # Next.js unauthenticated UI
+  e2e/              # Playwright JSON test package
+  docs/             # domain-specific docs
+  constants.json    # domain constants
+  README.md         # one-paragraph domain description
+```
+
+Cross-cutting code is its own domain (no `platform/` escape hatch):
+
+- `services/drogon-host/` — Drogon shell, `main.cpp`, `serve`
+  command, `config/`, Dockerfile, conanfile.
+- `services/http-filters/` — JWT/CORS/rate-limit Drogon filters.
+- `services/orm-models/` — Drogon ORM generated models.
+- `services/infra/` — Kafka/Redis client shims.
+- `services/manager-cli/` — the C++ manager binary.
+- `services/migration-runner/` — topo-sorted per-domain migrator.
+
+Migration dependencies are declared in `services/migration-graph.json`
+and the runner applies domains in topological order.
+
 ## Important Directories
 
-| Directory                   | Purpose                                    |
-|-----------------------------|--------------------------------------------|
-| `backend/src/controllers/`  | HTTP route handlers (Drogon controllers)   |
-| `backend/src/services/`     | Business logic layer                       |
-| `backend/src/models/`       | Drogon ORM generated models                |
-| `backend/src/filters/`      | JWT auth, CORS, rate limiting filters      |
-| `backend/migrations/`       | SQL migration files (ordered)              |
-| `frontend/src/app/`         | Next.js App Router pages and layouts       |
-| `frontend/src/components/`  | UI components (atoms/molecules/organisms)  |
-| `frontend/src/hooks/`       | Custom React hooks                         |
-| `frontend/src/store/`       | Redux store, slices, RTK Query APIs        |
-| `frontend/src/theme/`       | MUI theme config and design tokens         |
-| `frontend/src/messages/`    | i18n translation JSON files                |
-| `backend/src/commands/`     | CLI subcommand handlers                    |
-| `tools/manager/`            | Project management CLI (includes cmake-gen)|
-| `tools/packagerepo/`        | Package repository manager (own FE + BE)   |
-| `tools/s3server/`           | S3-compatible object store for offline use  |
-| `shared/`                   | Reusable library (see `shared/README.md`)  |
-| `shared/components/m3/`     | M3 component library (125+ components)     |
-| `shared/scss/`              | M3 SCSS tokens and atom stylesheets        |
-| `shared/e2e/`               | Playwright test infra + JSON test runner   |
-| `shared/packages/`          | Per-feature Playwright test suites         |
-| `docker/`                   | Pre-baked dependency Dockerfiles            |
+| Directory                           | Purpose                                |
+|-------------------------------------|----------------------------------------|
+| `services/<domain>/backend/`        | Per-domain C++ service code            |
+| `services/<domain>/controllers/`    | Per-domain Drogon controllers          |
+| `services/<domain>/migrations/`     | Per-domain SQL migrations (001+)       |
+| `services/<domain>/tests/`          | Per-domain GTest unit tests            |
+| `services/<domain>/admin/`          | Per-domain operator UI (Next.js)       |
+| `services/<domain>/public/`         | Per-domain public UI                   |
+| `services/drogon-host/`             | Drogon app shell + CLI entry point     |
+| `services/migration-runner/`        | Topo-sorted per-domain migration runner|
+| `services/manager-cli/cli/`         | Project management CLI (C++)           |
+| `services/package-repository/`      | Package repository manager (FE + BE)   |
+| `services/object-store/server/`     | S3-compatible object store             |
+| `services/migration-graph.json`     | DAG of migration dependencies          |
+| `frontend/src/app/`                 | Next.js App Router pages and layouts   |
+| `frontend/src/components/`          | UI components                          |
+| `frontend/src/hooks/`               | Custom React hooks                     |
+| `frontend/src/store/`               | Redux store, slices, RTK Query APIs    |
+| `frontend/src/theme/`               | MUI theme config                       |
+| `frontend/src/messages/`            | i18n translation JSON files            |
+| `shared/`                           | Reusable library                       |
+| `shared/components/m3/`             | M3 component library                   |
+| `shared/scss/`                      | M3 SCSS tokens                         |
+| `shared/e2e/`                       | Playwright test infra + JSON runner    |
+| `shared/packages/`                  | Per-feature Playwright test suites     |
+| `docker/`                           | Pre-baked dependency Dockerfiles       |
+| `CMakeLists.txt` + `cmake/`         | Top-level build; globs every domain    |
 
 ---
 
@@ -251,12 +291,18 @@ docker run --rm \
 
 ### Adding a New API Endpoint
 
-1. Create or update the controller in `backend/src/controllers/`.
-2. Add the service method in `backend/src/services/`.
-3. If new tables are needed, create a migration in `backend/migrations/`.
-4. Regenerate ORM models: `./manager generate models`.
-5. Add GTest tests in `backend/tests/`.
-6. Document the endpoint in `docs/api.md`.
+1. Pick the owning domain and edit
+   `services/<domain>/controllers/` for the route handler.
+2. Add the service method in `services/<domain>/backend/`.
+3. If new tables are needed, add a migration in
+   `services/<domain>/migrations/` numbered `NNN_*.sql`
+   (per-domain numbering, starting at 001).
+4. If the domain gains a cross-domain FK, add the
+   dependency to `services/migration-graph.json`.
+5. Regenerate ORM models: `./manager generate models`.
+6. Add GTest tests in `services/<domain>/tests/`.
+7. Document the endpoint in `services/<domain>/docs/` or
+   the top-level `docs/api.md`.
 
 ### Adding a New Frontend Component
 
@@ -286,8 +332,9 @@ docker run --rm \
 
 ### Managing Seed Users
 
-Seed user definitions live in `backend/seeds/users.json` and store
-plaintext passwords (hashed only at SQL generation time).
+Seed user definitions live in `services/users/seeds/users.json`
+and store plaintext passwords (hashed only at SQL generation
+time).
 
 ```bash
 # Generate INSERT SQL (hashes passwords via PBKDF2-SHA256)
@@ -352,8 +399,8 @@ Rebuild is the correct and only supported workflow.
 ## Key Files to Understand First
 
 1. `plan.md` — Full implementation plan and architecture decisions.
-2. `backend/src/main.cpp` — Backend entry point with CLI11 subcommands.
-3. `backend/config/config.json` — Drogon server configuration.
+2. `services/drogon-host/backend/main.cpp` — Backend entry point.
+3. `services/drogon-host/config/config.json` — Drogon server config.
 4. `frontend/src/app/[locale]/layout.tsx` — Root layout with providers.
 5. `frontend/src/styles/globals.scss` — Authoritative global CSS.
 6. `frontend/src/store/store.ts` — Redux store configuration.
@@ -366,7 +413,8 @@ Rebuild is the correct and only supported workflow.
 ## Do Not
 
 - Create Python files (`.py`) anywhere in the project.
-  (Exception: `backend/conanfile.py` is required by Conan 2 and is
+  (Exception: `services/drogon-host/conanfile.py` is required by
+  Conan 2 and is
   the only permitted `.py` file.)
 - Create shell scripts (`.sh`, `.bash`) anywhere in the project.
 - Create any file exceeding 100 lines of code.

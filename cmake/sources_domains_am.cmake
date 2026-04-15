@@ -1,0 +1,64 @@
+##
+## @file cmake/sources_domains_am.cmake
+## @brief Domain dirs A..M (first half) — appended to
+##        NEXTRA_DOMAIN_DIRS by sources_domains.cmake.
+##
+
+list(APPEND NEXTRA_DOMAIN_DIRS
+    ai-chat/backend
+    analytics/backend
+    analytics/controllers
+    api-documentation/backend
+    api-keys/backend
+    api-keys/controllers
+    audit/backend
+    audit/backend/commands
+    audit/controllers
+    auth/backend
+    auth/backend/oauth
+    auth/backend/passkeys
+    auth/backend/totp
+    auth/controllers
+    backup/backend
+    backup/backend/commands
+    backup/controllers
+    badges/backend
+    blog/backend
+    blog/controllers
+    comments/backend
+    comments/controllers
+    cron/backend
+    cron/backend/commands
+    cron/controllers
+    drogon-host/backend
+    drogon-host/backend/commands
+    drogon-host/backend/utils
+    drogon-host/controllers
+    ecommerce/backend
+    ecommerce/backend/commands
+    ecommerce/controllers
+    elasticsearch/backend
+    email/backend
+    email/controllers
+    feature-flags/backend
+    feature-flags/controllers
+    gallery/backend
+    gallery/controllers
+    gamification/backend
+    gamification/controllers
+    http-filters/backend
+    i18n/backend
+    i18n/controllers
+    image/backend
+    image/backend/commands
+    image/controllers
+    imap-sync/backend
+    infra/backend
+    job-queue/backend
+    job-queue/backend/commands
+    job-queue/controllers
+    leaderboards/backend
+    levels/backend
+    migration-runner/backend
+    migration-runner/backend/commands
+)
