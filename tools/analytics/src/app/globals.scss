@@ -1,0 +1,56 @@
+@use 'theme';
+@use 'base';
+
+.analytics-shell {
+  min-height: 100dvh;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.analytics-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.analytics-card {
+  padding: 20px;
+  border-radius: 16px;
+  background: var(
+    --md-sys-color-surface-container, #1e1e1e);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.analytics-card__label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.75;
+}
+
+.analytics-card__total {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.analytics-card--missing {
+  opacity: 0.5;
+}
+
+.analytics-chart {
+  background: var(
+    --md-sys-color-surface-container, #1e1e1e);
+  border-radius: 16px;
+  padding: 16px;
+}

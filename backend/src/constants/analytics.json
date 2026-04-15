@@ -1,0 +1,64 @@
+{
+  "description": "Admin analytics daemon config",
+  "retentionDays": 90,
+  "seriesDefaultDays": 30,
+  "seriesMaxDays": 180,
+  "metrics": [
+    {
+      "key": "users",
+      "table": "users",
+      "label": "Users",
+      "icon": "group",
+      "timeColumn": "created_at"
+    },
+    {
+      "key": "comments",
+      "table": "comments",
+      "label": "Comments",
+      "icon": "chat_bubble",
+      "timeColumn": "created_at"
+    },
+    {
+      "key": "articles",
+      "table": "articles",
+      "label": "Articles",
+      "icon": "article",
+      "timeColumn": "created_at"
+    },
+    {
+      "key": "polls",
+      "table": "polls",
+      "label": "Polls",
+      "icon": "ballot",
+      "timeColumn": "created_at"
+    },
+    {
+      "key": "webhook_deliveries",
+      "table": "webhook_deliveries",
+      "label": "Webhook deliveries",
+      "icon": "webhook",
+      "timeColumn": "created_at"
+    },
+    {
+      "key": "audit_events",
+      "table": "audit_events",
+      "label": "Audit events",
+      "icon": "gavel",
+      "timeColumn": "created_at"
+    },
+    {
+      "key": "job_queue",
+      "table": "job_queue",
+      "label": "Jobs queued",
+      "icon": "queue",
+      "timeColumn": "created_at"
+    },
+    {
+      "key": "notifications",
+      "table": "notifications",
+      "label": "Notifications",
+      "icon": "notifications",
+      "timeColumn": "created_at"
+    }
+  ]
+}

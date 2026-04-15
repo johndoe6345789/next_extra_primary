@@ -717,6 +717,14 @@ services:
   flags:
     build:
       context: ./tools/flags
+      - analytics
+    restart: unless-stopped
+
+
+  # ---- Analytics dashboard (admin tool) ---------------------
+  analytics:
+    build:
+      context: ./tools/analytics
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -752,6 +760,13 @@ services:
       - backend
     environment:
       NEXT_PUBLIC_BASE_PATH: /status
+        NEXT_BASE_PATH: /analytics
+    ports:
+      - "9017:3000"
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_BASE_PATH: /analytics
       BACKEND_URL: http://backend:8080
       NODE_ENV: production
     restart: unless-stopped
