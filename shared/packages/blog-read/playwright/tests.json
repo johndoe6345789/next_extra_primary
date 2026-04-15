@@ -1,0 +1,37 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "blog-read",
+  "description": "End-user: list blog posts and open one",
+  "tests": [
+    {
+      "name": "user can open a post from the blog index",
+      "tags": ["@blog", "@read"],
+      "steps": [
+        { "action": "mockApi", "url": "**/api/blog/posts",
+          "response": {
+            "items": [
+              { "id": 1, "slug": "hello", "title": "Hello world",
+                "excerpt": "First post" }
+            ]
+          } },
+        { "action": "mockApi", "url": "**/api/blog/posts/hello",
+          "response": {
+            "id": 1, "slug": "hello", "title": "Hello world",
+            "body_html": "<p>The body</p>"
+          } },
+        { "action": "navigate", "url": "/blog" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "blog-post-list",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "click", "testId": "blog-post-link-hello" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "blog-post-title",
+          "assertion": {
+            "matcher": "toContainText", "expected": "Hello world" } },
+        { "action": "expect", "testId": "blog-post-body",
+          "assertion": {
+            "matcher": "toContainText", "expected": "The body" } }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "send-dm",
+  "description": "End-user: open DM thread and send a message",
+  "tests": [
+    {
+      "name": "user can send a DM and see it in the thread",
+      "tags": ["@social", "@dm"],
+      "steps": [
+        { "action": "mockApi", "url": "**/api/dm/threads/1",
+          "response": {
+            "id": 1, "with": "alice",
+            "messages": [
+              { "id": 10, "from": "alice", "body": "hey" }
+            ]
+          } },
+        { "action": "mockApi", "url": "**/api/dm/threads/1/messages",
+          "method": "POST",
+          "response": {
+            "id": 11, "from": "dev.admin", "body": "hello back"
+          } },
+        { "action": "navigate", "url": "/dm/1" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "dm-thread-header",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "fill", "testId": "dm-message-input",
+          "value": "hello back" },
+        { "action": "click", "testId": "dm-send-button" },
+        { "action": "expect", "testId": "dm-message-11",
+          "assertion": {
+            "matcher": "toContainText", "expected": "hello back" } }
+      ]
+    }
+  ]
+}

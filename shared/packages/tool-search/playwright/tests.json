@@ -1,0 +1,26 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "tool-search",
+  "description": "Operator tool smoke: search index admin",
+  "tests": [
+    {
+      "name": "search admin loads and triggers reindex",
+      "tags": ["@tools", "@search"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/tools/search" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "search-admin-heading",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "search-indices-table",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "mockApi", "url": "**/api/search/reindex",
+          "method": "POST",
+          "response": { "ok": true } },
+        { "action": "click", "testId": "search-reindex-button" },
+        { "action": "expect", "text": "Reindex started",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}

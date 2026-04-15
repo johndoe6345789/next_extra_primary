@@ -1,0 +1,28 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "tool-forum",
+  "description": "Operator tool smoke: forum admin",
+  "tests": [
+    {
+      "name": "forum admin loads and creates a category",
+      "tags": ["@tools", "@forum"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/tools/forum" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "forum-admin-heading",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "forum-categories-form",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "fill", "testId": "forum-category-name",
+          "value": "General" },
+        { "action": "mockApi", "url": "**/api/forum/categories",
+          "method": "POST",
+          "response": { "id": 1, "name": "General" } },
+        { "action": "click", "testId": "forum-category-create" },
+        { "action": "expect", "text": "Category created",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}

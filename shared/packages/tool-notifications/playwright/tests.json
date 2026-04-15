@@ -1,0 +1,30 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "tool-notifications",
+  "description": "Operator tool smoke: notifications router",
+  "tests": [
+    {
+      "name": "notifications tool loads and sends a test message",
+      "tags": ["@tools", "@notifications"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/tools/notifications" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "notifications-heading",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "notifications-send-form",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "fill", "testId": "notifications-title-input",
+          "value": "Test" },
+        { "action": "fill", "testId": "notifications-body-input",
+          "value": "Hello" },
+        { "action": "mockApi", "url": "**/api/notifications/send",
+          "method": "POST",
+          "response": { "ok": true, "id": "n-1" } },
+        { "action": "click", "testId": "notifications-send-button" },
+        { "action": "expect", "text": "Notification sent",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}

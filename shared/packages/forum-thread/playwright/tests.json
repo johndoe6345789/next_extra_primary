@@ -1,0 +1,35 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "forum-thread",
+  "description": "End-user: open forum thread and post a reply",
+  "tests": [
+    {
+      "name": "user can reply in a thread and see the reply appear",
+      "tags": ["@forum", "@thread"],
+      "steps": [
+        { "action": "mockApi", "url": "**/api/forum/threads/1",
+          "response": {
+            "id": 1, "title": "General chat",
+            "posts": [
+              { "id": 10, "author": "alice", "body": "first post" }
+            ]
+          } },
+        { "action": "mockApi", "url": "**/api/forum/threads/1/reply",
+          "method": "POST",
+          "response": {
+            "id": 11, "author": "dev.admin", "body": "my reply"
+          } },
+        { "action": "navigate", "url": "/forum/threads/1" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "forum-thread-title",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "fill", "testId": "forum-reply-input",
+          "value": "my reply" },
+        { "action": "click", "testId": "forum-reply-submit" },
+        { "action": "expect", "testId": "forum-post-11",
+          "assertion": {
+            "matcher": "toContainText", "expected": "my reply" } }
+      ]
+    }
+  ]
+}

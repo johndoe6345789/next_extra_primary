@@ -1,0 +1,28 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "tool-polls",
+  "description": "Operator tool smoke: polls admin",
+  "tests": [
+    {
+      "name": "polls admin loads and creates a poll",
+      "tags": ["@tools", "@polls"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/tools/polls" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "polls-admin-heading",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "polls-create-form",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "fill", "testId": "polls-question-input",
+          "value": "Pick one" },
+        { "action": "mockApi", "url": "**/api/polls",
+          "method": "POST",
+          "response": { "id": 1, "question": "Pick one" } },
+        { "action": "click", "testId": "polls-create-button" },
+        { "action": "expect", "text": "Poll created",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}

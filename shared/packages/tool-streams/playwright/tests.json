@@ -1,0 +1,28 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "tool-streams",
+  "description": "Operator tool smoke: media streams (mediamtx)",
+  "tests": [
+    {
+      "name": "streams tool loads and creates a stream",
+      "tags": ["@tools", "@streams"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/tools/streams" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "streams-heading",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "streams-create-form",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "fill", "testId": "streams-name-input",
+          "value": "cam1" },
+        { "action": "mockApi", "url": "**/api/streams",
+          "method": "POST",
+          "response": { "id": 1, "name": "cam1" } },
+        { "action": "click", "testId": "streams-create-button" },
+        { "action": "expect", "text": "Stream created",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}

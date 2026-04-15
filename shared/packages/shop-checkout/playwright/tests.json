@@ -1,0 +1,40 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "shop-checkout",
+  "description": "End-user checkout with mocked Stripe redirect",
+  "tests": [
+    {
+      "name": "user can add a product and reach Stripe redirect",
+      "tags": ["@shop", "@checkout"],
+      "steps": [
+        { "action": "navigate", "url": "/shop" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "shop-product-list",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "click", "testId": "shop-add-to-cart-0" },
+        { "action": "expect", "testId": "shop-cart-badge",
+          "assertion": { "matcher": "toContainText", "expected": "1" } },
+        { "action": "navigate", "url": "/shop/cart" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "expect", "testId": "shop-cart-items",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "click", "testId": "shop-checkout-button" },
+        { "action": "fill", "testId": "checkout-email",
+          "value": "buyer@example.com" },
+        { "action": "fill", "testId": "checkout-name",
+          "value": "Buyer Name" },
+        { "action": "mockApi", "url": "**/api/shop/checkout",
+          "method": "POST",
+          "response": {
+            "url": "https://checkout.stripe.com/pay/cs_test_stub"
+          } },
+        { "action": "evaluate",
+          "script": "window.__navCalls = []; const origAssign = window.location.assign; window.location.assign = (u) => window.__navCalls.push(u)" },
+        { "action": "click", "testId": "checkout-submit" },
+        { "action": "wait", "timeout": 400 },
+        { "action": "evaluate",
+          "script": "if (!(window.__navCalls || []).some(u => String(u).includes('checkout.stripe.com'))) throw new Error('No Stripe redirect: ' + JSON.stringify(window.__navCalls))" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "oauth-google",
+  "description": "Google OAuth sign-in flow",
+  "tests": [
+    {
+      "name": "clicking Google redirects to the Google auth endpoint",
+      "tags": ["@auth", "@oauth"],
+      "steps": [
+        { "action": "navigate", "url": "/login" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "evaluate",
+          "script": "(() => { const orig = window.location.assign.bind(window.location); window.__lastNav = null; Object.defineProperty(window, 'location', { value: new Proxy(window.location, { set(t,p,v){ if(p==='href'){ window.__lastNav = v; return true; } t[p]=v; return true; } }) }); })()" },
+        { "action": "mockApi",
+          "url": "**/api/auth/oauth/google",
+          "response": {
+            "url": "https://accounts.google.com/o/oauth2/v2/auth?client_id=stub&redirect_uri=stub"
+          } },
+        { "action": "click", "role": "button",
+          "text": "Continue with Google" },
+        { "action": "wait", "timeout": 500 },
+        { "action": "evaluate",
+          "script": "if (!String(window.__lastNav || document.location.href).includes('accounts.google.com')) throw new Error('Did not redirect to Google: ' + window.__lastNav)" }
+      ]
+    },
+    {
+      "name": "oauth callback with stub code logs the user in",
+      "tags": ["@auth", "@oauth"],
+      "steps": [
+        { "action": "mockApi",
+          "url": "**/api/auth/oauth/google/callback*",
+          "response": { "ok": true, "token": "stub-jwt" } },
+        { "action": "navigate",
+          "url": "/auth/callback/google?code=stub-code&state=xyz" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "selector": "body",
+          "assertion": { "matcher": "toHaveURL", "expected": "/dashboard" } }
+      ]
+    }
+  ]
+}

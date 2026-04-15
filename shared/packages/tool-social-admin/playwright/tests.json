@@ -1,0 +1,28 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "tool-social-admin",
+  "description": "Operator tool smoke: social admin (groups)",
+  "tests": [
+    {
+      "name": "social admin loads and creates a group",
+      "tags": ["@tools", "@social"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/tools/social-admin" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "social-admin-heading",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "social-group-form",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "fill", "testId": "social-group-name",
+          "value": "Explorers" },
+        { "action": "mockApi", "url": "**/api/social/groups",
+          "method": "POST",
+          "response": { "id": 1, "name": "Explorers" } },
+        { "action": "click", "testId": "social-group-create" },
+        { "action": "expect", "text": "Group created",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}

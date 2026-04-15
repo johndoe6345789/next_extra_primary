@@ -1,0 +1,32 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "gallery-view",
+  "description": "End-user: open an album and expand a photo",
+  "tests": [
+    {
+      "name": "user can expand a photo in the lightbox",
+      "tags": ["@gallery", "@view"],
+      "steps": [
+        { "action": "mockApi", "url": "**/api/gallery/albums/1",
+          "response": {
+            "id": 1, "title": "Trip",
+            "photos": [
+              { "id": 100, "url": "/img/100.jpg", "caption": "One" },
+              { "id": 101, "url": "/img/101.jpg", "caption": "Two" }
+            ]
+          } },
+        { "action": "navigate", "url": "/gallery/albums/1" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "gallery-album-title",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "gallery-thumb-100",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "click", "testId": "gallery-thumb-100" },
+        { "action": "expect", "testId": "gallery-lightbox",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "gallery-lightbox-caption",
+          "assertion": { "matcher": "toContainText", "expected": "One" } }
+      ]
+    }
+  ]
+}

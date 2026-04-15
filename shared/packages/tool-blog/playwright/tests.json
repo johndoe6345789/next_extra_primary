@@ -1,0 +1,30 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "tool-blog",
+  "description": "Operator tool smoke: blog / article editor",
+  "tests": [
+    {
+      "name": "blog editor loads and can create a draft",
+      "tags": ["@tools", "@blog"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/tools/blog" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "blog-editor-heading",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "blog-editor-form",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "fill", "testId": "blog-title-input",
+          "value": "Hello Nextra" },
+        { "action": "fill", "testId": "blog-body-input",
+          "value": "First post body" },
+        { "action": "mockApi", "url": "**/api/blog/posts",
+          "method": "POST",
+          "response": { "id": 1, "slug": "hello-nextra" } },
+        { "action": "click", "testId": "blog-save-draft" },
+        { "action": "expect", "text": "Draft saved",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}

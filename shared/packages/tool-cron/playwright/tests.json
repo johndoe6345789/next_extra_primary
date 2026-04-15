@@ -1,0 +1,26 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "tool-cron",
+  "description": "Operator tool smoke: cron job manager",
+  "tests": [
+    {
+      "name": "cron tool loads and runs a job on demand",
+      "tags": ["@tools", "@cron"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/tools/cron" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "cron-heading",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "cron-jobs-table",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "mockApi", "url": "**/api/cron/*/run",
+          "method": "POST",
+          "response": { "ok": true } },
+        { "action": "click", "testId": "cron-run-now-0" },
+        { "action": "expect", "text": "Job triggered",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}

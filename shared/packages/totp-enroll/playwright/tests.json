@@ -1,0 +1,42 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "totp-enroll",
+  "description": "TOTP (time-based 2FA) enrollment flow",
+  "tests": [
+    {
+      "name": "user can enable TOTP 2FA from profile",
+      "tags": ["@auth", "@2fa"],
+      "steps": [
+        { "action": "navigate", "url": "/login" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "fill", "label": "Email",
+          "value": "dev.admin@nextra.local" },
+        { "action": "fill", "label": "Password", "value": "DevAdmin1" },
+        { "action": "click", "role": "button", "text": "Log in" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "navigate", "url": "/profile/security" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "mockApi",
+          "url": "**/api/totp/enroll",
+          "response": {
+            "secret": "JBSWY3DPEHPK3PXP",
+            "otpauth": "otpauth://totp/nextra?secret=JBSWY3DPEHPK3PXP"
+          } },
+        { "action": "mockApi",
+          "url": "**/api/totp/verify",
+          "response": { "ok": true } },
+        { "action": "click", "testId": "totp-enable-button" },
+        { "action": "expect", "testId": "totp-qr-code",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "fill", "testId": "totp-code-input",
+          "value": "123456" },
+        { "action": "click", "role": "button", "text": "Verify" },
+        { "action": "expect", "testId": "totp-enabled-badge",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "totp-enabled-badge",
+          "assertion": {
+            "matcher": "toContainText", "expected": "2FA enabled" } }
+      ]
+    }
+  ]
+}

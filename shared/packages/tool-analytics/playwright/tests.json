@@ -1,0 +1,25 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "tool-analytics",
+  "description": "Operator tool smoke: analytics dashboard",
+  "tests": [
+    {
+      "name": "analytics tool loads and applies date filter",
+      "tags": ["@tools", "@analytics"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/tools/analytics" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "analytics-heading",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "analytics-filters",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "mockApi", "url": "**/api/analytics*",
+          "response": { "series": [], "totals": { "users": 0 } } },
+        { "action": "click", "testId": "analytics-apply-button" },
+        { "action": "expect", "testId": "analytics-charts",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}

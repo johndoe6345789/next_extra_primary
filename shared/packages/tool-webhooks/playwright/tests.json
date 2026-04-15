@@ -1,0 +1,28 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "tool-webhooks",
+  "description": "Operator tool smoke: outbound webhooks",
+  "tests": [
+    {
+      "name": "webhooks tool loads and registers an endpoint",
+      "tags": ["@tools", "@webhooks"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/tools/webhooks" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "webhooks-heading",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "webhooks-create-form",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "fill", "testId": "webhooks-url-input",
+          "value": "https://example.com/hook" },
+        { "action": "mockApi", "url": "**/api/webhooks",
+          "method": "POST",
+          "response": { "id": 1, "url": "https://example.com/hook" } },
+        { "action": "click", "testId": "webhooks-create-button" },
+        { "action": "expect", "text": "Webhook registered",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "tool-gallery",
+  "description": "Operator tool smoke: photo gallery admin",
+  "tests": [
+    {
+      "name": "gallery admin loads and creates an album",
+      "tags": ["@tools", "@gallery"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/tools/gallery" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "gallery-admin-heading",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "gallery-album-form",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "fill", "testId": "gallery-album-title",
+          "value": "Trip" },
+        { "action": "mockApi", "url": "**/api/gallery/albums",
+          "method": "POST",
+          "response": { "id": 1, "title": "Trip" } },
+        { "action": "click", "testId": "gallery-album-create" },
+        { "action": "expect", "text": "Album created",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}

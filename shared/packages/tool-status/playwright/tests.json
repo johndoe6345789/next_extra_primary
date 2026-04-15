@@ -1,0 +1,25 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "tool-status",
+  "description": "Operator tool smoke: service status dashboard",
+  "tests": [
+    {
+      "name": "status tool loads and refreshes",
+      "tags": ["@tools", "@status"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/tools/status" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "status-heading",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "status-services-grid",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "mockApi", "url": "**/api/status",
+          "response": { "services": [], "ok": true } },
+        { "action": "click", "testId": "status-refresh-button" },
+        { "action": "expect", "testId": "status-services-grid",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}

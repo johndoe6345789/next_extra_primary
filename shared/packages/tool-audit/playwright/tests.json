@@ -1,0 +1,23 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "tool-audit",
+  "description": "Operator tool smoke: audit log viewer",
+  "tests": [
+    {
+      "name": "audit tool loads and primary action works",
+      "tags": ["@tools", "@audit"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/tools/audit" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "audit-heading",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "audit-filters",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "click", "testId": "audit-refresh-button" },
+        { "action": "expect", "testId": "audit-table",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}

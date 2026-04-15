@@ -1,0 +1,24 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "passkey-login",
+  "description": "Passwordless login via WebAuthn assertion",
+  "tests": [
+    {
+      "name": "user can sign in using a registered passkey",
+      "tags": ["@auth", "@passkey"],
+      "steps": [
+        { "action": "navigate", "url": "/login" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "evaluate",
+          "script": "(() => { const cred = { id: new Uint8Array([9,9,9]).buffer, rawId: new Uint8Array([9,9,9]).buffer, type: 'public-key', response: { clientDataJSON: new Uint8Array([1]).buffer, authenticatorData: new Uint8Array([2]).buffer, signature: new Uint8Array([3]).buffer, userHandle: new Uint8Array([4]).buffer }, getClientExtensionResults: () => ({}) }; navigator.credentials.get = () => Promise.resolve(cred); })()" },
+        { "action": "evaluate",
+          "script": "window.fetch = (url, opts) => { const u = String(url); if (u.includes('/api/webauthn/options')) { return Promise.resolve(new Response('{\"challenge\":\"abc\",\"allowCredentials\":[]}', { status: 200, headers: { 'content-type': 'application/json' } })); } if (u.includes('/api/webauthn/verify')) { return Promise.resolve(new Response('{\"ok\":true,\"token\":\"stub\"}', { status: 200, headers: { 'content-type': 'application/json' } })); } return Promise.resolve(new Response('{}', { status: 200 })); }" },
+        { "action": "click", "role": "button",
+          "text": "Sign in with passkey" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "selector": "body",
+          "assertion": { "matcher": "toHaveURL", "expected": "/dashboard" } }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "tool-shop-admin",
+  "description": "Operator tool smoke: shop admin (products)",
+  "tests": [
+    {
+      "name": "shop admin loads and creates a product",
+      "tags": ["@tools", "@shop"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/tools/shop-admin" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "shop-admin-heading",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "shop-product-form",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "fill", "testId": "shop-product-name",
+          "value": "Sticker" },
+        { "action": "fill", "testId": "shop-product-price",
+          "value": "4.99" },
+        { "action": "mockApi", "url": "**/api/shop/products",
+          "method": "POST",
+          "response": { "id": 1, "name": "Sticker" } },
+        { "action": "click", "testId": "shop-product-create" },
+        { "action": "expect", "text": "Product created",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}

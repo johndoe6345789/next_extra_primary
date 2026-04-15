@@ -1,0 +1,30 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "tool-wiki",
+  "description": "Operator tool smoke: wiki admin (pages)",
+  "tests": [
+    {
+      "name": "wiki admin loads and creates a page",
+      "tags": ["@tools", "@wiki"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/tools/wiki" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "wiki-admin-heading",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "wiki-page-form",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "fill", "testId": "wiki-page-title",
+          "value": "Welcome" },
+        { "action": "fill", "testId": "wiki-page-body",
+          "value": "# Hi" },
+        { "action": "mockApi", "url": "**/api/wiki/pages",
+          "method": "POST",
+          "response": { "id": 1, "slug": "welcome" } },
+        { "action": "click", "testId": "wiki-page-create" },
+        { "action": "expect", "text": "Page created",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "polls-vote",
+  "description": "End-user: vote on a poll and see results update",
+  "tests": [
+    {
+      "name": "user can cast a vote and see the result bar",
+      "tags": ["@polls", "@vote"],
+      "steps": [
+        { "action": "mockApi", "url": "**/api/polls/1",
+          "response": {
+            "id": 1, "question": "Pick one",
+            "options": [
+              { "id": 10, "text": "A", "votes": 0 },
+              { "id": 11, "text": "B", "votes": 0 }
+            ]
+          } },
+        { "action": "mockApi", "url": "**/api/polls/1/vote",
+          "method": "POST",
+          "response": {
+            "id": 1, "question": "Pick one",
+            "options": [
+              { "id": 10, "text": "A", "votes": 1 },
+              { "id": 11, "text": "B", "votes": 0 }
+            ],
+            "totalVotes": 1
+          } },
+        { "action": "navigate", "url": "/polls/1" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "polls-question",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "click", "testId": "polls-option-10" },
+        { "action": "click", "testId": "polls-vote-submit" },
+        { "action": "expect", "testId": "polls-results",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "polls-result-10",
+          "assertion": { "matcher": "toContainText", "expected": "1" } }
+      ]
+    }
+  ]
+}

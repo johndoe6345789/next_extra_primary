@@ -1,0 +1,29 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "passkey-enroll",
+  "description": "Passkey enrollment from the user profile page",
+  "tests": [
+    {
+      "name": "user can enroll a passkey from profile",
+      "tags": ["@auth", "@passkey"],
+      "steps": [
+        { "action": "navigate", "url": "/login" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "fill", "label": "Email",
+          "value": "dev.admin@nextra.local" },
+        { "action": "fill", "label": "Password", "value": "DevAdmin1" },
+        { "action": "click", "role": "button", "text": "Log in" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "navigate", "url": "/profile" },
+        { "action": "waitForLoadState", "state": "domcontentloaded" },
+        { "action": "evaluate",
+          "script": "(() => { const fake = { id: new Uint8Array([1,2,3,4]).buffer, rawId: new Uint8Array([1,2,3,4]).buffer, type: 'public-key', response: { clientDataJSON: new Uint8Array([1]).buffer, attestationObject: new Uint8Array([2]).buffer }, getClientExtensionResults: () => ({}) }; navigator.credentials.create = () => Promise.resolve(fake); })()" },
+        { "action": "evaluate",
+          "script": "window.fetch = (url, opts) => { if (String(url).includes('/api/webauthn/register')) { return Promise.resolve(new Response('{\"ok\":true}', { status: 200, headers: { 'content-type': 'application/json' } })); } return Promise.resolve(new Response('{}', { status: 200 })); }" },
+        { "action": "click", "testId": "passkey-add-button" },
+        { "action": "expect", "text": "Passkey added",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}

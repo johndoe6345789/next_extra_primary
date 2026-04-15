@@ -1,0 +1,32 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "follow-user",
+  "description": "End-user: follow another user and see count increment",
+  "tests": [
+    {
+      "name": "follow button increments follower count",
+      "tags": ["@social", "@follow"],
+      "steps": [
+        { "action": "mockApi", "url": "**/api/users/alice",
+          "response": {
+            "username": "alice", "followers": 7, "isFollowing": false
+          } },
+        { "action": "mockApi", "url": "**/api/users/alice/follow",
+          "method": "POST",
+          "response": {
+            "username": "alice", "followers": 8, "isFollowing": true
+          } },
+        { "action": "navigate", "url": "/users/alice" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "user-followers-count",
+          "assertion": { "matcher": "toContainText", "expected": "7" } },
+        { "action": "click", "testId": "user-follow-button" },
+        { "action": "expect", "testId": "user-followers-count",
+          "assertion": { "matcher": "toContainText", "expected": "8" } },
+        { "action": "expect", "testId": "user-follow-button",
+          "assertion": {
+            "matcher": "toContainText", "expected": "Following" } }
+      ]
+    }
+  ]
+}

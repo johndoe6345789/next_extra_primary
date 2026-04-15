@@ -1,0 +1,29 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "wiki-read",
+  "description": "End-user: read a wiki page and verify markdown renders",
+  "tests": [
+    {
+      "name": "wiki page renders markdown content",
+      "tags": ["@wiki", "@read"],
+      "steps": [
+        { "action": "mockApi", "url": "**/api/wiki/pages/welcome",
+          "response": {
+            "slug": "welcome",
+            "title": "Welcome",
+            "body_html": "<h1>Welcome</h1><p>Hello world</p>"
+          } },
+        { "action": "navigate", "url": "/wiki/welcome" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "wiki-page-title",
+          "assertion": { "matcher": "toContainText", "expected": "Welcome" } },
+        { "action": "expect",
+          "selector": "[data-testid='wiki-page-body'] h1",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "wiki-page-body",
+          "assertion": {
+            "matcher": "toContainText", "expected": "Hello world" } }
+      ]
+    }
+  ]
+}

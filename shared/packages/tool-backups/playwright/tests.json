@@ -1,0 +1,27 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "tool-backups",
+  "description": "Operator tool smoke: database backups",
+  "tests": [
+    {
+      "name": "backups tool loads and can trigger a backup",
+      "tags": ["@tools", "@backups"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/tools/backups" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "backups-heading",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "backups-list",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "mockApi",
+          "url": "**/api/backups",
+          "method": "POST",
+          "response": { "ok": true, "id": "bk-1" } },
+        { "action": "click", "testId": "backups-create-button" },
+        { "action": "expect", "text": "Backup started",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}

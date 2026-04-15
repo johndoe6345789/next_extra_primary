@@ -1,0 +1,26 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "tool-flags",
+  "description": "Operator tool smoke: feature flags",
+  "tests": [
+    {
+      "name": "flags tool loads and toggles a flag",
+      "tags": ["@tools", "@flags"],
+      "steps": [
+        { "action": "navigate",
+          "url": "http://localhost:8889/tools/flags" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        { "action": "expect", "testId": "flags-heading",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "expect", "testId": "flags-table",
+          "assertion": { "matcher": "toBeVisible" } },
+        { "action": "mockApi", "url": "**/api/flags/*",
+          "method": "PATCH",
+          "response": { "ok": true } },
+        { "action": "click", "testId": "flag-toggle-0" },
+        { "action": "expect", "text": "Flag updated",
+          "assertion": { "matcher": "toBeVisible" } }
+      ]
+    }
+  ]
+}
