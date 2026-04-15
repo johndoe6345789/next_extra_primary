@@ -1,0 +1,9 @@
+{
+    "maxOptions": 32,
+    "maxActive": 500,
+    "defaultWindowHours": 168,
+    "maxQuestionLength": 1024,
+    "maxLabelLength": 256,
+    "kinds": ["single", "multi", "rank", "approval"],
+    "bordaBase": 1
+}

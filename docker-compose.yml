@@ -614,6 +614,22 @@ services:
       BACKEND_URL: http://backend:8080
     restart: unless-stopped
 
+  # ---- Polls operator tool (Phase 3.2) -----------------------
+  polls:
+    build:
+      context: ./tools/polls
+      dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
+      args:
+        NEXT_BASE_PATH: /polls
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_BASE_PATH: /polls
+      BACKEND_URL: http://backend:8080
+    restart: unless-stopped
+
   # ---- Next.js frontend (dev mode) ----------------------------
   frontend:
     build:
@@ -710,6 +726,7 @@ services:
       - audit
       - search
       - backups
+      - polls
     restart: unless-stopped
 
 
