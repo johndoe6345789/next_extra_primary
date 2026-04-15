@@ -1,0 +1,91 @@
+/**
+ * @file TotpRecovery.cpp
+ * @brief POST /api/auth/totp/recovery
+ *
+ * Exchanges a one-time recovery code for an authenticated
+ * session, removing the consumed hash.  Public endpoint —
+ * the caller must also supply userId from prior login step.
+ */
+
+#include "TotpController.h"
+#include "../services/auth/totp/RecoveryCodes.h"
+#include "../utils/JsonResponse.h"
+
+#include <drogon/HttpAppFramework.h>
+#include <drogon/orm/DbClient.h>
+#include <nlohmann/json.hpp>
+#include <string>
+#include <vector>
+
+using json = nlohmann::json;
+using Cb = std::function<void(
+    const drogon::HttpResponsePtr&)>;
+namespace totp = services::auth::totp;
+
+namespace controllers
+{
+
+void TotpController::recovery(
+    const drogon::HttpRequestPtr& req, Cb&& cb)
+{
+    auto body = json::parse(
+        req->bodyData(),
+        req->bodyData() + req->bodyLength(),
+        nullptr, false);
+    if (body.is_discarded() ||
+        !body.contains("userId") ||
+        !body.contains("code")) {
+        cb(::utils::jsonError(
+            drogon::k400BadRequest,
+            "missing", "TOTP_007"));
+        return;
+    }
+    auto uid = body["userId"].get<std::string>();
+    auto code = body["code"].get<std::string>();
+
+    auto db = drogon::app().getDbClient();
+    db->execSqlAsync(
+        "SELECT recovery_codes FROM user_totp"
+        " WHERE user_id=$1 AND enabled=true",
+        [cb, uid, code](const drogon::orm::Result& r) {
+            if (r.empty()) {
+                cb(::utils::jsonError(
+                    drogon::k404NotFound,
+                    "none", "TOTP_008"));
+                return;
+            }
+            auto arr = r[0]["recovery_codes"]
+                .as<std::vector<std::string>>();
+            int idx = totp::findMatchingRecoveryCode(
+                code, arr);
+            if (idx < 0) {
+                cb(::utils::jsonError(
+                    drogon::k401Unauthorized,
+                    "no match", "TOTP_009"));
+                return;
+            }
+            arr.erase(arr.begin() + idx);
+            auto db2 = drogon::app().getDbClient();
+            db2->execSqlAsync(
+                "UPDATE user_totp SET recovery_codes=$1"
+                " WHERE user_id=$2",
+                [cb](const drogon::orm::Result&) {
+                    cb(::utils::jsonOk(
+                        json{{"ok", true}}));
+                },
+                [cb](const drogon::orm::DrogonDbException&) {
+                    cb(::utils::jsonError(
+                        drogon::k500InternalServerError,
+                        "db", "TOTP_010"));
+                },
+                arr, uid);
+        },
+        [cb](const drogon::orm::DrogonDbException&) {
+            cb(::utils::jsonError(
+                drogon::k500InternalServerError,
+                "db", "TOTP_011"));
+        },
+        uid);
+}
+
+} // namespace controllers

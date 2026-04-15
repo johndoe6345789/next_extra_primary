@@ -56,6 +56,9 @@ file(GLOB NEXTRA_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/services/flags/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/services/gallery/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/services/wiki/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/services/auth/passkeys/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/services/auth/totp/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/services/auth/oauth/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/utils/*.cpp"
 )
 
