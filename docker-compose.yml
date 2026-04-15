@@ -422,6 +422,27 @@ services:
       - alerts
       - jobs
       - cron
+      - flags
+    restart: unless-stopped
+
+
+  # ---- Feature flags operator tool ---------------------------
+  flags:
+    build:
+      context: ./tools/flags
+      dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
+      args:
+        NEXT_BASE_PATH: /flags
+    ports:
+      - "9004:3000"
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_BASE_PATH: /flags
+      BACKEND_API_URL: http://backend:8080
+      NODE_ENV: production
     restart: unless-stopped
 
 

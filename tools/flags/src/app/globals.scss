@@ -1,0 +1,14 @@
+@use 'flags-shell';
+
+:root {
+  color-scheme: dark;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #0a0a0c;
+  color: #e5e7eb;
+  font-family: system-ui, -apple-system, sans-serif;
+  min-height: 100dvh;
+}
