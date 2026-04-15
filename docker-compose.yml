@@ -439,31 +439,6 @@ services:
 
   # ---- Search indexer daemon (Phase 4.5) --------------------
   search-indexer:
-  # ---- mediamtx sidecar (RTSP/WebRTC/HLS media server) -------
-  # Note: internal webrtc port 8889 collides with the portal's
-  # host binding — map it to host 8890 instead.
-  mediamtx:
-    image: bluenviron/mediamtx:latest
-    ports:
-      - "8554:8554"
-      - "8890:8889"
-      - "8888:8888"
-      - "9997:9997"
-    environment:
-      MTX_HLSADDRESS: ":8888"
-      MTX_WEBRTCADDRESS: ":8889"
-      MTX_RTSPADDRESS: ":8554"
-      MTX_API: "yes"
-      MTX_APIADDRESS: ":9997"
-      MTX_RUNONREADY:
-        "curl -s -X POST
-         http://backend:8080/api/streams/hook/publish
-         -H 'Content-Type: application/json'
-         -d '{\"path\":\"$$MTX_PATH\",\"action\":\"publish\"}'"
-    restart: unless-stopped
-
-  # ---- media-streaming daemon (control plane) ---------------
-  media-streaming:
     build:
       context: ./backend
       additional_contexts:
@@ -473,15 +448,12 @@ services:
         DEPS_IMAGE: debian:sid
         RUNTIME_IMAGE: debian:sid-slim
     command: ["./nextra-api", "search-indexer",
-    command: ["./nextra-api", "media-streaming",
               "--config", "config/config.json"]
     depends_on:
       db:
         condition: service_healthy
       elasticsearch:
         condition: service_healthy
-      mediamtx:
-        condition: service_started
       backend:
         condition: service_started
     environment:
@@ -498,13 +470,6 @@ services:
   search:
     build:
       context: ./tools/search
-      MEDIAMTX_URL: http://mediamtx:9997
-    restart: unless-stopped
-
-  # ---- Streams operator tool (Next.js frontend) -------------
-  streams:
-    build:
-      context: ./tools/streams
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -514,11 +479,6 @@ services:
       - search-indexer
     environment:
       NEXT_PUBLIC_BASE_PATH: /search
-        NEXT_BASE_PATH: /streams
-    depends_on:
-      - media-streaming
-    environment:
-      NEXT_PUBLIC_BASE_PATH: /streams
       BACKEND_URL: http://backend:8080
     restart: unless-stopped
 
@@ -740,6 +700,7 @@ services:
       - streams
       - audit
       - search
+      - backups
     restart: unless-stopped
 
 
