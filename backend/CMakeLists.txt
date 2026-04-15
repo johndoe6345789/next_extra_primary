@@ -50,6 +50,8 @@ file(GLOB NEXTRA_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/filters/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/models/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/services/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/services/cron/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/services/infra/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/utils/*.cpp"
 )
 
@@ -78,6 +80,8 @@ target_link_libraries(${PROJECT_NAME}
         mailio::mailio
         fmt::fmt
         spdlog::spdlog
+        hiredis::hiredis
+        RdKafka::rdkafka
 )
 
 # ----------------------------------------------------------------

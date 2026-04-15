@@ -27,6 +27,9 @@ class NextraBackend(ConanFile):
         self.requires("mailio/0.23.0")
         self.requires("fmt/10.2.1")
         self.requires("spdlog/1.14.1")
+        # Phase 0 infra dependencies.
+        self.requires("hiredis/1.2.0")
+        self.requires("librdkafka/2.3.0")
         # Pin boost to resolve conflict between
         # drogon (1.83) and mailio (1.86).
         self.requires("boost/1.86.0", force=True)

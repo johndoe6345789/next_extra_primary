@@ -1,0 +1,42 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "infra-smoke",
+  "description": "Phase 0 infra bootstrap readiness smoke tests",
+  "tests": [
+    {
+      "name": "healthz reports all four infra deps ok",
+      "tags": ["@smoke", "@infra"],
+      "steps": [
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "evaluate",
+          "script": "fetch('/api/healthz').then(r => r.json()).then(j => document.title = [j.db, j.redis, j.kafka, j.elasticsearch].join(','))"
+        },
+        {
+          "action": "expect",
+          "selector": "html",
+          "assertion": {
+            "matcher": "toHaveTitle",
+            "expected": "ok,ok,ok,ok"
+          }
+        }
+      ]
+    },
+    {
+      "name": "healthz endpoint is reachable",
+      "tags": ["@smoke", "@infra"],
+      "steps": [
+        { "action": "navigate", "url": "/api/healthz" },
+        { "action": "waitForLoadState", "state": "networkidle" },
+        {
+          "action": "expect",
+          "selector": "body",
+          "assertion": {
+            "matcher": "toContainText",
+            "expected": "elasticsearch"
+          }
+        }
+      ]
+    }
+  ]
+}
