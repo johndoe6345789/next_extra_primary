@@ -4,6 +4,8 @@
  */
 
 #include "OAuthClient.h"
+#include "ProviderConfigLoader.h"
+#include "TokenExchange.h"
 #include "../passkeys/Base64Url.h"
 
 #include <openssl/rand.h>
@@ -73,16 +75,14 @@ std::pair<std::string, std::string> generatePkcePair()
 }
 
 TokenResponse exchangeCode(
-    const ProviderConfig&,
-    const std::string&,
-    const std::string&,
-    const std::string&)
+    const ProviderConfig& cfg,
+    const std::string& code,
+    const std::string& codeVerifier,
+    const std::string& redirectUri)
 {
-    // TODO: wire drogon::HttpClient POST to tokenUrl with
-    // grant_type=authorization_code and parse JSON / form
-    // response.  Stubbed for now so tests exercise the flow
-    // without hitting the network.
-    return {};
+    return postTokenRequest(
+        cfg, code, codeVerifier, redirectUri,
+        providerWantsJsonAccept(cfg.name));
 }
 
 } // namespace services::auth::oauth

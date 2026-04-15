@@ -1,6 +1,7 @@
 /**
  * @file PasskeyAssertFinish.cpp
- * @brief POST /api/auth/passkeys/assert/finish — verify sig.
+ * @brief POST /api/auth/passkeys/assert/finish — verify
+ *        assertion signature and mint a session.
  */
 
 #include "PasskeyController.h"
@@ -63,7 +64,7 @@ void PasskeyController::assertFinish(
     db->execSqlAsync(
         "SELECT user_id, public_key FROM passkey_credentials"
         " WHERE credential_id = $1",
-        [cb, authData, hash, sig](
+        [cb, authData, hash, sig, credId](
             const drogon::orm::Result& r) {
             if (r.empty()) {
                 cb(::utils::jsonError(
@@ -84,10 +85,9 @@ void PasskeyController::assertFinish(
                     "sig", "PK_008"));
                 return;
             }
-            cb(::utils::jsonOk(json{
-                {"ok", true},
-                {"userId",
-                 r[0]["user_id"].as<std::string>()}}));
+            passkey_assert::issuePasskeySession(
+                r[0]["user_id"].as<std::string>(),
+                credId, cb);
         },
         [cb](const drogon::orm::DrogonDbException&) {
             cb(::utils::jsonError(

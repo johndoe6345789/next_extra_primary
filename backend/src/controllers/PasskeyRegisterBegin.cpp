@@ -10,6 +10,7 @@
 #include "PasskeyController.h"
 #include "../services/auth/passkeys/Base64Url.h"
 #include "../services/auth/passkeys/ChallengeStore.h"
+#include "../services/auth/passkeys/RpConfig.h"
 #include "../utils/JsonResponse.h"
 
 #include <nlohmann/json.hpp>
@@ -39,10 +40,11 @@ void PasskeyController::registerBegin(
     pc.isRegistration = true;
     pk::ChallengeStore::instance().put(key, pc);
 
+    const auto& rp = pk::RpConfig::instance();
     json payload = {
         {"challenge", key},
-        {"rp", {{"id", "localhost"},
-                {"name", "NextExtra"}}},
+        {"rp", {{"id", rp.id()},
+                {"name", rp.name()}}},
         {"user", {{"id", uid},
                   {"name", uid},
                   {"displayName", uid}}},
