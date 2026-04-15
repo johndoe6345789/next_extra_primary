@@ -763,8 +763,27 @@ services:
       - audit
       - search
       - backups
+      - status
     restart: unless-stopped
 
+  # ---- Public status page (NOT SSO gated) -------------------
+  status:
+    build:
+      context: ./tools/status
+      dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
+      args:
+        NEXT_BASE_PATH: /status
+    ports:
+      - "9014:3000"
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_BASE_PATH: /status
+      BACKEND_URL: http://backend:8080
+      NODE_ENV: production
+    restart: unless-stopped
 
   # ---- Alerts centre -----------------------------------------
   alerts:
