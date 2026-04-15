@@ -452,6 +452,48 @@ services:
       NODE_ENV: production
     restart: unless-stopped
 
+  # ---- Audit manager daemon (Kafka → PG hash chain) ----------
+  audit-manager:
+    build:
+      context: ./backend
+      additional_contexts:
+        manager: ./tools/manager
+        commands: ./.local/commands
+      args:
+        DEPS_IMAGE: debian:sid
+        RUNTIME_IMAGE: debian:sid-slim
+    command: ["./nextra-api", "audit-manager",
+              "--config", "config/config.json"]
+    depends_on:
+      db:
+        condition: service_healthy
+      backend:
+        condition: service_started
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: nextra_db
+      DB_USER: nextra
+      DB_PASSWORD: nextra_dev
+      KAFKA_BROKERS: kafka:9092
+    restart: unless-stopped
+
+  # ---- Audit operator tool (T2 Next.js frontend) -------------
+  audit:
+    build:
+      context: ./tools/audit
+      dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
+      args:
+        NEXT_BASE_PATH: /audit
+    depends_on:
+      - audit-manager
+    environment:
+      NEXT_PUBLIC_BASE_PATH: /audit
+      BACKEND_URL: http://backend:8080
+    restart: unless-stopped
+
   # ---- Nginx reverse proxy / portal --------------------------
   portal:
     image: nginx:alpine
@@ -490,6 +532,7 @@ services:
       NEXT_PUBLIC_BASE_PATH: /flags
       BACKEND_API_URL: http://backend:8080
       NODE_ENV: production
+      - audit
     restart: unless-stopped
 
 
