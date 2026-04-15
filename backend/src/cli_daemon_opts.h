@@ -26,6 +26,7 @@ struct DaemonOpts
 {
     std::string backupConfig{"config/config.json"};
     std::string cronConfig{"config/config.json"};
+    std::string imageConfig{"config/config.json"};
     std::string jobConfig{"config/config.json"};
     std::string mediaConfig{"config/config.json"};
     std::string notificationConfig{
@@ -47,6 +48,7 @@ struct DaemonCmds
 {
     CLI::App* backup{nullptr};
     CLI::App* cron{nullptr};
+    CLI::App* image{nullptr};
     CLI::App* job{nullptr};
     CLI::App* media{nullptr};
     CLI::App* notification{nullptr};

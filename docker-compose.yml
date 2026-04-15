@@ -381,6 +381,51 @@ services:
       BACKEND_URL: http://backend:8080
     restart: unless-stopped
 
+  # ---- Image processor daemon (Phase 4.3) --------------------
+  image-processor:
+    build:
+      context: ./backend
+      additional_contexts:
+        manager: ./tools/manager
+        commands: ./.local/commands
+      args:
+        DEPS_IMAGE: debian:sid
+        RUNTIME_IMAGE: debian:sid-slim
+    command: ["./nextra-api", "image-processor",
+              "--config", "config/config.json"]
+    depends_on:
+      db:
+        condition: service_healthy
+      s3:
+        condition: service_started
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: nextra_db
+      DB_USER: nextra
+      DB_PASSWORD: nextra_dev
+      S3_ENDPOINT: http://s3:9000
+      S3_ACCESS_KEY: nextra-dev
+      S3_SECRET_KEY: nextra-dev
+      S3_BUCKET: image-variants
+    restart: unless-stopped
+
+  # ---- Image processor operator tool (Phase 4.3) -------------
+  image-processor-frontend:
+    build:
+      context: ./tools/image-processor
+      dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
+      args:
+        NEXT_BASE_PATH: /image-processor
+    depends_on:
+      - image-processor
+    environment:
+      NEXT_PUBLIC_BASE_PATH: /image-processor
+      BACKEND_URL: http://backend:8080
+    restart: unless-stopped
+
   # ---- Gotenberg sidecar (HTML -> PDF) -----------------------
   gotenberg:
     image: gotenberg/gotenberg:8
@@ -832,6 +877,7 @@ services:
       - flags
       - forum
       - notifications
+      - image-processor-frontend
       - streams
       - audit
       - search

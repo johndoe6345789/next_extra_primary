@@ -24,6 +24,7 @@ std::set<std::string> expectedDaemons()
         "audit-manager",
         "backup-manager",
         "notification-router",
+        "image-processor",
         "webhook-dispatcher",
         "search-indexer",
         "media-streaming",

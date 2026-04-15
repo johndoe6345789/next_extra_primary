@@ -1,0 +1,40 @@
+{
+  "workerCount": 2,
+  "pollIntervalMs": 500,
+  "maxAttempts": 5,
+  "backoffBaseSeconds": 30,
+  "backoffMaxSeconds": 3600,
+  "httpPort": 8087,
+  "s3Bucket": "image-variants",
+  "s3PublicBase": "http://s3:9000",
+  "variants": [
+    {
+      "name": "thumbnail",
+      "maxWidth": 150,
+      "maxHeight": 150,
+      "format": "webp",
+      "quality": 80
+    },
+    {
+      "name": "small",
+      "maxWidth": 400,
+      "maxHeight": 400,
+      "format": "webp",
+      "quality": 82
+    },
+    {
+      "name": "medium",
+      "maxWidth": 800,
+      "maxHeight": 800,
+      "format": "webp",
+      "quality": 85
+    },
+    {
+      "name": "large",
+      "maxWidth": 1600,
+      "maxHeight": 1600,
+      "format": "webp",
+      "quality": 88
+    }
+  ]
+}

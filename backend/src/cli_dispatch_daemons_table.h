@@ -12,6 +12,7 @@
 #include "cli_daemon_opts.h"
 #include "commands/backup_manager.h"
 #include "commands/cron_manager.h"
+#include "commands/image_processor.h"
 #include "commands/job_scheduler.h"
 #include "commands/media_streaming.h"
 #include "commands/notification_router.h"
@@ -43,10 +44,10 @@ struct DaemonEntry
  * @brief Accessor returning the static dispatch table.
  * @return Array of @ref DaemonEntry, one per daemon.
  */
-inline const std::array<DaemonEntry, 9>&
+inline const std::array<DaemonEntry, 10>&
 daemonDispatchTable()
 {
-    static const std::array<DaemonEntry, 9> kTable{{
+    static const std::array<DaemonEntry, 10> kTable{{
         {"backup-manager", &DaemonCmds::backup,
          [](const DaemonOpts& o) {
              commands::cmdBackupManager(o.backupConfig);
@@ -54,6 +55,10 @@ daemonDispatchTable()
         {"cron-manager", &DaemonCmds::cron,
          [](const DaemonOpts& o) {
              commands::cmdCronManager(o.cronConfig);
+         }},
+        {"image-processor", &DaemonCmds::image,
+         [](const DaemonOpts& o) {
+             commands::cmdImageProcessor(o.imageConfig);
          }},
         {"job-scheduler", &DaemonCmds::job,
          [](const DaemonOpts& o) {

@@ -52,6 +52,23 @@ else()
     )
 endif()
 
+# libvips is OPTIONAL. When present we compile the real
+# VipsProcessor path and link against vips; otherwise the
+# stub path (returns "vips not available") keeps the build
+# green. Consumers who need real image processing should
+# install libvips-dev (or the Conan recipe) before cmake.
+find_package(PkgConfig QUIET)
+if(PkgConfig_FOUND)
+    pkg_check_modules(VIPS vips)
+endif()
+if(VIPS_FOUND)
+    message(STATUS "libvips found — NEXTRA_HAVE_VIPS enabled")
+else()
+    message(STATUS
+        "libvips NOT found — image-processor runs in stub mode"
+    )
+endif()
+
 # ----------------------------------------------------------------
 # Collect source files
 #
@@ -122,6 +139,15 @@ if(RdKafka_FOUND)
         PRIVATE RdKafka::rdkafka)
     target_compile_definitions(${PROJECT_NAME}
         PRIVATE NEXTRA_HAVE_KAFKA)
+endif()
+
+if(VIPS_FOUND)
+    target_include_directories(${PROJECT_NAME}
+        PRIVATE ${VIPS_INCLUDE_DIRS})
+    target_link_libraries(${PROJECT_NAME}
+        PRIVATE ${VIPS_LIBRARIES})
+    target_compile_definitions(${PROJECT_NAME}
+        PRIVATE NEXTRA_HAVE_VIPS)
 endif()
 
 # ----------------------------------------------------------------

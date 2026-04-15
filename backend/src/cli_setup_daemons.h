@@ -56,6 +56,10 @@ inline void addDaemonCmds(
         app, "cron-manager",
         "Run the cron schedule materialiser",
         opts.cronConfig);
+    cmds.image = addDaemonCmd(
+        app, "image-processor",
+        "Run the image processor daemon",
+        opts.imageConfig);
     cmds.job = addDaemonCmd(
         app, "job-scheduler",
         "Run the durable job scheduler daemon",

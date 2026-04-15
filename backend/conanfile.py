@@ -30,6 +30,9 @@ class NextraBackend(ConanFile):
         # Phase 0 infra dependencies.
         self.requires("hiredis/1.2.0")
         self.requires("librdkafka/2.3.0")
+        # libvips is optional; see CMakeLists.txt.
+        # Enable with -o with_vips=True if the recipe
+        # is available on the consumer's Conan remote.
         # Pin boost to resolve conflict between
         # drogon (1.83) and mailio (1.86).
         self.requires("boost/1.86.0", force=True)
