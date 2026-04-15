@@ -1,7 +1,9 @@
 /**
  * @file KafkaProducer.cpp
- * @brief librdkafka producer wrapper implementation.
+ * @brief librdkafka producer body. Stub fallback lives in
+ *        kafka_producer_stub.cpp; see KafkaProducer.h.
  */
+#ifdef NEXTRA_HAVE_KAFKA
 
 #include "services/infra/KafkaProducer.h"
 
@@ -40,24 +42,20 @@ KafkaProducer::KafkaProducer(
     cset("client.id", clientId_.c_str());
     cset("acks", "all");
     cset("compression.type", "lz4");
-
     rk_ = rd_kafka_new(
         RD_KAFKA_PRODUCER, conf, err, sizeof(err));
     if (rk_ == nullptr) {
-        spdlog::warn(
-            "KafkaProducer init failed: {}", err);
+        spdlog::warn("KafkaProducer init: {}", err);
         return;
     }
-    spdlog::info(
-        "KafkaProducer -> {} ({})", bs, clientId_);
+    spdlog::info("KafkaProducer -> {} ({})", bs, clientId_);
 }
 
 KafkaProducer::~KafkaProducer()
 {
-    if (rk_ != nullptr) {
-        rd_kafka_flush(rk_, 2000);
-        rd_kafka_destroy(rk_);
-    }
+    if (rk_ == nullptr) return;
+    rd_kafka_flush(rk_, 2000);
+    rd_kafka_destroy(rk_);
 }
 
 bool KafkaProducer::publish(
@@ -98,3 +96,5 @@ KafkaProducer& KafkaProducer::instance()
 }
 
 } // namespace nextra::infra
+
+#endif // NEXTRA_HAVE_KAFKA

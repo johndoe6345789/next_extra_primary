@@ -2,7 +2,13 @@
  * @file KafkaConsumer.cpp
  * @brief librdkafka consumer construction + subscribe.
  * Polling loop lives in kafka_consumer_run.cpp.
+ *
+ * This legacy wrapper is only compiled when @c NEXTRA_HAVE_KAFKA
+ * is defined. New code should use @ref nextra::infra::IKafkaConsumer
+ * via @ref nextra::infra::makeKafkaConsumer.
  */
+
+#ifdef NEXTRA_HAVE_KAFKA
 
 #include "services/infra/KafkaConsumer.h"
 
@@ -80,3 +86,5 @@ bool KafkaConsumer::isConnected() const
 }
 
 } // namespace nextra::infra
+
+#endif // NEXTRA_HAVE_KAFKA

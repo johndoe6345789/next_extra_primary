@@ -3,7 +3,10 @@
  * @brief KafkaConsumer start/stop + polling loop.
  *
  * Split from KafkaConsumer.cpp to stay under the 100-LOC cap.
+ * Only compiled when @c NEXTRA_HAVE_KAFKA is defined.
  */
+
+#ifdef NEXTRA_HAVE_KAFKA
 
 #include "services/infra/KafkaConsumer.h"
 
@@ -68,3 +71,5 @@ void KafkaConsumer::run()
 }
 
 } // namespace nextra::infra
+
+#endif // NEXTRA_HAVE_KAFKA
