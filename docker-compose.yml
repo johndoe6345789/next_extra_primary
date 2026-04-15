@@ -562,6 +562,8 @@ services:
 
   # ---- Backup manager daemon (pg_dump + encrypt + upload) ---
   backup-manager:
+  # ---- Webhook dispatcher daemon -----------------------------
+  webhook-dispatcher:
     build:
       context: ./backend
       additional_contexts:
@@ -571,6 +573,7 @@ services:
         DEPS_IMAGE: debian:sid
         RUNTIME_IMAGE: debian:sid-slim
     command: ["./nextra-api", "backup-manager",
+    command: ["./nextra-api", "webhook-dispatcher",
               "--config", "config/config.json"]
     depends_on:
       db:
@@ -579,6 +582,10 @@ services:
         condition: service_started
       s3:
         condition: service_started
+      backend:
+        condition: service_started
+      kafka:
+        condition: service_healthy
     environment:
       DB_HOST: db
       DB_PORT: "5432"
@@ -597,6 +604,13 @@ services:
   wiki:
     build:
       context: ./tools/wiki
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    restart: unless-stopped
+
+  # ---- Webhooks operator tool (T3 Next.js frontend) ----------
+  webhooks:
+    build:
+      context: ./tools/webhooks
       dockerfile: Dockerfile
       additional_contexts:
         shared: ./shared
@@ -627,6 +641,11 @@ services:
       - backend
     environment:
       NEXT_PUBLIC_BASE_PATH: /polls
+        NEXT_BASE_PATH: /webhooks
+    depends_on:
+      - webhook-dispatcher
+    environment:
+      NEXT_PUBLIC_BASE_PATH: /webhooks
       BACKEND_URL: http://backend:8080
     restart: unless-stopped
 
@@ -727,6 +746,7 @@ services:
       - search
       - backups
       - polls
+      - webhooks
     restart: unless-stopped
 
 

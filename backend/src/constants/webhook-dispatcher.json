@@ -1,0 +1,14 @@
+{
+  "claimBatchSize": 25,
+  "pollIntervalMs": 2000,
+  "requestTimeoutMs": 15000,
+  "maxAttempts": 8,
+  "baseDelayMs": 5000,
+  "maxDelayMs": 3600000,
+  "jitterRatio": 0.2,
+  "circuitFailThreshold": 5,
+  "circuitCooldownMs": 300000,
+  "signatureHeader": "X-Nextra-Signature",
+  "timestampHeader": "X-Nextra-Timestamp",
+  "signatureAlgorithm": "HMAC-SHA256"
+}
