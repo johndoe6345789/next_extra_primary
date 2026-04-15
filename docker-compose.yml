@@ -423,6 +423,7 @@ services:
       - jobs
       - cron
       - flags
+      - forum
     restart: unless-stopped
 
 
@@ -462,6 +463,25 @@ services:
         condition: service_started
     environment:
       EMAIL_API_URL: http://emailclient-api:5000
+      NODE_ENV: production
+    restart: unless-stopped
+
+  # ---- Forum moderation tool ---------------------------------
+  forum:
+    build:
+      context: ./tools/forum
+      dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
+      args:
+        NEXT_BASE_PATH: /forum
+    ports:
+      - "9005:3000"
+    depends_on:
+      backend:
+        condition: service_started
+    environment:
+      BACKEND_URL: http://backend:8080
       NODE_ENV: production
     restart: unless-stopped
 

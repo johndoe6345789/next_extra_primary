@@ -1,0 +1,21 @@
+{
+    "maxDepth": 12,
+    "maxBodyLen": 8000,
+    "rateLimitPerMinute": 20,
+    "moderation": {
+        "autoHideFlagCount": 5,
+        "minFlagReasonLen": 3
+    },
+    "targetTypes": [
+        "blog_post",
+        "forum_board",
+        "forum_thread",
+        "wiki_page"
+    ],
+    "reactionKinds": [
+        "like",
+        "dislike",
+        "heart",
+        "laugh"
+    ]
+}

@@ -1,0 +1,32 @@
+/* Forum moderation tool global styles. */
+
+:root {
+    color-scheme: dark;
+    --fg: #e7e7ea;
+    --bg: #111217;
+    --bg-elev: #1b1d25;
+    --accent: #8ab4ff;
+    --danger: #ff7070;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, system-ui,
+        Segoe UI, Roboto, sans-serif;
+}
+
+html {
+    overflow-x: hidden;
+}
+
+.forum-shell {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px;
+    min-height: 100dvh;
+}
