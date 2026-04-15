@@ -1,6 +1,7 @@
 /**
  * @file SearchController.cpp
- * @brief Search endpoint implementation.
+ * @brief Public /api/search endpoint — delegates
+ *        to the existing SearchService facade.
  */
 
 #include "SearchController.h"
@@ -15,12 +16,14 @@ namespace controllers
 
 void SearchController::search(
     const drogon::HttpRequestPtr& req,
-    std::function<void(const drogon::HttpResponsePtr&)>&& cb)
+    std::function<void(
+        const drogon::HttpResponsePtr&)>&& cb)
 {
     auto q = req->getParameter("q");
     if (q.empty()) {
-        cb(::utils::jsonError(drogon::k400BadRequest,
-                              "query parameter 'q' is required"));
+        cb(::utils::jsonError(
+            drogon::k400BadRequest,
+            "query parameter 'q' is required"));
         return;
     }
 
@@ -28,16 +31,12 @@ void SearchController::search(
     std::int32_t size = 20;
 
     auto pageStr = req->getParameter("page");
-    if (!pageStr.empty()) {
-        page = std::stoi(pageStr);
-    }
-
+    if (!pageStr.empty()) page = std::stoi(pageStr);
     auto sizeStr = req->getParameter("size");
-    if (!sizeStr.empty()) {
-        size = std::stoi(sizeStr);
-    }
+    if (!sizeStr.empty()) size = std::stoi(sizeStr);
 
-    auto svc = std::make_shared<services::SearchService>();
+    auto svc =
+        std::make_shared<services::SearchService>();
 
     svc->searchAll(
         q, page, size,
@@ -45,7 +44,7 @@ void SearchController::search(
             cb(::utils::jsonOk(result));
         },
         [cb, svc](drogon::HttpStatusCode code,
-                   std::string msg) {
+                  std::string msg) {
             cb(::utils::jsonError(code, msg));
         });
 }

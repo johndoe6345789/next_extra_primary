@@ -252,6 +252,51 @@ services:
       BACKEND_URL: http://backend:8080
     restart: unless-stopped
 
+  # ---- Search indexer daemon (Phase 4.5) --------------------
+  search-indexer:
+    build:
+      context: ./backend
+      additional_contexts:
+        manager: ./tools/manager
+        commands: ./.local/commands
+      args:
+        DEPS_IMAGE: debian:sid
+        RUNTIME_IMAGE: debian:sid-slim
+    command: ["./nextra-api", "search-indexer",
+              "--config", "config/config.json"]
+    depends_on:
+      db:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      backend:
+        condition: service_started
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: nextra_db
+      DB_USER: nextra
+      DB_PASSWORD: nextra_dev
+      ES_HOST: elasticsearch
+      ES_PORT: "9200"
+    restart: unless-stopped
+
+  # ---- Search operator tool (Next.js frontend) --------------
+  search:
+    build:
+      context: ./tools/search
+      dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
+      args:
+        NEXT_BASE_PATH: /search
+    depends_on:
+      - search-indexer
+    environment:
+      NEXT_PUBLIC_BASE_PATH: /search
+      BACKEND_URL: http://backend:8080
+    restart: unless-stopped
+
   # ---- Cron operator tool (schedule CRUD + preview) ----------
   cron:
     build:
@@ -315,6 +360,7 @@ services:
       - alerts
       - jobs
       - cron
+      - search
     restart: unless-stopped
 
 
