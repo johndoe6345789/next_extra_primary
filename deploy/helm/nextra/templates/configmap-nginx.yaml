@@ -1,0 +1,40 @@
+{{- if .Values.portal.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "nextra.fullname" . }}-nginx
+  labels:
+    {{- include "nextra.labels" . | nindent 4 }}
+    app.kubernetes.io/component: portal
+data:
+  # Mounted at /etc/nginx/nginx.conf in the portal pod.
+  # Chart consumers should replace this with the contents
+  # of docker/nginx/nginx.conf (via --set-file or a
+  # dedicated values override). The chart never modifies
+  # the source nginx.conf to avoid merge conflicts.
+  nginx.conf: |
+    {{- .Files.Get "files/nginx.conf" | default (include "nextra.defaultNginxConf" .) | nindent 4 }}
+{{- end -}}
+
+{{- define "nextra.defaultNginxConf" -}}
+worker_processes auto;
+events { worker_connections 1024; }
+http {
+  upstream frontend {
+    server {{ include "nextra.fullname" . }}-frontend:{{ .Values.frontend.port }};
+  }
+  upstream backend {
+    server {{ include "nextra.fullname" . }}-backend:{{ .Values.backend.port }};
+  }
+  upstream sso {
+    server {{ include "nextra.fullname" . }}-sso:{{ .Values.sso.port }};
+  }
+  server {
+    listen 80;
+    location /app/ { proxy_pass http://frontend/; }
+    location /api/ { proxy_pass http://backend/; }
+    location /sso/ { proxy_pass http://sso/; }
+    location /    { return 302 /app/en; }
+  }
+}
+{{- end -}}

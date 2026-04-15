@@ -1,0 +1,90 @@
+# Default values for the nextra Helm chart.
+# Override with -f values.prod.yaml or --set key=value.
+global: { imageRegistry: "ghcr.io/johndoe6345789", imagePullPolicy: IfNotPresent, storageClass: "" }
+image: { tag: "latest" }
+
+# Core runtime services owned by this agent. Add-on
+# services (audit, image, pdf, flags, comments, search,
+# notifications, streaming, blog, ecommerce, wiki, backup,
+# video, webhooks, status, forum) ship in sibling PRs and
+# can be added incrementally via `optionalServices.*`.
+backend:
+  enabled: true
+  replicas: 2
+  image: "nextra-backend"
+  port: 8080
+  resources:
+    limits: { cpu: "1000m", memory: "1Gi" }
+    requests: { cpu: "250m", memory: "256Mi" }
+
+jobScheduler:
+  enabled: true
+  replicas: 1
+  image: "nextra-job-scheduler"
+  port: 8081
+
+cronManager:
+  enabled: true
+  replicas: 1
+  image: "nextra-cron-manager"
+  port: 8082
+
+frontend:
+  enabled: true
+  replicas: 2
+  image: "nextra-frontend"
+  port: 3100
+  resources:
+    limits: { cpu: "500m", memory: "512Mi" }
+    requests: { cpu: "100m", memory: "128Mi" }
+
+sso:
+  enabled: true
+  replicas: 1
+  image: "nextra-sso"
+  port: 8090
+
+portal:
+  enabled: true
+  replicas: 1
+  image: "nginx"
+  imageTag: "1.27-alpine"
+  port: 80
+
+postgres:
+  enabled: true
+  image: "postgres:16-alpine"
+  port: 5432
+  user: nextra
+  database: nextra_db
+  storage: 10Gi
+
+redis: { enabled: true, image: "redis:7-alpine", port: 6379, storage: 2Gi }
+kafka: { enabled: true, image: "bitnami/kafka:3.7", port: 9092, storage: 5Gi }
+elasticsearch: { enabled: true, image: "elasticsearch:8.13.0", port: 9200, storage: 10Gi }
+
+ingress:
+  enabled: true
+  className: nginx
+  host: nextra.local
+  tls: { enabled: false, secretName: nextra-tls }
+
+# Add-on services owned by sibling branches. Flip to true
+# once their templates land to avoid merge conflicts.
+optionalServices:
+  audit: { enabled: false }
+  image: { enabled: false }
+  pdf: { enabled: false }
+  flags: { enabled: false }
+  comments: { enabled: false }
+  search: { enabled: false }
+  notifications: { enabled: false }
+  streaming: { enabled: false }
+  blog: { enabled: false }
+  ecommerce: { enabled: false }
+  wiki: { enabled: false }
+  backup: { enabled: false }
+  video: { enabled: false }
+  webhooks: { enabled: false }
+  status: { enabled: false }
+  forum: { enabled: false }

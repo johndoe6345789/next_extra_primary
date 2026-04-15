@@ -1,0 +1,17 @@
+{{- if .Values.postgres.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "nextra.fullname" . }}-postgres
+  labels:
+    {{- include "nextra.labels" . | nindent 4 }}
+    app.kubernetes.io/component: postgres
+spec:
+  type: ClusterIP
+  ports:
+    - name: pg
+      port: {{ .Values.postgres.port }}
+      targetPort: pg
+  selector:
+    {{- include "nextra.selectorLabels" (dict "ctx" . "component" "postgres") | nindent 4 }}
+{{- end -}}

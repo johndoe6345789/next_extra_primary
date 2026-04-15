@@ -1,0 +1,31 @@
+{{- if .Values.sso.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "nextra.fullname" . }}-sso
+  labels:
+    {{- include "nextra.labels" . | nindent 4 }}
+    app.kubernetes.io/component: sso
+spec:
+  replicas: {{ .Values.sso.replicas }}
+  selector:
+    matchLabels:
+      {{- include "nextra.selectorLabels" (dict "ctx" . "component" "sso") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "nextra.selectorLabels" (dict "ctx" . "component" "sso") | nindent 8 }}
+    spec:
+      containers:
+        - name: sso
+          image: {{ include "nextra.image" (dict "ctx" . "image" .Values.sso.image) }}
+          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.sso.port }}
+          env:
+            - name: DB_HOST
+              value: {{ include "nextra.fullname" . }}-postgres
+            - name: REDIS_HOST
+              value: {{ include "nextra.fullname" . }}-redis
+{{- end -}}

@@ -1,0 +1,24 @@
+apiVersion: v2
+name: nextra
+description: |
+  Nextra full-stack gamified web application Helm chart.
+  Deploys the C++ Drogon API, Next.js frontend, SSO, portal
+  nginx reverse proxy, and stateful backing services
+  (Postgres, Redis, Kafka, Elasticsearch) to a Kubernetes
+  cluster. Additional services (audit, image, pdf, flags,
+  comments, search, notifications, streaming, blog,
+  ecommerce, wiki, backup, video, webhooks, status, forum)
+  can be enabled incrementally via values.yaml.
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+kubeVersion: ">=1.24.0-0"
+home: https://github.com/johndoe6345789/next_extra_primary
+maintainers:
+  - name: Nextra
+keywords:
+  - nextra
+  - nextjs
+  - drogon
+  - postgres
+  - full-stack
