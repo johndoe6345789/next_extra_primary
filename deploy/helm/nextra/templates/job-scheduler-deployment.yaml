@@ -1,0 +1,31 @@
+{{- if .Values.jobScheduler.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "nextra.fullname" . }}-job-scheduler
+  labels:
+    {{- include "nextra.labels" . | nindent 4 }}
+    app.kubernetes.io/component: job-scheduler
+spec:
+  replicas: {{ .Values.jobScheduler.replicas }}
+  selector:
+    matchLabels:
+      {{- include "nextra.selectorLabels" (dict "ctx" . "component" "job-scheduler") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "nextra.selectorLabels" (dict "ctx" . "component" "job-scheduler") | nindent 8 }}
+    spec:
+      containers:
+        - name: job-scheduler
+          image: {{ include "nextra.image" (dict "ctx" . "image" .Values.jobScheduler.image) }}
+          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.jobScheduler.port }}
+          env:
+            - name: KAFKA_BROKERS
+              value: {{ include "nextra.fullname" . }}-kafka:{{ .Values.kafka.port }}
+            - name: DB_HOST
+              value: {{ include "nextra.fullname" . }}-postgres
+{{- end -}}

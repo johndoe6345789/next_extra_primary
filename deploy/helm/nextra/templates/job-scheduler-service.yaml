@@ -1,0 +1,17 @@
+{{- if .Values.jobScheduler.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "nextra.fullname" . }}-job-scheduler
+  labels:
+    {{- include "nextra.labels" . | nindent 4 }}
+    app.kubernetes.io/component: job-scheduler
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: {{ .Values.jobScheduler.port }}
+      targetPort: http
+  selector:
+    {{- include "nextra.selectorLabels" (dict "ctx" . "component" "job-scheduler") | nindent 4 }}
+{{- end -}}

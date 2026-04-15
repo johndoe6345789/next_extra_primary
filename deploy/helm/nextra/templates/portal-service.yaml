@@ -1,0 +1,17 @@
+{{- if .Values.portal.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "nextra.fullname" . }}-portal
+  labels:
+    {{- include "nextra.labels" . | nindent 4 }}
+    app.kubernetes.io/component: portal
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: {{ .Values.portal.port }}
+      targetPort: http
+  selector:
+    {{- include "nextra.selectorLabels" (dict "ctx" . "component" "portal") | nindent 4 }}
+{{- end -}}

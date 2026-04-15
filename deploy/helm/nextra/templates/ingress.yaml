@@ -1,0 +1,62 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "nextra.fullname" . }}
+  labels:
+    {{- include "nextra.labels" . | nindent 4 }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    - hosts:
+        - {{ .Values.ingress.host }}
+      secretName: {{ .Values.ingress.tls.secretName }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - path: /app
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "nextra.fullname" . }}-frontend
+                port:
+                  number: {{ .Values.frontend.port }}
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "nextra.fullname" . }}-backend
+                port:
+                  number: {{ .Values.backend.port }}
+          - path: /sso
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "nextra.fullname" . }}-sso
+                port:
+                  number: {{ .Values.sso.port }}
+          - path: /jobs
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "nextra.fullname" . }}-job-scheduler
+                port:
+                  number: {{ .Values.jobScheduler.port }}
+          - path: /cron
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "nextra.fullname" . }}-cron-manager
+                port:
+                  number: {{ .Values.cronManager.port }}
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "nextra.fullname" . }}-portal
+                port:
+                  number: {{ .Values.portal.port }}
+{{- end -}}

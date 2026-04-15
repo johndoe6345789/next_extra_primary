@@ -1,0 +1,31 @@
+{{- if .Values.cronManager.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "nextra.fullname" . }}-cron-manager
+  labels:
+    {{- include "nextra.labels" . | nindent 4 }}
+    app.kubernetes.io/component: cron-manager
+spec:
+  replicas: {{ .Values.cronManager.replicas }}
+  selector:
+    matchLabels:
+      {{- include "nextra.selectorLabels" (dict "ctx" . "component" "cron-manager") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "nextra.selectorLabels" (dict "ctx" . "component" "cron-manager") | nindent 8 }}
+    spec:
+      containers:
+        - name: cron-manager
+          image: {{ include "nextra.image" (dict "ctx" . "image" .Values.cronManager.image) }}
+          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.cronManager.port }}
+          env:
+            - name: DB_HOST
+              value: {{ include "nextra.fullname" . }}-postgres
+            - name: KAFKA_BROKERS
+              value: {{ include "nextra.fullname" . }}-kafka:{{ .Values.kafka.port }}
+{{- end -}}

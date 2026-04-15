@@ -1,0 +1,17 @@
+{{- if .Values.cronManager.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "nextra.fullname" . }}-cron-manager
+  labels:
+    {{- include "nextra.labels" . | nindent 4 }}
+    app.kubernetes.io/component: cron-manager
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: {{ .Values.cronManager.port }}
+      targetPort: http
+  selector:
+    {{- include "nextra.selectorLabels" (dict "ctx" . "component" "cron-manager") | nindent 4 }}
+{{- end -}}

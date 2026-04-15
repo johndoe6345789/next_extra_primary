@@ -1,0 +1,37 @@
+{{- if .Values.redis.enabled -}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "nextra.fullname" . }}-redis
+  labels:
+    {{- include "nextra.labels" . | nindent 4 }}
+    app.kubernetes.io/component: redis
+spec:
+  serviceName: {{ include "nextra.fullname" . }}-redis
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "nextra.selectorLabels" (dict "ctx" . "component" "redis") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "nextra.selectorLabels" (dict "ctx" . "component" "redis") | nindent 8 }}
+    spec:
+      containers:
+        - name: redis
+          image: {{ .Values.redis.image }}
+          ports:
+            - name: redis
+              containerPort: {{ .Values.redis.port }}
+          volumeMounts:
+            - name: data
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: {{ .Values.redis.storage }}
+{{- end -}}

@@ -1,0 +1,17 @@
+{{- if .Values.kafka.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "nextra.fullname" . }}-kafka
+  labels:
+    {{- include "nextra.labels" . | nindent 4 }}
+    app.kubernetes.io/component: kafka
+spec:
+  type: ClusterIP
+  ports:
+    - name: kafka
+      port: {{ .Values.kafka.port }}
+      targetPort: kafka
+  selector:
+    {{- include "nextra.selectorLabels" (dict "ctx" . "component" "kafka") | nindent 4 }}
+{{- end -}}

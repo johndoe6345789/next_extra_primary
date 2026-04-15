@@ -1,0 +1,17 @@
+{{- if .Values.frontend.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "nextra.fullname" . }}-frontend
+  labels:
+    {{- include "nextra.labels" . | nindent 4 }}
+    app.kubernetes.io/component: frontend
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: {{ .Values.frontend.port }}
+      targetPort: http
+  selector:
+    {{- include "nextra.selectorLabels" (dict "ctx" . "component" "frontend") | nindent 4 }}
+{{- end -}}
