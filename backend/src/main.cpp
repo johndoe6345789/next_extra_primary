@@ -10,6 +10,7 @@
 
 #include "cli_dispatch.h"
 #include "cli_setup.h"
+#include "commands/audit_manager.h"
 
 #include <cstdint>
 #include <cstdlib>
@@ -53,7 +54,27 @@ int main(int argc, char* argv[])
     auto* adminCmd =
         addAdminCmd(app, adminOpts);
 
+    // -- audit-manager (Phase 1.2 Kafka consumer) --
+    std::string auditConfig{"config/config.json"};
+    auto* auditCmd = app.add_subcommand(
+        "audit-manager",
+        "Run the hash-chained audit daemon");
+    auditCmd->add_option(
+        "-c,--config", auditConfig,
+        "Path to Drogon JSON config")
+        ->default_val("config/config.json");
+
     CLI11_PARSE(app, argc, argv);
+
+    if (*auditCmd) {
+        try {
+            commands::cmdAuditManager(auditConfig);
+            return EXIT_SUCCESS;
+        } catch (const std::exception& ex) {
+            spdlog::error("audit-manager: {}", ex.what());
+            return EXIT_FAILURE;
+        }
+    }
 
     return dispatchCommand(
         migrateCmd, seedCmd, adminCmd,
