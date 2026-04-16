@@ -78,6 +78,10 @@
     "leaderboard": "Classement",
     "profile": "Profil",
     "chat": "Chat",
+    "blog": "Blog",
+    "wiki": "Wiki",
+    "forum": "Forum",
+    "gallery": "Galerie",
     "notifications": "Notifications",
     "about": "À propos",
     "contact": "Contact",
@@ -261,6 +265,53 @@
     "save": "Enregistrer",
     "comingSoon": "Plus de paramètres bientôt.",
     "testEmail": "E-mail de test"
+  },
+  "blog": {
+    "title": "Blog",
+    "loading": "Chargement des articles...",
+    "pagination": "Pages d'articles",
+    "notFound": "Article introuvable.",
+    "postBody": "Contenu de l'article"
+  },
+  "wiki": {
+    "title": "Wiki",
+    "sidebar": "Pages du wiki",
+    "welcome": "Sélectionnez une page dans la barre latérale.",
+    "loading": "Chargement de la page...",
+    "notFound": "Page introuvable.",
+    "lastUpdated": "Dernière mise à jour"
+  },
+  "forum": {
+    "title": "Forum",
+    "loading": "Chargement des fils...",
+    "pagination": "Pages de fils",
+    "notFound": "Fil introuvable.",
+    "replies": "réponses",
+    "post": "Message du forum",
+    "unknownAuthor": "Inconnu",
+    "replyComposer": "Écrire une réponse",
+    "replyPlaceholder": "Rédigez une réponse...",
+    "replyRequired": "La réponse ne peut pas être vide.",
+    "replyError": "Échec de la publication.",
+    "submit": "Publier"
+  },
+  "polls": {
+    "title": "Sondages",
+    "loading": "Chargement des sondages...",
+    "noPolls": "Aucun sondage actif.",
+    "vote": "Voter",
+    "voteFor": "Voter pour",
+    "totalVotes": "votes"
+  },
+  "gallery": {
+    "title": "Galerie",
+    "loading": "Chargement des albums...",
+    "notFound": "Album introuvable.",
+    "photos": "photos",
+    "photo": "Photo",
+    "photoGrid": "Grille de photos",
+    "prev": "Photo précédente",
+    "next": "Photo suivante"
   },
   "admin": {
     "systemKeys": "Clés API système",
