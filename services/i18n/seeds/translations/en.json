@@ -43,7 +43,16 @@
     "resetInstructions": "Enter your email and we will send you a reset link.",
     "resetSent": "Reset link sent! Check your inbox.",
     "backToLogin": "Back to sign in",
-    "sending": "Sending..."
+    "sending": "Sending...",
+    "passkey": {
+      "signIn": "Sign in with a passkey",
+      "verifying": "Verifying..."
+    },
+    "oauth": {
+      "google": "Continue with Google",
+      "github": "Continue with GitHub",
+      "microsoft": "Continue with Microsoft"
+    }
   },
   "nav": {
     "home": "Home",

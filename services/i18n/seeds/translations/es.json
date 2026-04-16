@@ -43,7 +43,16 @@
     "resetInstructions": "Ingresa tu correo y te enviaremos un enlace de restablecimiento.",
     "resetSent": "¡Enlace enviado! Revisa tu bandeja de entrada.",
     "backToLogin": "Volver a iniciar sesión",
-    "sending": "Enviando..."
+    "sending": "Enviando...",
+    "passkey": {
+      "signIn": "Iniciar sesión con clave de acceso",
+      "verifying": "Verificando..."
+    },
+    "oauth": {
+      "google": "Continuar con Google",
+      "github": "Continuar con GitHub",
+      "microsoft": "Continuar con Microsoft"
+    }
   },
   "nav": {
     "home": "Inicio",

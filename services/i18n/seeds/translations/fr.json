@@ -43,7 +43,16 @@
     "resetInstructions": "Entrez votre e-mail et nous vous enverrons un lien de réinitialisation.",
     "resetSent": "Lien envoyé ! Vérifiez votre boîte de réception.",
     "backToLogin": "Retour à la connexion",
-    "sending": "Envoi..."
+    "sending": "Envoi...",
+    "passkey": {
+      "signIn": "Se connecter avec une clé d'accès",
+      "verifying": "Vérification..."
+    },
+    "oauth": {
+      "google": "Continuer avec Google",
+      "github": "Continuer avec GitHub",
+      "microsoft": "Continuer avec Microsoft"
+    }
   },
   "nav": {
     "home": "Accueil",

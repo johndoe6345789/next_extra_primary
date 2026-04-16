@@ -43,7 +43,16 @@
     "resetInstructions": "Geben Sie Ihre E-Mail ein und wir senden Ihnen einen Link zum Zurücksetzen.",
     "resetSent": "Link gesendet! Prüfen Sie Ihren Posteingang.",
     "backToLogin": "Zurück zur Anmeldung",
-    "sending": "Wird gesendet..."
+    "sending": "Wird gesendet...",
+    "passkey": {
+      "signIn": "Mit einem Passkey anmelden",
+      "verifying": "Wird überprüft..."
+    },
+    "oauth": {
+      "google": "Mit Google fortfahren",
+      "github": "Mit GitHub fortfahren",
+      "microsoft": "Mit Microsoft fortfahren"
+    }
   },
   "nav": {
     "home": "Startseite",

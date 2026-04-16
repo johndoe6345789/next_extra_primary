@@ -43,7 +43,16 @@
     "resetInstructions": "Rhowch eich e-bost a byddwn yn anfon dolen ailosod atoch.",
     "resetSent": "Dolen ailosod wedi'i hanfon! Gwiriwch eich mewnflwch.",
     "backToLogin": "Yn ôl i fewngofnodi",
-    "sending": "Yn anfon..."
+    "sending": "Yn anfon...",
+    "passkey": {
+      "signIn": "Mewngofnodi gyda phasclwedd",
+      "verifying": "Yn gwirio..."
+    },
+    "oauth": {
+      "google": "Parhau gyda Google",
+      "github": "Parhau gyda GitHub",
+      "microsoft": "Parhau gyda Microsoft"
+    }
   },
   "nav": {
     "home": "Hafan",
