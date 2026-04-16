@@ -215,7 +215,7 @@ tests inside Docker:
 ```bash
 docker run --rm \
   --volume "//d/GitHub/next_extra_primary://src" \
-  -w //src/tools/manager \
+  -w //src/services/manager-cli \
   gcc:13 bash -c "apt-get install -y libssl-dev -q && make"
 ```
 
@@ -355,17 +355,19 @@ Password format: `saltHex$600000$dkHex` (PBKDF2-HMAC-SHA256,
 
 ### Building the Manager Tool
 
-The manager CLI links against OpenSSL (`-lssl -lcrypto`).
-On Windows, build inside Docker because MSYS2 has no C++ compiler:
+The manager CLI lives at `services/manager-cli/` and links against
+OpenSSL (`-lssl -lcrypto`). On Windows, build inside Docker because
+MSYS2 has no C++ compiler:
 
 ```bash
 docker run --rm \
   --volume "//d/GitHub/next_extra_primary://src" \
-  -w //src/tools/manager \
+  -w //src/services/manager-cli \
   gcc:13 bash -c "apt-get install -y libssl-dev -q && make"
 ```
 
-After the build the `manager` binary appears in `tools/manager/`.
+After the build the `manager` binary appears in
+`services/manager-cli/`.
 
 ### Running the Full Stack
 
@@ -377,7 +379,7 @@ docker compose up --build        # All services
 Or to run services individually:
 
 ```bash
-cd backend && ./nextra-api serve --port 8080
+./build/nextra-api serve --port 8080
 cd frontend && npm run dev       # port 3100 by default
 ```
 
@@ -430,3 +432,6 @@ Rebuild is the correct and only supported workflow.
 - Use `!important` in CSS — fix specificity through selectors.
 - Gate debug UI on `NODE_ENV === 'development'` — use
   `NEXT_PUBLIC_DEBUG_BAR=1` instead.
+- Put files in `backend/` or `tools/` — those top-level
+  directories no longer exist. All code belongs under
+  `services/<domain>/`.

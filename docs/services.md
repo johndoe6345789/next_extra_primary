@@ -1,124 +1,99 @@
 # Backend Services (Drogon Daemons)
 
 The Nextra backend is not a single process. One binary
-(`backend/nextra-api`) exposes several CLI subcommands in
-`backend/src/commands/`, and docker-compose runs each subcommand
-as its own long-lived container. They all share the same
-PostgreSQL database and Drogon config file (`backend/config/config.json`).
-
-This page documents every daemon currently defined under
-`backend/src/commands/`. The entry point for all of them is
-`backend/src/main.cpp`, which dispatches a CLI11 subcommand.
+(`nextra-api`) is built from `services/drogon-host/` and exposes
+CLI subcommands defined in
+`services/drogon-host/backend/cli_setup_daemons.h`. Docker-compose
+runs each subcommand as its own long-lived container. All daemons
+share the same PostgreSQL database and Drogon config file
+(`services/drogon-host/config/config.json`).
 
 ---
 
 ## backend (`serve`)
 
 - **CLI**: `./nextra-api serve --port 8080`
-- **Source**: `backend/src/commands/serve.cpp`
+- **Source**: `services/drogon-host/backend/commands/serve.cpp`
 - **Compose service**: `backend`
 - **Port**: `8080`
-- **Purpose**: Main HTTP API. Mounts every Drogon
-  controller under `backend/src/controllers/` (auth, users,
-  gamification, notifications, chat, email, admin, jobs, cron).
+- **Purpose**: Main HTTP API. Mounts every Drogon controller from
+  every domain (`services/<domain>/controllers/`).
 - **Key env vars**: `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`,
   `DB_PASSWORD`, `JWT_SECRET`, `SMTP_HOST`, `SMTP_PORT`,
   `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`, `APP_BASE_URL`,
   `ES_HOST`, `ES_PORT`, `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`.
-- **Config**: `backend/config/config.json` (Drogon listener,
-  DB client pool, log level).
+- **Config**: `services/drogon-host/config/config.json`.
 
 ---
 
 ## job-scheduler (`job-scheduler`)
 
 - **CLI**: `./nextra-api job-scheduler --config config/config.json`
-- **Source**: `backend/src/commands/job_scheduler.cpp`
+- **Source**: `services/drogon-host/backend/commands/`
 - **Compose service**: `job-scheduler`
+- **Domain**: `services/job-queue/`
 - **Purpose**: Durable background worker pool. Drains the
   `job_queue` table using `SELECT ... FOR UPDATE SKIP LOCKED`,
   runs each claimed job via a handler registered in
-  `backend/src/services/JobRegistry.cpp`, writes a
+  `services/job-queue/backend/JobRegistry.cpp`, writes a
   `job_runs` row, retries with exponential backoff, and
   moves exhausted rows to `job_dead_letter`.
 - **Key files**:
-  - `backend/src/services/JobScheduler.{h,cpp}` — worker pool.
-  - `backend/src/services/JobQueue.{h,cpp}` — repository over
-    `job_queue`, `job_runs`, `job_dead_letter`.
-  - `backend/src/services/JobWorker.{h,cpp}` — single-worker loop.
-  - `backend/src/services/JobBackoff.{h,cpp}` — retry timing.
-  - `backend/src/services/JobRegistry.{h,cpp}` — handler lookup.
-- **Config file**: `backend/src/constants/job-scheduler.json`.
-  Tunables: `workers`, `pollIntervalMs`, `defaultMaxAttempts`,
-  `defaultBackoff`, `backoffBaseMs`, `backoffMaxMs`,
-  `lockTimeoutSeconds`, `recoveryTickSeconds`,
-  `gracefulShutdownSeconds`, `deadLetterRetentionDays`,
-  `runHistoryRetentionDays`, `workerIdPrefix`.
-- **Migration**: `backend/migrations/012_job_scheduler.sql`.
-- **HTTP surface**: `JobController` is still linked into the
-  `backend` daemon so the operator UI can read/write the queue.
-  See `docs/jobs.md` for the REST endpoints.
+  - `services/job-queue/backend/JobScheduler.{h,cpp}`
+  - `services/job-queue/backend/JobQueue.{h,cpp}`
+  - `services/job-queue/backend/JobWorker.{h,cpp}`
+  - `services/job-queue/backend/JobBackoff.{h,cpp}`
+  - `services/job-queue/backend/JobRegistry.{h,cpp}`
+- **Config**: `services/job-queue/constants.json`.
+- **Migration**: `services/job-queue/migrations/`.
+- **HTTP surface**: `JobController` in `services/job-queue/controllers/`
+  is linked into the `backend` daemon. See `docs/jobs.md`.
 
 ---
 
 ## cron-manager (`cron-manager`)
 
 - **CLI**: `./nextra-api cron-manager --config config/config.json`
-- **Source**: `backend/src/commands/cron_manager.cpp`
+- **Source**: `services/drogon-host/backend/commands/`
 - **Compose service**: `cron-manager`
-- **Purpose**: Evaluates rows in `scheduled_jobs`, and whenever
-  a schedule is due, enqueues a fresh `job_queue` row pointing
-  at the same handler. It does NOT execute the work itself —
-  execution is the job-scheduler's responsibility.
+- **Domain**: `services/cron/`
+- **Purpose**: Evaluates rows in `scheduled_jobs`; whenever a
+  schedule is due, enqueues a `job_queue` row. Does NOT execute
+  work itself — that is the job-scheduler's responsibility.
 - **Key files**:
-  - `backend/src/services/cron/CronManager.{h,cpp}` — tick loop.
-  - `backend/src/services/cron/CronExpression.h` — Vixie parser.
-  - `backend/src/services/cron/cron_expression_parse.cpp`
-  - `backend/src/services/cron/cron_expression_next.cpp`
-  - `backend/src/services/cron/cron_manager_tick.cpp`
-  - `backend/src/services/cron/cron_manager_seeds.cpp`
-- **Config file**: `backend/src/constants/cron-manager.json`.
-  Tunables: `tickIntervalSeconds`, `gracefulShutdownSeconds`,
-  `dueSlackSeconds`, plus the `seedSchedules` array of
-  `{name, cron, handler, description}` objects that are upserted
-  into `scheduled_jobs` at daemon boot.
-- **Migration**: `backend/migrations/012_job_scheduler.sql`.
-- **HTTP surface**: `CronController` (see
-  `backend/src/controllers/CronController.h`) is linked into
-  `backend` for CRUD, preview, and force-tick actions. Force
-  tick reaches into the live daemon via a module-local global
-  (`nextra::cron::g_cronManager`).
+  - `services/cron/backend/CronManager.{h,cpp}`
+  - `services/cron/backend/CronExpression.h`
+  - `services/cron/backend/cron_expression_parse.cpp`
+  - `services/cron/backend/cron_expression_next.cpp`
+  - `services/cron/backend/cron_manager_tick.cpp`
+  - `services/cron/backend/cron_manager_seeds.cpp`
+- **Config**: `services/cron/constants.json`.
+- **Migration**: `services/job-queue/migrations/` (shared table).
+- **HTTP surface**: `CronController` in `services/cron/controllers/`.
 
 ---
 
 ## migrate (`migrate`)
 
 - **CLI**: `./nextra-api migrate --up` or `--down`
-- **Source**: `backend/src/commands/migrate.cpp`
-- **Purpose**: One-shot (not a daemon). Applies SQL files from
-  `backend/migrations/` in order, tracked via a schema version
-  table. Invoked at first boot or on schema changes.
-- **Services**: `MigrationRunner`, `MigrationApplier`,
-  `MigrationStateStore`, `MigrationRollback`,
-  `MigrationStatusQuery`, `MigrationFileUtils`.
+- **Source**: `services/migration-runner/backend/`
+- **Purpose**: One-shot (not a daemon). Reads the dependency graph
+  at `services/migration-graph.json`, applies per-domain SQL files
+  from `services/<domain>/migrations/` in topological order.
+- **Details**: See `docs/migration-dag.md`.
 
 ---
 
-## seed (`seed`) / serve-advice (`serve-advice`) / create-admin
+## seed / serve-advice / create-admin
 
-- **seed** — one-shot. Loads `backend/seed/*.json` into the
-  `badges`, `notifications`, `users`, etc. tables.
-  Source: `backend/src/commands/seed.cpp`.
-- **serve-advice** — diagnostic helper that prints the current
-  effective config resolved from env + JSON.
-  Source: `backend/src/commands/serve_advice.cpp`.
-- **create-admin** — interactive bootstrap to create the first
-  admin user when the database is empty.
-  Source: `backend/src/commands/create_admin.cpp`.
+- **seed** — one-shot. Loads seed JSON from
+  `services/users/seeds/users.json` and similar domain seed
+  files into the database.
+- **serve-advice** — diagnostic; prints the effective config.
+- **create-admin** — interactive bootstrap for the first admin.
 
 ---
 
 ## Adding a new daemon
 
-See `docs/adding-a-daemon.md` for a step-by-step walkthrough
-based on the existing `cron-manager`.
+See `docs/adding-a-daemon.md` for a step-by-step walkthrough.
