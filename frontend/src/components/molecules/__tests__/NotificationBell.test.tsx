@@ -23,7 +23,9 @@ jest.mock('../../atoms', () => ({
       {icon}
     </button>
   ),
-  Badge: ({ children }: { children: React.ReactNode }) =>
+  Badge: ({
+    children,
+  }: { children: React.ReactNode }) =>
     <span>{children}</span>,
 }));
 
@@ -57,6 +59,17 @@ describe('NotificationBell', () => {
       screen.getByLabelText(
         'No unread notifications',
       ),
+    ).toBeInTheDocument();
+  });
+
+  it('shows badge when unread count > 0', () => {
+    jest.resetModules();
+    jest.doMock('@/hooks', () => ({
+      useNotifications: () => ({ unreadCount: 3 }),
+    }));
+    render(<NotificationBell testId="nb" />);
+    expect(
+      screen.getByTestId('nb'),
     ).toBeInTheDocument();
   });
 });

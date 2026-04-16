@@ -92,7 +92,12 @@
     "title": "通知",
     "markAllRead": "すべて既読にする",
     "noNotifications": "新しい通知はありません",
-    "clearAll": "すべてクリア"
+    "clearAll": "すべてクリア",
+    "loading": "通知を読み込み中...",
+    "loadMore": "さらに読み込む",
+    "settingsTitle": "通知設定",
+    "save": "設定を保存",
+    "viewAll": "すべての通知を表示"
   },
   "chat": {
     "placeholder": "メッセージを入力...",

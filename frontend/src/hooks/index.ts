@@ -37,3 +37,8 @@ export { useInitAuth } from './useInitAuth';
 export { useTestEmail } from './useTestEmail';
 export { useImpersonation } from './useImpersonation';
 export { useAdminUsers } from './useAdminUsers';
+export {
+  useNotificationPreferences,
+} from './useNotificationPreferences';
+export { useFeatureFlag } from './useFeatureFlag';
+export { useAnalytics } from './useAnalytics';

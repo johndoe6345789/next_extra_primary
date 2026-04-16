@@ -92,7 +92,12 @@
     "title": "Meldingen",
     "markAllRead": "Alles als gelezen markeren",
     "noNotifications": "Geen nieuwe meldingen",
-    "clearAll": "Alles wissen"
+    "clearAll": "Alles wissen",
+    "loading": "Meldingen laden...",
+    "loadMore": "Meer laden",
+    "settingsTitle": "Meldingsinstellingen",
+    "save": "Instellingen opslaan",
+    "viewAll": "Alle meldingen bekijken"
   },
   "chat": {
     "placeholder": "Typ een bericht...",

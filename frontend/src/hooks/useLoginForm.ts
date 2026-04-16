@@ -5,6 +5,10 @@ import { useRouter } from 'next/navigation';
 import { useAuth, useFormValidation } from '@/hooks';
 import { LOGIN_RULES }
   from '@/components/organisms/loginRules';
+import { useAnalytics }
+  from '@/hooks/useAnalytics';
+import EVENTS
+  from '@/constants/analytics-events.json';
 import type {
   UseLoginFormOptions,
   UseLoginFormReturn,
@@ -38,6 +42,7 @@ export function useLoginForm(
   const { validate, errors } =
     useFormValidation(LOGIN_RULES);
   const router = useRouter();
+  const { track } = useAnalytics();
 
   const submit = async (
     e: React.FormEvent,
@@ -51,6 +56,7 @@ export function useLoginForm(
     if (!ok) return;
     try {
       await login({ email, password: pw });
+      track(EVENTS.LOGIN);
       router.push(next ?? '/dashboard');
     } catch (err: unknown) {
       const data = (err as {

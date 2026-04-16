@@ -16,6 +16,8 @@ import { AvatarMenu } from './AvatarMenu';
 import { MobileDrawer } from './MobileDrawer';
 import { NotificationPanel } from './NotificationPanel';
 import navLinks from '@/constants/nav-links.json';
+import { FeatureFlagGate }
+  from '@/components/atoms/FeatureFlagGate';
 
 /** Props for the Navbar organism. */
 export interface NavbarProps {
@@ -61,11 +63,13 @@ export const Navbar: React.FC<NavbarProps> = ({
           <DesktopActions onSearch={onSearch ?? (() => {})} />
           {isAuthenticated ? (
             <>
-              <AppHeaderActions
-                activePath="/app"
-                onLogout={logout}
-                hideUser
-              />
+              <FeatureFlagGate flag="ecommerce">
+                <AppHeaderActions
+                  activePath="/app"
+                  onLogout={logout}
+                  hideUser
+                />
+              </FeatureFlagGate>
               <NotificationBell onClick={toggle} />
               <AvatarMenu user={user} onLogout={logout} />
             </>

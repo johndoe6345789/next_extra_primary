@@ -81,3 +81,8 @@ export { default as SettingsAdminCard }
   from './SettingsAdminCard';
 export { default as SettingsPreferences }
   from './SettingsPreferences';
+
+export { NotifPrefTable } from './NotifPrefTable';
+export type {
+  NotifPrefTableProps,
+} from './NotifPrefTable';

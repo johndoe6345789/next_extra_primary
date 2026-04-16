@@ -17,3 +17,6 @@ export * from './translationApi';
 export * from './preferencesApi';
 export * from './apiKeyApi';
 export * from './adminApi';
+export * from './flagsApi';
+export * from './analyticsApi';
+export * from './notificationPrefsApi';

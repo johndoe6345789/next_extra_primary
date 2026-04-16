@@ -92,7 +92,12 @@
     "title": "通知",
     "markAllRead": "全部标为已读",
     "noNotifications": "暂无新通知",
-    "clearAll": "清除全部"
+    "clearAll": "清除全部",
+    "loading": "正在加载通知...",
+    "loadMore": "加载更多",
+    "settingsTitle": "通知偏好设置",
+    "save": "保存偏好设置",
+    "viewAll": "查看所有通知"
   },
   "chat": {
     "placeholder": "输入消息...",

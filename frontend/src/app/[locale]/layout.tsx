@@ -17,6 +17,10 @@ import { PwaRegister } from
   '@/components/atoms/PwaRegister';
 import { PwaHead } from './pwa-head';
 import { loadMessages } from './loadMessages';
+import { FeatureFlagProvider } from
+  '@/components/providers/FeatureFlagProvider';
+import { AnalyticsProvider } from
+  '@/components/providers/AnalyticsProvider';
 
 /** All locale pages are dynamic. */
 export const dynamic = 'force-dynamic';
@@ -63,19 +67,23 @@ export default async function LocaleLayout({
       <HtmlLang locale={locale} />
       <PwaHead />
       <PwaRegister />
-      <LinkAdapter>
-        <AppShell>
-          <Navbar />
-          <ShiftContent>
-            <AuthGate>
-              {children}
-            </AuthGate>
-            <Footer />
-          </ShiftContent>
-        </AppShell>
-        {process.env.NEXT_PUBLIC_DEBUG_BAR
-          === '1' && <DebugBar />}
-      </LinkAdapter>
+      <FeatureFlagProvider>
+        <AnalyticsProvider>
+          <LinkAdapter>
+            <AppShell>
+              <Navbar />
+              <ShiftContent>
+                <AuthGate>
+                  {children}
+                </AuthGate>
+                <Footer />
+              </ShiftContent>
+            </AppShell>
+            {process.env.NEXT_PUBLIC_DEBUG_BAR
+              === '1' && <DebugBar />}
+          </LinkAdapter>
+        </AnalyticsProvider>
+      </FeatureFlagProvider>
     </IntlProvider>
   );
 }

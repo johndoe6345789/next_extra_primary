@@ -92,7 +92,12 @@
     "title": "Notificaciones",
     "markAllRead": "Marcar todo como leído",
     "noNotifications": "Sin notificaciones nuevas",
-    "clearAll": "Borrar todo"
+    "clearAll": "Borrar todo",
+    "loading": "Cargando notificaciones...",
+    "loadMore": "Cargar más",
+    "settingsTitle": "Preferencias de notificaciones",
+    "save": "Guardar preferencias",
+    "viewAll": "Ver todas las notificaciones"
   },
   "chat": {
     "placeholder": "Escribe un mensaje...",

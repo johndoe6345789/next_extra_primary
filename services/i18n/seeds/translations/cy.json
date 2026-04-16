@@ -92,7 +92,12 @@
     "title": "Hysbysiadau",
     "markAllRead": "Marcio popeth fel wedi'i ddarllen",
     "noNotifications": "Dim hysbysiadau newydd",
-    "clearAll": "Clirio popeth"
+    "clearAll": "Clirio popeth",
+    "loading": "Llwytho hysbysiadau...",
+    "loadMore": "Llwytho mwy",
+    "settingsTitle": "Dewisiadau hysbysiad",
+    "save": "Cadw dewisiadau",
+    "viewAll": "Gweld pob hysbysiad"
   },
   "chat": {
     "placeholder": "Teipiwch neges...",

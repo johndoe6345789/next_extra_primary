@@ -6,13 +6,12 @@ import Typography from '@shared/m3/Typography';
 import Button from '@shared/m3/Button';
 import { useTranslations } from 'next-intl';
 import { useNotifications } from '@/hooks';
-import { useEscapeKey } from
-  '@/hooks/useEscapeKey';
-import type { Notification }
-  from '@/types/notification';
-import NotificationList from
-  './NotificationList';
+import { useEscapeKey } from '@/hooks/useEscapeKey';
+import type { Notification } from '@/types/notification';
+import NotificationList from './NotificationList';
 import s from './NotificationPanel.module.scss';
+import { Link } from '@/i18n/navigation';
+import cfg from '@/constants/notifications.json';
 
 /** Props for the NotificationPanel organism. */
 export interface NotificationPanelProps {
@@ -74,10 +73,25 @@ export const NotificationPanel: React.FC<
           </Button>
         </Box>
         <NotificationList
-          items={items}
+          items={
+            items.slice(
+              0, cfg.PANEL_PREVIEW_COUNT,
+            )
+          }
           onRead={markAsRead}
           emptyText={t('noNotifications')}
         />
+        <Box sx={{ textAlign: 'right', mt: 1 }}>
+          <Button
+            variant="text" size="small"
+            component={Link}
+            href="/notifications"
+            onClick={onClose}
+            data-testid="notif-view-all"
+          >
+            {t('viewAll')}
+          </Button>
+        </Box>
       </div>
     </>
   );
