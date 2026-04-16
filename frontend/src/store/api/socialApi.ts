@@ -8,6 +8,7 @@ import type { DmThread, DmMessage, Reaction,
 
 /** DM, reactions, and mentions endpoints. */
 export const socialApi = baseApi.injectEndpoints({
+  overrideExisting: true,
   endpoints: (build) => ({
     /** List DM threads. */
     getDmThreads: build.query<DmThread[], void>({
