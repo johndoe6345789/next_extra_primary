@@ -1,0 +1,27 @@
+{
+  "blog": {
+    "pageSize": 10,
+    "listUrl": "/blog",
+    "detailUrl": "/blog"
+  },
+  "wiki": {
+    "listUrl": "/wiki",
+    "detailUrl": "/wiki"
+  },
+  "forum": {
+    "listUrl": "/forum",
+    "detailUrl": "/forum",
+    "maxNestDepth": 5,
+    "pageSize": 20
+  },
+  "polls": {
+    "apiActive": "/polls/active"
+  },
+  "gallery": {
+    "listUrl": "/gallery",
+    "detailUrl": "/gallery",
+    "variantGrid": "medium",
+    "variantLightbox": "large"
+  },
+  "reactions": ["like", "love", "laugh", "wow", "sad"]
+}

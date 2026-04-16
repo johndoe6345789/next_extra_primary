@@ -81,3 +81,9 @@ export { default as SettingsAdminCard }
   from './SettingsAdminCard';
 export { default as SettingsPreferences }
   from './SettingsPreferences';
+
+export { PollWidget } from './PollWidget';
+export type { PollWidgetProps } from './PollWidget';
+
+export { PollsPanel } from './PollsPanel';
+export type { PollsPanelProps } from './PollsPanel';

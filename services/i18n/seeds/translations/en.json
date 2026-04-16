@@ -51,6 +51,10 @@
     "leaderboard": "Leaderboard",
     "profile": "Profile",
     "chat": "Chat",
+    "blog": "Blog",
+    "wiki": "Wiki",
+    "forum": "Forum",
+    "gallery": "Gallery",
     "notifications": "Notifications",
     "about": "About",
     "contact": "Contact",
@@ -229,6 +233,53 @@
     "save": "Save",
     "comingSoon": "More settings coming soon.",
     "testEmail": "Test Email"
+  },
+  "blog": {
+    "title": "Blog",
+    "loading": "Loading posts...",
+    "pagination": "Post pages",
+    "notFound": "Post not found.",
+    "postBody": "Post content"
+  },
+  "wiki": {
+    "title": "Wiki",
+    "sidebar": "Wiki pages",
+    "welcome": "Select a page from the sidebar.",
+    "loading": "Loading page...",
+    "notFound": "Page not found.",
+    "lastUpdated": "Last updated"
+  },
+  "forum": {
+    "title": "Forum",
+    "loading": "Loading threads...",
+    "pagination": "Thread pages",
+    "notFound": "Thread not found.",
+    "replies": "replies",
+    "post": "Forum post",
+    "unknownAuthor": "Unknown",
+    "replyComposer": "Post a reply",
+    "replyPlaceholder": "Write a reply...",
+    "replyRequired": "Reply cannot be empty.",
+    "replyError": "Failed to post reply.",
+    "submit": "Post reply"
+  },
+  "polls": {
+    "title": "Polls",
+    "loading": "Loading polls...",
+    "noPolls": "No active polls.",
+    "vote": "Vote",
+    "voteFor": "Vote for",
+    "totalVotes": "votes"
+  },
+  "gallery": {
+    "title": "Gallery",
+    "loading": "Loading albums...",
+    "notFound": "Album not found.",
+    "photos": "photos",
+    "photo": "Photo",
+    "photoGrid": "Photo grid",
+    "prev": "Previous photo",
+    "next": "Next photo"
   },
   "admin": {
     "systemKeys": "System API Keys",
