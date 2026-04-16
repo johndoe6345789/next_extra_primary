@@ -27,6 +27,15 @@ export interface LoginResponse {
   tokens: TokenPair;
 }
 
+/**
+ * Partial login response when backend requires
+ * a TOTP second factor to complete authentication.
+ */
+export interface TotpChallengeResponse {
+  require_totp: true;
+  totp_session_token: string;
+}
+
 /** Payload for registration requests. */
 export interface RegisterRequest {
   email: string;
@@ -52,4 +61,8 @@ export interface AuthState {
    *  (useInitAuth) has completed.  AuthGate must
    *  not redirect while this is true. */
   isInitializing: boolean;
+  /** True when backend login requires TOTP step. */
+  requireTotp: boolean;
+  /** Short-lived token for the TOTP verify-login. */
+  totpSessionToken: string | null;
 }

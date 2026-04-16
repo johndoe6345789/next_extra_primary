@@ -6,6 +6,7 @@ import { baseApi } from './baseApi';
 import type {
   LoginRequest,
   LoginResponse,
+  TotpChallengeResponse,
   RegisterRequest,
   User,
   TokenPair,
@@ -15,7 +16,10 @@ import type {
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     /** Log in with email and password. */
-    login: build.mutation<LoginResponse, LoginRequest>({
+    login: build.mutation<
+      LoginResponse | TotpChallengeResponse,
+      LoginRequest
+    >({
       query: (body) => ({
         url: '/auth/login',
         method: 'POST',

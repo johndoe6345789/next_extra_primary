@@ -5,11 +5,11 @@
     "error": "Etwas ist schiefgelaufen",
     "save": "Speichern",
     "cancel": "Abbrechen",
-    "delete": "L\u00f6schen",
+    "delete": "Löschen",
     "search": "Suchen",
-    "close": "Schlie\u00dfen",
-    "confirm": "Best\u00e4tigen",
-    "back": "Zur\u00fcck",
+    "close": "Schließen",
+    "confirm": "Bestätigen",
+    "back": "Zurück",
     "next": "Weiter",
     "submit": "Absenden",
     "edit": "Bearbeiten",
@@ -23,36 +23,63 @@
     "email": "E-Mail-Adresse",
     "password": "Passwort",
     "forgotPassword": "Passwort vergessen?",
-    "resetPassword": "Passwort zur\u00fccksetzen",
-    "confirmPassword": "Passwort best\u00e4tigen",
+    "resetPassword": "Passwort zurücksetzen",
+    "confirmPassword": "Passwort bestätigen",
     "rememberMe": "Angemeldet bleiben",
     "noAccount": "Noch kein Konto?",
     "hasAccount": "Bereits ein Konto? Anmelden",
     "loginSuccess": "Erfolgreich angemeldet",
     "logoutSuccess": "Erfolgreich abgemeldet",
     "registerSuccess": "Konto erfolgreich erstellt",
-    "invalidCredentials": "Ung\u00fcltige E-Mail oder Passwort",
-    "passwordMismatch": "Passw\u00f6rter stimmen nicht \u00fcberein",
+    "invalidCredentials": "Ungültige E-Mail oder Passwort",
+    "passwordMismatch": "Passwörter stimmen nicht überein",
     "emailRequired": "E-Mail ist erforderlich",
     "passwordRequired": "Passwort ist erforderlich",
     "username": "Benutzername",
     "displayName": "Anzeigename",
-    "passwordsMustMatch": "Passw\u00f6rter m\u00fcssen \u00fcbereinstimmen",
-    "signingIn": "Anmeldung l\u00e4uft...",
+    "passwordsMustMatch": "Passwörter müssen übereinstimmen",
+    "signingIn": "Anmeldung läuft...",
     "creating": "Wird erstellt...",
-    "resetInstructions": "Geben Sie Ihre E-Mail ein und wir senden Ihnen einen Link zum Zur\u00fccksetzen.",
-    "resetSent": "Link gesendet! Pr\u00fcfen Sie Ihren Posteingang.",
-    "backToLogin": "Zur\u00fcck zur Anmeldung",
-    "sending": "Wird gesendet..."
+    "resetInstructions": "Geben Sie Ihre E-Mail ein und wir senden Ihnen einen Link zum Zurücksetzen.",
+    "resetSent": "Link gesendet! Prüfen Sie Ihren Posteingang.",
+    "backToLogin": "Zurück zur Anmeldung",
+    "sending": "Wird gesendet...",
+    "oauth": {
+      "google": "Mit Google fortfahren",
+      "github": "Mit GitHub fortfahren",
+      "microsoft": "Mit Microsoft fortfahren"
+    },
+    "passkey": {
+      "signIn": "Mit Passkey anmelden",
+      "verifying": "Verifiziere...",
+      "add": "Passkey hinzufügen",
+      "remove": "Entfernen",
+      "none": "Keine Passkeys registriert.",
+      "sectionTitle": "Passkeys"
+    },
+    "totp": {
+      "enrollTitle": "Zwei-Faktor-Authentifizierung einrichten",
+      "loginTitle": "Zwei-Faktor-Authentifizierung",
+      "scanInstruction": "Scannen Sie diesen QR-Code mit Ihrer Authenticator-App.",
+      "qrAlt": "TOTP QR-Code",
+      "codeLabel": "6-stelliger Code",
+      "verify": "Verifizieren",
+      "verifying": "Verifiziere...",
+      "done": "Fertig",
+      "recoveryCodes": "Wiederherstellungscodes",
+      "recoveryCodesInfo": "Bewahren Sie diese Codes sicher auf.",
+      "loading": "QR-Code wird generiert...",
+      "failed": "Verifizierung fehlgeschlagen. Bitte erneut versuchen."
+    }
   },
   "nav": {
     "home": "Startseite",
-    "dashboard": "\u00dcbersicht",
+    "dashboard": "Übersicht",
     "leaderboard": "Bestenliste",
     "profile": "Profil",
     "chat": "Chat",
     "notifications": "Benachrichtigungen",
-    "about": "\u00dcber uns",
+    "about": "Über uns",
     "contact": "Kontakt",
     "settings": "Einstellungen",
     "tools": "Werkzeuge",
@@ -71,7 +98,7 @@
     "guest": "Gast"
   },
   "hero": {
-    "title": "Bringe dein Lernen auf das n\u00e4chste Level",
+    "title": "Bringe dein Lernen auf das nächste Level",
     "subtitle": "Nimm teil, tritt an und wachse mit unserer gamifizierten Plattform",
     "cta": "Jetzt starten",
     "features": "Funktionen entdecken"
@@ -92,7 +119,7 @@
     "title": "Benachrichtigungen",
     "markAllRead": "Alle als gelesen markieren",
     "noNotifications": "Keine neuen Benachrichtigungen",
-    "clearAll": "Alle l\u00f6schen"
+    "clearAll": "Alle löschen"
   },
   "chat": {
     "placeholder": "Nachricht eingeben...",
@@ -128,7 +155,7 @@
     },
     "multiLang": {
       "title": "Mehrsprachig",
-      "desc": "Mehrere Sprachen verf\u00fcgbar."
+      "desc": "Mehrere Sprachen verfügbar."
     },
     "secureAuth": {
       "title": "Sichere Authentifizierung",
@@ -181,16 +208,16 @@
     "sent": "Nachricht gesendet! Wir melden uns bald."
   },
   "about": {
-    "title": "\u00dcber ExtraPrimary",
+    "title": "Über ExtraPrimary",
     "description": "ExtraPrimary ist eine gamifizierte Lernplattform, die KI-Tutoring mit Fortschrittsmechaniken kombiniert.",
     "description2": "Verdienen Sie Abzeichen, halten Sie Serien aufrecht, steigen Sie in Bestenlisten auf und lernen Sie in Ihrem eigenen Tempo.",
     "missionTitle": "Unsere Mission",
-    "mission": "Bildung zug\u00e4nglich, ansprechend und lohnend f\u00fcr alle Lernenden zu machen."
+    "mission": "Bildung zugänglich, ansprechend und lohnend für alle Lernenden zu machen."
   },
   "a11y": {
     "skipToContent": "Zum Hauptinhalt springen",
-    "openMenu": "Navigationsmen\u00fc \u00f6ffnen",
-    "closeMenu": "Navigationsmen\u00fc schlie\u00dfen",
+    "openMenu": "Navigationsmenü öffnen",
+    "closeMenu": "Navigationsmenü schließen",
     "toggleTheme": "Farbthema umschalten",
     "switchLanguage": "Sprache wechseln",
     "loading": "Inhalt wird geladen",

@@ -43,7 +43,34 @@
     "resetInstructions": "Voer je e-mailadres in en we sturen je een herstellink.",
     "resetSent": "Herstellink verzonden! Controleer je inbox.",
     "backToLogin": "Terug naar inloggen",
-    "sending": "Verzenden..."
+    "sending": "Verzenden...",
+    "oauth": {
+      "google": "Doorgaan met Google",
+      "github": "Doorgaan met GitHub",
+      "microsoft": "Doorgaan met Microsoft"
+    },
+    "passkey": {
+      "signIn": "Inloggen met passkey",
+      "verifying": "Verifiëren...",
+      "add": "Passkey toevoegen",
+      "remove": "Verwijderen",
+      "none": "Geen passkeys ingeschreven.",
+      "sectionTitle": "Passkeys"
+    },
+    "totp": {
+      "enrollTitle": "Tweefactorauthenticatie instellen",
+      "loginTitle": "Tweefactorauthenticatie",
+      "scanInstruction": "Scan deze QR-code met je authenticatie-app.",
+      "qrAlt": "TOTP QR-code",
+      "codeLabel": "6-cijferige code",
+      "verify": "Verifiëren",
+      "verifying": "Verifiëren...",
+      "done": "Klaar",
+      "recoveryCodes": "Herstelcodes",
+      "recoveryCodesInfo": "Bewaar deze codes op een veilige plek.",
+      "loading": "QR-code genereren...",
+      "failed": "Verificatie mislukt. Probeer opnieuw."
+    }
   },
   "nav": {
     "home": "Home",

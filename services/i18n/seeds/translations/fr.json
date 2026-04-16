@@ -14,23 +14,23 @@
     "submit": "Soumettre",
     "edit": "Modifier",
     "view": "Voir",
-    "retry": "R\u00e9essayer"
+    "retry": "Réessayer"
   },
   "auth": {
     "login": "Se connecter",
-    "register": "Cr\u00e9er un compte",
-    "logout": "Se d\u00e9connecter",
+    "register": "Créer un compte",
+    "logout": "Se déconnecter",
     "email": "Adresse e-mail",
     "password": "Mot de passe",
-    "forgotPassword": "Mot de passe oubli\u00e9 ?",
-    "resetPassword": "R\u00e9initialiser le mot de passe",
+    "forgotPassword": "Mot de passe oublié ?",
+    "resetPassword": "Réinitialiser le mot de passe",
     "confirmPassword": "Confirmer le mot de passe",
     "rememberMe": "Se souvenir de moi",
     "noAccount": "Vous n'avez pas de compte ?",
-    "hasAccount": "Vous avez d\u00e9j\u00e0 un compte ? Connectez-vous",
-    "loginSuccess": "Connexion r\u00e9ussie",
-    "logoutSuccess": "D\u00e9connexion r\u00e9ussie",
-    "registerSuccess": "Compte cr\u00e9\u00e9 avec succ\u00e8s",
+    "hasAccount": "Vous avez déjà un compte ? Connectez-vous",
+    "loginSuccess": "Connexion réussie",
+    "logoutSuccess": "Déconnexion réussie",
+    "registerSuccess": "Compte créé avec succès",
     "invalidCredentials": "E-mail ou mot de passe invalide",
     "passwordMismatch": "Les mots de passe ne correspondent pas",
     "emailRequired": "L'e-mail est obligatoire",
@@ -39,11 +39,38 @@
     "displayName": "Nom d'affichage",
     "passwordsMustMatch": "Les mots de passe doivent correspondre",
     "signingIn": "Connexion en cours...",
-    "creating": "Cr\u00e9ation...",
-    "resetInstructions": "Entrez votre e-mail et nous vous enverrons un lien de r\u00e9initialisation.",
-    "resetSent": "Lien envoy\u00e9 ! V\u00e9rifiez votre bo\u00eete de r\u00e9ception.",
-    "backToLogin": "Retour \u00e0 la connexion",
-    "sending": "Envoi..."
+    "creating": "Création...",
+    "resetInstructions": "Entrez votre e-mail et nous vous enverrons un lien de réinitialisation.",
+    "resetSent": "Lien envoyé ! Vérifiez votre boîte de réception.",
+    "backToLogin": "Retour à la connexion",
+    "sending": "Envoi...",
+    "oauth": {
+      "google": "Continuer avec Google",
+      "github": "Continuer avec GitHub",
+      "microsoft": "Continuer avec Microsoft"
+    },
+    "passkey": {
+      "signIn": "Se connecter avec une clé d'accès",
+      "verifying": "Vérification...",
+      "add": "Ajouter une clé d'accès",
+      "remove": "Supprimer",
+      "none": "Aucune clé d'accès enregistrée.",
+      "sectionTitle": "Clés d'accès"
+    },
+    "totp": {
+      "enrollTitle": "Configurer l'authentification à deux facteurs",
+      "loginTitle": "Authentification à deux facteurs",
+      "scanInstruction": "Scannez ce code QR avec votre application d'authentification.",
+      "qrAlt": "Code QR TOTP",
+      "codeLabel": "Code à 6 chiffres",
+      "verify": "Vérifier",
+      "verifying": "Vérification...",
+      "done": "Terminé",
+      "recoveryCodes": "Codes de récupération",
+      "recoveryCodesInfo": "Conservez ces codes en lieu sûr.",
+      "loading": "Génération du code QR...",
+      "failed": "Vérification échouée. Réessayez."
+    }
   },
   "nav": {
     "home": "Accueil",
@@ -52,13 +79,13 @@
     "profile": "Profil",
     "chat": "Chat",
     "notifications": "Notifications",
-    "about": "\u00c0 propos",
+    "about": "À propos",
     "contact": "Contact",
-    "settings": "Param\u00e8tres",
+    "settings": "Paramètres",
     "tools": "Outils",
     "webmail": "Messagerie",
     "pgadmin": "Admin BD",
-    "packageRepo": "D\u00e9p\u00f4t de paquets",
+    "packageRepo": "Dépôt de paquets",
     "s3server": "Stockage S3",
     "search": "Rechercher",
     "level": "Niveau {level}",
@@ -71,21 +98,21 @@
     "guest": "Invité"
   },
   "hero": {
-    "title": "Passez au niveau sup\u00e9rieur",
-    "subtitle": "Participez, rivalisez et progressez avec notre plateforme gamifi\u00e9e",
+    "title": "Passez au niveau supérieur",
+    "subtitle": "Participez, rivalisez et progressez avec notre plateforme gamifiée",
     "cta": "Commencer",
-    "features": "D\u00e9couvrir les fonctionnalit\u00e9s"
+    "features": "Découvrir les fonctionnalités"
   },
   "gamification": {
     "points": "Points",
     "level": "Niveau",
-    "streak": "S\u00e9rie",
+    "streak": "Série",
     "badges": "Badges",
     "leaderboard": "Classement",
-    "xpEarned": "{amount} XP gagn\u00e9s",
-    "levelUp": "Niveau sup\u00e9rieur !",
-    "newBadge": "Nouveau badge d\u00e9bloqu\u00e9 !",
-    "dailyStreak": "S\u00e9rie de {count} jours",
+    "xpEarned": "{amount} XP gagnés",
+    "levelUp": "Niveau supérieur !",
+    "newBadge": "Nouveau badge débloqué !",
+    "dailyStreak": "Série de {count} jours",
     "rank": "Rang #{position}"
   },
   "notifications": {
@@ -112,27 +139,27 @@
   "features": {
     "aiChat": {
       "title": "Chat IA",
-      "desc": "Discutez avec des mod\u00e8les d'IA."
+      "desc": "Discutez avec des modèles d'IA."
     },
     "gamification": {
       "title": "Gamification",
       "desc": "Badges et classements."
     },
     "alerts": {
-      "title": "Alertes en temps r\u00e9el",
-      "desc": "Notifications instantan\u00e9es."
+      "title": "Alertes en temps réel",
+      "desc": "Notifications instantanées."
     },
     "darkMode": {
       "title": "Mode sombre",
-      "desc": "Th\u00e8mes clair et sombre."
+      "desc": "Thèmes clair et sombre."
     },
     "multiLang": {
       "title": "Multilingue",
       "desc": "Plusieurs langues disponibles."
     },
     "secureAuth": {
-      "title": "Authentification s\u00e9curis\u00e9e",
-      "desc": "JWT avec jetons de rafra\u00eechissement."
+      "title": "Authentification sécurisée",
+      "desc": "JWT avec jetons de rafraîchissement."
     }
   },
   "dashboard": {
@@ -165,11 +192,11 @@
   "profile": {
     "title": "Profil",
     "userInfo": "Informations utilisateur",
-    "userInfoDesc": "Nom, e-mail et d\u00e9tails du compte appara\u00eetront ici.",
+    "userInfoDesc": "Nom, e-mail et détails du compte apparaîtront ici.",
     "badges": "Badges",
-    "badgesDesc": "Vos badges gagn\u00e9s seront affich\u00e9s ici.",
+    "badgesDesc": "Vos badges gagnés seront affichés ici.",
     "statistics": "Statistiques",
-    "statisticsDesc": "Statistiques et progression appara\u00eetront ici."
+    "statisticsDesc": "Statistiques et progression apparaîtront ici."
   },
   "contact": {
     "title": "Contactez-nous",
@@ -178,36 +205,36 @@
     "message": "Message",
     "send": "Envoyer le message",
     "sending": "Envoi...",
-    "sent": "Message envoy\u00e9 ! Nous vous r\u00e9pondrons bient\u00f4t."
+    "sent": "Message envoyé ! Nous vous répondrons bientôt."
   },
   "about": {
-    "title": "\u00c0 propos d'ExtraPrimary",
-    "description": "ExtraPrimary est une plateforme d'apprentissage gamifi\u00e9e combinant tutorat par IA et m\u00e9caniques de progression.",
-    "description2": "Gagnez des badges, maintenez des s\u00e9ries, grimpez au classement et apprenez \u00e0 votre rythme.",
+    "title": "À propos d'ExtraPrimary",
+    "description": "ExtraPrimary est une plateforme d'apprentissage gamifiée combinant tutorat par IA et mécaniques de progression.",
+    "description2": "Gagnez des badges, maintenez des séries, grimpez au classement et apprenez à votre rythme.",
     "missionTitle": "Notre mission",
-    "mission": "Rendre l'\u00e9ducation accessible, engageante et gratifiante pour tous."
+    "mission": "Rendre l'éducation accessible, engageante et gratifiante pour tous."
   },
   "a11y": {
     "skipToContent": "Aller au contenu principal",
     "openMenu": "Ouvrir le menu de navigation",
     "closeMenu": "Fermer le menu de navigation",
-    "toggleTheme": "Changer le th\u00e8me de couleur",
+    "toggleTheme": "Changer le thème de couleur",
     "switchLanguage": "Changer de langue",
     "loading": "Le contenu est en cours de chargement",
-    "expandSection": "D\u00e9plier la section",
-    "collapseSection": "R\u00e9duire la section"
+    "expandSection": "Déplier la section",
+    "collapseSection": "Réduire la section"
   },
   "authHero": {
     "title": "Apprendre mieux, pas plus",
     "subtitle": "Un tuteur IA qui vous accompagne et grandit avec vous.",
-    "f1": "Parcours d'apprentissage personnalis\u00e9s",
-    "f2": "Des progr\u00e8s visibles et concrets",
-    "f3": "Con\u00e7u pour la confidentialit\u00e9",
-    "f4": "Du premier cours \u00e0 la ma\u00eetrise"
+    "f1": "Parcours d'apprentissage personnalisés",
+    "f2": "Des progrès visibles et concrets",
+    "f3": "Conçu pour la confidentialité",
+    "f4": "Du premier cours à la maîtrise"
   },
   "settings": {
     "account": "Compte",
-    "preferences": "Pr\u00e9f\u00e9rences",
+    "preferences": "Préférences",
     "language": "Langue",
     "email": "Adresse e-mail",
     "username": "Identifiant",
