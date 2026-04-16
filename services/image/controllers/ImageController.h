@@ -6,12 +6,13 @@
  *
  * Mounted at @c /api/images:
  *   POST /api/images/jobs
- *     Enqueue a new processing job. Body:
- *       @c source_url (string), @c variants (array).
+ *     Enqueue a new processing job.
  *   GET  /api/images/jobs/{id}
  *     Return the current status of a job.
  *   GET  /api/images/jobs/{id}/variants
- *     Return the list of produced variants for a job.
+ *     Return the list of produced variants.
+ *   POST /api/images/jobs/{id}/retry
+ *     Reset a failed job to pending for re-processing.
  */
 
 #include <drogon/HttpController.h>
@@ -33,6 +34,9 @@ class ImageController
     ADD_METHOD_TO(ImageController::listVariants,
                   "/api/images/jobs/{id}/variants",
                   drogon::Get, "JwtFilter");
+    ADD_METHOD_TO(ImageController::retryJob,
+                  "/api/images/jobs/{id}/retry",
+                  drogon::Post, "JwtFilter");
     METHOD_LIST_END
 
     void submitJob(
@@ -47,6 +51,12 @@ class ImageController
         std::int64_t id);
 
     void listVariants(
+        const drogon::HttpRequestPtr& req,
+        std::function<
+            void(const drogon::HttpResponsePtr&)>&& cb,
+        std::int64_t id);
+
+    void retryJob(
         const drogon::HttpRequestPtr& req,
         std::function<
             void(const drogon::HttpResponsePtr&)>&& cb,

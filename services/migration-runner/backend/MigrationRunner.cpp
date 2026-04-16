@@ -1,65 +1,83 @@
 /**
  * @file MigrationRunner.cpp
- * @brief MigrationRunner implementation.
+ * @brief DAG-driven migration orchestrator implementation.
  */
 
 #include "migration-runner/backend/MigrationRunner.h"
-#include "migration-runner/backend/MigrationApplier.h"
 #include "migration-runner/backend/MigrationFileUtils.h"
 #include "migration-runner/backend/MigrationStateStore.h"
+#include "migration-runner/backend/migration_graph_loader.h"
+#include "migration-runner/backend/migration_runner_bootstrap.h"
+#include "migration-runner/backend/migration_runner_loop.h"
+#include "migration-runner/backend/migration_topo_sort.h"
 
 #include <spdlog/spdlog.h>
 
-#include <algorithm>
-#include <vector>
+#include <memory>
 
 namespace services
 {
 
-using namespace drogon;
-using namespace drogon::orm;
-
-MigrationRunner::MigrationRunner(std::string migrationsDir)
-    : migrationsDir_(std::move(migrationsDir))
+MigrationRunner::MigrationRunner(
+    std::string servicesRoot,
+    std::string graphPath,
+    std::string bootstrapSql)
+    : servicesRoot_(std::move(servicesRoot))
+    , graphPath_(std::move(graphPath))
+    , bootstrapSql_(std::move(bootstrapSql))
 {
 }
 
-void MigrationRunner::runMigrations(Callback onSuccess, ErrCallback onError)
+void MigrationRunner::runMigrations(
+    Callback onSuccess, ErrCallback onError)
 {
-    MigrationStateStore::ensureTable(
-        [this, onSuccess, onError]() {
-            auto allFiles = MigrationFileUtils::discoverFiles(migrationsDir_);
-            if (allFiles.empty()) {
-                onSuccess(json::array());
-                return;
-            }
-            auto dbClient = MigrationStateStore::db();
-            const std::string sql = "SELECT filename FROM schema_migrations "
-                                    "ORDER BY filename";
+    std::string bsql;
+    try {
+        bsql = MigrationFileUtils::readFile(bootstrapSql_);
+    } catch (const std::exception& e) {
+        spdlog::error("Read bootstrap: {}", e.what());
+        onError(drogon::k500InternalServerError,
+                "Cannot read bootstrap SQL");
+        return;
+    }
 
-            *dbClient << sql >> [this, allFiles, onSuccess,
-                                 onError](const Result& result) {
-                std::vector<std::string> applied;
-                for (const auto& row : result) {
-                    applied.push_back(row["filename"].as<std::string>());
-                }
-                std::vector<std::string> pending;
-                for (const auto& f : allFiles) {
-                    if (std::ranges::find(applied, f) == applied.end()) {
-                        pending.push_back(f);
+    MigrationStateStore::ensureTable(
+        [this, bsql, onSuccess, onError]() {
+            migrations::MigrationRunnerBootstrap::run(
+                bsql,
+                [this, onSuccess, onError]() {
+                    migrations::DomainGraph graph;
+                    try {
+                        graph = migrations::
+                            loadMigrationGraph(graphPath_);
+                    } catch (const std::exception& e) {
+                        spdlog::error("Load graph: {}",
+                                      e.what());
+                        onError(
+                            drogon::k500InternalServerError,
+                            "Cannot load migration graph");
+                        return;
                     }
-                }
-                if (pending.empty()) {
-                    spdlog::info("No pending migrations");
-                    onSuccess(json::array());
-                    return;
-                }
-                MigrationApplier::applyAll(migrationsDir_, pending, onSuccess,
-                                           onError);
-            } >> [onError](const DrogonDbException& e) {
-                spdlog::error("Fetch applied error: {}", e.base().what());
-                onError(k500InternalServerError, "Internal server error");
-            };
+                    std::vector<std::string> order;
+                    try {
+                        order = migrations::topoSortDomains(
+                            graph);
+                    } catch (const std::exception& e) {
+                        spdlog::error("Topo sort: {}",
+                                      e.what());
+                        onError(
+                            drogon::k500InternalServerError,
+                            "Migration graph cycle");
+                        return;
+                    }
+                    auto applied =
+                        std::make_shared<json>(
+                            json::array());
+                    migrations::runDomainLoop(
+                        servicesRoot_, order, 0,
+                        applied, onSuccess, onError);
+                },
+                onError);
         },
         onError);
 }

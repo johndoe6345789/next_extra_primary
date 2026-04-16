@@ -10,6 +10,11 @@
 
 #include "imap-sync/backend/imap_sync_types.h"
 
+#include <mailio/message.hpp>
+
+#include <list>
+#include <map>
+
 namespace services
 {
 
@@ -45,6 +50,19 @@ class ImapSyncService
         const ImapConfig& cfg,
         const std::string& accountId,
         int lastUid) -> json;
+
+    /**
+     * @brief Persist fetched messages into Postgres.
+     * @param fetched   Map of msgNo -> mailio message.
+     * @param accountId Account UUID.
+     * @param results   All UID results from search.
+     * @return Number of new rows inserted.
+     */
+    int storeMessages(
+        const std::map<unsigned long,
+                       mailio::message>& fetched,
+        const std::string& accountId,
+        const std::list<unsigned long>& results);
 };
 
 } // namespace services
