@@ -8,7 +8,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import ShoppingCartIcon from
-  '@shared/icons/react/m3/ShoppingCart';
+  '@shared/icons/ShoppingCart';
 import { IconButton } from '../atoms/IconButton';
 import NotificationBadge from
   './NotificationBadge';

@@ -37,7 +37,7 @@ jest.mock('../../atoms/IconButton', () => ({
 }));
 
 jest.mock(
-  '@shared/icons/react/m3/ShoppingCart',
+  '@shared/icons/ShoppingCart',
   () => ({
     __esModule: true,
     default: () => <svg data-testid="cart-icon" />,
