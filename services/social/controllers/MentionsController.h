@@ -25,6 +25,10 @@ class MentionsController
         MentionsController::persist,
         "/api/social/mentions",
         drogon::Post, "filters::JwtAuthFilter");
+    ADD_METHOD_TO(
+        MentionsController::markRead,
+        "/api/social/mentions/{id}/read",
+        drogon::Patch, "filters::JwtAuthFilter");
     METHOD_LIST_END
 
     /** @brief Extract handles without writing. */
@@ -38,6 +42,13 @@ class MentionsController
         const drogon::HttpRequestPtr& req,
         std::function<void(
             const drogon::HttpResponsePtr&)>&& cb);
+
+    /** @brief Mark a mention as read by the caller. */
+    void markRead(
+        const drogon::HttpRequestPtr& req,
+        std::function<void(
+            const drogon::HttpResponsePtr&)>&& cb,
+        const std::string& id);
 };
 
 } // namespace controllers::social
