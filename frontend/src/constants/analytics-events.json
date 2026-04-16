@@ -1,0 +1,8 @@
+{
+  "PAGE_VIEW": "page_view",
+  "LOGIN": "login",
+  "SIGNUP": "signup",
+  "CART_ADD": "cart_add",
+  "CHECKOUT_CLICK": "checkout_click",
+  "FOLLOW_CLICK": "follow_click"
+}

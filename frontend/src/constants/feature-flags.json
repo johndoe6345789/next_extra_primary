@@ -1,0 +1,13 @@
+{
+  "flags": [
+    "ecommerce",
+    "social",
+    "wiki",
+    "dms",
+    "cart",
+    "polls",
+    "gallery",
+    "forum",
+    "blog"
+  ]
+}

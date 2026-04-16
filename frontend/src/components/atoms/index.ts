@@ -20,3 +20,8 @@ export { PwaRegister } from './PwaRegister';
 export { BurgerButton } from '@shared/ui';
 export type { BurgerButtonProps }
   from '@shared/ui';
+
+export { FeatureFlagGate } from './FeatureFlagGate';
+export type {
+  FeatureFlagGateProps,
+} from './FeatureFlagGate';

@@ -96,7 +96,12 @@
     "title": "Notifications",
     "markAllRead": "Mark all as read",
     "noNotifications": "No new notifications",
-    "clearAll": "Clear all"
+    "clearAll": "Clear all",
+    "loading": "Loading notifications...",
+    "loadMore": "Load more",
+    "settingsTitle": "Notification Preferences",
+    "save": "Save preferences",
+    "viewAll": "View all notifications"
   },
   "chat": {
     "placeholder": "Type a message...",

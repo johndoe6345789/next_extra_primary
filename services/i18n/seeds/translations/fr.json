@@ -92,7 +92,12 @@
     "title": "Notifications",
     "markAllRead": "Tout marquer comme lu",
     "noNotifications": "Aucune nouvelle notification",
-    "clearAll": "Tout effacer"
+    "clearAll": "Tout effacer",
+    "loading": "Chargement des notifications...",
+    "loadMore": "Charger plus",
+    "settingsTitle": "Préférences de notifications",
+    "save": "Enregistrer les préférences",
+    "viewAll": "Voir toutes les notifications"
   },
   "chat": {
     "placeholder": "Tapez un message...",
