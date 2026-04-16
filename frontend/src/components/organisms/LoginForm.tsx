@@ -48,31 +48,41 @@ export const LoginForm: React.FC<LoginFormProps> = ({
 
   return (
     <>
-      <SharedLoginForm
-        email={email}
-        setEmail={setEmail}
-        pw={pw}
-        setPw={setPw}
-        rememberMe={rememberMe}
-        setRememberMe={setRememberMe}
-        isLoading={isLoading}
-        errors={errors}
-        apiError={apiError}
-        errorCode={errorCode}
-        submit={submit}
-        testId={testId}
-        labels={{
-          login: t('login'),
-          signingIn: t('signingIn'),
-          forgotPassword: t('forgotPassword'),
-          register: t('register'),
-          email: t('email'),
-          password: t('password'),
-          rememberMe: t('rememberMe'),
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          maxWidth: 400,
         }}
-      />
-      <PasskeyLoginButton />
-      <OAuthButtons />
+        data-testid="login-form-wrapper"
+      >
+        <SharedLoginForm
+          email={email}
+          setEmail={setEmail}
+          pw={pw}
+          setPw={setPw}
+          rememberMe={rememberMe}
+          setRememberMe={setRememberMe}
+          isLoading={isLoading}
+          errors={errors}
+          apiError={apiError}
+          errorCode={errorCode}
+          submit={submit}
+          testId={testId}
+          labels={{
+            login: t('login'),
+            signingIn: t('signingIn'),
+            forgotPassword: t('forgotPassword'),
+            register: t('register'),
+            email: t('email'),
+            password: t('password'),
+            rememberMe: t('rememberMe'),
+          }}
+        />
+        <PasskeyLoginButton />
+        <OAuthButtons />
+      </div>
       <TotpLoginModal
         open={requireTotp}
         sessionToken={totpToken ?? ''}
