@@ -43,7 +43,7 @@ export const MentionsBell: React.FC<MentionsBellProps> = ({
         icon={
           <NotificationsIcon
             size={28}
-            strokeWidth={16}
+           
             style={{ color: tk.onSurface }}
           />
         }

@@ -39,11 +39,11 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
         icon={
           isDark
             ? <DarkModeIcon
-                size={28} strokeWidth={16}
+                size={28}
                 style={{ color: tk.onSurface }}
               />
             : <LightModeIcon
-                size={28} strokeWidth={16}
+                size={28}
                 style={{ color: tk.onSurface }}
               />
         }

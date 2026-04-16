@@ -7,8 +7,8 @@
  */
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import ShoppingCartIcon from
-  '@shared/icons/ShoppingCart';
+import { ShoppingCart as ShoppingCartIcon }
+  from '@shared/icons/ShoppingCart';
 import { IconButton } from '../atoms/IconButton';
 import NotificationBadge from
   './NotificationBadge';
@@ -45,7 +45,6 @@ export const CartButton: React.FC<
       icon={
         <ShoppingCartIcon
           size={28}
-          strokeWidth={16}
           style={{ color: tk.onSurface }}
         />
       }

@@ -11,17 +11,6 @@
       "port": 8889,
       "autoPort": false,
       "cwd": "."
-    },
-    {
-      "name": "emailclient",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "next", "dev",
-        "--turbopack",
-        "--port", "3200"
-      ],
-      "port": 3200,
-      "cwd": "tools/emailclient"
     }
   ]
 }

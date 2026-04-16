@@ -36,7 +36,7 @@ export const NotificationBell: React.FC<
     <IconButton
       icon={
         <NotificationsIcon
-          size={28} strokeWidth={16}
+          size={28}
           style={{ color: tk.onSurface }}
         />
       }
