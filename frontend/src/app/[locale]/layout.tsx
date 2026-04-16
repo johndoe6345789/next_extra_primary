@@ -13,6 +13,8 @@ import {
 } from '@/components/organisms/AppShell';
 import { DebugBar } from
   '@/components/molecules/DebugBar';
+import { CartDrawer } from
+  '@/components/organisms/CartDrawer';
 import { PwaRegister } from
   '@/components/atoms/PwaRegister';
 import { PwaHead } from './pwa-head';
@@ -79,6 +81,7 @@ export default async function LocaleLayout({
                 <Footer />
               </ShiftContent>
             </AppShell>
+            <CartDrawer />
             {process.env.NEXT_PUBLIC_DEBUG_BAR
               === '1' && <DebugBar />}
           </LinkAdapter>

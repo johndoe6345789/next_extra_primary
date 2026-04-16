@@ -20,3 +20,6 @@ export * from './chatSlice';
 
 export { default as uiReducer } from './uiSlice';
 export * from './uiSlice';
+
+export { default as cartReducer } from './cartSlice';
+export * from './cartSlice';

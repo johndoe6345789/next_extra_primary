@@ -294,5 +294,30 @@
     "noAboutInfo": "No about information",
     "reactions": "Reactions",
     "addReaction": "Add reaction"
+  },
+  "shop": {
+    "title": "Shop",
+    "loading": "Loading...",
+    "addToCart": "Add to cart",
+    "prev": "Previous",
+    "next": "Next",
+    "prevPage": "Previous page",
+    "nextPage": "Next page",
+    "pageOf": "Page {page} of {total}",
+    "increaseQty": "Increase quantity",
+    "decreaseQty": "Decrease quantity",
+    "checkout": "Checkout",
+    "emptyCart": "Your cart is empty.",
+    "subtotal": "Subtotal",
+    "payWithStripe": "Pay with Stripe",
+    "redirecting": "Redirecting...",
+    "orders": "My Orders",
+    "noOrders": "No orders yet.",
+    "viewOrder": "View",
+    "orderDetail": "Order Detail",
+    "total": "Total",
+    "cart": "Cart",
+    "cartEmpty": "Your cart is empty.",
+    "removeItem": "Remove"
   }
 }

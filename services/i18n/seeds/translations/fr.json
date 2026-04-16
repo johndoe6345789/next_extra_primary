@@ -294,5 +294,30 @@
     "noAboutInfo": "Pas d'information",
     "reactions": "Réactions",
     "addReaction": "Ajouter une réaction"
+  },
+  "shop": {
+    "title": "Boutique",
+    "loading": "Chargement...",
+    "addToCart": "Ajouter au panier",
+    "prev": "Précédent",
+    "next": "Suivant",
+    "prevPage": "Page précédente",
+    "nextPage": "Page suivante",
+    "pageOf": "Page {page} sur {total}",
+    "increaseQty": "Augmenter la quantité",
+    "decreaseQty": "Diminuer la quantité",
+    "checkout": "Passer commande",
+    "emptyCart": "Votre panier est vide.",
+    "subtotal": "Sous-total",
+    "payWithStripe": "Payer avec Stripe",
+    "redirecting": "Redirection...",
+    "orders": "Mes commandes",
+    "noOrders": "Aucune commande pour l'instant.",
+    "viewOrder": "Voir",
+    "orderDetail": "Détail de la commande",
+    "total": "Total",
+    "cart": "Panier",
+    "cartEmpty": "Votre panier est vide.",
+    "removeItem": "Supprimer"
   }
 }

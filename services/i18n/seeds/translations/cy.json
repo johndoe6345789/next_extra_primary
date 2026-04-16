@@ -294,5 +294,30 @@
     "noAboutInfo": "Dim gwybodaeth",
     "reactions": "Adweithiau",
     "addReaction": "Ychwanegu adwaith"
+  },
+  "shop": {
+    "title": "Siop",
+    "loading": "Yn llwytho...",
+    "addToCart": "Ychwanegu at y drol",
+    "prev": "Blaenorol",
+    "next": "Nesaf",
+    "prevPage": "Tudalen flaenorol",
+    "nextPage": "Tudalen nesaf",
+    "pageOf": "Tudalen {page} o {total}",
+    "increaseQty": "Cynyddu maint",
+    "decreaseQty": "Lleihau maint",
+    "checkout": "Talu",
+    "emptyCart": "Mae eich trol yn wag.",
+    "subtotal": "Is-gyfanswm",
+    "payWithStripe": "Talu gyda Stripe",
+    "redirecting": "Ailgyfeirio...",
+    "orders": "Fy archebion",
+    "noOrders": "Dim archebion eto.",
+    "viewOrder": "Gweld",
+    "orderDetail": "Manylion yr archeb",
+    "total": "Cyfanswm",
+    "cart": "Trol",
+    "cartEmpty": "Mae eich trol yn wag.",
+    "removeItem": "Tynnu"
   }
 }

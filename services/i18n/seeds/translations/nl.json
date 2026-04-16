@@ -330,5 +330,30 @@
     "noAboutInfo": "Geen info",
     "reactions": "Reacties",
     "addReaction": "Reactie toevoegen"
+  },
+  "shop": {
+    "title": "Winkel",
+    "loading": "Laden...",
+    "addToCart": "Aan winkelwagen toevoegen",
+    "prev": "Vorige",
+    "next": "Volgende",
+    "prevPage": "Vorige pagina",
+    "nextPage": "Volgende pagina",
+    "pageOf": "Pagina {page} van {total}",
+    "increaseQty": "Hoeveelheid verhogen",
+    "decreaseQty": "Hoeveelheid verlagen",
+    "checkout": "Afrekenen",
+    "emptyCart": "Uw winkelwagen is leeg.",
+    "subtotal": "Subtotaal",
+    "payWithStripe": "Betalen met Stripe",
+    "redirecting": "Doorverwijzen...",
+    "orders": "Mijn bestellingen",
+    "noOrders": "Nog geen bestellingen.",
+    "viewOrder": "Bekijken",
+    "orderDetail": "Besteldetails",
+    "total": "Totaal",
+    "cart": "Winkelwagen",
+    "cartEmpty": "Uw winkelwagen is leeg.",
+    "removeItem": "Verwijderen"
   }
 }

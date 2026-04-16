@@ -1,0 +1,16 @@
+{
+  "api": {
+    "products": "/api/shop/products",
+    "product": "/api/shop/products/:slug",
+    "cart": "/api/shop/cart",
+    "cartItems": "/api/shop/cart/items",
+    "cartItem": "/api/shop/cart/items/:id",
+    "checkout": "/api/shop/checkout",
+    "orders": "/api/shop/orders",
+    "order": "/api/shop/orders/:id"
+  },
+  "pagination": {
+    "defaultPageSize": 12,
+    "maxBadgeCount": 99
+  }
+}

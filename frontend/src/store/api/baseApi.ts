@@ -20,6 +20,8 @@ export const baseApi = createApi({
     'Translation', 'Preferences',
     'ApiKeys', 'SystemKeys', 'Admin',
     'Social',
+    'Analytics', 'Flags',
+    'ShopProducts', 'Cart', 'Orders',
   ],
   endpoints: () => ({}),
 });

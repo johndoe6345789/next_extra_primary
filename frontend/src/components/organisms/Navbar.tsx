@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import AppBar from '@shared/m3/AppBar';
 import Toolbar from '@shared/m3/Toolbar';
 import { useTranslations } from 'next-intl';
@@ -12,6 +12,7 @@ import { NavbarLogo } from '@shared/components/ui/NavbarLogo';
 import { DesktopActions } from '../molecules/DesktopActions';
 import { NotificationBell } from '../molecules/NotificationBell';
 import { MentionsBell } from '../molecules/MentionsBell';
+import { CartButton } from '../molecules/CartButton';
 import { AppHeaderActions } from '@shared/m3/feedback';
 import { AvatarMenu } from './AvatarMenu';
 import { MobileDrawer } from './MobileDrawer';
@@ -36,10 +37,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const tAuth = useTranslations('auth');
   const tA11y = useTranslations('a11y');
 
-  const toggle = useCallback(
-    () => setPanelOpen((v) => !v),
-    [],
-  );
+  const toggle = () => setPanelOpen((v) => !v);
 
   const LINKS = navLinks.map((l) => ({
     label: tNav(l.labelKey),
@@ -68,6 +66,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                 hideUser
               />
               <MentionsBell />
+              <FeatureFlagGate flag="ecommerce">
+                <CartButton />
+              </FeatureFlagGate>
               <NotificationBell onClick={toggle} />
               <AvatarMenu user={user} onLogout={logout} />
             </>

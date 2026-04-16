@@ -294,5 +294,30 @@
     "noAboutInfo": "Keine Info",
     "reactions": "Reaktionen",
     "addReaction": "Reaktion hinzufügen"
+  },
+  "shop": {
+    "title": "Shop",
+    "loading": "Wird geladen...",
+    "addToCart": "In den Warenkorb",
+    "prev": "Zurück",
+    "next": "Weiter",
+    "prevPage": "Vorherige Seite",
+    "nextPage": "Nächste Seite",
+    "pageOf": "Seite {page} von {total}",
+    "increaseQty": "Menge erhöhen",
+    "decreaseQty": "Menge verringern",
+    "checkout": "Zur Kasse",
+    "emptyCart": "Ihr Warenkorb ist leer.",
+    "subtotal": "Zwischensumme",
+    "payWithStripe": "Mit Stripe bezahlen",
+    "redirecting": "Weiterleiten...",
+    "orders": "Meine Bestellungen",
+    "noOrders": "Noch keine Bestellungen.",
+    "viewOrder": "Ansehen",
+    "orderDetail": "Bestelldetails",
+    "total": "Gesamt",
+    "cart": "Warenkorb",
+    "cartEmpty": "Ihr Warenkorb ist leer.",
+    "removeItem": "Entfernen"
   }
 }

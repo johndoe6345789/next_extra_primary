@@ -89,3 +89,10 @@ export { PollsPanel } from './PollsPanel';
 export type { PollsPanelProps } from './PollsPanel';
 
 export * from './index.auth';
+
+export { CartDrawer } from './CartDrawer';
+export type { CartDrawerProps } from './CartDrawer';
+export { CartDrawerItem } from './CartDrawerItem';
+export type { CartDrawerItemProps } from './CartDrawerItem';
+export { CartDrawerFooter } from './CartDrawerFooter';
+export type { CartDrawerFooterProps } from './CartDrawerFooter';

@@ -1,0 +1,13 @@
+.drawer {
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.items {
+  flex: 1;
+  overflow-y: auto;
+}

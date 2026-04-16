@@ -21,6 +21,7 @@ import notificationReducer from './slices/notificationSlice';
 import gamificationReducer from './slices/gamificationSlice';
 import chatReducer from './slices/chatSlice';
 import uiReducer from './slices/uiSlice';
+import cartReducer from './slices/cartSlice';
 import { persistConfig } from './persistConfig';
 
 const rootReducer = combineReducers({
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   gamification: gamificationReducer,
   chat: chatReducer,
   ui: uiReducer,
+  cart: cartReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 });
 

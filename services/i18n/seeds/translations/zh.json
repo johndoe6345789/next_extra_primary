@@ -377,5 +377,30 @@
     "noAboutInfo": "无信息",
     "reactions": "反应",
     "addReaction": "添加反应"
+  },
+  "shop": {
+    "title": "商店",
+    "loading": "加载中...",
+    "addToCart": "加入购物车",
+    "prev": "上一页",
+    "next": "下一页",
+    "prevPage": "上一页",
+    "nextPage": "下一页",
+    "pageOf": "第 {page} / {total} 页",
+    "increaseQty": "增加数量",
+    "decreaseQty": "减少数量",
+    "checkout": "结账",
+    "emptyCart": "购物车为空。",
+    "subtotal": "小计",
+    "payWithStripe": "使用 Stripe 付款",
+    "redirecting": "正在跳转...",
+    "orders": "我的订单",
+    "noOrders": "暂无订单。",
+    "viewOrder": "查看",
+    "orderDetail": "订单详情",
+    "total": "总计",
+    "cart": "购物车",
+    "cartEmpty": "购物车为空。",
+    "removeItem": "移除"
   }
 }

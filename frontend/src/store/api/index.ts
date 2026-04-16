@@ -22,3 +22,6 @@ export * from './adminApi';
 export * from './flagsApi';
 export * from './analyticsApi';
 export * from './notificationPrefsApi';
+export * from './shopProductsApi';
+export * from './shopCartApi';
+export * from './shopOrdersApi';
