@@ -267,6 +267,53 @@
     "comingSoon": "Meer instellingen volgen binnenkort.",
     "testEmail": "Test e-mail"
   },
+  "blog": {
+    "title": "Blog",
+    "loading": "Berichten laden...",
+    "pagination": "Berichtenpagina's",
+    "notFound": "Bericht niet gevonden.",
+    "postBody": "Berichtinhoud"
+  },
+  "wiki": {
+    "title": "Wiki",
+    "sidebar": "Wiki-pagina's",
+    "welcome": "Kies een pagina in de zijbalk.",
+    "loading": "Pagina laden...",
+    "notFound": "Pagina niet gevonden.",
+    "lastUpdated": "Laatste update"
+  },
+  "forum": {
+    "title": "Forum",
+    "loading": "Threads laden...",
+    "pagination": "Threadpagina's",
+    "notFound": "Thread niet gevonden.",
+    "replies": "reacties",
+    "post": "Forumbericht",
+    "unknownAuthor": "Onbekend",
+    "replyComposer": "Reactie schrijven",
+    "replyPlaceholder": "Schrijf een reactie...",
+    "replyRequired": "Reactie mag niet leeg zijn.",
+    "replyError": "Reactie plaatsen mislukt.",
+    "submit": "Reactie plaatsen"
+  },
+  "polls": {
+    "title": "Peilingen",
+    "loading": "Peilingen laden...",
+    "noPolls": "Geen actieve peilingen.",
+    "vote": "Stemmen",
+    "voteFor": "Stemmen op",
+    "totalVotes": "stemmen"
+  },
+  "gallery": {
+    "title": "Galerij",
+    "loading": "Albums laden...",
+    "notFound": "Album niet gevonden.",
+    "photos": "foto's",
+    "photo": "Foto",
+    "photoGrid": "Fotoraster",
+    "prev": "Vorige foto",
+    "next": "Volgende foto"
+  },
   "admin": {
     "systemKeys": "Systeem-API-sleutels",
     "systemKeysDesc": "Stel terugval-API-sleutels in voor alle gebruikers.",

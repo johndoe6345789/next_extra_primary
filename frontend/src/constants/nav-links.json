@@ -3,6 +3,10 @@
   { "labelKey": "leaderboard", "href": "/leaderboard" },
   { "labelKey": "chat", "href": "/chat" },
   { "labelKey": "messages", "href": "/messages" },
+  { "labelKey": "blog", "href": "/blog" },
+  { "labelKey": "wiki", "href": "/wiki" },
+  { "labelKey": "forum", "href": "/forum" },
+  { "labelKey": "gallery", "href": "/gallery" },
   {
     "labelKey": "notifications",
     "href": "/notifications"

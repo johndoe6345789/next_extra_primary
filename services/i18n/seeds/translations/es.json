@@ -52,6 +52,10 @@
     "profile": "Perfil",
     "chat": "Chat",
     "messages": "Mensajes",
+    "blog": "Blog",
+    "wiki": "Wiki",
+    "forum": "Foro",
+    "gallery": "Galería",
     "notifications": "Notificaciones",
     "about": "Acerca de",
     "contact": "Contacto",
@@ -230,6 +234,53 @@
     "save": "Guardar",
     "comingSoon": "Más ajustes próximamente.",
     "testEmail": "Correo de prueba"
+  },
+  "blog": {
+    "title": "Blog",
+    "loading": "Cargando entradas...",
+    "pagination": "Páginas de entradas",
+    "notFound": "Entrada no encontrada.",
+    "postBody": "Contenido de la entrada"
+  },
+  "wiki": {
+    "title": "Wiki",
+    "sidebar": "Páginas del wiki",
+    "welcome": "Selecciona una página de la barra lateral.",
+    "loading": "Cargando página...",
+    "notFound": "Página no encontrada.",
+    "lastUpdated": "Última actualización"
+  },
+  "forum": {
+    "title": "Foro",
+    "loading": "Cargando hilos...",
+    "pagination": "Páginas de hilos",
+    "notFound": "Hilo no encontrado.",
+    "replies": "respuestas",
+    "post": "Publicación del foro",
+    "unknownAuthor": "Desconocido",
+    "replyComposer": "Escribe una respuesta",
+    "replyPlaceholder": "Escribe una respuesta...",
+    "replyRequired": "La respuesta no puede estar vacía.",
+    "replyError": "Error al publicar la respuesta.",
+    "submit": "Publicar respuesta"
+  },
+  "polls": {
+    "title": "Encuestas",
+    "loading": "Cargando encuestas...",
+    "noPolls": "No hay encuestas activas.",
+    "vote": "Votar",
+    "voteFor": "Votar por",
+    "totalVotes": "votos"
+  },
+  "gallery": {
+    "title": "Galería",
+    "loading": "Cargando álbumes...",
+    "notFound": "Álbum no encontrado.",
+    "photos": "fotos",
+    "photo": "Foto",
+    "photoGrid": "Cuadrícula de fotos",
+    "prev": "Foto anterior",
+    "next": "Foto siguiente"
   },
   "admin": {
     "systemKeys": "Claves API del sistema",

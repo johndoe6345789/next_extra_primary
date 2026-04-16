@@ -51,6 +51,10 @@
     "leaderboard": "Bwrdd arweinwyr",
     "profile": "Proffil",
     "chat": "Sgwrs",
+    "blog": "Blog",
+    "wiki": "Wiki",
+    "forum": "Fforwm",
+    "gallery": "Oriel",
     "notifications": "Hysbysiadau",
     "about": "Amdanom ni",
     "contact": "Cysylltu",
@@ -230,6 +234,53 @@
     "save": "Cadw",
     "comingSoon": "Mwy o osodiadau yn dod yn fuan.",
     "testEmail": "E-bost prawf"
+  },
+  "blog": {
+    "title": "Blog",
+    "loading": "Llwytho cofnodion...",
+    "pagination": "Tudalennau cofnodion",
+    "notFound": "Cofnod heb ei ganfod.",
+    "postBody": "Cynnwys y cofnod"
+  },
+  "wiki": {
+    "title": "Wiki",
+    "sidebar": "Tudalennau wiki",
+    "welcome": "Dewiswch dudalen o'r bar ochr.",
+    "loading": "Llwytho tudalen...",
+    "notFound": "Tudalen heb ei ganfod.",
+    "lastUpdated": "Wedi'i ddiweddaru ddiwethaf"
+  },
+  "forum": {
+    "title": "Fforwm",
+    "loading": "Llwytho edafedd...",
+    "pagination": "Tudalennau edafedd",
+    "notFound": "Edwyn heb ei ganfod.",
+    "replies": "atebion",
+    "post": "Neges fforwm",
+    "unknownAuthor": "Anhysbys",
+    "replyComposer": "Ysgrifennu ateb",
+    "replyPlaceholder": "Ysgrifennu ateb...",
+    "replyRequired": "Ni all ateb fod yn wag.",
+    "replyError": "Methwyd â phostio'r ateb.",
+    "submit": "Postio ateb"
+  },
+  "polls": {
+    "title": "Pleidleisiau",
+    "loading": "Llwytho pleidleisiau...",
+    "noPolls": "Dim pleidleisiau gweithredol.",
+    "vote": "Pleidleisio",
+    "voteFor": "Pleidleisio dros",
+    "totalVotes": "pleidleisiau"
+  },
+  "gallery": {
+    "title": "Oriel",
+    "loading": "Llwytho albymau...",
+    "notFound": "Albwm heb ei ganfod.",
+    "photos": "lluniau",
+    "photo": "Llun",
+    "photoGrid": "Grid lluniau",
+    "prev": "Llun blaenorol",
+    "next": "Llun nesaf"
   },
   "admin": {
     "systemKeys": "Allweddi API'r System",

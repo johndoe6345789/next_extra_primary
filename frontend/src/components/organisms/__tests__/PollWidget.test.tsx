@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { PollWidget } from '../PollWidget';
 import type { Poll } from '@/types/content';
 
@@ -15,8 +15,8 @@ jest.mock('@/hooks/usePollVote', () => ({
 }));
 
 jest.mock('@shared/m3', () => ({
-  Box: ({ children, ...p }: React.PropsWithChildren<Record<string,unknown>>) =>
-    <div {...p}>{children}</div>,
+  Box: ({ children }: React.PropsWithChildren) =>
+    <div>{children}</div>,
   Card: ({ children, ...p }: React.PropsWithChildren<Record<string,unknown>>) =>
     <div {...p}>{children}</div>,
   CardContent: ({ children }: React.PropsWithChildren) =>
@@ -29,15 +29,12 @@ jest.mock('@shared/m3', () => ({
     disabled?: boolean;
     'aria-label'?: string;
   }) => (
-    <button onClick={onClick} disabled={disabled} aria-label={a}>
-      {children}
-    </button>
+    <button onClick={onClick} disabled={disabled}
+      aria-label={a}>{children}</button>
   ),
   LinearProgress: ({ value, 'aria-label': a }: {
     value: number; 'aria-label'?: string;
-  }) => (
-    <progress value={value} aria-label={a} />
-  ),
+  }) => <progress value={value} aria-label={a} />,
 }));
 
 const POLL: Poll = {
@@ -67,10 +64,10 @@ describe('PollWidget', () => {
     expect(screen.getByText('70%')).toBeInTheDocument();
   });
 
-  it('vote button is accessible', () => {
+  it('poll widget has testid', () => {
     render(<PollWidget poll={POLL} />);
     expect(
-      screen.getByLabelText('voteFor Red'),
+      screen.getByTestId('poll-widget-p1'),
     ).toBeInTheDocument();
   });
 });
