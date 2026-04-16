@@ -13,7 +13,6 @@ import { DesktopActions } from '../molecules/DesktopActions';
 import { NotificationBell } from '../molecules/NotificationBell';
 import { MentionsBell } from '../molecules/MentionsBell';
 import { CartButton } from '../molecules/CartButton';
-import { AppHeaderActions } from '@shared/m3/feedback';
 import { AvatarMenu } from './AvatarMenu';
 import { MobileDrawer } from './MobileDrawer';
 import { NotificationPanel } from './NotificationPanel';
@@ -62,11 +61,6 @@ export const Navbar: React.FC<NavbarProps> = ({
           <DesktopActions onSearch={onSearch ?? (() => {})} />
           {isAuthenticated ? (
             <>
-              <AppHeaderActions
-                activePath="/app"
-                onLogout={logout}
-                hideUser
-              />
               <MentionsBell />
               <FeatureFlagGate flag="ecommerce">
                 <CartButton />
