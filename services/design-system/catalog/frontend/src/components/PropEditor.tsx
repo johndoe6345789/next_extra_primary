@@ -5,13 +5,15 @@
  */
 'use client';
 
-import {
-  TextField, Checkbox, Select,
-  FormControlLabel, Typography, Stack,
-} from '@shared/m3';
+import { Typography, Stack } from '@shared/m3';
 import type { PropDef } from '../types';
 import type { PropValues } from
   '../hooks/usePropState';
+import {
+  BoolControl,
+  EnumControl,
+  TextControl,
+} from './PropEditorControls';
 
 /** Props for PropEditor. */
 interface PropEditorProps {
@@ -27,7 +29,7 @@ interface PropEditorProps {
 }
 
 /**
- * @brief Renders editable controls per prop.
+ * Renders editable controls per prop.
  * @param props - Editor configuration.
  * @returns Form JSX element.
  */
@@ -42,59 +44,29 @@ export default function PropEditor({
       aria-label="Prop editor"
       style={{ gap: 12, padding: 16 }}
     >
-      <Typography variant="subtitle1">
-        Props
-      </Typography>
+      <Typography variant="subtitle1">Props</Typography>
       {propDefs.map((p) => {
-        const val = values[p.name] ?? p.defaultValue;
-        if (p.type === 'boolean') {
+        if (p.type === 'boolean')
           return (
-            <FormControlLabel
+            <BoolControl
               key={p.name}
-              label={p.name}
-              control={
-                <Checkbox
-                  checked={val as boolean}
-                  onChange={(e) =>
-                    onChange(p.name, e.target.checked)
-                  }
-                />
-              }
+              p={p} values={values}
+              onChange={onChange}
             />
           );
-        }
-        if (p.type === 'enum' && p.options) {
+        if (p.type === 'enum' && p.options)
           return (
-            <Select
+            <EnumControl
               key={p.name}
-              label={p.name}
-              value={String(val)}
-              onChange={(e) =>
-                onChange(p.name, e.target.value)
-              }
-              options={p.options.map((o) => ({
-                label: o,
-                value: o,
-              }))}
-              aria-label={p.name}
+              p={p} values={values}
+              onChange={onChange}
             />
           );
-        }
         return (
-          <TextField
+          <TextControl
             key={p.name}
-            label={p.name}
-            value={String(val)}
-            type={p.type === 'number' ? 'number' : 'text'}
-            size="small"
-            onChange={(e) =>
-              onChange(
-                p.name,
-                p.type === 'number'
-                  ? Number(e.target.value)
-                  : e.target.value,
-              )
-            }
+            p={p} values={values}
+            onChange={onChange}
           />
         );
       })}

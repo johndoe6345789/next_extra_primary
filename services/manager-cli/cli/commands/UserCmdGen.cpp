@@ -1,6 +1,6 @@
 /**
  * @file UserCmdGen.cpp
- * @brief SQL generation for user seed and password reset.
+ * @brief SQL generation for user seed.
  */
 
 #include "UserCmd.h"
@@ -60,12 +60,12 @@ int UserCmd::seed(
         auto hash = pw.empty()
             ? std::string("(no-password)")
             : pbkdf2::hash(pw);
-        auto role  = u.value("role", "user");
-        auto conf  = u.value(
+        auto role = u.value("role", "user");
+        auto conf = u.value(
             "email_confirmed", true)
             ? "true" : "false";
-        auto pts   = u.value("total_points", 0);
-        auto lvl   = u.value("current_level", 1);
+        auto pts = u.value("total_points", 0);
+        auto lvl = u.value("current_level", 1);
         *os << fmt::format(
             "INSERT INTO users\n"
             "  (email, username, display_name,\n"
@@ -81,7 +81,8 @@ int UserCmd::seed(
             "  display_name   = EXCLUDED.display_name,\n"
             "  password_hash  = EXCLUDED.password_hash,\n"
             "  role           = EXCLUDED.role,\n"
-            "  email_confirmed= EXCLUDED.email_confirmed,\n"
+            "  email_confirmed= "
+            "EXCLUDED.email_confirmed,\n"
             "  updated_at     = NOW();\n\n",
             esc(u.value("email", "")),
             esc(u.value("username", "")),
@@ -91,35 +92,6 @@ int UserCmd::seed(
 
     std::cerr << "[user seed] "
               << users.size() << " users processed\n";
-    return 0;
-}
-
-int UserCmd::reset(
-    const std::string& identifier,
-    const std::string& password,
-    const std::string& outFile)
-{
-    auto hash = pbkdf2::hash(password);
-
-    std::ostream* os = &std::cout;
-    std::ofstream file;
-    if (!outFile.empty()) {
-        file.open(outFile);
-        os = &file;
-    }
-
-    *os << fmt::format(
-        "-- Password reset for: {}\n"
-        "UPDATE users\n"
-        "SET password_hash = '{}',\n"
-        "    updated_at    = NOW()\n"
-        "WHERE username = '{}'\n"
-        "   OR email    = '{}';\n",
-        esc(identifier), esc(hash),
-        esc(identifier), esc(identifier));
-
-    std::cerr << "[user reset] SQL written for: "
-              << identifier << "\n";
     return 0;
 }
 

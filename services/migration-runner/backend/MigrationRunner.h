@@ -1,11 +1,11 @@
 #pragma once
 /**
  * @file MigrationRunner.h
- * @brief Orchestrates forward migration execution.
+ * @brief DAG-driven migration orchestrator.
  *
- * Ensures the tracking table exists, fetches already-applied
- * filenames, computes the pending set, and delegates sequential
- * application to MigrationApplier.
+ * Bootstraps the schema_migrations table, loads the
+ * domain dependency graph, topo-sorts it, then applies
+ * each domain's pending SQL files in dependency order.
  */
 
 #include "migration-runner/backend/MigrationStateStore.h"
@@ -17,33 +17,37 @@ namespace services
 
 /**
  * @class MigrationRunner
- * @brief Applies all pending SQL migrations in order.
+ * @brief Applies all pending migrations in DAG order.
  */
 class MigrationRunner
 {
   public:
     /**
-     * @brief Construct with the migrations directory path.
+     * @brief Construct with paths needed to locate files.
      *
-     * @param migrationsDir Filesystem path to the folder
-     *                      containing `.sql` files.
+     * @param servicesRoot Path to the `services/` directory.
+     * @param graphPath    Path to migration-graph.json.
+     * @param bootstrapSql Path to the bootstrap SQL file.
      */
-    explicit MigrationRunner(std::string migrationsDir);
+    explicit MigrationRunner(
+        std::string servicesRoot,
+        std::string graphPath,
+        std::string bootstrapSql);
 
     /**
-     * @brief Apply all pending migrations in ascending order.
+     * @brief Bootstrap, load DAG, apply all domains.
      *
-     * Each migration runs in its own transaction.  If a later
-     * migration fails, previously applied ones remain committed.
-     *
-     * @param onSuccess Callback with a JSON array of applied
-     *                  filenames.
+     * @param onSuccess Callback with JSON array of applied
+     *                  domain/file pairs.
      * @param onError   Callback on failure.
      */
-    void runMigrations(Callback onSuccess, ErrCallback onError);
+    void runMigrations(Callback onSuccess,
+                       ErrCallback onError);
 
   private:
-    std::string migrationsDir_;
+    std::string servicesRoot_;
+    std::string graphPath_;
+    std::string bootstrapSql_;
 };
 
 } // namespace services
