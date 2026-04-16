@@ -2,20 +2,26 @@
 
 import React, { useState } from 'react';
 import { Box, Typography } from '@shared/m3';
+import { Fab } from '@shared/m3/inputs/Fab';
 import { useTranslations } from 'next-intl';
-import { DmThreadList } from '@/components/organisms/DmThreadList';
-import { DmMessagePane } from '@/components/organisms/DmMessagePane';
+import { DmThreadList }
+  from '@/components/organisms/DmThreadList';
+import { DmMessagePane }
+  from '@/components/organisms/DmMessagePane';
+import NewDmDialog
+  from '@/components/organisms/NewDmDialog';
 
 /**
  * DM inbox page: thread list on the left,
- * active message pane on the right.
- * Uses overscroll containment on both panels.
+ * active message pane on the right, FAB to
+ * open a new-message dialog.
  */
 export default function MessagesPage() {
   const t = useTranslations('social');
   const [activeThread, setActiveThread] = useState<
     string | null
   >(null);
+  const [dmOpen, setDmOpen] = useState(false);
 
   return (
     <Box
@@ -26,6 +32,7 @@ export default function MessagesPage() {
         height: '100dvh',
         maxHeight: '100dvh',
         overflow: 'hidden',
+        position: 'relative',
       }}
     >
       <DmThreadList
@@ -62,6 +69,27 @@ export default function MessagesPage() {
           </Box>
         )}
       </Box>
+      <Fab
+        primary
+        aria-label={t('newDm.fab')}
+        data-testid="new-dm-fab"
+        onClick={() => setDmOpen(true)}
+        style={{
+          position: 'absolute',
+          bottom: 24,
+          right: 24,
+        }}
+      >
+        +
+      </Fab>
+      <NewDmDialog
+        open={dmOpen}
+        onClose={() => setDmOpen(false)}
+        onCreated={(id) => {
+          setActiveThread(id);
+          setDmOpen(false);
+        }}
+      />
     </Box>
   );
 }

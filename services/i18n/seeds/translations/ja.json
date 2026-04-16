@@ -376,7 +376,15 @@
     "noPostsYet": "投稿なし",
     "noAboutInfo": "情報なし",
     "reactions": "リアクション",
-    "addReaction": "リアクション追加"
+    "addReaction": "リアクション追加",
+    "newDm": {
+      "fab": "新しいメッセージ",
+      "title": "新しいメッセージ",
+      "close": "ダイアログを閉じる",
+      "searchLabel": "ユーザーを検索",
+      "searchPlaceholder": "ハンドルで検索",
+      "resultsList": "ユーザー結果"
+    }
   },
   "shop": {
     "title": "ショップ",

@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent }
+  from '@testing-library/react';
 import { ProductCard } from '../ProductCard';
 import type { Product } from '@/types/shop';
 
@@ -62,28 +63,17 @@ const product: Product = {
   stock: 10,
 };
 
-describe('ProductCard', () => {
-  it('renders product name', () => {
+describe('ProductCardCart', () => {
+  it('calls onAddToCart with product id', () => {
+    const onAddToCart = jest.fn();
     render(
       <ProductCard
         product={product}
-        onAddToCart={jest.fn()}
+        onAddToCart={onAddToCart}
+        testId="pc"
       />,
     );
-    expect(
-      screen.getByText('Widget'),
-    ).toBeInTheDocument();
-  });
-
-  it('renders price', () => {
-    render(
-      <ProductCard
-        product={product}
-        onAddToCart={jest.fn()}
-      />,
-    );
-    expect(
-      screen.getByText('$9.99'),
-    ).toBeInTheDocument();
+    fireEvent.click(screen.getByTestId('pc-add'));
+    expect(onAddToCart).toHaveBeenCalledWith('p1');
   });
 });

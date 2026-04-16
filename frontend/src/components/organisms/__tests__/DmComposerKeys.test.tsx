@@ -2,6 +2,7 @@ import React from 'react';
 import {
   render,
   screen,
+  fireEvent,
 } from '@testing-library/react';
 import { DmComposer } from '../DmComposer';
 
@@ -74,21 +75,20 @@ jest.mock('../../atoms', () => ({
   ),
 }));
 
-describe('DmComposer', () => {
-  it('renders input and send button', () => {
-    render(<DmComposer onSend={jest.fn()} />);
-    expect(
+describe('DmComposerKeys', () => {
+  it('calls onSend with input value', async () => {
+    const onSend = jest
+      .fn()
+      .mockResolvedValue(undefined);
+    render(<DmComposer onSend={onSend} />);
+    fireEvent.change(
       screen.getByTestId('dm-composer-input'),
-    ).toBeInTheDocument();
-    expect(
+      { target: { value: 'hello' } },
+    );
+    fireEvent.click(
       screen.getByTestId('dm-composer-send'),
-    ).toBeInTheDocument();
-  });
-
-  it('send button is disabled when input is empty', () => {
-    render(<DmComposer onSend={jest.fn()} />);
-    expect(
-      screen.getByTestId('dm-composer-send'),
-    ).toBeDisabled();
+    );
+    await Promise.resolve();
+    expect(onSend).toHaveBeenCalledWith('hello');
   });
 });

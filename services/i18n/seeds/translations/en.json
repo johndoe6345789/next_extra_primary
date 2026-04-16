@@ -344,7 +344,15 @@
     "noPostsYet": "No posts yet",
     "noAboutInfo": "No about information",
     "reactions": "Reactions",
-    "addReaction": "Add reaction"
+    "addReaction": "Add reaction",
+    "newDm": {
+      "fab": "New message",
+      "title": "New Message",
+      "close": "Close dialog",
+      "searchLabel": "Search for a user",
+      "searchPlaceholder": "Search by handle",
+      "resultsList": "User results"
+    }
   },
   "shop": {
     "title": "Shop",

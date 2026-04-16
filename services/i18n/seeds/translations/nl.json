@@ -376,7 +376,15 @@
     "noPostsYet": "Geen berichten",
     "noAboutInfo": "Geen info",
     "reactions": "Reacties",
-    "addReaction": "Reactie toevoegen"
+    "addReaction": "Reactie toevoegen",
+    "newDm": {
+      "fab": "Nieuw bericht",
+      "title": "Nieuw bericht",
+      "close": "Dialoog sluiten",
+      "searchLabel": "Gebruiker zoeken",
+      "searchPlaceholder": "Zoeken op gebruikersnaam",
+      "resultsList": "Gebruikersresultaten"
+    }
   },
   "shop": {
     "title": "Winkel",

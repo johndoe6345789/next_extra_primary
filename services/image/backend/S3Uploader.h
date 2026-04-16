@@ -2,11 +2,10 @@
 
 /**
  * @file S3Uploader.h
- * @brief Minimal S3 PUT client for image-processor variants.
+ * @brief S3 PUT client using AWS Signature Version 4.
  *
- * Targets the dev-mode @c tools/s3server which accepts a
- * simple static auth header. Production S3 / MinIO will
- * need real AWS Signature v4; see the TODO in upload().
+ * Works against real AWS S3, MinIO, and the dev
+ * @c tools/s3server. Region read from @c S3_REGION env.
  */
 
 #include <cstdint>
@@ -23,6 +22,7 @@ struct S3Config
     std::string accessKey;
     std::string secretKey;
     std::string bucket;
+    std::string region;
 
     static S3Config fromEnv();
 };
