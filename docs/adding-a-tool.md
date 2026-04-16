@@ -1,44 +1,50 @@
 # Adding a New Frontend Tool
 
-Nextra's operator tools are small, independent Next.js apps
-under `tools/`. This guide walks through adding a new one,
-using the existing `tools/cron/` as the worked example. Every
-step is already visible in the repo for cron — treat this file
-as an annotation of that tool.
+Operator tools in Nextra are Next.js apps that live as an `admin/`,
+`site/`, or `public/` subfolder inside their owning domain under
+`services/<domain>/`. Nginx reverse-proxies them into the unified
+portal on port 8889.
 
-Assume you want to add a tool called `foo`, mounted at `/foo`.
+This guide walks through adding a tool called `foo` mounted at
+`/foo`. Use `services/cron/admin/` as the concrete reference.
 
 ---
 
 ## 1. Scaffold the Next.js app
 
 ```
-tools/foo/
-├── package.json
-├── next.config.ts
-├── tsconfig.json
-├── Dockerfile
-└── src/
-    └── app/
-        ├── layout.tsx
-        ├── page.tsx
-        └── globals.scss
+services/foo/
+  admin/            # or site/ or public/ — see below
+    package.json
+    next.config.ts
+    tsconfig.json
+    Dockerfile
+    src/
+      app/
+        layout.tsx
+        page.tsx
+        globals.scss
+  constants.json
+  README.md
 ```
 
-`package.json` should pin the same Next / React / MUI versions
-as the other tools (copy `tools/cron/package.json`). Tools may
-import from `shared/` — the Docker build uses a `shared:`
-additional context to bring that tree in.
+**Audience labels:**
+
+- `admin/` — SSO-gated operator UI (default for dashboards).
+- `site/` — SSO-gated end-user UI (authenticated users).
+- `public/` — unauthenticated, no SSO gate.
+
+Pin the same Next / React / MUI versions as the other tools
+(copy `services/cron/admin/package.json`). Apps may import from
+`shared/` — the Docker build brings that tree in via
+`additional_contexts`.
 
 ---
 
 ## 2. next.config.ts with basePath
 
-The tool must live under a sub-path so that nginx can proxy it
-alongside every other tool on port 8889. Copy from
-`tools/cron/next.config.ts`:
-
 ```ts
+// services/foo/admin/next.config.ts
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
@@ -52,40 +58,32 @@ const nextConfig: NextConfig = {
 export default nextConfig
 ```
 
-`output: 'standalone'` is required — the Dockerfile copies the
-`.next/standalone/` output into a minimal Node image. The
-`basePath` must match the nginx location and the `NEXT_BASE_PATH`
-build arg exactly, or client-side routing will 404.
-
-Inside components, use relative asset imports and the Next.js
-`<Link>` component. Do not hardcode `/foo/...` in URLs — Next
-will prepend the basePath automatically.
+`output: 'standalone'` is required. The `basePath` must match the
+nginx location and the `NEXT_BASE_PATH` build arg exactly.
 
 ---
 
 ## 3. Dockerfile
 
-Copy `tools/emailclient/Dockerfile` or any other tool's
-Dockerfile. It should:
+Copy `services/cron/admin/Dockerfile`. It must:
 
-1. Accept a `NEXT_BASE_PATH` build arg and plumb it into the
-   build-time env so `next.config.ts` can pick it up.
-2. Run `npm ci` and `npm run build`.
+1. Accept `NEXT_BASE_PATH` as a build arg.
+2. Run `npm ci && npm run build`.
 3. Copy `.next/standalone/`, `.next/static/`, and `public/` to
    a `node:20-slim` runtime image.
 4. Expose port 3000 and run `node server.js`.
+
+The `additional_contexts` in the compose service wires `shared/`
+into the build at depth `../../../shared` relative to the tool.
 
 ---
 
 ## 4. docker-compose service
 
-Add a service block to `docker-compose.yml` alongside the other
-tools. Copy from the `cron` service:
-
 ```yaml
 foo:
   build:
-    context: ./tools/foo
+    context: ./services/foo/admin
     dockerfile: Dockerfile
     additional_contexts:
       shared: ./shared
@@ -99,23 +97,20 @@ foo:
   restart: unless-stopped
 ```
 
-Add `foo` to the `depends_on` list on the `portal` service so
-that nginx does not start before the upstream is reachable.
+Add `foo` to the `depends_on` list of the `portal` service so
+nginx does not start before the upstream is reachable.
 
 ---
 
 ## 5. Nginx location with SSO auth_request
 
-Edit `docker/nginx/nginx.conf` and add a `location /foo` block.
-Copy from the `/cron` block — it already does everything you
-need:
+Edit `docker/nginx/nginx.conf`. For an SSO-gated tool:
 
 ```nginx
 location /foo {
     auth_request /_sso_validate;
     error_page 401 = @sso_login;
-    auth_request_set $sso_user
-        $upstream_http_x_user_id;
+    auth_request_set $sso_user $upstream_http_x_user_id;
     set $foofe http://foo:3000;
     proxy_pass $foofe;
     proxy_http_version 1.1;
@@ -126,19 +121,14 @@ location /foo {
 }
 ```
 
-The `auth_request /_sso_validate` line is what enforces the SSO
-gate — nginx makes a sub-request to the backend, and anything
-non-200 redirects to `/sso/login?next=<original>`.
-`X-User-Id` is forwarded from the validate response so the tool
-can identify the caller without re-verifying the JWT.
+For a `public/` tool, omit the `auth_request` lines.
 
 ---
 
 ## 6. Portal link
 
-Add a tile for the new tool in
-`docker/nginx/portal/index.html` so the portal homepage lists
-it alongside every other tool.
+Add a tile in `docker/nginx/portal/index.html` so the portal
+homepage lists the new tool.
 
 ---
 
@@ -148,26 +138,21 @@ it alongside every other tool.
 docker compose up --build --no-deps foo portal
 ```
 
-Open `http://localhost:8889/foo` — the portal should bounce you
-through `/sso/login` if you aren't already authenticated, then
-serve the Next.js app. Assets and client navigation should all
-stay under `/foo/...`.
+Open `http://localhost:8889/foo`. The portal should redirect to
+`/sso/login` if not authenticated, then serve the app.
 
 ---
 
-## 8. Optional: backend integration
+## 8. Backend integration
 
-If the tool needs its own backend data, prefer adding a
-controller under `backend/src/controllers/` rather than a new
-Flask or Node API. The existing `JobController` and
-`CronController` are good templates. Your Next.js app can then
-call `/api/<whatever>` via the nginx `/api/` location which is
-already plumbed to the C++ backend.
+If the tool needs its own backend data, add a controller under
+`services/foo/controllers/` rather than a new standalone API.
+The Next.js app calls `/api/<route>` via the nginx `/api/`
+location already wired to the C++ backend.
 
 ---
 
 ## 9. Documentation
 
-Add a section to `docs/tools.md` with the path, basePath, SSO
-state, purpose, and the compose service name. This page is how
-future contributors discover that your tool exists.
+Add a section to `docs/domains.md` and update `docs/architecture.md`
+if a new nginx location block was added.

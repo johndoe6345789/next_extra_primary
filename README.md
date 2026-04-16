@@ -8,54 +8,29 @@
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker)](https://docs.docker.com/compose/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A full-stack gamified web application with AI chat integration. The frontend
-is built with Next.js, TypeScript, MUI, and Redux Toolkit. The backend is a
-high-performance C++ Drogon API server compiled to a native binary. Features
-include authentication, a points-and-badges gamification system, real-time
-notifications, AI chat (Claude and OpenAI), full-text search via
-Elasticsearch, feature toggles, contact forms, a documentation viewer,
-internationalization, and dark mode support. The project also ships
-ancillary tools: a real webmail client (Postfix + Dovecot + IMAP),
-an alerts centre, a job-scheduler operator dashboard, a cron-manager
-operator dashboard, a PostgreSQL admin dashboard, a package repository
-manager, and an S3-compatible object store for offline use.
+A full-stack gamified web application with AI chat integration. The
+frontend is built with Next.js 16, TypeScript, MUI, and Redux Toolkit.
+The backend is a high-performance C++ Drogon API server compiled to a
+native binary. The codebase is organized as a **domain-sliced monorepo**:
+every feature lives under `services/<domain>/` with its own C++ service
+code, controllers, SQL migrations, tests, and optional operator UI.
 
-This repository is a GitHub **template**. Every file is a feature
-that downstream consumers inherit — the defaults are designed to
-be extended and corrected, not stripped.
+This repository is a GitHub **template**. Every file is a feature that
+downstream consumers inherit — the defaults are designed to be extended
+and corrected, not stripped.
 
-## Service Catalogue
+## Quick Start
 
-### Drogon C++ daemons (`backend/src/commands/`)
+```bash
+git clone https://github.com/your-org/nextra.git
+cd nextra
+docker compose up --build
+```
 
-| CLI subcommand   | Compose service  | Purpose                                  |
-|------------------|------------------|------------------------------------------|
-| `serve`          | `backend`        | Main REST API on port 8080               |
-| `job-scheduler`  | `job-scheduler`  | Durable background worker pool           |
-| `cron-manager`   | `cron-manager`   | Enqueues `scheduled_jobs` into `job_queue`|
-| `migrate`        | (one-shot)       | Apply SQL migrations                     |
-| `seed`           | (one-shot)       | Seed demo data                            |
-| `create-admin`   | (one-shot)       | Bootstrap first admin user               |
+Open **http://localhost:8889** for the portal, or
+**http://localhost:8889/app/en** for the main app.
 
-See [docs/services.md](docs/services.md) for the full per-daemon
-reference (env vars, config files, controller surface).
-
-### Next.js tools (`tools/`)
-
-| Path           | Nginx URL       | SSO gated | Purpose                         |
-|----------------|-----------------|-----------|---------------------------------|
-| `sso`          | `/sso`          | no        | Login / logout / token exchange |
-| `emailclient`  | `/emailclient`  | yes       | Real webmail (IMAP + SMTP)      |
-| `alerts`       | `/alerts`       | yes       | Operator alert centre           |
-| `jobs`         | `/jobs`         | yes       | job-scheduler dashboard         |
-| `cron`         | `/cron`         | yes       | cron-manager dashboard          |
-| `packagerepo`  | `/repo`         | yes       | Package repo browser            |
-| `s3server`     | `/s3`           | yes       | S3 object store browser         |
-| `pgadmin`      | `/db`           | yes       | Postgres admin UI               |
-
-See [docs/tools.md](docs/tools.md) for the per-tool reference.
-
----
+See [Dev Credentials](#dev-credentials) below.
 
 ## Architecture
 
@@ -73,20 +48,76 @@ See [docs/tools.md](docs/tools.md) for the per-tool reference.
 │   port 3100          │       │   port 8080          │
 └──────────────────────┘       └──────────┬───────────┘
                                           │
-                              ┌───────────┼───────────┐
-                              │           │           │
-                     ┌────────▼──┐  ┌─────▼──────┐  ┌▼──────────┐
-                     │PostgreSQL │  │Elasticsearch│  │Mail Server│
-                     │port 5432  │  │port 9200    │  │(Dovecot)  │
-                     └───────────┘  └────────────┘  └───────────┘
+                    ┌─────────────────────┼───────────────┐
+                    │                     │               │
+           ┌────────▼──┐      ┌───────────▼──┐  ┌────────▼────┐
+           │PostgreSQL │      │Elasticsearch │  │Redis / Kafka│
+           │port 5432  │      │port 9200     │  │             │
+           └───────────┘      └──────────────┘  └─────────────┘
 ```
 
-The frontend communicates with the backend over REST/JSON via an Nginx
-reverse proxy. The backend handles all business logic, authentication,
-gamification scoring, notification dispatch, full-text search indexing
-(Elasticsearch), feature toggles, and proxied AI chat requests to Claude
-and OpenAI APIs. PostgreSQL stores all persistent data. A bundled mail
-server (Dovecot + Roundcube) provides email services.
+All backend and frontend domain code lives under `services/`. See
+[docs/domain-layout.md](docs/domain-layout.md) for the canonical
+subfolder reference and [docs/domains.md](docs/domains.md) for
+the full domain table (55+ domains).
+
+## Monorepo Layout
+
+```
+services/
+  auth/             backend/ controllers/ migrations/ tests/
+  users/            backend/ controllers/ migrations/
+  blog/             backend/ controllers/ migrations/ tests/ admin/
+  wiki/             backend/ controllers/ migrations/ tests/ admin/
+  job-queue/        backend/ controllers/ migrations/ admin/
+  cron/             backend/ controllers/ admin/
+  notifications/    backend/ controllers/ migrations/ tests/ admin/
+  ...               (50+ more feature domains)
+  drogon-host/      Drogon shell: main.cpp, serve, config, Dockerfile
+  http-filters/     JWT / CORS / rate-limit Drogon filters
+  orm-models/       Drogon ORM generated models
+  infra/            Kafka / Redis client shims
+  manager-cli/      C++ project automation CLI
+  migration-runner/ Topo-sorted per-domain SQL migrator
+frontend/           Next.js 16 main app (all locales)
+shared/             M3 component library, SCSS tokens, e2e runner
+docker/             Nginx portal config, pre-baked dep images
+docs/               Architecture, domain layout, guides
+```
+
+## Backend Daemons
+
+All daemons are subcommands of the same `nextra-api` binary:
+
+| CLI subcommand  | Compose service | Domain source          | Purpose                  |
+|-----------------|-----------------|------------------------|--------------------------|
+| `serve`         | `backend`       | `services/drogon-host` | Main REST API :8080      |
+| `job-scheduler` | `job-scheduler` | `services/job-queue`   | Background worker pool   |
+| `cron-manager`  | `cron-manager`  | `services/cron`        | Enqueues scheduled_jobs  |
+| `migrate`       | (one-shot)      | `services/migration-runner` | Apply SQL migrations |
+| `seed`          | (one-shot)      | `services/users`       | Seed demo data           |
+| `create-admin`  | (one-shot)      | `services/drogon-host` | Bootstrap first admin    |
+
+See [docs/services.md](docs/services.md) for full per-daemon
+reference (env vars, config files, controller surface).
+
+## Operator Tools (Next.js)
+
+Each tool is a Next.js app under `services/<domain>/admin/` (or
+`services/<domain>/public/`), reverse-proxied by nginx:
+
+| Domain          | Nginx path      | SSO gated | Purpose                   |
+|-----------------|-----------------|-----------|---------------------------|
+| `sso`           | `/sso`          | no        | Login / logout            |
+| `email`         | `/emailclient`  | yes       | Real webmail (IMAP+SMTP)  |
+| `alerts`        | `/alerts`       | yes       | Operator alert centre     |
+| `job-queue`     | `/jobs`         | yes       | job-scheduler dashboard   |
+| `cron`          | `/cron`         | yes       | cron-manager dashboard    |
+| `package-repository` | `/repo`   | yes       | Package repo browser      |
+| `object-store`  | `/s3`           | yes       | S3 object store browser   |
+| `database`      | `/db`           | yes       | Postgres admin UI         |
+
+See [docs/domains.md](docs/domains.md) for all domains.
 
 ---
 
@@ -114,7 +145,7 @@ git clone https://github.com/your-org/nextra.git
 cd nextra
 
 # Copy environment files
-cp backend/.env.example backend/.env
+cp services/drogon-host/.env.example services/drogon-host/.env
 cp frontend/.env.example frontend/.env
 
 # Edit .env files with your secrets (JWT key, DB password, API keys)
@@ -144,7 +175,7 @@ or **http://localhost:8889/app/en** for the main app.
 | Moderator | devmod     | dev.mod@nextra.local   | DevMod1a   |
 | User      | devuser    | dev.user@nextra.local  | DevUser1   |
 
-User definitions live in `backend/seeds/users.json`.
+User definitions live in `services/users/seeds/users.json`.
 The `./manager` CLI can regenerate seed SQL or reset passwords:
 
 ```bash
@@ -185,25 +216,25 @@ For offline / air-gapped environments, preload all dependencies first:
 ### Backend (C++ Drogon)
 
 ```bash
-cd backend
+cd services/drogon-host
 
 # Install dependencies via Conan 2 (uses conanfile.py)
 conan install . --build=missing --output-folder=build
 
-# Configure and build
-cd build
-cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake \
-         -DCMAKE_BUILD_TYPE=Release
-cmake --build . -j$(nproc)
+# Configure and build from repo root
+cd ../..
+cmake -B build -DCMAKE_TOOLCHAIN_FILE=services/drogon-host/build/conan_toolchain.cmake \
+      -DCMAKE_BUILD_TYPE=Release
+cmake --build build -j$(nproc)
 
 # Run database migrations
-./nextra-api migrate --up
+./build/nextra-api migrate --up
 
 # Seed initial data (optional)
-./nextra-api seed
+./build/nextra-api seed
 
 # Start the server
-./nextra-api serve --port 8080
+./build/nextra-api serve --port 8080
 ```
 
 ### Frontend (Next.js)
@@ -232,7 +263,7 @@ CREATE USER nextra WITH PASSWORD 'your_password';
 GRANT ALL PRIVILEGES ON DATABASE nextra_db TO nextra;
 ```
 
-Set the connection string in `backend/.env`:
+Set the connection string in `services/drogon-host/.env`:
 
 ```
 DB_HOST=localhost
@@ -248,86 +279,57 @@ DB_PASSWORD=your_password
 
 ```
 nextra/
-├── README.md                   # This file
-├── CLAUDE.md                   # AI coding assistant instructions
-├── agents.md                   # AI agent configurations
-├── roadmap.md                  # Feature roadmap
-├── plan.md                     # Implementation plan
-├── docker-compose.yml          # Service orchestration
-├── .clang-format               # C++ formatting rules
-├── .clang-tidy                 # C++ linting rules
-├── backend/
-│   ├── CMakeLists.txt
-│   ├── Dockerfile
-│   ├── conanfile.py            # C++ dependencies (Conan 2)
-│   ├── config/                 # Drogon server configuration
-│   ├── migrations/             # SQL migration files
-│   ├── seed/                   # JSON seed data
-│   ├── seeds/                  # Extended seed data (users.json)
-│   ├── src/
-│   │   ├── main.cpp            # CLI entry point (CLI11)
-│   │   ├── commands/           # CLI subcommand handlers
-│   │   ├── controllers/        # HTTP route handlers
-│   │   ├── docs/               # OpenAPI spec definitions
-│   │   ├── filters/            # Auth, CORS, rate-limit
-│   │   ├── models/             # Drogon ORM models
-│   │   ├── services/           # Business logic layer
-│   │   ├── utils/              # JWT, hashing, validators
-│   │   └── constants/          # JSON config files
-│   └── tests/                  # GTest unit tests
+├── README.md                    # This file
+├── CLAUDE.md                    # AI coding assistant instructions
+├── docker-compose.yml           # Service orchestration
+├── CMakeLists.txt               # Top-level CMake (explicit file lists)
+├── services/
+│   ├── drogon-host/             # Drogon shell (main.cpp, serve, config)
+│   │   ├── backend/main.cpp     # CLI entry point (CLI11)
+│   │   ├── config/config.json   # Drogon listener + DB pool + log level
+│   │   ├── conanfile.py         # C++ dependencies (Conan 2)
+│   │   └── Dockerfile
+│   ├── http-filters/backend/    # JWT / CORS / rate-limit filters
+│   ├── orm-models/              # Drogon ORM generated models
+│   ├── infra/backend/           # Kafka / Redis client shims
+│   ├── manager-cli/             # C++ project automation CLI
+│   ├── migration-runner/        # Topo-sorted per-domain migrator
+│   ├── migration-graph.json     # DAG of cross-domain FK deps
+│   ├── auth/                    # backend/ controllers/ migrations/ tests/
+│   ├── users/                   # backend/ controllers/ migrations/
+│   ├── blog/                    # backend/ controllers/ migrations/ admin/
+│   ├── wiki/                    # backend/ controllers/ migrations/ admin/
+│   ├── job-queue/               # backend/ controllers/ migrations/ admin/
+│   ├── cron/                    # backend/ controllers/ admin/
+│   ├── notifications/           # backend/ controllers/ migrations/ admin/
+│   └── ...                      # 40+ more feature domains
 ├── frontend/
 │   ├── Dockerfile
-│   ├── package.json
-│   ├── next.config.ts
 │   ├── src/
-│   │   ├── app/                # Next.js App Router pages
-│   │   ├── components/         # atoms / molecules / organisms
-│   │   ├── hooks/              # Custom React hooks
-│   │   ├── store/              # Redux Toolkit + RTK Query
-│   │   ├── theme/              # MUI theme + design tokens
-│   │   ├── i18n/               # next-intl configuration
-│   │   ├── messages/           # Translation JSON files
-│   │   ├── constants/          # App constants (JSON)
-│   │   ├── lib/                # Utility functions
-│   │   ├── styles/             # globals.scss (authoritative CSS)
-│   │   ├── types/              # TypeScript type definitions
-│   │   └── seed/               # Mock data for development
-│   └── public/                 # Static assets
+│   │   ├── app/                 # Next.js App Router pages
+│   │   ├── components/          # atoms / molecules / organisms
+│   │   ├── hooks/               # Custom React hooks
+│   │   ├── store/               # Redux Toolkit + RTK Query
+│   │   ├── messages/            # i18n translation JSON files
+│   │   └── styles/globals.scss  # Authoritative global CSS
+│   └── public/                  # Static assets
 ├── shared/
-│   ├── components/             # Shared UI component library
-│   ├── hooks/                  # Shared React hooks
-│   ├── icons/                  # Material icons + symbols
-│   ├── interfaces/             # Shared TypeScript interfaces
-│   ├── redux/                  # Shared Redux slices + hooks
-│   ├── schemas/                # JSON schemas + validation
-│   ├── scss/                   # Shared SCSS styles
-│   ├── storybook/              # Storybook configuration
-│   └── e2e/                    # Playwright end-to-end tests
+│   ├── components/m3/           # M3 component library
+│   ├── scss/                    # M3 SCSS tokens
+│   └── e2e/                     # Playwright JSON runner
 ├── docker/
-│   ├── backend-deps.Dockerfile # Pre-baked backend deps
-│   ├── frontend-deps.Dockerfile# Pre-baked frontend deps
-│   ├── mail/                   # Dovecot + Roundcube config
-│   └── nginx/                  # Reverse proxy + portal
-├── tools/
-│   ├── manager/                # Dev workflow CLI (cmake-gen)
-│   ├── sso/                    # SSO login portal (Next.js)
-│   ├── emailclient/            # Real webmail (IMAP + SMTP)
-│   ├── alerts/                 # Alerts centre (Next.js)
-│   ├── jobs/                   # job-scheduler dashboard
-│   ├── cron/                   # cron-manager dashboard
-│   ├── pgadmin/                # PostgreSQL admin dashboard
-│   ├── packagerepo/            # Package repository manager
-│   └── s3server/               # S3-compatible object store
+│   ├── nginx/                   # Portal nginx config + location blocks
+│   └── mail/                    # Dovecot / Postfix config
 └── docs/
-    ├── api.md                  # Full API reference
-    ├── deployment.md           # CapRover deployment guide
-    ├── architecture.md         # System architecture + diagrams
-    ├── services.md             # Drogon daemons catalogue
-    ├── tools.md                # Next.js tools catalogue
-    ├── cron.md                 # Vixie cron dialect + seed flow
-    ├── jobs.md                 # job_queue + REST endpoints
-    ├── adding-a-daemon.md      # Walkthrough: new backend daemon
-    └── adding-a-tool.md        # Walkthrough: new frontend tool
+    ├── domain-layout.md         # Canonical subfolder reference
+    ├── domains.md               # Table of all 55+ domains
+    ├── migration-dag.md         # Per-domain migration guide
+    ├── architecture.md          # System diagrams + data flows
+    ├── services.md              # Drogon daemon catalogue
+    ├── cron.md                  # Vixie cron dialect + seed flow
+    ├── jobs.md                  # job_queue tables + REST endpoints
+    ├── adding-a-daemon.md       # Walkthrough: new backend daemon
+    └── adding-a-tool.md         # Walkthrough: new frontend tool
 ```
 
 ---
@@ -342,12 +344,12 @@ scripts or Python):
 ```bash
 # Build the manager tool
 # On Linux/macOS:
-cd tools/manager && make
+cd services/manager-cli && make
 
 # On Windows (MSYS2 has no compiler — use Docker):
 docker run --rm \
   --volume "//d/GitHub/next_extra_primary://src" \
-  -w //src/tools/manager \
+  -w //src/services/manager-cli \
   gcc:13 bash -c "apt-get install -y libssl-dev -q && make"
 ```
 
@@ -448,17 +450,19 @@ See [docs/jobs.md](docs/jobs.md) and [docs/cron.md](docs/cron.md).
 
 ## Further Documentation
 
-| File                                     | What it covers                      |
-|------------------------------------------|--------------------------------------|
-| [docs/architecture.md](docs/architecture.md) | Full system diagram + data flow  |
-| [docs/services.md](docs/services.md)     | Every Drogon daemon                 |
-| [docs/tools.md](docs/tools.md)           | Every Next.js tool                  |
-| [docs/cron.md](docs/cron.md)             | Vixie dialect + scheduled_jobs      |
-| [docs/jobs.md](docs/jobs.md)             | job_queue + REST API                |
-| [docs/adding-a-daemon.md](docs/adding-a-daemon.md) | Walkthrough: new backend daemon |
-| [docs/adding-a-tool.md](docs/adding-a-tool.md) | Walkthrough: new frontend tool  |
-| [docs/api.md](docs/api.md)               | REST endpoint reference             |
-| [docs/deployment.md](docs/deployment.md) | CapRover deployment guide           |
+| File                                     | What it covers                        |
+|------------------------------------------|---------------------------------------|
+| [docs/domain-layout.md](docs/domain-layout.md) | Canonical subfolder reference   |
+| [docs/domains.md](docs/domains.md)       | Table of all 55+ domains              |
+| [docs/migration-dag.md](docs/migration-dag.md) | Per-domain migrations + DAG     |
+| [docs/architecture.md](docs/architecture.md) | System diagrams + data flows      |
+| [docs/services.md](docs/services.md)     | Every Drogon daemon                   |
+| [docs/cron.md](docs/cron.md)             | Vixie dialect + scheduled_jobs        |
+| [docs/jobs.md](docs/jobs.md)             | job_queue tables + REST API           |
+| [docs/adding-a-daemon.md](docs/adding-a-daemon.md) | Walkthrough: new daemon       |
+| [docs/adding-a-tool.md](docs/adding-a-tool.md) | Walkthrough: new frontend tool   |
+| [docs/api.md](docs/api.md)               | REST endpoint reference               |
+| [docs/deployment.md](docs/deployment.md) | CapRover deployment guide             |
 
 ---
 

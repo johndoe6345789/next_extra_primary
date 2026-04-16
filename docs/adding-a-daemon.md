@@ -1,120 +1,90 @@
 # Adding a New Drogon Daemon
 
-The backend binary `nextra-api` is a CLI11 multi-subcommand
-program defined in `backend/src/main.cpp`. Each subcommand in
-`backend/src/commands/` is potentially a separate long-running
-daemon that docker-compose runs as its own service. This guide
-walks through adding one, using the existing `cron-manager`
-(`backend/src/commands/cron_manager.cpp`) as the worked example.
+Each long-running background process in Nextra is a CLI subcommand
+of the shared `nextra-api` binary. This guide walks through
+creating a new one. Use the existing `cron` domain
+(`services/cron/`) as the concrete reference.
 
 ---
 
-## 1. Services directory
-
-Put the core logic under `backend/src/services/<your-module>/`.
-Keep files under 100 lines — split tick loops, parsers, and
-repositories into separate translation units. Cron does this:
+## 1. Create the domain directory
 
 ```
-backend/src/services/cron/
-├── CronManager.h / CronManager.cpp   ← lifecycle + class
-├── CronExpression.h                   ← types
-├── CronTypes.h
-├── cron_expression_parse.cpp          ← parser
-├── cron_expression_next.cpp           ← next-fire scan
-├── cron_manager_seeds.cpp             ← seedSchedules loader
-└── cron_manager_tick.cpp              ← per-tick evaluation
+services/my-daemon/
+  backend/          # C++ service code
+  controllers/      # Optional: operator endpoints
+  migrations/       # SQL (001_init.sql, ...)
+  tests/            # GTest unit tests
+  admin/            # Optional: operator Next.js UI
+  constants.json    # All tunables (never hardcode)
+  README.md         # One-paragraph description
 ```
+
+Keep every file under 100 lines. Split tick loops, parsers, and
+repositories into separate translation units.
 
 Your daemon class needs at minimum:
 
-- A constructor taking `std::shared_ptr<drogon::orm::DbClient>`
-  and a config struct.
-- `void start()` — spawns an internal worker thread.
-- `void stop()` — asks the worker to quit and joins.
-- `void forceTick()` (optional) — for operator endpoints that
-  want to nudge the loop from the outside.
+```cpp
+// services/my-daemon/backend/MyDaemon.h
+class MyDaemon {
+public:
+    MyDaemon(std::shared_ptr<drogon::orm::DbClient> db,
+             MyDaemonConfig cfg);
+    void start();          // spawns worker thread
+    void stop();           // asks worker to quit + joins
+    void forceTick();      // optional: nudge from controller
+};
+```
 
 ---
 
 ## 2. Constants JSON
 
-Every tunable (poll interval, batch size, shutdown grace period,
-seed data) lives in a JSON file under
-`backend/src/constants/<daemon-name>.json`. Never hardcode these.
-Cron uses `cron-manager.json`; jobs uses `job-scheduler.json`.
+All tunables live in `services/my-daemon/constants.json`:
 
-The CLI subcommand reads this file at startup and builds a
-config struct before constructing the daemon class.
+```json
+{
+  "tickIntervalSeconds": 30,
+  "gracefulShutdownSeconds": 10
+}
+```
+
+Never hardcode poll intervals, batch sizes, or seed data.
 
 ---
 
 ## 3. CLI subcommand
 
-Create `backend/src/commands/<name>.h` and
-`backend/src/commands/<name>.cpp`. The `.cpp` should:
-
-1. Install `SIGINT` / `SIGTERM` handlers that flip a global
-   `std::atomic<bool> g_stop`.
-2. `drogon::app().loadConfigFile(config)` so the daemon has
-   a DB client.
-3. Read `constants/<name>.json`, build the config struct.
-4. Construct the daemon, call `start()`.
-5. Start `drogon::app().run()` on a background thread if the
-   daemon is going to serve HTTP (see below).
-6. Spin-wait on `g_stop`.
-7. Call `drogon::app().quit()`, join the HTTP thread, then
-   `daemon.stop()`.
-
-`cron_manager.cpp` is the smallest complete example (under 80
-lines). Copy it and rename.
-
----
-
-## 4. Controller (optional)
-
-If your daemon needs to expose operator endpoints (like the
-cron force-tick button) you have two choices:
-
-**Option A — link the controller into `backend`** (what cron and
-jobs currently do). The controller is just a normal
-`drogon::HttpController`, mounted by the main `serve` daemon.
-To reach the live daemon instance, expose a module-local
-global pointer from the subcommand file, set in
-`cmd<Name>()`, read inside the controller method. See
-`backend/src/commands/cron_manager.cpp` for the pattern:
+Add the subcommand to
+`services/drogon-host/backend/cli_setup_daemons.h`:
 
 ```cpp
-namespace nextra::cron {
-CronManager* g_cronManager = nullptr;
+#include "services/my-daemon/backend/MyDaemon.h"
+
+inline void setupMyDaemonCmd(CLI::App& app) {
+    auto* cmd = app.add_subcommand(
+        "my-daemon", "Description of what it does");
+    std::string cfg = "config/config.json";
+    cmd->add_option("--config", cfg, "Drogon config file");
+    cmd->callback([cfg]() {
+        // 1. Install SIGINT/SIGTERM -> g_stop
+        // 2. drogon::app().loadConfigFile(cfg)
+        // 3. Read constants.json, build config struct
+        // 4. Construct and start daemon
+        // 5. Spin-wait on g_stop
+        // 6. drogon::app().quit(); daemon.stop();
+    });
 }
-// ...
-nextra::cron::g_cronManager = &manager;
 ```
 
-**Option B — run Drogon inside the daemon itself**. If you want
-the daemon to own its HTTP surface (so it works even when
-`backend` is down), start `drogon::app().run()` on a thread
-from the subcommand, and make sure your `config.json` listener
-port is unique per daemon.
-
----
-
-## 5. Wire the subcommand into `main.cpp`
-
-Add the subcommand declaration to `backend/src/main.cpp`:
+Then register it in `services/drogon-host/backend/cli_dispatch.h`:
 
 ```cpp
-#include "commands/<name>.h"
-// ...
-auto* cmd = app.add_subcommand("<name>", "...");
-std::string cfg = "config/config.json";
-cmd->add_option("--config", cfg, "Drogon config file");
-cmd->callback([&]() { commands::cmd<Name>(cfg); });
+setupMyDaemonCmd(app);
 ```
 
-Then regenerate the CMake file list so the new sources are
-compiled in:
+Regenerate CMake and build:
 
 ```bash
 ./manager generate cmake
@@ -123,29 +93,66 @@ compiled in:
 
 ---
 
+## 4. Controller (optional)
+
+If the daemon needs operator endpoints, create
+`services/my-daemon/controllers/MyDaemonController.{h,cpp}`.
+
+To let the controller reach the live daemon instance, expose a
+module-local global from the subcommand and read it inside the
+controller method:
+
+```cpp
+// in cli_setup_daemons.h callback:
+namespace nextra::mydaemon {
+    MyDaemon* g_daemon = nullptr;
+}
+nextra::mydaemon::g_daemon = &daemon;
+```
+
+The controller is linked into the `backend` (`serve`) daemon, not
+the `my-daemon` daemon. Endpoints are already reachable under
+`/api/...` via the nginx `/api/` location.
+
+---
+
+## 5. Migration
+
+If the domain needs tables, add SQL files under
+`services/my-daemon/migrations/` starting from `001_init.sql`.
+
+If any table has a FK into another domain, declare the dependency
+in `services/migration-graph.json`:
+
+```json
+"my-daemon": ["users"]
+```
+
+The migration runner reads this DAG and applies domains in
+topological order. See `docs/migration-dag.md`.
+
+---
+
 ## 6. docker-compose service
 
-Add an entry to `docker-compose.yml` that reuses the same
-`backend` build context and just overrides the command. Cron
-looks like this:
+Add a service to `docker-compose.yml` that reuses the same
+`drogon-host` build context and overrides the command:
 
 ```yaml
-cron-manager:
+my-daemon:
   build:
-    context: ./backend
+    context: ./services/drogon-host
     additional_contexts:
-      manager: ./tools/manager
-      commands: ./.local/commands
+      services: ./services
+      shared: ./shared
     args:
       DEPS_IMAGE: debian:sid
       RUNTIME_IMAGE: debian:sid-slim
-  command: ["./nextra-api", "cron-manager",
+  command: ["./nextra-api", "my-daemon",
             "--config", "config/config.json"]
   depends_on:
     db:
       condition: service_healthy
-    job-scheduler:
-      condition: service_started
   environment:
     DB_HOST: db
     DB_PORT: "5432"
@@ -155,40 +162,45 @@ cron-manager:
   restart: unless-stopped
 ```
 
-The build layer is cached across the `backend`, `job-scheduler`,
-and `cron-manager` services because they share the same Docker
-context — only the first build is slow.
+The build layer is shared with `backend`, `job-scheduler`, and
+`cron-manager` — only the first build is slow.
 
 ---
 
-## 7. Nginx location (if the daemon has a UI or own HTTP)
+## 7. Nginx location (if the daemon has its own HTTP)
 
-If you chose Option B above, add a `location /<path>` block to
-`docker/nginx/nginx.conf` that `proxy_pass`es to the daemon's
-container name and port. Decide whether to gate it behind
-`auth_request /_sso_validate` or leave it open — all UI routes
-should be gated; raw API routes used by CLI tools may not be.
+If the daemon runs Drogon's HTTP server on its own port, add a
+`location /my-daemon` block to `docker/nginx/nginx.conf`:
 
-If you chose Option A, you do not need an nginx change — your
-controller is already reachable under `/api/...`.
+```nginx
+location /my-daemon {
+    auth_request /_sso_validate;
+    error_page 401 = @sso_login;
+    set $upstream http://my-daemon:PORT;
+    proxy_pass $upstream;
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+}
+```
+
+If you linked the controller into `backend` (Option A above) no
+nginx change is needed.
 
 ---
 
 ## 8. Tests
 
-Add GTest coverage under `backend/tests/`:
+Add GTest coverage under `services/my-daemon/tests/`:
 
-- Unit test the parser / core algorithm in isolation.
+- Unit test the core algorithm in isolation.
 - Unit test the repository layer against a disposable Postgres.
-- Integration test the daemon's tick loop with a mocked clock.
+- Integration test the tick loop with a mocked clock.
 
-Run with `./manager test`.
+Run: `./manager test`.
 
 ---
 
 ## 9. Documentation
 
-Add a section to `docs/services.md` describing the new daemon
-(CLI, source file, compose service, purpose, key env vars,
-config file). If it has a UI tool, add a section to
-`docs/tools.md` too.
+Add a section to `docs/services.md` and a row to the domain
+table in `docs/domains.md`.

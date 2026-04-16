@@ -1,74 +1,96 @@
 # Domain Catalogue
 
-Every feature in Nextra lives under `services/<domain>/` as a
-self-contained slice. The refactor split the old monolithic
-`backend/` and `tools/` trees into these 55+ domains, each with
-its own `README.md`, backend sources, controllers, migrations,
-tests, and (if applicable) one or more Next.js UIs under
-audience-labelled subfolders.
+Every domain lives at `services/<domain>/`. The columns below
+show which canonical subfolders are present. See
+`docs/domain-layout.md` for subfolder definitions.
 
-See [domain-layout.md](domain-layout.md) for the canonical
-subfolder rules and [architecture.md](architecture.md) for how
-everything is linked together at build time.
+Legend: B=backend, C=controllers, M=migrations, T=tests,
+A=admin UI, S=site UI, P=public UI.
 
 ---
 
-## All domains
+## Feature Domains
 
-| Domain | Description |
-|--------|-------------|
-| [ai-chat](../services/ai-chat/README.md) | AI chat integration — Claude/OpenAI clients, chat history, controllers. |
-| [alerts](../services/alerts/README.md) | Operator alerting admin tool. |
-| [analytics](../services/analytics/README.md) | Metrics collection and time-series queries. |
-| [api-documentation](../services/api-documentation/README.md) | OpenAPI spec generation and viewer UI. |
-| [api-keys](../services/api-keys/README.md) | User and system API key CRUD and validation. |
-| [audit](../services/audit/README.md) | Hash-chained audit log consumer and verifier. |
-| [auth](../services/auth/README.md) | Authentication: sessions, tokens, OAuth, passkeys, TOTP, registration. |
-| [backup](../services/backup/README.md) | Nightly pg_dump backup runner and admin UI. |
-| [badges](../services/badges/README.md) | Badge catalogue and user badge awards. |
-| [blog](../services/blog/README.md) | Article/blog storage, markdown rendering, publisher. |
-| [comments](../services/comments/README.md) | Polymorphic threaded comments and forum moderation. |
-| [cron](../services/cron/README.md) | Cron-expression scheduler and manager daemon. |
-| [database](../services/database/README.md) | Self-contained pgAdmin-style database admin tool. |
-| [design-system](../services/design-system/README.md) | Component catalogue and M3 prop editor. |
-| [drogon-host](../services/drogon-host/README.md) | Drogon app shell: main.cpp, serve command, config, filters link point. |
-| [ecommerce](../services/ecommerce/README.md) | Shop catalog, cart, checkout, Stripe webhook, admin UI. |
-| [elasticsearch](../services/elasticsearch/README.md) | ElasticClient — shared low-level search index client. |
-| [email](../services/email/README.md) | SMTP/IMAP email service, templates, and webmail UI. |
-| [feature-flags](../services/feature-flags/README.md) | Flag evaluator, store, and admin UI. |
-| [gallery](../services/gallery/README.md) | Photo gallery / album storage and bulk import. |
-| [gamification](../services/gamification/README.md) | Gamification facade: XP/level/streak/progress aggregator. |
-| [http-filters](../services/http-filters/README.md) | Drogon HTTP filters: JWT, cookie auth, CORS, rate-limit buckets. |
-| [i18n](../services/i18n/README.md) | Translation service, coverage, upsert, admin controllers. |
-| [image](../services/image/README.md) | Image-processing jobs and libvips/S3 uploader worker. |
-| [imap-sync](../services/imap-sync/README.md) | IMAP fetch + sync worker for email accounts. |
-| [infra](../services/infra/README.md) | Kafka and Redis client shims and factories. |
-| [job-queue](../services/job-queue/README.md) | Durable job queue, scheduler, worker, backoff. |
-| [leaderboards](../services/leaderboards/README.md) | Leaderboard queries (XP / points). |
-| [levels](../services/levels/README.md) | Level calculation from XP. |
-| [manager-cli](../services/manager-cli/README.md) | Standalone C++ manager CLI (project automation). |
-| [migration-runner](../services/migration-runner/README.md) | Topo-sorted per-domain SQL migration runner. |
-| [notifications](../services/notifications/README.md) | Notification router, channel senders, templates. |
-| [object-store](../services/object-store/README.md) | Self-contained S3-compatible object store. |
-| [orm-models](../services/orm-models/README.md) | Drogon ORM generated model files. |
-| [package-repository](../services/package-repository/README.md) | Self-contained package repository manager (FE + BE). |
-| [pdf](../services/pdf/README.md) | HTML -> PDF rendering via Gotenberg. |
-| [polls](../services/polls/README.md) | Poll store, voting, results. |
-| [progress](../services/progress/README.md) | Per-user progress tracking. |
-| [rate-limit](../services/rate-limit/README.md) | Token-bucket rate limiting (Redis-backed). |
-| [search](../services/search/README.md) | Elasticsearch index registry, indexer daemon, query service. |
-| [social](../services/social/README.md) | Follows, DMs, presence, reactions, mentions, groups. |
-| [sso](../services/sso/README.md) | Self-contained SSO portal (login, token bridge). |
-| [status-page](../services/status-page/README.md) | Public status page and incident history. |
-| [streaks](../services/streaks/README.md) | Daily streak computation. |
-| [streaming](../services/streaming/README.md) | mediamtx control plane and ingest key management. |
-| [user-lookup](../services/user-lookup/README.md) | Cross-domain user lookup helper. |
-| [user-preferences](../services/user-preferences/README.md) | Theme/locale/AI provider preferences. |
-| [user-profiles](../services/user-profiles/README.md) | Extended user profile data. |
-| [user-search](../services/user-search/README.md) | User search queries. |
-| [user-stats](../services/user-stats/README.md) | User statistics aggregation. |
-| [users](../services/users/README.md) | User CRUD, admin role/active, profile, stats. |
-| [video](../services/video/README.md) | FFmpeg HLS/DASH transcoder daemon. |
-| [webhooks](../services/webhooks/README.md) | Webhook endpoints, deliveries, circuit breaker, HMAC. |
-| [wiki](../services/wiki/README.md) | Wiki pages, revisions, tree, markdown sanitization. |
-| [xp](../services/xp/README.md) | XP awards, leaderboards feeder. |
+| Domain             | B | C | M | T | A | S | P | Summary                          |
+|--------------------|---|---|---|---|---|---|---|----------------------------------|
+| `ai-chat`          | x | x |   |   |   |   |   | AI chat proxy (Claude, OpenAI)   |
+| `alerts`           |   |   |   |   | x |   |   | Operator alert centre            |
+| `analytics`        | x | x |   |   | x |   |   | Usage and event analytics        |
+| `api-documentation`| x |   |   |   |   |   |   | OpenAPI spec serving             |
+| `api-keys`         | x | x | x |   |   |   |   | API key management               |
+| `audit`            | x | x | x | x | x |   |   | Audit log (via Kafka)            |
+| `auth`             | x | x | x | x |   |   |   | Sessions, tokens, OAuth, TOTP    |
+| `backup`           | x | x | x |   | x |   |   | Database backup management       |
+| `badges`           | x |   |   |   |   |   |   | Badge definitions and criteria   |
+| `blog`             | x | x | x | x | x |   |   | Articles, markdown, publishing   |
+| `comments`         | x | x | x | x | x |   |   | Threaded comment system          |
+| `cron`             | x | x |   |   | x |   |   | Cron expression scheduler        |
+| `database`         |   |   |   |   | x |   |   | PostgreSQL admin panel           |
+| `design-system`    |   |   |   |   |   |   |   | Shared design tokens (SCSS)      |
+| `ecommerce`        | x | x | x | x | x |   |   | Orders, products, payments       |
+| `elasticsearch`    | x |   |   |   |   |   |   | Elasticsearch client shim        |
+| `email`            | x | x | x |   |   |   |   | SMTP sender and templates        |
+| `feature-flags`    | x | x | x | x | x |   |   | Feature toggle management        |
+| `gallery`          | x | x | x | x | x |   |   | Photo gallery and album storage  |
+| `gamification`     | x | x |   |   |   |   |   | Points, badges, streaks, levels  |
+| `i18n`             | x | x | x |   |   |   |   | Translations stored in Postgres  |
+| `image`            | x | x | x | x | x |   |   | Image processing (libvips)       |
+| `imap-sync`        | x |   |   |   |   |   |   | IMAP sync daemon                 |
+| `job-queue`        | x | x | x |   | x |   |   | Durable job queue + scheduler    |
+| `leaderboards`     | x |   |   |   |   |   |   | Leaderboard computation          |
+| `levels`           | x |   |   |   |   |   |   | XP level thresholds              |
+| `notifications`    | x | x | x | x | x |   |   | Notification router + senders    |
+| `object-store`     |   |   |   |   |   |   |   | S3-compatible object store       |
+| `package-repository`|  |   |   |   |   |   |   | Package repo (Conan/npm)         |
+| `pdf`              | x | x | x |   |   |   |   | PDF generation (Gotenberg)       |
+| `polls`            | x | x | x | x | x |   |   | Poll store, voting, results      |
+| `progress`         | x |   |   |   |   |   |   | User progress tracking           |
+| `rate-limit`       | x | x |   | x |   |   |   | Rate-limit storage and rules     |
+| `search`           | x | x | x | x | x |   |   | Full-text search (Elasticsearch) |
+| `social`           | x | x | x | x | x |   |   | Follows, likes, activity feed    |
+| `sso`              |   |   |   |   |   |   |   | SSO login portal                 |
+| `status-page`      | x | x | x |   |   |   | x | Public status page               |
+| `streaks`          | x |   |   |   |   |   |   | Daily streak tracking            |
+| `streaming`        | x | x | x |   | x |   |   | Live video streaming (mediamtx)  |
+| `user-lookup`      |   |   |   |   |   |   |   | Username / email lookup          |
+| `user-preferences` | x | x | x | x |   |   |   | Per-user settings                |
+| `user-profiles`    |   |   |   |   |   |   |   | Public profile pages             |
+| `user-search`      |   |   |   |   |   |   |   | User search index                |
+| `user-stats`       |   |   |   |   |   |   |   | Aggregated user statistics       |
+| `users`            | x | x | x |   |   |   |   | User CRUD, roles, admin          |
+| `video`            | x | x | x |   |   |   |   | Video storage and transcoding    |
+| `webhooks`         | x | x | x | x | x |   |   | Outbound webhook delivery        |
+| `wiki`             | x | x | x | x | x |   |   | Wiki pages, revisions, tree      |
+| `xp`               | x |   |   |   |   |   |   | XP award and computation         |
+
+---
+
+## Infrastructure Domains
+
+| Domain              | Purpose                                      |
+|---------------------|----------------------------------------------|
+| `drogon-host`       | Drogon app shell, `main.cpp`, `serve`, config|
+| `http-filters`      | JWT / CORS / rate-limit Drogon filters       |
+| `orm-models`        | Drogon ORM generated model files             |
+| `infra`             | Kafka and Redis client shims                 |
+| `manager-cli`       | C++ project automation CLI                   |
+| `migration-runner`  | Topo-sorted per-domain SQL migrator          |
+
+---
+
+## Nginx URL Mapping
+
+| Domain / tool       | Nginx path      | SSO gated |
+|---------------------|-----------------|-----------|
+| `frontend` (main)   | `/app`          | no (app manages auth) |
+| `sso`               | `/sso`          | no        |
+| `alerts`            | `/alerts`       | yes       |
+| `job-queue` admin   | `/jobs`         | yes       |
+| `cron` admin        | `/cron`         | yes       |
+| `package-repository`| `/repo`         | yes       |
+| `object-store`      | `/s3`           | yes       |
+| `database`          | `/db`           | yes       |
+| `email` (IMAP UI)   | `/emailclient`  | yes       |
+| `status-page`       | `/status`       | no        |
+
+See `docs/adding-a-tool.md` to add a new nginx location.
