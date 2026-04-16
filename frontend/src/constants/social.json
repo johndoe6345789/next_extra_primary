@@ -1,0 +1,23 @@
+{
+  "presence": {
+    "pollIntervalMs": 30000,
+    "onlineStatus": "online",
+    "offlineStatus": "offline"
+  },
+  "dm": {
+    "pollIntervalMs": 5000,
+    "pageSize": 50
+  },
+  "reactions": {
+    "defaultEmojis": [
+      "\uD83D\uDC4D", "\u2764\uFE0F", "\uD83D\uDE02",
+      "\uD83D\uDE32", "\uD83E\uDD14", "\uD83D\uDC4F"
+    ]
+  },
+  "follow": {
+    "maxFollowersDisplay": 9999
+  },
+  "mentions": {
+    "pollIntervalMs": 30000
+  }
+}

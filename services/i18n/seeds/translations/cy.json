@@ -9,7 +9,7 @@
     "search": "Chwilio",
     "close": "Cau",
     "confirm": "Cadarnhau",
-    "back": "Yn \u00f4l",
+    "back": "Yn ôl",
     "next": "Nesaf",
     "submit": "Cyflwyno",
     "edit": "Golygu",
@@ -42,7 +42,7 @@
     "creating": "Yn creu...",
     "resetInstructions": "Rhowch eich e-bost a byddwn yn anfon dolen ailosod atoch.",
     "resetSent": "Dolen ailosod wedi'i hanfon! Gwiriwch eich mewnflwch.",
-    "backToLogin": "Yn \u00f4l i fewngofnodi",
+    "backToLogin": "Yn ôl i fewngofnodi",
     "sending": "Yn anfon..."
   },
   "nav": {
@@ -68,7 +68,8 @@
     "role": "{role}",
     "chooseAvatar": "Dewis afatar",
     "removeAvatar": "Tynnu afatar",
-    "guest": "Gwestai"
+    "guest": "Gwestai",
+    "messages": "Negeseuon"
   },
   "hero": {
     "title": "Codwch lefel eich taith ddysgu",
@@ -172,17 +173,17 @@
     "statisticsDesc": "Bydd ystadegau cronnus a chynnydd yn ymddangos yma."
   },
   "contact": {
-    "title": "Cysylltwch \u00e2 Ni",
+    "title": "Cysylltwch â Ni",
     "name": "Enw",
     "email": "E-bost",
     "message": "Neges",
     "send": "Anfon Neges",
     "sending": "Yn anfon...",
-    "sent": "Neges wedi'i hanfon! Byddwn yn cysylltu \u00e2 chi'n fuan."
+    "sent": "Neges wedi'i hanfon! Byddwn yn cysylltu â chi'n fuan."
   },
   "about": {
     "title": "Am ExtraPrimary",
-    "description": "Mae ExtraPrimary yn blatfform dysgu gameiddiedig sy'n cyfuno tiwtora AI \u00e2 mecanweithiau cynnydd deniadol.",
+    "description": "Mae ExtraPrimary yn blatfform dysgu gameiddiedig sy'n cyfuno tiwtora AI â mecanweithiau cynnydd deniadol.",
     "description2": "Enillwch fathodynnau, cynhaliwch rediadau, dringwch fyrddau arweinwyr, a dysgwch ar eich cyflymder eich hun gyda chymorth AI personol.",
     "missionTitle": "Ein Cenhadaeth",
     "mission": "Gwneud addysg yn hygyrch, yn ddeniadol ac yn werth chweil i ddysgwyr ym mhobman."
@@ -263,5 +264,35 @@
     "apiCalls": "Galwadau API",
     "clear": "Clirio",
     "noApiCalls": "Dim galwadau API wedi'u cofnodi eto."
+  },
+  "social": {
+    "follow": "Dilyn",
+    "unfollow": "Dad-ddilyn",
+    "followers": "dilynwyr",
+    "following": "dilynol",
+    "messages": "Negeseuon",
+    "mentions": "Crybwylliadau",
+    "noMentions": "Dim crybwylliadau",
+    "mentionsList": "Rhestr crybwylliadau",
+    "mentionFrom": "Crybwylliad gan @{author}",
+    "mentionsUnread": "{count} crybwylliad heb eu darllen",
+    "dmInbox": "Mewnflwch negeseuon uniongyrchol",
+    "dmThreads": "Sgyrsiau",
+    "noMessages": "Dim negeseuon",
+    "loading": "Yn llwytho…",
+    "selectThread": "Dewis sgwrs",
+    "conversation": "Sgwrs",
+    "typeMessage": "Teipio neges",
+    "sendMessage": "Anfon neges",
+    "send": "Anfon",
+    "composeMessage": "Cyfansoddi neges",
+    "profileOf": "Proffil {name}",
+    "profileTabs": "Tabiau proffil",
+    "posts": "Postiadau",
+    "about": "Amdanom",
+    "noPostsYet": "Dim postiadau",
+    "noAboutInfo": "Dim gwybodaeth",
+    "reactions": "Adweithiau",
+    "addReaction": "Ychwanegu adwaith"
   }
 }

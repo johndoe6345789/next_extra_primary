@@ -4,6 +4,8 @@
  */
 
 export { baseApi } from './baseApi';
+export * from './socialApi';
+export * from './socialFollowsApi';
 export * from './authApi';
 export * from './userApi';
 export * from './notificationApi';

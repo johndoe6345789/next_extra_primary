@@ -68,7 +68,8 @@
     "role": "{role}",
     "chooseAvatar": "选择头像",
     "removeAvatar": "移除头像",
-    "guest": "访客"
+    "guest": "访客",
+    "messages": "消息"
   },
   "hero": {
     "title": "提升你的学习之旅",
@@ -263,5 +264,35 @@
     "apiCalls": "API调用",
     "clear": "清除",
     "noApiCalls": "尚未记录任何API调用。"
+  },
+  "social": {
+    "follow": "关注",
+    "unfollow": "取消关注",
+    "followers": "粉丝",
+    "following": "关注",
+    "messages": "消息",
+    "mentions": "提及",
+    "noMentions": "没有提及",
+    "mentionsList": "提及列表",
+    "mentionFrom": "来自@{author}的提及",
+    "mentionsUnread": "{count}条未读提及",
+    "dmInbox": "私信收件箱",
+    "dmThreads": "对话",
+    "noMessages": "暂无消息",
+    "loading": "加载中…",
+    "selectThread": "选择对话",
+    "conversation": "对话",
+    "typeMessage": "输入消息",
+    "sendMessage": "发送消息",
+    "send": "发送",
+    "composeMessage": "撰写消息",
+    "profileOf": "{name}的主页",
+    "profileTabs": "主页标签",
+    "posts": "帖子",
+    "about": "关于",
+    "noPostsYet": "暂无帖子",
+    "noAboutInfo": "无信息",
+    "reactions": "反应",
+    "addReaction": "添加反应"
   }
 }

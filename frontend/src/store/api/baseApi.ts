@@ -19,6 +19,7 @@ export const baseApi = createApi({
     'Dashboard', 'Features', 'Comments',
     'Translation', 'Preferences',
     'ApiKeys', 'SystemKeys', 'Admin',
+    'Social',
   ],
   endpoints: () => ({}),
 });

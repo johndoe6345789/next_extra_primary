@@ -11,6 +11,7 @@ import { SkipLink } from '../molecules/SkipLink';
 import { NavbarLogo } from '@shared/components/ui/NavbarLogo';
 import { DesktopActions } from '../molecules/DesktopActions';
 import { NotificationBell } from '../molecules/NotificationBell';
+import { MentionsBell } from '../molecules/MentionsBell';
 import { AppHeaderActions } from '@shared/m3/feedback';
 import { AvatarMenu } from './AvatarMenu';
 import { MobileDrawer } from './MobileDrawer';
@@ -66,6 +67,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onLogout={logout}
                 hideUser
               />
+              <MentionsBell />
               <NotificationBell onClick={toggle} />
               <AvatarMenu user={user} onLogout={logout} />
             </>

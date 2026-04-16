@@ -2,6 +2,7 @@
   { "labelKey": "dashboard", "href": "/dashboard" },
   { "labelKey": "leaderboard", "href": "/leaderboard" },
   { "labelKey": "chat", "href": "/chat" },
+  { "labelKey": "messages", "href": "/messages" },
   {
     "labelKey": "notifications",
     "href": "/notifications"
