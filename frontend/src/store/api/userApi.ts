@@ -54,6 +54,13 @@ export const userApi = baseApi.injectEndpoints({
         `/users?page=${page}&per_page=${perPage}`,
       providesTags: ['User'],
     }),
+
+    /** Search users by handle/display name. */
+    searchUsers: build.query<UserProfile[], string>({
+      query: (q) =>
+        `/users/search?q=${encodeURIComponent(q)}`,
+      providesTags: ['User'],
+    }),
   }),
 });
 
@@ -63,4 +70,5 @@ export const {
   useGetUserBadgesQuery,
   useGetUserStatsQuery,
   useListUsersQuery,
+  useSearchUsersQuery,
 } = userApi;

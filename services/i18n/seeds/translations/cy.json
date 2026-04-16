@@ -344,7 +344,15 @@
     "noPostsYet": "Dim postiadau",
     "noAboutInfo": "Dim gwybodaeth",
     "reactions": "Adweithiau",
-    "addReaction": "Ychwanegu adwaith"
+    "addReaction": "Ychwanegu adwaith",
+    "newDm": {
+      "fab": "Neges newydd",
+      "title": "Neges newydd",
+      "close": "Cau'r ddeialog",
+      "searchLabel": "Chwilio am ddefnyddiwr",
+      "searchPlaceholder": "Chwilio yn ôl enw defnyddiwr",
+      "resultsList": "Canlyniadau defnyddwyr"
+    }
   },
   "shop": {
     "title": "Siop",

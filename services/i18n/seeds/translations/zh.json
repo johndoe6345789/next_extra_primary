@@ -376,7 +376,15 @@
     "noPostsYet": "暂无帖子",
     "noAboutInfo": "无信息",
     "reactions": "反应",
-    "addReaction": "添加反应"
+    "addReaction": "添加反应",
+    "newDm": {
+      "fab": "新消息",
+      "title": "新消息",
+      "close": "关闭对话框",
+      "searchLabel": "搜索用户",
+      "searchPlaceholder": "按用户名搜索",
+      "resultsList": "用户结果"
+    }
   },
   "shop": {
     "title": "商店",

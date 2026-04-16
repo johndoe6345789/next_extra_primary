@@ -344,7 +344,15 @@
     "noPostsYet": "Sin publicaciones",
     "noAboutInfo": "Sin información",
     "reactions": "Reacciones",
-    "addReaction": "Añadir reacción"
+    "addReaction": "Añadir reacción",
+    "newDm": {
+      "fab": "Nuevo mensaje",
+      "title": "Nuevo mensaje",
+      "close": "Cerrar diálogo",
+      "searchLabel": "Buscar usuario",
+      "searchPlaceholder": "Buscar por alias",
+      "resultsList": "Resultados de usuario"
+    }
   },
   "shop": {
     "title": "Tienda",

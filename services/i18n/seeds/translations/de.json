@@ -297,7 +297,15 @@
     "noPostsYet": "Keine Beiträge",
     "noAboutInfo": "Keine Info",
     "reactions": "Reaktionen",
-    "addReaction": "Reaktion hinzufügen"
+    "addReaction": "Reaktion hinzufügen",
+    "newDm": {
+      "fab": "Neue Nachricht",
+      "title": "Neue Nachricht",
+      "close": "Dialog schließen",
+      "searchLabel": "Benutzer suchen",
+      "searchPlaceholder": "Nach Handle suchen",
+      "resultsList": "Benutzerergebnisse"
+    }
   },
   "shop": {
     "title": "Shop",

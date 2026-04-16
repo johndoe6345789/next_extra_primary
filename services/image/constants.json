@@ -7,6 +7,7 @@
   "httpPort": 8087,
   "s3Bucket": "image-variants",
   "s3PublicBase": "http://s3:9000",
+  "s3RegionDefault": "us-east-1",
   "variants": [
     {
       "name": "thumbnail",
