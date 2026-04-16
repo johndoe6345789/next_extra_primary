@@ -1,10 +1,18 @@
 'use client';
 
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslations } from 'next-intl';
 import { LoginForm as SharedLoginForm }
   from '@shared/ui/LoginForm';
 import { useLoginForm } from '@/hooks/useLoginForm';
+import { OAuthButtons } from
+  '@/components/molecules/OAuthButtons';
+import { PasskeyLoginButton } from
+  '@/components/molecules/PasskeyLoginButton';
+import { TotpLoginModal } from
+  '@/components/organisms/TotpLoginModal';
+import type { RootState } from '@/store/store';
 
 /** Props for the LoginForm organism. */
 export interface LoginFormProps {
@@ -15,6 +23,8 @@ export interface LoginFormProps {
 
 /**
  * Login form wired to frontend auth hook.
+ * Includes OAuth buttons, passkey login,
+ * and TOTP second-factor modal.
  *
  * @param props - Component props.
  */
@@ -29,31 +39,45 @@ export const LoginForm: React.FC<LoginFormProps> = ({
     isLoading, errors, apiError, errorCode,
     submit,
   } = useLoginForm({ next });
+  const requireTotp = useSelector(
+    (s: RootState) => s.auth.requireTotp,
+  );
+  const totpToken = useSelector(
+    (s: RootState) => s.auth.totpSessionToken,
+  );
 
   return (
-    <SharedLoginForm
-      email={email}
-      setEmail={setEmail}
-      pw={pw}
-      setPw={setPw}
-      rememberMe={rememberMe}
-      setRememberMe={setRememberMe}
-      isLoading={isLoading}
-      errors={errors}
-      apiError={apiError}
-      errorCode={errorCode}
-      submit={submit}
-      testId={testId}
-      labels={{
-        login: t('login'),
-        signingIn: t('signingIn'),
-        forgotPassword: t('forgotPassword'),
-        register: t('register'),
-        email: t('email'),
-        password: t('password'),
-        rememberMe: t('rememberMe'),
-      }}
-    />
+    <>
+      <SharedLoginForm
+        email={email}
+        setEmail={setEmail}
+        pw={pw}
+        setPw={setPw}
+        rememberMe={rememberMe}
+        setRememberMe={setRememberMe}
+        isLoading={isLoading}
+        errors={errors}
+        apiError={apiError}
+        errorCode={errorCode}
+        submit={submit}
+        testId={testId}
+        labels={{
+          login: t('login'),
+          signingIn: t('signingIn'),
+          forgotPassword: t('forgotPassword'),
+          register: t('register'),
+          email: t('email'),
+          password: t('password'),
+          rememberMe: t('rememberMe'),
+        }}
+      />
+      <PasskeyLoginButton />
+      <OAuthButtons />
+      <TotpLoginModal
+        open={requireTotp}
+        sessionToken={totpToken ?? ''}
+      />
+    </>
   );
 };
 

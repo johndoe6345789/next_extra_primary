@@ -43,7 +43,34 @@
     "resetInstructions": "Ingresa tu correo y te enviaremos un enlace de restablecimiento.",
     "resetSent": "¡Enlace enviado! Revisa tu bandeja de entrada.",
     "backToLogin": "Volver a iniciar sesión",
-    "sending": "Enviando..."
+    "sending": "Enviando...",
+    "oauth": {
+      "google": "Continuar con Google",
+      "github": "Continuar con GitHub",
+      "microsoft": "Continuar con Microsoft"
+    },
+    "passkey": {
+      "signIn": "Iniciar sesión con passkey",
+      "verifying": "Verificando...",
+      "add": "Añadir una passkey",
+      "remove": "Eliminar",
+      "none": "Sin passkeys registradas.",
+      "sectionTitle": "Passkeys"
+    },
+    "totp": {
+      "enrollTitle": "Configurar autenticación en dos pasos",
+      "loginTitle": "Autenticación en dos pasos",
+      "scanInstruction": "Escanea este código QR con tu app autenticadora.",
+      "qrAlt": "Código QR de TOTP",
+      "codeLabel": "Código de 6 dígitos",
+      "verify": "Verificar",
+      "verifying": "Verificando...",
+      "done": "Listo",
+      "recoveryCodes": "Códigos de recuperación",
+      "recoveryCodesInfo": "Guarda estos códigos en un lugar seguro.",
+      "loading": "Generando código QR...",
+      "failed": "Verificación fallida. Inténtalo de nuevo."
+    }
   },
   "nav": {
     "home": "Inicio",

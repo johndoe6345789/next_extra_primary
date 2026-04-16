@@ -82,7 +82,10 @@ export { default as SettingsAdminCard }
 export { default as SettingsPreferences }
   from './SettingsPreferences';
 
-export { NotifPrefTable } from './NotifPrefTable';
-export type {
-  NotifPrefTableProps,
-} from './NotifPrefTable';
+export { PollWidget } from './PollWidget';
+export type { PollWidgetProps } from './PollWidget';
+
+export { PollsPanel } from './PollsPanel';
+export type { PollsPanelProps } from './PollsPanel';
+
+export * from './index.auth';

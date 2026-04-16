@@ -1,0 +1,17 @@
+{
+  "oauth": {
+    "authorize": "/api/auth/oauth/:provider/authorize",
+    "callback": "/api/auth/oauth/:provider/callback"
+  },
+  "passkeys": {
+    "credentials": "/api/auth/passkeys/credentials",
+    "remove": "/api/auth/passkeys/credentials/:id"
+  },
+  "totp": {
+    "enroll": "/api/auth/totp/enroll",
+    "verify": "/api/auth/totp/verify",
+    "verifyLogin": "/api/auth/totp/verify-login",
+    "disable": "/api/auth/totp/disable",
+    "status": "/api/auth/totp/status"
+  }
+}

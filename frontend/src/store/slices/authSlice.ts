@@ -3,7 +3,11 @@
  * @module store/slices/authSlice
  */
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { AuthState, User } from '../../types/auth';
+import type {
+  AuthState,
+  User,
+  TotpChallengeResponse,
+} from '../../types/auth';
 import { addAuthMatchers } from './authMatchers';
 
 const initialState: AuthState = {
@@ -13,6 +17,8 @@ const initialState: AuthState = {
   isAuthenticated: false,
   isLoading: false,
   isInitializing: true,
+  requireTotp: false,
+  totpSessionToken: null,
 };
 
 /** Payload accepted by setCredentials. */
@@ -54,6 +60,20 @@ const authSlice = createSlice({
     initComplete(state) {
       state.isInitializing = false;
     },
+    /** Set when login returns require_totp: true. */
+    setTotpChallenge(
+      state,
+      action: PayloadAction<TotpChallengeResponse>,
+    ) {
+      state.requireTotp = true;
+      state.totpSessionToken =
+        action.payload.totp_session_token;
+    },
+    /** Clear TOTP challenge after success or cancel. */
+    clearTotpChallenge(state) {
+      state.requireTotp = false;
+      state.totpSessionToken = null;
+    },
   },
   extraReducers: (builder) => {
     addAuthMatchers(builder);
@@ -61,7 +81,12 @@ const authSlice = createSlice({
 });
 
 export const {
-  setCredentials, clearCredentials, setUser, initComplete,
+  setCredentials,
+  clearCredentials,
+  setUser,
+  initComplete,
+  setTotpChallenge,
+  clearTotpChallenge,
 } = authSlice.actions;
 
 export default authSlice.reducer;

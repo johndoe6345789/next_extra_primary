@@ -43,7 +43,34 @@
     "resetInstructions": "Enter your email and we will send you a reset link.",
     "resetSent": "Reset link sent! Check your inbox.",
     "backToLogin": "Back to sign in",
-    "sending": "Sending..."
+    "sending": "Sending...",
+    "oauth": {
+      "google": "Continue with Google",
+      "github": "Continue with GitHub",
+      "microsoft": "Continue with Microsoft"
+    },
+    "passkey": {
+      "signIn": "Sign in with passkey",
+      "verifying": "Verifying...",
+      "add": "Add a passkey",
+      "remove": "Remove",
+      "none": "No passkeys enrolled.",
+      "sectionTitle": "Passkeys"
+    },
+    "totp": {
+      "enrollTitle": "Set up two-factor auth",
+      "loginTitle": "Two-factor authentication",
+      "scanInstruction": "Scan this QR code with your authenticator app.",
+      "qrAlt": "TOTP QR code",
+      "codeLabel": "6-digit code",
+      "verify": "Verify",
+      "verifying": "Verifying...",
+      "done": "Done",
+      "recoveryCodes": "Recovery codes",
+      "recoveryCodesInfo": "Save these codes somewhere safe. Each can be used once.",
+      "loading": "Generating QR code...",
+      "failed": "Verification failed. Please try again."
+    }
   },
   "nav": {
     "home": "Home",

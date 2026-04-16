@@ -43,7 +43,34 @@
     "resetInstructions": "请输入您的邮箱，我们将发送重置链接。",
     "resetSent": "重置链接已发送！请查看您的收件箱。",
     "backToLogin": "返回登录",
-    "sending": "发送中..."
+    "sending": "发送中...",
+    "oauth": {
+      "google": "使用 Google 继续",
+      "github": "使用 GitHub 继续",
+      "microsoft": "使用 Microsoft 继续"
+    },
+    "passkey": {
+      "signIn": "使用通行密钥登录",
+      "verifying": "验证中...",
+      "add": "添加通行密钥",
+      "remove": "移除",
+      "none": "未注册通行密钥。",
+      "sectionTitle": "通行密钥"
+    },
+    "totp": {
+      "enrollTitle": "设置双因素认证",
+      "loginTitle": "双因素认证",
+      "scanInstruction": "使用您的认证应用扫描此二维码。",
+      "qrAlt": "TOTP 二维码",
+      "codeLabel": "6 位验证码",
+      "verify": "验证",
+      "verifying": "验证中...",
+      "done": "完成",
+      "recoveryCodes": "恢复码",
+      "recoveryCodesInfo": "请将这些恢复码保存在安全的地方。",
+      "loading": "正在生成二维码...",
+      "failed": "验证失败，请重试。"
+    }
   },
   "nav": {
     "home": "首页",

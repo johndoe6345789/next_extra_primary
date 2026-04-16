@@ -9,7 +9,7 @@
     "search": "Chwilio",
     "close": "Cau",
     "confirm": "Cadarnhau",
-    "back": "Yn \u00f4l",
+    "back": "Yn ôl",
     "next": "Nesaf",
     "submit": "Cyflwyno",
     "edit": "Golygu",
@@ -42,8 +42,35 @@
     "creating": "Yn creu...",
     "resetInstructions": "Rhowch eich e-bost a byddwn yn anfon dolen ailosod atoch.",
     "resetSent": "Dolen ailosod wedi'i hanfon! Gwiriwch eich mewnflwch.",
-    "backToLogin": "Yn \u00f4l i fewngofnodi",
-    "sending": "Yn anfon..."
+    "backToLogin": "Yn ôl i fewngofnodi",
+    "sending": "Yn anfon...",
+    "oauth": {
+      "google": "Parhau gyda Google",
+      "github": "Parhau gyda GitHub",
+      "microsoft": "Parhau gyda Microsoft"
+    },
+    "passkey": {
+      "signIn": "Mewngofnodi gyda phasskey",
+      "verifying": "Dilysu...",
+      "add": "Ychwanegu passkey",
+      "remove": "Tynnu",
+      "none": "Dim passkeys wedi cofrestru.",
+      "sectionTitle": "Passkeys"
+    },
+    "totp": {
+      "enrollTitle": "Gosod dilysu dau ffactor",
+      "loginTitle": "Dilysu dau ffactor",
+      "scanInstruction": "Sganiwch y cod QR hwn gyda'ch ap dilysu.",
+      "qrAlt": "Cod QR TOTP",
+      "codeLabel": "Cod 6 digid",
+      "verify": "Dilysu",
+      "verifying": "Dilysu...",
+      "done": "Gorffen",
+      "recoveryCodes": "Codau adfer",
+      "recoveryCodesInfo": "Cadwch y codau hyn mewn lle diogel.",
+      "loading": "Cynhyrchu cod QR...",
+      "failed": "Methwyd dilysu. Ceisiwch eto."
+    }
   },
   "nav": {
     "home": "Hafan",
@@ -177,17 +204,17 @@
     "statisticsDesc": "Bydd ystadegau cronnus a chynnydd yn ymddangos yma."
   },
   "contact": {
-    "title": "Cysylltwch \u00e2 Ni",
+    "title": "Cysylltwch â Ni",
     "name": "Enw",
     "email": "E-bost",
     "message": "Neges",
     "send": "Anfon Neges",
     "sending": "Yn anfon...",
-    "sent": "Neges wedi'i hanfon! Byddwn yn cysylltu \u00e2 chi'n fuan."
+    "sent": "Neges wedi'i hanfon! Byddwn yn cysylltu â chi'n fuan."
   },
   "about": {
     "title": "Am ExtraPrimary",
-    "description": "Mae ExtraPrimary yn blatfform dysgu gameiddiedig sy'n cyfuno tiwtora AI \u00e2 mecanweithiau cynnydd deniadol.",
+    "description": "Mae ExtraPrimary yn blatfform dysgu gameiddiedig sy'n cyfuno tiwtora AI â mecanweithiau cynnydd deniadol.",
     "description2": "Enillwch fathodynnau, cynhaliwch rediadau, dringwch fyrddau arweinwyr, a dysgwch ar eich cyflymder eich hun gyda chymorth AI personol.",
     "missionTitle": "Ein Cenhadaeth",
     "mission": "Gwneud addysg yn hygyrch, yn ddeniadol ac yn werth chweil i ddysgwyr ym mhobman."

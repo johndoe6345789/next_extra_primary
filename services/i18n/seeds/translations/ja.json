@@ -43,7 +43,34 @@
     "resetInstructions": "メールアドレスを入力してください。リセットリンクを送信します。",
     "resetSent": "リセットリンクを送信しました。受信トレイをご確認ください。",
     "backToLogin": "ログインに戻る",
-    "sending": "送信中..."
+    "sending": "送信中...",
+    "oauth": {
+      "google": "Googleで続ける",
+      "github": "GitHubで続ける",
+      "microsoft": "Microsoftで続ける"
+    },
+    "passkey": {
+      "signIn": "パスキーでサインイン",
+      "verifying": "確認中...",
+      "add": "パスキーを追加",
+      "remove": "削除",
+      "none": "パスキーが登録されていません。",
+      "sectionTitle": "パスキー"
+    },
+    "totp": {
+      "enrollTitle": "二要素認証を設定",
+      "loginTitle": "二要素認証",
+      "scanInstruction": "認証アプリでQRコードをスキャンしてください。",
+      "qrAlt": "TOTP QRコード",
+      "codeLabel": "6桁のコード",
+      "verify": "確認",
+      "verifying": "確認中...",
+      "done": "完了",
+      "recoveryCodes": "リカバリーコード",
+      "recoveryCodesInfo": "これらのコードを安全な場所に保存してください。",
+      "loading": "QRコードを生成中...",
+      "failed": "確認に失敗しました。もう一度お試しください。"
+    }
   },
   "nav": {
     "home": "ホーム",

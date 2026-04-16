@@ -43,7 +43,34 @@
     "resetInstructions": "Geben Sie Ihre E-Mail ein und wir senden Ihnen einen Link zum Zurücksetzen.",
     "resetSent": "Link gesendet! Prüfen Sie Ihren Posteingang.",
     "backToLogin": "Zurück zur Anmeldung",
-    "sending": "Wird gesendet..."
+    "sending": "Wird gesendet...",
+    "oauth": {
+      "google": "Mit Google fortfahren",
+      "github": "Mit GitHub fortfahren",
+      "microsoft": "Mit Microsoft fortfahren"
+    },
+    "passkey": {
+      "signIn": "Mit Passkey anmelden",
+      "verifying": "Verifiziere...",
+      "add": "Passkey hinzufügen",
+      "remove": "Entfernen",
+      "none": "Keine Passkeys registriert.",
+      "sectionTitle": "Passkeys"
+    },
+    "totp": {
+      "enrollTitle": "Zwei-Faktor-Authentifizierung einrichten",
+      "loginTitle": "Zwei-Faktor-Authentifizierung",
+      "scanInstruction": "Scannen Sie diesen QR-Code mit Ihrer Authenticator-App.",
+      "qrAlt": "TOTP QR-Code",
+      "codeLabel": "6-stelliger Code",
+      "verify": "Verifizieren",
+      "verifying": "Verifiziere...",
+      "done": "Fertig",
+      "recoveryCodes": "Wiederherstellungscodes",
+      "recoveryCodesInfo": "Bewahren Sie diese Codes sicher auf.",
+      "loading": "QR-Code wird generiert...",
+      "failed": "Verifizierung fehlgeschlagen. Bitte erneut versuchen."
+    }
   },
   "nav": {
     "home": "Startseite",
@@ -92,12 +119,7 @@
     "title": "Benachrichtigungen",
     "markAllRead": "Alle als gelesen markieren",
     "noNotifications": "Keine neuen Benachrichtigungen",
-    "clearAll": "Alle löschen",
-    "loading": "Benachrichtigungen werden geladen...",
-    "loadMore": "Mehr laden",
-    "settingsTitle": "Benachrichtigungseinstellungen",
-    "save": "Einstellungen speichern",
-    "viewAll": "Alle Benachrichtigungen anzeigen"
+    "clearAll": "Alle löschen"
   },
   "chat": {
     "placeholder": "Nachricht eingeben...",

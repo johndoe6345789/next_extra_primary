@@ -3,7 +3,11 @@
  * @module store/slices/authMatchers
  */
 import type { ActionReducerMapBuilder } from '@reduxjs/toolkit';
-import type { AuthState, LoginResponse } from '../../types/auth';
+import type {
+  AuthState,
+  LoginResponse,
+  TotpChallengeResponse,
+} from '../../types/auth';
 
 /** Loosely-typed action for endpoint matching. */
 type AnyAction = { type: string; meta?: {
@@ -16,16 +20,34 @@ const matchEp = (name: string, suffix: string) =>
     a.type.endsWith(`/${suffix}`)
     && a.meta?.arg?.endpointName === name;
 
+/** Check if response is a TOTP challenge. */
+const isTotpChallenge = (
+  p: unknown,
+): p is TotpChallengeResponse =>
+  typeof p === 'object'
+  && p !== null
+  && (p as Record<string, unknown>)
+    .require_totp === true;
+
 /** Store credentials from a fulfilled auth response. */
 const storeCredentials = (
   state: AuthState, action: { payload: unknown },
 ) => {
+  if (isTotpChallenge(action.payload)) {
+    state.requireTotp = true;
+    state.totpSessionToken =
+      action.payload.totp_session_token;
+    state.isLoading = false;
+    return;
+  }
   const p = action.payload as LoginResponse;
   state.user = p.user;
   state.accessToken = p.tokens.accessToken;
   state.refreshToken = p.tokens.refreshToken;
   state.isAuthenticated = true;
   state.isLoading = false;
+  state.requireTotp = false;
+  state.totpSessionToken = null;
 };
 
 /** Clear all credential fields. */
