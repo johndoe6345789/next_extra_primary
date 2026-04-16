@@ -11,13 +11,12 @@ import { SkipLink } from '../molecules/SkipLink';
 import { NavbarLogo } from '@shared/components/ui/NavbarLogo';
 import { DesktopActions } from '../molecules/DesktopActions';
 import { NotificationBell } from '../molecules/NotificationBell';
+import { MentionsBell } from '../molecules/MentionsBell';
 import { AppHeaderActions } from '@shared/m3/feedback';
 import { AvatarMenu } from './AvatarMenu';
 import { MobileDrawer } from './MobileDrawer';
 import { NotificationPanel } from './NotificationPanel';
 import navLinks from '@/constants/nav-links.json';
-import { FeatureFlagGate }
-  from '@/components/atoms/FeatureFlagGate';
 
 /** Props for the Navbar organism. */
 export interface NavbarProps {
@@ -63,13 +62,12 @@ export const Navbar: React.FC<NavbarProps> = ({
           <DesktopActions onSearch={onSearch ?? (() => {})} />
           {isAuthenticated ? (
             <>
-              <FeatureFlagGate flag="ecommerce">
-                <AppHeaderActions
-                  activePath="/app"
-                  onLogout={logout}
-                  hideUser
-                />
-              </FeatureFlagGate>
+              <AppHeaderActions
+                activePath="/app"
+                onLogout={logout}
+                hideUser
+              />
+              <MentionsBell />
               <NotificationBell onClick={toggle} />
               <AvatarMenu user={user} onLogout={logout} />
             </>

@@ -95,7 +95,8 @@
     "role": "{role}",
     "chooseAvatar": "Kies avatar",
     "removeAvatar": "Avatar verwijderen",
-    "guest": "Gast"
+    "guest": "Gast",
+    "messages": "Berichten"
   },
   "hero": {
     "title": "Breng je leertraject naar een hoger niveau",
@@ -295,5 +296,35 @@
     "apiCalls": "API-aanroepen",
     "clear": "Wissen",
     "noApiCalls": "Nog geen API-aanroepen geregistreerd."
+  },
+  "social": {
+    "follow": "Volgen",
+    "unfollow": "Ontvolgen",
+    "followers": "volgers",
+    "following": "volgend",
+    "messages": "Berichten",
+    "mentions": "Vermeldingen",
+    "noMentions": "Geen vermeldingen",
+    "mentionsList": "Lijst van vermeldingen",
+    "mentionFrom": "Vermelding van @{author}",
+    "mentionsUnread": "{count} ongelezen vermeldingen",
+    "dmInbox": "Postvak privéberichten",
+    "dmThreads": "Gesprekken",
+    "noMessages": "Geen berichten",
+    "loading": "Laden…",
+    "selectThread": "Selecteer een gesprek",
+    "conversation": "Gesprek",
+    "typeMessage": "Typ een bericht",
+    "sendMessage": "Bericht versturen",
+    "send": "Versturen",
+    "composeMessage": "Bericht schrijven",
+    "profileOf": "Profiel van {name}",
+    "profileTabs": "Profieltabbladen",
+    "posts": "Berichten",
+    "about": "Info",
+    "noPostsYet": "Geen berichten",
+    "noAboutInfo": "Geen info",
+    "reactions": "Reacties",
+    "addReaction": "Reactie toevoegen"
   }
 }

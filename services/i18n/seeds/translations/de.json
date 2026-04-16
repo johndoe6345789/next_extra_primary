@@ -43,34 +43,7 @@
     "resetInstructions": "Geben Sie Ihre E-Mail ein und wir senden Ihnen einen Link zum Zurücksetzen.",
     "resetSent": "Link gesendet! Prüfen Sie Ihren Posteingang.",
     "backToLogin": "Zurück zur Anmeldung",
-    "sending": "Wird gesendet...",
-    "oauth": {
-      "google": "Mit Google fortfahren",
-      "github": "Mit GitHub fortfahren",
-      "microsoft": "Mit Microsoft fortfahren"
-    },
-    "passkey": {
-      "signIn": "Mit Passkey anmelden",
-      "verifying": "Verifiziere...",
-      "add": "Passkey hinzufügen",
-      "remove": "Entfernen",
-      "none": "Keine Passkeys registriert.",
-      "sectionTitle": "Passkeys"
-    },
-    "totp": {
-      "enrollTitle": "Zwei-Faktor-Authentifizierung einrichten",
-      "loginTitle": "Zwei-Faktor-Authentifizierung",
-      "scanInstruction": "Scannen Sie diesen QR-Code mit Ihrer Authenticator-App.",
-      "qrAlt": "TOTP QR-Code",
-      "codeLabel": "6-stelliger Code",
-      "verify": "Verifizieren",
-      "verifying": "Verifiziere...",
-      "done": "Fertig",
-      "recoveryCodes": "Wiederherstellungscodes",
-      "recoveryCodesInfo": "Bewahren Sie diese Codes sicher auf.",
-      "loading": "QR-Code wird generiert...",
-      "failed": "Verifizierung fehlgeschlagen. Bitte erneut versuchen."
-    }
+    "sending": "Wird gesendet..."
   },
   "nav": {
     "home": "Startseite",
@@ -78,10 +51,6 @@
     "leaderboard": "Bestenliste",
     "profile": "Profil",
     "chat": "Chat",
-    "blog": "Blog",
-    "wiki": "Wiki",
-    "forum": "Forum",
-    "gallery": "Galerie",
     "notifications": "Benachrichtigungen",
     "about": "Über uns",
     "contact": "Kontakt",
@@ -99,7 +68,8 @@
     "role": "{role}",
     "chooseAvatar": "Avatar wählen",
     "removeAvatar": "Avatar entfernen",
-    "guest": "Gast"
+    "guest": "Gast",
+    "messages": "Nachrichten"
   },
   "hero": {
     "title": "Bringe dein Lernen auf das nächste Level",
@@ -261,53 +231,6 @@
     "comingSoon": "Weitere Einstellungen folgen.",
     "testEmail": "Test-E-Mail"
   },
-  "blog": {
-    "title": "Blog",
-    "loading": "Beiträge werden geladen...",
-    "pagination": "Beitragsseiten",
-    "notFound": "Beitrag nicht gefunden.",
-    "postBody": "Beitragsinhalt"
-  },
-  "wiki": {
-    "title": "Wiki",
-    "sidebar": "Wiki-Seiten",
-    "welcome": "Wähle eine Seite aus der Seitenleiste.",
-    "loading": "Seite wird geladen...",
-    "notFound": "Seite nicht gefunden.",
-    "lastUpdated": "Zuletzt aktualisiert"
-  },
-  "forum": {
-    "title": "Forum",
-    "loading": "Threads werden geladen...",
-    "pagination": "Thread-Seiten",
-    "notFound": "Thread nicht gefunden.",
-    "replies": "Antworten",
-    "post": "Forumsbeitrag",
-    "unknownAuthor": "Unbekannt",
-    "replyComposer": "Antwort schreiben",
-    "replyPlaceholder": "Schreibe eine Antwort...",
-    "replyRequired": "Antwort darf nicht leer sein.",
-    "replyError": "Antwort konnte nicht gepostet werden.",
-    "submit": "Antwort posten"
-  },
-  "polls": {
-    "title": "Umfragen",
-    "loading": "Umfragen werden geladen...",
-    "noPolls": "Keine aktiven Umfragen.",
-    "vote": "Abstimmen",
-    "voteFor": "Abstimmen für",
-    "totalVotes": "Stimmen"
-  },
-  "gallery": {
-    "title": "Galerie",
-    "loading": "Alben werden geladen...",
-    "notFound": "Album nicht gefunden.",
-    "photos": "Fotos",
-    "photo": "Foto",
-    "photoGrid": "Fotogitter",
-    "prev": "Vorheriges Foto",
-    "next": "Nächstes Foto"
-  },
   "admin": {
     "systemKeys": "System-API-Schlüssel",
     "systemKeysDesc": "Fallback-API-Schlüssel für alle Benutzer festlegen.",
@@ -341,5 +264,35 @@
     "apiCalls": "API-Aufrufe",
     "clear": "Löschen",
     "noApiCalls": "Noch keine API-Aufrufe aufgezeichnet."
+  },
+  "social": {
+    "follow": "Folgen",
+    "unfollow": "Entfolgen",
+    "followers": "Follower",
+    "following": "Gefolgte",
+    "messages": "Nachrichten",
+    "mentions": "Erwähnungen",
+    "noMentions": "Keine Erwähnungen",
+    "mentionsList": "Erwähnungsliste",
+    "mentionFrom": "Erwähnung von @{author}",
+    "mentionsUnread": "{count} ungelesene Erwähnungen",
+    "dmInbox": "Direktnachrichten-Posteingang",
+    "dmThreads": "Unterhaltungen",
+    "noMessages": "Keine Nachrichten",
+    "loading": "Laden…",
+    "selectThread": "Unterhaltung auswählen",
+    "conversation": "Unterhaltung",
+    "typeMessage": "Nachricht eingeben",
+    "sendMessage": "Nachricht senden",
+    "send": "Senden",
+    "composeMessage": "Nachricht verfassen",
+    "profileOf": "Profil von {name}",
+    "profileTabs": "Profil-Tabs",
+    "posts": "Beiträge",
+    "about": "Über",
+    "noPostsYet": "Keine Beiträge",
+    "noAboutInfo": "Keine Info",
+    "reactions": "Reaktionen",
+    "addReaction": "Reaktion hinzufügen"
   }
 }

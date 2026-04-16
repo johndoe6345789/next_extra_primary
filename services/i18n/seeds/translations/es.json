@@ -43,34 +43,7 @@
     "resetInstructions": "Ingresa tu correo y te enviaremos un enlace de restablecimiento.",
     "resetSent": "¡Enlace enviado! Revisa tu bandeja de entrada.",
     "backToLogin": "Volver a iniciar sesión",
-    "sending": "Enviando...",
-    "oauth": {
-      "google": "Continuar con Google",
-      "github": "Continuar con GitHub",
-      "microsoft": "Continuar con Microsoft"
-    },
-    "passkey": {
-      "signIn": "Iniciar sesión con passkey",
-      "verifying": "Verificando...",
-      "add": "Añadir una passkey",
-      "remove": "Eliminar",
-      "none": "Sin passkeys registradas.",
-      "sectionTitle": "Passkeys"
-    },
-    "totp": {
-      "enrollTitle": "Configurar autenticación en dos pasos",
-      "loginTitle": "Autenticación en dos pasos",
-      "scanInstruction": "Escanea este código QR con tu app autenticadora.",
-      "qrAlt": "Código QR de TOTP",
-      "codeLabel": "Código de 6 dígitos",
-      "verify": "Verificar",
-      "verifying": "Verificando...",
-      "done": "Listo",
-      "recoveryCodes": "Códigos de recuperación",
-      "recoveryCodesInfo": "Guarda estos códigos en un lugar seguro.",
-      "loading": "Generando código QR...",
-      "failed": "Verificación fallida. Inténtalo de nuevo."
-    }
+    "sending": "Enviando..."
   },
   "nav": {
     "home": "Inicio",
@@ -78,10 +51,7 @@
     "leaderboard": "Clasificación",
     "profile": "Perfil",
     "chat": "Chat",
-    "blog": "Blog",
-    "wiki": "Wiki",
-    "forum": "Foro",
-    "gallery": "Galería",
+    "messages": "Mensajes",
     "notifications": "Notificaciones",
     "about": "Acerca de",
     "contact": "Contacto",
@@ -123,12 +93,7 @@
     "title": "Notificaciones",
     "markAllRead": "Marcar todo como leído",
     "noNotifications": "Sin notificaciones nuevas",
-    "clearAll": "Borrar todo",
-    "loading": "Cargando notificaciones...",
-    "loadMore": "Cargar más",
-    "settingsTitle": "Preferencias de notificaciones",
-    "save": "Guardar preferencias",
-    "viewAll": "Ver todas las notificaciones"
+    "clearAll": "Borrar todo"
   },
   "chat": {
     "placeholder": "Escribe un mensaje...",
@@ -266,53 +231,6 @@
     "comingSoon": "Más ajustes próximamente.",
     "testEmail": "Correo de prueba"
   },
-  "blog": {
-    "title": "Blog",
-    "loading": "Cargando entradas...",
-    "pagination": "Páginas de entradas",
-    "notFound": "Entrada no encontrada.",
-    "postBody": "Contenido de la entrada"
-  },
-  "wiki": {
-    "title": "Wiki",
-    "sidebar": "Páginas del wiki",
-    "welcome": "Selecciona una página de la barra lateral.",
-    "loading": "Cargando página...",
-    "notFound": "Página no encontrada.",
-    "lastUpdated": "Última actualización"
-  },
-  "forum": {
-    "title": "Foro",
-    "loading": "Cargando hilos...",
-    "pagination": "Páginas de hilos",
-    "notFound": "Hilo no encontrado.",
-    "replies": "respuestas",
-    "post": "Publicación del foro",
-    "unknownAuthor": "Desconocido",
-    "replyComposer": "Escribe una respuesta",
-    "replyPlaceholder": "Escribe una respuesta...",
-    "replyRequired": "La respuesta no puede estar vacía.",
-    "replyError": "Error al publicar la respuesta.",
-    "submit": "Publicar respuesta"
-  },
-  "polls": {
-    "title": "Encuestas",
-    "loading": "Cargando encuestas...",
-    "noPolls": "No hay encuestas activas.",
-    "vote": "Votar",
-    "voteFor": "Votar por",
-    "totalVotes": "votos"
-  },
-  "gallery": {
-    "title": "Galería",
-    "loading": "Cargando álbumes...",
-    "notFound": "Álbum no encontrado.",
-    "photos": "fotos",
-    "photo": "Foto",
-    "photoGrid": "Cuadrícula de fotos",
-    "prev": "Foto anterior",
-    "next": "Foto siguiente"
-  },
   "admin": {
     "systemKeys": "Claves API del sistema",
     "systemKeysDesc": "Configura claves API de respaldo para todos los usuarios.",
@@ -346,5 +264,35 @@
     "apiCalls": "Llamadas API",
     "clear": "Limpiar",
     "noApiCalls": "No se han registrado llamadas API aún."
+  },
+  "social": {
+    "follow": "Seguir",
+    "unfollow": "Dejar de seguir",
+    "followers": "seguidores",
+    "following": "siguiendo",
+    "messages": "Mensajes",
+    "mentions": "Menciones",
+    "noMentions": "Sin menciones",
+    "mentionsList": "Lista de menciones",
+    "mentionFrom": "Mención de @{author}",
+    "mentionsUnread": "{count} menciones sin leer",
+    "dmInbox": "Bandeja de mensajes directos",
+    "dmThreads": "Conversaciones",
+    "noMessages": "Sin mensajes",
+    "loading": "Cargando...",
+    "selectThread": "Selecciona una conversación",
+    "conversation": "Conversación",
+    "typeMessage": "Escribe un mensaje",
+    "sendMessage": "Enviar mensaje",
+    "send": "Enviar",
+    "composeMessage": "Redactar mensaje",
+    "profileOf": "Perfil de {name}",
+    "profileTabs": "Pestañas de perfil",
+    "posts": "Publicaciones",
+    "about": "Acerca de",
+    "noPostsYet": "Sin publicaciones",
+    "noAboutInfo": "Sin información",
+    "reactions": "Reacciones",
+    "addReaction": "Añadir reacción"
   }
 }

@@ -43,34 +43,7 @@
     "resetInstructions": "Enter your email and we will send you a reset link.",
     "resetSent": "Reset link sent! Check your inbox.",
     "backToLogin": "Back to sign in",
-    "sending": "Sending...",
-    "oauth": {
-      "google": "Continue with Google",
-      "github": "Continue with GitHub",
-      "microsoft": "Continue with Microsoft"
-    },
-    "passkey": {
-      "signIn": "Sign in with passkey",
-      "verifying": "Verifying...",
-      "add": "Add a passkey",
-      "remove": "Remove",
-      "none": "No passkeys enrolled.",
-      "sectionTitle": "Passkeys"
-    },
-    "totp": {
-      "enrollTitle": "Set up two-factor auth",
-      "loginTitle": "Two-factor authentication",
-      "scanInstruction": "Scan this QR code with your authenticator app.",
-      "qrAlt": "TOTP QR code",
-      "codeLabel": "6-digit code",
-      "verify": "Verify",
-      "verifying": "Verifying...",
-      "done": "Done",
-      "recoveryCodes": "Recovery codes",
-      "recoveryCodesInfo": "Save these codes somewhere safe. Each can be used once.",
-      "loading": "Generating QR code...",
-      "failed": "Verification failed. Please try again."
-    }
+    "sending": "Sending..."
   },
   "nav": {
     "home": "Home",
@@ -78,10 +51,7 @@
     "leaderboard": "Leaderboard",
     "profile": "Profile",
     "chat": "Chat",
-    "blog": "Blog",
-    "wiki": "Wiki",
-    "forum": "Forum",
-    "gallery": "Gallery",
+    "messages": "Messages",
     "notifications": "Notifications",
     "about": "About",
     "contact": "Contact",
@@ -123,12 +93,7 @@
     "title": "Notifications",
     "markAllRead": "Mark all as read",
     "noNotifications": "No new notifications",
-    "clearAll": "Clear all",
-    "loading": "Loading notifications...",
-    "loadMore": "Load more",
-    "settingsTitle": "Notification Preferences",
-    "save": "Save preferences",
-    "viewAll": "View all notifications"
+    "clearAll": "Clear all"
   },
   "chat": {
     "placeholder": "Type a message...",
@@ -266,53 +231,6 @@
     "comingSoon": "More settings coming soon.",
     "testEmail": "Test Email"
   },
-  "blog": {
-    "title": "Blog",
-    "loading": "Loading posts...",
-    "pagination": "Post pages",
-    "notFound": "Post not found.",
-    "postBody": "Post content"
-  },
-  "wiki": {
-    "title": "Wiki",
-    "sidebar": "Wiki pages",
-    "welcome": "Select a page from the sidebar.",
-    "loading": "Loading page...",
-    "notFound": "Page not found.",
-    "lastUpdated": "Last updated"
-  },
-  "forum": {
-    "title": "Forum",
-    "loading": "Loading threads...",
-    "pagination": "Thread pages",
-    "notFound": "Thread not found.",
-    "replies": "replies",
-    "post": "Forum post",
-    "unknownAuthor": "Unknown",
-    "replyComposer": "Post a reply",
-    "replyPlaceholder": "Write a reply...",
-    "replyRequired": "Reply cannot be empty.",
-    "replyError": "Failed to post reply.",
-    "submit": "Post reply"
-  },
-  "polls": {
-    "title": "Polls",
-    "loading": "Loading polls...",
-    "noPolls": "No active polls.",
-    "vote": "Vote",
-    "voteFor": "Vote for",
-    "totalVotes": "votes"
-  },
-  "gallery": {
-    "title": "Gallery",
-    "loading": "Loading albums...",
-    "notFound": "Album not found.",
-    "photos": "photos",
-    "photo": "Photo",
-    "photoGrid": "Photo grid",
-    "prev": "Previous photo",
-    "next": "Next photo"
-  },
   "admin": {
     "systemKeys": "System API Keys",
     "systemKeysDesc": "Set fallback API keys for all users who don't have their own.",
@@ -346,5 +264,35 @@
     "apiCalls": "API Calls",
     "clear": "Clear",
     "noApiCalls": "No API calls recorded yet."
+  },
+  "social": {
+    "follow": "Follow",
+    "unfollow": "Unfollow",
+    "followers": "followers",
+    "following": "following",
+    "messages": "Messages",
+    "mentions": "Mentions",
+    "noMentions": "No mentions yet",
+    "mentionsList": "Mentions list",
+    "mentionFrom": "Mention from @{author}",
+    "mentionsUnread": "{count} unread mentions",
+    "dmInbox": "Direct messages inbox",
+    "dmThreads": "Conversation threads",
+    "noMessages": "No messages yet",
+    "loading": "Loading...",
+    "selectThread": "Select a conversation",
+    "conversation": "Conversation",
+    "typeMessage": "Type a message",
+    "sendMessage": "Send message",
+    "send": "Send",
+    "composeMessage": "Compose message",
+    "profileOf": "Profile of {name}",
+    "profileTabs": "Profile tabs",
+    "posts": "Posts",
+    "about": "About",
+    "noPostsYet": "No posts yet",
+    "noAboutInfo": "No about information",
+    "reactions": "Reactions",
+    "addReaction": "Add reaction"
   }
 }

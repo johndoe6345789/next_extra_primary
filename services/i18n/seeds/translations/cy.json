@@ -43,34 +43,7 @@
     "resetInstructions": "Rhowch eich e-bost a byddwn yn anfon dolen ailosod atoch.",
     "resetSent": "Dolen ailosod wedi'i hanfon! Gwiriwch eich mewnflwch.",
     "backToLogin": "Yn ôl i fewngofnodi",
-    "sending": "Yn anfon...",
-    "oauth": {
-      "google": "Parhau gyda Google",
-      "github": "Parhau gyda GitHub",
-      "microsoft": "Parhau gyda Microsoft"
-    },
-    "passkey": {
-      "signIn": "Mewngofnodi gyda phasskey",
-      "verifying": "Dilysu...",
-      "add": "Ychwanegu passkey",
-      "remove": "Tynnu",
-      "none": "Dim passkeys wedi cofrestru.",
-      "sectionTitle": "Passkeys"
-    },
-    "totp": {
-      "enrollTitle": "Gosod dilysu dau ffactor",
-      "loginTitle": "Dilysu dau ffactor",
-      "scanInstruction": "Sganiwch y cod QR hwn gyda'ch ap dilysu.",
-      "qrAlt": "Cod QR TOTP",
-      "codeLabel": "Cod 6 digid",
-      "verify": "Dilysu",
-      "verifying": "Dilysu...",
-      "done": "Gorffen",
-      "recoveryCodes": "Codau adfer",
-      "recoveryCodesInfo": "Cadwch y codau hyn mewn lle diogel.",
-      "loading": "Cynhyrchu cod QR...",
-      "failed": "Methwyd dilysu. Ceisiwch eto."
-    }
+    "sending": "Yn anfon..."
   },
   "nav": {
     "home": "Hafan",
@@ -95,7 +68,8 @@
     "role": "{role}",
     "chooseAvatar": "Dewis afatar",
     "removeAvatar": "Tynnu afatar",
-    "guest": "Gwestai"
+    "guest": "Gwestai",
+    "messages": "Negeseuon"
   },
   "hero": {
     "title": "Codwch lefel eich taith ddysgu",
@@ -119,12 +93,7 @@
     "title": "Hysbysiadau",
     "markAllRead": "Marcio popeth fel wedi'i ddarllen",
     "noNotifications": "Dim hysbysiadau newydd",
-    "clearAll": "Clirio popeth",
-    "loading": "Llwytho hysbysiadau...",
-    "loadMore": "Llwytho mwy",
-    "settingsTitle": "Dewisiadau hysbysiad",
-    "save": "Cadw dewisiadau",
-    "viewAll": "Gweld pob hysbysiad"
+    "clearAll": "Clirio popeth"
   },
   "chat": {
     "placeholder": "Teipiwch neges...",
@@ -295,5 +264,35 @@
     "apiCalls": "Galwadau API",
     "clear": "Clirio",
     "noApiCalls": "Dim galwadau API wedi'u cofnodi eto."
+  },
+  "social": {
+    "follow": "Dilyn",
+    "unfollow": "Dad-ddilyn",
+    "followers": "dilynwyr",
+    "following": "dilynol",
+    "messages": "Negeseuon",
+    "mentions": "Crybwylliadau",
+    "noMentions": "Dim crybwylliadau",
+    "mentionsList": "Rhestr crybwylliadau",
+    "mentionFrom": "Crybwylliad gan @{author}",
+    "mentionsUnread": "{count} crybwylliad heb eu darllen",
+    "dmInbox": "Mewnflwch negeseuon uniongyrchol",
+    "dmThreads": "Sgyrsiau",
+    "noMessages": "Dim negeseuon",
+    "loading": "Yn llwytho…",
+    "selectThread": "Dewis sgwrs",
+    "conversation": "Sgwrs",
+    "typeMessage": "Teipio neges",
+    "sendMessage": "Anfon neges",
+    "send": "Anfon",
+    "composeMessage": "Cyfansoddi neges",
+    "profileOf": "Proffil {name}",
+    "profileTabs": "Tabiau proffil",
+    "posts": "Postiadau",
+    "about": "Amdanom",
+    "noPostsYet": "Dim postiadau",
+    "noAboutInfo": "Dim gwybodaeth",
+    "reactions": "Adweithiau",
+    "addReaction": "Ychwanegu adwaith"
   }
 }

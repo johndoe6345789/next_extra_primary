@@ -99,7 +99,8 @@
     "role": "{role}",
     "chooseAvatar": "アバターを選ぶ",
     "removeAvatar": "アバターを削除",
-    "guest": "ゲスト"
+    "guest": "ゲスト",
+    "messages": "メッセージ"
   },
   "hero": {
     "title": "学びをレベルアップしよう",
@@ -346,5 +347,35 @@
     "apiCalls": "API呼び出し",
     "clear": "クリア",
     "noApiCalls": "まだAPI呼び出しは記録されていません。"
+  },
+  "social": {
+    "follow": "フォロー",
+    "unfollow": "フォロー解除",
+    "followers": "フォロワー",
+    "following": "フォロー中",
+    "messages": "メッセージ",
+    "mentions": "メンション",
+    "noMentions": "メンションなし",
+    "mentionsList": "メンション一覧",
+    "mentionFrom": "@{author}からのメンション",
+    "mentionsUnread": "{count}件の未読メンション",
+    "dmInbox": "DMの受信箱",
+    "dmThreads": "会話",
+    "noMessages": "メッセージなし",
+    "loading": "読み込み中…",
+    "selectThread": "会話を選択",
+    "conversation": "会話",
+    "typeMessage": "メッセージを入力",
+    "sendMessage": "メッセージを送信",
+    "send": "送信",
+    "composeMessage": "メッセージを作成",
+    "profileOf": "{name}のプロフィール",
+    "profileTabs": "プロフィールタブ",
+    "posts": "投稿",
+    "about": "紹介",
+    "noPostsYet": "投稿なし",
+    "noAboutInfo": "情報なし",
+    "reactions": "リアクション",
+    "addReaction": "リアクション追加"
   }
 }
