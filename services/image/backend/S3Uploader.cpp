@@ -1,16 +1,21 @@
 /**
  * @file S3Uploader.cpp
- * @brief Minimal S3 PUT against the dev s3server.
+ * @brief S3 PUT client with AWS Signature Version 4.
  */
 
 #include "image/backend/S3Uploader.h"
+
+#include "image/backend/s3_signer.h"
+#include "image/backend/s3_signer_hash.h"
 
 #include <drogon/HttpClient.h>
 #include <drogon/HttpRequest.h>
 #include <drogon/HttpResponse.h>
 #include <spdlog/spdlog.h>
 
+#include <chrono>
 #include <cstdlib>
+#include <format>
 
 namespace nextra::image
 {
@@ -31,6 +36,7 @@ S3Config S3Config::fromEnv()
     c.accessKey = env("S3_ACCESS_KEY", "nextra-dev");
     c.secretKey = env("S3_SECRET_KEY", "nextra-dev");
     c.bucket = env("S3_BUCKET", "image-variants");
+    c.region = env("S3_REGION", "us-east-1");
     return c;
 }
 
@@ -39,21 +45,41 @@ bool S3Uploader::upload(
     const std::vector<unsigned char>& bytes,
     const std::string& mimeType)
 {
-    // TODO(phase prod): swap the static auth header for a
-    // real AWS Signature v4 implementation. Dev s3server
-    // accepts any non-empty Authorization header.
+    const std::string body(
+        reinterpret_cast<const char*>(bytes.data()),
+        bytes.size());
+    const std::string payloadHash =
+        s3_signer::sha256Hex(body);
+
+    // Generate ISO-8601 timestamp for SigV4.
+    const auto now = std::chrono::system_clock::now();
+    const std::time_t tt =
+        std::chrono::system_clock::to_time_t(now);
+    std::tm utc{};
+    gmtime_r(&tt, &utc);
+    char dtBuf[17]{};
+    std::strftime(dtBuf, sizeof(dtBuf),
+        "%Y%m%dT%H%M%SZ", &utc);
+    const std::string dateTimeISO(dtBuf);
+
+    const std::string authHeader =
+        s3_signer::buildAuthHeader(
+            "PUT", cfg_.bucket, key,
+            payloadHash,
+            cfg_.accessKey, cfg_.secretKey,
+            cfg_.region, dateTimeISO);
+
     auto client = drogon::HttpClient::newHttpClient(
         cfg_.endpoint);
     auto req = drogon::HttpRequest::newHttpRequest();
     req->setMethod(drogon::Put);
     req->setPath("/" + cfg_.bucket + "/" + key);
     req->setContentTypeString(mimeType);
+    req->addHeader("Authorization", authHeader);
+    req->addHeader("x-amz-date", dateTimeISO);
     req->addHeader(
-        "Authorization",
-        "AWS4-HMAC-SHA256 Credential=" + cfg_.accessKey);
-    req->setBody(std::string(
-        reinterpret_cast<const char*>(bytes.data()),
-        bytes.size()));
+        "x-amz-content-sha256", payloadHash);
+    req->setBody(body);
     auto pair = client->sendRequest(req, 15.0);
     if (pair.first != drogon::ReqResult::Ok || !pair.second)
     {

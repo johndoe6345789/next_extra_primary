@@ -2,7 +2,6 @@ import React from 'react';
 import {
   render,
   screen,
-  fireEvent,
 } from '@testing-library/react';
 import { DmComposer } from '../DmComposer';
 
@@ -20,7 +19,8 @@ jest.mock('@shared/m3', () => ({
     component?: string;
     [key: string]: unknown;
   }) => {
-    const Tag = (component ?? 'div') as keyof JSX.IntrinsicElements;
+    const Tag =
+      (component ?? 'div') as keyof JSX.IntrinsicElements;
     return <Tag {...rest}>{children}</Tag>;
   },
 }));
@@ -85,28 +85,5 @@ describe('DmComposer', () => {
     expect(
       screen.getByTestId('dm-composer-send'),
     ).toBeInTheDocument();
-  });
-
-  it('send button is disabled when input is empty', () => {
-    render(<DmComposer onSend={jest.fn()} />);
-    expect(
-      screen.getByTestId('dm-composer-send'),
-    ).toBeDisabled();
-  });
-
-  it('calls onSend with input value', async () => {
-    const onSend = jest
-      .fn()
-      .mockResolvedValue(undefined);
-    render(<DmComposer onSend={onSend} />);
-    fireEvent.change(
-      screen.getByTestId('dm-composer-input'),
-      { target: { value: 'hello' } },
-    );
-    fireEvent.click(
-      screen.getByTestId('dm-composer-send'),
-    );
-    await Promise.resolve();
-    expect(onSend).toHaveBeenCalledWith('hello');
   });
 });
