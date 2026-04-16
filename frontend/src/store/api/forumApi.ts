@@ -61,7 +61,7 @@ export const forumApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['Comments'],
     }),
-    addReaction: build.mutation<
+    addForumReaction: build.mutation<
       void,
       { postId: string; type: string }
     >({
@@ -80,5 +80,5 @@ export const {
   useGetForumThreadQuery,
   useCreateThreadMutation,
   useCreatePostMutation,
-  useAddReactionMutation,
+  useAddForumReactionMutation,
 } = forumApi;

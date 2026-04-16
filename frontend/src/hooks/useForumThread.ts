@@ -3,7 +3,7 @@
 import {
   useGetForumThreadQuery,
   useCreatePostMutation,
-  useAddReactionMutation,
+  useAddForumReactionMutation,
 } from '@/store/api/forumApi';
 import type {
   ForumPost, ForumThread,
@@ -37,7 +37,7 @@ export function useForumThread(
       skip: !threadId,
     });
   const [createPost] = useCreatePostMutation();
-  const [addReaction] = useAddReactionMutation();
+  const [addReaction] = useAddForumReactionMutation();
   return {
     thread: data?.thread ?? null,
     posts: data?.posts ?? [],
