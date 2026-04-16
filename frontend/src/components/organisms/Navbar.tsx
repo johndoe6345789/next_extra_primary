@@ -18,6 +18,8 @@ import { AvatarMenu } from './AvatarMenu';
 import { MobileDrawer } from './MobileDrawer';
 import { NotificationPanel } from './NotificationPanel';
 import navLinks from '@/constants/nav-links.json';
+import { FeatureFlagGate } from
+  '@/components/atoms/FeatureFlagGate';
 
 /** Props for the Navbar organism. */
 export interface NavbarProps {
