@@ -1,8 +1,10 @@
 // Compose Button & Window
 
 .compose-btn {
-  display: inline-flex;
+  display: flex;
+  width: 100%;
   align-items: center;
+  justify-content: flex-start;
   gap: 12px;
   padding: 16px 24px;
   border-radius: var(--mat-sys-corner-large);

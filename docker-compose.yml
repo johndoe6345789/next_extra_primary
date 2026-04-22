@@ -181,6 +181,10 @@ services:
         shared: ./shared
       args:
         NEXT_BASE_PATH: /emailclient
+    volumes:
+      # Named volume preserves node_modules inside the image
+      - emailclient_node_modules:/build/services/email/webmail/node_modules
+      - emailclient_next:/build/services/email/webmail/.next
     ports:
       - "8025:3000"
     depends_on:
@@ -190,7 +194,7 @@ services:
         condition: service_healthy
     environment:
       BACKEND_URL: http://emailclient-api:5000
-      NODE_ENV: production
+      NODE_ENV: development
     restart: unless-stopped
 
   # ---- C++ API backend ---------------------------------------
@@ -379,6 +383,9 @@ services:
         shared: ./shared
       args:
         NEXT_BASE_PATH: /notifications
+    volumes:
+      - notifications_node_modules:/build/tools/notifications/node_modules
+      - notifications_next:/build/tools/notifications/.next
     depends_on:
       - notification-router
     environment:
@@ -425,6 +432,9 @@ services:
         shared: ./shared
       args:
         NEXT_BASE_PATH: /image-processor
+    volumes:
+      - image_processor_frontend_node_modules:/build/tools/image-processor/node_modules
+      - image_processor_frontend_next:/build/tools/image-processor/.next
     depends_on:
       - image-processor
     environment:
@@ -510,6 +520,9 @@ services:
         shared: ./shared
       args:
         NEXT_BASE_PATH: /shop-admin
+    volumes:
+      - shop_admin_node_modules:/build/tools/shop-admin/node_modules
+      - shop_admin_next:/build/tools/shop-admin/.next
     depends_on:
       - ecommerce-api
     environment:
@@ -742,6 +755,9 @@ services:
         shared: ./shared
       args:
         NEXT_BASE_PATH: /wiki
+    volumes:
+      - wiki_node_modules:/build/tools/wiki/node_modules
+      - wiki_next:/build/tools/wiki/.next
     depends_on:
       - backend
     environment:
@@ -790,6 +806,9 @@ services:
         shared: ./shared
       args:
         NEXT_BASE_PATH: /blog
+    volumes:
+      - blog_node_modules:/build/tools/blog/node_modules
+      - blog_next:/build/tools/blog/.next
     depends_on:
       - backend
     environment:
@@ -820,13 +839,16 @@ services:
     build:
       context: ./services/sso/portal
       dockerfile: Dockerfile
+    volumes:
+      - sso_node_modules:/build/sso/node_modules
+      - sso_next:/build/sso/.next
     ports:
       - "3099:3000"
     depends_on:
       - backend
     environment:
       NEXT_PUBLIC_ORIGIN: http://localhost:8889
-      NODE_ENV: production
+      NODE_ENV: development
     restart: unless-stopped
 
   # ---- Audit manager daemon (Kafka → PG hash chain) ----------
@@ -865,6 +887,9 @@ services:
         shared: ./shared
       args:
         NEXT_BASE_PATH: /audit
+    volumes:
+      - audit_node_modules:/build/tools/audit/node_modules
+      - audit_next:/build/tools/audit/.next
     depends_on:
       - audit-manager
     environment:
@@ -872,7 +897,12 @@ services:
       BACKEND_URL: http://backend:8080
     restart: unless-stopped
 
-  # ---- Nginx reverse proxy / portal --------------------------
+  # ---- Nginx reverse proxy -----------------------------------
+  # The portal homepage is now rendered by Drogon from
+  # shared/constants/tool-links.json; nginx only proxies.
+  # The portal/ mount below is kept solely for swagger.html,
+  # which /apidocs/ aliases — remove once swagger moves to
+  # Drogon too.
   portal:
     image: nginx:alpine
     ports:
@@ -916,6 +946,9 @@ services:
         shared: ./shared
       args:
         NEXT_BASE_PATH: /social-admin
+    volumes:
+      - social_admin_node_modules:/build/tools/social-admin/node_modules
+      - social_admin_next:/build/tools/social-admin/.next
     ports:
       - "9018:3000"
     depends_on:
@@ -923,7 +956,7 @@ services:
     environment:
       NEXT_PUBLIC_BASE_PATH: /social-admin
       BACKEND_API_URL: http://backend:8080
-      NODE_ENV: production
+      NODE_ENV: development
     restart: unless-stopped
 
 
@@ -936,6 +969,9 @@ services:
         shared: ./shared
       args:
         NEXT_BASE_PATH: /gallery
+    volumes:
+      - gallery_node_modules:/build/tools/gallery/node_modules
+      - gallery_next:/build/tools/gallery/.next
     ports:
       - "9016:3000"
     depends_on:
@@ -943,7 +979,7 @@ services:
     environment:
       NEXT_PUBLIC_BASE_PATH: /gallery
       BACKEND_API_URL: http://backend:8080
-      NODE_ENV: production
+      NODE_ENV: development
     restart: unless-stopped
 
 
@@ -956,6 +992,9 @@ services:
         shared: ./shared
       args:
         NEXT_BASE_PATH: /flags
+    volumes:
+      - flags_node_modules:/build/tools/flags/node_modules
+      - flags_next:/build/tools/flags/.next
     ports:
       - "9004:3000"
     depends_on:
@@ -963,7 +1002,7 @@ services:
     environment:
       NEXT_PUBLIC_BASE_PATH: /flags
       BACKEND_API_URL: http://backend:8080
-      NODE_ENV: production
+      NODE_ENV: development
     restart: unless-stopped
 
 
@@ -976,6 +1015,9 @@ services:
         shared: ./shared
       args:
         NEXT_BASE_PATH: /analytics
+    volumes:
+      - analytics_node_modules:/build/tools/analytics/node_modules
+      - analytics_next:/build/tools/analytics/.next
     ports:
       - "9017:3000"
     depends_on:
@@ -983,7 +1025,7 @@ services:
     environment:
       NEXT_PUBLIC_BASE_PATH: /analytics
       BACKEND_URL: http://backend:8080
-      NODE_ENV: production
+      NODE_ENV: development
     restart: unless-stopped
 
   # ---- Public status page (NOT SSO gated) -------------------
@@ -995,6 +1037,9 @@ services:
         shared: ./shared
       args:
         NEXT_BASE_PATH: /status
+    volumes:
+      - status_node_modules:/build/tools/status/node_modules
+      - status_next:/build/tools/status/.next
     ports:
       - "9014:3000"
     depends_on:
@@ -1002,7 +1047,7 @@ services:
     environment:
       NEXT_PUBLIC_BASE_PATH: /status
       BACKEND_URL: http://backend:8080
-      NODE_ENV: production
+      NODE_ENV: development
     restart: unless-stopped
 
   # ---- Alerts centre -----------------------------------------
@@ -1014,6 +1059,9 @@ services:
         shared: ./shared
       args:
         NEXT_BASE_PATH: /alerts
+    volumes:
+      - alerts_node_modules:/build/tools/alerts/node_modules
+      - alerts_next:/build/tools/alerts/.next
     ports:
       - "8999:3000"
     depends_on:
@@ -1021,7 +1069,7 @@ services:
         condition: service_started
     environment:
       EMAIL_API_URL: http://emailclient-api:5000
-      NODE_ENV: production
+      NODE_ENV: development
     restart: unless-stopped
 
   # ---- Forum moderation tool ---------------------------------
@@ -1033,6 +1081,9 @@ services:
         shared: ./shared
       args:
         NEXT_BASE_PATH: /forum
+    volumes:
+      - forum_node_modules:/build/tools/forum/node_modules
+      - forum_next:/build/tools/forum/.next
     ports:
       - "9005:3000"
     depends_on:
@@ -1040,7 +1091,7 @@ services:
         condition: service_started
     environment:
       BACKEND_URL: http://backend:8080
-      NODE_ENV: production
+      NODE_ENV: development
     restart: unless-stopped
 
 # ==============================================================
@@ -1106,6 +1157,9 @@ services:
         shared: ./shared
       args:
         NEXT_BASE_PATH: /s3
+    volumes:
+      - s3_frontend_node_modules:/build/tools/s3server/frontend/node_modules
+      - s3_frontend_next:/build/tools/s3server/frontend/.next
     ports:
       - "3001:3001"
     environment:
@@ -1152,11 +1206,14 @@ services:
         shared: ./shared
       args:
         NEXT_BASE_PATH: /repo
+    volumes:
+      - packagerepo_frontend_node_modules:/build/tools/packagerepo/frontend/node_modules
+      - packagerepo_frontend_next:/build/tools/packagerepo/frontend/.next
     ports:
       - "5051:3000"
     environment:
       BACKEND_URL: http://packagerepo-backend:5000
-      NODE_ENV: production
+      NODE_ENV: development
     depends_on:
       - packagerepo-backend
     restart: unless-stopped
@@ -1193,11 +1250,14 @@ services:
         shared: ./shared
       args:
         NEXT_BASE_PATH: /db
+    volumes:
+      - pgadmin_frontend_node_modules:/build/tools/pgadmin/frontend/node_modules
+      - pgadmin_frontend_next:/build/tools/pgadmin/frontend/.next
     ports:
       - "3002:3002"
     environment:
       BACKEND_URL: http://pgadmin-backend:5060
-      NODE_ENV: production
+      NODE_ENV: development
     depends_on:
       - pgadmin-backend
     restart: unless-stopped
@@ -1214,7 +1274,43 @@ volumes:
   mailstate:
   maillogs:
   emailclient-dbdata:
+  emailclient_node_modules:
+  emailclient_next:
   packagerepo-dbdata:
   s3-dbdata:
   s3-data:
   transcode-work:
+  sso_node_modules:
+  sso_next:
+  shop_admin_node_modules:
+  shop_admin_next:
+  wiki_node_modules:
+  wiki_next:
+  blog_node_modules:
+  blog_next:
+  forum_node_modules:
+  forum_next:
+  gallery_node_modules:
+  gallery_next:
+  image_processor_frontend_node_modules:
+  image_processor_frontend_next:
+  pgadmin_frontend_node_modules:
+  pgadmin_frontend_next:
+  s3_frontend_node_modules:
+  s3_frontend_next:
+  packagerepo_frontend_node_modules:
+  packagerepo_frontend_next:
+  audit_node_modules:
+  audit_next:
+  analytics_node_modules:
+  analytics_next:
+  status_node_modules:
+  status_next:
+  social_admin_node_modules:
+  social_admin_next:
+  notifications_node_modules:
+  notifications_next:
+  alerts_node_modules:
+  alerts_next:
+  flags_node_modules:
+  flags_next:

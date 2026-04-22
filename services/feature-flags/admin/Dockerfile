@@ -1,44 +1,25 @@
-# Flags frontend — monorepo-aware build.
-# Contexts: default=tools/flags, shared=shared
+# Dev-mode Next.js — source baked in, next dev runs on start.
+# Named volumes preserve node_modules + .next across restarts.
+# Contexts: default=<service>, shared=shared
 
-# -- Stage 1: deps --------------------------
-FROM node:22-bookworm-slim AS deps
+FROM node:22-slim
+
 COPY --from=shared . /build/shared/
 WORKDIR /build/tools/flags
 COPY package.json package-lock.json* ./
-RUN npm ci || npm install
+RUN npm install
 RUN ln -s \
     /build/tools/flags/node_modules \
     /build/node_modules
 
-# -- Stage 2: build -------------------------
-FROM deps AS build
 ARG NEXT_BASE_PATH=/flags
-WORKDIR /build/tools/flags
-COPY . .
-ENV NEXT_TELEMETRY_DISABLED=1
 ENV NEXT_BASE_PATH=${NEXT_BASE_PATH}
-RUN mkdir -p public
-RUN npm run build
-
-# -- Stage 3: runner ------------------------
-FROM node:22-bookworm-slim AS runner
-WORKDIR /app
-ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN groupadd --system --gid 1001 nodejs && \
-    useradd --system --uid 1001 nextjs
-COPY --from=build --chown=nextjs:nodejs \
-    /build/tools/flags/.next/standalone ./
-COPY --from=build --chown=nextjs:nodejs \
-    /build/tools/flags/public \
-    ./tools/flags/public
-COPY --from=build --chown=nextjs:nodejs \
-    /build/tools/flags/.next/static \
-    ./tools/flags/.next/static
-USER nextjs
-EXPOSE 3000
+ENV NODE_ENV=development
 ENV PORT=3000
-ENV HOSTNAME="0.0.0.0"
-WORKDIR /app/tools/flags
-CMD ["node", "server.js"]
+ENV HOSTNAME=0.0.0.0
+
+COPY . .
+
+EXPOSE 3000
+CMD ["npx", "next", "dev", "--turbopack"]

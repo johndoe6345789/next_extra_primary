@@ -32,8 +32,10 @@ SRCS := main.cpp \
         commands/ElasticCmdStatus.cpp \
         commands/SeedTransCmd.cpp \
         commands/SeedTransGen.cpp \
+        commands/SeedTransOut.cpp \
         commands/UserCmdReg.cpp \
         commands/UserCmdGen.cpp \
+        commands/UserCmdReset.cpp \
         commands/WorkflowCtx.cpp \
         commands/WorkflowExec.cpp \
         commands/WorkflowLoad.cpp \

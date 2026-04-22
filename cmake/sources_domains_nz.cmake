@@ -14,6 +14,8 @@ list(APPEND NEXTRA_DOMAIN_DIRS
     pdf/controllers
     polls/backend
     polls/controllers
+    portal/backend
+    portal/controllers
     progress/backend
     rate-limit/backend
     rate-limit/controllers

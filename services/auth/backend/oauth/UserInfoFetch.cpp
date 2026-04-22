@@ -24,7 +24,6 @@ nlohmann::json fetchUserInfo(
     if (cfg.userInfoUrl.empty()) return nullptr;
     const auto [base, path] = splitUrl(cfg.userInfoUrl);
     auto client = drogon::HttpClient::newHttpClient(base);
-    client->setTimeout(10.0);
     auto req = drogon::HttpRequest::newHttpRequest();
     req->setMethod(drogon::Get);
     req->setPath(path);

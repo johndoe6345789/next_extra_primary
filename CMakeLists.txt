@@ -31,6 +31,7 @@ find_package(inja          REQUIRED)
 find_package(mailio        REQUIRED)
 find_package(fmt           REQUIRED)
 find_package(spdlog        REQUIRED)
+find_package(hiredis       REQUIRED)
 find_package(OpenSSL       REQUIRED)
 
 find_package(RdKafka       QUIET)
@@ -40,6 +41,7 @@ if(PkgConfig_FOUND)
 endif()
 
 include(cmake/sources.cmake)
+include(cmake/portal.cmake)
 
 add_executable(${PROJECT_NAME} ${NEXTRA_SOURCES})
 
@@ -48,6 +50,7 @@ target_include_directories(${PROJECT_NAME}
     PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/services"
         "${CMAKE_CURRENT_SOURCE_DIR}/services/drogon-host/backend"
+        "${NEXTRA_PORTAL_GEN_INCLUDE}"
 )
 
 target_compile_definitions(${PROJECT_NAME}

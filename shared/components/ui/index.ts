@@ -24,6 +24,11 @@ export type {
   DrawerNavItemProps,
 } from './DrawerNavItem';
 
+export { DrawerToolLinks } from './DrawerToolLinks';
+export type {
+  DrawerToolLinksProps,
+} from './DrawerToolLinks';
+
 export { FeatureCard } from './FeatureCard';
 export type { FeatureCardProps }
   from './FeatureCard';

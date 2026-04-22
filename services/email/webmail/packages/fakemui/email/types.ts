@@ -50,6 +50,12 @@ export interface MailboxSidebarProps {
   folders: FolderNavigationItem[];
   onNavigate: (folderId: string) => void;
   onCompose: () => void;
+  /** Close the drawer (mobile). */
+  onClose: () => void;
+  /** Current dark-mode state. */
+  isDarkMode: boolean;
+  /** Toggle light/dark theme. */
+  onToggleTheme: () => void;
 }
 
 /** Props for ThreadList. */

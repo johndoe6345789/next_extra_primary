@@ -1,23 +1,19 @@
-# SSO portal — standalone Next.js app.
-# No shared context needed (zero shared deps).
-FROM node:22-slim AS deps
+# Dev-mode Next.js — source baked in, next dev runs on start.
+# Named volumes preserve node_modules + .next across restarts.
+
+
+FROM node:22-slim
+
 WORKDIR /build/sso
-COPY package.json ./
+COPY package.json package-lock.json* ./
 RUN npm install
 
-FROM deps AS build
-WORKDIR /build/sso
-COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN npm run build
-
-FROM node:22-slim AS runner
-WORKDIR /app
-ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=development
 ENV PORT=3000
-ENV HOSTNAME="0.0.0.0"
-COPY --from=build /build/sso/.next/standalone ./
-COPY --from=build /build/sso/.next/static ./.next/static
+ENV HOSTNAME=0.0.0.0
+
+COPY . .
+
 EXPOSE 3000
-CMD ["node", "server.js"]
+CMD ["npx", "next", "dev", "--turbopack"]

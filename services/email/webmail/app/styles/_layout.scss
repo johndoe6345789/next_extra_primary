@@ -16,11 +16,11 @@
 }
 
 .mailbox-sidebar {
-  width: 256px;
+  width: 272px;
   overflow-y: auto;
   background-color: var(--mat-sys-surface);
   flex-shrink: 0;
-  padding-top: 8px;
+  padding-top: 12px;
   transition:
     width 0.2s ease,
     opacity 0.2s ease;
@@ -40,7 +40,68 @@
 }
 
 .mailbox-sidebar-compose {
-  padding: 16px;
+  padding: 16px 20px 12px;
+  flex-shrink: 0;
+}
+
+.mailbox-sidebar-footer {
+  padding: 16px 20px;
+  border-top: 1px solid
+    var(--mat-sys-outline-variant);
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+.mailbox-theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--mat-sys-on-surface);
+  font-size: 14px;
+  padding: 6px 0;
+  width: 100%;
+
+  &:hover { color: var(--mat-sys-primary); }
+}
+
+.mailbox-tools-section {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+  padding: 12px 0 8px;
+  margin-top: 8px;
+  flex-shrink: 0;
+}
+
+.mailbox-tools-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mat-sys-on-surface-variant);
+  padding: 8px 20px 10px;
+}
+
+.mailbox-tool-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 11px 20px;
+  text-decoration: none;
+  color: var(--mat-sys-on-surface);
+  font-size: 14px;
+
+  &:hover {
+    background: var(--mat-sys-surface-container-high);
+  }
+}
+
+.mailbox-tool-ext {
+  margin-left: auto;
+  opacity: 0.5;
 }
 
 .mailbox-main {

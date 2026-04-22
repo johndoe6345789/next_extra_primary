@@ -16,6 +16,7 @@ set(NEXTRA_TEST_DIRS
     infra/tests
     notifications/tests
     polls/tests
+    portal/tests
     rate-limit/tests
     search/tests
     social/tests
@@ -36,6 +37,7 @@ if(NEXTRA_TEST_SOURCES)
         PRIVATE
             "${CMAKE_SOURCE_DIR}/services"
             "${CMAKE_SOURCE_DIR}/services/drogon-host/backend"
+            "${NEXTRA_PORTAL_GEN_INCLUDE}"
     )
     target_link_libraries(nextra-tests
         PRIVATE

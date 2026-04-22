@@ -1,35 +1,93 @@
 /**
- * @file MailboxSidebar — folder list and Compose button.
+ * @file MailboxSidebar — M3-themed nav drawer.
+ * Shows portal link, compose, folders, theme toggle.
  */
 import React from 'react';
 import type { MailboxSidebarProps } from './types';
 
-const C = {
-  bg: '#181c2e', active: '#252c45',
-  border: '#2a2f45', text: '#c8cde8',
+const V = {
+  surface: 'var(--mat-sys-surface-container)',
+  text: 'var(--mat-sys-on-surface)',
+  muted: 'var(--mat-sys-on-surface-variant)',
+  primary: 'var(--mat-sys-primary)',
+  onPrimary: 'var(--mat-sys-on-primary)',
+  border: 'var(--mat-sys-outline-variant)',
+  active: 'var(--mat-sys-secondary-container)',
+  onActive: 'var(--mat-sys-on-secondary-container)',
 };
 
-/** Sidebar folder navigation for the email client. */
+const icon: React.CSSProperties = {
+  fontFamily: 'Material Symbols Outlined',
+  fontSize: 20, lineHeight: 1,
+  fontVariationSettings: "'FILL' 0,'wght' 400",
+  userSelect: 'none',
+};
+
+const rowBtn: React.CSSProperties = {
+  display: 'flex', alignItems: 'center', gap: 12,
+  width: '100%', padding: '10px 16px',
+  background: 'none', border: 'none',
+  cursor: 'pointer', fontSize: 14,
+  color: V.text, textAlign: 'left',
+};
+
+/** Sidebar drawer content for the mail client. */
 export function MailboxSidebar({
   folders, onNavigate, onCompose,
+  onClose, isDarkMode, onToggleTheme,
 }: MailboxSidebarProps) {
   return (
     <nav data-testid="mailbox-sidebar"
-      aria-label="Folder navigation"
+      aria-label="Mail navigation"
       style={{ display: 'flex', flexDirection: 'column',
-        height: '100%', background: C.bg,
-        borderRight: `1px solid ${C.border}`,
-        paddingTop: 12 }}>
-      <button aria-label="Compose new email"
-        onClick={onCompose}
-        style={{ margin: '0 12px 12px', padding: '10px 16px',
-          borderRadius: 24, border: 'none',
-          background: '#3d4d8a', color: '#e8ecfa',
-          fontWeight: 600, fontSize: 14, cursor: 'pointer' }}>
-        + Compose
-      </button>
-      <ul role="list"
-        style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+        height: '100%', background: V.surface,
+        borderRight: `1px solid ${V.border}` }}>
+
+      {/* Drawer header */}
+      <div style={{ display: 'flex',
+        alignItems: 'center', padding: '12px 16px',
+        justifyContent: 'space-between',
+        borderBottom: `1px solid ${V.border}` }}>
+        <span style={{ fontWeight: 700, fontSize: 15,
+          color: V.text }}>Nextra Mail</span>
+        <button aria-label="Close menu"
+          onClick={onClose}
+          style={{ background: 'none', border: 'none',
+            cursor: 'pointer', color: V.muted,
+            fontSize: 18, padding: '2px 6px',
+            borderRadius: 6 }}>✕</button>
+      </div>
+
+      {/* Back to main portal */}
+      <a href="/app/en"
+        style={{ display: 'flex', alignItems: 'center',
+          gap: 12, padding: '12px 16px',
+          textDecoration: 'none', color: V.text,
+          fontSize: 14, fontWeight: 500,
+          borderBottom: `1px solid ${V.border}` }}>
+        <span style={icon}>arrow_back</span>
+        Back to Nextra
+      </a>
+
+      {/* Compose */}
+      <div style={{ padding: '12px 16px' }}>
+        <button aria-label="Compose new email"
+          onClick={onCompose}
+          style={{ width: '100%', padding: '10px 16px',
+            borderRadius: 20, border: 'none',
+            background: V.primary, color: V.onPrimary,
+            fontWeight: 600, fontSize: 14,
+            cursor: 'pointer', display: 'flex',
+            alignItems: 'center', gap: 8 }}>
+          <span style={icon}>edit</span>
+          Compose
+        </button>
+      </div>
+
+      {/* Folder list */}
+      <ul role="list" style={{ listStyle: 'none',
+        margin: 0, padding: 0, flex: 1,
+        overflowY: 'auto' }}>
         {folders.map(f => (
           <li key={f.id}>
             <button
@@ -38,20 +96,20 @@ export function MailboxSidebar({
                   ? `, ${f.unreadCount} unread` : ''}`}
               aria-current={f.isActive ? 'page' : undefined}
               onClick={() => onNavigate(f.id)}
-              style={{ display: 'flex', alignItems: 'center',
-                width: '100%', padding: '9px 16px',
-                background: f.isActive ? C.active : 'none',
-                border: 'none', cursor: 'pointer',
-                color: f.isActive ? '#e8ecfa' : C.text,
-                fontWeight: f.isActive ? 600 : 400,
-                fontSize: 14, gap: 10, textAlign: 'left' }}>
+              style={{ ...rowBtn,
+                background: f.isActive ? V.active : 'none',
+                color: f.isActive ? V.onActive : V.text,
+                fontWeight: f.isActive ? 600 : 400 }}>
+              {f.icon && (
+                <span style={icon}>{f.icon}</span>
+              )}
               <span style={{ flex: 1 }}>{f.label}</span>
               {(f.unreadCount ?? 0) > 0 && (
-                <span aria-hidden="true"
-                  style={{ background: '#3d4d8a',
-                    color: '#aab4d4',
-                    borderRadius: 10, padding: '1px 7px',
-                    fontSize: 11, fontWeight: 700 }}>
+                <span aria-hidden="true" style={{
+                  background: V.primary,
+                  color: V.onPrimary,
+                  borderRadius: 10, padding: '1px 7px',
+                  fontSize: 11, fontWeight: 700 }}>
                   {f.unreadCount}
                 </span>
               )}
@@ -59,6 +117,19 @@ export function MailboxSidebar({
           </li>
         ))}
       </ul>
+
+      {/* Footer: theme toggle */}
+      <div style={{ padding: '12px 16px',
+        borderTop: `1px solid ${V.border}` }}>
+        <button aria-label="Toggle theme"
+          onClick={onToggleTheme}
+          style={{ ...rowBtn, padding: 0, gap: 8 }}>
+          <span style={icon}>
+            {isDarkMode ? 'light_mode' : 'dark_mode'}
+          </span>
+          {isDarkMode ? 'Light mode' : 'Dark mode'}
+        </button>
+      </div>
     </nav>
   );
 }

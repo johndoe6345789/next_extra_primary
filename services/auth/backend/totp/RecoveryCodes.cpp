@@ -9,6 +9,7 @@
 #include <openssl/sha.h>
 
 #include <array>
+#include <cstdint>
 
 namespace services::auth::totp
 {

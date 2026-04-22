@@ -21,6 +21,9 @@ def create_app():
     )
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+    # Accept both /path and /path/ without redirecting
+    app.url_map.strict_slashes = False
+
     # CORS
     CORS(app, origins=os.environ.get("CORS_ORIGINS", "*").split(","))
 

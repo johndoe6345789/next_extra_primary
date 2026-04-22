@@ -2,7 +2,9 @@ import path from "path";
 import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const monorepoRoot = path.resolve(__dirname, "../..");
+// 3 levels up: services/email/webmail → repo root
+// In Docker: /build/services/email/webmail → /build
+const monorepoRoot = path.resolve(__dirname, "../../..");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

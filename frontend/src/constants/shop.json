@@ -1,4 +1,8 @@
 {
+  "cartVisibleRoutes": [
+    "/shop",
+    "/profile/orders"
+  ],
   "api": {
     "products": "/api/shop/products",
     "product": "/api/shop/products/:slug",

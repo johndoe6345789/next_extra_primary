@@ -10,6 +10,7 @@
 #include <drogon/HttpRequest.h>
 #include <drogon/HttpResponse.h>
 #include <drogon/HttpTypes.h>
+#include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 
 #include <string>
@@ -67,7 +68,6 @@ TokenResponse postTokenRequest(
     if (cfg.tokenUrl.empty()) return {};
     const auto [base, path] = splitUrl(cfg.tokenUrl);
     auto client = drogon::HttpClient::newHttpClient(base);
-    client->setTimeout(10.0);
     auto req = drogon::HttpRequest::newHttpRequest();
     req->setMethod(drogon::Post);
     req->setPath(path);

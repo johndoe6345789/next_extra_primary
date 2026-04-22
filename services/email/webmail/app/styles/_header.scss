@@ -9,30 +9,30 @@
 
   .mat-toolbar {
     min-height: 64px;
-    padding: 0 8px;
+    padding: 0 16px;
   }
 }
 
 .mailbox-header-bar {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
   width: 100%;
-  padding: 0 8px;
+  padding: 0 16px;
 }
 
 .mailbox-header-left {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   flex-shrink: 0;
-  min-width: 200px;
+  min-width: 220px;
 }
 
 .mailbox-header-brand {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   flex-shrink: 0;
 }
 
@@ -50,6 +50,6 @@
 .mailbox-header-actions {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 8px;
   flex-shrink: 0;
 }

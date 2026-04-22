@@ -5,17 +5,12 @@ import {
   Icon,
 } from '../m3/data-display/Icon';
 import { useLink } from './LinkContext';
+import NAV_ICONS from
+  '../../constants/nav-icons.json';
 
 /** Icon names for known routes. */
-const ICONS: Record<string, string> = {
-  '/dashboard': 'dashboard',
-  '/leaderboard': 'emoji_events',
-  '/chat': 'chat',
-  '/notifications': 'notifications',
-  '/profile': 'person',
-  '/about': 'info',
-  '/contact': 'mail',
-};
+const ICONS: Record<string, string> =
+  NAV_ICONS as Record<string, string>;
 
 /** Props for DrawerNavItem. */
 export interface DrawerNavItemProps {

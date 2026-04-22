@@ -1,0 +1,38 @@
+# Excludes for the backend build context. Keeps
+# docker build sending a lean tarball to the daemon.
+**/node_modules
+**/.next
+**/.turbo
+**/dist
+**/build
+**/.venv
+**/__pycache__
+**/.pytest_cache
+**/coverage
+**/.cache
+
+# Git + editor + OS cruft
+.git
+.gitignore
+.vscode
+.idea
+.DS_Store
+
+# Docker itself
+docker-compose*.yml
+**/Dockerfile*
+.dockerignore
+
+# Tooling output
+**/.local/logs
+**/.local/tmp
+**/*.log
+**/logs
+
+# Frontend-only trees the backend doesn't need
+frontend
+services/email/webmail/.next
+services/*/frontend
+services/*/admin/.next
+services/*/public/.next
+services/*/viewer/frontend/.next

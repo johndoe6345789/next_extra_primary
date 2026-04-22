@@ -5,8 +5,8 @@
 .email-card {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 10px 16px;
+  gap: 6px;
+  padding: 14px 20px;
   cursor: pointer;
   border: none;
   border-bottom: 1px solid
@@ -28,14 +28,14 @@
     background-color:
       var(--mat-sys-secondary-container);
     border-left: 3px solid var(--mat-sys-primary);
-    padding-left: 13px;
+    padding-left: 17px;
   }
 
   &--unread {
     background-color:
       var(--mat-sys-surface-container-lowest);
     border-left: 3px solid var(--mat-sys-primary);
-    padding-left: 13px;
+    padding-left: 17px;
 
     .email-from,
     .email-subject {

@@ -12,8 +12,8 @@ import React, {
 import { useRouter, usePathname } from 'next/navigation'
 import { MailboxSidebar } from '@shared/m3/email'
 import { Box, Toaster } from '@shared/m3'
-import { useEmailCtx } from './hooks/EmailContext'
-import { useMailPolling } from './hooks/useMailPolling'
+import { useEmailCtx } from '../hooks/EmailContext'
+import { useMailPolling } from '../hooks/useMailPolling'
 import { MailAppBar } from './MailAppBar'
 
 /** @param children - Page content. */
@@ -80,6 +80,10 @@ export function MailLayout({
             onCompose={() =>
               actions.setShowCompose(true)
             }
+            isDarkMode={state.isDarkMode}
+            onToggleTheme={() =>
+              actions.setIsDarkMode(
+                (p: boolean) => !p)}
           />
         </aside>
         <main className="mailbox-main">{children}</main>

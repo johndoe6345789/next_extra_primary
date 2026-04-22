@@ -6,7 +6,7 @@
  */
 
 import React from 'react'
-import { EmailProvider } from './hooks/EmailContext'
+import { EmailProvider } from '../hooks/EmailContext'
 import { MailLayout } from './MailLayout'
 
 /**

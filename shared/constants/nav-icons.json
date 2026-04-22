@@ -1,0 +1,14 @@
+{
+  "/dashboard": "dashboard",
+  "/leaderboard": "emoji_events",
+  "/chat": "chat",
+  "/messages": "inbox",
+  "/blog": "article",
+  "/wiki": "menu_book",
+  "/forum": "forum",
+  "/gallery": "photo_library",
+  "/notifications": "notifications",
+  "/profile": "person",
+  "/about": "info",
+  "/contact": "mail"
+}

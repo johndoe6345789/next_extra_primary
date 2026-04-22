@@ -51,7 +51,7 @@ export const DrawerContent: React.FC<
         ))}
       </List>
       <Divider />
-      <DrawerToolLinks />
+      <DrawerToolLinks excludeUrls={['/app']} />
       <Divider />
       <DrawerFooter />
     </div>

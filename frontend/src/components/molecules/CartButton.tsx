@@ -3,10 +3,12 @@
 /**
  * Cart icon button with item-count badge.
  * Dispatches openCart() to show the CartDrawer.
+ * Only visible on shop and orders pages.
  * @module components/molecules/CartButton
  */
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { usePathname } from '@/i18n/navigation';
 import { ShoppingCart as ShoppingCartIcon }
   from '@shared/icons/ShoppingCart';
 import { IconButton } from '../atoms/IconButton';
@@ -16,6 +18,8 @@ import { openCart } from
   '@/store/slices/cartSlice';
 import { useCart } from '@/hooks/useCart';
 import { t as tk } from '@shared/theme/tokens';
+import shopConstants from
+  '@/constants/shop.json';
 
 /** Props for CartButton. */
 export interface CartButtonProps {
@@ -34,6 +38,13 @@ export const CartButton: React.FC<
 > = ({ testId = 'cart-button' }) => {
   const dispatch = useDispatch();
   const { itemCount } = useCart();
+  const pathname = usePathname();
+
+  const isShopPage = shopConstants
+    .cartVisibleRoutes
+    .some((r) => pathname.startsWith(r));
+
+  if (!isShopPage) return null;
 
   const label =
     itemCount > 0
