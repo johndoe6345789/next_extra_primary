@@ -8,8 +8,8 @@ import {
   Card,
   CardContent,
   CardActionArea,
-  Pagination,
 } from '@shared/m3';
+import { Pagination } from '@shared/m3/navigation';
 import { Link } from '@/i18n/navigation';
 import { useBlogPosts } from '@/hooks/useBlogPosts';
 import content from '@/constants/content.json';
@@ -87,7 +87,7 @@ export default function BlogPage(): React.ReactElement {
         <Pagination
           count={pageCount}
           page={page}
-          onChange={(_, p) => setPage(p)}
+          onChange={setPage}
           aria-label={t('pagination')}
           data-testid="blog-pagination"
         />

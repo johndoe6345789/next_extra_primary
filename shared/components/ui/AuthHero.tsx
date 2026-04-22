@@ -1,10 +1,8 @@
-'use client';
-
 import React from 'react';
 import {
   Icon,
 } from '@shared/m3/data-display/Icon';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import s from '@shared/scss/modules/AuthHero.module.scss';
 
 const FEATURES = [
@@ -17,8 +15,8 @@ const FEATURES = [
 /**
  * Marketing hero panel for auth pages.
  */
-export const AuthHero: React.FC = () => {
-  const t = useTranslations('authHero');
+export const AuthHero = async (): Promise<React.JSX.Element> => {
+  const t = await getTranslations('authHero');
   return (
     <div className={s.root}>
       <h1>{t('title')}</h1>

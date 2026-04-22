@@ -59,7 +59,8 @@ export const AvatarMenu: React.FC<
         src={src}
         fallbackText={name[0]}
         size="sm"
-        onClick={(e) => setEl(e.currentTarget)}
+        onClick={(e: React.MouseEvent<HTMLElement>) =>
+          setEl(e.currentTarget)}
         testId="navbar-avatar"
       />
       <Menu

@@ -33,7 +33,7 @@ export const AvatarOption: React.FC<
     aria-pressed={active}
     data-testid={`avatar-${id}`}
     onClick={onPick}
-    onKeyDown={(e) => {
+    onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
       if (e.key === 'Enter') onPick();
     }}
     style={{

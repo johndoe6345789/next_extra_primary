@@ -6,6 +6,7 @@ import styles
   from '../../../scss/atoms/mat-card.module.scss'
 import type { CardMediaProps }
   from './CardTypes'
+import { sxToStyle } from '../utils/sx'
 
 const s = (key: string): string =>
   styles[key] || key
@@ -16,7 +17,7 @@ export const CardMedia: React.FC<
 > = ({
   image, alt = '', height,
   component = 'div', className = '',
-  style, ...props
+  style, sx, ...props
 }) => {
   if (component === 'img' && image) {
     return (
@@ -26,7 +27,9 @@ export const CardMedia: React.FC<
         }
         style={{
           height, objectFit: 'cover',
-          width: '100%', ...style,
+          width: '100%',
+          ...sxToStyle(sx),
+          ...style,
         }}
         {...(props as React.ImgHTMLAttributes<
           HTMLImageElement
@@ -39,7 +42,9 @@ export const CardMedia: React.FC<
     } style={{
       backgroundImage: image
         ? `url(${image})` : undefined,
-      height, ...style,
+      height,
+      ...sxToStyle(sx),
+      ...style,
     }} {...props} role="img"
       aria-label={alt} />
   )

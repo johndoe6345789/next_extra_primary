@@ -5,6 +5,21 @@ import styles
 export const variantMap: Record<
   string, string
 > = {
+  displayLarge: styles.typographyDisplayLarge,
+  displayMedium: styles.typographyDisplayMedium,
+  displaySmall: styles.typographyDisplaySmall,
+  headlineLarge: styles.typographyHeadlineLarge,
+  headlineMedium: styles.typographyHeadlineMedium,
+  headlineSmall: styles.typographyHeadlineSmall,
+  titleLarge: styles.typographyTitleLarge,
+  titleMedium: styles.typographyTitleMedium,
+  titleSmall: styles.typographyTitleSmall,
+  bodyLarge: styles.typographyBodyLarge,
+  bodyMedium: styles.typographyBodyMedium,
+  bodySmall: styles.typographyBodySmall,
+  labelLarge: styles.typographyLabelLarge,
+  labelMedium: styles.typographyLabelMedium,
+  labelSmall: styles.typographyLabelSmall,
   h1: styles.typographyH1,
   h2: styles.typographyH2,
   h3: styles.typographyH3,

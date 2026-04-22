@@ -1,11 +1,9 @@
 'use client'
 
 /**
- * Core exports: icons, inputs, surfaces, layout, data-display.
+ * Core exports: inputs, surfaces, and layout.
  * Split from index.ts to keep each barrel under 100 LOC.
  */
-
-export * from '../../icons/react/m3'
 
 export {
   Button,

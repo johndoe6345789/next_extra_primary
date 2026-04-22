@@ -26,6 +26,8 @@ export const TextField: React.FC<
   fullWidth = true,
   multiline = false,
   rows,
+  minRows,
+  disabled = false,
   autoComplete,
   id,
   size,
@@ -50,6 +52,8 @@ export const TextField: React.FC<
       fullWidth={fullWidth}
       multiline={multiline}
       rows={rows}
+      minRows={minRows}
+      disabled={disabled}
       autoComplete={autoComplete}
       size={size}
       placeholder={placeholder}

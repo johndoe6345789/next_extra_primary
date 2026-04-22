@@ -19,6 +19,7 @@ export const Typography: React.FC<
   children, variant, color, align,
   gutterBottom, noWrap, paragraph,
   testId, className = '',
+  fontWeight,
   as, component, sx, style, ...props
 }) => {
   const isHeading =
@@ -42,7 +43,9 @@ export const Typography: React.FC<
   return (
     <Tag className={classes}
       style={{
-        ...sxToStyle(sx), ...style,
+        fontWeight,
+        ...sxToStyle(sx),
+        ...style,
       }}
       data-testid={testId} {...props}>
       {children}

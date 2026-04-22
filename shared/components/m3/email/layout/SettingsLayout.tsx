@@ -1,6 +1,7 @@
 // m3/react/components/email/layout/SettingsLayout.tsx
 import React from 'react'
-import { Box, BoxProps, Tabs, Tab } from '../..'
+import { Box, BoxProps } from '../..'
+import { Tabs, Tab } from '../../navigation'
 import { useAccessible } from '../../../../hooks/useAccessible'
 
 export interface SettingsSection {

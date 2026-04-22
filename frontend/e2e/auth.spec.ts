@@ -43,8 +43,14 @@ test.describe('Auth - Login Page', () => {
   }) => {
     const btn = page.getByTestId('login-submit');
     await btn.click();
-    const error = page.getByTestId('login-error');
-    await expect(error).toBeVisible();
+    const emailInvalid = await page
+      .getByTestId('login-email')
+      .evaluate((el) => !el.checkValidity());
+    const passwordInvalid = await page
+      .getByTestId('login-password')
+      .evaluate((el) => !el.checkValidity());
+    expect(emailInvalid).toBe(true);
+    expect(passwordInvalid).toBe(true);
   });
 });
 
@@ -63,7 +69,7 @@ test.describe('Auth - Register Page', () => {
   test('register form has required fields', async ({
     page,
   }) => {
-    const name = page.getByTestId('register-name');
+    const name = page.getByTestId('register-username');
     const email = page.getByTestId('register-email');
     const pw = page.getByTestId('register-password');
     await expect(name).toBeVisible();

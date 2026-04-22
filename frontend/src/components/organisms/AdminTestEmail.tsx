@@ -40,7 +40,9 @@ const AdminTestEmail: React.FC = () => {
       <TextField
         label={t('emailSubject')}
         value={subject}
-        onChange={(e) =>
+        onChange={(
+          e: React.ChangeEvent<HTMLInputElement>,
+        ) =>
           setSubject(e.target.value)}
         fullWidth size="small" sx={{ mb: 2 }}
         data-testid="email-subject"
@@ -49,7 +51,9 @@ const AdminTestEmail: React.FC = () => {
       <TextField
         label={t('emailBody')}
         value={body}
-        onChange={(e) => setBody(e.target.value)}
+        onChange={(
+          e: React.ChangeEvent<HTMLInputElement>,
+        ) => setBody(e.target.value)}
         fullWidth multiline rows={4}
         size="small" sx={{ mb: 2 }}
         data-testid="email-body"

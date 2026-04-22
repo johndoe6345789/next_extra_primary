@@ -15,6 +15,7 @@ import { handleTabsKeyDown } from './tabs_keyboard'
 
 export { Tab, type TabProps } from './TabParts'
 export { TabPanel, type TabPanelProps } from './TabPanel'
+import type { TabProps } from './TabParts'
 
 const s = (key: string): string => styles[key] || key
 
@@ -47,6 +48,9 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
   (
     {
       children,
+      value,
+      onChange,
+      onValueChange,
       variant,
       fullWidth,
       testId,
@@ -66,6 +70,26 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
     const cls =
       `${s('mat-mdc-tab-group')} ${styles.matTabs} ` +
       `${variantClasses} ${className}`
+    const tabs = React.Children.map(children, (child) => {
+      if (!React.isValidElement<TabProps>(child)) {
+        return child
+      }
+      const childValue = child.props.value as string | number | undefined
+      const selected = childValue === value
+      return React.cloneElement(child, {
+        selected,
+        onClick: (
+          event: React.MouseEvent<HTMLButtonElement>,
+        ) => {
+          child.props.onClick?.(event)
+          if (childValue === undefined) {
+            return
+          }
+          onChange?.(event, childValue)
+          onValueChange?.(childValue)
+        },
+      })
+    })
     return (
       <div
         ref={ref}
@@ -79,7 +103,7 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
           <div className={s('mat-mdc-tab-label-container')}>
             <div className={s('mat-mdc-tab-list')}>
               <div className={s('mat-mdc-tab-labels')}>
-                {children}
+                {tabs}
               </div>
             </div>
           </div>

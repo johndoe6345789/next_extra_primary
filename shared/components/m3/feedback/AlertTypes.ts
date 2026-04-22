@@ -31,6 +31,7 @@ export interface AlertProps
   onClose?: (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => void
+  sx?: Record<string, unknown>
   testId?: string
 }
 

@@ -4,6 +4,21 @@ import React from 'react'
  * Available typography variants
  */
 export type TypographyVariant =
+  | 'displayLarge'
+  | 'displayMedium'
+  | 'displaySmall'
+  | 'headlineLarge'
+  | 'headlineMedium'
+  | 'headlineSmall'
+  | 'titleLarge'
+  | 'titleMedium'
+  | 'titleSmall'
+  | 'bodyLarge'
+  | 'bodyMedium'
+  | 'bodySmall'
+  | 'labelLarge'
+  | 'labelMedium'
+  | 'labelSmall'
   | 'h1'
   | 'h2'
   | 'h3'
@@ -39,6 +54,8 @@ export interface TypographyProps
   component?: React.ElementType
   /** MUI sx prop for styling compatibility */
   sx?: Record<string, unknown>
+  /** Inline font weight convenience prop */
+  fontWeight?: React.CSSProperties['fontWeight']
   /** Test ID for automated testing */
   testId?: string
 }

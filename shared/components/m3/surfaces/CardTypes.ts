@@ -50,6 +50,7 @@ export interface CardActionAreaProps
   children?: React.ReactNode
   sx?: Record<string, unknown>
   component?: React.ElementType
+  href?: string
 }
 
 /** Props for the card media section */
@@ -59,6 +60,7 @@ export interface CardMediaProps
   alt?: string
   height?: string | number
   component?: 'div' | 'img'
+  sx?: Record<string, unknown>
 }
 
 /** Props for the card title */

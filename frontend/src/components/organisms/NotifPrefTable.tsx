@@ -8,7 +8,7 @@
 import React from 'react';
 import Box from '@shared/m3/Box';
 import Typography from '@shared/m3/Typography';
-import Switch from '@shared/m3/Switch';
+import { Switch } from '@shared/m3/inputs/Switch';
 import type { NotifPrefs }
   from '@/store/api/notificationPrefsApi';
 

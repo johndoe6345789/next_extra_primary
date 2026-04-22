@@ -16,7 +16,7 @@ export type { TextFieldProps } from './TextFieldTypes'
 /** TextField - combined label/input/helper field */
 export const TextField = forwardRef<HTMLInputElement | HTMLDivElement, TextFieldProps>(
   ({ label, helperText, error, className = '', id: providedId, select, children,
-     size, testId: customTestId, sx, style, multiline, rows, inputProps,
+     size, testId: customTestId, sx, style, multiline, rows, minRows, inputProps,
      FormHelperTextProps: _fhtp, ...props }, ref) => {
     const generatedId = useId()
     const id = providedId ?? generatedId
@@ -27,7 +27,7 @@ export const TextField = forwardRef<HTMLInputElement | HTMLDivElement, TextField
       identifier: customTestId || String(label)?.substring(0, 20),
       ariaDescribedBy: helperText ? htId : undefined,
     })
-    const tid = accessible['data-testid']
+    const tid = customTestId ?? accessible['data-testid']
 
     return (
       <div className={classNames(styles.formGroup, className)} style={{ ...sxToStyle(sx), ...style }}>
@@ -42,7 +42,7 @@ export const TextField = forwardRef<HTMLInputElement | HTMLDivElement, TextField
             {children}
           </Select>
         ) : multiline ? (
-          <TextFieldMultiline innerRef={ref as React.Ref<HTMLTextAreaElement>} id={id} error={error} rows={rows}
+          <TextFieldMultiline innerRef={ref as React.Ref<HTMLTextAreaElement>} id={id} error={error} rows={rows ?? minRows}
             testId={tid} helperTextId={helperText ? htId : undefined} value={props.value as string}
             onChange={props.onChange as never} name={props.name} disabled={props.disabled}
             required={props.required} placeholder={props.placeholder}

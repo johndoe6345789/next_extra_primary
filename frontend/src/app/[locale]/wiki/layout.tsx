@@ -2,7 +2,12 @@
 
 import React, { type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
-import { Box, Typography, List, ListItemButton, ListItemText } from '@shared/m3';
+import { Box, Typography } from '@shared/m3';
+import {
+  List,
+  ListItemButton,
+  ListItemText,
+} from '@shared/m3/data-display';
 import { Link } from '@/i18n/navigation';
 import { useWikiTree } from '@/hooks/useWikiTree';
 import type { WikiTreeNode } from '@/types/content';

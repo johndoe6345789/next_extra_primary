@@ -20,6 +20,8 @@ export interface TextFieldProps
   multiline?: boolean
   /** Number of rows for multiline */
   rows?: number
+  /** Minimum rows for multiline textareas */
+  minRows?: number
   /** Props passed to the underlying input */
   inputProps?: React.InputHTMLAttributes<
     HTMLInputElement

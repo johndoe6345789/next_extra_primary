@@ -32,6 +32,10 @@ export interface TextFieldProps {
   multiline?: boolean;
   /** Number of rows for multiline mode */
   rows?: number;
+  /** Minimum rows for multiline mode */
+  minRows?: number;
+  /** Whether the field is disabled */
+  disabled?: boolean;
   /** HTML autocomplete attribute */
   autoComplete?: string;
   /** Unique identifier for the field */

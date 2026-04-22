@@ -1,5 +1,6 @@
 import React from 'react'
-import { Tabs, Tab, TabsProps } from '../..'
+import type { TabsProps } from '../../navigation'
+import { Tabs, Tab } from '../../navigation'
 import { useAccessible } from '../../../../hooks/useAccessible'
 
 export interface EmailAccount {

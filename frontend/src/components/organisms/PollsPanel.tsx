@@ -6,6 +6,9 @@ import { Box, Typography } from '@shared/m3';
 import { usePolls } from '@/hooks/usePolls';
 import { PollWidget } from './PollWidget';
 
+/** Props for PollsPanel. */
+export interface PollsPanelProps {}
+
 /**
  * Panel listing all active polls.
  *
@@ -13,7 +16,9 @@ import { PollWidget } from './PollWidget';
  *
  * @returns Active polls list UI.
  */
-export function PollsPanel(): React.ReactElement {
+export function PollsPanel(
+  _props: PollsPanelProps,
+): React.ReactElement {
   const t = useTranslations('polls');
   const { polls, isLoading, error } = usePolls();
 

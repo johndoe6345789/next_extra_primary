@@ -57,7 +57,9 @@ export const TotpLoginModal: React.FC<
         <TextField
           label={t('codeLabel')}
           value={code}
-          onChange={(e) => setCode(e.target.value)}
+          onChange={(
+            e: React.ChangeEvent<HTMLInputElement>,
+          ) => setCode(e.target.value)}
           inputProps={{
             maxLength: 6,
             inputMode: 'numeric',

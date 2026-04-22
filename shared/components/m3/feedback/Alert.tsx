@@ -6,6 +6,7 @@
 import React from 'react'
 import styles
   from '../../../scss/atoms/alert.module.scss'
+import { sxToStyle } from '../utils/sx'
 import type {
   AlertProps, AlertTitleProps,
   AlertDescriptionProps,
@@ -24,7 +25,8 @@ export type {
 export const Alert: React.FC<AlertProps> = ({
   children, title, severity = 'info',
   icon, action, variant = 'standard',
-  onClose, testId, className = '', ...props
+  onClose, testId, className = '', sx, style,
+  ...props
 }) => {
   const cls = [
     styles.alert, severityMap[severity],
@@ -37,7 +39,9 @@ export const Alert: React.FC<AlertProps> = ({
     <div className={cls} role="alert"
       aria-live="assertive"
       aria-label={label}
-      data-testid={testId} {...props}>
+      data-testid={testId}
+      style={{ ...sxToStyle(sx), ...style }}
+      {...props}>
       {icon !== false && (
         <span className={styles.alertIcon}>
           {icon || defaultIconMap[severity]}

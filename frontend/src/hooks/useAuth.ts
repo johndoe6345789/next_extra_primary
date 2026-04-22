@@ -47,6 +47,9 @@ export function useAuth(): UseAuthReturn {
   const login = useCallback(
     async (req: LoginRequest) => {
       const res = await loginMut(req).unwrap();
+      if (!('user' in res && 'tokens' in res)) {
+        return;
+      }
       dispatch(
         setCredentials({
           user: res.user,

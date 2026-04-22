@@ -5,11 +5,13 @@ import { useTranslations } from 'next-intl';
 import {
   Box,
   Typography,
+} from '@shared/m3';
+import {
   List,
   ListItemButton,
   ListItemText,
-  Pagination,
-} from '@shared/m3';
+} from '@shared/m3/data-display';
+import { Pagination } from '@shared/m3/navigation';
 import { Link } from '@/i18n/navigation';
 import { useForumThreads } from '@/hooks/useForumThreads';
 import content from '@/constants/content.json';
@@ -69,7 +71,7 @@ export default function ForumPage(): React.ReactElement {
         <Pagination
           count={pageCount}
           page={page}
-          onChange={(_, p) => setPage(p)}
+          onChange={setPage}
           aria-label={t('pagination')}
           data-testid="forum-pagination"
         />

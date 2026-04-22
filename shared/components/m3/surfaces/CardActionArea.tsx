@@ -13,6 +13,8 @@ export interface CardActionAreaProps
   sx?: Record<string, unknown>
   /** Render as different element */
   component?: React.ElementType
+  /** Link target when rendered as an anchor-like component */
+  href?: string
 }
 
 /**

@@ -1,9 +1,7 @@
-'use client';
-
 import React from 'react';
 import Grid from '@shared/m3/Grid';
 import { Icon } from '@shared/m3/data-display/Icon';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { FeatureCard } from './FeatureCard';
 import type { Feature } from './featureGridData';
 import {
@@ -24,10 +22,11 @@ export interface FeatureGridProps {
  *
  * @param props - Component props.
  */
-export const FeatureGrid: React.FC<
-  FeatureGridProps
-> = ({ features, testId = 'feature-grid' }) => {
-  const t = useTranslations('features');
+export const FeatureGrid = async ({
+  features,
+  testId = 'feature-grid',
+}: FeatureGridProps): Promise<React.JSX.Element> => {
+  const t = await getTranslations('features');
   const icons = iconNames(features);
   const hrefs = featureHrefs(features);
 

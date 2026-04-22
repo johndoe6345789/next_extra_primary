@@ -34,7 +34,7 @@ export default function NotificationsPage(): React.ReactElement {
   const [markAll] = useMarkAllAsReadMutation();
 
   const items = data?.data ?? [];
-  const total = data?.total ?? 0;
+  const total = data?.meta.total ?? 0;
   const hasMore =
     page * cfg.PAGE_SIZE < total;
 
