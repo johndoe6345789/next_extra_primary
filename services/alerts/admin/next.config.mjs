@@ -6,7 +6,7 @@ const __filename = fileURLToPath(
 );
 const __dirname = path.dirname(__filename);
 const monorepoRoot = path.resolve(
-  __dirname, "../..",
+  __dirname, "../../..",
 );
 
 /** @type {import('next').NextConfig} */
