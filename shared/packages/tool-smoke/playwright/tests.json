@@ -105,9 +105,11 @@
       "name": "alerts error surfaces M3 banner on API failure",
       "tags": ["@alerts", "@bugfix"],
       "steps": [
-        { "action": "route",
+        { "action": "mockApi",
           "url": "**/alerts/api/email/accounts",
-          "response": { "status": 500, "body": "boom" } },
+          "method": "GET",
+          "status": 500,
+          "response": {} },
         { "action": "navigate",
           "url": "http://localhost:8889/alerts" },
         { "action": "waitForLoadState",
@@ -121,12 +123,11 @@
       "name": "email client star hits backend API",
       "tags": ["@emailclient", "@bugfix"],
       "steps": [
-        { "action": "route",
+        { "action": "mockApi",
           "url": "**/emailclient/api/messages/*/star",
-          "response": {
-            "status": 200,
-            "body": "{\"id\":1,\"isStarred\":true}"
-          } },
+          "method": "PUT",
+          "status": 200,
+          "response": { "id": 1, "isStarred": true } },
         { "action": "navigate",
           "url": "http://localhost:8889/emailclient" },
         { "action": "waitForLoadState",
