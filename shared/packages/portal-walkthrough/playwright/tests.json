@@ -368,12 +368,12 @@
         {
           "action": "fill",
           "testId": "access-key-input",
-          "value": "nextra-dev"
+          "value": "minioadmin"
         },
         {
           "action": "fill",
           "testId": "secret-key-input",
-          "value": "nextra-dev"
+          "value": "minioadmin"
         },
         {
           "action": "click",
@@ -421,6 +421,29 @@
         {
           "action": "navigate",
           "url": "http://localhost:8889/db"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "login-form",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "fill",
+          "testId": "username-input",
+          "value": "nextra"
+        },
+        {
+          "action": "fill",
+          "testId": "password-input",
+          "value": "nextra_dev"
+        },
+        {
+          "action": "click",
+          "testId": "login-button"
         },
         {
           "action": "waitForLoadState",
