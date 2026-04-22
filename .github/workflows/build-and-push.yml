@@ -1,0 +1,67 @@
+# =============================================================
+# Build and push all service images to GHCR
+# =============================================================
+# Triggers on every push to main and on manual dispatch.
+# Builds 31 unique Docker images using docker buildx bake,
+# combining docker-compose.yml (build configs) with
+# docker-bake.hcl (GHCR tags).  The C++ nextra-api image
+# is built once; all other Drogon-based services share it.
+#
+# Published image pattern:
+#   ghcr.io/<owner>/next_extra_primary/<service>:sha-<sha>
+#   ghcr.io/<owner>/next_extra_primary/<service>:latest
+# =============================================================
+
+name: Build and push to GHCR
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-push:
+    name: Build and push all services
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Compute short SHA
+        id: sha
+        run: echo "short=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
+      # Bake reads docker-compose.yml for build contexts /
+      # Dockerfiles and docker-bake.hcl for GHCR image tags.
+      # REGISTRY and TAG are injected as env vars, picked up
+      # by the HCL variable blocks.  GHA cache is applied to
+      # every target via the `set` wildcard.
+      - name: Build and push all images
+        uses: docker/bake-action@v5
+        env:
+          REGISTRY: >-
+            ghcr.io/${{ github.repository_owner }}/next_extra_primary
+          TAG: sha-${{ steps.sha.outputs.short }}
+        with:
+          files: |
+            docker-compose.yml
+            docker-bake.hcl
+          targets: default
+          push: true
+          set: |
+            *.cache-from=type=gha
+            *.cache-to=type=gha,mode=max

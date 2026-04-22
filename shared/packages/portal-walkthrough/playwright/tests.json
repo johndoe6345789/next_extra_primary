@@ -1,0 +1,1550 @@
+{
+  "$schema": "https://metabuilder.dev/schemas/package-playwright.schema.json",
+  "package": "portal-walkthrough",
+  "description": "End-to-end walkthrough: portal homepage, SSO login, and every service UI",
+  "tests": [
+    {
+      "name": "portal homepage renders all service cards",
+      "tags": ["@portal", "@smoke"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "domcontentloaded"
+        },
+        {
+          "action": "expect",
+          "selector": "h1",
+          "assertion": {
+            "matcher": "toContainText",
+            "expected": "Nextra"
+          }
+        },
+        {
+          "action": "expect",
+          "selector": "a[href='/app/']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "expect",
+          "selector": "a[href='/repo/']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "expect",
+          "selector": "a[href='/s3/']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "expect",
+          "selector": "a[href='/db/']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "expect",
+          "selector": "a[href='/emailclient/']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "expect",
+          "selector": "a[href='/alerts/']",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "SSO login page renders",
+      "tags": ["@portal", "@sso", "@smoke"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "domcontentloaded"
+        },
+        {
+          "action": "expect",
+          "selector": "input[type='email']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "expect",
+          "selector": "input[type='password']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "expect",
+          "selector": "button[type='submit']",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "SSO login with admin credentials",
+      "tags": ["@portal", "@sso", "@smoke"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "domcontentloaded"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "expect",
+          "selector": "body",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "main app loads after SSO login",
+      "tags": ["@portal", "@app"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "domcontentloaded"
+        },
+        {
+          "action": "expect",
+          "selector": "body",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/app/en"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "selector": "body",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "alerts centre loads after login",
+      "tags": ["@portal", "@alerts"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/alerts"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "alerts-heading",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "expect",
+          "selector": "[data-testid='alerts-empty'],[data-testid='alerts-loading'],[data-testid='alert-1']",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "email client loads after login",
+      "tags": ["@portal", "@emailclient"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/emailclient"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "mailbox-layout",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "expect",
+          "testId": "mailbox-sidebar",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "expect",
+          "testId": "thread-list",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "package repo loads after login",
+      "tags": ["@portal", "@repo"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/repo"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "navbar",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "expect",
+          "testId": "hero-section",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "S3 object store loads after login",
+      "tags": ["@portal", "@s3"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/s3"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "login-form",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "fill",
+          "testId": "access-key-input",
+          "value": "minioadmin"
+        },
+        {
+          "action": "fill",
+          "testId": "secret-key-input",
+          "value": "minioadmin"
+        },
+        {
+          "action": "click",
+          "testId": "login-button"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "bucket-list",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "database admin loads after login",
+      "tags": ["@portal", "@db"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/db"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "login-form",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "fill",
+          "testId": "username-input",
+          "value": "nextra"
+        },
+        {
+          "action": "fill",
+          "testId": "password-input",
+          "value": "nextra_dev"
+        },
+        {
+          "action": "click",
+          "testId": "login-button"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "tables-panel",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "feature flags loads and shows flag table",
+      "tags": ["@portal", "@flags"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/flags"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "flags-table",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "notifications admin loads and clicks tabs",
+      "tags": ["@portal", "@notifications"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/notifications"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "notifications-shell",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "click",
+          "testId": "tab-templates"
+        },
+        {
+          "action": "expect",
+          "testId": "templates-tab",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "click",
+          "testId": "tab-prefs"
+        },
+        {
+          "action": "expect",
+          "testId": "prefs-tab",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "click",
+          "testId": "tab-queue"
+        },
+        {
+          "action": "expect",
+          "testId": "queue-table",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "forum admin loads and shows flagged list",
+      "tags": ["@portal", "@forum"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/forum"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "selector": "[data-testid='flagged-list'],[data-testid='flagged-empty']",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "jobs admin loads and clicks tabs",
+      "tags": ["@portal", "@jobs"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/jobs"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "tab-queue",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "click",
+          "testId": "tab-runs"
+        },
+        {
+          "action": "expect",
+          "selector": "[data-testid='runs-table'],[data-testid='runs-empty']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "click",
+          "testId": "tab-dead"
+        },
+        {
+          "action": "expect",
+          "selector": "body",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "audit log loads and refreshes",
+      "tags": ["@portal", "@audit"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/audit"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "audit-refresh",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "click",
+          "testId": "audit-refresh"
+        },
+        {
+          "action": "expect",
+          "testId": "integrity-idle",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "analytics dashboard loads",
+      "tags": ["@portal", "@analytics"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/analytics"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "analytics-heading",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "expect",
+          "selector": "[data-testid='metric-grid'],[data-testid='analytics-loading']",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "search admin loads and runs a query",
+      "tags": ["@portal", "@search"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/search"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "index-list",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "fill",
+          "testId": "query-input",
+          "value": "test"
+        },
+        {
+          "action": "click",
+          "testId": "query-run"
+        },
+        {
+          "action": "expect",
+          "selector": "[data-testid='query-hits'],[data-testid='query-error']",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "wiki admin loads and shows tree",
+      "tags": ["@portal", "@wiki"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/wiki"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "wiki-shell",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "expect",
+          "testId": "wiki-tree",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "social admin loads and clicks all tabs",
+      "tags": ["@portal", "@social"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/social-admin"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "social-tab-follows",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "click",
+          "testId": "social-tab-follows"
+        },
+        {
+          "action": "expect",
+          "testId": "follows-tab",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "click",
+          "testId": "social-tab-dm"
+        },
+        {
+          "action": "expect",
+          "testId": "dm-tab",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "click",
+          "testId": "social-tab-groups"
+        },
+        {
+          "action": "expect",
+          "testId": "groups-tab",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "click",
+          "testId": "social-tab-reactions"
+        },
+        {
+          "action": "expect",
+          "testId": "reactions-tab",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "click",
+          "testId": "social-tab-presence"
+        },
+        {
+          "action": "expect",
+          "testId": "presence-tab",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "blog editor loads and shows article list",
+      "tags": ["@portal", "@blog"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/blog"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "blog-shell",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "expect",
+          "testId": "article-list",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "click",
+          "testId": "article-new"
+        },
+        {
+          "action": "expect",
+          "testId": "article-editor",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "shop admin loads and clicks tabs",
+      "tags": ["@portal", "@shop"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/shop-admin"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "tab-products",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "click",
+          "testId": "tab-products"
+        },
+        {
+          "action": "expect",
+          "testId": "product-editor",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "click",
+          "testId": "tab-orders"
+        },
+        {
+          "action": "expect",
+          "testId": "orders-tab",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "cron manager loads and shows schedule table",
+      "tags": ["@portal", "@cron"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/cron"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "expression-editor",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "expect",
+          "selector": "[data-testid='cron-table'],[data-testid='cron-empty']",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "media streams loads and shows ingest info",
+      "tags": ["@portal", "@streams"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/streams"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "ingest-info",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "webhooks admin loads and clicks tabs",
+      "tags": ["@portal", "@webhooks"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/webhooks"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "webhooks-shell",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "click",
+          "testId": "tab-endpoints"
+        },
+        {
+          "action": "expect",
+          "testId": "endpoints-tab",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "click",
+          "testId": "new-endpoint"
+        },
+        {
+          "action": "expect",
+          "testId": "endpoint-editor",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "click",
+          "testId": "tab-deliveries"
+        },
+        {
+          "action": "expect",
+          "testId": "deliveries-tab",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "polls admin loads and shows editor",
+      "tags": ["@portal", "@polls"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/polls"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "poll-editor",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "expect",
+          "selector": "[data-testid='polls-empty'],[data-testid='poll-row-1']",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "backups admin loads and clicks tabs",
+      "tags": ["@portal", "@backups"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/backups"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "trigger-full",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "click",
+          "testId": "tab-runs"
+        },
+        {
+          "action": "expect",
+          "selector": "[data-testid='runs-table'],[data-testid='runs-empty']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "click",
+          "testId": "tab-policy"
+        },
+        {
+          "action": "expect",
+          "selector": "[data-testid='policy-table'],[data-testid='policy-empty']",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "gallery admin loads and shows albums",
+      "tags": ["@portal", "@gallery"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/gallery"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "selector": "body",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "image processor admin loads",
+      "tags": ["@portal", "@image-processor"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/login"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='email']",
+          "value": "dev.admin@nextra.local"
+        },
+        {
+          "action": "fill",
+          "selector": "input[type='password']",
+          "value": "DevAdmin1"
+        },
+        {
+          "action": "click",
+          "role": "button",
+          "text": "Sign in"
+        },
+        {
+          "action": "waitForURL",
+          "urlPattern": "**/app/**",
+          "timeout": 15000
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/image-processor"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "selector": "body",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "public status page loads without login",
+      "tags": ["@portal", "@status", "@public"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/status"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "networkidle"
+        },
+        {
+          "action": "expect",
+          "testId": "status-shell",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "expect",
+          "selector": "[data-testid='status-grid'],[data-testid='status-loading']",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "SSO register page renders",
+      "tags": ["@portal", "@sso"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/register"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "domcontentloaded"
+        },
+        {
+          "action": "expect",
+          "selector": "input[type='email']",
+          "assertion": { "matcher": "toBeVisible" }
+        },
+        {
+          "action": "expect",
+          "selector": "input[type='password']",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "SSO forgot-password page renders",
+      "tags": ["@portal", "@sso"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/sso/forgot-password"
+        },
+        {
+          "action": "waitForLoadState",
+          "state": "domcontentloaded"
+        },
+        {
+          "action": "expect",
+          "selector": "input[type='email']",
+          "assertion": { "matcher": "toBeVisible" }
+        }
+      ]
+    },
+    {
+      "name": "unauthenticated access to tool redirects to SSO",
+      "tags": ["@portal", "@sso", "@smoke"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/jobs"
+        },
+        {
+          "action": "expect",
+          "assertion": {
+            "matcher": "toHaveURL",
+            "url": "/sso/login?next=%2Fjobs"
+          }
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/analytics"
+        },
+        {
+          "action": "expect",
+          "assertion": {
+            "matcher": "toHaveURL",
+            "url": "/sso/login?next=%2Fanalytics"
+          }
+        },
+        {
+          "action": "navigate",
+          "url": "http://localhost:8889/backups"
+        },
+        {
+          "action": "expect",
+          "assertion": {
+            "matcher": "toHaveURL",
+            "url": "/sso/login?next=%2Fbackups"
+          }
+        }
+      ]
+    }
+  ]
+}
