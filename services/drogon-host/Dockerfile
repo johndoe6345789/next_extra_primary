@@ -1,5 +1,5 @@
 # Multi-arch Dockerfile for nextra-api (C++ backend).
-# Build contexts: manager=./tools/manager, commands=./.local/commands
+# Build contexts: manager=services/manager-cli/cli, commands=.local/commands
 ARG DEPS_IMAGE=debian:sid
 ARG RUNTIME_IMAGE=debian:sid-slim
 
@@ -44,7 +44,7 @@ ENV MANAGER_COMMANDS_DIR=/usr/local/share/manager/commands/
 WORKDIR /build
 
 # -- Dependency layer ----------------------------------------
-COPY conanfile.py .
+COPY services/drogon-host/conanfile.py .
 ENV CONAN_SKIP_TEST=1
 ENV CONAN_CPU_COUNT=14
 RUN ARGS="--build=missing -s build_type=Release" && \
@@ -54,18 +54,21 @@ RUN ARGS="--build=missing -s build_type=Release" && \
 
 # -- Source + build ------------------------------------------
 COPY CMakeLists.txt .
-COPY src/ src/
-COPY seed/ seed/
-COPY migrations/ migrations/
+COPY cmake/ cmake/
+COPY services/ services/
 RUN manager seed-trans \
-        --dir seed/translations \
-        --output migrations/011_seed_translations.sql
+        --dir services/i18n/seeds/translations \
+        --output services/i18n/migrations/002_seed_translations.sql
 RUN cmake -S . -B build/Release \
         -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_C_COMPILER=gcc \
         -DCMAKE_CXX_COMPILER=g++ && \
     cmake --build build/Release --parallel 14
+RUN mkdir -p /deploy/services && \
+    cp services/migration-graph.json /deploy/services/ && \
+    find services -name '*.sql' -exec sh -c \
+        'd="/deploy/$(dirname "$1")"; mkdir -p "$d"; cp "$1" "$d/"' _ {} \;
 
 # -- Stage 2: runtime ----------------------------------------
 FROM ${RUNTIME_IMAGE} AS runtime
@@ -94,10 +97,8 @@ RUN groupadd --system nextra && \
 WORKDIR /app
 COPY --from=builder \
     /build/build/Release/nextra-api ./nextra-api
-COPY config/     ./config/
-COPY --from=builder \
-    /build/migrations/ ./migrations/
-COPY seed/       ./seed/
+COPY services/drogon-host/config/ ./config/
+COPY --from=builder /deploy/ ./
 RUN mkdir -p logs uploads public && \
     chown -R nextra:nextra /app
 USER nextra
