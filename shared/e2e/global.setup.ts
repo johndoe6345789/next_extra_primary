@@ -1,9 +1,10 @@
 /**
  * Playwright global setup
  *
- * 1. Starts the smoke-stack Docker containers via Testcontainers
- *    (nginx gateway + MySQL + MongoDB + Redis + admin tools)
- * 2. Seeds the database via the /api/setup endpoint
+ * 1. Starts the full Docker stack (docker-compose.yml at project
+ *    root) via Testcontainers — waits for the nginx portal to
+ *    respond on port 80.
+ * 2. Waits for the backend API healthz endpoint to be reachable.
  */
 import { DockerComposeEnvironment, Wait } from 'testcontainers'
 import { resolve, dirname } from 'path'
@@ -11,60 +12,57 @@ import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-let environment: Awaited<ReturnType<DockerComposeEnvironment['up']>> | undefined
+let environment:
+  | Awaited<ReturnType<DockerComposeEnvironment['up']>>
+  | undefined
 
-async function waitForServer(url: string, timeoutMs = 60000): Promise<void> {
+async function waitForServer(
+  url: string,
+  timeoutMs = 120_000,
+): Promise<void> {
   const deadline = Date.now() + timeoutMs
   while (Date.now() < deadline) {
     try {
       const res = await fetch(url, { method: 'GET' })
-      if (res.ok || res.status === 401 || res.status === 405) return // server is up
+      if (res.ok || res.status === 401 || res.status === 405) {
+        return
+      }
     } catch {
       // not ready yet
     }
-    await new Promise(r => setTimeout(r, 1000))
+    await new Promise(r => setTimeout(r, 2000))
   }
-  throw new Error(`Server at ${url} did not become ready within ${timeoutMs}ms`)
+  throw new Error(
+    `Server at ${url} did not become ready within ${timeoutMs}ms`,
+  )
 }
 
 async function globalSetup() {
-  // ── 1. Start smoke stack via Testcontainers ──────────────────────────────
-  console.log('[setup] Starting smoke stack via Testcontainers...')
-  const composeDir = resolve(__dirname, '../deployment')
+  // ── 1. Start Docker stack via Testcontainers ──────────────────
+  console.log('[setup] Starting stack via Testcontainers...')
+  const composeDir = resolve(__dirname, '../..')
 
-  environment = await new DockerComposeEnvironment(composeDir, 'docker-compose.smoke.yml')
-    .withWaitStrategy('nginx', Wait.forHealthCheck())
-    .withWaitStrategy('phpmyadmin', Wait.forHealthCheck())
-    .withWaitStrategy('mongo-express', Wait.forHealthCheck())
-    .withWaitStrategy('redisinsight', Wait.forHealthCheck())
-    .withStartupTimeout(180_000)
+  environment = await new DockerComposeEnvironment(
+    composeDir,
+    'docker-compose.yml',
+  )
+    .withWaitStrategy('portal', Wait.forHttp('/', 80))
+    .withStartupTimeout(300_000)
     .up()
 
-  console.log('[setup] Smoke stack healthy')
+  console.log('[setup] Stack healthy')
 
-  // Store ref for teardown
-  ;(globalThis as Record<string, unknown>).__TESTCONTAINERS_ENV__ = environment
+  ;(globalThis as Record<string, unknown>).__TESTCONTAINERS_ENV__ =
+    environment
 
-  // ── 2. Wait for dev servers (started by Playwright webServer config) ─────
-  // ── 3. Seed database ────────────────────────────────────────────────────
-  // workflowui uses basePath: '/workflowui', so the setup route is at /workflowui/api/setup
-  const setupUrl = process.env.PLAYWRIGHT_BASE_URL
-    ? new URL('/workflowui/api/setup', process.env.PLAYWRIGHT_BASE_URL.replace(/\/workflowui\/?$/, '')).href
-    : 'http://localhost:3000/workflowui/api/setup'
+  // ── 2. Wait for backend API ────────────────────────────────────
+  const base =
+    process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:8889'
+  const healthUrl = new URL('/api/healthz', base).href
 
-  await waitForServer(setupUrl)
-
-  try {
-    const response = await fetch(setupUrl, { method: 'POST' })
-    if (!response.ok) {
-      throw new Error(`Seed endpoint returned ${response.status} ${response.statusText}`)
-    }
-    console.log('[setup] Database seeded successfully')
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error)
-    console.error('[setup] Failed to seed database:', message)
-    throw new Error(`[setup] Seeding failed — aborting test suite. ${message}`)
-  }
+  console.log(`[setup] Waiting for API at ${healthUrl}...`)
+  await waitForServer(healthUrl)
+  console.log('[setup] Backend API ready')
 }
 
 export default globalSetup
