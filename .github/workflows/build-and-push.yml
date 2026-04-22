@@ -41,6 +41,10 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Compute short SHA
+        id: sha
+        run: echo "short=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
       # Bake reads docker-compose.yml for build contexts /
       # Dockerfiles and docker-bake.hcl for GHCR image tags.
       # REGISTRY and TAG are injected as env vars, picked up
@@ -51,7 +55,7 @@ jobs:
         env:
           REGISTRY: >-
             ghcr.io/${{ github.repository_owner }}/next_extra_primary
-          TAG: sha-${{ github.sha }}
+          TAG: sha-${{ steps.sha.outputs.short }}
         with:
           files: |
             docker-compose.yml
