@@ -19,7 +19,12 @@ add_executable(packagerepo-server
     src/controllers/DevTokenCtrl.cpp
     src/controllers/DevTokenVerify.cpp
     src/controllers/GenericAdapterCtrl.cpp
+    src/controllers/RegistryV2Blob.cpp
+    src/controllers/RegistryV2Catalog.cpp
+    src/controllers/RegistryV2Manifest.cpp
+    src/controllers/RegistryV2Upload.cpp
     src/controllers/AdapterHandlers.cpp
+    src/controllers/AdapterHandlersDownload.cpp
     src/filters/AuthFilter.cpp
     src/services/S3BlobStore.cpp
     src/services/PgAdapterStore.cpp
