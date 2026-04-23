@@ -3,7 +3,6 @@
  * @brief POST /api/auth/passkeys/assert/finish — verify
  *        assertion signature and mint a session.
  */
-
 #include "PasskeyController.h"
 #include "passkey_assert_helpers.h"
 #include "auth/backend/passkeys/AssertionVerifier.h"
@@ -11,21 +10,17 @@
 #include "auth/backend/passkeys/ChallengeStore.h"
 #include "auth/backend/passkeys/PasskeyHex.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
-
 #include <drogon/HttpAppFramework.h>
 #include <drogon/orm/DbClient.h>
 #include <nlohmann/json.hpp>
 #include <openssl/sha.h>
 #include <string>
 #include <vector>
-
 using json = nlohmann::json;
 using Cb = std::function<void(const drogon::HttpResponsePtr&)>;
 namespace pk = services::auth::passkeys;
-
 namespace controllers
 {
-
 void PasskeyController::assertFinish(
     const drogon::HttpRequestPtr& req, Cb&& cb)
 {
@@ -73,15 +68,19 @@ void PasskeyController::assertFinish(
                     "unknown", "PK_007"));
                 return;
             }
-            auto pub = pk::fromHex(
-                r[0]["public_key_hex"].as<std::string>());
-            auto parsed =
-                passkey_assert::parsePubKey(pub);
-            if (!pk::verifyAssertion(
-                    parsed, authData, hash, sig)) {
+            try {
+                if (!passkey_assert::verifyStoredCredential(
+                        r[0]["public_key_hex"].as<std::string>(),
+                        authData, hash, sig)) {
+                    cb(::utils::jsonError(
+                        drogon::k401Unauthorized,
+                        "sig", "PK_008"));
+                    return;
+                }
+            } catch (const std::exception&) {
                 cb(::utils::jsonError(
-                    drogon::k401Unauthorized,
-                    "sig", "PK_008"));
+                    drogon::k500InternalServerError,
+                    "stored credential", "PK_010"));
                 return;
             }
             passkey_assert::issuePasskeySession(
@@ -95,5 +94,4 @@ void PasskeyController::assertFinish(
         },
         credIdHex);
 }
-
 } // namespace controllers

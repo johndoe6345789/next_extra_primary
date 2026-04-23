@@ -15,7 +15,7 @@ namespace services::auth::passkeys
 
 AttestationResult verifyAttestation(
     const std::vector<std::uint8_t>& attObj,
-    const std::vector<std::uint8_t>& /*clientDataHash*/)
+    const std::vector<std::uint8_t>& clientDataHash)
 {
     std::size_t off = 0;
     auto root = cbor::decode(attObj, off);

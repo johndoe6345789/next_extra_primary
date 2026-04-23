@@ -6,10 +6,12 @@
 
 #include "auth/backend/passkeys/Cbor.h"
 #include "auth/backend/passkeys/CoseKey.h"
+#include "auth/backend/passkeys/AssertionVerifier.h"
 
 #include <cstdint>
 #include <drogon/HttpResponse.h>
 #include <functional>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -24,7 +26,21 @@ inline services::auth::passkeys::CoseKeyParsed parsePubKey(
     std::size_t off = 0;
     auto v = pk::cbor::decode(pub, off);
     auto m = std::get_if<pk::cbor::Map>(&v->data);
+    if (!m) throw std::runtime_error("invalid COSE key format");
     return pk::parseCoseKey(*m);
+}
+
+/** @brief Verify an assertion against a stored COSE public key. */
+inline auto verifyStoredCredential(
+    const std::string& publicKeyHex,
+    const std::vector<std::uint8_t>& authData,
+    const std::vector<std::uint8_t>& hash,
+    const std::vector<std::uint8_t>& sig) -> bool
+{
+    namespace pk = services::auth::passkeys;
+    auto pub = pk::fromHex(publicKeyHex);
+    auto parsed = parsePubKey(pub);
+    return pk::verifyAssertion(parsed, authData, hash, sig);
 }
 
 /**
