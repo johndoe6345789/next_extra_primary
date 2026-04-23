@@ -19,7 +19,7 @@ using json = nlohmann::json;
 
 void issuePasskeySession(
     const std::string& userId,
-    const std::vector<std::uint8_t>& credId,
+    const std::string& credIdHex,
     std::function<void(
         const drogon::HttpResponsePtr&)> cb)
 {
@@ -45,10 +45,10 @@ void issuePasskeySession(
     db->execSqlAsync(
         "UPDATE passkey_credentials"
         " SET last_used_at = NOW()"
-        " WHERE credential_id = $1",
+        " WHERE credential_id = decode($1,'hex')",
         [](const drogon::orm::Result&) {},
         [](const drogon::orm::DrogonDbException&) {},
-        credId);
+        credIdHex);
     cb(resp);
 }
 

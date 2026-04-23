@@ -29,23 +29,23 @@ export function IndexCard({
       className="search-index-card"
     >
       <Heading level={3}>{row.name}</Heading>
-      <Text variant="body-small">
+      <Text sm>
         ES index:{' '}
         <code>{row.es_index}</code>
       </Text>
-      <Text variant="body-small">
+      <Text sm>
         Source table:{' '}
         <code>{row.target_table}</code>
       </Text>
-      <Text variant="body-small">
+      <Text sm>
         Docs: {row.doc_count.toLocaleString()}
       </Text>
-      <Text variant="body-small">
+      <Text sm>
         Last reindex:{' '}
         {row.last_reindex_at || '—'}
       </Text>
       <Text
-        variant="label-medium"
+        sm
         data-status={row.status}
       >
         Status: {row.status}

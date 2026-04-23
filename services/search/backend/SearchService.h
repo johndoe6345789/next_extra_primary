@@ -4,14 +4,18 @@
  * @brief Multi-index Elasticsearch search service.
  */
 
-#include "search/backend/ElasticClient.h"
+#include "elasticsearch/backend/ElasticClient.h"
 #include "users/backend/user_service_types.h"
 
 #include <cstdint>
 #include <string>
 
+#include <nlohmann/json.hpp>
+
 namespace services
 {
+
+using json = nlohmann::json;
 
 /**
  * @class SearchService

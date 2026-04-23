@@ -1,12 +1,16 @@
+# syntax=docker/dockerfile:1.7
 # Dev-mode Next.js — source baked in, next dev runs on start.
 # Named volumes preserve node_modules + .next across restarts.
 
 
-FROM node:22-slim
+FROM node:20-alpine
 
 WORKDIR /build/sso
 COPY package.json package-lock.json* ./
-RUN npm install
+RUN npm config set fetch-retries 5 && \
+    npm config set fetch-retry-mintimeout 20000 && \
+    npm config set fetch-retry-maxtimeout 120000 && \
+    npm install --prefer-offline --no-audit --no-fund
 
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=development

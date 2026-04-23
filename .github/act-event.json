@@ -1,0 +1,12 @@
+{
+  "inputs": {
+    "local_mode": "true",
+    "local_registry": "host.docker.internal:5050"
+  },
+  "repository": {
+    "name": "next_extra_primary",
+    "owner": {
+      "login": "johndoe6345789"
+    }
+  }
+}

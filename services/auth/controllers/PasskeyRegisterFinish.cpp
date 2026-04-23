@@ -2,19 +2,21 @@
  * @file PasskeyRegisterFinish.cpp
  * @brief POST /api/auth/passkeys/register/finish
  *
- * Decodes the attestationObject, verifies it via the "none"
- * format verifier, and persists the new credential row.
+ * Decodes the attestationObject, verifies the attestation
+ * statement, and persists the new credential row.
  */
 
 #include "PasskeyController.h"
 #include "auth/backend/passkeys/AttestationVerifier.h"
 #include "auth/backend/passkeys/Base64Url.h"
 #include "auth/backend/passkeys/ChallengeStore.h"
+#include "auth/backend/passkeys/PasskeyHex.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
 
 #include <drogon/HttpAppFramework.h>
 #include <drogon/orm/DbClient.h>
 #include <nlohmann/json.hpp>
+#include <openssl/sha.h>
 #include <string>
 #include <vector>
 
@@ -37,6 +39,7 @@ void PasskeyController::registerFinish(
         nullptr, false);
     if (body.is_discarded() ||
         !body.contains("challenge") ||
+        !body.contains("clientDataJSON") ||
         !body.contains("attestationObject")) {
         cb(::utils::jsonError(
             drogon::k400BadRequest, "missing", "PK_001"));
@@ -52,15 +55,23 @@ void PasskeyController::registerFinish(
         return;
     }
     try {
+        auto clientData = pk::b64urlDecode(
+            body["clientDataJSON"].get<std::string>());
         auto att = pk::b64urlDecode(
             body["attestationObject"].get<std::string>());
-        std::vector<std::uint8_t> hash;
+        std::vector<std::uint8_t> hash(SHA256_DIGEST_LENGTH);
+        SHA256(
+            clientData.data(),
+            clientData.size(),
+            hash.data());
         auto res = pk::verifyAttestation(att, hash);
         auto db = drogon::app().getDbClient();
         db->execSqlAsync(
             "INSERT INTO passkey_credentials "
-            "(user_id,credential_id,public_key,transports)"
-            " VALUES ($1,$2,$3,$4)",
+            "(user_id,credential_id,public_key,transports,aaguid)"
+            " VALUES ("
+            "$1,decode($2,'hex'),decode($3,'hex'),"
+            "ARRAY[]::text[],decode($4,'hex'))",
             [cb](const drogon::orm::Result&) {
                 cb(::utils::jsonOk(json{{"ok", true}}));
             },
@@ -69,8 +80,9 @@ void PasskeyController::registerFinish(
                     drogon::k500InternalServerError,
                     "db", "PK_003"));
             },
-            uid, res.credentialId, res.publicKeyCose,
-            std::vector<std::string>{});
+            uid, pk::toHex(res.credentialId),
+            pk::toHex(res.publicKeyCose),
+            pk::toHex(res.aaguid));
     } catch (const std::exception& e) {
         cb(::utils::jsonError(
             drogon::k400BadRequest, e.what(), "PK_004"));

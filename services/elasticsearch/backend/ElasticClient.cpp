@@ -1,6 +1,6 @@
 /// @file ElasticClient.cpp -- ES constructor and indexDoc.
 /// search is in ElasticClientSearch.cpp.
-#include "search/backend/ElasticClient.h"
+#include "elasticsearch/backend/ElasticClient.h"
 #include "elasticsearch/backend/elastic_client_init.h"
 #include "elasticsearch/backend/elastic_request.h"
 

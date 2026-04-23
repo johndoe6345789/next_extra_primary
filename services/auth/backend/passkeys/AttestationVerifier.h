@@ -1,11 +1,11 @@
 #pragma once
 /**
  * @file AttestationVerifier.h
- * @brief Verify a WebAuthn "none" attestation and return the
- *        parsed credential public key.
+ * @brief Verify a WebAuthn attestation and return the parsed
+ *        credential public key.
  *
- * Only the "none" attestation format is accepted at this stage;
- * other formats (packed, fido-u2f, tpm) are TODO.
+ * Supports "none" and "packed" attestations. Packed statements
+ * accept self attestation and x5c leaf-certificate signatures.
  */
 
 #include "PasskeyTypes.h"

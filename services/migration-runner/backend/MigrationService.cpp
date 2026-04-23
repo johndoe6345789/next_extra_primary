@@ -21,7 +21,12 @@ MigrationService::MigrationService(std::string migrationsDir)
 
 void MigrationService::runMigrations(Callback onSuccess, ErrCallback onError)
 {
-    MigrationRunner runner(migrationsDir_);
+    MigrationRunner runner(
+        migrationsDir_,
+        migrationsDir_ + "/migration-graph.json",
+        migrationsDir_ +
+            "/migration-runner/migrations/"
+            "001_schema_migrations_domain_column.sql");
     runner.runMigrations(onSuccess, onError);
 }
 

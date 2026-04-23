@@ -22,6 +22,7 @@
 #include <vector>
 
 struct rd_kafka_s;
+struct rd_kafka_conf_s;
 
 namespace nextra::infra
 {
@@ -59,7 +60,7 @@ class RdKafkaConsumer final : public IKafkaConsumer
   private:
     /** @brief Build the conf object; logs and returns null on
      *         any conf_set error. */
-    struct rd_kafka_conf_s* buildConf();
+    ::rd_kafka_conf_s* buildConf();
 
     /** @brief Subscribe to @ref topics_; logs errors. */
     void subscribeTopics();

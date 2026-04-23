@@ -5,7 +5,7 @@
  * createIndex is in ElasticClientCreateIndex.cpp.
  */
 
-#include "search/backend/ElasticClient.h"
+#include "elasticsearch/backend/ElasticClient.h"
 #include "elasticsearch/backend/elastic_request.h"
 
 #include <drogon/drogon.h>

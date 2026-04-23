@@ -44,6 +44,7 @@ export {
   Text,
   Title,
   Label,
+  Heading,
   Panel,
   Section,
   StatBadge,

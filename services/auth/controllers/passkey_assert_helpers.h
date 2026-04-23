@@ -31,12 +31,12 @@ inline services::auth::passkeys::CoseKeyParsed parsePubKey(
  * @brief Build the signed-in JSON response, attach the
  *        nextra_sso cookie, and async-touch last_used_at.
  * @param userId Local user UUID from the credential row.
- * @param credId Raw credential id bytes for the UPDATE.
+ * @param credIdHex Hex credential id for the UPDATE.
  * @param cb     Controller response callback to invoke.
  */
 void issuePasskeySession(
     const std::string& userId,
-    const std::vector<std::uint8_t>& credId,
+    const std::string& credIdHex,
     std::function<void(
         const drogon::HttpResponsePtr&)> cb);
 

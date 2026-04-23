@@ -43,7 +43,8 @@ void MigrationRunnerScan::pending(
                     row["filename"].as<std::string>());
             std::vector<std::string> out;
             for (const auto& f : allFiles) {
-                if (!std::ranges::contains(applied, f))
+                if (std::ranges::find(applied, f)
+                        == applied.end())
                     out.push_back(f);
             }
             onReady(std::move(out));

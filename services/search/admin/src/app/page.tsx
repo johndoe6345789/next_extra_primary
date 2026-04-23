@@ -27,7 +27,7 @@ export default function SearchPage() {
       <Heading level={1}>Search Indexer</Heading>
       {error && (
         <Text
-          variant="body-small"
+          sm
           data-testid="indexes-error"
         >
           Failed to load indexes: {error}
@@ -38,7 +38,7 @@ export default function SearchPage() {
         data-testid="index-list"
       >
         {rows.length === 0 && (
-          <Text variant="body-medium">
+          <Text >
             No registered indexes.
           </Text>
         )}

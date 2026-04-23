@@ -51,7 +51,6 @@ void GotenbergClient::render(const std::string& html,
                              const OnError&   onErr)
 {
     auto client = HttpClient::newHttpClient(cfg_.gotenbergUrl);
-    client->setTimeout(cfg_.timeoutMs / 1000.0);
 
     const auto boundary = makeBoundary();
     auto req = HttpRequest::newHttpRequest();

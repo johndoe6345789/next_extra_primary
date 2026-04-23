@@ -38,7 +38,6 @@ DeliveryResult WebhookClient::send(const DeliveryJob& job)
     DeliveryResult out;
     const auto [base, path] = splitUrl(job.url);
     auto client = drogon::HttpClient::newHttpClient(base);
-    client->setTimeout(cfg_.requestTimeout.count() / 1000.0);
     auto req = drogon::HttpRequest::newHttpRequest();
     req->setMethod(drogon::Post);
     req->setPath(path);

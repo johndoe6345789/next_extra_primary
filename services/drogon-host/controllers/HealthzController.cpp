@@ -7,7 +7,7 @@
 #include "drogon-host/backend/utils/JsonResponse.h"
 #include "infra/backend/RedisClient.h"
 #include "infra/backend/KafkaProducer.h"
-#include "search/backend/ElasticClient.h"
+#include "elasticsearch/backend/ElasticClient.h"
 
 #include <drogon/drogon.h>
 #include <spdlog/spdlog.h>

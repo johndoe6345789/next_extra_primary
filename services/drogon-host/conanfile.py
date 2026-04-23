@@ -19,7 +19,7 @@ class NextraBackend(ConanFile):
 
     def requirements(self):
         """Declare runtime dependencies."""
-        self.requires("drogon/1.9.8")
+        self.requires("drogon/1.9.3")
         self.requires("nlohmann_json/3.11.3")
         self.requires("cli11/2.4.2")
         self.requires("jwt-cpp/0.7.0")

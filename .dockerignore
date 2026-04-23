@@ -18,6 +18,9 @@
 .idea
 .DS_Store
 
+# Claude Code worktrees & caches (not source; 10+ GB typ.)
+.claude
+
 # Docker itself
 docker-compose*.yml
 **/Dockerfile*

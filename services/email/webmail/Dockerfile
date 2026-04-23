@@ -1,16 +1,20 @@
+# syntax=docker/dockerfile:1.7
 # Email client frontend — dev mode with next dev.
 # Contexts: default=services/email/webmail, shared=shared
 # Source is baked into the image; named volumes preserve
 # node_modules and .next cache across restarts.
 
-FROM node:22-slim
+FROM node:20-alpine
 
 # Place shared at the path file:../../../shared/* resolves to
 COPY --from=shared . /build/shared/
 
 WORKDIR /build/services/email/webmail
 COPY package.json ./
-RUN npm install
+RUN npm config set fetch-retries 5 && \
+    npm config set fetch-retry-mintimeout 20000 && \
+    npm config set fetch-retry-maxtimeout 120000 && \
+    npm install --prefer-offline --no-audit --no-fund
 
 # Symlink so bare /build/node_modules also resolves
 RUN ln -s \

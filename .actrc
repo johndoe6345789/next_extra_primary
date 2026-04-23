@@ -1,0 +1,12 @@
+# act configuration — https://nektosact.com
+# Use the medium runner image: ships buildx, which docker/bake-action needs.
+# The default (catthehacker/ubuntu:act-latest) is buildx-less and will fail.
+-P ubuntu-latest=catthehacker/ubuntu:act-22.04
+
+# Load local-only secrets from .secrets (gitignored).
+--secret-file .secrets
+
+# Default event payload: supplies workflow_dispatch inputs
+# (local_mode=true, local_registry=host.docker.internal:5050)
+# so `act workflow_dispatch` just works against your own package repo.
+--eventpath .github/act-event.json

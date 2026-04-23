@@ -45,13 +45,13 @@ export function QueryTester() {
       </Button>
       {error && (
         <Text
-          variant="body-small"
+          sm
           data-testid="query-error"
         >
           {error}
         </Text>
       )}
-      <Text variant="body-small">
+      <Text sm>
         {total} results
       </Text>
       <ul data-testid="query-hits">

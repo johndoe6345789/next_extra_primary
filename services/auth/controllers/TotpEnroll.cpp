@@ -24,6 +24,24 @@ using Cb = std::function<void(
     const drogon::HttpResponsePtr&)>;
 namespace totp = services::auth::totp;
 
+namespace
+{
+// Encode a vector of plain alphanumeric codes as a
+// PostgreSQL text[] literal "{a,b,c}". No escaping
+// needed — recovery codes are hex or base32.
+std::string encodePgArray(
+    const std::vector<std::string>& v)
+{
+    std::string out = "{";
+    for (size_t i = 0; i < v.size(); ++i) {
+        if (i) out += ',';
+        out += v[i];
+    }
+    out += '}';
+    return out;
+}
+}
+
 namespace controllers
 {
 
@@ -63,7 +81,7 @@ void TotpController::enroll(
                 drogon::k500InternalServerError,
                 "db", "TOTP_001"));
         },
-        uid, secret, hashes);
+        uid, secret, encodePgArray(hashes));
 }
 
 } // namespace controllers

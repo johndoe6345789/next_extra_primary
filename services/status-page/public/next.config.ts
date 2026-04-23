@@ -1,19 +1,41 @@
-import type { NextConfig } from 'next'
+import type { NextConfig } from 'next';
+import path from 'path';
 
-/**
- * Next config for the public status tool.
- * basePath is '/status' because nginx mounts
- * this app under /status in the portal. This
- * is the only tool that is NOT SSO-gated —
- * status pages must stay publicly reachable.
- */
+const monorepoRoot = path.resolve(
+  __dirname, '../../..',
+);
+
 const nextConfig: NextConfig = {
   basePath: process.env.NEXT_BASE_PATH || '/status',
   output: 'standalone',
   reactStrictMode: true,
   sassOptions: {
     silenceDeprecations: ['legacy-js-api'],
+    includePaths: [
+      path.join(monorepoRoot, 'shared/scss'),
+      path.join(
+        monorepoRoot, 'shared/scss/m3-scss',
+      ),
+    ],
+    loadPaths: [
+      path.join(
+        monorepoRoot, 'shared/scss/m3-scss',
+      ),
+      path.join(monorepoRoot, 'shared/scss'),
+    ],
   },
-}
+  transpilePackages: [
+    '@shared/m3',
+    '@shared/components',
+    '@shared/hooks',
+    '@shared/hooks-canvas',
+    '@shared/icons',
+    '@shared/redux-core',
+    '@shared/redux-slices',
+    '@shared/scss',
+    '@shared/service-adapters',
+  ],
+  turbopack: { root: monorepoRoot },
+};
 
-export default nextConfig
+export default nextConfig;

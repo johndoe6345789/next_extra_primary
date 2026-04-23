@@ -38,16 +38,18 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Docker Buildx for local registry
-        if: ${{ inputs.local_mode }}
+        if: ${{ env.ACT == 'true' || inputs.local_mode }}
         uses: docker/setup-buildx-action@v3
         with:
           buildkitd-config-inline: |
+            [worker.oci]
+              max-parallelism = 6
             [registry."${{ inputs.local_registry }}"]
               http = true
               insecure = true
 
       - name: Set up Docker Buildx
-        if: ${{ !inputs.local_mode }}
+        if: ${{ !(env.ACT == 'true' || inputs.local_mode) }}
         uses: docker/setup-buildx-action@v3
 
       - name: Compute short SHA
@@ -55,7 +57,7 @@ jobs:
         run: echo "short=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
 
       - name: Log in to GHCR
-        if: ${{ !inputs.local_mode }}
+        if: ${{ !(env.ACT == 'true' || inputs.local_mode) }}
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -63,7 +65,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Log in to local registry
-        if: ${{ inputs.local_mode }}
+        if: ${{ env.ACT == 'true' || inputs.local_mode }}
         shell: bash
         env:
           LOCAL_REPO_PASSWORD: ${{ secrets.LOCAL_REPO_PASSWORD }}
@@ -74,7 +76,7 @@ jobs:
               --password-stdin
 
       - name: Build and push all images locally
-        if: ${{ inputs.local_mode }}
+        if: ${{ env.ACT == 'true' || inputs.local_mode }}
         uses: docker/bake-action@v5
         env:
           REGISTRY: ${{ inputs.local_registry }}/${{ github.event.repository.name }}
@@ -85,6 +87,9 @@ jobs:
             docker-bake.hcl
           targets: default
           push: true
+          set: |
+            *.cache-from=type=local,src=/tmp/nextra-buildx-cache
+            *.cache-to=type=local,dest=/tmp/nextra-buildx-cache,mode=max
 
       # Bake reads docker-compose.yml for build contexts /
       # Dockerfiles and docker-bake.hcl for GHCR image tags.
@@ -92,7 +97,7 @@ jobs:
       # by the HCL variable blocks.  GHA cache is applied to
       # every target via the `set` wildcard.
       - name: Build and push all images
-        if: ${{ !inputs.local_mode }}
+        if: ${{ !(env.ACT == 'true' || inputs.local_mode) }}
         uses: docker/bake-action@v5
         env:
           REGISTRY: >-

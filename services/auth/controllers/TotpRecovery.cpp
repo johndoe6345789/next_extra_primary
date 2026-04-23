@@ -22,6 +22,41 @@ using Cb = std::function<void(
     const drogon::HttpResponsePtr&)>;
 namespace totp = services::auth::totp;
 
+namespace
+{
+// Parse PostgreSQL text[] literal "{a,b,c}" into vector.
+// Codes are alphanumeric — no quoting/escaping needed.
+std::vector<std::string> parsePgArray(
+    const std::string& raw)
+{
+    std::vector<std::string> out;
+    if (raw.size() < 2) return out;
+    std::string inner = raw.substr(1, raw.size() - 2);
+    std::string cur;
+    for (char c : inner) {
+        if (c == ',') {
+            if (!cur.empty()) out.push_back(cur);
+            cur.clear();
+        } else {
+            cur.push_back(c);
+        }
+    }
+    if (!cur.empty()) out.push_back(cur);
+    return out;
+}
+std::string encodePgArray(
+    const std::vector<std::string>& v)
+{
+    std::string out = "{";
+    for (size_t i = 0; i < v.size(); ++i) {
+        if (i) out += ',';
+        out += v[i];
+    }
+    out += '}';
+    return out;
+}
+}
+
 namespace controllers
 {
 
@@ -54,8 +89,9 @@ void TotpController::recovery(
                     "none", "TOTP_008"));
                 return;
             }
-            auto arr = r[0]["recovery_codes"]
-                .as<std::vector<std::string>>();
+            auto arr = parsePgArray(
+                r[0]["recovery_codes"]
+                    .as<std::string>());
             int idx = totp::findMatchingRecoveryCode(
                 code, arr);
             if (idx < 0) {
@@ -78,7 +114,7 @@ void TotpController::recovery(
                         drogon::k500InternalServerError,
                         "db", "TOTP_010"));
                 },
-                arr, uid);
+                encodePgArray(arr), uid);
         },
         [cb](const drogon::orm::DrogonDbException&) {
             cb(::utils::jsonError(

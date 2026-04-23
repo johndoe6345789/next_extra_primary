@@ -9,7 +9,7 @@
  */
 
 import { useState } from 'react'
-import { Button, TextField, Select } from '@shared/m3'
+import { Button, TextField, Select, MenuItem } from '@shared/m3'
 import type {
   PollKind,
 } from '@/hooks/usePolls'
@@ -71,13 +71,13 @@ export function PollEditor({
         onChange={e => setQuestion(e.target.value)}
       />
       <Select
-        label="Kind"
         value={kind}
-        onChange={v => setKind(v as PollKind)}
-        options={KINDS.map(k => ({
-          label: k, value: k,
-        }))}
-      />
+        onChange={v => setKind(v.target.value as PollKind)}
+      >
+        {KINDS.map(k => (
+          <MenuItem key={k} value={k}>{k}</MenuItem>
+        ))}
+      </Select>
       <TextField
         label="Options (one per line)"
         multiline

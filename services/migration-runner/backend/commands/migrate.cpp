@@ -22,7 +22,7 @@ namespace commands
 static void doStatus()
 {
     runMigrateLoop([] {
-        services::MigrationStatusQuery::run(
+        services::MigrationStatusQuery::getStatus(
             SERVICES_ROOT,
             [](const nlohmann::json& j) {
                 fmt::print("{}\n", j.dump(2));
@@ -39,7 +39,7 @@ static void doStatus()
 static void doDown()
 {
     runMigrateLoop([] {
-        services::MigrationRollback::run(
+        services::MigrationRollback::rollbackLast(
             SERVICES_ROOT,
             [](const nlohmann::json& j) {
                 fmt::print("{}\n", j.dump(2));

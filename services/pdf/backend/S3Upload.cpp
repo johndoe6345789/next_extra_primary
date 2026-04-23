@@ -22,7 +22,6 @@ std::string S3Upload::put(const std::string& key,
                           const std::string& bytes) const
 {
     auto client = HttpClient::newHttpClient(cfg_.s3Endpoint);
-    client->setTimeout(cfg_.timeoutMs / 1000.0);
 
     auto req = HttpRequest::newHttpRequest();
     req->setMethod(Put);

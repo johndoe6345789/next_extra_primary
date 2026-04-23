@@ -4,10 +4,14 @@
  * @brief Creates all nextra Elasticsearch indices on startup.
  */
 
-#include "search/backend/ElasticClient.h"
+#include "elasticsearch/backend/ElasticClient.h"
+
+#include <nlohmann/json.hpp>
 
 namespace services
 {
+
+using json = nlohmann::json;
 
 /**
  * @class SearchIndexInit

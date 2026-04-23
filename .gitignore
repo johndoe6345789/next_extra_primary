@@ -39,6 +39,7 @@ __pycache__/
 .env.local
 .env.*.local
 .local/dev-token
+.secrets
 
 # Generated TLS material for the mail container (regenerated at first boot
 # by docker/mail/entrypoint). Never commit keys into a template.

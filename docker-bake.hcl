@@ -70,7 +70,8 @@ target "nextra-api" {
     commands = ".local/commands"
   }
   args = {
-    DEPS_IMAGE    = "debian:sid"
+    DEPS_IMAGE    = "${REGISTRY}/nextra-base-conan:latest"
+    APT_IMAGE     = "${REGISTRY}/nextra-base-apt:latest"
     RUNTIME_IMAGE = "debian:sid-slim"
   }
   tags = [

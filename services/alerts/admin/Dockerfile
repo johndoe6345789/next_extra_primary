@@ -1,12 +1,16 @@
+# syntax=docker/dockerfile:1.7
 # Alerts frontend — monorepo-aware build.
 # Contexts: default=services/alerts/admin, shared=shared
 
 # -- Stage 1: deps --------------------------
-FROM node:22-bookworm-slim AS deps
+FROM node:20-alpine AS deps
 COPY --from=shared . /build/shared/
 WORKDIR /build/services/alerts/admin
 COPY package.json package-lock.json* ./
-RUN npm ci || npm install
+RUN npm config set fetch-retries 5 \
+  && npm config set fetch-retry-mintimeout 20000 \
+  && npm config set fetch-retry-maxtimeout 120000
+RUN npm install --legacy-peer-deps --prefer-offline --no-audit --no-fund || npm install --prefer-offline --no-audit --no-fund
 RUN ln -s \
     /build/services/alerts/admin/node_modules \
     /build/node_modules

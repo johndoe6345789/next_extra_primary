@@ -1,17 +1,41 @@
-import type { NextConfig } from 'next'
+import type { NextConfig } from 'next';
+import path from 'path';
 
-/**
- * Next config for the cron operator tool.
- * basePath is '/cron' because nginx mounts
- * this app under /cron in the portal.
- */
+const monorepoRoot = path.resolve(
+  __dirname, '../../..',
+);
+
 const nextConfig: NextConfig = {
-  basePath: '/cron',
+  basePath: process.env.NEXT_BASE_PATH || '/cron',
   output: 'standalone',
   reactStrictMode: true,
   sassOptions: {
     silenceDeprecations: ['legacy-js-api'],
+    includePaths: [
+      path.join(monorepoRoot, 'shared/scss'),
+      path.join(
+        monorepoRoot, 'shared/scss/m3-scss',
+      ),
+    ],
+    loadPaths: [
+      path.join(
+        monorepoRoot, 'shared/scss/m3-scss',
+      ),
+      path.join(monorepoRoot, 'shared/scss'),
+    ],
   },
-}
+  transpilePackages: [
+    '@shared/m3',
+    '@shared/components',
+    '@shared/hooks',
+    '@shared/hooks-canvas',
+    '@shared/icons',
+    '@shared/redux-core',
+    '@shared/redux-slices',
+    '@shared/scss',
+    '@shared/service-adapters',
+  ],
+  turbopack: { root: monorepoRoot },
+};
 
-export default nextConfig
+export default nextConfig;
