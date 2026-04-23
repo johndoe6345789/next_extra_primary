@@ -48,6 +48,8 @@ void loadUsers(const std::filesystem::path& path,
             user.value("email_confirmed", false),
             user.value("total_points", 0),
             user.value("current_level", 1));
+        if (rows.empty())
+            throw std::runtime_error("User upsert returned no id");
         auto userId = rows[0]["id"].as<std::string>();
         db->execSqlSync(
             "INSERT INTO streaks (user_id, current_streak,"

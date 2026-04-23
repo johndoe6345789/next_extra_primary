@@ -7,6 +7,7 @@
 #include "auth/backend/passkeys/Cbor.h"
 #include "auth/backend/passkeys/CoseKey.h"
 #include "auth/backend/passkeys/AssertionVerifier.h"
+#include "auth/backend/passkeys/PasskeyHex.h"
 
 #include <cstdint>
 #include <drogon/HttpResponse.h>
