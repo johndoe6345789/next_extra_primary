@@ -40,4 +40,4 @@ HEALTHCHECK --interval=15s --timeout=5s \
     r=>process.exit(r.statusCode<400?0:1)\
     ).on('error',()=>process.exit(1))"
 
-CMD ["npx", "next", "dev", "--turbopack"]
+CMD ["npx", "next", "dev", "--webpack"]

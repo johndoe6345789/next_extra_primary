@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.7
 # Webhooks frontend — monorepo-aware build.
-# Contexts: default=tools/webhooks, shared=shared
+# Contexts: default=services/webhooks/admin, shared=shared
 
 # -- Stage 1: deps --------------------------
 FROM node:20-alpine AS deps
@@ -36,13 +36,13 @@ COPY --from=build --chown=nextjs:nodejs \
     /build/services/webhooks/admin/.next/standalone ./
 COPY --from=build --chown=nextjs:nodejs \
     /build/services/webhooks/admin/public \
-    ./tools/webhooks/public
+    ./services/webhooks/admin/public
 COPY --from=build --chown=nextjs:nodejs \
     /build/services/webhooks/admin/.next/static \
-    ./tools/webhooks/.next/static
+    ./services/webhooks/admin/.next/static
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-WORKDIR /app/tools/webhooks
+WORKDIR /app/services/webhooks/admin
 CMD ["node", "server.js"]

@@ -27,9 +27,8 @@ class NextraBackend(ConanFile):
         self.requires("mailio/0.23.0")
         self.requires("fmt/10.2.1")
         self.requires("spdlog/1.14.1")
-        # Phase 0 infra dependencies.
         self.requires("hiredis/1.2.0")
-        self.requires("librdkafka/2.3.0")
+        self.requires("librdkafka/2.5.0")
         # libvips is optional; see CMakeLists.txt.
         # Enable with -o with_vips=True if the recipe
         # is available on the consumer's Conan remote.

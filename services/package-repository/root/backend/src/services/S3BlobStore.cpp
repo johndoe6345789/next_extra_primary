@@ -45,9 +45,27 @@ std::pair<std::string, size_t> S3BlobStore::store(const std::string& data)
     req->setContentTypeString("application/octet-stream");
     req->setBody(data);
 
-    auto [result, resp] = client->sendRequest(req, 30.0);
-    (void)result;
-    (void)resp;
+    // Timeout scales with payload size: 30 s + 1 s per MB,
+    // capped at 600 s. A fresh nextra-base-conan layer is
+    // ~500 MB and must fit inside this window.
+    const auto sizeMb = static_cast<double>(data.size()) /
+                        (1024.0 * 1024.0);
+    const auto timeout = std::min(600.0, 30.0 + sizeMb);
+
+    auto [result, resp] = client->sendRequest(req, timeout);
+    if (result != drogon::ReqResult::Ok || !resp) {
+        LOG_ERROR << "S3 PUT failed key=" << key
+                  << " size=" << data.size()
+                  << " result=" << static_cast<int>(result);
+        return {"", 0};
+    }
+    const auto code = resp->statusCode();
+    if (code < drogon::k200OK || code >= drogon::k300MultipleChoices) {
+        LOG_ERROR << "S3 PUT rejected key=" << key
+                  << " size=" << data.size()
+                  << " status=" << static_cast<int>(code);
+        return {"", 0};
+    }
     return {digest, data.size()};
 }
 

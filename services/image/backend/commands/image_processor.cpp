@@ -15,6 +15,7 @@
 #include <atomic>
 #include <chrono>
 #include <csignal>
+#include <future>
 #include <thread>
 
 namespace
@@ -32,6 +33,12 @@ void cmdImageProcessor(const std::string& config)
     std::signal(SIGTERM, onSignal);
 
     drogon::app().loadConfigFile(config);
+    std::promise<void> started;
+    auto startedFuture = started.get_future();
+    drogon::app().registerBeginningAdvice(
+        [&started] { started.set_value(); });
+    std::thread httpThread([] { drogon::app().run(); });
+    startedFuture.wait();
     auto db = drogon::app().getDbClient();
 
     auto cfg = nextra::image::loadProcessorConfig(
@@ -44,8 +51,6 @@ void cmdImageProcessor(const std::string& config)
 
     proc.start();
     spdlog::info("image-processor: ready");
-
-    std::thread httpThread([] { drogon::app().run(); });
 
     while (!g_stop.load())
         std::this_thread::sleep_for(

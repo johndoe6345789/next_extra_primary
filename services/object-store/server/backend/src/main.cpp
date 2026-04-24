@@ -33,6 +33,9 @@ int main(int argc, char* argv[])
         .setLogLevel(trantor::Logger::kInfo)
         .addListener("0.0.0.0", port)
         .setThreadNum(4)
+        // Accept blob uploads up to 2 GB. Default is 1 MB
+        // which rejects Docker layer pushes with HTTP 413.
+        .setClientMaxBodySize(2ULL * 1024 * 1024 * 1024)
         .run();
 
     return 0;

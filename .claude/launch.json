@@ -3,13 +3,9 @@
   "configurations": [
     {
       "name": "portal",
-      "runtimeExecutable": "docker",
-      "runtimeArgs": [
-        "compose", "up", "--no-deps",
-        "frontend", "portal"
-      ],
-      "port": 8889,
-      "autoPort": false,
+      "runtimeExecutable": "node",
+      "runtimeArgs": [".claude/proxy.js"],
+      "port": 8891,
       "cwd": "."
     }
   ]

@@ -36,13 +36,13 @@ COPY --from=build --chown=nextjs:nodejs \
     /build/services/cron/admin/.next/standalone ./
 COPY --from=build --chown=nextjs:nodejs \
     /build/services/cron/admin/public \
-    ./tools/cron/public
+    ./services/cron/admin/public
 COPY --from=build --chown=nextjs:nodejs \
     /build/services/cron/admin/.next/static \
-    ./tools/cron/.next/static
+    ./services/cron/admin/.next/static
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-WORKDIR /app/tools/cron
+WORKDIR /app/services/cron/admin
 CMD ["node", "server.js"]

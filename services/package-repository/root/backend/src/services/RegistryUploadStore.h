@@ -50,8 +50,17 @@ inline std::string finalize(const std::string& uuid, const std::string& digest,
     std::ifstream f(pathFor(uuid), std::ios::binary);
     std::string data{std::istreambuf_iterator<char>(f), {}};
     const auto actual = S3BlobStore::sha256(data);
+    if (actual != digest) {
+        fs::remove(pathFor(uuid));
+        return {};
+    }
+    // Only remove the staging file if the store succeeds.
+    // Empty first element of the pair signals S3 failure;
+    // callers must return 400/500 so buildx retries and
+    // we never advertise a blob we can't serve.
+    auto stored = Globals::blobs->store(data);
+    if (stored.first.empty()) return {};
     fs::remove(pathFor(uuid));
-    if (actual != digest) return {};
-    return Globals::blobs->store(data).first;
+    return stored.first;
 }
 } // namespace repo::registry_upload

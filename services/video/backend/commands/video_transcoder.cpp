@@ -15,6 +15,7 @@
 #include <chrono>
 #include <csignal>
 #include <format>
+#include <future>
 #include <thread>
 #include <vector>
 
@@ -33,6 +34,12 @@ void cmdVideoTranscoder(const std::string& config)
     std::signal(SIGTERM, onSignal);
 
     drogon::app().loadConfigFile(config);
+    std::promise<void> started;
+    auto startedFuture = started.get_future();
+    drogon::app().registerBeginningAdvice(
+        [&started] { started.set_value(); });
+    std::thread httpThread([] { drogon::app().run(); });
+    startedFuture.wait();
     auto db  = drogon::app().getDbClient();
     auto cfg = nextra::video::loadTranscoderConfig(
         "constants/video-transcoder.json");
@@ -64,6 +71,8 @@ void cmdVideoTranscoder(const std::string& config)
     for (auto& t : workers) {
         if (t.joinable()) t.join();
     }
+    drogon::app().quit();
+    if (httpThread.joinable()) httpThread.join();
 }
 
 }  // namespace commands
