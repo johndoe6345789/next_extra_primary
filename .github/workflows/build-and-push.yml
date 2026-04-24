@@ -106,6 +106,7 @@ jobs:
             docker-bake.hcl
           targets: default
           push: true
+          provenance: false
           set: |
             *.cache-from=type=gha
             *.cache-to=type=gha,mode=max
