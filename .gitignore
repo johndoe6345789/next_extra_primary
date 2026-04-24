@@ -84,4 +84,5 @@ Thumbs.db
 hs_err_pid*
 replay_pid*
 /.claude/worktrees
+/.claude/scheduled_tasks.lock
 /.playwright-mcp

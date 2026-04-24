@@ -32,7 +32,7 @@
       "port": 5432,
       "dbname": "nextra_db",
       "user": "nextra",
-      "passwd": "nextra_dev",
+      "passwd": "",
       "is_fast": false,
       "connection_number": 4,
       "timeout": 30,
@@ -41,7 +41,7 @@
   ],
   "custom_config": {
     "jwt": {
-      "secret": "change-me-in-production",
+      "secret": "",
       "issuer": "nextra-api",
       "access_token_ttl_seconds": 900,
       "refresh_token_ttl_seconds": 604800
@@ -50,7 +50,7 @@
       "host": "mailserver",
       "port": 587,
       "user": "noreply@nextra.local",
-      "password": "nextra_dev",
+      "password": "",
       "from_address": "noreply@nextra.local",
       "from_name": "Nextra",
       "use_tls": true
