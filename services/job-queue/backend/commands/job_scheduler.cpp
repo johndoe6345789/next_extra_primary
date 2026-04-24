@@ -12,9 +12,12 @@
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 
+#include <atomic>
+#include <chrono>
 #include <csignal>
 #include <fstream>
 #include <future>
+#include <thread>
 
 namespace
 {
