@@ -1,18 +1,19 @@
 const http = require('http');
 const port = process.env.PORT || 8891;
+const upstreamPort = parseInt(process.env.UPSTREAM_PORT || '8889', 10);
 
 // Only the portal root needs the href="//" → href="/" fix.
 const needsRewrite = (url) => url === '/' || url.startsWith('/?');
 
 http.createServer((req, res) => {
-  const upstreamHeaders = { ...req.headers, host: 'localhost:8889' };
+  const upstreamHeaders = { ...req.headers, host: `localhost:${upstreamPort}` };
   // Force plain response so we can string-replace without
   // decompressing binary gzip/br content.
   if (needsRewrite(req.url)) upstreamHeaders['accept-encoding'] = 'identity';
 
   const opts = {
     hostname: 'localhost',
-    port: 8889,
+    port: upstreamPort,
     path: req.url,
     method: req.method,
     headers: upstreamHeaders,
@@ -45,5 +46,5 @@ http.createServer((req, res) => {
   });
   req.pipe(proxy, { end: true });
 }).listen(port, () =>
-  process.stderr.write(`Preview proxy → localhost:8889 on :${port}\n`)
+  process.stderr.write(`Preview proxy → localhost:${upstreamPort} on :${port}\n`)
 );

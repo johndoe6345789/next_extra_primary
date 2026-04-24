@@ -5,6 +5,7 @@
 
 #include "S3BlobStore.h"
 
+#include <algorithm>
 #include <drogon/HttpAppFramework.h>
 
 namespace repo

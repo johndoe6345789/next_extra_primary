@@ -4,6 +4,8 @@ import path from 'path';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
+const MONOREPO_ROOT = path.resolve(__dirname, '..');
+
 /**
  * Next.js configuration with next-intl integration,
  * standalone output for Docker deployments, and
@@ -13,7 +15,8 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const BACKEND = process.env.BACKEND_URL ?? 'http://localhost:8080';
 
 const nextConfig: NextConfig = {
-  outputFileTracingRoot: path.join(__dirname, '..'),
+  outputFileTracingRoot: MONOREPO_ROOT,
+  turbopack: { root: MONOREPO_ROOT },
   sassOptions: {
     includePaths: [
       path.join(__dirname, '..', 'shared', 'scss', 'm3-scss'),
