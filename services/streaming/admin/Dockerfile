@@ -36,13 +36,13 @@ COPY --from=build --chown=nextjs:nodejs \
     /build/services/streaming/admin/.next/standalone ./
 COPY --from=build --chown=nextjs:nodejs \
     /build/services/streaming/admin/public \
-    ./tools/streams/public
+    ./services/streaming/admin/public
 COPY --from=build --chown=nextjs:nodejs \
     /build/services/streaming/admin/.next/static \
-    ./tools/streams/.next/static
+    ./services/streaming/admin/.next/static
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-WORKDIR /app/tools/streams
+WORKDIR /app/services/streaming/admin
 CMD ["node", "server.js"]

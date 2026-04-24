@@ -14,6 +14,7 @@
 #include <atomic>
 #include <csignal>
 #include <fstream>
+#include <future>
 #include <thread>
 
 namespace nextra::cron
@@ -51,6 +52,12 @@ void cmdCronManager(const std::string& config)
     std::signal(SIGTERM, onSignal);
 
     drogon::app().loadConfigFile(config);
+    std::promise<void> started;
+    auto startedFuture = started.get_future();
+    drogon::app().registerBeginningAdvice(
+        [&started] { started.set_value(); });
+    std::thread httpThread([] { drogon::app().run(); });
+    startedFuture.wait();
     auto db = drogon::app().getDbClient();
 
     std::ifstream f("constants/cron-manager.json");
@@ -65,7 +72,6 @@ void cmdCronManager(const std::string& config)
     manager.start();
     spdlog::info("cron-manager daemon ready");
 
-    std::thread httpThread([] { drogon::app().run(); });
     while (!g_stop.load())
         std::this_thread::sleep_for(std::chrono::milliseconds{200});
 

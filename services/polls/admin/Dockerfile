@@ -36,13 +36,13 @@ COPY --from=build --chown=nextjs:nodejs \
     /build/services/polls/admin/.next/standalone ./
 COPY --from=build --chown=nextjs:nodejs \
     /build/services/polls/admin/public \
-    ./tools/polls/public
+    ./services/polls/admin/public
 COPY --from=build --chown=nextjs:nodejs \
     /build/services/polls/admin/.next/static \
-    ./tools/polls/.next/static
+    ./services/polls/admin/.next/static
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-WORKDIR /app/tools/polls
+WORKDIR /app/services/polls/admin
 CMD ["node", "server.js"]

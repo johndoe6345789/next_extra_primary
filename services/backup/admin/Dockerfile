@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.7
 # Backups frontend — monorepo-aware build.
-# Contexts: default=tools/backups, shared=shared
+# Contexts: default=services/backup/admin, shared=shared
 
 # -- Stage 1: deps --------------------------
 FROM node:20-alpine AS deps
@@ -36,13 +36,13 @@ COPY --from=build --chown=nextjs:nodejs \
     /build/services/backup/admin/.next/standalone ./
 COPY --from=build --chown=nextjs:nodejs \
     /build/services/backup/admin/public \
-    ./tools/backups/public
+    ./services/backup/admin/public
 COPY --from=build --chown=nextjs:nodejs \
     /build/services/backup/admin/.next/static \
-    ./tools/backups/.next/static
+    ./services/backup/admin/.next/static
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-WORKDIR /app/tools/backups
+WORKDIR /app/services/backup/admin
 CMD ["node", "server.js"]

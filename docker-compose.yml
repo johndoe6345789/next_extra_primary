@@ -255,8 +255,8 @@ services:
       args:
         DEPS_IMAGE: debian:sid
         RUNTIME_IMAGE: debian:sid-slim
-    command: ["./nextra-api", "job-scheduler",
-              "--config", "config/config.json"]
+    command: ["job-scheduler",
+              "--config", "config/config.worker.prod.json"]
     depends_on:
       db:
         condition: service_healthy
@@ -293,8 +293,8 @@ services:
       args:
         DEPS_IMAGE: debian:sid
         RUNTIME_IMAGE: debian:sid-slim
-    command: ["./nextra-api", "video-transcoder",
-              "--config", "config/config.json"]
+    command: ["video-transcoder",
+              "--config", "config/config.worker.prod.json"]
     depends_on:
       db:
         condition: service_healthy
@@ -322,8 +322,8 @@ services:
       args:
         DEPS_IMAGE: debian:sid
         RUNTIME_IMAGE: debian:sid-slim
-    command: ["./nextra-api", "cron-manager",
-              "--config", "config/config.json"]
+    command: ["cron-manager",
+              "--config", "config/config.worker.prod.json"]
     depends_on:
       db:
         condition: service_healthy
@@ -355,8 +355,8 @@ services:
       args:
         DEPS_IMAGE: debian:sid
         RUNTIME_IMAGE: debian:sid-slim
-    command: ["./nextra-api", "notification-router",
-              "--config", "config/config.json"]
+    command: ["notification-router",
+              "--config", "config/config.worker.prod.json"]
     depends_on:
       db:
         condition: service_healthy
@@ -404,8 +404,8 @@ services:
       args:
         DEPS_IMAGE: debian:sid
         RUNTIME_IMAGE: debian:sid-slim
-    command: ["./nextra-api", "image-processor",
-              "--config", "config/config.json"]
+    command: ["image-processor",
+              "--config", "config/config.worker.prod.json"]
     depends_on:
       db:
         condition: service_healthy
@@ -462,8 +462,8 @@ services:
       args:
         DEPS_IMAGE: debian:sid
         RUNTIME_IMAGE: debian:sid-slim
-    command: ["./nextra-api", "pdf-generator",
-              "--config", "config/config.json"]
+    command: ["pdf-generator",
+              "--config", "config/config.worker.prod.json"]
     depends_on:
       db:
         condition: service_healthy
@@ -494,8 +494,8 @@ services:
       args:
         DEPS_IMAGE: debian:sid
         RUNTIME_IMAGE: debian:sid-slim
-    command: ["./nextra-api", "ecommerce-api",
-              "--config", "config/config.json"]
+    command: ["ecommerce-api",
+              "--config", "config/config.worker.prod.json"]
     depends_on:
       db:
         condition: service_healthy
@@ -557,8 +557,8 @@ services:
       args:
         DEPS_IMAGE: debian:sid
         RUNTIME_IMAGE: debian:sid-slim
-    command: ["./nextra-api", "search-indexer",
-              "--config", "config/config.json"]
+    command: ["search-indexer",
+              "--config", "config/config.worker.prod.json"]
     depends_on:
       db:
         condition: service_healthy
@@ -621,8 +621,8 @@ services:
       args:
         DEPS_IMAGE: debian:sid
         RUNTIME_IMAGE: debian:sid-slim
-    command: ["./nextra-api", "media-streaming",
-              "--config", "config/config.json"]
+    command: ["media-streaming",
+              "--config", "config/config.worker.prod.json"]
     depends_on:
       db:
         condition: service_healthy
@@ -682,8 +682,8 @@ services:
       args:
         DEPS_IMAGE: debian:sid
         RUNTIME_IMAGE: debian:sid-slim
-    command: ["./nextra-api", "backup-manager",
-              "--config", "config/config.json"]
+    command: ["backup-manager",
+              "--config", "config/config.worker.prod.json"]
     depends_on:
       db:
         condition: service_healthy
@@ -712,8 +712,8 @@ services:
       args:
         DEPS_IMAGE: debian:sid
         RUNTIME_IMAGE: debian:sid-slim
-    command: ["./nextra-api", "webhook-dispatcher",
-              "--config", "config/config.json"]
+    command: ["webhook-dispatcher",
+              "--config", "config/config.worker.prod.json"]
     depends_on:
       db:
         condition: service_healthy
@@ -862,8 +862,8 @@ services:
       args:
         DEPS_IMAGE: debian:sid
         RUNTIME_IMAGE: debian:sid-slim
-    command: ["./nextra-api", "audit-manager",
-              "--config", "config/config.json"]
+    command: ["audit-manager",
+              "--config", "config/config.worker.prod.json"]
     depends_on:
       db:
         condition: service_healthy

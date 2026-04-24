@@ -51,7 +51,7 @@ int main()
     auto port = std::stoi(env("PORT", "5000"));
     drogon::app()
         .setLogLevel(trantor::Logger::kTrace)
-        .setClientMaxBodySize(512 * 1024 * 1024)
+        .setClientMaxBodySize(2ULL * 1024 * 1024 * 1024)
         .addListener("0.0.0.0", (uint16_t)port)
         .setThreadNum(4)
         .registerBeginningAdvice(

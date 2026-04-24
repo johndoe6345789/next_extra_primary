@@ -51,8 +51,10 @@ inline void renderCard(
     const auto desc =
         t.value("description", std::string{});
 
+    const auto href = (url.empty() ||
+        url.back() == '/') ? url : url + "/";
     os << "    <a class=\"card\" href=\""
-       << esc(url) << "/\">\n"
+       << esc(href) << "\">\n"
        << "      <div class=\"icon\">"
        << esc(emoji) << "</div>\n"
        << "      <h2>" << esc(label) << "</h2>\n"

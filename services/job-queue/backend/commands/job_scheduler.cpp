@@ -14,6 +14,7 @@
 
 #include <csignal>
 #include <fstream>
+#include <future>
 
 namespace
 {
@@ -58,6 +59,12 @@ void cmdJobScheduler(const std::string& config)
     std::signal(SIGTERM, onSignal);
 
     drogon::app().loadConfigFile(config);
+    std::promise<void> started;
+    auto startedFuture = started.get_future();
+    drogon::app().registerBeginningAdvice(
+        [&started] { started.set_value(); });
+    std::thread httpThread([] { drogon::app().run(); });
+    startedFuture.wait();
     auto db = drogon::app().getDbClient();
 
     auto cfg = loadConfig("constants/job-scheduler.json");
@@ -67,8 +74,6 @@ void cmdJobScheduler(const std::string& config)
         nextra::blog::ScheduledPublisher::makeHandler(db));
     scheduler.start();
     spdlog::info("job-scheduler daemon ready ({} workers)", cfg.workers);
-
-    std::thread httpThread([] { drogon::app().run(); });
 
     while (!g_stop.load())
         std::this_thread::sleep_for(std::chrono::milliseconds{200});

@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.7
 # Search frontend — monorepo-aware build.
-# Contexts: default=tools/search, shared=shared
+# Contexts: default=services/search/admin, shared=shared
 
 # -- Stage 1: deps --------------------------
 FROM node:20-alpine AS deps
@@ -36,13 +36,13 @@ COPY --from=build --chown=nextjs:nodejs \
     /build/services/search/admin/.next/standalone ./
 COPY --from=build --chown=nextjs:nodejs \
     /build/services/search/admin/public \
-    ./tools/search/public
+    ./services/search/admin/public
 COPY --from=build --chown=nextjs:nodejs \
     /build/services/search/admin/.next/static \
-    ./tools/search/.next/static
+    ./services/search/admin/.next/static
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-WORKDIR /app/tools/search
+WORKDIR /app/services/search/admin
 CMD ["node", "server.js"]

@@ -36,13 +36,13 @@ COPY --from=build --chown=nextjs:nodejs \
     /build/services/job-queue/admin/.next/standalone ./
 COPY --from=build --chown=nextjs:nodejs \
     /build/services/job-queue/admin/public \
-    ./tools/jobs/public
+    ./services/job-queue/admin/public
 COPY --from=build --chown=nextjs:nodejs \
     /build/services/job-queue/admin/.next/static \
-    ./tools/jobs/.next/static
+    ./services/job-queue/admin/.next/static
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-WORKDIR /app/tools/jobs
+WORKDIR /app/services/job-queue/admin
 CMD ["node", "server.js"]

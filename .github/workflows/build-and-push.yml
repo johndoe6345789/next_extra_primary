@@ -87,9 +87,6 @@ jobs:
             docker-bake.hcl
           targets: default
           push: true
-          set: |
-            *.cache-from=type=local,src=/tmp/nextra-buildx-cache
-            *.cache-to=type=local,dest=/tmp/nextra-buildx-cache,mode=max
 
       # Bake reads docker-compose.yml for build contexts /
       # Dockerfiles and docker-bake.hcl for GHCR image tags.
