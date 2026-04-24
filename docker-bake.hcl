@@ -277,6 +277,10 @@ target "s3-frontend" {
 }
 
 target "packagerepo-backend" {
+  args = {
+    DEPS_IMAGE    = "${REGISTRY}/nextra-base-conan:latest"
+    RUNTIME_IMAGE = "debian:sid-slim"
+  }
   tags = [
     "${REGISTRY}/packagerepo-backend:${TAG}",
     "${REGISTRY}/packagerepo-backend:latest",

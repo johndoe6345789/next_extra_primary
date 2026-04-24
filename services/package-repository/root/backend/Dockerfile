@@ -1,31 +1,39 @@
-FROM ubuntu:24.04 AS builder
+# syntax=docker/dockerfile:1.7
+ARG DEPS_IMAGE=debian:sid
+ARG RUNTIME_IMAGE=debian:sid-slim
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    cmake g++ make git ca-certificates \
-    libssl-dev libjsoncpp-dev uuid-dev zlib1g-dev \
-    libc-ares-dev libsqlite3-dev libbrotli-dev \
-    libpq-dev && \
+FROM ${DEPS_IMAGE} AS builder
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    ca-certificates cmake g++ gcc git make \
+    pkg-config libssl-dev libpq-dev \
+    python3 python3-pip && \
+    pip3 install --break-system-packages \
+    "conan>=2.0,<3.0" && \
+    conan profile detect --force && \
     rm -rf /var/lib/apt/lists/*
 
-WORKDIR /deps
-RUN git clone --depth 1 --branch v1.9.3 \
-    https://github.com/drogonframework/drogon.git && \
-    cd drogon && git submodule update --init && \
-    cmake -B build -DBUILD_EXAMPLES=OFF \
-    -DCMAKE_BUILD_TYPE=Release && \
-    cmake --build build -j$(nproc) && \
-    cmake --install build
-
 WORKDIR /build
+COPY backend/conanfile.txt .
+
+ENV CONAN_SKIP_TEST=1
+RUN conan install . --build=missing \
+    -s build_type=Release \
+    -s compiler.cppstd=20 \
+    -of /build/conan
+
 COPY backend/CMakeLists.txt .
 COPY backend/src/ src/
-RUN cmake -B out -DCMAKE_BUILD_TYPE=Release && \
-    cmake --build out -j$(nproc)
+RUN cmake -B out \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_TOOLCHAIN_FILE=/build/conan/conan_toolchain.cmake \
+    && cmake --build out -j$(nproc)
 
-FROM ubuntu:24.04
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libssl3t64 libjsoncpp25 libc-ares2 libpq5 \
-    libsqlite3-0 libbrotli1 uuid-runtime \
+FROM ${RUNTIME_IMAGE}
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    ca-certificates libpq5 libssl3 \
     postgresql-client && \
     rm -rf /var/lib/apt/lists/*
 

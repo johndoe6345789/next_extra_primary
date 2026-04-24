@@ -1173,6 +1173,9 @@ services:
     build:
       context: ./services/package-repository/root
       dockerfile: backend/Dockerfile
+      args:
+        DEPS_IMAGE: debian:sid
+        RUNTIME_IMAGE: debian:sid-slim
     ports:
       - "5050:5000"
     environment:
