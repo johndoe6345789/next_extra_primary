@@ -15,6 +15,7 @@ FROM --platform=${BUILD_PLATFORM} ${NODE_IMAGE} AS deps
 COPY --from=shared . /build/shared/
 WORKDIR /build/app
 COPY package.json package-lock.json* ./
+COPY patches/ ./patches/
 RUN npm ci || npm install
 # Hoist node_modules so shared packages can resolve them
 RUN ln -s /build/app/node_modules /build/node_modules

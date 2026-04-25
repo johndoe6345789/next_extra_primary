@@ -1,0 +1,17 @@
+diff --git a/node_modules/next/dist/server/app-render/parse-and-validate-flight-router-state.js b/node_modules/next/dist/server/app-render/parse-and-validate-flight-router-state.js
+index 2f0b64c..39f060d 100644
+--- a/node_modules/next/dist/server/app-render/parse-and-validate-flight-router-state.js
++++ b/node_modules/next/dist/server/app-render/parse-and-validate-flight-router-state.js
+@@ -38,11 +38,7 @@ function parseAndValidateFlightRouterState(stateHeader) {
+         (0, _superstruct.assert)(state, _types.flightRouterStateSchema);
+         return state;
+     } catch  {
+-        throw Object.defineProperty(new Error('The router state header was sent but could not be parsed.'), "__NEXT_ERROR_CODE", {
+-            value: "E10",
+-            enumerable: false,
+-            configurable: true
+-        });
++        return undefined;
+     }
+ }
+ 
