@@ -5,10 +5,12 @@ import Card from '@shared/m3/Card';
 import CardContent from '@shared/m3/CardContent';
 import Typography from '@shared/m3/Typography';
 import { useAuth } from '@/hooks';
+import { useAppDispatch } from '@/store';
 import {
   useListCommentsQuery,
   useCreateCommentMutation,
   useDeleteCommentMutation,
+  commentsApi,
 } from '@/store/api';
 import CommentRow from '../molecules/CommentRow';
 import CommentInput from
@@ -21,6 +23,7 @@ import CommentInput from
  */
 export default function ProfileActivity() {
   const { user } = useAuth();
+  const dispatch = useAppDispatch();
   const { data: comments = [] } =
     useListCommentsQuery(
       { limit: 50, offset: 0 },
@@ -31,8 +34,25 @@ export default function ProfileActivity() {
 
   const post = async () => {
     if (!draft.trim() || !user) return;
-    await create({ content: draft.trim() });
+    const content = draft.trim();
     setDraft('');
+    try {
+      const data =
+        await create({ content }).unwrap();
+      dispatch(
+        commentsApi.util.updateQueryData(
+          'listComments',
+          { limit: 50, offset: 0 },
+          (cache) => {
+            cache.unshift({
+              ...data,
+              username: user.username,
+              displayName: user.displayName,
+            });
+          }
+        )
+      );
+    } catch { /**/ }
   };
 
   return (

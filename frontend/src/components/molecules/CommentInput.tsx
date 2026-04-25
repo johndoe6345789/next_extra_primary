@@ -31,9 +31,11 @@ export default function CommentInput({
         onChange={(e) =>
           setDraft(e.target.value)
         }
-        onKeyDown={(e) =>
-          e.key === 'Enter' && onPost()
-        }
+        onKeyDown={(e) => {
+          if (e.key !== 'Enter') return;
+          e.preventDefault();
+          onPost();
+        }}
         data-testid="comment-input"
         aria-label="Write a comment"
       />
