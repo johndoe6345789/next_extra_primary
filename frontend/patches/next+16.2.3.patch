@@ -1,3 +1,38 @@
+diff --git a/node_modules/next/dist/client/app-index.js b/node_modules/next/dist/client/app-index.js
+index e454a54..33de31b 100644
+--- a/node_modules/next/dist/client/app-index.js
++++ b/node_modules/next/dist/client/app-index.js
+@@ -133,10 +133,10 @@ if (document.readyState === 'loading') {
+     setTimeout(DOMContentLoaded);
+ }
+ const nextServerDataLoadingGlobal = self.__next_f = self.__next_f || [];
+-// Consume all buffered chunks and clear the global data array right after to release memory.
+-// Otherwise it will be retained indefinitely.
++// Consume all buffered chunks. Do NOT clear the array: Turbopack HMR
++// re-executes this module during initial compilation; keeping entries allows
++// re-executions to rebuild the RSC stream rather than hanging on an empty one.
+ nextServerDataLoadingGlobal.forEach(nextServerDataCallback);
+-nextServerDataLoadingGlobal.length = 0;
+ // Patch its push method so subsequent chunks are handled (but not actually pushed to the array).
+ nextServerDataLoadingGlobal.push = nextServerDataCallback;
+ let readable = new ReadableStream({
+@@ -193,7 +193,6 @@ window.__NEXT_CLIENT_RESUME) {
+     initialServerResponse = createFromReadableStream(readable, {
+         callServer: _appcallserver.callServer,
+         findSourceMapURL: _appfindsourcemapurl.findSourceMapURL,
+-        debugChannel,
+         startTime: 0
+     });
+ }
+@@ -237,6 +236,8 @@ const reactRootOptions = {
+     onUncaughtError: _errorboundarycallbacks.onUncaughtError
+ };
+ async function hydrate(instrumentationHooks, assetPrefix) {
++    if (self.__next_hydrated) return;
++    self.__next_hydrated = true;
+     let staticIndicatorState;
+     let webSocket;
+     if (process.env.__NEXT_DEV_SERVER) {
 diff --git a/node_modules/next/dist/server/app-render/parse-and-validate-flight-router-state.js b/node_modules/next/dist/server/app-render/parse-and-validate-flight-router-state.js
 index 2f0b64c..39f060d 100644
 --- a/node_modules/next/dist/server/app-render/parse-and-validate-flight-router-state.js

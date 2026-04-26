@@ -34,16 +34,18 @@ export class ErrorBoundary extends Component<
   };
 
   static getDerivedStateFromError(
-    error: Error,
+    error: unknown,
   ): Partial<ErrorBoundaryState> {
+    const message =
+      error instanceof Error ? error.message : String(error);
     return {
       hasError: true,
-      debugCode: generateDebugCode(error.message),
-      message: error.message,
+      debugCode: generateDebugCode(message),
+      message,
     };
   }
 
-  componentDidCatch(error: Error): void {
+  componentDidCatch(error: unknown): void {
     // eslint-disable-next-line no-console
     console.error(
       `[ErrorBoundary] ${this.state.debugCode}:`,

@@ -12,12 +12,13 @@
  * @returns A short debug reference code.
  */
 export function generateDebugCode(
-  error: string,
+  error: string | undefined,
 ): string {
   const ts = Math.floor(Date.now() / 1000);
+  const msg = error ?? '';
   let hash = 0;
-  for (let i = 0; i < error.length; i++) {
-    hash = ((hash << 5) - hash + error.charCodeAt(i))
+  for (let i = 0; i < msg.length; i++) {
+    hash = ((hash << 5) - hash + msg.charCodeAt(i))
       | 0;
   }
   const hex = Math.abs(hash)
