@@ -1,8 +1,35 @@
 diff --git a/node_modules/next/dist/client/app-index.js b/node_modules/next/dist/client/app-index.js
-index e454a54..33de31b 100644
+index e454a54..a26fdc4 100644
 --- a/node_modules/next/dist/client/app-index.js
 +++ b/node_modules/next/dist/client/app-index.js
-@@ -133,10 +133,10 @@ if (document.readyState === 'loading') {
+@@ -119,9 +119,23 @@
+ // When `DOMContentLoaded`, we can close all pending writers to finish hydration.
+ const DOMContentLoaded = function() {
+     if (initialServerDataWriter && !initialServerDataFlushed) {
+-        initialServerDataWriter.close();
+-        initialServerDataFlushed = true;
+-        initialServerDataBuffer = undefined;
++        // Defer close until window.onload so Turbopack-compiled async
++        // client-component modules finish before the RSC stream closes.
++        // Closing early with _pendingChunks > 0 fires reportGlobalError.
++        const doClose = () => {
++            if (!initialServerDataFlushed) {
++                initialServerDataWriter.close();
++                initialServerDataFlushed = true;
++                initialServerDataBuffer = undefined;
++            }
++        };
++        if (document.readyState === 'complete') {
++            doClose();
++        } else {
++            window.addEventListener('load', doClose, {
++                once: true
++            });
++        }
+     }
+     initialServerDataLoaded = true;
+ };
+@@ -133,10 +147,10 @@
      setTimeout(DOMContentLoaded);
  }
  const nextServerDataLoadingGlobal = self.__next_f = self.__next_f || [];
@@ -16,7 +43,7 @@ index e454a54..33de31b 100644
  // Patch its push method so subsequent chunks are handled (but not actually pushed to the array).
  nextServerDataLoadingGlobal.push = nextServerDataCallback;
  let readable = new ReadableStream({
-@@ -193,7 +193,6 @@ window.__NEXT_CLIENT_RESUME) {
+@@ -193,7 +207,6 @@
      initialServerResponse = createFromReadableStream(readable, {
          callServer: _appcallserver.callServer,
          findSourceMapURL: _appfindsourcemapurl.findSourceMapURL,
@@ -24,7 +51,7 @@ index e454a54..33de31b 100644
          startTime: 0
      });
  }
-@@ -237,6 +236,8 @@ const reactRootOptions = {
+@@ -237,6 +250,8 @@
      onUncaughtError: _errorboundarycallbacks.onUncaughtError
  };
  async function hydrate(instrumentationHooks, assetPrefix) {
@@ -49,4 +76,4 @@ index 2f0b64c..39f060d 100644
 +        return undefined;
      }
  }
- 
+
