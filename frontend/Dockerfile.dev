@@ -8,10 +8,12 @@ ENV NPM_CONFIG_REGISTRY=$NPM_REGISTRY
 COPY --from=shared . /build/shared/
 WORKDIR /build/app
 COPY package.json package-lock.json* ./
+COPY patches/ ./patches/
 RUN npm config set fetch-retries 5 \
   && npm config set fetch-retry-mintimeout 20000 \
   && npm config set fetch-retry-maxtimeout 120000 \
   && npm install --prefer-offline --no-audit --no-fund
+RUN node patches/apply-next-fixes.js
 RUN ln -s /build/app/node_modules /build/node_modules
 
 COPY . .

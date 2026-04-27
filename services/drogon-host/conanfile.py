@@ -15,6 +15,7 @@ class NextraBackend(ConanFile):
     default_options = {
         "drogon/*:with_postgres": True,
         "drogon/*:with_postgres_batch": True,
+        "drogon/*:with_redis": True,
     }
 
     def requirements(self):
