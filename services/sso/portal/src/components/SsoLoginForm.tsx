@@ -74,6 +74,7 @@ export default function SsoLoginForm({
         onChange={(e) => setEmail(e.target.value)}
         autoComplete="email"
         required
+        suppressHydrationWarning
       />
       <label htmlFor="sso-pw">Password</label><input
         id="sso-pw"
@@ -82,6 +83,7 @@ export default function SsoLoginForm({
         onChange={(e) => setPw(e.target.value)}
         autoComplete="current-password"
         required
+        suppressHydrationWarning
       />
       <button
         type="submit"
