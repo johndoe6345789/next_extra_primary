@@ -1,5 +1,20 @@
+'use client';
+
 import { type ReactElement, ReactNode } from 'react';
-import { NextIntlClientProvider } from 'next-intl';
+import { NextIntlClientProvider, IntlErrorCode } from 'next-intl';
+
+/**
+ * Returns the last segment of a missing key as a fallback,
+ * so the UI degrades to a humanish label rather than a
+ * thrown error when translations are incomplete.
+ */
+function fallbackLabel(key: string): string {
+  const last = key.split('.').pop() ?? key;
+  return last
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, (c) => c.toUpperCase())
+    .trim();
+}
 
 /** Props for the internationalisation provider. */
 interface IntlProviderProps {
@@ -27,7 +42,15 @@ export function IntlProvider({
   locale,
 }: IntlProviderProps): ReactElement {
   return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
+    <NextIntlClientProvider
+      locale={locale}
+      messages={messages}
+      onError={(err) => {
+        if (err.code === IntlErrorCode.MISSING_MESSAGE) return;
+        console.error(err);
+      }}
+      getMessageFallback={({ key }) => fallbackLabel(key)}
+    >
       {children}
     </NextIntlClientProvider>
   );

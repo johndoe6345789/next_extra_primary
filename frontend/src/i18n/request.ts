@@ -1,6 +1,16 @@
 import { getRequestConfig } from 'next-intl/server';
+import { IntlErrorCode } from 'next-intl';
 import { routing } from './routing';
 import type { Locale } from './config';
+
+/** Humanise a missing key into a fallback label. */
+function fallbackLabel(key: string): string {
+  const last = key.split('.').pop() ?? key;
+  return last
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, (c) => c.toUpperCase())
+    .trim();
+}
 
 /** Internal API URL for server-side fetching. */
 const API_URL =
@@ -40,5 +50,15 @@ export default getRequestConfig(async ({ requestLocale }) => {
     /* API unreachable — messages stay empty. */
   }
 
-  return { locale, messages };
+  return {
+    locale,
+    messages,
+    onError(err) {
+      if (err.code === IntlErrorCode.MISSING_MESSAGE) return;
+      console.error(err);
+    },
+    getMessageFallback({ key }) {
+      return fallbackLabel(key);
+    },
+  };
 });
