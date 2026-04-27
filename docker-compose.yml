@@ -244,6 +244,283 @@ services:
       FRONTEND_VERSION: "0.1.0"
     restart: unless-stopped
 
+  # ==============================================================
+  #  Drogon microservices (ports 9001–9013)
+  #  All built from docker/service-base.Dockerfile.
+  # ==============================================================
+
+  nextra-auth:
+    build:
+      context: .
+      dockerfile: docker/service-base.Dockerfile
+      args:
+        SVC_NAME: nextra-auth
+        SVC_DIR: auth-service
+        SVC_PORT: "9001"
+    ports:
+      - "9001:9001"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      JWT_SECRET: change-me-in-production
+    restart: unless-stopped
+
+  nextra-social:
+    build:
+      context: .
+      dockerfile: docker/service-base.Dockerfile
+      args:
+        SVC_NAME: nextra-social
+        SVC_DIR: social-service
+        SVC_PORT: "9002"
+    ports:
+      - "9002:9002"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    environment:
+      JWT_SECRET: change-me-in-production
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    restart: unless-stopped
+
+  nextra-notifications:
+    build:
+      context: .
+      dockerfile: docker/service-base.Dockerfile
+      args:
+        SVC_NAME: nextra-notifications
+        SVC_DIR: notifications-service
+        SVC_PORT: "9003"
+    ports:
+      - "9003:9003"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    environment:
+      JWT_SECRET: change-me-in-production
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    restart: unless-stopped
+
+  nextra-comments:
+    build:
+      context: .
+      dockerfile: docker/service-base.Dockerfile
+      args:
+        SVC_NAME: nextra-comments
+        SVC_DIR: comments-service
+        SVC_PORT: "9004"
+    ports:
+      - "9004:9004"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      JWT_SECRET: change-me-in-production
+    restart: unless-stopped
+
+  nextra-analytics:
+    build:
+      context: .
+      dockerfile: docker/service-base.Dockerfile
+      args:
+        SVC_NAME: nextra-analytics
+        SVC_DIR: analytics-service
+        SVC_PORT: "9005"
+    ports:
+      - "9005:9005"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    environment:
+      JWT_SECRET: change-me-in-production
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    restart: unless-stopped
+
+  nextra-gamification:
+    build:
+      context: .
+      dockerfile: docker/service-base.Dockerfile
+      args:
+        SVC_NAME: nextra-gamification
+        SVC_DIR: gamification-service
+        SVC_PORT: "9006"
+    ports:
+      - "9006:9006"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      JWT_SECRET: change-me-in-production
+    restart: unless-stopped
+
+  nextra-content:
+    build:
+      context: .
+      dockerfile: docker/service-base.Dockerfile
+      args:
+        SVC_NAME: nextra-content
+        SVC_DIR: content-service
+        SVC_PORT: "9007"
+    ports:
+      - "9007:9007"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      JWT_SECRET: change-me-in-production
+    restart: unless-stopped
+
+  nextra-media:
+    build:
+      context: .
+      dockerfile: docker/service-base.Dockerfile
+      args:
+        SVC_NAME: nextra-media
+        SVC_DIR: media-service
+        SVC_PORT: "9008"
+    ports:
+      - "9008:9008"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      JWT_SECRET: change-me-in-production
+    restart: unless-stopped
+
+  nextra-search:
+    build:
+      context: .
+      dockerfile: docker/service-base.Dockerfile
+      args:
+        SVC_NAME: nextra-search
+        SVC_DIR: search-service
+        SVC_PORT: "9009"
+    ports:
+      - "9009:9009"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    environment:
+      JWT_SECRET: change-me-in-production
+      ES_HOST: elasticsearch
+      ES_PORT: "9200"
+    restart: unless-stopped
+
+  nextra-infra:
+    build:
+      context: .
+      dockerfile: docker/service-base.Dockerfile
+      args:
+        SVC_NAME: nextra-infra
+        SVC_DIR: infra-service
+        SVC_PORT: "9010"
+    ports:
+      - "9010:9010"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      mailserver:
+        condition: service_healthy
+    environment:
+      JWT_SECRET: change-me-in-production
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SMTP_HOST: mailserver
+      SMTP_PORT: "587"
+      SMTP_USER: noreply@nextra.local
+      SMTP_PASS: nextra_dev
+      SMTP_FROM: noreply@nextra.local
+    restart: unless-stopped
+
+  nextra-ai:
+    build:
+      context: .
+      dockerfile: docker/service-base.Dockerfile
+      args:
+        SVC_NAME: nextra-ai
+        SVC_DIR: ai-service
+        SVC_PORT: "9011"
+    ports:
+      - "9011:9011"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      JWT_SECRET: change-me-in-production
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    restart: unless-stopped
+
+  nextra-platform:
+    build:
+      context: .
+      dockerfile: docker/service-base.Dockerfile
+      args:
+        SVC_NAME: nextra-platform
+        SVC_DIR: platform-service
+        SVC_PORT: "9012"
+    ports:
+      - "9012:9012"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      JWT_SECRET: change-me-in-production
+    restart: unless-stopped
+
+  nextra-commerce:
+    build:
+      context: .
+      dockerfile: docker/service-base.Dockerfile
+      args:
+        SVC_NAME: nextra-commerce
+        SVC_DIR: commerce-service
+        SVC_PORT: "9013"
+    ports:
+      - "9013:9013"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      JWT_SECRET: change-me-in-production
+    restart: unless-stopped
+
   # ---- Job scheduler daemon (durable ad-hoc queue) -----------
   job-scheduler:
     build:

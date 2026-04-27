@@ -61,7 +61,9 @@ export const Navbar: React.FC<NavbarProps> = ({
           <DesktopActions onSearch={onSearch ?? (() => {})} />
           {isAuthenticated ? (
             <>
-              <MentionsBell />
+              <FeatureFlagGate flag="social">
+                <MentionsBell />
+              </FeatureFlagGate>
               <FeatureFlagGate flag="ecommerce">
                 <CartButton />
               </FeatureFlagGate>

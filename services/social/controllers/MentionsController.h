@@ -18,6 +18,10 @@ class MentionsController
   public:
     METHOD_LIST_BEGIN
     ADD_METHOD_TO(
+        MentionsController::list,
+        "/api/social/mentions",
+        drogon::Get, "filters::JwtAuthFilter");
+    ADD_METHOD_TO(
         MentionsController::parse,
         "/api/social/mentions/parse",
         drogon::Post, "filters::JwtAuthFilter");
@@ -30,6 +34,12 @@ class MentionsController
         "/api/social/mentions/{id}/read",
         drogon::Patch, "filters::JwtAuthFilter");
     METHOD_LIST_END
+
+    /** @brief List mentions for the current user. */
+    void list(
+        const drogon::HttpRequestPtr& req,
+        std::function<void(
+            const drogon::HttpResponsePtr&)>&& cb);
 
     /** @brief Extract handles without writing. */
     void parse(

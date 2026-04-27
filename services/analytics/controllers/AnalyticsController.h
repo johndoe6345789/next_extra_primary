@@ -4,10 +4,12 @@
  * @brief Admin analytics HTTP controller.
  *
  * Routes:
- *   GET /api/analytics/summary  — metric totals
- *   GET /api/analytics/series   — daily series
+ *   POST /api/analytics/events  — ingest event
+ *   GET  /api/analytics/summary — metric totals
+ *   GET  /api/analytics/series  — daily series
  *
- * Both endpoints require a JWT with role=admin.
+ * summary/series require role=admin; events
+ * requires any valid JWT.
  */
 
 #include <drogon/HttpController.h>
@@ -22,6 +24,11 @@ class AnalyticsController
   public:
     METHOD_LIST_BEGIN
     ADD_METHOD_TO(
+        AnalyticsController::trackEvent,
+        "/api/analytics/events",
+        drogon::Post,
+        "filters::JwtAuthFilter");
+    ADD_METHOD_TO(
         AnalyticsController::summary,
         "/api/analytics/summary",
         drogon::Get,
@@ -32,6 +39,12 @@ class AnalyticsController
         drogon::Get,
         "filters::JwtAuthFilter");
     METHOD_LIST_END
+
+    /** @brief Ingest a client analytics event. */
+    void trackEvent(
+        const drogon::HttpRequestPtr& req,
+        std::function<void(
+            const drogon::HttpResponsePtr&)>&& cb);
 
     /** @brief Return totals across all metrics. */
     void summary(

@@ -24,5 +24,6 @@
   "feature-flags": ["users"],
   "social": ["users", "notifications"],
   "image": ["users"],
+  "analytics": ["users"],
   "migration-runner": []
 }

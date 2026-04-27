@@ -1,35 +1,8 @@
 diff --git a/node_modules/next/dist/client/app-index.js b/node_modules/next/dist/client/app-index.js
-index e454a54..a26fdc4 100644
+index e454a54..33de31b 100644
 --- a/node_modules/next/dist/client/app-index.js
 +++ b/node_modules/next/dist/client/app-index.js
-@@ -119,9 +119,23 @@
- // When `DOMContentLoaded`, we can close all pending writers to finish hydration.
- const DOMContentLoaded = function() {
-     if (initialServerDataWriter && !initialServerDataFlushed) {
--        initialServerDataWriter.close();
--        initialServerDataFlushed = true;
--        initialServerDataBuffer = undefined;
-+        // Defer close until window.onload so Turbopack-compiled async
-+        // client-component modules finish before the RSC stream closes.
-+        // Closing early with _pendingChunks > 0 fires reportGlobalError.
-+        const doClose = () => {
-+            if (!initialServerDataFlushed) {
-+                initialServerDataWriter.close();
-+                initialServerDataFlushed = true;
-+                initialServerDataBuffer = undefined;
-+            }
-+        };
-+        if (document.readyState === 'complete') {
-+            doClose();
-+        } else {
-+            window.addEventListener('load', doClose, {
-+                once: true
-+            });
-+        }
-     }
-     initialServerDataLoaded = true;
- };
-@@ -133,10 +147,10 @@
+@@ -133,10 +133,10 @@
      setTimeout(DOMContentLoaded);
  }
  const nextServerDataLoadingGlobal = self.__next_f = self.__next_f || [];
@@ -43,7 +16,7 @@ index e454a54..a26fdc4 100644
  // Patch its push method so subsequent chunks are handled (but not actually pushed to the array).
  nextServerDataLoadingGlobal.push = nextServerDataCallback;
  let readable = new ReadableStream({
-@@ -193,7 +207,6 @@
+@@ -193,7 +193,6 @@
      initialServerResponse = createFromReadableStream(readable, {
          callServer: _appcallserver.callServer,
          findSourceMapURL: _appfindsourcemapurl.findSourceMapURL,
@@ -51,7 +24,7 @@ index e454a54..a26fdc4 100644
          startTime: 0
      });
  }
-@@ -237,6 +250,8 @@
+@@ -237,6 +236,8 @@
      onUncaughtError: _errorboundarycallbacks.onUncaughtError
  };
  async function hydrate(instrumentationHooks, assetPrefix) {
@@ -60,6 +33,52 @@ index e454a54..a26fdc4 100644
      let staticIndicatorState;
      let webSocket;
      if (process.env.__NEXT_DEV_SERVER) {
+diff --git a/node_modules/next/dist/client/components/router-reducer/fetch-server-response.js b/node_modules/next/dist/client/components/router-reducer/fetch-server-response.js
+index abc1234..def5678 100644
+--- a/node_modules/next/dist/client/components/router-reducer/fetch-server-response.js
++++ b/node_modules/next/dist/client/components/router-reducer/fetch-server-response.js
+@@ -413,9 +413,11 @@
+ function createFromNextFetch(promiseForResponse, requestHeaders) {
+     return createFromFetch(promiseForResponse, {
+         callServer: _appcallserver.callServer,
+         findSourceMapURL: _appfindsourcemapurl.findSourceMapURL,
+-        debugChannel: createDebugChannel && createDebugChannel(requestHeaders)
++        // Omit debugChannel: the dual-stream close() gate (RSC body +
++        // debug channel both must finish) can prevent close() from firing
++        // during navigation, leaving module-chunk deps pending indefinitely.
+     });
+ }
+diff --git a/node_modules/next/dist/compiled/react-server-dom-turbopack/cjs/react-server-dom-turbopack-client.browser.development.js b/node_modules/next/dist/compiled/react-server-dom-turbopack/cjs/react-server-dom-turbopack-client.browser.development.js
+index c3188d9..a7f3c12 100644
+--- a/node_modules/next/dist/compiled/react-server-dom-turbopack/cjs/react-server-dom-turbopack-client.browser.development.js
++++ b/node_modules/next/dist/compiled/react-server-dom-turbopack/cjs/react-server-dom-turbopack-client.browser.development.js
+@@ -4733,8 +4733,8 @@
+               (response.status = "halted"),
+               (response.value = null),
+               (response.reason = null))
+-            : (chunk = new ReactPromise(
+-                "rejected",
+-                null,
+-                response._closedReason
+-              ))
++            : (chunk = new ReactPromise(
++                "rejected",
++                null,
++                response._closedReason
++              ))
+           : (chunk = createPendingChunk(response)),
+         chunks.set(id, chunk));
+       return chunk;
+@@ -4737,6 +4737,8 @@
+               (response._debugChannel = void 0),
+               null !== debugChannelRegistry &&
+                 debugChannelRegistry.unregister(response)))
+-          : reportGlobalError(weakResponse, Error("Connection closed."));
++          : (response._closed = !0);
++        // Turbopack compiles client-component modules after stream EOF;
++        // _pendingChunks reaches 0 when they finish, resolving chunks naturally.
+       }
+     }
 diff --git a/node_modules/next/dist/server/app-render/parse-and-validate-flight-router-state.js b/node_modules/next/dist/server/app-render/parse-and-validate-flight-router-state.js
 index 2f0b64c..39f060d 100644
 --- a/node_modules/next/dist/server/app-render/parse-and-validate-flight-router-state.js
