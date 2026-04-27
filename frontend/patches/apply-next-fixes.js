@@ -143,37 +143,5 @@ if (changed) {
   fs.writeFileSync(FILE, src);
   console.log('Wrote patched app-index.js');
 } else {
-  console.log('No changes needed to app-index.js');
-}
-
-// 6. RSC router state: return undefined on validation failure
-//    instead of throwing E10. Navigating between route groups
-//    (e.g. (dashboard) → /forum) sends stale __DEFAULT__:{} state
-//    that fails superstruct validation; returning undefined triggers
-//    a full-page render as fallback instead of a 500.
-const FLIGHT_ROUTER_STATE = path.join(
-  __dirname,
-  '..',
-  'node_modules/next/dist/server/app-render/' +
-    'parse-and-validate-flight-router-state.js',
-);
-let routerSrc = fs.readFileSync(FLIGHT_ROUTER_STATE, 'utf8');
-const routerFrom =
-  "throw Object.defineProperty(new Error(" +
-  "'The router state header was sent but could not be parsed.')" +
-  ", \"__NEXT_ERROR_CODE\", {\n" +
-  "            value: \"E10\",\n" +
-  "            enumerable: false,\n" +
-  "            configurable: true\n" +
-  "        });";
-const routerTo = 'return undefined;';
-if (routerSrc.includes(routerFrom)) {
-  routerSrc = routerSrc.replace(routerFrom, routerTo);
-  fs.writeFileSync(FLIGHT_ROUTER_STATE, routerSrc);
-  console.log('OK: router state validation returns undefined on failure');
-} else {
-  console.log(
-    'SKIP (already applied or source changed): ' +
-    'router state validation fix',
-  );
+  console.log('No changes needed');
 }
