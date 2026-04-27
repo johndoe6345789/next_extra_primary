@@ -42,10 +42,11 @@ void ForumController::list(
         "WHERE t.target_type = 'forum_board' "
         "  AND t.deleted_at IS NULL "
         "ORDER BY t.created_at DESC "
-        "LIMIT $1 OFFSET $2";
+        "LIMIT " + std::to_string(limit) +
+        " OFFSET " + std::to_string(offset);
 
     auto db = app().getDbClient();
-    *db << sql << limit << offset
+    *db << sql
         >> [cb, page](const Result& r) {
             json arr = json::array();
             for (const auto& row : r) {

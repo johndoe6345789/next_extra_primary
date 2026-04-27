@@ -28,4 +28,6 @@ nextra_service(
         email/backend
         email/controllers
         imap-sync/backend
+        blog/backend
+        auth/backend
 )

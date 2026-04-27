@@ -33,7 +33,7 @@
       "port": 5432,
       "dbname": "nextra_db",
       "user": "nextra",
-      "passwd": "",
+      "passwd": "nextra_dev",
       "connection_number": 4,
       "timeout": 30,
       "auto_batch": true

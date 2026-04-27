@@ -44,8 +44,8 @@ macro(nextra_service)
 
     set(_srcs "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp")
 
-    foreach(_dir IN LISTS
-            NEXTRA_SERVICE_SHARED_DIRS ${SVC_DIRS})
+    set(_all_dirs ${NEXTRA_SERVICE_SHARED_DIRS} ${SVC_DIRS})
+    foreach(_dir IN LISTS _all_dirs)
         file(GLOB _d
             "${_root}/services/${_dir}/*.cpp")
         list(APPEND _srcs ${_d})
@@ -57,6 +57,10 @@ macro(nextra_service)
         PRIVATE
             "${_root}/services"
             "${_root}/services/drogon-host/backend"
+    )
+
+    target_compile_definitions(${SVC_NAME}
+        PRIVATE NEXTRA_VERSION="${PROJECT_VERSION}"
     )
 
     target_link_libraries(${SVC_NAME}

@@ -10,6 +10,20 @@ include(
     "${CMAKE_CURRENT_SOURCE_DIR}/../../cmake/service.cmake"
 )
 
+# Generate portal_embedded.h from tool-links.json + styles.css
+set(_proj_root "${CMAKE_CURRENT_SOURCE_DIR}/../..")
+file(READ "${_proj_root}/shared/constants/tool-links.json"
+    NEXTRA_TOOL_LINKS_JSON)
+file(READ
+    "${_proj_root}/services/portal/static/styles.css"
+    NEXTRA_PORTAL_STYLES_CSS)
+file(MAKE_DIRECTORY
+    "${CMAKE_BINARY_DIR}/generated/portal/backend")
+configure_file(
+    "${_proj_root}/services/portal/backend/portal_embedded.h.in"
+    "${CMAKE_BINARY_DIR}/generated/portal/backend/portal_embedded.h"
+    @ONLY)
+
 nextra_service(
     NAME nextra-platform
     DIRS
@@ -23,4 +37,10 @@ nextra_service(
         portal/controllers
         drogon-host/controllers
         api-documentation/backend
+        email/backend
+        elasticsearch/backend
+        auth/backend
 )
+
+target_include_directories(nextra-platform
+    PRIVATE "${CMAKE_BINARY_DIR}/generated")

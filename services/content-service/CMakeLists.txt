@@ -20,4 +20,5 @@ nextra_service(
         polls/controllers
         gallery/backend
         gallery/controllers
+        job-queue/backend
 )

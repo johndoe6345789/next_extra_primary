@@ -25,4 +25,7 @@ nextra_service(
         api-keys/controllers
         user-preferences/backend
         user-preferences/controllers
+        email/backend
+        badges/backend
+        drogon-host/backend/commands
 )

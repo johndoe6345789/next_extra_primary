@@ -24,4 +24,5 @@ nextra_service(
         pdf/backend
         pdf/backend/commands
         pdf/controllers
+        job-queue/backend
 )

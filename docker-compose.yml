@@ -1174,7 +1174,7 @@ services:
       - flags_node_modules:/build/tools/flags/node_modules
       - flags_next:/build/tools/flags/.next
     ports:
-      - "9004:3000"
+      - "9019:3000"
     depends_on:
       - backend
     environment:
@@ -1263,7 +1263,7 @@ services:
       - forum_node_modules:/build/tools/forum/node_modules
       - forum_next:/build/tools/forum/.next
     ports:
-      - "9005:3000"
+      - "9020:3000"
     depends_on:
       backend:
         condition: service_started

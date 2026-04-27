@@ -38,7 +38,7 @@
       "port": 5432,
       "dbname": "nextra_db",
       "user": "nextra",
-      "passwd": "",
+      "passwd": "nextra_dev",
       "is_fast": false,
       "connection_number": 4,
       "timeout": 30,
