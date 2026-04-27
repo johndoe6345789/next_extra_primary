@@ -1,13 +1,10 @@
-/**
- * @file CookieAuthFilter.cpp
- * @brief Cookie-based auth with Bearer fallback.
- */
-
+/** @brief Cookie-based auth filter — self-contained, no auth dep. */
 #include "CookieAuthFilter.h"
-#include "auth/backend/AuthService.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
 #include "drogon-host/backend/utils/JwtUtil.h"
 
+#include <drogon/drogon.h>
+#include <spdlog/spdlog.h>
 #include <string>
 #include <string_view>
 
@@ -17,24 +14,39 @@ namespace filters
 namespace
 {
 constexpr std::string_view kBearer = "Bearer ";
+
+void checkBlocklist(
+    const std::string& jti,
+    std::function<void(bool)> cb)
+{
+    auto db = drogon::app().getDbClient();
+    *db << "SELECT 1 FROM token_blocklist "
+           "WHERE jti=$1 LIMIT 1"
+        << jti
+        >> [cb](const drogon::orm::Result& r) {
+            cb(!r.empty());
+        }
+        >> [cb](const drogon::orm::DrogonDbException& e) {
+            spdlog::error("blocklist check: {}",
+                e.base().what());
+            cb(true); // fail closed on DB error
+        };
 }
+} // anonymous namespace
 
 void CookieAuthFilter::doFilter(
     const drogon::HttpRequestPtr& req,
     drogon::FilterCallback&& cb,
     drogon::FilterChainCallback&& ccb)
 {
-    // Try cookie first, then Bearer header.
-    auto token =
-        req->getCookie("nextra_sso");
+    auto token = req->getCookie("nextra_sso");
     if (token.empty()) {
         auto auth =
             req->getHeader("Authorization");
         if (auth.size() > kBearer.size()
             && auth.substr(0, kBearer.size())
                    == kBearer) {
-            token =
-                auth.substr(kBearer.size());
+            token = auth.substr(kBearer.size());
         }
     }
 
@@ -56,10 +68,6 @@ void CookieAuthFilter::doFilter(
         return;
     }
 
-    // Reject refresh tokens: they must NEVER be
-    // accepted as access tokens. A refresh token
-    // used here would bypass the short-lived
-    // access-token policy entirely.
     if (claims.isRefresh) {
         cb(::utils::jsonError(
             drogon::k401Unauthorized,
@@ -68,26 +76,24 @@ void CookieAuthFilter::doFilter(
         return;
     }
 
-    auto userId = claims.userId;
-    auto role = claims.role;
-
-    services::AuthService auth;
-    auth.isTokenBlocked(
+    const auto userId = claims.userId;
+    const auto role   = claims.role;
+    checkBlocklist(
         token,
         [req, cb, ccb = std::move(ccb),
          userId, role](bool blocked) mutable {
-        if (blocked) {
-            cb(::utils::jsonError(
-                drogon::k401Unauthorized,
-                "Token revoked", "AUTH_004"));
-            return;
-        }
-        req->attributes()->insert(
-            "user_id", userId);
-        req->attributes()->insert(
-            "user_role", role);
-        ccb();
-    });
+            if (blocked) {
+                cb(::utils::jsonError(
+                    drogon::k401Unauthorized,
+                    "Token revoked", "AUTH_004"));
+                return;
+            }
+            req->attributes()->insert(
+                "user_id", userId);
+            req->attributes()->insert(
+                "user_role", role);
+            ccb();
+        });
 }
 
 } // namespace filters

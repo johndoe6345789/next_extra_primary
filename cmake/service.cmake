@@ -19,6 +19,7 @@ set(NEXTRA_SERVICE_SHARED_DIRS
     http-filters/backend
     infra/backend
     orm-models/backend
+    rate-limit/backend
     service-host
 )
 
