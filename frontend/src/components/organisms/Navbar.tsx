@@ -11,7 +11,6 @@ import { SkipLink } from '../molecules/SkipLink';
 import { NavbarLogo } from '@shared/components/ui/NavbarLogo';
 import { DesktopActions } from '../molecules/DesktopActions';
 import { NotificationBell } from '../molecules/NotificationBell';
-import { MentionsBell } from '../molecules/MentionsBell';
 import { CartButton } from '../molecules/CartButton';
 import { AvatarMenu } from './AvatarMenu';
 import { MobileDrawer } from './MobileDrawer';
@@ -61,9 +60,6 @@ export const Navbar: React.FC<NavbarProps> = ({
           <DesktopActions onSearch={onSearch ?? (() => {})} />
           {isAuthenticated ? (
             <>
-              <FeatureFlagGate flag="social">
-                <MentionsBell />
-              </FeatureFlagGate>
               <FeatureFlagGate flag="ecommerce">
                 <CartButton />
               </FeatureFlagGate>

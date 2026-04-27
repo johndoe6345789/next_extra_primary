@@ -6,6 +6,7 @@ import NotificationsIcon from
 import { IconButton } from '../atoms';
 import { t as tk } from '@shared/theme/tokens';
 import { useNotifications } from '@/hooks';
+import { useMentions } from '@/hooks/useMentions';
 import NotificationBadge from
   './NotificationBadge';
 
@@ -18,14 +19,17 @@ export interface NotificationBellProps {
 }
 
 /**
- * Bell icon with unread count badge overlay.
+ * Bell icon showing combined unread count from
+ * notifications and @mentions.
  *
  * @param props - Component props.
  */
 export const NotificationBell: React.FC<
   NotificationBellProps
 > = ({ onClick, testId = 'notification-bell' }) => {
-  const { unreadCount } = useNotifications();
+  const { unreadCount: notifCount } = useNotifications();
+  const { unreadCount: mentionCount } = useMentions();
+  const unreadCount = notifCount + mentionCount;
 
   const label =
     unreadCount > 0
@@ -49,9 +53,7 @@ export const NotificationBell: React.FC<
 
   if (unreadCount === 0) {
     return (
-      <span data-testid={testId}>
-        {button}
-      </span>
+      <span data-testid={testId}>{button}</span>
     );
   }
 
