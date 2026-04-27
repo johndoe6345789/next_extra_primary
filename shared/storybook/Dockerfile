@@ -1,6 +1,8 @@
 # Multi-stage build: deps cached separately from source changes
 # Context: monorepo root (..)
 FROM node:24-alpine AS deps
+ARG NPM_REGISTRY=http://host.docker.internal:4873
+ENV NPM_CONFIG_REGISTRY=$NPM_REGISTRY
 WORKDIR /app
 
 COPY package.json .npmrc ./

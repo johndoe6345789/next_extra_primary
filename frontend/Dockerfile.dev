@@ -1,6 +1,8 @@
 # Dev Dockerfile — runs `next dev` with Turbopack.
 # All source baked in; rebuild image to pick up changes.
 FROM node:22-slim
+ARG NPM_REGISTRY=http://host.docker.internal:4873
+ENV NPM_CONFIG_REGISTRY=$NPM_REGISTRY
 
 # Mirror the monorepo layout so shared/ resolves
 COPY --from=shared . /build/shared/

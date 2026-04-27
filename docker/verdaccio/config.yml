@@ -1,0 +1,28 @@
+# Verdaccio — local npm proxy cache for Docker builds.
+# npm packages are fetched from npmjs.com on first request
+# and served from local storage on every subsequent request.
+
+storage: /verdaccio/storage
+auth:
+  htpasswd:
+    file: /verdaccio/htpasswd
+    max_users: -1
+
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+    cache: true
+    maxage: 30m
+
+packages:
+  "@*/*":
+    access: $all
+    proxy: npmjs
+  "**":
+    access: $all
+    proxy: npmjs
+
+logs:
+  - { type: stdout, format: pretty, level: warn }
+
+max_body_size: 512mb

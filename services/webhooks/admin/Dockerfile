@@ -4,6 +4,8 @@
 
 # -- Stage 1: deps --------------------------
 FROM node:20-alpine AS deps
+ARG NPM_REGISTRY=http://host.docker.internal:4873
+ENV NPM_CONFIG_REGISTRY=$NPM_REGISTRY
 COPY --from=shared . /build/shared/
 WORKDIR /build/services/webhooks/admin
 COPY package.json package-lock.json* ./

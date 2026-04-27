@@ -6,9 +6,15 @@ FROM ${DEPS_IMAGE} AS builder
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    ca-certificates cmake g++ gcc git make \
+    ca-certificates cmake gcc-13 g++-13 git make \
     pkg-config libssl-dev libpq-dev \
     python3 python3-pip && \
+    update-alternatives --install \
+        /usr/bin/gcc gcc /usr/bin/gcc-13 100 && \
+    update-alternatives --install \
+        /usr/bin/g++ g++ /usr/bin/g++-13 100 && \
+    update-alternatives --install \
+        /usr/bin/cc cc /usr/bin/gcc-13 100 && \
     pip3 install --break-system-packages \
     "conan>=2.0,<3.0" && \
     conan profile detect --force && \

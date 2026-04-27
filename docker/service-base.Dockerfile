@@ -12,12 +12,16 @@
 
 ARG BASE_IMAGE=debian:sid
 ARG RUNTIME_IMAGE=debian:sid-slim
+ARG APT_PROXY=http://host.docker.internal:3128
 
 # ── Stage 1: system toolchain ───────────────────────
 # Cached forever; rebuilds only when apt packages change.
 FROM ${BASE_IMAGE} AS toolchain
+ARG APT_PROXY
 
-RUN apt-get update && \
+RUN printf 'Acquire::http::Proxy "%s";\n' "${APT_PROXY}" \
+        > /etc/apt/apt.conf.d/00proxy && \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
         bison ca-certificates cmake flex \
         g++-13 gcc-13 git libpq-dev make \
@@ -63,8 +67,11 @@ RUN cmake -B /build \
 # ── Stage 4: slim runtime base ───────────────────────
 # Cached forever; shared by all service runtime images.
 FROM ${RUNTIME_IMAGE} AS runtime-base
+ARG APT_PROXY
 
-RUN apt-get update && \
+RUN printf 'Acquire::http::Proxy "%s";\n' "${APT_PROXY}" \
+        > /etc/apt/apt.conf.d/00proxy && \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
         ca-certificates libpq5 libssl3 && \
     rm -rf /var/lib/apt/lists/* && \
