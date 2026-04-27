@@ -1543,6 +1543,34 @@ services:
     restart: unless-stopped
 
 # ==============================================================
+#  Build-time proxy caches
+# ==============================================================
+
+  # apt/deb HTTP cache — wire into C++ service Dockerfiles via
+  # Acquire::http::Proxy "http://squid:3128"
+  squid:
+    build:
+      context: docker/squid
+      dockerfile: Dockerfile
+    volumes:
+      - ./docker/squid/squid.conf:/etc/squid/squid.conf:ro
+      - squid-cache:/var/spool/squid
+    ports:
+      - "3128:3128"
+    restart: unless-stopped
+
+  # npm proxy cache — wire into JS Dockerfiles via
+  # NPM_CONFIG_REGISTRY=http://verdaccio:4873
+  verdaccio:
+    image: verdaccio/verdaccio:5
+    volumes:
+      - ./docker/verdaccio/config.yml:/verdaccio/conf/config.yaml:ro
+      - verdaccio-storage:/verdaccio/storage
+    ports:
+      - "4873:4873"
+    restart: unless-stopped
+
+# ==============================================================
 #  Volumes
 # ==============================================================
 volumes:
@@ -1594,3 +1622,5 @@ volumes:
   alerts_next:
   flags_node_modules:
   flags_next:
+  squid-cache:
+  verdaccio-storage:
