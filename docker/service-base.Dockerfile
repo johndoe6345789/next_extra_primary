@@ -58,7 +58,7 @@ RUN cmake -B /build \
         -G Ninja \
         -DCMAKE_BUILD_TYPE=Release \
         "-DCMAKE_TOOLCHAIN_FILE=/conan/out/build/Release/generators/conan_toolchain.cmake" && \
-    cmake --build /build -j"$(nproc)"
+    cmake --build /build -j"$(( $(nproc) > 4 ? 4 : $(nproc) ))"
 
 # ── Stage 4: slim runtime base ───────────────────────
 # Cached forever; shared by all service runtime images.
