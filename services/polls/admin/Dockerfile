@@ -10,7 +10,7 @@ COPY package.json package-lock.json* ./
 RUN npm config set fetch-retries 5 \
   && npm config set fetch-retry-mintimeout 20000 \
   && npm config set fetch-retry-maxtimeout 120000
-RUN npm install --legacy-peer-deps --prefer-offline --no-audit --no-fund || npm install --prefer-offline --no-audit --no-fund
+RUN npm install --prefer-offline --no-audit --no-fund
 RUN ln -s \
     /build/services/polls/admin/node_modules \
     /build/node_modules
