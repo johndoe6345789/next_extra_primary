@@ -265,7 +265,8 @@
     "deleteKey": "削除",
     "save": "保存",
     "comingSoon": "その他の設定は近日公開。",
-    "testEmail": "テストメール"
+    "testEmail": "テストメール",
+    "forumBoards": "フォーラムボード"
   },
   "blog": {
     "title": "ブログ",

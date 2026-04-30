@@ -265,7 +265,8 @@
     "deleteKey": "删除",
     "save": "保存",
     "comingSoon": "更多设置即将推出。",
-    "testEmail": "测试邮件"
+    "testEmail": "测试邮件",
+    "forumBoards": "论坛板块"
   },
   "blog": {
     "title": "博客",

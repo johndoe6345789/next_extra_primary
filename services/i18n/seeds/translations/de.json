@@ -242,7 +242,8 @@
     "deleteKey": "Entfernen",
     "save": "Speichern",
     "comingSoon": "Weitere Einstellungen folgen.",
-    "testEmail": "Test-E-Mail"
+    "testEmail": "Test-E-Mail",
+    "forumBoards": "Foren-Boards"
   },
   "admin": {
     "systemKeys": "System-API-Schlüssel",

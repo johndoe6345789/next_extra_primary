@@ -242,7 +242,8 @@
     "deleteKey": "Supprimer",
     "save": "Enregistrer",
     "comingSoon": "Plus de paramètres bientôt.",
-    "testEmail": "E-mail de test"
+    "testEmail": "E-mail de test",
+    "forumBoards": "Panneaux du forum"
   },
   "blog": {
     "title": "Blog",

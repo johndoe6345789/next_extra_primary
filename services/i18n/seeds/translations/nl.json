@@ -265,7 +265,8 @@
     "deleteKey": "Verwijderen",
     "save": "Opslaan",
     "comingSoon": "Meer instellingen volgen binnenkort.",
-    "testEmail": "Test e-mail"
+    "testEmail": "Test e-mail",
+    "forumBoards": "Forumboards"
   },
   "blog": {
     "title": "Blog",

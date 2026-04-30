@@ -242,7 +242,8 @@
     "deleteKey": "Eliminar",
     "save": "Guardar",
     "comingSoon": "Más ajustes próximamente.",
-    "testEmail": "Correo de prueba"
+    "testEmail": "Correo de prueba",
+    "forumBoards": "Tableros del foro"
   },
   "blog": {
     "title": "Blog",
