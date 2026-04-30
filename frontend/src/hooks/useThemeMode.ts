@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import type { RootState } from '@/store/store';
 import {
@@ -36,21 +36,32 @@ export function useThemeMode(
   const [savePref] =
     useUpdatePreferencesMutation();
 
-  const [mode, setModeState] =
-    useState<Mode>(() => {
-      if (typeof window === 'undefined') {
-        return 'light';
-      }
-      return (
-        localStorage.getItem(
-          'theme-mode',
-        ) as Mode
-      ) ?? 'light';
-    });
+  // Always start with the same value on server and client
+  // so the first paint matches SSR. Reading localStorage in
+  // useState's initializer caused a hydration mismatch
+  // because SSR can't see localStorage. Pull the persisted
+  // value in useEffect after mount instead.
+  const [mode, setModeState] = useState<Mode>('light');
 
+  useEffect(() => {
+    const stored = localStorage.getItem('theme-mode') as Mode | null;
+    if (stored && stored !== mode) {
+      setModeState(stored);
+    }
+    // Intentionally only run on mount. We just want to swap
+    // from the SSR default to the persisted preference once.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Same SSR-safe pattern as `mode` — start with 'light',
+  // sync to the actual system preference after mount.
   const [sysPref, setSysPref] = useState<
     'light' | 'dark'
-  >(getSystemPref);
+  >('light');
+
+  useEffect(() => {
+    setSysPref(getSystemPref());
+  }, []);
 
   useSyncPreference(prefs?.themeMode, setModeState);
   useSystemPrefListener(setSysPref);

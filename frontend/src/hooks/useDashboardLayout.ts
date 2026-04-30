@@ -4,7 +4,7 @@
  */
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import type { WidgetId } from '@/types/dashboard';
 import {
   defaultLayout, readLayout, saveLayout,
@@ -28,7 +28,15 @@ export interface UseDashboardLayoutReturn {
  */
 export function useDashboardLayout():
     UseDashboardLayoutReturn {
-  const [layout, setLayout] = useState(readLayout);
+  // Always start with the default layout so SSR markup
+  // and the first client render match. Swap in the
+  // persisted layout in useEffect after mount.
+  const [layout, setLayout] = useState(defaultLayout);
+
+  useEffect(() => {
+    const persisted = readLayout();
+    setLayout(persisted);
+  }, []);
 
   const persist = useCallback(
     (next: ReturnType<typeof readLayout>) => {
