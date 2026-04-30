@@ -2,61 +2,38 @@
 
 import React from 'react';
 import { Box, Button } from '@shared/m3';
+import {
+  applyMdAction, type MdAction,
+} from './markdownAction';
 import s from './MarkdownEditor.module.scss';
 
-/** A single formatting button definition. */
-export interface MdAction {
-  label: string;
-  /** Wraps selection: prefix + selected + suffix.
-   *  If selectionLess is set, that text is inserted
-   *  when nothing is selected. */
-  prefix: string;
-  suffix?: string;
-  selectionLess?: string;
-}
-
+/** Toolbar action set. Same smart toggle behaviour
+ *  applies to every button: empty selection inserts
+ *  the markers and parks the caret between them;
+ *  text selection wraps; already-wrapped selection
+ *  (or cursor sitting between matching markers)
+ *  unwraps. */
 const ACTIONS: MdAction[] = [
-  { label: 'B', prefix: '**', suffix: '**',
-    selectionLess: 'bold' },
-  { label: 'I', prefix: '_', suffix: '_',
-    selectionLess: 'italic' },
-  { label: '</>', prefix: '`', suffix: '`',
-    selectionLess: 'code' },
-  { label: 'Code', prefix: '\n```\n',
-    suffix: '\n```\n', selectionLess: 'block' },
-  { label: 'Link', prefix: '[', suffix: '](url)',
-    selectionLess: 'text' },
-  { label: '• List', prefix: '\n- ',
-    selectionLess: 'item' },
-  { label: '1. List', prefix: '\n1. ',
-    selectionLess: 'item' },
-  { label: '"', prefix: '\n> ',
-    selectionLess: 'quoted' },
+  { label: 'B', prefix: '**', suffix: '**' },
+  { label: 'I', prefix: '_', suffix: '_' },
+  { label: '</>', prefix: '`', suffix: '`' },
+  { label: 'Code',
+    prefix: '\n```\n', suffix: '\n```\n' },
+  { label: 'Link', prefix: '[', suffix: '](url)' },
+  { label: '• List',
+    prefix: '- ', linePrefix: true },
+  { label: '1. List',
+    prefix: '1. ', linePrefix: true },
+  { label: '"', prefix: '> ', linePrefix: true },
 ];
 
 /** Props for MarkdownToolbar. */
 export interface MarkdownToolbarProps {
   /** The textarea this toolbar drives. */
-  textareaRef: React.RefObject<HTMLTextAreaElement | null>;
+  textareaRef:
+    React.RefObject<HTMLTextAreaElement | null>;
   /** Called with the new full text after wrapping. */
   onChange: (next: string) => void;
-}
-
-function applyAction(
-  el: HTMLTextAreaElement, a: MdAction,
-): { value: string; caret: number } {
-  const { selectionStart: ss, selectionEnd: se,
-    value } = el;
-  const before = value.slice(0, ss);
-  const sel = value.slice(ss, se);
-  const after = value.slice(se);
-  const inner = sel || a.selectionLess || '';
-  const next =
-    before + a.prefix + inner + (a.suffix ?? '') + after;
-  return {
-    value: next,
-    caret: before.length + a.prefix.length + inner.length,
-  };
 }
 
 /** Compact phpBB-style markdown formatting toolbar. */
@@ -66,11 +43,11 @@ export function MarkdownToolbar({
   const handle = (a: MdAction) => () => {
     const el = textareaRef.current;
     if (!el) return;
-    const { value, caret } = applyAction(el, a);
-    onChange(value);
+    const r = applyMdAction(el, a);
+    onChange(r.value);
     requestAnimationFrame(() => {
       el.focus();
-      el.setSelectionRange(caret, caret);
+      el.setSelectionRange(r.caretStart, r.caretEnd);
     });
   };
   return (
