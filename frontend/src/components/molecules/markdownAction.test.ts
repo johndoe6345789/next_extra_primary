@@ -85,11 +85,56 @@ describe('applyMdAction code block', () => {
     expect(r.value).toBe('```\n\n```');
   });
 
-  it('keeps the leading \\n when there is content '
-    + 'before but not a newline', () => {
-    const r = applyMdAction(ta('hello', 5), CODE);
-    expect(r.value.startsWith('hello\n```')).toBe(true);
+  it('unwraps a fenced block when caret sits in '
+    + 'the middle of its content (no selection)', () => {
+    // value: "```\nhello\n```", caret at 5
+    // ("h" of hello). User clicks Code button.
+    const r = applyMdAction(
+      ta('```\nhello\n```', 5), CODE,
+    );
+    expect(r.value).toBe('hello');
+    // Caret tracks the original position minus the
+    // length of the removed leading fence.
+    expect(r.caretStart).toBe(1);
   });
+
+  it('unwraps fenced block from a selection that '
+    + 'lives entirely between the fences', () => {
+    // Select "hello" in "```\nhello\n```".
+    const r = applyMdAction(
+      ta('```\nhello\n```', 4, 9), CODE,
+    );
+    expect(r.value).toBe('hello');
+  });
+
+  it('wraps the current line when textarea has '
+    + 'one word and no selection (regression — '
+    + 'used to insert an empty block below it)',
+    () => {
+      const r = applyMdAction(ta('hello', 5), CODE);
+      expect(r.value).toBe('```\nhello\n```');
+      // Caret/selection lands ON the wrapped word
+      // so a follow-up keystroke replaces it.
+      expect(r.caretStart).toBe(4);
+      expect(r.caretEnd).toBe(9);
+    });
+
+  it('wraps only the current line, not the whole '
+    + 'textarea (multi-line case)', () => {
+      // "hello\nworld", caret at 8 (in "world").
+      const r = applyMdAction(
+        ta('hello\nworld', 8), CODE,
+      );
+      expect(r.value).toBe('hello\n```\nworld\n```');
+    });
+
+  it('still inserts an empty block on a blank '
+    + 'line (no content to wrap)', () => {
+      const r = applyMdAction(
+        ta('hello\n', 6), CODE,
+      );
+      expect(r.value).toBe('hello\n```\n\n```');
+    });
 });
 
 describe('applyMdAction line prefix (lists/quotes)', () => {

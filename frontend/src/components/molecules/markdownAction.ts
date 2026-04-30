@@ -124,6 +124,32 @@ function applyWrap(
       caretEnd: newBefore.length + s.sel.length,
     };
   }
+  // Wider unwrap for BLOCK markers (anything whose
+  // prefix contains a newline, e.g. fenced code).
+  // Cursor / selection sits INSIDE an existing block
+  // even if there's text between it and each fence
+  // (e.g. "```\nhello|\n```" with caret on "|"):
+  // toggle the whole block off. Restricted to block
+  // markers because for inline ones the same scan
+  // would happily pair an unrelated closing marker
+  // earlier in the line with an unrelated opening
+  // marker later, mangling the document.
+  if (prefix.includes('\n')) {
+    const openIdx = s.before.lastIndexOf(prefix);
+    const closeIdx = s.after.indexOf(suffix);
+    if (openIdx >= 0 && closeIdx >= 0) {
+      const inner = s.before.slice(openIdx + px)
+        + s.sel
+        + s.after.slice(0, closeIdx);
+      const newAfter = s.after.slice(closeIdx + sx);
+      return {
+        value: s.before.slice(0, openIdx) + inner
+          + newAfter,
+        caretStart: s.ss - px,
+        caretEnd: s.se - px,
+      };
+    }
+  }
   // Selection contains the OPENING marker but the
   // closing is in `after` (e.g. "**he" selected in
   // "**hello**"). Pull both markers out so we get
@@ -157,6 +183,41 @@ function applyWrap(
       caretStart: openIdx,
       caretEnd: openIdx + inner.length,
     };
+  }
+  // For block markers with no selection AND the
+  // cursor's current line is non-empty, treat the
+  // whole line as the implicit selection. Mirrors
+  // what list / quote buttons already do (they
+  // affect the current line) — without this, click-
+  // ing Code on "hello" would insert an empty block
+  // *below* it instead of wrapping the word.
+  if (prefix.includes('\n') && !s.sel) {
+    const lineStart =
+      s.before.lastIndexOf('\n') + 1;
+    const lineEndRel = s.after.indexOf('\n');
+    const headOfLine = s.before.slice(lineStart);
+    const tailOfLine = lineEndRel === -1
+      ? s.after : s.after.slice(0, lineEndRel);
+    const line = headOfLine + tailOfLine;
+    if (line.trim().length > 0) {
+      const lineBefore = s.before.slice(0, lineStart);
+      const lineAfter = lineEndRel === -1
+        ? '' : s.after.slice(lineEndRel);
+      const padHead =
+        lineBefore !== ''
+        && !lineBefore.endsWith('\n') ? '\n' : '';
+      const padTail =
+        lineAfter !== ''
+        && !lineAfter.startsWith('\n') ? '\n' : '';
+      return {
+        value: lineBefore + padHead + prefix + line
+          + suffix + padTail + lineAfter,
+        caretStart:
+          lineBefore.length + padHead.length + px,
+        caretEnd: lineBefore.length + padHead.length
+          + px + line.length,
+      };
+    }
   }
   // For block-style markers (those containing a
   // newline boundary, e.g. "```\n" / "\n```"),
