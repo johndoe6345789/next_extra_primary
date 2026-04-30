@@ -4,7 +4,17 @@ import React, { useRef, useState } from 'react';
 import { Box, TextField } from '@shared/m3';
 import { MarkdownToolbar } from './MarkdownToolbar';
 import { MarkdownView } from './MarkdownView';
+import {
+  applyMdAction, type MdAction,
+} from './markdownAction';
 import s from './MarkdownEditor.module.scss';
+
+/** Keyboard shortcuts: Cmd/Ctrl+B → bold,
+ *  Cmd/Ctrl+I → italic. */
+const KEY_ACTIONS: Record<string, MdAction> = {
+  b: { label: 'B', prefix: '**', suffix: '**' },
+  i: { label: 'I', prefix: '_', suffix: '_' },
+};
 
 /** Props for MarkdownEditor. */
 export interface MarkdownEditorProps {
@@ -37,6 +47,23 @@ export function MarkdownEditor({
   const tab = (m: Mode) => () => setMode(m);
   const tabClass = (m: Mode) =>
     `${s.tab} ${mode === m ? s.tabActive : ''}`;
+
+  const onKeyDown: React.KeyboardEventHandler<
+    HTMLTextAreaElement
+  > = (e) => {
+    if (!(e.metaKey || e.ctrlKey)) return;
+    const a = KEY_ACTIONS[e.key.toLowerCase()];
+    if (!a || !ref.current) return;
+    e.preventDefault();
+    const r = applyMdAction(ref.current, a);
+    onChange(r.value);
+    requestAnimationFrame(() => {
+      ref.current?.focus();
+      ref.current?.setSelectionRange(
+        r.caretStart, r.caretEnd,
+      );
+    });
+  };
 
   return (
     <Box
@@ -81,6 +108,7 @@ export function MarkdownEditor({
             fullWidth
             value={value}
             onChange={(e) => onChange(e.target.value)}
+            onKeyDown={onKeyDown}
             placeholder={label}
             disabled={disabled}
             aria-label={label}

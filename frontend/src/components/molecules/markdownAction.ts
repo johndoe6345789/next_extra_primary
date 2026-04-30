@@ -55,7 +55,15 @@ function read(el: HTMLTextAreaElement): State {
 }
 
 /** Toggle a line-prefix on each line covered by the
- *  selection (or the current line if no selection). */
+ *  selection (or the current line if no selection).
+ *
+ *  - If EVERY selected line already has the prefix
+ *    → strip from each (unwrap).
+ *  - Otherwise, ADD the prefix to lines that lack
+ *    it; LEAVE lines that already have it alone
+ *    (so a partially-prefixed selection becomes
+ *    fully-prefixed instead of doubling the prefix
+ *    on the lines that already had it). */
 function applyLinePrefix(
   s: State, prefix: string,
 ): MdActionResult {
@@ -66,19 +74,17 @@ function applyLinePrefix(
     (l) => l.startsWith(prefix),
   );
   const next = lines
-    .map((l) => allHave
-      ? l.slice(prefix.length)
-      : prefix + l)
+    .map((l) => {
+      if (allHave) return l.slice(prefix.length);
+      // Add only if missing — never double up.
+      return l.startsWith(prefix) ? l : prefix + l;
+    })
     .join('\n');
   const head = s.before.slice(0, lineStart);
-  const delta = (allHave ? -1 : 1)
-    * prefix.length * lines.length;
   return {
     value: head + next + s.after,
-    caretStart: lineStart + (allHave
-      ? Math.max(0, s.ss - lineStart - prefix.length)
-      : (s.ss - lineStart) + prefix.length),
-    caretEnd: s.se + delta,
+    caretStart: lineStart,
+    caretEnd: lineStart + next.length,
   };
 }
 
@@ -88,7 +94,7 @@ function applyWrap(
 ): MdActionResult {
   const px = prefix.length;
   const sx = suffix.length;
-  // Selection already wrapped → unwrap.
+  // Selection itself already wrapped → unwrap.
   if (
     s.sel.length >= px + sx
     && s.sel.startsWith(prefix)
@@ -101,18 +107,21 @@ function applyWrap(
       caretEnd: s.before.length + inner.length,
     };
   }
-  // Cursor between matching markers (no selection)
-  // → unwrap them.
+  // Selection sits *inside* existing markers (e.g.
+  // re-clicking B with "hi" selected when text is
+  // already "**hi**"). Strip the surrounding pair —
+  // this is what stops repeated clicks producing
+  // ******hi******.
   if (
-    !s.sel
-    && s.before.endsWith(prefix)
+    s.before.endsWith(prefix)
     && s.after.startsWith(suffix)
   ) {
+    const newBefore = s.before.slice(0, -px);
+    const newAfter = s.after.slice(sx);
     return {
-      value: s.before.slice(0, -px)
-        + s.after.slice(sx),
-      caretStart: s.before.length - px,
-      caretEnd: s.before.length - px,
+      value: newBefore + s.sel + newAfter,
+      caretStart: newBefore.length,
+      caretEnd: newBefore.length + s.sel.length,
     };
   }
   // No selection → insert markers, caret between.

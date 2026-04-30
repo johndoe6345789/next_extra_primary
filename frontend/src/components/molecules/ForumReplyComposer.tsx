@@ -25,24 +25,35 @@ export function ForumReplyComposer({
   const t = useTranslations('forum');
   const [body, setBody] = useState('');
   const [error, setError] = useState<string | null>(null);
+  // Local "submitting" state guards against the
+  // double-click race: button stays disabled from
+  // the moment we await the network call until the
+  // promise resolves (success or error).
+  const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (
     e: React.FormEvent,
   ) => {
     e.preventDefault();
+    if (submitting) return;
     const trimmed = body.trim();
     if (!trimmed) {
       setError(t('replyRequired'));
       return;
     }
+    setSubmitting(true);
     try {
       await onSubmit(trimmed);
       setBody('');
       setError(null);
     } catch {
       setError(t('replyError'));
+    } finally {
+      setSubmitting(false);
     }
   };
+
+  const isDisabled = disabled || submitting;
 
   return (
     <Box
@@ -56,7 +67,7 @@ export function ForumReplyComposer({
         value={body}
         onChange={setBody}
         label={t('replyPlaceholder')}
-        disabled={disabled}
+        disabled={isDisabled}
         minRows={4}
         testId="forum-reply-input"
       />
@@ -68,12 +79,12 @@ export function ForumReplyComposer({
       <Button
         type="submit"
         variant="contained"
-        disabled={disabled}
+        disabled={isDisabled}
         sx={{ mt: 1 }}
         testId="forum-reply-submit"
         aria-label={t('submit')}
       >
-        {t('submit')}
+        {submitting ? '…' : t('submit')}
       </Button>
     </Box>
   );
