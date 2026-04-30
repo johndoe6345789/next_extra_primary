@@ -57,15 +57,20 @@ export function MarkdownEditor({
     e.preventDefault();
     const el = ref.current;
     const r = applyMdAction(el, a);
-    // Same sync-write trick as the toolbar — see
-    // MarkdownToolbar handle() for the rationale.
+    // See MarkdownToolbar.handle() for the
+    // sync-write + rAF-restore rationale.
     const nativeSetter = Object.getOwnPropertyDescriptor(
       window.HTMLTextAreaElement.prototype, 'value',
     )?.set;
     nativeSetter?.call(el, r.value);
-    el.focus();
     el.setSelectionRange(r.caretStart, r.caretEnd);
     onChange(r.value);
+    requestAnimationFrame(() => {
+      const cur = ref.current;
+      if (!cur) return;
+      cur.focus();
+      cur.setSelectionRange(r.caretStart, r.caretEnd);
+    });
   };
 
   return (

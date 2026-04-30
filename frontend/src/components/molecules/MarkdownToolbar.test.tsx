@@ -151,4 +151,39 @@ describe('MarkdownToolbar rapid clicks', () => {
       fireEvent.click(btn);
       expect(ta.value).toBe('item');
     });
+
+  it('Code: 6 rapid clicks oscillate, never stack '
+    + '(reproduces the ```\\n```\\n```\\n``` bug)',
+    () => {
+      render(<Harness />);
+      const ta = screen.getByTestId(
+        'ta',
+      ) as HTMLTextAreaElement;
+      setSel(ta, 0, 0);
+      const btn = screen.getByTestId('md-tb-Code');
+      for (let i = 0; i < 6; i++) {
+        fireEvent.click(btn);
+      }
+      // 6 clicks = 3 toggles → final is "" (empty).
+      // The bug we're guarding against produced
+      // multiple stacked fences instead.
+      expect(ta.value).toBe('');
+    });
+
+  it('Inline code: 6 rapid clicks never produce '
+    + '`````` (six backticks)', () => {
+      render(<Harness />);
+      const ta = screen.getByTestId(
+        'ta',
+      ) as HTMLTextAreaElement;
+      setSel(ta, 0, 0);
+      const btn = screen.getByTestId('md-tb-</>');
+      for (let i = 0; i < 6; i++) {
+        fireEvent.click(btn);
+      }
+      expect(ta.value).toBe('');
+      // Specifically must NOT contain stacked
+      // backtick markers.
+      expect(ta.value.includes('``````')).toBe(false);
+    });
 });

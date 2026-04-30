@@ -50,20 +50,28 @@ export function MarkdownToolbar({
     const el = textareaRef.current;
     if (!el) return;
     const r = applyMdAction(el, a);
-    // Push the new value + selection to the DOM
-    // synchronously *before* asking React to update.
-    // Otherwise rapid double-clicks (e.g. clicking
-    // Code twice fast) read a stale el.value the
-    // second time, miss the toggle case, and stack
-    // a second pair of markers before the first
-    // commit lands.
+    // Two writes are needed:
+    //   (1) Sync DOM value via the native setter so
+    //       a rapid follow-up click reads up-to-date
+    //       el.value (otherwise a 2nd click in the
+    //       same tick reads the stale value and
+    //       stacks markers instead of unwrapping).
+    //   (2) An rAF-deferred setSelectionRange to
+    //       restore the caret AFTER React's commit,
+    //       which otherwise collapses selection to
+    //       end-of-text and breaks the next toggle.
     const nativeSetter = Object.getOwnPropertyDescriptor(
       window.HTMLTextAreaElement.prototype, 'value',
     )?.set;
     nativeSetter?.call(el, r.value);
-    el.focus();
     el.setSelectionRange(r.caretStart, r.caretEnd);
     onChange(r.value);
+    requestAnimationFrame(() => {
+      const cur = textareaRef.current;
+      if (!cur) return;
+      cur.focus();
+      cur.setSelectionRange(r.caretStart, r.caretEnd);
+    });
   };
   return (
     <Box
