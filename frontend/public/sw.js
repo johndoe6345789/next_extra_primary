@@ -1,6 +1,7 @@
 /* Nextra service worker — offline shell + SWR.
-   Phase 8.5. Vanilla, no workbox. */
-const CACHE = 'nextra-shell-v1';
+   Phase 8.5. Vanilla, no workbox.
+   Bump CACHE name on changes to evict stale entries. */
+const CACHE = 'nextra-shell-v2';
 const SHELL = [
   '/app/en',
   '/app/manifest.webmanifest',
@@ -23,7 +24,10 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-/** Stale-while-revalidate for same-origin GETs. */
+/** Stale-while-revalidate for same-origin GETs.
+ *  Only caches successful (200) responses — caching 5xx
+ *  was the cause of "Failed to load threads" persisting
+ *  across sessions even after the API was fixed. */
 function swr(request) {
   return caches.open(CACHE).then((cache) =>
     cache.match(request).then((cached) => {
@@ -39,12 +43,19 @@ function swr(request) {
   );
 }
 
+/** True for any API path, basePath-prefixed or not. */
+function isApi(pathname) {
+  return pathname.startsWith('/api/')
+    || pathname.startsWith('/app/api/');
+}
+
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
-  if (url.pathname.startsWith('/api/')) {
+  if (isApi(url.pathname)) {
+    // Always go to the network; never cache API responses.
     event.respondWith(fetch(req));
     return;
   }

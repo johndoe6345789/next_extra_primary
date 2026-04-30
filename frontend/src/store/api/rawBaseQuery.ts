@@ -7,10 +7,15 @@ import { fetchBaseQuery } from
   '@reduxjs/toolkit/query/react';
 import type { RootState } from '../store';
 
-/** Prefix for all API calls. */
-const API_BASE = `${
-  process.env.NEXT_PUBLIC_BASE_PATH ?? ''
-}/api`;
+// API calls go through nginx, which routes /api/* to the
+// right microservice (e.g. /api/forum/* → nextra-comments,
+// /api/auth/* → backend). We must NOT prefix with the
+// frontend's basePath (/app) — that path is reserved for
+// the Next.js app itself, and a /app/api/* call would be
+// served by the frontend container's rewrite rules and
+// only reach the legacy backend, missing /api/forum/*,
+// /api/notifications/*, etc.
+const API_BASE = '/api';
 
 /**
  * Raw fetchBaseQuery that attaches the access token
