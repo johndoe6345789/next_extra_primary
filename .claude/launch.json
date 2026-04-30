@@ -7,13 +7,6 @@
       "runtimeArgs": [".claude/proxy.js"],
       "port": 8891,
       "cwd": "."
-    },
-    {
-      "name": "probe",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": ["next", "dev", "-p", "4001"],
-      "port": 4001,
-      "cwd": "probe-app"
     }
   ]
 }
