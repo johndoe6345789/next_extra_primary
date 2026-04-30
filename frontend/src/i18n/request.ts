@@ -53,6 +53,13 @@ export default getRequestConfig(async ({ requestLocale }) => {
   return {
     locale,
     messages,
+    // A default timeZone is required so date/number
+    // formatters produce identical markup on the server
+    // (UTC in the container) and on the client (the
+    // user's local zone). Without it, hydration mismatches
+    // abort the whole tree and the page stays a static SSR
+    // snapshot.
+    timeZone: 'UTC',
     onError(err) {
       if (err.code === IntlErrorCode.MISSING_MESSAGE) return;
       console.error(err);

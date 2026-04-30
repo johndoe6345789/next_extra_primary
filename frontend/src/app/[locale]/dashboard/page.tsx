@@ -4,8 +4,17 @@ import {
   getTranslations,
 } from 'next-intl/server';
 import { Box, Typography } from '@shared/m3';
-import DashboardGrid from
-  '@/components/organisms/DashboardGrid';
+import nextDynamic from 'next/dynamic';
+
+// Defer DashboardGrid compilation: its client-component
+// transitive graph (@dnd-kit, widget map, charts, etc) is
+// too large for Turbopack dev to compile inside the RSC
+// stream window — eagerly importing it leaves the page's
+// Suspense boundary pending forever.
+const DashboardGrid = nextDynamic(
+  () => import('@/components/organisms/DashboardGrid'),
+  { loading: () => <div data-testid="dashboard-loading" /> },
+);
 
 /** Skip static prerendering for this page. */
 export const dynamic = 'force-dynamic';
