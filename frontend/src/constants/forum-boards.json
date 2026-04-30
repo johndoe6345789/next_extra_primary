@@ -1,0 +1,32 @@
+{
+  "general": {
+    "label": "General Discussion",
+    "description": "Community chat and intros",
+    "icon": "forum",
+    "order": 1
+  },
+  "announcements": {
+    "label": "Announcements",
+    "description": "News from the team",
+    "icon": "campaign",
+    "order": 2
+  },
+  "support": {
+    "label": "Help & Support",
+    "description": "Stuck? Ask here",
+    "icon": "help",
+    "order": 3
+  },
+  "feedback": {
+    "label": "Feedback & Ideas",
+    "description": "Suggestions, bug reports, wishes",
+    "icon": "lightbulb",
+    "order": 4
+  },
+  "off-topic": {
+    "label": "Off-Topic",
+    "description": "Coffee, music, anything goes",
+    "icon": "coffee",
+    "order": 5
+  }
+}

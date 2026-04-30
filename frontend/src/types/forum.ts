@@ -7,7 +7,12 @@
 export interface ForumThread {
   id: string;
   title: string;
+  /** Board slug — e.g. "general", "support". */
+  board?: string;
+  /** Author UUID. */
   author?: string;
+  /** Author display name (joined from users table). */
+  authorName?: string;
   createdAt: string;
   replyCount: number;
   lastReplyAt?: string;

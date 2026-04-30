@@ -31,14 +31,21 @@ void ForumController::list(
     const int offset = (page - 1) * limit;
 
     const std::string sql =
-        "SELECT t.id, t.title, t.author_id, "
-        "       t.created_at, "
+        "SELECT t.id, t.title, t.target_id AS board, "
+        "       t.author_id, t.created_at, "
+        "       u.display_name AS author_name, "
         "  (SELECT COUNT(*) FROM comments_v2 p "
         "   WHERE p.target_type='forum_thread' "
         "   AND p.target_id = t.id::text "
         "   AND p.deleted_at IS NULL"
-        "  ) AS reply_count "
+        "  ) AS reply_count, "
+        "  (SELECT MAX(p.created_at) FROM comments_v2 p "
+        "   WHERE p.target_type='forum_thread' "
+        "   AND p.target_id = t.id::text "
+        "   AND p.deleted_at IS NULL"
+        "  ) AS last_reply_at "
         "FROM comments_v2 t "
+        "LEFT JOIN users u ON u.id = t.author_id "
         "WHERE t.target_type = 'forum_board' "
         "  AND t.deleted_at IS NULL "
         "ORDER BY t.created_at DESC "
@@ -59,15 +66,29 @@ void ForumController::list(
                     row["title"].isNull()
                         ? "" : row["title"]
                                    .as<std::string>();
+                t["board"] =
+                    row["board"].isNull()
+                        ? "general"
+                        : row["board"].as<std::string>();
                 t["author"] =
                     row["author_id"]
                         .as<std::string>();
+                t["authorName"] =
+                    row["author_name"].isNull()
+                        ? ""
+                        : row["author_name"]
+                              .as<std::string>();
                 t["createdAt"] =
                     row["created_at"]
                         .as<std::string>();
                 t["replyCount"] =
                     row["reply_count"]
                         .as<std::int64_t>();
+                t["lastReplyAt"] =
+                    row["last_reply_at"].isNull()
+                        ? ""
+                        : row["last_reply_at"]
+                              .as<std::string>();
                 arr.push_back(t);
             }
             cb(::utils::jsonOk({
