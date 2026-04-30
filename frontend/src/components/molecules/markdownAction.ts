@@ -28,6 +28,18 @@ export interface MdAction {
   linePrefix?: boolean;
 }
 
+/** Options that override the default smart toggle
+ *  behaviour — used when the user has explicitly
+ *  chosen one branch of an ambiguous case via the
+ *  MarkdownActionDialog. */
+export interface MdActionOptions {
+  /** Skip the auto-wrap-current-line shortcut for
+   *  block markers, even when content exists.
+   *  Result is always an empty block at the cursor
+   *  with newline padding as needed. */
+  forceInsert?: boolean;
+}
+
 /** Result of an action: new full text and caret. */
 export interface MdActionResult {
   value: string;
@@ -91,6 +103,7 @@ function applyLinePrefix(
 /** Handle inline wrap actions (B, I, code, etc.). */
 function applyWrap(
   s: State, prefix: string, suffix: string,
+  options: MdActionOptions = {},
 ): MdActionResult {
   const px = prefix.length;
   const sx = suffix.length;
@@ -191,7 +204,14 @@ function applyWrap(
   // affect the current line) — without this, click-
   // ing Code on "hello" would insert an empty block
   // *below* it instead of wrapping the word.
-  if (prefix.includes('\n') && !s.sel) {
+  // Skipped when the caller explicitly asked for an
+  // empty-block insert (after the user picked that
+  // branch in the ambiguity dialog).
+  if (
+    !options.forceInsert
+    && prefix.includes('\n')
+    && !s.sel
+  ) {
     const lineStart =
       s.before.lastIndexOf('\n') + 1;
     const lineEndRel = s.after.indexOf('\n');
@@ -265,10 +285,43 @@ function applyWrap(
 /** Apply an MdAction to the textarea state. */
 export function applyMdAction(
   el: HTMLTextAreaElement, a: MdAction,
+  options: MdActionOptions = {},
 ): MdActionResult {
   const s = read(el);
   if (a.linePrefix) {
     return applyLinePrefix(s, a.prefix);
   }
-  return applyWrap(s, a.prefix, a.suffix ?? a.prefix);
+  return applyWrap(
+    s, a.prefix, a.suffix ?? a.prefix, options,
+  );
+}
+
+/** Detects the only ambiguous case the dialog
+ *  needs to handle: a block-style action (Code) on
+ *  a textarea that has content, no selection, and
+ *  no existing fence pair around the cursor — so
+ *  we genuinely don't know whether the user wants
+ *  to wrap or insert. */
+export function isMdActionAmbiguous(
+  el: HTMLTextAreaElement, a: MdAction,
+): boolean {
+  if (a.linePrefix) return false;
+  const suffix = a.suffix ?? a.prefix;
+  if (!a.prefix.includes('\n')) return false;
+  if (el.selectionStart !== el.selectionEnd) {
+    return false;
+  }
+  const v = el.value;
+  if (v.trim().length === 0) return false;
+  const before = v.slice(0, el.selectionStart);
+  const after = v.slice(el.selectionEnd);
+  // Already inside an existing fence pair → wider
+  // unwrap will fire, no ambiguity.
+  if (
+    before.lastIndexOf(a.prefix) >= 0
+    && after.indexOf(suffix) >= 0
+  ) {
+    return false;
+  }
+  return true;
 }

@@ -46,6 +46,13 @@ jest.mock('@shared/m3', () => ({
       {children}
     </button>
   ),
+  Typography: ({
+    children, component: C = 'span', ...rest
+  }: {
+    children?: React.ReactNode;
+    component?: React.ElementType;
+    [k: string]: unknown;
+  }) => <C {...rest}>{children}</C>,
 }));
 
 // eslint-disable-next-line import/first
@@ -185,5 +192,84 @@ describe('MarkdownToolbar rapid clicks', () => {
       // Specifically must NOT contain stacked
       // backtick markers.
       expect(ta.value.includes('``````')).toBe(false);
+    });
+});
+
+describe('MarkdownToolbar Code ambiguity dialog', () => {
+  it('opens a dialog when clicking Code on '
+    + 'non-empty content with no selection', () => {
+      render(<Harness initial="hello" />);
+      const ta = screen.getByTestId(
+        'ta',
+      ) as HTMLTextAreaElement;
+      setSel(ta, 5, 5);
+      fireEvent.click(screen.getByTestId('md-tb-Code'));
+      // The textarea is unchanged until the user
+      // picks a branch.
+      expect(ta.value).toBe('hello');
+      expect(
+        screen.getByTestId('md-action-dialog'),
+      ).toBeInTheDocument();
+    });
+
+  it('"Wrap current line" choice wraps the word',
+    () => {
+      render(<Harness initial="hello" />);
+      const ta = screen.getByTestId(
+        'ta',
+      ) as HTMLTextAreaElement;
+      setSel(ta, 5, 5);
+      fireEvent.click(screen.getByTestId('md-tb-Code'));
+      fireEvent.click(
+        screen.getByTestId('md-action-dialog-wrap'),
+      );
+      expect(ta.value).toBe('```\nhello\n```');
+    });
+
+  it('"Insert empty block" choice keeps content '
+    + 'and inserts a new block', () => {
+      render(<Harness initial="hello" />);
+      const ta = screen.getByTestId(
+        'ta',
+      ) as HTMLTextAreaElement;
+      setSel(ta, 5, 5);
+      fireEvent.click(screen.getByTestId('md-tb-Code'));
+      fireEvent.click(
+        screen.getByTestId(
+          'md-action-dialog-insert',
+        ),
+      );
+      expect(ta.value).toBe('hello\n```\n\n```');
+    });
+
+  it('Cancel leaves the textarea unchanged', () => {
+    render(<Harness initial="hello" />);
+    const ta = screen.getByTestId(
+      'ta',
+    ) as HTMLTextAreaElement;
+    setSel(ta, 5, 5);
+    fireEvent.click(screen.getByTestId('md-tb-Code'));
+    fireEvent.click(
+      screen.getByTestId('md-action-dialog-cancel'),
+    );
+    expect(ta.value).toBe('hello');
+    expect(
+      screen.queryByTestId('md-action-dialog'),
+    ).toBeNull();
+  });
+
+  it('does NOT open the dialog when clicking Code '
+    + 'inside an existing fenced block', () => {
+      render(<Harness initial={'```\nhi\n```'} />);
+      const ta = screen.getByTestId(
+        'ta',
+      ) as HTMLTextAreaElement;
+      setSel(ta, 5, 5);
+      fireEvent.click(screen.getByTestId('md-tb-Code'));
+      // No dialog — wider-unwrap fires immediately.
+      expect(
+        screen.queryByTestId('md-action-dialog'),
+      ).toBeNull();
+      expect(ta.value).toBe('hi');
     });
 });

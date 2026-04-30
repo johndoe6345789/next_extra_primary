@@ -1,4 +1,6 @@
-import { applyMdAction } from './markdownAction';
+import {
+  applyMdAction, isMdActionAmbiguous,
+} from './markdownAction';
 
 const BOLD = { label: 'B', prefix: '**', suffix: '**' };
 const ITAL = { label: 'I', prefix: '_', suffix: '_' };
@@ -134,6 +136,56 @@ describe('applyMdAction code block', () => {
         ta('hello\n', 6), CODE,
       );
       expect(r.value).toBe('hello\n```\n\n```');
+    });
+
+  it('forceInsert overrides auto-wrap-line and '
+    + 'inserts an empty block instead', () => {
+      // Same input as the auto-wrap-line test, but
+      // the user explicitly picked "insert empty
+      // block" in the dialog.
+      const r = applyMdAction(
+        ta('hello', 5), CODE, { forceInsert: true },
+      );
+      expect(r.value).toBe('hello\n```\n\n```');
+    });
+});
+
+describe('isMdActionAmbiguous', () => {
+  it('returns true for Code on a non-empty line '
+    + 'with no selection and no surrounding fence',
+    () => {
+      expect(
+        isMdActionAmbiguous(ta('hello', 5), CODE),
+      ).toBe(true);
+    });
+
+  it('returns false for an empty textarea', () => {
+    expect(
+      isMdActionAmbiguous(ta('', 0), CODE),
+    ).toBe(false);
+  });
+
+  it('returns false when a selection is present',
+    () => {
+      expect(
+        isMdActionAmbiguous(ta('hello', 0, 5), CODE),
+      ).toBe(false);
+    });
+
+  it('returns false when cursor sits inside an '
+    + 'existing fenced block', () => {
+      expect(
+        isMdActionAmbiguous(
+          ta('```\nhello\n```', 5), CODE,
+        ),
+      ).toBe(false);
+    });
+
+  it('returns false for inline (non-block) actions',
+    () => {
+      expect(
+        isMdActionAmbiguous(ta('hello', 5), BOLD),
+      ).toBe(false);
     });
 });
 
