@@ -2,10 +2,13 @@ import { applyMdAction } from './markdownAction';
 
 const BOLD = { label: 'B', prefix: '**', suffix: '**' };
 const ITAL = { label: 'I', prefix: '_', suffix: '_' };
+// Match MarkdownToolbar's literal markers: the
+// fence is "```\n" + content + "\n```", and any
+// surrounding \n is added by applyWrap as needed.
 const CODE = {
   label: 'Code',
-  prefix: '\n```\n',
-  suffix: '\n```\n',
+  prefix: '```\n',
+  suffix: '\n```',
 };
 const LIST = {
   label: '• List', prefix: '- ', linePrefix: true,

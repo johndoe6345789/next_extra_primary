@@ -55,14 +55,17 @@ export function MarkdownEditor({
     const a = KEY_ACTIONS[e.key.toLowerCase()];
     if (!a || !ref.current) return;
     e.preventDefault();
-    const r = applyMdAction(ref.current, a);
+    const el = ref.current;
+    const r = applyMdAction(el, a);
+    // Same sync-write trick as the toolbar — see
+    // MarkdownToolbar handle() for the rationale.
+    const nativeSetter = Object.getOwnPropertyDescriptor(
+      window.HTMLTextAreaElement.prototype, 'value',
+    )?.set;
+    nativeSetter?.call(el, r.value);
+    el.focus();
+    el.setSelectionRange(r.caretStart, r.caretEnd);
     onChange(r.value);
-    requestAnimationFrame(() => {
-      ref.current?.focus();
-      ref.current?.setSelectionRange(
-        r.caretStart, r.caretEnd,
-      );
-    });
   };
 
   return (

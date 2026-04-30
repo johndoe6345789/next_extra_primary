@@ -158,27 +158,32 @@ function applyWrap(
       caretEnd: openIdx + inner.length,
     };
   }
-  // Block-style markers (e.g. \n```\n) shouldn't
-  // produce a doubled blank line when inserted at
-  // the start of an empty / line-start context.
-  // Trim leading \n from the prefix and trailing \n
-  // from the suffix when the surroundings already
-  // give us those line breaks.
-  let p = prefix;
-  let sf = suffix;
-  if (p.startsWith('\n')
-      && (s.before === '' || s.before.endsWith('\n'))) {
-    p = p.slice(1);
-  }
-  if (sf.endsWith('\n')
-      && (s.after === '' || s.after.startsWith('\n'))) {
-    sf = sf.slice(0, -1);
-  }
+  // For block-style markers (those containing a
+  // newline boundary, e.g. "```\n" / "\n```"),
+  // optionally pad with a leading \n if there is
+  // non-newline text before, and a trailing \n if
+  // there is non-newline text after, so the block
+  // doesn't smush against surrounding content. This
+  // is purely cosmetic and never affects the
+  // unwrap detection above (which looks at the
+  // *literal* prefix/suffix in the text).
+  const padBefore = (
+    prefix.includes('\n')
+    && s.before !== ''
+    && !s.before.endsWith('\n')
+  ) ? '\n' : '';
+  const padAfter = (
+    suffix.includes('\n')
+    && s.after !== ''
+    && !s.after.startsWith('\n')
+  ) ? '\n' : '';
   // No selection → insert markers, caret between.
   if (!s.sel) {
-    const c = s.before.length + p.length;
+    const c =
+      s.before.length + padBefore.length + px;
     return {
-      value: s.before + p + sf + s.after,
+      value: s.before + padBefore + prefix + suffix
+        + padAfter + s.after,
       caretStart: c,
       caretEnd: c,
     };
@@ -186,9 +191,13 @@ function applyWrap(
   // Plain wrap — leave inner text selected so the
   // user can type to replace or chain another action.
   return {
-    value: s.before + p + s.sel + sf + s.after,
-    caretStart: s.before.length + p.length,
-    caretEnd: s.before.length + p.length + s.sel.length,
+    value: s.before + padBefore + prefix + s.sel
+      + suffix + padAfter + s.after,
+    caretStart:
+      s.before.length + padBefore.length + px,
+    caretEnd:
+      s.before.length + padBefore.length + px
+      + s.sel.length,
   };
 }
 
