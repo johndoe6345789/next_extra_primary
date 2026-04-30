@@ -324,8 +324,14 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      s3:
+        condition: service_started
     environment:
       JWT_SECRET: change-me-in-production
+      S3_ENDPOINT: http://s3:9000
+      S3_ACCESS_KEY: minioadmin
+      S3_SECRET_KEY: minioadmin
+      S3_FORUM_BUCKET: forum
     restart: unless-stopped
 
   nextra-analytics:

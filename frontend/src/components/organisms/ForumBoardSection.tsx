@@ -2,19 +2,11 @@
 
 import React from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { useForumBoards } from '@/hooks/useForumBoards';
 import type { ForumThread } from '@/types/forum';
-import { LockedBoardCard } from
-  '../atoms/LockedBoardCard';
+import type { ForumBoard } from '@/types/forumBoard';
+import { LockedBoardCard } from '../atoms/LockedBoardCard';
 import { ForumBoardContent } from './ForumBoardContent';
-import boards from '@/constants/forum-boards.json';
-
-type BoardMeta = {
-  label: string;
-  description: string;
-  icon: string;
-  requiresAuth?: boolean;
-  minPosts?: number;
-};
 
 /** Props for ForumBoardSection. */
 export interface ForumBoardSectionProps {
@@ -26,36 +18,41 @@ export interface ForumBoardSectionProps {
   userPostCount?: number;
 }
 
-function getBoardMeta(slug: string): BoardMeta {
-  const known = boards as Record<string, BoardMeta>;
-  return known[slug] ?? {
+function fallbackBoard(slug: string): ForumBoard {
+  return {
+    slug,
     label: slug.replace(/-/g, ' ')
       .replace(/\b\w/g, (c) => c.toUpperCase()),
     description: '',
     icon: 'forum',
+    requiresAuth: false,
+    minPosts: 0,
+    isGuestVisible: true,
+    sortOrder: 0,
   };
 }
 
 /**
  * Forum board section with access gating.
- * Shows a LockedBoardCard when the user does not
- * meet requiresAuth or minPosts; delegates rendering
- * of the open board to ForumBoardContent.
+ * Reads board metadata from the API via useForumBoards,
+ * with static JSON as a fallback for instant first render.
  */
 export const ForumBoardSection: React.FC<
   ForumBoardSectionProps
 > = ({ slug, threads, limit, hideCount,
        userPostCount = 0 }) => {
   const { user } = useAuth();
-  const meta = getBoardMeta(slug);
+  const { boards } = useForumBoards();
+
+  const meta =
+    boards.find((b) => b.slug === slug)
+    ?? fallbackBoard(slug);
 
   if (meta.requiresAuth && !user) {
     return (
       <LockedBoardCard
-        label={meta.label}
-        description={meta.description}
-        icon={meta.icon}
-        reason="Sign in to view"
+        label={meta.label} description={meta.description}
+        icon={meta.icon} reason="Sign in to view"
       />
     );
   }
@@ -64,8 +61,7 @@ export const ForumBoardSection: React.FC<
     const need = meta.minPosts - userPostCount;
     return (
       <LockedBoardCard
-        label={meta.label}
-        description={meta.description}
+        label={meta.label} description={meta.description}
         icon={meta.icon}
         reason={`${need} more post${need === 1 ? '' : 's'} needed`}
       />

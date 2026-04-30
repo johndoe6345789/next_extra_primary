@@ -279,7 +279,17 @@
     "replyRequired": "Reply cannot be empty.",
     "replyError": "Failed to post reply.",
     "submit": "Post reply",
-    "postActions": "Post actions"
+    "postActions": "Post actions",
+    "newThread": "New Thread",
+    "threadTitle": "Thread title",
+    "threadBody": "Post body",
+    "threadTitleRequired": "Title is required",
+    "threadError": "Failed to create thread",
+    "editPost": "Edit post",
+    "saveEdit": "Save",
+    "cancelEdit": "Cancel",
+    "editError": "Failed to save edit",
+    "attachImage": "Attach image"
   },
   "polls": {
     "title": "Polls",
@@ -331,7 +341,12 @@
     "environment": "Environment",
     "apiCalls": "API Calls",
     "clear": "Clear",
-    "noApiCalls": "No API calls recorded yet."
+    "noApiCalls": "No API calls recorded yet.",
+    "forumBoards": "Forum Boards",
+    "forumBoardsDesc": "Configure board visibility and access rules",
+    "requiresAuth": "Requires sign-in",
+    "guestVisible": "Visible to guests",
+    "minPosts": "Min posts to access"
   },
   "social": {
     "follow": "Follow",

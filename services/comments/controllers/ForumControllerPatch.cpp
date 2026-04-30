@@ -1,6 +1,13 @@
-/** @brief POST /api/forum/threads handler. */
+/**
+ * @file ForumControllerPatch.cpp
+ * @brief PATCH /api/forum/posts/{id} handler.
+ *
+ * Only the original author may edit their own post.
+ * A missing or deleted post returns 403 (no info leak).
+ */
 #include "ForumController.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
+
 #include <drogon/drogon.h>
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
@@ -14,9 +21,13 @@ using namespace drogon::orm;
 namespace controllers
 {
 
-void ForumController::create(
-    const HttpRequestPtr& req, Cb&& cb)
+void ForumController::update(
+    const HttpRequestPtr& req, Cb&& cb,
+    const std::string& id)
 {
+    const auto userId =
+        req->getAttributes()->get<std::string>(
+            "user_id");
     json body;
     try {
         body = json::parse(
@@ -26,52 +37,45 @@ void ForumController::create(
             k400BadRequest, "invalid JSON"));
         return;
     }
-    if (!body.contains("title") ||
-        !body.contains("body")) {
+    if (!body.contains("body") ||
+        !body["body"].is_string()) {
         cb(::utils::jsonError(
-            k400BadRequest,
-            "title and body required"));
+            k400BadRequest, "body required"));
         return;
     }
-    const auto userId =
-        req->getAttributes()->get<std::string>(
-            "user_id");
-    const auto title =
-        body["title"].get<std::string>();
     const auto bodyText =
         body["body"].get<std::string>();
-    const auto board = body.value(
-        "board", std::string{"general"});
-
     auto db = app().getDbClient();
-    *db << "INSERT INTO comments_v2 "
-           "  (target_type, target_id, author_id,"
-           "   body, title, depth) "
-           "VALUES ('forum_board', "
-           "        $4, $1, $2, $3, 0) "
-           "RETURNING id, title, author_id, "
-           "          created_at"
-        << userId << bodyText << title << board
+    *db << "UPDATE comments_v2"
+           "  SET body=$1, updated_at=NOW()"
+           " WHERE id=$2"
+           "   AND author_id=$3"
+           "   AND target_type='forum_thread'"
+           "   AND deleted_at IS NULL"
+           " RETURNING id, body, updated_at"
+        << bodyText << id << userId
         >> [cb](const Result& r) {
+            if (r.empty()) {
+                cb(::utils::jsonError(
+                    k403Forbidden,
+                    "not found or forbidden"));
+                return;
+            }
             const auto& row = r[0];
             cb(::utils::jsonOk({
                 {"id", std::to_string(
                     row["id"]
                         .as<std::int64_t>())},
-                {"title",
-                    row["title"]
+                {"body",
+                    row["body"]
                         .as<std::string>()},
-                {"author",
-                    row["author_id"]
+                {"updatedAt",
+                    row["updated_at"]
                         .as<std::string>()},
-                {"createdAt",
-                    row["created_at"]
-                        .as<std::string>()},
-                {"replyCount", 0},
             }));
         }
         >> [cb](const DrogonDbException& e) {
-            spdlog::error("forum.create: {}",
+            spdlog::error("forum.post.patch: {}",
                 e.base().what());
             cb(::utils::jsonError(
                 k500InternalServerError,

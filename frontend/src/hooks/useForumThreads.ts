@@ -13,7 +13,7 @@ export interface UseForumThreadsReturn {
   isLoading: boolean;
   error: string | null;
   createThread: (
-    title: string, body: string,
+    title: string, body: string, board?: string,
   ) => Promise<void>;
 }
 
@@ -44,8 +44,8 @@ export function useForumThreads(
     total: data?.total ?? 0,
     isLoading,
     error: error ? 'Failed to load threads' : null,
-    createThread: async (title, body) => {
-      await create({ title, body }).unwrap();
+    createThread: async (title, body, board?) => {
+      await create({ title, body, board }).unwrap();
     },
   };
 }

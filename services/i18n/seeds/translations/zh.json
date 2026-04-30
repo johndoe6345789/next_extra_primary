@@ -302,7 +302,17 @@
     "viewProfile": "查看{name}的个人资料",
     "ban": "封禁",
     "banUser": "封禁{name}",
-    "postActions": "帖子操作"
+    "postActions": "帖子操作",
+    "newThread": "新帖子",
+    "threadTitle": "帖子标题",
+    "threadBody": "帖子内容",
+    "threadTitleRequired": "标题不能为空",
+    "threadError": "创建帖子失败",
+    "editPost": "编辑帖子",
+    "saveEdit": "保存",
+    "cancelEdit": "取消",
+    "editError": "保存失败",
+    "attachImage": "附加图片"
   },
   "polls": {
     "title": "投票",
@@ -354,7 +364,12 @@
     "environment": "环境",
     "apiCalls": "API调用",
     "clear": "清除",
-    "noApiCalls": "尚未记录任何API调用。"
+    "noApiCalls": "尚未记录任何API调用。",
+    "forumBoards": "论坛版块",
+    "forumBoardsDesc": "配置版块",
+    "requiresAuth": "需要登录",
+    "guestVisible": "对访客可见",
+    "minPosts": "最低发帖数"
   },
   "social": {
     "follow": "关注",

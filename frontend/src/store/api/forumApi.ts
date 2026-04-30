@@ -1,5 +1,6 @@
 /**
- * Forum RTK Query endpoints (threads/posts/reactions).
+ * Forum RTK Query endpoints (threads/posts).
+ * Reactions live in forumReactionApi.ts.
  * @module store/api/forumApi
  */
 import { baseApi } from './baseApi';
@@ -9,28 +10,16 @@ import type {
 
 /** Paginated thread list response. */
 export interface ThreadListResponse {
-  data: ForumThread[];
-  total: number;
-  page: number;
+  data: ForumThread[]; total: number; page: number;
 }
-
 /** Thread-with-posts detail response. */
 export interface ThreadDetailResponse {
-  thread: ForumThread;
-  posts: ForumPost[];
-  /** Current 1-based posts page. */
-  postPage: number;
-  /** Total non-deleted posts in the thread. */
-  postTotal: number;
+  thread: ForumThread; posts: ForumPost[];
+  postPage: number; postTotal: number;
 }
-
 /** Args for the thread list query. */
 export interface ThreadListArgs {
-  page?: number;
-  /** Filter to a single board slug. */
-  board?: string;
-  /** Page size (default backend = 20, max 100). */
-  limit?: number;
+  page?: number; board?: string; limit?: number;
 }
 
 /** Forum endpoints injected into baseApi. */
@@ -62,7 +51,7 @@ export const forumApi = baseApi.injectEndpoints({
     }),
     createThread: build.mutation<
       ForumThread,
-      { title: string; body: string }
+      { title: string; body: string; board?: string }
     >({
       query: (body) => ({
         url: '/forum/threads', method: 'POST', body,
@@ -71,27 +60,22 @@ export const forumApi = baseApi.injectEndpoints({
     }),
     createPost: build.mutation<
       ForumPost,
-      {
-        threadId: string;
-        body: string;
-        parentId?: string | null;
-      }
+      { threadId: string; body: string; parentId?: string | null }
     >({
       query: ({ threadId, ...body }) => ({
         url: `/forum/threads/${threadId}/posts`,
-        method: 'POST',
-        body,
+        method: 'POST', body,
       }),
       invalidatesTags: ['Comments'],
     }),
-    addForumReaction: build.mutation<
-      void,
-      { postId: string; type: string }
+    updatePost: build.mutation<
+      { id: string; body: string; updatedAt: string },
+      { id: string; body: string }
     >({
-      query: ({ postId, type }) => ({
-        url: `/forum/posts/${postId}/reactions`,
-        method: 'POST',
-        body: { type },
+      query: ({ id, body }) => ({
+        url: `/forum/posts/${id}`,
+        method: 'PATCH',
+        body: { body },
       }),
       invalidatesTags: ['Comments'],
     }),
@@ -103,5 +87,5 @@ export const {
   useGetForumThreadQuery,
   useCreateThreadMutation,
   useCreatePostMutation,
-  useAddForumReactionMutation,
+  useUpdatePostMutation,
 } = forumApi;

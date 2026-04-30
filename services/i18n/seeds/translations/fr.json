@@ -279,7 +279,17 @@
     "viewProfile": "Voir le profil de {name}",
     "ban": "Bannir",
     "banUser": "Bannir {name}",
-    "postActions": "Actions du message"
+    "postActions": "Actions du message",
+    "newThread": "Nouveau sujet",
+    "threadTitle": "Titre du sujet",
+    "threadBody": "Corps du message",
+    "threadTitleRequired": "Le titre est requis",
+    "threadError": "Échec de création",
+    "editPost": "Modifier le message",
+    "saveEdit": "Enregistrer",
+    "cancelEdit": "Annuler",
+    "editError": "Échec de la modification",
+    "attachImage": "Joindre une image"
   },
   "polls": {
     "title": "Sondages",
@@ -331,7 +341,12 @@
     "environment": "Environnement",
     "apiCalls": "Appels API",
     "clear": "Effacer",
-    "noApiCalls": "Aucun appel API enregistré pour le moment."
+    "noApiCalls": "Aucun appel API enregistré pour le moment.",
+    "forumBoards": "Espaces du forum",
+    "forumBoardsDesc": "Configurer les espaces",
+    "requiresAuth": "Connexion requise",
+    "guestVisible": "Visible aux invités",
+    "minPosts": "Posts minimum"
   },
   "social": {
     "follow": "Suivre",

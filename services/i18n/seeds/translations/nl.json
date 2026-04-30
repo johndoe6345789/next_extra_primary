@@ -302,7 +302,17 @@
     "viewProfile": "Profiel van {name} bekijken",
     "ban": "Verbannen",
     "banUser": "{name} verbannen",
-    "postActions": "Berichtacties"
+    "postActions": "Berichtacties",
+    "newThread": "Nieuw onderwerp",
+    "threadTitle": "Onderwerptitel",
+    "threadBody": "Berichttekst",
+    "threadTitleRequired": "Titel is vereist",
+    "threadError": "Aanmaken mislukt",
+    "editPost": "Bericht bewerken",
+    "saveEdit": "Opslaan",
+    "cancelEdit": "Annuleren",
+    "editError": "Opslaan mislukt",
+    "attachImage": "Afbeelding bijvoegen"
   },
   "polls": {
     "title": "Peilingen",
@@ -354,7 +364,12 @@
     "environment": "Omgeving",
     "apiCalls": "API-aanroepen",
     "clear": "Wissen",
-    "noApiCalls": "Nog geen API-aanroepen geregistreerd."
+    "noApiCalls": "Nog geen API-aanroepen geregistreerd.",
+    "forumBoards": "Forumboarden",
+    "forumBoardsDesc": "Boarden configureren",
+    "requiresAuth": "Aanmelden vereist",
+    "guestVisible": "Zichtbaar voor gasten",
+    "minPosts": "Min. berichten"
   },
   "social": {
     "follow": "Volgen",

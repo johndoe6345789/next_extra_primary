@@ -4,9 +4,11 @@ import React, { useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Box, Typography, Avatar } from '@shared/m3';
 import { IconButton } from '@shared/m3/inputs/IconButton';
-import { Menu, MenuItem } from '@shared/m3/navigation/Menu';
 import MoreVertIcon from '@shared/icons/MoreVert';
 import { Link } from '@/i18n/navigation';
+import {
+  ForumPostActionsMenu,
+} from '@/components/atoms/ForumPostActionsMenu';
 import { getRank, initials } from './forumPostUtils';
 import s from './ForumPost.module.scss';
 
@@ -23,52 +25,47 @@ export interface ForumPostAsideProps {
   /** Whether the current user IS this author. */
   isSelf: boolean;
   onBan?: () => void;
+  /** Called when the user selects "Edit post". */
+  onEdit?: () => void;
 }
 
 /**
  * Left sidebar column of a forum post: avatar,
  * author name (linked to profile), mafia rank,
- * post count, and (for mods) a ⋮ actions menu.
+ * post count, and a ⋮ actions menu for self/mods.
  */
 export function ForumPostAside({
   authorId, authorName, postCount, canBan,
-  isSelf, onBan,
+  isSelf, onBan, onEdit,
 }: ForumPostAsideProps): React.ReactElement {
   const t = useTranslations('forum');
   const rank = getRank(postCount);
   const btnRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
-  const showMenu = canBan && !isSelf;
+  const showMenu = canBan || isSelf;
 
   return (
     <Box className={s.aside}>
       <Link
         href={`/u/${authorId ?? ''}`}
-        aria-label={t('viewProfile',
-          { name: authorName })}
+        aria-label={t('viewProfile', { name: authorName })}
       >
-        <Avatar
-          aria-label={authorName}
-          className={s.avatar}
-        >
+        <Avatar aria-label={authorName} className={s.avatar}>
           {initials(authorName)}
         </Avatar>
       </Link>
-      <Typography component="span"
-        className={s.authorName}>
+      <Typography component="span" className={s.authorName}>
         {authorName}
       </Typography>
       <Typography
-        component="span"
-        className={s.rank}
+        component="span" className={s.rank}
         title={`${postCount} posts`}
       >
         <span aria-hidden="true">{rank.emoji}</span>
         {' '}{rank.label}
       </Typography>
-      <Typography component="span"
-        className={s.postCount}>
+      <Typography component="span" className={s.postCount}>
         {t('postCount', { n: postCount })}
       </Typography>
       {showMenu && (
@@ -82,23 +79,16 @@ export function ForumPostAside({
           >
             <MoreVertIcon size={18} />
           </IconButton>
-          <Menu
+          <ForumPostActionsMenu
             open={open}
             anchorEl={btnRef.current}
             onClose={() => setOpen(false)}
-            anchorRight
-            testId="post-actions-menu"
-          >
-            <MenuItem
-              onClick={() => {
-                setOpen(false);
-                onBan?.();
-              }}
-              data-testid="post-action-ban"
-            >
-              {t('banUser', { name: authorName })}
-            </MenuItem>
-          </Menu>
+            isSelf={isSelf}
+            canBan={canBan}
+            authorName={authorName}
+            onEdit={onEdit}
+            onBan={onBan}
+          />
         </>
       )}
     </Box>

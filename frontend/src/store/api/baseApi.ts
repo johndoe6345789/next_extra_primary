@@ -22,6 +22,7 @@ export const baseApi = createApi({
     'Social',
     'Analytics', 'Flags',
     'ShopProducts', 'Cart', 'Orders',
+    'ForumBoards',
   ],
   endpoints: () => ({}),
 });

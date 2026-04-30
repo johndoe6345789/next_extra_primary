@@ -302,7 +302,17 @@
     "viewProfile": "{name}のプロフィールを見る",
     "ban": "BAN",
     "banUser": "{name}をBANする",
-    "postActions": "投稿アクション"
+    "postActions": "投稿アクション",
+    "newThread": "新しいスレッド",
+    "threadTitle": "スレッドタイトル",
+    "threadBody": "投稿本文",
+    "threadTitleRequired": "タイトルが必要です",
+    "threadError": "スレッドの作成に失敗しました",
+    "editPost": "投稿を編集",
+    "saveEdit": "保存",
+    "cancelEdit": "キャンセル",
+    "editError": "保存に失敗しました",
+    "attachImage": "画像を添付"
   },
   "polls": {
     "title": "投票",
@@ -354,7 +364,12 @@
     "environment": "環境",
     "apiCalls": "API呼び出し",
     "clear": "クリア",
-    "noApiCalls": "まだAPI呼び出しは記録されていません。"
+    "noApiCalls": "まだAPI呼び出しは記録されていません。",
+    "forumBoards": "フォーラムボード",
+    "forumBoardsDesc": "ボードを設定",
+    "requiresAuth": "サインインが必要",
+    "guestVisible": "ゲストに表示",
+    "minPosts": "最低投稿数"
   },
   "social": {
     "follow": "フォロー",

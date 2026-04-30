@@ -3,8 +3,10 @@
 import {
   useGetForumThreadQuery,
   useCreatePostMutation,
-  useAddForumReactionMutation,
 } from '@/store/api/forumApi';
+import {
+  useAddForumReactionMutation,
+} from '@/store/api/forumReactionApi';
 import type {
   ForumPost, ForumThread,
 } from '@/types/content';

@@ -2,17 +2,9 @@
 /**
  * @file ForumController.h
  * @brief Forum thread/post REST endpoints.
- *
- * Routes:
- *   GET  /api/forum/threads          — list threads
- *   GET  /api/forum/threads/{id}     — thread + posts
- *   POST /api/forum/threads          — create thread
- *   POST /api/forum/threads/{id}/posts — add post
- *   POST /api/forum/posts/{id}/reactions — react
- *
- * Forum data lives in comments_v2:
- *   Threads: target_type='forum_board'
- *   Posts:   target_type='forum_thread'
+ *        Data lives in comments_v2 (threads:
+ *        target_type='forum_board', posts:
+ *        target_type='forum_thread').
  */
 
 #include <drogon/HttpController.h>
@@ -44,6 +36,14 @@ class ForumController
     ADD_METHOD_TO(
         ForumController::addReaction,
         "/api/forum/posts/{id}/reactions",
+        drogon::Post, "filters::JwtAuthFilter");
+    ADD_METHOD_TO(
+        ForumController::update,
+        "/api/forum/posts/{id}",
+        drogon::Patch, "filters::JwtAuthFilter");
+    ADD_METHOD_TO(
+        ForumController::uploadAttachment,
+        "/api/forum/upload",
         drogon::Post, "filters::JwtAuthFilter");
     METHOD_LIST_END
 
@@ -79,6 +79,22 @@ class ForumController
         std::function<void(
             const drogon::HttpResponsePtr&)>&& cb,
         const std::string& id);
+
+    /**
+     * @brief Edit the body of an existing post.
+     * @param id The post (comment) ID to update.
+     */
+    void update(
+        const drogon::HttpRequestPtr& req,
+        std::function<void(
+            const drogon::HttpResponsePtr&)>&& cb,
+        const std::string& id);
+
+    /** @brief Upload a file attachment to S3. */
+    void uploadAttachment(
+        const drogon::HttpRequestPtr& req,
+        std::function<void(
+            const drogon::HttpResponsePtr&)>&& cb);
 };
 
 } // namespace controllers

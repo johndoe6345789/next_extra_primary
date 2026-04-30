@@ -276,7 +276,24 @@
     "environment": "Umgebung",
     "apiCalls": "API-Aufrufe",
     "clear": "Löschen",
-    "noApiCalls": "Noch keine API-Aufrufe aufgezeichnet."
+    "noApiCalls": "Noch keine API-Aufrufe aufgezeichnet.",
+    "forumBoards": "Forumsbereiche",
+    "forumBoardsDesc": "Bereiche konfigurieren",
+    "requiresAuth": "Anmeldung erforderlich",
+    "guestVisible": "Für Gäste sichtbar",
+    "minPosts": "Mindestbeiträge"
+  },
+  "forum": {
+    "newThread": "Neues Thema",
+    "threadTitle": "Thementitel",
+    "threadBody": "Beitragstext",
+    "threadTitleRequired": "Titel erforderlich",
+    "threadError": "Erstellen fehlgeschlagen",
+    "editPost": "Beitrag bearbeiten",
+    "saveEdit": "Speichern",
+    "cancelEdit": "Abbrechen",
+    "editError": "Speichern fehlgeschlagen",
+    "attachImage": "Bild anhängen"
   },
   "social": {
     "follow": "Folgen",

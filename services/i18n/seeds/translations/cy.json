@@ -279,7 +279,17 @@
     "viewProfile": "Gweld proffil {name}",
     "ban": "Gwahardd",
     "banUser": "Gwahardd {name}",
-    "postActions": "Gweithredoedd post"
+    "postActions": "Gweithredoedd post",
+    "newThread": "Edwątek newydd",
+    "threadTitle": "Teitl yr edwątek",
+    "threadBody": "Corff y post",
+    "threadTitleRequired": "Mae angen teitl",
+    "threadError": "Methwyd â chreu edwątek",
+    "editPost": "Golygu post",
+    "saveEdit": "Cadw",
+    "cancelEdit": "Canslo",
+    "editError": "Methwyd â chadw",
+    "attachImage": "Atodi llun"
   },
   "polls": {
     "title": "Pleidleisiau",
@@ -331,7 +341,12 @@
     "environment": "Amgylchedd",
     "apiCalls": "Galwadau API",
     "clear": "Clirio",
-    "noApiCalls": "Dim galwadau API wedi'u cofnodi eto."
+    "noApiCalls": "Dim galwadau API wedi'u cofnodi eto.",
+    "forumBoards": "Byrddau Fforwm",
+    "forumBoardsDesc": "Ffurfweddu byrddau",
+    "requiresAuth": "Angen mewngofnodi",
+    "guestVisible": "Gweladwy i westeion",
+    "minPosts": "Lleiafswm postiadau"
   },
   "social": {
     "follow": "Dilyn",
