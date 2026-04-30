@@ -70,7 +70,12 @@ export function MarkdownEditor({
             onChange={onChange}
           />
           <TextField
-            inputRef={ref}
+            // M3 TextField forwards `ref` to the
+            // textarea in multiline mode (it does
+            // not honour `inputRef`).
+            ref={ref as React.Ref<
+              HTMLInputElement | HTMLDivElement
+            >}
             multiline
             minRows={minRows}
             fullWidth
