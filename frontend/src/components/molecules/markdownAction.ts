@@ -124,11 +124,61 @@ function applyWrap(
       caretEnd: newBefore.length + s.sel.length,
     };
   }
+  // Selection contains the OPENING marker but the
+  // closing is in `after` (e.g. "**he" selected in
+  // "**hello**"). Pull both markers out so we get
+  // a clean unwrap.
+  if (
+    s.sel.startsWith(prefix)
+    && s.after.indexOf(suffix) !== -1
+  ) {
+    const closeIdx = s.after.indexOf(suffix);
+    const inner = s.sel.slice(px)
+      + s.after.slice(0, closeIdx);
+    return {
+      value: s.before + inner
+        + s.after.slice(closeIdx + sx),
+      caretStart: s.before.length,
+      caretEnd: s.before.length + inner.length,
+    };
+  }
+  // Symmetric: selection contains the CLOSING marker
+  // ("lo**" in "**hello**").
+  if (
+    s.sel.endsWith(suffix)
+    && s.before.lastIndexOf(prefix) !== -1
+  ) {
+    const openIdx = s.before.lastIndexOf(prefix);
+    const inner = s.before.slice(openIdx + px)
+      + s.sel.slice(0, s.sel.length - sx);
+    return {
+      value: s.before.slice(0, openIdx) + inner
+        + s.after,
+      caretStart: openIdx,
+      caretEnd: openIdx + inner.length,
+    };
+  }
+  // Block-style markers (e.g. \n```\n) shouldn't
+  // produce a doubled blank line when inserted at
+  // the start of an empty / line-start context.
+  // Trim leading \n from the prefix and trailing \n
+  // from the suffix when the surroundings already
+  // give us those line breaks.
+  let p = prefix;
+  let sf = suffix;
+  if (p.startsWith('\n')
+      && (s.before === '' || s.before.endsWith('\n'))) {
+    p = p.slice(1);
+  }
+  if (sf.endsWith('\n')
+      && (s.after === '' || s.after.startsWith('\n'))) {
+    sf = sf.slice(0, -1);
+  }
   // No selection → insert markers, caret between.
   if (!s.sel) {
-    const c = s.before.length + px;
+    const c = s.before.length + p.length;
     return {
-      value: s.before + prefix + suffix + s.after,
+      value: s.before + p + sf + s.after,
       caretStart: c,
       caretEnd: c,
     };
@@ -136,10 +186,9 @@ function applyWrap(
   // Plain wrap — leave inner text selected so the
   // user can type to replace or chain another action.
   return {
-    value: s.before + prefix + s.sel + suffix
-      + s.after,
-    caretStart: s.before.length + px,
-    caretEnd: s.before.length + px + s.sel.length,
+    value: s.before + p + s.sel + sf + s.after,
+    caretStart: s.before.length + p.length,
+    caretEnd: s.before.length + p.length + s.sel.length,
   };
 }
 

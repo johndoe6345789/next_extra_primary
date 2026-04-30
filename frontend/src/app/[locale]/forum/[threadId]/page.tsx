@@ -127,7 +127,10 @@ export default function ForumThreadPage(): React.ReactElement {
           />
         </Box>
       )}
-      <ForumReplyComposer onSubmit={reply} />
+      <ForumReplyComposer
+        onSubmit={reply}
+        storageKey={`forum-draft-${thread.id}`}
+      />
     </Box>
   );
 }

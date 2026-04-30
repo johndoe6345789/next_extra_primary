@@ -17,13 +17,21 @@ import type { RootState } from '../store';
 // /api/notifications/*, etc.
 const API_BASE = '/api';
 
+/** Hard cap on any single API request. Beyond this
+ *  the user almost certainly wants to retry rather
+ *  than keep waiting on a wedged response — better
+ *  to surface an error than spin forever. */
+const REQUEST_TIMEOUT_MS = 30_000;
+
 /**
  * Raw fetchBaseQuery that attaches the access token
- * from Redux state as a Bearer Authorization header.
+ * from Redux state as a Bearer Authorization header
+ * and aborts requests that exceed the timeout.
  */
 export const rawBaseQuery = fetchBaseQuery({
   baseUrl:
     process.env.NEXT_PUBLIC_API_URL ?? API_BASE,
+  timeout: REQUEST_TIMEOUT_MS,
   prepareHeaders: (headers, { getState }) => {
     const token =
       (getState() as RootState).auth.accessToken;
