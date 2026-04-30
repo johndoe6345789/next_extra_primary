@@ -16,6 +16,13 @@
   padding: 16px 20px;
   background: var(--mat-sys-surface-container-highest);
   border-bottom: 2px solid var(--mat-sys-primary);
+  text-decoration: none;
+  color: inherit;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background: var(--mat-sys-surface-container-high);
+  }
 }
 
 .iconWrap {
@@ -77,4 +84,22 @@
 .body {
   display: flex;
   flex-direction: column;
+}
+
+.viewAll {
+  display: block;
+  padding: 12px 20px;
+  text-align: center;
+  color: var(--mat-sys-primary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface-container-low);
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background: var(--mat-sys-surface-container-high);
+    text-decoration: underline;
+  }
 }

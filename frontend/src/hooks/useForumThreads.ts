@@ -17,17 +17,27 @@ export interface UseForumThreadsReturn {
   ) => Promise<void>;
 }
 
+/** Args for useForumThreads. */
+export interface UseForumThreadsArgs {
+  page?: number;
+  /** Restrict to one board slug. */
+  board?: string;
+  /** Page size (server clamps to 1..100). */
+  limit?: number;
+}
+
 /**
- * Fetch forum thread list + expose create.
- *
- * @param page - 1-indexed page number.
- * @returns Threads and mutation helpers.
+ * Fetch a paginated forum thread list, optionally
+ * filtered to a single board, and expose a create
+ * mutation.
  */
 export function useForumThreads(
-  page = 1,
+  arg: number | UseForumThreadsArgs = 1,
 ): UseForumThreadsReturn {
+  const args: UseForumThreadsArgs =
+    typeof arg === 'number' ? { page: arg } : arg;
   const { data, isLoading, error } =
-    useGetForumThreadsQuery({ page });
+    useGetForumThreadsQuery(args);
   const [create] = useCreateThreadMutation();
   return {
     threads: data?.data ?? [],

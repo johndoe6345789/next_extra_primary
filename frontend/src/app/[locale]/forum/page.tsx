@@ -82,6 +82,7 @@ export default function ForumPage(): React.ReactElement {
           key={slug}
           slug={slug}
           threads={ts}
+          limit={3}
         />
       ))}
       {pageCount > 1 && (

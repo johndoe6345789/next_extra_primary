@@ -13,6 +13,10 @@ import type {
 export interface UseForumThreadReturn {
   thread: ForumThread | null;
   posts: ForumPost[];
+  /** Total non-deleted posts across all pages. */
+  postTotal: number;
+  /** Current 1-based posts page. */
+  postPage: number;
   isLoading: boolean;
   error: string | null;
   reply: (
@@ -24,23 +28,25 @@ export interface UseForumThreadReturn {
 }
 
 /**
- * Fetch a forum thread + expose reply/react.
- *
- * @param threadId - Thread ID.
- * @returns Thread data and mutation helpers.
+ * Fetch a forum thread plus one paginated slice of
+ * its posts, and expose reply/react mutations.
  */
 export function useForumThread(
   threadId: string,
+  postPage = 1,
 ): UseForumThreadReturn {
   const { data, isLoading, error } =
-    useGetForumThreadQuery(threadId, {
-      skip: !threadId,
-    });
+    useGetForumThreadQuery(
+      { id: threadId, postPage },
+      { skip: !threadId },
+    );
   const [createPost] = useCreatePostMutation();
   const [addReaction] = useAddForumReactionMutation();
   return {
     thread: data?.thread ?? null,
     posts: data?.posts ?? [],
+    postTotal: data?.postTotal ?? 0,
+    postPage: data?.postPage ?? postPage,
     isLoading,
     error: error ? 'Failed to load thread' : null,
     reply: async (body, parentId = null) => {

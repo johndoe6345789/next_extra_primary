@@ -1,6 +1,10 @@
 /**
  * @file ForumControllerList.cpp
  * @brief GET /api/forum/threads handler.
+ *
+ * Optional ?board=slug filter for drill-down pages.
+ * Always returns total count so the frontend can
+ * paginate on threads-of-a-board independently.
  */
 
 #include "ForumController.h"
@@ -19,6 +23,13 @@ using namespace drogon::orm;
 namespace controllers
 {
 
+// Defined in ForumThreadRow.cpp.
+json threadRowToJson(const Row& row);
+std::string boardFilterClause(const std::string& b);
+std::string threadListSql(const std::string& clause,
+    int limit, int offset);
+std::string threadCountSql(const std::string& clause);
+
 void ForumController::list(
     const HttpRequestPtr& req, Cb&& cb)
 {
@@ -27,80 +38,49 @@ void ForumController::list(
     int page = pageStr.empty()
         ? 1 : std::stoi(pageStr);
     if (page < 1) page = 1;
-    const int limit = 20;
+    // Caller may request a smaller page (default 20,
+    // capped at 100). Used by the forum index to fetch
+    // top-N threads per board efficiently.
+    int limit = 20;
+    const auto lp = req->getParameter("limit");
+    if (!lp.empty()) {
+        limit = std::clamp(std::stoi(lp), 1, 100);
+    }
     const int offset = (page - 1) * limit;
-
+    const std::string clause = boardFilterClause(
+        req->getParameter("board"));
+    const std::string countSql = threadCountSql(clause);
     const std::string sql =
-        "SELECT t.id, t.title, t.target_id AS board, "
-        "       t.author_id, t.created_at, "
-        "       u.display_name AS author_name, "
-        "  (SELECT COUNT(*) FROM comments_v2 p "
-        "   WHERE p.target_type='forum_thread' "
-        "   AND p.target_id = t.id::text "
-        "   AND p.deleted_at IS NULL"
-        "  ) AS reply_count, "
-        "  (SELECT MAX(p.created_at) FROM comments_v2 p "
-        "   WHERE p.target_type='forum_thread' "
-        "   AND p.target_id = t.id::text "
-        "   AND p.deleted_at IS NULL"
-        "  ) AS last_reply_at "
-        "FROM comments_v2 t "
-        "LEFT JOIN users u ON u.id = t.author_id "
-        "WHERE t.target_type = 'forum_board' "
-        "  AND t.deleted_at IS NULL "
-        "ORDER BY t.created_at DESC "
-        "LIMIT " + std::to_string(limit) +
-        " OFFSET " + std::to_string(offset);
+        threadListSql(clause, limit, offset);
 
     auto db = app().getDbClient();
-    *db << sql
-        >> [cb, page](const Result& r) {
-            json arr = json::array();
-            for (const auto& row : r) {
-                json t;
-                t["id"] =
-                    std::to_string(
-                        row["id"]
-                            .as<std::int64_t>());
-                t["title"] =
-                    row["title"].isNull()
-                        ? "" : row["title"]
-                                   .as<std::string>();
-                t["board"] =
-                    row["board"].isNull()
-                        ? "general"
-                        : row["board"].as<std::string>();
-                t["author"] =
-                    row["author_id"]
-                        .as<std::string>();
-                t["authorName"] =
-                    row["author_name"].isNull()
-                        ? ""
-                        : row["author_name"]
-                              .as<std::string>();
-                t["createdAt"] =
-                    row["created_at"]
-                        .as<std::string>();
-                t["replyCount"] =
-                    row["reply_count"]
-                        .as<std::int64_t>();
-                t["lastReplyAt"] =
-                    row["last_reply_at"].isNull()
-                        ? ""
-                        : row["last_reply_at"]
-                              .as<std::string>();
-                arr.push_back(t);
-            }
-            cb(::utils::jsonOk({
-                {"data", arr},
-                {"page", page},
-                {"total",
-                 static_cast<int>(arr.size())},
-            }));
+    *db << countSql
+        >> [cb, db, sql, page](const Result& cr) {
+            const int total = cr.empty() ? 0
+                : static_cast<int>(
+                    cr[0]["n"].as<std::int64_t>());
+            *db << sql
+                >> [cb, page, total](const Result& r) {
+                    json arr = json::array();
+                    for (const auto& row : r) {
+                        arr.push_back(
+                            threadRowToJson(row));
+                    }
+                    cb(::utils::jsonOk({
+                        {"data", arr},
+                        {"page", page},
+                        {"total", total}}));
+                }
+                >> [cb](const DrogonDbException& e) {
+                    spdlog::error("forum.list: {}",
+                        e.base().what());
+                    cb(::utils::jsonError(
+                        k500InternalServerError,
+                        "internal error"));
+                };
         }
         >> [cb](const DrogonDbException& e) {
-            spdlog::error(
-                "forum.list: {}",
+            spdlog::error("forum.list count: {}",
                 e.base().what());
             cb(::utils::jsonError(
                 k500InternalServerError,

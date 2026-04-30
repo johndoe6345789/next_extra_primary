@@ -3,6 +3,7 @@
 import React from 'react';
 import { Box, Typography } from '@shared/m3';
 import { Icon } from '@shared/m3/data-display/Icon';
+import { Link } from '@/i18n/navigation';
 import type { ForumThread } from '@/types/forum';
 import { ForumThreadRow } from
   '../molecules/ForumThreadRow';
@@ -15,6 +16,10 @@ export interface ForumBoardSectionProps {
   slug: string;
   /** Threads in this board. */
   threads: ForumThread[];
+  /** Cap threads shown; the rest behind "view all". */
+  limit?: number;
+  /** Hide the per-board thread count badge. */
+  hideCount?: boolean;
 }
 
 /** Lookup helper with safe fallback for unknown slugs. */
@@ -38,14 +43,22 @@ function getBoardMeta(slug: string) {
  */
 export const ForumBoardSection: React.FC<
   ForumBoardSectionProps
-> = ({ slug, threads }) => {
+> = ({ slug, threads, limit, hideCount }) => {
   const meta = getBoardMeta(slug);
+  const visible = limit
+    ? threads.slice(0, limit) : threads;
+  const hidden = limit
+    ? Math.max(0, threads.length - limit) : 0;
   return (
     <Box
       className={s.section}
       data-testid={`forum-board-${slug}`}
     >
-      <Box className={s.header}>
+      <Link
+        href={`/forum/board/${slug}`}
+        className={s.header}
+        data-testid={`forum-board-${slug}-link`}
+      >
         <Box className={s.iconWrap}>
           <Icon size="lg" color="primary">
             {meta.icon}
@@ -67,26 +80,37 @@ export const ForumBoardSection: React.FC<
             </Typography>
           )}
         </Box>
-        <Box className={s.count}>
-          <Typography
-            component="span"
-            className={s.countNum}
-          >
-            {threads.length}
-          </Typography>
-          <Typography
-            component="span"
-            className={s.countLabel}
-          >
-            threads
-          </Typography>
-        </Box>
-      </Box>
+        {!hideCount && (
+          <Box className={s.count}>
+            <Typography
+              component="span"
+              className={s.countNum}
+            >
+              {threads.length}
+            </Typography>
+            <Typography
+              component="span"
+              className={s.countLabel}
+            >
+              threads
+            </Typography>
+          </Box>
+        )}
+      </Link>
       <Box className={s.body}>
-        {threads.map((th) => (
+        {visible.map((th) => (
           <ForumThreadRow key={th.id} thread={th} />
         ))}
       </Box>
+      {hidden > 0 && (
+        <Link
+          href={`/forum/board/${slug}`}
+          className={s.viewAll}
+          data-testid={`forum-board-${slug}-viewall`}
+        >
+          View all {threads.length} threads →
+        </Link>
+      )}
     </Box>
   );
 };

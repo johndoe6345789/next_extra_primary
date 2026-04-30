@@ -13,8 +13,12 @@ export interface ForumThread {
   author?: string;
   /** Author display name (joined from users table). */
   authorName?: string;
+  /** Opening post body. Only set on the detail
+   *  endpoint; absent on the list endpoint. */
+  body?: string;
   createdAt: string;
-  replyCount: number;
+  /** Reply count. Optional on the detail response. */
+  replyCount?: number;
   lastReplyAt?: string;
   lastReplyPreview?: string;
 }
@@ -24,7 +28,10 @@ export interface ForumPost {
   id: string;
   threadId: string;
   parentId?: string | null;
+  /** Author UUID. */
   author?: string;
+  /** Joined display name from users table. */
+  authorName?: string;
   body: string;
   createdAt: string;
   depth?: number;

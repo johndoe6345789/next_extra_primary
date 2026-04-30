@@ -18,23 +18,42 @@ export interface ThreadListResponse {
 export interface ThreadDetailResponse {
   thread: ForumThread;
   posts: ForumPost[];
+  /** Current 1-based posts page. */
+  postPage: number;
+  /** Total non-deleted posts in the thread. */
+  postTotal: number;
+}
+
+/** Args for the thread list query. */
+export interface ThreadListArgs {
+  page?: number;
+  /** Filter to a single board slug. */
+  board?: string;
+  /** Page size (default backend = 20, max 100). */
+  limit?: number;
 }
 
 /** Forum endpoints injected into baseApi. */
 export const forumApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getForumThreads: build.query<
-      ThreadListResponse,
-      { page?: number }
+      ThreadListResponse, ThreadListArgs
     >({
-      query: ({ page = 1 }) =>
-        `/forum/threads?page=${page}`,
+      query: ({ page = 1, board, limit }) => {
+        const qs = new URLSearchParams();
+        qs.set('page', String(page));
+        if (board) qs.set('board', board);
+        if (limit) qs.set('limit', String(limit));
+        return `/forum/threads?${qs.toString()}`;
+      },
       providesTags: ['Comments'],
     }),
     getForumThread: build.query<
-      ThreadDetailResponse, string
+      ThreadDetailResponse,
+      { id: string; postPage?: number }
     >({
-      query: (id) => `/forum/threads/${id}`,
+      query: ({ id, postPage = 1 }) =>
+        `/forum/threads/${id}?postPage=${postPage}`,
       providesTags: ['Comments'],
     }),
     createThread: build.mutation<

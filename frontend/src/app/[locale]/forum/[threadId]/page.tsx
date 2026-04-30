@@ -1,41 +1,47 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import {
-  Box,
-  Typography,
-  CircularProgress,
+  Box, Typography, CircularProgress,
 } from '@shared/m3';
+import { Pagination } from '@shared/m3/navigation';
+import { Link } from '@/i18n/navigation';
 import { useForumThread } from '@/hooks/useForumThread';
 import { ForumPost } from '@/components/molecules/ForumPost';
-import { ForumReplyComposer } from '@/components/molecules/ForumReplyComposer';
+import {
+  ForumReplyComposer,
+} from '@/components/molecules/ForumReplyComposer';
+import boards from '@/constants/forum-boards.json';
 
-/**
- * Forum thread detail page.
- *
- * Displays all posts and a reply composer.
- *
- * @returns Thread detail UI.
- */
+const POSTS_PER_PAGE = 25;
+
+/** phpBB-style thread page: breadcrumb, opening
+ *  post, paginated replies, reply composer. */
 export default function ForumThreadPage(): React.ReactElement {
   const t = useTranslations('forum');
-  const { threadId } = useParams<{ threadId: string }>();
-  const { thread, posts, isLoading, error, reply } =
-    useForumThread(threadId ?? '');
+  const { threadId } =
+    useParams<{ threadId: string }>();
+  const [postPage, setPostPage] = useState(1);
+  const {
+    thread, posts, postTotal, isLoading, error, reply,
+  } = useForumThread(threadId ?? '', postPage);
+  const pageCount = Math.max(
+    1, Math.ceil(postTotal / POSTS_PER_PAGE),
+  );
 
   if (isLoading) {
     return (
       <Box
-        sx={{ p: 4, display: 'flex', justifyContent: 'center' }}
+        sx={{ p: 4, display: 'flex',
+          justifyContent: 'center' }}
         data-testid="forum-thread-loading"
       >
         <CircularProgress aria-label={t('loading')} />
       </Box>
     );
   }
-
   if (error || !thread) {
     return (
       <Box sx={{ p: 3 }} data-testid="forum-thread-error">
@@ -46,31 +52,81 @@ export default function ForumThreadPage(): React.ReactElement {
     );
   }
 
+  const board = thread.board ?? 'general';
+  const meta = (boards as Record<
+    string, { label: string }
+  >)[board];
+  const boardLabel = meta?.label ?? board;
+  const startIdx = (postPage - 1) * POSTS_PER_PAGE;
+
   return (
     <Box
-      component="main"
+      role="main"
       aria-label={thread.title}
       data-testid="forum-thread-page"
-      sx={{ p: 3, maxWidth: 860, mx: 'auto' }}
+      sx={{ p: 3, maxWidth: 980, mx: 'auto' }}
     >
-      <Typography variant="h5" component="h1" gutterBottom>
-        {thread.title}
+      <Typography
+        component="nav"
+        sx={{
+          mb: 2,
+          fontSize: '0.875rem',
+          color: 'text.secondary',
+        }}
+      >
+        <Link href="/forum"
+          style={{ color: 'inherit' }}>
+          {t('title')}
+        </Link>
+        {' › '}
+        <Link href={`/forum/board/${board}`}
+          style={{ color: 'inherit' }}>
+          {boardLabel}
+        </Link>
       </Typography>
       <Typography
-        variant="caption"
-        color="textSecondary"
-        sx={{ mb: 2, display: 'block' }}
+        variant="h5"
+        component="h1"
+        sx={{ mb: 2, fontWeight: 600 }}
       >
-        {thread.author} ·{' '}
-        {new Date(thread.createdAt).toLocaleDateString()}
+        {thread.title}
       </Typography>
-      {posts.map((post) => (
+      {/* Opening post is the thread row itself.    */}
+      {postPage === 1 && (
+        <ForumPost
+          post={{
+            id: thread.id,
+            threadId: thread.id,
+            author: thread.author,
+            authorName: thread.authorName,
+            body: thread.body ?? '',
+            createdAt: thread.createdAt,
+          }}
+          index={1}
+        />
+      )}
+      {posts.map((post, i) => (
         <ForumPost
           key={post.id}
           post={post}
-          depth={post.depth ?? 0}
+          index={startIdx + i + 2}
         />
       ))}
+      {pageCount > 1 && (
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          my: 2,
+        }}>
+          <Pagination
+            count={pageCount}
+            page={postPage}
+            onChange={setPostPage}
+            aria-label={t('pagination')}
+            data-testid="forum-thread-pagination"
+          />
+        </Box>
+      )}
       <ForumReplyComposer onSubmit={reply} />
     </Box>
   );
