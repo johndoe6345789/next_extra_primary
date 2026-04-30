@@ -1,0 +1,97 @@
+/* M3 tokens come from @shared/scss globals. */
+
+.markdown {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--mat-sys-on-surface);
+  overflow-wrap: anywhere;
+
+  p {
+    margin: 0 0 0.75em;
+    &:last-child { margin-bottom: 0; }
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    margin: 1.25em 0 0.5em;
+    line-height: 1.2;
+    font-weight: 600;
+    color: var(--mat-sys-on-surface);
+  }
+  h1 { font-size: 1.4rem; }
+  h2 { font-size: 1.2rem; }
+  h3 { font-size: 1.05rem; }
+
+  a {
+    color: var(--mat-sys-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    &:hover { text-decoration-thickness: 2px; }
+  }
+
+  ul, ol {
+    margin: 0.5em 0 0.75em;
+    padding-left: 1.4em;
+  }
+  li { margin: 0.2em 0; }
+  li > p { margin: 0; }
+
+  code {
+    background: var(--mat-sys-surface-container-high);
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+    font-family: ui-monospace, SFMono-Regular,
+      Menlo, monospace;
+    font-size: 0.875em;
+  }
+
+  pre {
+    background: var(--mat-sys-surface-container-highest);
+    color: var(--mat-sys-on-surface);
+    padding: 12px 14px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    margin: 0.75em 0;
+
+    code {
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      font-size: inherit;
+    }
+  }
+
+  blockquote {
+    margin: 0.75em 0;
+    padding: 0.25em 0.85em;
+    border-left: 3px solid var(--mat-sys-primary);
+    color: var(--mat-sys-on-surface-variant);
+    background: var(--mat-sys-surface-container);
+    border-radius: 0 6px 6px 0;
+    p { margin: 0.25em 0; }
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--mat-sys-outline-variant);
+    margin: 1.25em 0;
+  }
+
+  table {
+    border-collapse: collapse;
+    margin: 0.75em 0;
+    width: 100%;
+    th, td {
+      border: 1px solid var(--mat-sys-outline-variant);
+      padding: 6px 10px;
+      text-align: left;
+    }
+    th { background: var(--mat-sys-surface-container-high); }
+  }
+
+  img {
+    max-width: 100%;
+    border-radius: 6px;
+  }
+}

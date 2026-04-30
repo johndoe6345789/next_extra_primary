@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Box, Typography, Avatar } from '@shared/m3';
 import type { ForumPost as ForumPostType }
   from '@/types/content';
+import { MarkdownView } from './MarkdownView';
 import s from './ForumPost.module.scss';
 
 /** Props for ForumPost. */
@@ -36,7 +37,8 @@ function formatDate(iso: string): string {
 
 /**
  * phpBB-style post card: avatar column on the left,
- * post body on the right with author + timestamp meta.
+ * post body (rendered markdown) on the right with
+ * author + timestamp meta.
  */
 export function ForumPost({
   post, index,
@@ -82,15 +84,7 @@ export function ForumPost({
           )}
         </Box>
         <Box className={s.body}>
-          {post.body.split('\n').map((line, i) => (
-            <Typography
-              key={i}
-              component="p"
-              className={s.bodyLine}
-            >
-              {line || ' '}
-            </Typography>
-          ))}
+          <MarkdownView source={post.body} />
         </Box>
       </Box>
     </Box>

@@ -2,12 +2,8 @@
 
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import {
-  Box,
-  TextField,
-  Button,
-  Typography,
-} from '@shared/m3';
+import { Box, Button, Typography } from '@shared/m3';
+import { MarkdownEditor } from './MarkdownEditor';
 
 /** Props for ForumReplyComposer. */
 export interface ForumReplyComposerProps {
@@ -19,13 +15,12 @@ export interface ForumReplyComposerProps {
 
 /**
  * Reply composer placed at the bottom of a thread.
- *
- * @param props - ForumReplyComposer props.
- * @returns Reply form UI.
+ * Uses the markdown editor (write/preview tabs +
+ * formatting toolbar) so the post body can include
+ * bold, lists, code blocks, links, etc.
  */
 export function ForumReplyComposer({
-  onSubmit,
-  disabled = false,
+  onSubmit, disabled = false,
 }: ForumReplyComposerProps): React.ReactElement {
   const t = useTranslations('forum');
   const [body, setBody] = useState('');
@@ -57,16 +52,13 @@ export function ForumReplyComposer({
       data-testid="forum-reply-composer"
       sx={{ mt: 3 }}
     >
-      <TextField
-        label={t('replyPlaceholder')}
-        multiline
-        minRows={3}
-        fullWidth
+      <MarkdownEditor
         value={body}
-        onChange={(e) => setBody(e.target.value)}
+        onChange={setBody}
+        label={t('replyPlaceholder')}
         disabled={disabled}
-        aria-label={t('replyPlaceholder')}
-        data-testid="forum-reply-input"
+        minRows={4}
+        testId="forum-reply-input"
       />
       {error && (
         <Typography color="error" variant="caption">
