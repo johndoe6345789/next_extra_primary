@@ -1,0 +1,46 @@
+/* M3 tokens come from @shared/scss globals. */
+
+.menu {
+  background: var(--mat-sys-surface-container-high);
+  color: var(--mat-sys-on-surface);
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 8px;
+  padding: 4px;
+  min-width: 200px;
+  max-height: 320px;
+  overflow-y: auto;
+  box-shadow: var(--mat-sys-elevation-3);
+  z-index: 9100;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.875rem;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.1s ease;
+
+  &:hover, &:focus-visible {
+    background: var(--mat-sys-surface-container);
+    outline: none;
+  }
+}
+
+.value {
+  font-family: ui-monospace, SFMono-Regular,
+    Menlo, monospace;
+  font-size: 0.75rem;
+  color: var(--mat-sys-on-surface-variant);
+}

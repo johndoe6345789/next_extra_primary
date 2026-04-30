@@ -51,6 +51,21 @@
     var(--mat-sys-outline-variant);
 }
 
+// Pair the Code button with its ▾ language picker
+// so they read as a single split-button group.
+.codeGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+}
+
+.toolbar .codeGroup .codeLangBtn {
+  min-width: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin-left: -4px;
+}
+
 .preview {
   min-height: 120px;
   padding: 8px 4px;

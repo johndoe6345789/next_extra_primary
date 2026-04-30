@@ -1,0 +1,41 @@
+{
+  "name": "forum-seed",
+  "description": "Flood the forum with realistic test data. Generates threads across all boards and fills each with replies so every pagination control is exercisable.",
+  "options": [
+    {
+      "name": "threads",
+      "default": "200",
+      "help": "Total threads to insert across all boards (default 200)"
+    },
+    {
+      "name": "replies",
+      "default": "60",
+      "help": "Max replies per thread (actual count varies 50..N, default 60)"
+    }
+  ],
+  "steps": [
+    {
+      "type": "print",
+      "text": "[forum-seed] Generating {opt.threads} threads, up to {opt.replies} replies each..."
+    },
+    {
+      "type": "write",
+      "path": "/tmp/forum_seed.sql",
+      "content": "DO $$\nDECLARE\n  u_admin    UUID := '0e276adf-8bb9-41af-95df-162ff4d5e2fd';\n  u_user     UUID := 'da0ad867-f9e4-4d87-a710-05585f7238bb';\n  u_mod      UUID := '4cc85430-01f1-4b08-9057-aa75994bc06a';\n  u_legacy   UUID := 'd1f8c9a9-ad0e-4362-9a6e-1f0384fbf423';\n  u_legacy_a UUID := 'ecc1e92d-b176-455b-b6e0-c1241ded3ce6';\n  authors    UUID[];\n  boards     TEXT[];\n  titles     TEXT[];\n  bodies     TEXT[];\n  replies_   TEXT[];\n  t_id       BIGINT;\n  n_threads  INT := {opt.threads};\n  max_rep    INT := {opt.replies};\n  n_rep      INT;\n  b_slug     TEXT;\n  author     UUID;\n  t_age      NUMERIC;\n  new_id     BIGINT;\nBEGIN\n  authors  := ARRAY[u_admin, u_user, u_mod, u_legacy, u_legacy_a];\n  boards   := ARRAY['general','announcements','support','feedback','off-topic'];\n  titles   := ARRAY[\n    'Has anyone tried the new approach yet?',\n    'Quick tip that saved me hours this week',\n    'Looking for advice on scaling this up',\n    'Interesting benchmark results — thoughts?',\n    'Deep dive: what actually happens under the hood',\n    'Frustrated with the current workflow — ideas?',\n    'Beginner question: where do I start?',\n    'Show and tell: what I built this weekend',\n    'Hot take: the conventional wisdom here is wrong',\n    'Best resources you''ve found on this topic',\n    'Breaking change in the latest release — heads up',\n    'After 6 months I finally understand why this works',\n    'Poll: how are you handling this in your setup?',\n    'Solved: posting my fix in case it helps someone',\n    'Weird edge case I hit — reproducible every time',\n    'Compare and contrast: two approaches side by side',\n    'The docs are misleading on this point',\n    'Performance win: reduced load by 40%',\n    'Feature request: please add this to the roadmap',\n    'How do you test this kind of thing?',\n    'Weekly check-in — what are you working on?',\n    'Rant: why does this have to be so complicated?',\n    'Collaboration wanted — anyone else tackling this?',\n    'Configuration tip that nobody mentions',\n    'Finally got this working after three days'\n  ];\n  bodies   := ARRAY[\n    'I''ve been going back and forth on the best way to handle this and wanted to get a wider perspective from the community.',\n    'Spent the morning reading through the source and found something counterintuitive that I thought was worth sharing.',\n    'Background: we run this at around 50k req/min and started seeing tail latencies spike when we crossed a certain threshold.',\n    'Happy to share the full config if anyone wants — took me a while to tune this to where I''m satisfied.',\n    'First time posting here. Been lurking for a while and this community has already helped me enormously.',\n    'TLDR at the bottom. Skip the backstory if you just want the fix.',\n    'Putting together a comparison of the main options and would love input from people who have production experience.',\n    'Just pushed a proof of concept. It''s rough, but it works, and the numbers surprised me.',\n    'Disclaimer: I''m not an expert. Take this with appropriate skepticism and please correct me if I''m wrong.',\n    'Reproducible every time on my machine. Steps to repro and full logs attached.'\n  ];\n  replies_ := ARRAY[\n    'Thanks for posting this — been meaning to dig into it myself.',\n    'This matched my experience exactly. Glad to know it''s not just me.',\n    'Have you tried doing this with the alternative approach? Curious how they compare.',\n    'Bookmarking this. Really useful reference.',\n    'I hit the same issue last quarter. The root cause for us was slightly different but the fix is similar.',\n    'Great write-up. One thing I''d add is to make sure you account for edge cases in the error path.',\n    'How long have you been running this in production?',\n    'We tried something similar and had mixed results. Happy to share our findings if useful.',\n    'This deserves more attention — underrated thread.',\n    'Could you expand on the part about configuration? That''s where I keep getting stuck.',\n    '+1. Ran into this exact problem and your workaround is cleaner than what we ended up with.',\n    'Marked as helpful. Will try this next week and report back.',\n    'Slightly off-topic but related: did you also notice the performance difference on lower-spec machines?',\n    'Genuinely surprised this isn''t in the official docs. Thanks for documenting it.',\n    'One caveat worth mentioning — this approach breaks if you have more than a certain number of concurrent connections.',\n    'Tested on my end. Confirmed working as described.',\n    'Minor correction: in step 3 the parameter order is reversed. Everything else looks right.',\n    'Has anyone benchmarked this against the naive approach? Wondering if the complexity is worth it.',\n    'Following this thread. Will circle back once I''ve had a chance to test.',\n    'This is the answer I was looking for. Simple, clear, and it works.'\n  ];\n  FOR i IN 1..n_threads LOOP\n    b_slug  := boards[1 + ((i - 1) % array_length(boards, 1))];\n    author  := authors[1 + ((i - 1) % array_length(authors, 1))];\n    t_age   := (random() * 90)::NUMERIC;\n    n_rep   := 50 + floor(random() * GREATEST(max_rep - 49, 1))::INT;\n    INSERT INTO comments_v2 (\n      target_type, target_id, author_id, title, body,\n      depth, created_at, updated_at\n    ) VALUES (\n      'forum_board', b_slug, author,\n      titles[1 + ((i - 1) % array_length(titles, 1))]\n        || ' (#' || i || ')',\n      bodies[1 + ((i - 1) % array_length(bodies, 1))],\n      0,\n      NOW() - (t_age || ' days')::INTERVAL,\n      NOW() - (t_age || ' days')::INTERVAL\n    ) RETURNING id INTO t_id;\n    UPDATE comments_v2\n      SET path = text2ltree(t_id::text)\n      WHERE id = t_id;\n    INSERT INTO comments_v2 (\n      target_type, target_id, parent_id, author_id,\n      body, depth, created_at, updated_at\n    )\n    SELECT\n      'forum_thread', t_id::text, t_id,\n      authors[1 + ((gs - 1) % array_length(authors, 1))],\n      replies_[1 + ((gs - 1) % array_length(replies_, 1))],\n      1,\n      NOW() - ((t_age - gs * (t_age / (n_rep + 1))) || ' days')::INTERVAL,\n      NOW() - ((t_age - gs * (t_age / (n_rep + 1))) || ' days')::INTERVAL\n    FROM generate_series(1, n_rep) AS gs;\n    UPDATE comments_v2\n      SET path = text2ltree(t_id::text) || text2ltree(id::text)\n      WHERE parent_id = t_id AND path IS NULL;\n  END LOOP;\n  RAISE NOTICE 'forum-seed: inserted % threads.', n_threads;\nEND $$;\n"
+    },
+    {
+      "type": "shell",
+      "tag": "forum-seed",
+      "command": "docker compose exec -T db psql -U nextra -d nextra_db < /tmp/forum_seed.sql"
+    },
+    {
+      "type": "shell",
+      "tag": "forum-seed",
+      "command": "rm -f /tmp/forum_seed.sql"
+    },
+    {
+      "type": "print",
+      "text": "[forum-seed] Done. Visit http://localhost:8889/app/en/forum to see the results."
+    }
+  ]
+}

@@ -8,3 +8,5 @@ export const MoreVert = (props: IconProps) => (
     <circle cx="128" cy="196" r="12" fill="currentColor" stroke="none" />
   </Icon>
 )
+
+export default MoreVert

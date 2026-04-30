@@ -286,6 +286,7 @@
     "title": "フォーラム",
     "loading": "スレッドを読み込み中...",
     "pagination": "スレッドのページ",
+    "pageOf": "{total} ページ中 {page} ページ目",
     "notFound": "スレッドが見つかりません。",
     "replies": "返信",
     "post": "フォーラム投稿",
@@ -294,7 +295,14 @@
     "replyPlaceholder": "返信を入力...",
     "replyRequired": "返信は空にできません。",
     "replyError": "返信の投稿に失敗しました。",
-    "submit": "返信を投稿"
+    "submit": "返信を投稿",
+    "prev": "前へ",
+    "next": "次へ",
+    "postCount": "{n} 件の投稿",
+    "viewProfile": "{name}のプロフィールを見る",
+    "ban": "BAN",
+    "banUser": "{name}をBANする",
+    "postActions": "投稿アクション"
   },
   "polls": {
     "title": "投票",

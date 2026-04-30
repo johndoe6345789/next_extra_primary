@@ -9,24 +9,35 @@
     "label": "Announcements",
     "description": "News from the team",
     "icon": "campaign",
-    "order": 2
+    "order": 2,
+    "requiresAuth": true
   },
   "support": {
     "label": "Help & Support",
     "description": "Stuck? Ask here",
     "icon": "help",
-    "order": 3
+    "order": 3,
+    "requiresAuth": true
   },
   "feedback": {
     "label": "Feedback & Ideas",
     "description": "Suggestions, bug reports, wishes",
     "icon": "lightbulb",
-    "order": 4
+    "order": 4,
+    "requiresAuth": true
   },
   "off-topic": {
     "label": "Off-Topic",
     "description": "Coffee, music, anything goes",
     "icon": "coffee",
     "order": 5
+  },
+  "inner-circle": {
+    "label": "Members' Club",
+    "description": "Exclusive — 1 000-post members only",
+    "icon": "star",
+    "order": 99,
+    "requiresAuth": true,
+    "minPosts": 1000
   }
 }

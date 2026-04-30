@@ -25,7 +25,9 @@ RUN ln -s /build/app/node_modules /build/node_modules
 FROM deps AS build
 ARG NEXT_BASE_PATH=
 ARG BACKEND_URL=http://localhost:8080
+ARG SRC_BUST=1
 WORKDIR /build/app
+RUN echo "src bust: ${SRC_BUST}"
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NEXT_BASE_PATH=${NEXT_BASE_PATH}

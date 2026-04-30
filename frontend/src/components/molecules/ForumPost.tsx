@@ -2,83 +2,60 @@
 
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { Box, Typography, Avatar } from '@shared/m3';
+import { Box, Typography } from '@shared/m3';
+import { useAuth } from '@/hooks/useAuth';
 import type { ForumPost as ForumPostType }
   from '@/types/content';
+import { ForumPostAside } from './ForumPostAside';
 import { MarkdownView } from './MarkdownView';
+import { formatDate } from './forumPostUtils';
 import s from './ForumPost.module.scss';
 
 /** Props for ForumPost. */
 export interface ForumPostProps {
-  /** Post data object. */
   post: ForumPostType;
-  /** 1-based index in the visible page. */
   index?: number;
 }
 
-function initials(name: string): string {
-  const parts = name.trim().split(/\s+/);
-  if (parts.length === 0 || !parts[0]) return '?';
-  if (parts.length === 1) {
-    return parts[0][0]!.toUpperCase();
-  }
-  return (
-    parts[0][0]! + parts[parts.length - 1][0]!
-  ).toUpperCase();
-}
-
-function formatDate(iso: string): string {
-  const d = new Date(iso);
-  return d.toLocaleString(undefined, {
-    year: 'numeric', month: 'short', day: 'numeric',
-    hour: '2-digit', minute: '2-digit',
-  });
-}
-
 /**
- * phpBB-style post card: avatar column on the left,
- * post body (rendered markdown) on the right with
- * author + timestamp meta.
+ * phpBB-style post card. Left aside shows avatar,
+ * author name, mafia rank, and post count.
+ * Right panel shows rendered markdown + meta.
  */
 export function ForumPost({
   post, index,
 }: ForumPostProps): React.ReactElement {
   const t = useTranslations('forum');
+  const { user } = useAuth();
   const author =
     post.authorName?.trim() || t('unknownAuthor');
+  const canBan =
+    user?.role === 'moderator'
+    || user?.role === 'admin';
+
   return (
     <Box
       data-testid={`forum-post-${post.id}`}
       aria-label={t('post')}
       className={s.post}
     >
-      <Box className={s.aside}>
-        <Avatar
-          aria-label={author}
-          className={s.avatar}
-        >
-          {initials(author)}
-        </Avatar>
-        <Typography
-          component="span"
-          className={s.authorName}
-        >
-          {author}
-        </Typography>
-      </Box>
+      <ForumPostAside
+        authorId={post.author}
+        authorName={author}
+        postCount={post.authorPostCount ?? 0}
+        canBan={canBan}
+        isSelf={user?.id === post.author}
+        onBan={() => {/* TODO: open ban modal */}}
+      />
       <Box className={s.main}>
         <Box className={s.meta}>
-          <Typography
-            component="span"
-            className={s.date}
-          >
+          <Typography component="span"
+            className={s.date}>
             {formatDate(post.createdAt)}
           </Typography>
           {typeof index === 'number' && (
-            <Typography
-              component="span"
-              className={s.indexBadge}
-            >
+            <Typography component="span"
+              className={s.indexBadge}>
               #{index}
             </Typography>
           )}

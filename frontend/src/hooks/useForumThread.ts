@@ -30,14 +30,16 @@ export interface UseForumThreadReturn {
 /**
  * Fetch a forum thread plus one paginated slice of
  * its posts, and expose reply/react mutations.
+ * @param limit - posts per page (derived from viewport).
  */
 export function useForumThread(
   threadId: string,
   postPage = 1,
+  limit?: number,
 ): UseForumThreadReturn {
   const { data, isLoading, error } =
     useGetForumThreadQuery(
-      { id: threadId, postPage },
+      { id: threadId, postPage, limit },
       { skip: !threadId },
     );
   const [createPost] = useCreatePostMutation();

@@ -263,6 +263,13 @@
     "title": "Forum",
     "loading": "Loading threads...",
     "pagination": "Thread pages",
+    "pageOf": "Page {page} of {total}",
+    "prev": "Previous",
+    "next": "Next",
+    "postCount": "{n} posts",
+    "viewProfile": "View profile of {name}",
+    "ban": "Ban",
+    "banUser": "Ban {name}",
     "notFound": "Thread not found.",
     "replies": "replies",
     "post": "Forum post",
@@ -271,7 +278,8 @@
     "replyPlaceholder": "Write a reply...",
     "replyRequired": "Reply cannot be empty.",
     "replyError": "Failed to post reply.",
-    "submit": "Post reply"
+    "submit": "Post reply",
+    "postActions": "Post actions"
   },
   "polls": {
     "title": "Polls",

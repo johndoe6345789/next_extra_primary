@@ -5,99 +5,39 @@ import { Box, TextField } from '@shared/m3';
 import { MarkdownToolbar } from './MarkdownToolbar';
 import { MarkdownView } from './MarkdownView';
 import {
-  applyMdAction, type MdAction,
-} from './markdownAction';
+  MarkdownEditorTabs, type MarkdownEditorMode,
+} from './MarkdownEditorTabs';
+import {
+  handleMdKeyDown,
+} from './markdownToolbarActions';
 import s from './MarkdownEditor.module.scss';
-
-/** Keyboard shortcuts: Cmd/Ctrl+B → bold,
- *  Cmd/Ctrl+I → italic. */
-const KEY_ACTIONS: Record<string, MdAction> = {
-  b: { label: 'B', prefix: '**', suffix: '**' },
-  i: { label: 'I', prefix: '_', suffix: '_' },
-};
 
 /** Props for MarkdownEditor. */
 export interface MarkdownEditorProps {
-  /** Current markdown source. */
   value: string;
-  /** Called on every change. */
   onChange: (next: string) => void;
-  /** Field label / placeholder. */
   label?: string;
-  /** Disable input + toolbar. */
   disabled?: boolean;
-  /** Minimum visible rows in write mode. */
   minRows?: number;
-  /** data-testid. */
   testId?: string;
 }
 
-type Mode = 'write' | 'preview';
-
 /** Tabbed write/preview markdown editor with a small
- *  formatting toolbar. Built on top of MarkdownView
- *  for the preview, so what you see is what
- *  ForumPost will render. */
+ *  formatting toolbar. */
 export function MarkdownEditor({
   value, onChange, label = 'Write…',
   disabled = false, minRows = 4, testId,
 }: MarkdownEditorProps): React.ReactElement {
-  const [mode, setMode] = useState<Mode>('write');
+  const [mode, setMode] =
+    useState<MarkdownEditorMode>('write');
   const ref = useRef<HTMLTextAreaElement | null>(null);
-  const tab = (m: Mode) => () => setMode(m);
-  const tabClass = (m: Mode) =>
-    `${s.tab} ${mode === m ? s.tabActive : ''}`;
-
-  const onKeyDown: React.KeyboardEventHandler<
-    HTMLTextAreaElement
-  > = (e) => {
-    if (!(e.metaKey || e.ctrlKey)) return;
-    const a = KEY_ACTIONS[e.key.toLowerCase()];
-    if (!a || !ref.current) return;
-    e.preventDefault();
-    const el = ref.current;
-    const r = applyMdAction(el, a);
-    // See MarkdownToolbar.handle() for the
-    // sync-write + rAF-restore rationale.
-    const nativeSetter = Object.getOwnPropertyDescriptor(
-      window.HTMLTextAreaElement.prototype, 'value',
-    )?.set;
-    nativeSetter?.call(el, r.value);
-    el.setSelectionRange(r.caretStart, r.caretEnd);
-    onChange(r.value);
-    requestAnimationFrame(() => {
-      const cur = ref.current;
-      if (!cur) return;
-      cur.focus();
-      cur.setSelectionRange(r.caretStart, r.caretEnd);
-    });
-  };
 
   return (
     <Box
       className={s.editor}
       data-testid={testId ?? 'md-editor'}
     >
-      <Box className={s.tabs} role="tablist">
-        <button
-          type="button"
-          role="tab"
-          aria-selected={mode === 'write'}
-          className={tabClass('write')}
-          onClick={tab('write')}
-        >
-          Write
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={mode === 'preview'}
-          className={tabClass('preview')}
-          onClick={tab('preview')}
-        >
-          Preview
-        </button>
-      </Box>
+      <MarkdownEditorTabs mode={mode} onChange={setMode} />
       {mode === 'write' && (
         <>
           <MarkdownToolbar
@@ -105,9 +45,6 @@ export function MarkdownEditor({
             onChange={onChange}
           />
           <TextField
-            // M3 TextField forwards `ref` to the
-            // textarea in multiline mode (it does
-            // not honour `inputRef`).
             ref={ref as React.Ref<
               HTMLInputElement | HTMLDivElement
             >}
@@ -116,7 +53,8 @@ export function MarkdownEditor({
             fullWidth
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            onKeyDown={onKeyDown}
+            onKeyDown={(e) =>
+              handleMdKeyDown(e, ref, onChange)}
             placeholder={label}
             disabled={disabled}
             aria-label={label}

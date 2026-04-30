@@ -6,16 +6,17 @@ import { useParams } from 'next/navigation';
 import {
   Box, Typography, CircularProgress,
 } from '@shared/m3';
-import { Pagination } from '@shared/m3/navigation';
 import { Link } from '@/i18n/navigation';
 import { useForumThread } from '@/hooks/useForumThread';
+import { usePostsPerPage } from '@/hooks/usePostsPerPage';
 import { ForumPost } from '@/components/molecules/ForumPost';
 import {
   ForumReplyComposer,
 } from '@/components/molecules/ForumReplyComposer';
+import {
+  PaginationFooter,
+} from '@/components/molecules/PaginationFooter';
 import boards from '@/constants/forum-boards.json';
-
-const POSTS_PER_PAGE = 25;
 
 /** phpBB-style thread page: breadcrumb, opening
  *  post, paginated replies, reply composer. */
@@ -24,11 +25,13 @@ export default function ForumThreadPage(): React.ReactElement {
   const { threadId } =
     useParams<{ threadId: string }>();
   const [postPage, setPostPage] = useState(1);
+  const postsPerPage = usePostsPerPage();
   const {
     thread, posts, postTotal, isLoading, error, reply,
-  } = useForumThread(threadId ?? '', postPage);
+  } = useForumThread(threadId ?? '', postPage, postsPerPage);
+  // +1 because the opening post occupies one slot on page 1.
   const pageCount = Math.max(
-    1, Math.ceil(postTotal / POSTS_PER_PAGE),
+    1, Math.ceil((postTotal + 1) / postsPerPage),
   );
 
   if (isLoading) {
@@ -57,7 +60,7 @@ export default function ForumThreadPage(): React.ReactElement {
     string, { label: string }
   >)[board];
   const boardLabel = meta?.label ?? board;
-  const startIdx = (postPage - 1) * POSTS_PER_PAGE;
+  const startIdx = (postPage - 1) * postsPerPage;
 
   return (
     <Box
@@ -91,7 +94,7 @@ export default function ForumThreadPage(): React.ReactElement {
       >
         {thread.title}
       </Typography>
-      {/* Opening post is the thread row itself.    */}
+      {/* Opening post is the thread row itself. */}
       {postPage === 1 && (
         <ForumPost
           post={{
@@ -112,21 +115,13 @@ export default function ForumThreadPage(): React.ReactElement {
           index={startIdx + i + 2}
         />
       ))}
-      {pageCount > 1 && (
-        <Box sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          my: 2,
-        }}>
-          <Pagination
-            count={pageCount}
-            page={postPage}
-            onChange={setPostPage}
-            aria-label={t('pagination')}
-            data-testid="forum-thread-pagination"
-          />
-        </Box>
-      )}
+      <PaginationFooter
+        page={postPage}
+        pageCount={pageCount}
+        onChange={setPostPage}
+        ns="forum"
+        testId="forum-thread-pagination"
+      />
       <ForumReplyComposer
         onSubmit={reply}
         storageKey={`forum-draft-${thread.id}`}

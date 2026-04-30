@@ -4,15 +4,17 @@ import React, { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Box, Typography } from '@shared/m3';
-import { Pagination } from '@shared/m3/navigation';
 import { Link } from '@/i18n/navigation';
 import {
   ForumBoardSection,
 } from '@/components/organisms/ForumBoardSection';
+import {
+  PaginationFooter,
+} from '@/components/molecules/PaginationFooter';
 import { useForumThreads } from '@/hooks/useForumThreads';
 import boards from '@/constants/forum-boards.json';
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 10;
 
 /** Per-board paginated thread list. */
 export default function ForumBoardPage(): React.ReactElement {
@@ -74,21 +76,13 @@ export default function ForumBoardPage(): React.ReactElement {
           hideCount
         />
       )}
-      {pageCount > 1 && (
-        <Box sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          mt: 2,
-        }}>
-          <Pagination
-            count={pageCount}
-            page={page}
-            onChange={setPage}
-            aria-label={t('pagination')}
-            data-testid="forum-board-pagination"
-          />
-        </Box>
-      )}
+      <PaginationFooter
+        page={page}
+        pageCount={pageCount}
+        onChange={setPage}
+        ns="forum"
+        testId="forum-board-pagination"
+      />
     </Box>
   );
 }

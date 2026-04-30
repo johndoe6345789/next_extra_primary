@@ -50,10 +50,14 @@ export const forumApi = baseApi.injectEndpoints({
     }),
     getForumThread: build.query<
       ThreadDetailResponse,
-      { id: string; postPage?: number }
+      { id: string; postPage?: number; limit?: number }
     >({
-      query: ({ id, postPage = 1 }) =>
-        `/forum/threads/${id}?postPage=${postPage}`,
+      query: ({ id, postPage = 1, limit }) => {
+        const qs = new URLSearchParams();
+        qs.set('postPage', String(postPage));
+        if (limit) qs.set('limit', String(limit));
+        return `/forum/threads/${id}?${qs.toString()}`;
+      },
       providesTags: ['Comments'],
     }),
     createThread: build.mutation<

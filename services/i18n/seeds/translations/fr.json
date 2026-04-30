@@ -263,6 +263,7 @@
     "title": "Forum",
     "loading": "Chargement des fils...",
     "pagination": "Pages de fils",
+    "pageOf": "Page {page} sur {total}",
     "notFound": "Fil introuvable.",
     "replies": "réponses",
     "post": "Message du forum",
@@ -271,7 +272,14 @@
     "replyPlaceholder": "Rédigez une réponse...",
     "replyRequired": "La réponse ne peut pas être vide.",
     "replyError": "Échec de la publication.",
-    "submit": "Publier"
+    "submit": "Publier",
+    "prev": "Précédent",
+    "next": "Suivant",
+    "postCount": "{n} messages",
+    "viewProfile": "Voir le profil de {name}",
+    "ban": "Bannir",
+    "banUser": "Bannir {name}",
+    "postActions": "Actions du message"
   },
   "polls": {
     "title": "Sondages",

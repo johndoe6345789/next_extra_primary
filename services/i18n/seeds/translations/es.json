@@ -263,6 +263,7 @@
     "title": "Foro",
     "loading": "Cargando hilos...",
     "pagination": "Páginas de hilos",
+    "pageOf": "Página {page} de {total}",
     "notFound": "Hilo no encontrado.",
     "replies": "respuestas",
     "post": "Publicación del foro",
@@ -271,7 +272,14 @@
     "replyPlaceholder": "Escribe una respuesta...",
     "replyRequired": "La respuesta no puede estar vacía.",
     "replyError": "Error al publicar la respuesta.",
-    "submit": "Publicar respuesta"
+    "submit": "Publicar respuesta",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "postCount": "{n} publicaciones",
+    "viewProfile": "Ver perfil de {name}",
+    "ban": "Banear",
+    "banUser": "Banear a {name}",
+    "postActions": "Acciones del mensaje"
   },
   "polls": {
     "title": "Encuestas",

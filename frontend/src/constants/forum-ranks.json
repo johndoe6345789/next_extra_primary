@@ -1,0 +1,11 @@
+[
+  { "minPosts": 0,    "label": "Civilian",    "emoji": "👤" },
+  { "minPosts": 10,   "label": "Street Thug", "emoji": "🔫" },
+  { "minPosts": 50,   "label": "Made Man",    "emoji": "🤝" },
+  { "minPosts": 100,  "label": "Capo",        "emoji": "💼" },
+  { "minPosts": 250,  "label": "Underboss",   "emoji": "👔" },
+  { "minPosts": 500,  "label": "Consigliere", "emoji": "🧠" },
+  { "minPosts": 1000, "label": "Don",                  "emoji": "💍" },
+  { "minPosts": 2500, "label": "Boss of All Bosses",   "emoji": "👑" },
+  { "minPosts": 5000, "label": "The Godfather",        "emoji": "🌹" }
+]

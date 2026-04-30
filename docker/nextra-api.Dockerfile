@@ -45,6 +45,13 @@ RUN conan install /conan --build=missing \
 # ── Stage 3: full monolith compile ──────────────────────────────
 FROM conan-deps AS build
 
+# Pass --build-arg SRC_BUST=$(date +%s) to bypass the COPY cache
+# when source files change but Docker Desktop serves stale layers.
+ARG SRC_BUST=1
+# This RUN consumes SRC_BUST, so --build-arg SRC_BUST=$(date +%s)
+# invalidates the COPY cache when Mac Docker Desktop serves stale layers.
+RUN echo "src bust: ${SRC_BUST}"
+
 WORKDIR /src
 COPY . .
 
@@ -52,7 +59,8 @@ RUN cmake -B /build \
         -G Ninja \
         -DCMAKE_BUILD_TYPE=Release \
         "-DCMAKE_TOOLCHAIN_FILE=/conan/out/build/Release/generators/conan_toolchain.cmake" && \
-    cmake --build /build -j"$(( $(nproc) > 4 ? 4 : $(nproc) ))"
+    cmake --build /build --clean-first \
+        -j"$(( $(nproc) > 4 ? 4 : $(nproc) ))"
 
 # ── Stage 4: slim runtime base ───────────────────────────────────
 FROM ${RUNTIME_IMAGE} AS runtime-base

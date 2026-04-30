@@ -286,6 +286,7 @@
     "title": "Forum",
     "loading": "Threads laden...",
     "pagination": "Threadpagina's",
+    "pageOf": "Pagina {page} van {total}",
     "notFound": "Thread niet gevonden.",
     "replies": "reacties",
     "post": "Forumbericht",
@@ -294,7 +295,14 @@
     "replyPlaceholder": "Schrijf een reactie...",
     "replyRequired": "Reactie mag niet leeg zijn.",
     "replyError": "Reactie plaatsen mislukt.",
-    "submit": "Reactie plaatsen"
+    "submit": "Reactie plaatsen",
+    "prev": "Vorige",
+    "next": "Volgende",
+    "postCount": "{n} berichten",
+    "viewProfile": "Profiel van {name} bekijken",
+    "ban": "Verbannen",
+    "banUser": "{name} verbannen",
+    "postActions": "Berichtacties"
   },
   "polls": {
     "title": "Peilingen",

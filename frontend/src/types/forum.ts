@@ -13,6 +13,8 @@ export interface ForumThread {
   author?: string;
   /** Author display name (joined from users table). */
   authorName?: string;
+  /** Total posts by this author (for rank display). */
+  authorPostCount?: number;
   /** Opening post body. Only set on the detail
    *  endpoint; absent on the list endpoint. */
   body?: string;
@@ -32,6 +34,8 @@ export interface ForumPost {
   author?: string;
   /** Joined display name from users table. */
   authorName?: string;
+  /** Total posts by this author (for rank display). */
+  authorPostCount?: number;
   body: string;
   createdAt: string;
   depth?: number;

@@ -25,21 +25,28 @@ import {
 // DOM stubs here — what we're testing is the
 // toolbar click logic, not the M3 styling.
 jest.mock('@shared/m3', () => ({
-  Box: ({ children, ...rest }: {
+  Box: ({
+    children, component: C = 'div', ...rest
+  }: {
     children?: React.ReactNode;
+    component?: React.ElementType;
     [k: string]: unknown;
-  }) => <div {...rest}>{children}</div>,
+  }) => <C {...rest}>{children}</C>,
   Button: ({
-    children, onClick, testId, ...rest
+    children, onClick, testId, type, disabled,
+    ...rest
   }: {
     children?: React.ReactNode;
     onClick?: () => void;
     testId?: string;
+    type?: 'button' | 'submit' | 'reset';
+    disabled?: boolean;
     [k: string]: unknown;
   }) => (
     <button
-      type="button"
+      type={type ?? 'button'}
       onClick={onClick}
+      disabled={disabled}
       data-testid={testId}
       {...rest}
     >
@@ -53,6 +60,26 @@ jest.mock('@shared/m3', () => ({
     component?: React.ElementType;
     [k: string]: unknown;
   }) => <C {...rest}>{children}</C>,
+  TextField: ({
+    label, value, onChange,
+    'data-testid': tid, required,
+  }: {
+    label?: string;
+    value: string;
+    onChange: (
+      e: React.ChangeEvent<HTMLInputElement>,
+    ) => void;
+    'data-testid'?: string;
+    required?: boolean;
+  }) => (
+    <input
+      aria-label={label}
+      value={value}
+      onChange={onChange}
+      data-testid={tid}
+      required={required}
+    />
+  ),
 }));
 
 // eslint-disable-next-line import/first
@@ -271,5 +298,146 @@ describe('MarkdownToolbar Code ambiguity dialog', () => {
         screen.queryByTestId('md-action-dialog'),
       ).toBeNull();
       expect(ta.value).toBe('hi');
+    });
+});
+
+describe('MarkdownToolbar Link dialog', () => {
+  it('opens a dialog instead of inserting a stub',
+    () => {
+      render(<Harness />);
+      fireEvent.click(
+        screen.getByTestId('md-tb-Link'),
+      );
+      expect(
+        screen.getByTestId('link-dialog'),
+      ).toBeInTheDocument();
+      // Cancel returns the textarea unchanged.
+      fireEvent.click(
+        screen.getByTestId('link-dialog-cancel'),
+      );
+      const ta = screen.getByTestId(
+        'ta',
+      ) as HTMLTextAreaElement;
+      expect(ta.value).toBe('');
+    });
+
+  it('inserts [text](url) at the cursor', () => {
+    render(<Harness />);
+    fireEvent.click(
+      screen.getByTestId('md-tb-Link'),
+    );
+    fireEvent.change(
+      screen.getByTestId('link-dialog-text'),
+      { target: { value: 'click' } },
+    );
+    fireEvent.change(
+      screen.getByTestId('link-dialog-url'),
+      { target: { value: 'https://example.com' } },
+    );
+    fireEvent.click(
+      screen.getByTestId('link-dialog-insert'),
+    );
+    const ta = screen.getByTestId(
+      'ta',
+    ) as HTMLTextAreaElement;
+    expect(ta.value).toBe(
+      '[click](https://example.com)',
+    );
+  });
+
+  it('pre-fills the text field with the current '
+    + 'selection', () => {
+    render(<Harness initial="hello" />);
+    const ta = screen.getByTestId(
+      'ta',
+    ) as HTMLTextAreaElement;
+    setSel(ta, 0, 5);
+    fireEvent.click(
+      screen.getByTestId('md-tb-Link'),
+    );
+    expect(
+      (screen.getByTestId(
+        'link-dialog-text',
+      ) as HTMLInputElement).value,
+    ).toBe('hello');
+  });
+
+  it('refuses to insert when URL is empty', () => {
+    render(<Harness />);
+    fireEvent.click(
+      screen.getByTestId('md-tb-Link'),
+    );
+    const submit = screen.getByTestId(
+      'link-dialog-insert',
+    ) as HTMLButtonElement;
+    expect(submit.disabled).toBe(true);
+  });
+});
+
+describe('MarkdownToolbar Code language menu', () => {
+  it('chevron opens a language menu listing the '
+    + 'supported languages', () => {
+      render(<Harness />);
+      fireEvent.click(
+        screen.getByTestId('md-tb-Code-lang'),
+      );
+      expect(
+        screen.getByTestId('code-lang-menu'),
+      ).toBeInTheDocument();
+      // Spot-check a couple of common ones.
+      expect(
+        screen.getByTestId('code-lang-typescript'),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByTestId('code-lang-python'),
+      ).toBeInTheDocument();
+    });
+
+  it('picking a language inserts a fenced block '
+    + 'with that language tag', () => {
+      render(<Harness />);
+      fireEvent.click(
+        screen.getByTestId('md-tb-Code-lang'),
+      );
+      fireEvent.click(
+        screen.getByTestId('code-lang-python'),
+      );
+      const ta = screen.getByTestId(
+        'ta',
+      ) as HTMLTextAreaElement;
+      expect(ta.value).toBe('```python\n\n```');
+    });
+
+  it('picking "Plain" inserts a language-less '
+    + 'fenced block', () => {
+      render(<Harness />);
+      fireEvent.click(
+        screen.getByTestId('md-tb-Code-lang'),
+      );
+      fireEvent.click(
+        screen.getByTestId('code-lang-plain'),
+      );
+      const ta = screen.getByTestId(
+        'ta',
+      ) as HTMLTextAreaElement;
+      expect(ta.value).toBe('```\n\n```');
+    });
+
+  it('picking a language wraps an existing '
+    + 'selection', () => {
+      render(<Harness initial="print('hi')" />);
+      const ta = screen.getByTestId(
+        'ta',
+      ) as HTMLTextAreaElement;
+      setSel(ta, 0, ta.value.length);
+      fireEvent.click(
+        screen.getByTestId('md-tb-Code-lang'),
+      );
+      fireEvent.click(
+        screen.getByTestId('code-lang-python'),
+      );
+      expect(ta.value).toBe(
+        "```python\nprint('hi')\n```",
+      );
     });
 });

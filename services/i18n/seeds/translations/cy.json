@@ -263,6 +263,7 @@
     "title": "Fforwm",
     "loading": "Llwytho edafedd...",
     "pagination": "Tudalennau edafedd",
+    "pageOf": "Tudalen {page} o {total}",
     "notFound": "Edwyn heb ei ganfod.",
     "replies": "atebion",
     "post": "Neges fforwm",
@@ -271,7 +272,14 @@
     "replyPlaceholder": "Ysgrifennu ateb...",
     "replyRequired": "Ni all ateb fod yn wag.",
     "replyError": "Methwyd â phostio'r ateb.",
-    "submit": "Postio ateb"
+    "submit": "Postio ateb",
+    "prev": "Blaenorol",
+    "next": "Nesaf",
+    "postCount": "{n} postiad",
+    "viewProfile": "Gweld proffil {name}",
+    "ban": "Gwahardd",
+    "banUser": "Gwahardd {name}",
+    "postActions": "Gweithredoedd post"
   },
   "polls": {
     "title": "Pleidleisiau",

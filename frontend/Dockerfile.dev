@@ -14,6 +14,8 @@ RUN npm config set fetch-retries 5 \
   && npm install --prefer-offline --no-audit --no-fund
 RUN ln -s /build/app/node_modules /build/node_modules
 
+ARG SRC_BUST=1
+RUN echo "src bust: ${SRC_BUST}"
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED=1
