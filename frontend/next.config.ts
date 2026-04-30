@@ -39,15 +39,9 @@ const nextConfig: NextConfig = {
     '@shared/scss',
     '@shared/theme',
   ],
-  experimental: {
-    optimizePackageImports: [
-      '@shared/m3',
-      '@shared/icons',
-      '@shared/ui',
-      '@shared/components',
-      '@shared/hooks',
-    ],
-  },
+  // optimizePackageImports for @shared/* barrels was disabled:
+  // in Turbopack dev it produced chunk explosion that left the
+  // RSC Suspense boundaries pending forever (empty <body>).
   basePath: process.env.NEXT_BASE_PATH || '',
   output: 'standalone',
   images: {

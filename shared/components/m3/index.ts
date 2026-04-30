@@ -15,4 +15,9 @@ export * from './_exports_core'
 export * from './_exports_display'
 export * from './_exports_nav'
 export * from './_exports_utils'
-export * from './_exports_domain'
+
+// `_exports_domain` (Monaco, Terminal, full DB query UI) is
+// NOT re-exported here. It pulls multi-MB chunks (Monaco)
+// that explode the Turbopack dev chunk graph and leave RSC
+// Suspense boundaries pending forever. Import those via
+// `@shared/m3/domain` on the pages that actually use them.

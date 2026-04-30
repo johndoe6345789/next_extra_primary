@@ -4,8 +4,6 @@ import {
   type ReactElement, ReactNode, useState,
 } from 'react';
 import { Provider } from 'react-redux';
-import { PersistGate } from
-  'redux-persist/integration/react';
 import { makeStore } from '@/store/store';
 import { useInitAuth } from '@/hooks/useInitAuth';
 
@@ -39,19 +37,20 @@ function AuthInitializer({
 export function StoreProvider({
   children,
 }: StoreProviderProps): ReactElement {
-  const [{ store, persistor }] =
-    useState(makeStore);
+  const [{ store }] = useState(makeStore);
 
   return (
     <Provider store={store}>
-      <PersistGate
-        loading={null}
-        persistor={persistor}
-      >
-        <AuthInitializer>
-          {children}
-        </AuthInitializer>
-      </PersistGate>
+      {/*
+        PersistGate's loading={null} blanks the SSR
+        body because the persistor never bootstraps
+        on the server (no localStorage). Render the
+        tree immediately and let redux-persist swap
+        in persisted state when it rehydrates on
+        the client; non-persisted slices already
+        have their default values.
+      */}
+      <AuthInitializer>{children}</AuthInitializer>
     </Provider>
   );
 }

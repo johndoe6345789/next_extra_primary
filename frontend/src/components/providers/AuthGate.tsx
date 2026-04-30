@@ -31,21 +31,11 @@ export function AuthGate(
   const { isInitializing } =
     useSelector((s: RootState) => s.auth);
 
-  if (isInitializing) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '60vh',
-        }}
-        data-testid="auth-gate-loading"
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  // Don't block rendering on init — components that need
+  // auth read isAuthenticated themselves. Showing a global
+  // spinner during init also blocks SSR content from
+  // appearing on first paint, which compounds with slow
+  // client hydration to feel like the app is broken.
+  void isInitializing;
   return <>{children}</>;
 }
