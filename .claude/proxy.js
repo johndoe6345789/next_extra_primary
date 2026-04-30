@@ -1,59 +1,27 @@
-const http = require('http');
-const port = process.env.PORT || 8891;
+// Transparent TCP forwarder: localhost:8891 → localhost:8889.
+// We do not parse HTTP — just relay bytes. Anything else we
+// tried (Node http.request) altered headers (multi-Link merged,
+// header casing) enough to break Next.js's RSC client bootstrap,
+// so this version is byte-for-byte transparent.
+
+const net = require('net');
+const port = parseInt(process.env.PORT || '8891', 10);
 const upstreamPort = parseInt(process.env.UPSTREAM_PORT || '8889', 10);
+const upstreamHost = '127.0.0.1';
 
-// Only the portal root needs the href="//" → href="/" fix.
-const needsRewrite = (url) => url === '/' || url.startsWith('/?');
-
-http.createServer((req, res) => {
-  // Preserve original headers; just rewrite Host so upstream
-  // matches its expected vhost. Do NOT remove or modify other
-  // headers — Next.js streams RSC chunks and is sensitive to
-  // anything that breaks transfer-encoding or buffering.
-  const upstreamHeaders = { ...req.headers, host: `localhost:${upstreamPort}` };
-  if (needsRewrite(req.url)) {
-    upstreamHeaders['accept-encoding'] = 'identity';
-  }
-
-  const opts = {
-    hostname: '127.0.0.1',
-    port: upstreamPort,
-    path: req.url,
-    method: req.method,
-    headers: upstreamHeaders,
-  };
-
-  const proxy = http.request(opts, (pr) => {
-    const ct = pr.headers['content-type'] || '';
-
-    if (needsRewrite(req.url) && ct.includes('text/html')) {
-      const chunks = [];
-      pr.on('data', (d) => chunks.push(d));
-      pr.on('end', () => {
-        const body = Buffer.concat(chunks).toString('utf8');
-        const rewritten = body.replace(/href="\/\/"/g, 'href="/"');
-        const out = Buffer.from(rewritten, 'utf8');
-        const hdrs = { ...pr.headers };
-        delete hdrs['transfer-encoding'];
-        delete hdrs['content-length'];
-        hdrs['content-length'] = String(out.length);
-        res.writeHead(pr.statusCode, hdrs);
-        res.end(out);
-      });
-    } else {
-      // Pass-through with original headers verbatim — preserve
-      // every Set-Cookie, Link, and Vary line, in original order
-      // (multi-value headers must remain split, not merged).
-      res.writeHead(pr.statusCode, pr.statusMessage, pr.rawHeaders);
-      pr.pipe(res, { end: true });
-    }
+const server = net.createServer((client) => {
+  const upstream = net.connect(upstreamPort, upstreamHost, () => {
+    client.pipe(upstream);
+    upstream.pipe(client);
   });
-
-  proxy.on('error', (e) => {
-    res.writeHead(502);
-    res.end(`Proxy error: ${e.message}`);
+  upstream.on('error', (e) => {
+    client.end(`HTTP/1.1 502 Bad Gateway\r\n\r\nupstream: ${e.message}`);
   });
-  req.pipe(proxy, { end: true });
-}).listen(port, () =>
-  process.stderr.write(`Preview proxy → 127.0.0.1:${upstreamPort} on :${port}\n`)
-);
+  client.on('error', () => upstream.destroy());
+});
+
+server.listen(port, () => {
+  process.stderr.write(
+    `Preview TCP proxy → ${upstreamHost}:${upstreamPort} on :${port}\n`,
+  );
+});
