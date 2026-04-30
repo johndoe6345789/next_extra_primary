@@ -102,6 +102,7 @@ export default function ForumThreadPage(): React.ReactElement {
             threadId: thread.id,
             author: thread.author,
             authorName: thread.authorName,
+            authorPostCount: thread.authorPostCount,
             body: thread.body ?? '',
             createdAt: thread.createdAt,
           }}
