@@ -21,6 +21,8 @@ std::string postListSql(int limit, int offset)
         + " u.display_name AS author_name,"
         + " (SELECT COUNT(*) FROM comments_v2"
         + "  WHERE author_id=p.author_id"
+        + "  AND target_type IN ('forum_thread',"
+        + "                      'forum_board')"
         + "  AND deleted_at IS NULL)"
         + "  AS author_post_count"
         + " FROM comments_v2 p"

@@ -59,6 +59,8 @@ std::string threadListSql(
         + " u.display_name AS author_name,"
         + " (SELECT COUNT(*) FROM comments_v2"
         + "  WHERE author_id=t.author_id"
+        + "  AND target_type IN ('forum_thread',"
+        + "                      'forum_board')"
         + "  AND deleted_at IS NULL) AS author_post_count,"
         + " (SELECT COUNT(*) FROM comments_v2 p"
         + "  WHERE p.target_type='forum_thread'"
