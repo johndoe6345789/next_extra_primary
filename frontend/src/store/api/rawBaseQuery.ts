@@ -6,6 +6,9 @@
 import { fetchBaseQuery } from
   '@reduxjs/toolkit/query/react';
 import type { RootState } from '../store';
+import {
+  COOKIE, readCookie,
+} from '@/lib/keycloakCookies';
 
 // API calls go through nginx, which routes /api/* to the
 // right microservice (e.g. /api/forum/* → nextra-comments,
@@ -34,7 +37,8 @@ export const rawBaseQuery = fetchBaseQuery({
   timeout: REQUEST_TIMEOUT_MS,
   prepareHeaders: (headers, { getState }) => {
     const token =
-      (getState() as RootState).auth.accessToken;
+      (getState() as RootState).auth.accessToken
+      ?? readCookie(COOKIE.access);
     if (token) {
       headers.set(
         'Authorization', `Bearer ${token}`,

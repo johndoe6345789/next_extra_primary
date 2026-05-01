@@ -1,0 +1,22 @@
+{
+  "authority": "http://localhost:8889/auth/realms/nextra",
+  "clientId": "nextra-app",
+  "redirectUri": "http://localhost:8889/app/en/auth/callback",
+  "postLogoutRedirectUri": "http://localhost:8889/app/en/login",
+  "scopes": "openid profile email offline_access",
+  "endpoints": {
+    "authorization":
+      "http://localhost:8889/auth/realms/nextra/protocol/openid-connect/auth",
+    "token":
+      "http://localhost:8889/auth/realms/nextra/protocol/openid-connect/token",
+    "logout":
+      "http://localhost:8889/auth/realms/nextra/protocol/openid-connect/logout"
+  },
+  "cookies": {
+    "access": "nextra_sso",
+    "refresh": "nextra_sso_refresh",
+    "state": "nextra_sso_state",
+    "verifier": "nextra_sso_verifier"
+  },
+  "refreshLeadSeconds": 60
+}

@@ -52,7 +52,8 @@
       "google": "Parhau gyda Google",
       "github": "Parhau gyda GitHub",
       "microsoft": "Parhau gyda Microsoft"
-    }
+    },
+    "continueWithKeycloak": "Parhau gyda Keycloak"
   },
   "nav": {
     "home": "Hafan",

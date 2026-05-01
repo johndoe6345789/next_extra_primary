@@ -70,7 +70,8 @@
       "recoveryCodesInfo": "Bewaar deze codes op een veilige plek.",
       "loading": "QR-code genereren...",
       "failed": "Verificatie mislukt. Probeer opnieuw."
-    }
+    },
+    "continueWithKeycloak": "Doorgaan met Keycloak"
   },
   "nav": {
     "home": "Home",

@@ -16,6 +16,7 @@ list(APPEND NEXTRA_DOMAIN_DIRS
     audit/backend/commands
     audit/controllers
     auth/backend
+    auth/backend/keycloak
     auth/backend/oauth
     auth/backend/passkeys
     auth/backend/totp

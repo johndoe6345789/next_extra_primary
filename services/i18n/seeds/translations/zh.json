@@ -70,7 +70,8 @@
       "recoveryCodesInfo": "请将这些恢复码保存在安全的地方。",
       "loading": "正在生成二维码...",
       "failed": "验证失败，请重试。"
-    }
+    },
+    "continueWithKeycloak": "使用 Keycloak 继续"
   },
   "nav": {
     "home": "首页",

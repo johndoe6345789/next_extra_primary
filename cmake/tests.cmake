@@ -46,6 +46,7 @@ if(NEXTRA_TEST_SOURCES)
             jwt-cpp::jwt-cpp
             fmt::fmt
             spdlog::spdlog
+            OpenSSL::Crypto
             GTest::gtest
             GTest::gtest_main
     )

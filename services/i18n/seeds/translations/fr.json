@@ -52,7 +52,8 @@
       "google": "Continuer avec Google",
       "github": "Continuer avec GitHub",
       "microsoft": "Continuer avec Microsoft"
-    }
+    },
+    "continueWithKeycloak": "Continuer avec Keycloak"
   },
   "nav": {
     "home": "Accueil",

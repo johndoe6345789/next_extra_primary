@@ -1,0 +1,84 @@
+{
+  "realm": "nextra",
+  "enabled": true,
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+  "attributes": {
+    "frontendUrl": "http://localhost:8889/auth"
+  },
+  "roles": {
+    "realm": [
+      { "name": "admin",     "description": "Administrator role" },
+      { "name": "moderator", "description": "Moderator role" },
+      { "name": "user",      "description": "Standard user role" }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "nextra-app",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "implicitFlowEnabled": false,
+      "protocol": "openid-connect",
+      "redirectUris": ["http://localhost:8889/*"],
+      "webOrigins": ["http://localhost:8889"],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "http://localhost:8889/*"
+      },
+      "fullScopeAllowed": true
+    }
+  ],
+  "users": [
+    {
+      "username": "devadmin",
+      "email": "dev.admin@nextra.local",
+      "firstName": "Dev",
+      "lastName": "Admin",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        { "type": "password",
+          "value": "DevAdmin1",
+          "temporary": false }
+      ],
+      "realmRoles": ["admin", "user"]
+    },
+    {
+      "username": "devuser",
+      "email": "dev.user@nextra.local",
+      "firstName": "Dev",
+      "lastName": "User",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        { "type": "password",
+          "value": "DevUser1",
+          "temporary": false }
+      ],
+      "realmRoles": ["user"]
+    },
+    {
+      "username": "devmod",
+      "email": "dev.mod@nextra.local",
+      "firstName": "Dev",
+      "lastName": "Moderator",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        { "type": "password",
+          "value": "DevMod1a",
+          "temporary": false }
+      ],
+      "realmRoles": ["moderator", "user"]
+    }
+  ]
+}

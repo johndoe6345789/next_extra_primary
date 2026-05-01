@@ -15,6 +15,8 @@ import type { TokenPair, User } from
 import { captureDebugInfo } from './debugCapture';
 import { reauthViaCookie } from
   './reauthViaCookie';
+import { reauthViaKeycloak } from
+  './reauthViaKeycloak';
 import { rawBaseQuery } from './rawBaseQuery';
 
 export { rawBaseQuery };
@@ -61,6 +63,9 @@ export const baseQueryWithReauth: BaseQueryFn<
     } else {
       refreshed =
         await reauthViaCookie(api, extra);
+    }
+    if (!refreshed) {
+      refreshed = await reauthViaKeycloak(api);
     }
 
     if (refreshed) {
