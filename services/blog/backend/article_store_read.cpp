@@ -50,8 +50,11 @@ std::vector<Article> ArticleStore::list(
     if (f.status)
         sql += " WHERE status='"
              + statusToString(*f.status) + "'";
-    sql += " ORDER BY created_at DESC LIMIT $1 OFFSET $2";
-    auto rows = db_->execSqlSync(sql, f.limit, f.offset);
+    sql += " ORDER BY created_at DESC LIMIT "
+         + std::to_string(f.limit)
+         + " OFFSET "
+         + std::to_string(f.offset);
+    auto rows = db_->execSqlSync(sql);
     std::vector<Article> out;
     out.reserve(rows.size());
     for (const auto& r : rows) out.push_back(rowToArticle(r));
@@ -80,6 +83,17 @@ std::optional<Article> ArticleStore::getBySlug(
         "FROM articles WHERE slug=$1", slug);
     if (rows.empty()) return std::nullopt;
     return rowToArticle(rows[0]);
+}
+
+int ArticleStore::count(const ListFilter& f) const
+{
+    std::string sql = "SELECT COUNT(*) FROM articles";
+    if (f.status)
+        sql += " WHERE status='"
+             + statusToString(*f.status) + "'";
+    auto rows = db_->execSqlSync(sql);
+    if (rows.empty()) return 0;
+    return rows[0][0].as<int>();
 }
 
 }  // namespace nextra::blog

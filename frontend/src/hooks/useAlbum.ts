@@ -1,12 +1,18 @@
 'use client';
 
+/**
+ * Hook for a single album + its photos.
+ * Resolves album from the cached list — no
+ * single-album endpoint exists on the backend.
+ * @module hooks/useAlbum
+ */
 import {
-  useGetAlbumQuery,
+  useGetAlbumsQuery,
   useGetAlbumPhotosQuery,
 } from '@/store/api/galleryApi';
 import type { Album, Photo } from '@/types/content';
 
-/** Result of useAlbum. */
+/** Return type of useAlbum. */
 export interface UseAlbumReturn {
   album: Album | null;
   photos: Photo[];
@@ -15,28 +21,30 @@ export interface UseAlbumReturn {
 }
 
 /**
- * Fetch a single album and its photos.
+ * Fetch an album by ID and its photos.
  *
- * @param albumId - Album ID.
- * @returns Album, photos, loading/error state.
+ * @param albumId - Numeric album ID as string.
+ * @returns Album, photos, loading state, error.
  */
 export function useAlbum(
   albumId: string,
 ): UseAlbumReturn {
-  const album = useGetAlbumQuery(albumId, {
-    skip: !albumId,
-  });
-  const photos = useGetAlbumPhotosQuery(albumId, {
+  const {
+    data: albums,
+    isLoading: albumsLoading, error: ae,
+  } = useGetAlbumsQuery();
+  const {
+    data: photos,
+    isLoading: photosLoading, error: pe,
+  } = useGetAlbumPhotosQuery(albumId, {
     skip: !albumId,
   });
   return {
-    album: album.data ?? null,
-    photos: photos.data ?? [],
-    isLoading: album.isLoading || photos.isLoading,
-    error:
-      album.error || photos.error
-        ? 'Failed to load album'
-        : null,
+    album:
+      albums?.find((a) => a.id === albumId) ?? null,
+    photos: photos ?? [],
+    isLoading: albumsLoading || photosLoading,
+    error: ae || pe ? 'Failed to load album' : null,
   };
 }
 

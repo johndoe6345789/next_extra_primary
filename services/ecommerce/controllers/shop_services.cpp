@@ -43,6 +43,13 @@ std::shared_ptr<ProductStore> products()
     return inst;
 }
 
+std::shared_ptr<ReviewStore> reviews()
+{
+    static auto inst = std::make_shared<ReviewStore>(
+        drogon::app().getDbClient());
+    return inst;
+}
+
 std::shared_ptr<CartService> carts()
 {
     static auto inst = std::make_shared<CartService>(

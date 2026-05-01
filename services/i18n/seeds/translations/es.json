@@ -65,6 +65,7 @@
     "wiki": "Wiki",
     "forum": "Foro",
     "gallery": "Galería",
+    "shop": "Tienda",
     "notifications": "Notificaciones",
     "about": "Acerca de",
     "contact": "Contacto",
@@ -250,7 +251,8 @@
     "loading": "Cargando entradas...",
     "pagination": "Páginas de entradas",
     "notFound": "Entrada no encontrada.",
-    "postBody": "Contenido de la entrada"
+    "postBody": "Contenido de la entrada",
+    "posts": "publicaciones"
   },
   "wiki": {
     "title": "Wiki",
@@ -258,7 +260,19 @@
     "welcome": "Selecciona una página de la barra lateral.",
     "loading": "Cargando página...",
     "notFound": "Página no encontrada.",
-    "lastUpdated": "Última actualización"
+    "lastUpdated": "Última actualización",
+    "edit": "Editar",
+    "newPage": "Nueva página",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "saving": "Guardando…",
+    "pageTitle": "Título",
+    "pageContent": "Contenido (Markdown)",
+    "editSummary": "Resumen de edición (opcional)",
+    "slugLabel": "Slug",
+    "noPages": "Aún no hay páginas. Sé el primero en crear una.",
+    "delete": "Eliminar página",
+    "subPages": "{count, plural, one {# subpágina} other {# subpáginas}}"
   },
   "forum": {
     "title": "Foro",
@@ -308,7 +322,12 @@
     "photo": "Foto",
     "photoGrid": "Cuadrícula de fotos",
     "prev": "Foto anterior",
-    "next": "Foto siguiente"
+    "next": "Foto siguiente",
+    "noAlbums": "Aún no hay álbumes.",
+    "backToGallery": "Volver a la galería",
+    "empty": "Este álbum está vacío.",
+    "of": "de",
+    "close": "Cerrar"
   },
   "admin": {
     "systemKeys": "Claves API del sistema",

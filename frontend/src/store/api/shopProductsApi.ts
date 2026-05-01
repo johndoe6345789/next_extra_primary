@@ -6,6 +6,7 @@ import { baseApi } from './baseApi';
 import type {
   Product,
   ProductsResponse,
+  ReviewsResponse,
 } from '../../types/shop';
 
 /** Product catalog endpoints. */
@@ -32,10 +33,20 @@ export const shopProductsApi =
           `/shop/products/${slug}`,
         providesTags: ['ShopProducts'],
       }),
+
+      /** Fetch reviews for a product by slug. */
+      getProductReviews: build.query<
+        ReviewsResponse, string
+      >({
+        query: (slug) =>
+          `/shop/products/${slug}/reviews`,
+        providesTags: ['ShopProducts'],
+      }),
     }),
   });
 
 export const {
   useGetProductsQuery,
   useGetProductQuery,
+  useGetProductReviewsQuery,
 } = shopProductsApi;

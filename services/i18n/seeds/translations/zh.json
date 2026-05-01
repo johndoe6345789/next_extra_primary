@@ -82,6 +82,7 @@
     "wiki": "Wiki",
     "forum": "论坛",
     "gallery": "图库",
+    "shop": "商店",
     "notifications": "通知",
     "about": "关于",
     "contact": "联系我们",
@@ -273,7 +274,8 @@
     "loading": "正在加载文章...",
     "pagination": "文章页",
     "notFound": "未找到文章。",
-    "postBody": "文章内容"
+    "postBody": "文章内容",
+    "posts": "文章"
   },
   "wiki": {
     "title": "Wiki",
@@ -281,7 +283,19 @@
     "welcome": "从侧边栏选择页面。",
     "loading": "正在加载页面...",
     "notFound": "未找到页面。",
-    "lastUpdated": "最后更新"
+    "lastUpdated": "最后更新",
+    "edit": "编辑",
+    "newPage": "新建页面",
+    "save": "保存",
+    "cancel": "取消",
+    "saving": "保存中…",
+    "pageTitle": "标题",
+    "pageContent": "内容（Markdown）",
+    "editSummary": "编辑摘要（可选）",
+    "slugLabel": "固定链接",
+    "noPages": "暂无页面，成为第一个创建页面的人。",
+    "delete": "删除页面",
+    "subPages": "{count}个子页面"
   },
   "forum": {
     "title": "论坛",
@@ -331,7 +345,12 @@
     "photo": "照片",
     "photoGrid": "照片网格",
     "prev": "上一张",
-    "next": "下一张"
+    "next": "下一张",
+    "noAlbums": "暂无相册。",
+    "backToGallery": "返回图库",
+    "empty": "该相册为空。",
+    "of": "/",
+    "close": "关闭"
   },
   "admin": {
     "systemKeys": "系统API密钥",

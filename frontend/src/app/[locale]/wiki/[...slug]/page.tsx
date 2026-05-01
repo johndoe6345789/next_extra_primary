@@ -4,12 +4,13 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import {
-  Box,
-  Typography,
-  CircularProgress,
-  Divider,
+  Box, Typography, CircularProgress,
+  Divider, Button,
 } from '@shared/m3';
+import { Link } from '@/i18n/navigation';
 import { useWikiPage } from '@/hooks/useWikiPage';
+import { MarkdownView } from
+  '@/components/molecules/MarkdownView';
 
 /**
  * Wiki page detail.
@@ -22,10 +23,12 @@ import { useWikiPage } from '@/hooks/useWikiPage';
  */
 export default function WikiPageDetail(): React.ReactElement {
   const t = useTranslations('wiki');
-  const params = useParams<{ slug: string[] }>();
+  const params = useParams<{
+    locale: string; slug: string[];
+  }>();
+  const locale = params?.locale ?? 'en';
   const slug = Array.isArray(params?.slug)
-    ? params.slug.join('/')
-    : (params?.slug ?? '');
+    ? params.slug.join('/') : (params?.slug ?? '');
   const { page, isLoading, error } = useWikiPage(slug);
 
   if (isLoading) {
@@ -49,16 +52,27 @@ export default function WikiPageDetail(): React.ReactElement {
     );
   }
 
-  /* eslint-disable react/no-danger */
   return (
     <Box
       component="article"
       aria-label={page.title}
       data-testid="wiki-page-detail"
     >
-      <Typography variant="h4" component="h1" gutterBottom>
-        {page.title}
-      </Typography>
+      <Box sx={{ display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between', mb: 1 }}>
+        <Typography variant="h4" component="h1">
+          {page.title}
+        </Typography>
+        <Button component={Link}
+          href={`/wiki/edit/${slug}`}
+          variant="outlined" size="small"
+          aria-label={t('edit')}
+          data-testid="wiki-edit-btn"
+          sx={{ flexShrink: 0, ml: 2 }}>
+          {t('edit')}
+        </Button>
+      </Box>
       {page.updatedAt && (
         <Typography
           variant="caption"
@@ -71,11 +85,9 @@ export default function WikiPageDetail(): React.ReactElement {
         </Typography>
       )}
       <Divider sx={{ mb: 2 }} />
-      <Box
-        data-testid="wiki-page-body"
-        dangerouslySetInnerHTML={{ __html: page.contentHtml }}
-      />
+      <Box data-testid="wiki-page-body">
+        <MarkdownView source={page.bodyMd} />
+      </Box>
     </Box>
   );
-  /* eslint-enable react/no-danger */
 }

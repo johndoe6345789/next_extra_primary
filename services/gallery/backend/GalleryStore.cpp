@@ -41,16 +41,18 @@ GalleryStore::listForTenant(
 {
     std::vector<Gallery> out;
     auto db = app().getDbClient();
+    const auto limitStr = std::to_string(limit);
     auto r = tenantId.empty()
         ? db->execSqlSync(
               std::string(kGallerySelect) +
-              "ORDER BY g.created_at DESC LIMIT $1",
-              limit)
+              "ORDER BY g.created_at DESC LIMIT "
+              + limitStr)
         : db->execSqlSync(
               std::string(kGallerySelect) +
               "WHERE g.tenant_id = $1::uuid "
-              "ORDER BY g.created_at DESC LIMIT $2",
-              tenantId, limit);
+              "ORDER BY g.created_at DESC LIMIT "
+              + limitStr,
+              tenantId);
     out.reserve(r.size());
     for (const auto& row : r)
         out.push_back(rowToGallery(row));

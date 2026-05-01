@@ -6,6 +6,7 @@
 
 #include "ecommerce/controllers/ShopController.h"
 #include "ecommerce/controllers/shop_json.h"
+#include "ecommerce/controllers/shop_json_tx.h"
 #include "ecommerce/controllers/shop_services.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
 

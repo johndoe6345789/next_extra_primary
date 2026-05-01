@@ -64,6 +64,7 @@
     "wiki": "Wiki",
     "forum": "Forum",
     "gallery": "Galerie",
+    "shop": "Shop",
     "notifications": "Benachrichtigungen",
     "about": "Über uns",
     "contact": "Kontakt",
@@ -288,6 +289,26 @@
     "minPostsTip": "Mitglied braucht diese Anzahl Beiträge für den Zugang",
     "board": "Board"
   },
+  "wiki": {
+    "title": "Wiki",
+    "sidebar": "Wiki-Seiten",
+    "welcome": "Wählen Sie eine Seite aus der Seitenleiste.",
+    "loading": "Seite wird geladen...",
+    "notFound": "Seite nicht gefunden.",
+    "lastUpdated": "Zuletzt aktualisiert",
+    "edit": "Bearbeiten",
+    "newPage": "Neue Seite",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "saving": "Speichern…",
+    "pageTitle": "Titel",
+    "pageContent": "Inhalt (Markdown)",
+    "editSummary": "Bearbeitungszusammenfassung (optional)",
+    "slugLabel": "Slug",
+    "noPages": "Noch keine Seiten. Erstellen Sie als Erster eine.",
+    "delete": "Seite löschen",
+    "subPages": "{count, plural, one {# Unterseite} other {# Unterseiten}}"
+  },
   "forum": {
     "newThread": "Neues Thema",
     "threadTitle": "Thementitel",
@@ -362,5 +383,23 @@
     "cart": "Warenkorb",
     "cartEmpty": "Ihr Warenkorb ist leer.",
     "removeItem": "Entfernen"
+  },
+  "gallery": {
+    "title": "Galerie",
+    "loading": "Alben werden geladen...",
+    "notFound": "Album nicht gefunden.",
+    "photos": "Fotos",
+    "photo": "Foto",
+    "photoGrid": "Fotoraster",
+    "prev": "Vorheriges Foto",
+    "next": "Nächstes Foto",
+    "noAlbums": "Noch keine Alben.",
+    "backToGallery": "Zurück zur Galerie",
+    "empty": "Dieses Album ist leer.",
+    "of": "von",
+    "close": "Schließen"
+  },
+  "blog": {
+    "posts": "Beiträge"
   }
 }

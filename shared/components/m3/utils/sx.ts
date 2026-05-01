@@ -1,6 +1,19 @@
 /**
- * MUI-compatible sx prop utility.
- * Converts sx prop to inline styles.
+ * MUI-compatible sx prop utility — converts sx to
+ * inline React styles.
+ *
+ * IMPORTANT — limitation: this util emits a static
+ * style object only. It does NOT support MUI's
+ * responsive shorthand `{ xs, sm, md, lg, xl }`.
+ * Passing such an object silently produces invalid
+ * CSS (`[object Object]`) which the browser drops to
+ * default. For breakpoint-aware values, use the
+ * `useMediaQuery` hook in this folder and pick a
+ * concrete value at render time.
+ *
+ * In development the converter logs a warning when
+ * it encounters a value object on a spacing or pixel
+ * property, surfacing the silent breakage.
  */
 
 import {
@@ -9,20 +22,27 @@ import {
   pixelProperties,
   colorMap,
 } from './sxMaps'
+import { warnObjectValue } from './sxWarn'
 
 const SPACING_UNIT = 8
 
-const convertSpacing = (value: unknown): string =>
-  typeof value === 'number'
+const convertSpacing = (
+  value: unknown, key: string,
+): string => {
+  warnObjectValue(key, value)
+  return typeof value === 'number'
     ? `${value * SPACING_UNIT}px`
     : String(value)
+}
 
 const convertPixel = (
-  value: unknown
-): string | number =>
-  typeof value === 'number'
+  value: unknown, key: string,
+): string | number => {
+  warnObjectValue(key, value)
+  return typeof value === 'number'
     ? `${value}px`
     : (value as string | number)
+}
 
 const convertColor = (value: string): string =>
   colorMap[value] || value
@@ -51,9 +71,9 @@ export const sxToStyle = (
       propKey: string
     ): string | number => {
       if (spacingProperties.has(propKey))
-        return convertSpacing(val) as string
+        return convertSpacing(val, propKey) as string
       if (pixelProperties.has(propKey))
-        return convertPixel(val) as string | number
+        return convertPixel(val, propKey)
       if (
         typeof val === 'string' &&
         (propKey === 'color' ||
@@ -61,6 +81,10 @@ export const sxToStyle = (
           propKey === 'backgroundColor')
       )
         return convertColor(val)
+      // Surface other silent failures: any plain
+      // object on a CSS property is almost certainly a
+      // dropped responsive shorthand.
+      warnObjectValue(propKey, val)
       return val as string | number
     }
 

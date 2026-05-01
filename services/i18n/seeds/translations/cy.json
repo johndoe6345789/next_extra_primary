@@ -64,6 +64,7 @@
     "wiki": "Wiki",
     "forum": "Fforwm",
     "gallery": "Oriel",
+    "shop": "Siop",
     "notifications": "Hysbysiadau",
     "about": "Amdanom ni",
     "contact": "Cysylltu",
@@ -250,7 +251,8 @@
     "loading": "Llwytho cofnodion...",
     "pagination": "Tudalennau cofnodion",
     "notFound": "Cofnod heb ei ganfod.",
-    "postBody": "Cynnwys y cofnod"
+    "postBody": "Cynnwys y cofnod",
+    "posts": "postiadau"
   },
   "wiki": {
     "title": "Wiki",
@@ -258,7 +260,19 @@
     "welcome": "Dewiswch dudalen o'r bar ochr.",
     "loading": "Llwytho tudalen...",
     "notFound": "Tudalen heb ei ganfod.",
-    "lastUpdated": "Wedi'i ddiweddaru ddiwethaf"
+    "lastUpdated": "Wedi'i ddiweddaru ddiwethaf",
+    "edit": "Golygu",
+    "newPage": "Tudalen newydd",
+    "save": "Cadw",
+    "cancel": "Canslo",
+    "saving": "Yn cadw…",
+    "pageTitle": "Teitl",
+    "pageContent": "Cynnwys (Markdown)",
+    "editSummary": "Crynodeb golygu (dewisol)",
+    "slugLabel": "Llwybr",
+    "noPages": "Dim tudalennau eto. Crëwch y cyntaf.",
+    "delete": "Dileu tudalen",
+    "subPages": "{count, plural, one {# is-dudalen} other {# is-dudalen}}"
   },
   "forum": {
     "title": "Fforwm",
@@ -308,7 +322,12 @@
     "photo": "Llun",
     "photoGrid": "Grid lluniau",
     "prev": "Llun blaenorol",
-    "next": "Llun nesaf"
+    "next": "Llun nesaf",
+    "noAlbums": "Dim albymau eto.",
+    "backToGallery": "Yn ôl i'r Oriel",
+    "empty": "Mae'r albwm hwn yn wag.",
+    "of": "o",
+    "close": "Cau"
   },
   "admin": {
     "systemKeys": "Allweddi API'r System",

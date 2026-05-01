@@ -383,18 +383,35 @@ Or to run services individually:
 cd frontend && npm run dev       # port 3100 by default
 ```
 
-### Applying Frontend Code Changes
+### Applying Code or Config Changes
 
-The frontend container bakes source at build time — there are no
-bind mounts. After editing frontend source files, rebuild only the
-frontend container (does not restart backend/db/etc):
+Every container in this stack is an **immutable image** — no bind
+mounts for source or config files. After editing any source or
+config file, rebuild only the affected container:
 
 ```bash
+docker compose up --build --no-deps <service>
+# Examples:
 docker compose up --build --no-deps frontend
+docker compose up --build --no-deps portal
+docker compose up --build --no-deps nextra-content
 ```
 
 Do NOT use `docker cp` to patch files into a running container.
 Rebuild is the correct and only supported workflow.
+
+### Docker Volume Policy
+
+- **Named volumes** (`volname:/container/path`): used for all
+  persistent runtime data (Postgres, Redis, Kafka, mail spool,
+  caches). These are auditable via `docker volume inspect`.
+- **Bind mounts** (`./host/path:/container/path`): **never used**.
+  macOS Docker Desktop's VFS layer caches bind-mounted files and
+  the running process can silently serve stale content even after
+  the host file changes. Bake all config into the image instead.
+- **Config files** (`docker/<service>/`): copied into the image at
+  build time via `COPY` in the service Dockerfile. To change a
+  config, edit the file and rebuild the service.
 
 ---
 
@@ -435,3 +452,6 @@ Rebuild is the correct and only supported workflow.
 - Put files in `backend/` or `tools/` — those top-level
   directories no longer exist. All code belongs under
   `services/<domain>/`.
+- Use bind mounts (`./host/path:/container/path`) in
+  `docker-compose.yml` — all config must be baked into the image
+  via a Dockerfile `COPY`. Runtime data uses named volumes only.

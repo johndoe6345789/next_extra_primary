@@ -1,6 +1,7 @@
 import { getRequestConfig } from 'next-intl/server';
 import { IntlErrorCode } from 'next-intl';
 import { routing } from './routing';
+import { fetchWithRetry } from './fetchRetry';
 import type { Locale } from './config';
 
 /** Humanise a missing key into a fallback label. */
@@ -34,7 +35,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   let messages: Record<string, unknown> = {};
   try {
-    const res = await fetch(
+    const res = await fetchWithRetry(
       `${API_URL}/api/translations/${locale}`,
       { next: { revalidate: 60 } },
     );

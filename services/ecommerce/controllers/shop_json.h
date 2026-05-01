@@ -8,9 +8,28 @@
 #include "ecommerce/backend/EcommerceTypes.h"
 
 #include <nlohmann/json.hpp>
+#include <iomanip>
+#include <sstream>
+#include <string>
 
 namespace controllers::shop
 {
+
+/** Format price_cents as a display string e.g. "$9.99". */
+inline std::string formatPrice(
+    std::int32_t cents, const std::string& currency)
+{
+    const char* sym = currency == "USD" ? "$"
+        : currency == "EUR" ? "€"
+        : currency == "GBP" ? "£" : "";
+    std::ostringstream os;
+    os << sym
+       << (cents / 100) << '.'
+       << std::setw(2) << std::setfill('0')
+       << (cents % 100);
+    if (sym[0] == '\0') os << ' ' << currency;
+    return os.str();
+}
 
 inline nlohmann::json toJson(
     const nextra::ecommerce::Product& p)
@@ -18,55 +37,29 @@ inline nlohmann::json toJson(
     return {
         {"id", p.id},
         {"sku", p.sku},
+        {"slug", p.slug.empty() ? p.sku : p.slug},
         {"name", p.name},
         {"description", p.description},
         {"price_cents", p.priceCents},
+        {"price_display", formatPrice(
+            p.priceCents, p.currency)},
         {"currency", p.currency},
         {"stock", p.stock},
+        {"image_url", p.imageUrl},
         {"active", p.active},
     };
 }
 
 inline nlohmann::json toJson(
-    const nextra::ecommerce::Cart& c)
+    const nextra::ecommerce::Review& r)
 {
-    nlohmann::json items = nlohmann::json::array();
-    for (const auto& it : c.items) {
-        items.push_back({
-            {"product_id", it.productId},
-            {"qty", it.qty},
-        });
-    }
     return {
-        {"id", c.id},
-        {"user_id", c.userId},
-        {"items", items},
-        {"total_cents", c.totalCents},
-        {"currency", c.currency},
-    };
-}
-
-inline nlohmann::json toJson(
-    const nextra::ecommerce::Order& o)
-{
-    nlohmann::json lines = nlohmann::json::array();
-    for (const auto& l : o.lines) {
-        lines.push_back({
-            {"product_id", l.productId},
-            {"qty", l.qty},
-            {"price_cents", l.priceCents},
-        });
-    }
-    return {
-        {"id", o.id},
-        {"user_id", o.userId},
-        {"status",
-         nextra::ecommerce::statusToString(o.status)},
-        {"total_cents", o.totalCents},
-        {"currency", o.currency},
-        {"stripe_pi",
-         o.stripePi ? *o.stripePi : std::string{}},
-        {"lines", lines},
+        {"id", r.id},
+        {"product_id", r.productId},
+        {"author", r.author},
+        {"rating", r.rating},
+        {"body", r.body},
+        {"created_at", r.createdAt},
     };
 }
 

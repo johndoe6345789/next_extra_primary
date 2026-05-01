@@ -53,11 +53,13 @@ void BlogController::list(
     if (!lim.empty()) f.limit = std::stoi(lim);
     auto off = req->getParameter("offset");
     if (!off.empty()) f.offset = std::stoi(off);
+    const int total = store.count(f);
     Json::Value items(Json::arrayValue);
     for (const auto& a : store.list(f))
         items.append(toJson(a));
     Json::Value body;
     body["items"] = items;
+    body["total"] = total;
     cb(HttpResponse::newHttpJsonResponse(body));
 }
 

@@ -24,8 +24,19 @@ class ProductStore
     /** @brief List all active products. */
     std::vector<Product> listActive();
 
+    /** @brief List active products with limit/offset. */
+    std::vector<Product> listActivePaged(
+        std::int32_t limit, std::int32_t offset);
+
+    /** @brief Count active products. */
+    std::int64_t countActive();
+
     /** @brief Fetch one product by id. */
     std::optional<Product> byId(std::int64_t id);
+
+    /** @brief Fetch one product by slug. */
+    std::optional<Product> bySlug(
+        const std::string& slug);
 
     /** @brief Insert a product, return new id. */
     std::int64_t insert(const Product& p);

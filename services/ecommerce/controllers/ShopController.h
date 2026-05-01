@@ -20,6 +20,8 @@ class ShopController
         "/api/shop/products", drogon::Get);
     ADD_METHOD_TO(ShopController::getProduct,
         "/api/shop/products/{id}", drogon::Get);
+    ADD_METHOD_TO(ShopController::listReviews,
+        "/api/shop/products/{id}/reviews", drogon::Get);
     ADD_METHOD_TO(ShopController::createProduct,
         "/api/shop/products", drogon::Post,
         "filters::JwtAuthFilter");
@@ -55,6 +57,8 @@ class ShopController
     void listProducts(const Req& req, Cb&& cb);
     void getProduct(const Req& req, Cb&& cb,
                     const std::string& id);
+    void listReviews(const Req& req, Cb&& cb,
+                     const std::string& id);
     void createProduct(const Req& req, Cb&& cb);
     void updateProduct(const Req& req, Cb&& cb,
                        const std::string& id);

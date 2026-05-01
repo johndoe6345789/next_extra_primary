@@ -19,12 +19,25 @@ struct Product
     std::int64_t id{0};
     std::int64_t tenantId{0};
     std::string  sku;
+    std::string  slug;
     std::string  name;
     std::string  description;
     std::int32_t priceCents{0};
     std::string  currency{"USD"};
     std::int32_t stock{0};
+    std::string  imageUrl;
     bool         active{true};
+};
+
+/** A single product review. */
+struct Review
+{
+    std::int64_t id{0};
+    std::int64_t productId{0};
+    std::string  author;
+    std::int32_t rating{0};
+    std::string  body;
+    std::string  createdAt;
 };
 
 /** A cart line item. */

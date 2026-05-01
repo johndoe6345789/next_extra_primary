@@ -82,6 +82,7 @@
     "wiki": "Wiki",
     "forum": "フォーラム",
     "gallery": "ギャラリー",
+    "shop": "ショップ",
     "notifications": "通知",
     "about": "概要",
     "contact": "お問い合わせ",
@@ -273,7 +274,8 @@
     "loading": "記事を読み込み中...",
     "pagination": "記事のページ",
     "notFound": "記事が見つかりません。",
-    "postBody": "記事の内容"
+    "postBody": "記事の内容",
+    "posts": "投稿"
   },
   "wiki": {
     "title": "Wiki",
@@ -281,7 +283,19 @@
     "welcome": "サイドバーからページを選択してください。",
     "loading": "ページを読み込み中...",
     "notFound": "ページが見つかりません。",
-    "lastUpdated": "最終更新"
+    "lastUpdated": "最終更新",
+    "edit": "編集",
+    "newPage": "新しいページ",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "saving": "保存中…",
+    "pageTitle": "タイトル",
+    "pageContent": "コンテンツ（Markdown）",
+    "editSummary": "編集の概要（任意）",
+    "slugLabel": "スラッグ",
+    "noPages": "まだページがありません。最初のページを作成してください。",
+    "delete": "ページを削除",
+    "subPages": "{count}件のサブページ"
   },
   "forum": {
     "title": "フォーラム",
@@ -331,7 +345,12 @@
     "photo": "写真",
     "photoGrid": "フォトグリッド",
     "prev": "前の写真",
-    "next": "次の写真"
+    "next": "次の写真",
+    "noAlbums": "アルバムがありません。",
+    "backToGallery": "ギャラリーに戻る",
+    "empty": "このアルバムは空です。",
+    "of": "/",
+    "close": "閉じる"
   },
   "admin": {
     "systemKeys": "システムAPIキー",

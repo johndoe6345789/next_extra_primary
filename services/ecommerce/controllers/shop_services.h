@@ -9,6 +9,7 @@
 #include "ecommerce/backend/CartService.h"
 #include "ecommerce/backend/OrderService.h"
 #include "ecommerce/backend/ProductStore.h"
+#include "ecommerce/backend/ReviewStore.h"
 #include "ecommerce/backend/StripeClient.h"
 #include "ecommerce/backend/StripeWebhook.h"
 
@@ -19,6 +20,9 @@ namespace controllers::shop
 
 /** @brief Lazily-built product store. */
 std::shared_ptr<nextra::ecommerce::ProductStore> products();
+
+/** @brief Lazily-built review store. */
+std::shared_ptr<nextra::ecommerce::ReviewStore> reviews();
 
 /** @brief Lazily-built cart service. */
 std::shared_ptr<nextra::ecommerce::CartService> carts();

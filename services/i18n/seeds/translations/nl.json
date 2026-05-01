@@ -82,6 +82,7 @@
     "wiki": "Wiki",
     "forum": "Forum",
     "gallery": "Galerij",
+    "shop": "Winkel",
     "notifications": "Meldingen",
     "about": "Over ons",
     "contact": "Contact",
@@ -273,7 +274,8 @@
     "loading": "Berichten laden...",
     "pagination": "Berichtenpagina's",
     "notFound": "Bericht niet gevonden.",
-    "postBody": "Berichtinhoud"
+    "postBody": "Berichtinhoud",
+    "posts": "berichten"
   },
   "wiki": {
     "title": "Wiki",
@@ -281,7 +283,19 @@
     "welcome": "Kies een pagina in de zijbalk.",
     "loading": "Pagina laden...",
     "notFound": "Pagina niet gevonden.",
-    "lastUpdated": "Laatste update"
+    "lastUpdated": "Laatste update",
+    "edit": "Bewerken",
+    "newPage": "Nieuwe pagina",
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "saving": "Opslaan…",
+    "pageTitle": "Titel",
+    "pageContent": "Inhoud (Markdown)",
+    "editSummary": "Bewerkingsomschrijving (optioneel)",
+    "slugLabel": "Slug",
+    "noPages": "Nog geen pagina's. Wees de eerste om er een te maken.",
+    "delete": "Pagina verwijderen",
+    "subPages": "{count, plural, one {# subpagina} other {# subpagina's}}"
   },
   "forum": {
     "title": "Forum",
@@ -331,7 +345,12 @@
     "photo": "Foto",
     "photoGrid": "Fotoraster",
     "prev": "Vorige foto",
-    "next": "Volgende foto"
+    "next": "Volgende foto",
+    "noAlbums": "Nog geen albums.",
+    "backToGallery": "Terug naar galerij",
+    "empty": "Dit album is leeg.",
+    "of": "van",
+    "close": "Sluiten"
   },
   "admin": {
     "systemKeys": "Systeem-API-sleutels",

@@ -27,7 +27,7 @@ export const DialogPanel: React.FC<
   DialogPanelProps
 > = ({
   children, sm, lg, xl, fullScreen,
-  fullWidth, open = true,
+  fullWidth, open = true, hasActions,
   testId, 'aria-labelledby': ariaLabelledBy,
   className = '', ...props
 }) => {

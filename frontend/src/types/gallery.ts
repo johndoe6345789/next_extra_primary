@@ -6,9 +6,12 @@
 /** A gallery album. */
 export interface Album {
   id: string;
+  slug?: string;
   title: string;
   description?: string;
   coverPhotoId?: string;
+  /** Resolved cover image URL for display. */
+  coverUrl?: string;
   photoCount: number;
 }
 

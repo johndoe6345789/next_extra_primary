@@ -2,6 +2,18 @@
 import React, { forwardRef } from 'react'
 import { sxToStyle } from '../utils/sx'
 
+/**
+ * Box — the m3 layout primitive. The `sx` prop is
+ * converted to a STATIC inline style object: it does
+ * NOT support MUI's responsive shorthand
+ * `{ xs, sm, md, lg, xl }`. In development, passing
+ * such an object logs a `[m3/sx]` warning. For
+ * breakpoint-aware values, resolve a concrete value
+ * with the `useMediaQuery` hook in
+ * `shared/components/m3/utils/useMediaQuery.ts` and
+ * pass that single value through `sx`.
+ */
+
 export type BoxProps = React.HTMLAttributes<HTMLElement> & {
   children?: React.ReactNode
   component?: React.ElementType

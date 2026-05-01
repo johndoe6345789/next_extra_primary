@@ -13,9 +13,17 @@ import { Button } from '@shared/m3/Button';
 import { useGetProductQuery } from
   '@/store/api/shopProductsApi';
 import { useCart } from '@/hooks/useCart';
+import { ProductReviews } from
+  '@/components/molecules/ProductReviews';
+import { PolishPanel } from
+  '@/components/molecules/PolishPanel';
+import { PanelBackLink } from
+  '@/components/molecules/PanelBackLink';
+import { QtyStepper } from
+  '@/components/molecules/QtyStepper';
 
 /**
- * Renders a single product's detail view.
+ * Product detail in the standard cool-cat panel.
  *
  * @returns Product detail page.
  */
@@ -28,59 +36,60 @@ export default function ProductDetailPage() {
   const [qty, setQty] = useState(1);
   if (isLoading || !product) {
     return (
-      <Typography
-        color="text.secondary"
-        data-testid="product-detail-loading"
-      >{t('loading')}</Typography>
+      <Typography color="text.secondary"
+        data-testid="product-detail-loading">
+        {t('loading')}
+      </Typography>
     );
   }
   return (
-    <Box
-      aria-label={product.name}
+    <Box aria-label={product.name}
       data-testid="product-detail"
-      sx={{ maxWidth: 700, mx: 'auto' }}
-    >
-      <Box sx={{ position: 'relative', height: 320, mb: 3 }}>
-        <Image
-          src={product.image_url} alt={product.name}
-          fill style={{ objectFit: 'cover', borderRadius: 8 }}
-          sizes="700px"
-        />
-      </Box>
-      <Typography variant="h4" gutterBottom>
-        {product.name}
-      </Typography>
-      <Typography variant="h5" color="primary" gutterBottom>
-        {product.price_display}
-      </Typography>
-      <Typography variant="body1" sx={{ mb: 3 }}>
-        {product.description}
-      </Typography>
-      <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-        <Button
-          variant="outlined" size="small"
-          onClick={() => setQty(Math.max(1, qty - 1))}
-          disabled={qty <= 1}
-          aria-label={t('decreaseQty')}
-          data-testid="detail-dec"
-        >−</Button>
-        <Typography sx={{ lineHeight: '36px' }}>
-          {qty}
+      sx={{ width: '100%', maxWidth: '820px',
+        marginLeft: 'auto', marginRight: 'auto' }}>
+      <PolishPanel size="comfy">
+        <PanelBackLink href="/shop" label="← Shop" />
+        <Box sx={{ position: 'relative',
+          height: '320px',
+          marginBottom: '28px',
+          borderRadius: '12px',
+          overflow: 'hidden' }}>
+          <Image src={product.image_url}
+            alt={product.name} fill
+            style={{ objectFit: 'cover' }}
+            sizes="820px" />
+        </Box>
+        <Typography variant="h4" fontWeight={700}
+          sx={{ letterSpacing: '-0.02em',
+            marginBottom: '8px' }}>
+          {product.name}
         </Typography>
-        <Button
-          variant="outlined" size="small"
-          onClick={() => setQty(qty + 1)}
-          disabled={qty >= product.stock}
-          aria-label={t('increaseQty')}
-          data-testid="detail-inc"
-        >+</Button>
-      </Box>
-      <Button
-        variant="filled"
-        onClick={() => addItem(product.id, qty)}
-        aria-label={t('addToCart')}
-        data-testid="detail-add-to-cart"
-      >{t('addToCart')}</Button>
+        <Typography variant="h5"
+          sx={{ color: 'primary.main',
+            fontWeight: 600, marginBottom: '16px' }}>
+          {product.price_display}
+        </Typography>
+        <Typography variant="body1"
+          sx={{ marginBottom: '24px',
+            color: 'text.secondary', lineHeight: 1.7 }}>
+          {product.description}
+        </Typography>
+        <Box sx={{ marginBottom: '20px' }}>
+          <QtyStepper value={qty} max={product.stock}
+            onChange={setQty}
+            decreaseLabel={t('decreaseQty')}
+            increaseLabel={t('increaseQty')}
+            testId="detail" />
+        </Box>
+        <Button variant="filled"
+          onClick={() => addItem(product.id, qty)}
+          aria-label={t('addToCart')}
+          data-testid="detail-add-to-cart"
+          sx={{ padding: '10px 28px',
+            fontSize: '0.95rem' }}
+        >{t('addToCart')}</Button>
+        <ProductReviews slug={product.slug} />
+      </PolishPanel>
     </Box>
   );
 }

@@ -40,6 +40,7 @@ public:
         std::shared_ptr<drogon::orm::DbClient> db);
 
     std::vector<Article> list(const ListFilter& f) const;
+    int count(const ListFilter& f) const;
     std::optional<Article> getById(std::int64_t id) const;
     std::optional<Article> getBySlug(
         const std::string& slug) const;

@@ -3,15 +3,11 @@
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import {
-  Box,
-  Typography,
-  Card,
-  CardContent,
-  CardActionArea,
+  Box, Typography, CircularProgress,
 } from '@shared/m3';
 import { Pagination } from '@shared/m3/navigation';
-import { Link } from '@/i18n/navigation';
 import { useBlogPosts } from '@/hooks/useBlogPosts';
+import { BlogCard } from '@/components/molecules/BlogCard';
 import content from '@/constants/content.json';
 
 /**
@@ -34,63 +30,64 @@ export default function BlogPage(): React.ReactElement {
       role="main"
       aria-label={t('title')}
       data-testid="blog-page"
-      sx={{ p: 3, maxWidth: 860, mx: 'auto' }}
+      sx={{ maxWidth: 860, mx: 'auto' }}
     >
-      <Typography variant="h4" component="h1" gutterBottom>
-        {t('title')}
-      </Typography>
-      {isLoading && (
-        <Typography data-testid="blog-loading">
-          {t('loading')}
+      {/* Heading */}
+      <Box sx={{
+        mb: 4,
+        animation: 'gallery-fade-in 0.4s ease both',
+      }}>
+        <Typography variant="h3" component="h1"
+          fontWeight={700}
+          sx={{
+            letterSpacing: '-0.02em', mb: 0.5,
+            color: 'primary.dark',
+          }}>
+          {t('title')}
         </Typography>
+        {!isLoading && !error && total > 0 && (
+          <Typography variant="body2"
+            sx={{ color: 'text.secondary' }}>
+            {total} {t('posts')}
+          </Typography>
+        )}
+      </Box>
+
+      {isLoading && (
+        <Box sx={{
+          display: 'flex', justifyContent: 'center',
+          py: 8,
+        }} data-testid="blog-loading">
+          <CircularProgress aria-label={t('loading')} />
+        </Box>
       )}
       {error && (
-        <Typography color="error" data-testid="blog-error">
+        <Typography color="error"
+          data-testid="blog-error">
           {error}
         </Typography>
       )}
-      {posts.map((post) => (
-        <Card key={post.id} sx={{ mb: 2 }}>
-          <CardActionArea
-            component={Link}
-            href={`/blog/${post.slug}`}
-            aria-label={post.title}
-            data-testid={`blog-card-${post.id}`}
-          >
-            <CardContent>
-              <Typography variant="h6">
-                {post.title}
-              </Typography>
-              {post.excerpt && (
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                >
-                  {post.excerpt}
-                </Typography>
-              )}
-              {post.publishedAt && (
-                <Typography
-                  variant="caption"
-                  color="textSecondary"
-                >
-                  {new Date(
-                    post.publishedAt,
-                  ).toLocaleDateString()}
-                </Typography>
-              )}
-            </CardContent>
-          </CardActionArea>
-        </Card>
-      ))}
+
+      {/* Post cards */}
+      <Box sx={{ display: 'flex', flexDirection: 'column',
+        gap: 2 }}>
+        {posts.map((post, i) => (
+          <BlogCard key={post.id} post={post}
+            animDelay={i * 0.07} />
+        ))}
+      </Box>
+
       {pageCount > 1 && (
-        <Pagination
-          count={pageCount}
-          page={page}
-          onChange={setPage}
-          aria-label={t('pagination')}
-          data-testid="blog-pagination"
-        />
+        <Box sx={{ mt: 4, display: 'flex',
+          justifyContent: 'center' }}>
+          <Pagination
+            count={pageCount}
+            page={page}
+            onChange={setPage}
+            aria-label={t('pagination')}
+            data-testid="blog-pagination"
+          />
+        </Box>
       )}
     </Box>
   );

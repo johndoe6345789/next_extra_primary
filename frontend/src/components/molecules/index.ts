@@ -62,3 +62,4 @@ export { DrawerToolLinks } from './DrawerToolLinks';
 
 export * from './index.social';
 export * from './index.content';
+export * from './index.gallery';

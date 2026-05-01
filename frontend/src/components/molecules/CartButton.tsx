@@ -40,9 +40,12 @@ export const CartButton: React.FC<
   const { itemCount } = useCart();
   const pathname = usePathname();
 
+  // Use `includes` rather than `startsWith` so we match
+  // through any basePath (`/app`) or locale segment
+  // (`/en`) that next-intl leaves on the pathname.
   const isShopPage = shopConstants
     .cartVisibleRoutes
-    .some((r) => pathname.startsWith(r));
+    .some((r) => pathname.includes(r));
 
   if (!isShopPage) return null;
 

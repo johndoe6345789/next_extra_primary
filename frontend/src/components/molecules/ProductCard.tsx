@@ -12,6 +12,7 @@ import { CardContent } from
   '@shared/m3/surfaces/CardContent';
 import { Typography } from '@shared/m3/Typography';
 import { Button } from '@shared/m3/Button';
+import { Link } from '@/i18n/navigation';
 import type { Product } from '@/types/shop';
 
 /** Props for ProductCard. */
@@ -40,33 +41,54 @@ export const ProductCard: React.FC<
     data-testid={testId}
     aria-label={product.name}
   >
-    <div style={{ position: 'relative', height: 180 }}>
-      <Image
-        src={product.image_url}
-        alt={product.name}
-        fill
-        style={{ objectFit: 'cover' }}
-        sizes="(max-width: 600px) 100vw, 300px"
-      />
-    </div>
-    <CardContent>
-      <Typography variant="subtitle1">
-        {product.name}
-      </Typography>
-      <Typography
-        variant="body2"
-        color="text.secondary"
-        sx={{ mt: 0.5 }}
-      >
-        {product.price_display}
-      </Typography>
+    {/* Image + text are a single link to the detail
+        page; the Add-to-cart button is a sibling so its
+        click is not swallowed by the link. */}
+    <Link
+      href={`/shop/${product.slug}`}
+      style={{
+        textDecoration: 'none', color: 'inherit',
+        display: 'block',
+      }}
+      data-testid={`${testId}-link`}
+    >
+      <div style={{
+        position: 'relative', height: 180,
+      }}>
+        <Image
+          src={product.image_url}
+          alt={product.name}
+          fill
+          style={{ objectFit: 'cover' }}
+          sizes="(max-width: 600px) 100vw, 300px"
+        />
+      </div>
+      <CardContent sx={{
+        padding: '16px 18px 8px 18px',
+      }}>
+        <Typography variant="subtitle1"
+          sx={{ fontWeight: 600,
+            lineHeight: 1.3 }}>
+          {product.name}
+        </Typography>
+        <Typography variant="body2"
+          sx={{ color: 'primary.main',
+            fontWeight: 600,
+            marginTop: '6px' }}>
+          {product.price_display}
+        </Typography>
+      </CardContent>
+    </Link>
+    <CardContent sx={{
+      padding: '0 18px 18px 18px',
+    }}>
       <Button
         variant="filled"
-        size="small"
         onClick={() => onAddToCart(product.id)}
         data-testid={`${testId}-add`}
         aria-label={`Add ${product.name} to cart`}
-        sx={{ mt: 1 }}
+        sx={{ padding: '8px 18px',
+          fontSize: '0.85rem' }}
       >
         Add to cart
       </Button>

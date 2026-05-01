@@ -1,7 +1,12 @@
 import type { ReactElement } from 'react';
 import { setRequestLocale } from 'next-intl/server';
-import { Box, Typography } from '@shared/m3';
-import { ChatPanel } from '@/components/organisms/ChatPanel';
+import { Box } from '@shared/m3';
+import { ChatPanel } from
+  '@/components/organisms/ChatPanel';
+import { PolishPanel } from
+  '@/components/molecules/PolishPanel';
+import { EditorialHeader } from
+  '@/components/molecules/EditorialHeader';
 
 /** Skip static prerendering for this page. */
 export const dynamic = 'force-dynamic';
@@ -12,10 +17,8 @@ interface ChatPageProps {
 }
 
 /**
- * AI tutoring chat page.
- *
- * Renders the `ChatPanel` organism in a full-height
- * container for real-time AI conversation.
+ * AI tutoring chat page — chat panel inside the
+ * standard polished surface.
  *
  * @param props - Page props with locale params.
  * @returns Chat page UI.
@@ -29,20 +32,18 @@ export default async function ChatPage({
   return (
     <Box
       aria-label="AI Chat"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        flex: 1,
-        minHeight: 0,
-      }}
+      sx={{ width: '100%', maxWidth: '960px',
+        marginLeft: 'auto', marginRight: 'auto',
+        display: 'flex', flexDirection: 'column',
+        flex: 1, minHeight: 0 }}
     >
-      <Typography
-        variant="h4" component="h1"
-        gutterBottom
-      >
-        AI Tutor
-      </Typography>
-      <ChatPanel />
+      <PolishPanel size="comfy">
+        <EditorialHeader
+          eyebrow="AI Tutor"
+          title="Ask anything"
+        />
+        <ChatPanel />
+      </PolishPanel>
     </Box>
   );
 }

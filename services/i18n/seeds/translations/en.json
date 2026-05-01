@@ -65,6 +65,7 @@
     "wiki": "Wiki",
     "forum": "Forum",
     "gallery": "Gallery",
+    "shop": "Shop",
     "notifications": "Notifications",
     "about": "About",
     "contact": "Contact",
@@ -250,7 +251,8 @@
     "loading": "Loading posts...",
     "pagination": "Post pages",
     "notFound": "Post not found.",
-    "postBody": "Post content"
+    "postBody": "Post content",
+    "posts": "posts"
   },
   "wiki": {
     "title": "Wiki",
@@ -258,7 +260,19 @@
     "welcome": "Select a page from the sidebar.",
     "loading": "Loading page...",
     "notFound": "Page not found.",
-    "lastUpdated": "Last updated"
+    "lastUpdated": "Last updated",
+    "edit": "Edit",
+    "newPage": "New page",
+    "save": "Save",
+    "cancel": "Cancel",
+    "saving": "Saving…",
+    "pageTitle": "Title",
+    "pageContent": "Content (Markdown)",
+    "editSummary": "Edit summary (optional)",
+    "slugLabel": "Slug",
+    "noPages": "No pages yet. Be the first to create one.",
+    "delete": "Delete page",
+    "subPages": "{count, plural, one {# sub-page} other {# sub-pages}}"
   },
   "forum": {
     "title": "Forum",
@@ -308,7 +322,12 @@
     "photo": "Photo",
     "photoGrid": "Photo grid",
     "prev": "Previous photo",
-    "next": "Next photo"
+    "next": "Next photo",
+    "noAlbums": "No albums yet.",
+    "backToGallery": "Back to Gallery",
+    "empty": "This album is empty.",
+    "of": "of",
+    "close": "Close"
   },
   "admin": {
     "systemKeys": "System API Keys",

@@ -3,6 +3,28 @@
  * @module types/shop
  */
 
+/** A single product review. */
+export interface Review {
+  /** Review identifier. */
+  id: number;
+  /** Product the review applies to. */
+  product_id: number;
+  /** Display name of the reviewer. */
+  author: string;
+  /** Star rating, 1–5. */
+  rating: number;
+  /** Free-text review body. */
+  body: string;
+  /** ISO timestamp string from Postgres. */
+  created_at: string;
+}
+
+/** Reviews list response. */
+export interface ReviewsResponse {
+  /** Reviews for the requested product. */
+  items: Review[];
+}
+
 /** A single shop product. */
 export interface Product {
   /** Unique product identifier. */

@@ -4,18 +4,17 @@ import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import {
-  Box,
-  Typography,
-  CircularProgress,
+  Box, Typography, CircularProgress,
 } from '@shared/m3';
 import { useAlbum } from '@/hooks/useAlbum';
+import { AlbumHero } from '@/components/molecules/AlbumHero';
 import { PhotoGrid } from '@/components/molecules/PhotoGrid';
-import { PhotoLightbox } from '@/components/molecules/PhotoLightbox';
+import {
+  PhotoLightbox,
+} from '@/components/molecules/PhotoLightbox';
 
 /**
- * Gallery album detail page.
- *
- * Shows a photo grid with a lightbox on selection.
+ * Gallery album detail with cover header + masonry grid.
  *
  * @returns Album detail page UI.
  */
@@ -28,10 +27,9 @@ export default function GalleryAlbumPage(): React.ReactElement {
 
   if (isLoading) {
     return (
-      <Box
-        sx={{ p: 4, display: 'flex', justifyContent: 'center' }}
-        data-testid="album-loading"
-      >
+      <Box sx={{ p: 4, display: 'flex',
+        justifyContent: 'center' }}
+        data-testid="album-loading">
         <CircularProgress aria-label={t('loading')} />
       </Box>
     );
@@ -48,30 +46,25 @@ export default function GalleryAlbumPage(): React.ReactElement {
   }
 
   return (
-    <Box
-      component="main"
-      aria-label={album.title}
-      data-testid="gallery-album-page"
-      sx={{ p: 3, maxWidth: 960, mx: 'auto' }}
-    >
-      <Typography variant="h4" component="h1" gutterBottom>
-        {album.title}
-      </Typography>
-      {album.description && (
-        <Typography
-          color="textSecondary"
-          sx={{ mb: 2 }}
-        >
-          {album.description}
-        </Typography>
-      )}
-      <PhotoGrid
-        photos={photos}
-        onSelect={setLightboxIdx}
+    <Box component="main" aria-label={album.title}
+      data-testid="gallery-album-page">
+      <AlbumHero album={album}
+        backLabel={t('backToGallery')}
+        photosLabel={t('photos')}
       />
-      <PhotoLightbox
-        photos={photos}
-        index={lightboxIdx}
+      <Box sx={{ pt: 3, pb: 5, maxWidth: 1100, mx: 'auto' }}>
+        {photos.length === 0
+          ? (
+            <Typography color="text.secondary">
+              {t('empty')}
+            </Typography>
+          )
+          : (
+            <PhotoGrid photos={photos}
+              onSelect={setLightboxIdx} />
+          )}
+      </Box>
+      <PhotoLightbox photos={photos} index={lightboxIdx}
         onChangeIndex={setLightboxIdx}
         onClose={() => setLightboxIdx(-1)}
       />

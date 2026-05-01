@@ -5,16 +5,20 @@
 
 /** A wiki tree node for sidebar navigation. */
 export interface WikiTreeNode {
+  /** Database row ID (integer). */
+  id: number;
   slug: string;
   title: string;
+  depth: number;
   children?: WikiTreeNode[];
 }
 
-/** A rendered wiki page. */
+/** A wiki page with raw markdown body. */
 export interface WikiPage {
   slug: string;
   title: string;
-  contentHtml: string;
+  /** Raw markdown source returned by the API. */
+  bodyMd: string;
   updatedAt?: string;
   updatedBy?: string;
   revision?: number;
