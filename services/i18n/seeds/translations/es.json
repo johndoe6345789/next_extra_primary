@@ -346,8 +346,12 @@
     "forumBoards": "Tableros del foro",
     "forumBoardsDesc": "Configurar tableros",
     "requiresAuth": "Requiere inicio de sesión",
+    "requiresAuthTip": "Los usuarios deben iniciar sesión para leer o publicar",
     "guestVisible": "Visible para invitados",
-    "minPosts": "Mín. de publicaciones"
+    "guestVisibleTip": "Visible y legible sin iniciar sesión",
+    "minPosts": "Mín. de publicaciones",
+    "minPostsTip": "El miembro debe tener este número de publicaciones para acceder",
+    "board": "Tablero"
   },
   "social": {
     "follow": "Seguir",

@@ -281,8 +281,12 @@
     "forumBoards": "Forumsbereiche",
     "forumBoardsDesc": "Bereiche konfigurieren",
     "requiresAuth": "Anmeldung erforderlich",
+    "requiresAuthTip": "Nutzer müssen angemeldet sein, um zu lesen oder zu posten",
     "guestVisible": "Für Gäste sichtbar",
-    "minPosts": "Mindestbeiträge"
+    "guestVisibleTip": "Ohne Anmeldung sichtbar und lesbar",
+    "minPosts": "Mindestbeiträge",
+    "minPostsTip": "Mitglied braucht diese Anzahl Beiträge für den Zugang",
+    "board": "Board"
   },
   "forum": {
     "newThread": "Neues Thema",

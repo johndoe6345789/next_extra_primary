@@ -35,6 +35,7 @@ export default async function AdminForumPage({
     <Box
       aria-label={t('forumBoards')}
       data-testid="admin-forum-page"
+      sx={{ p: 3, maxWidth: 960, mx: 'auto', width: '100%' }}
     >
       <Typography
         variant="h4" component="h1"

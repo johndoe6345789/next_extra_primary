@@ -346,8 +346,12 @@
     "forumBoards": "Espaces du forum",
     "forumBoardsDesc": "Configurer les espaces",
     "requiresAuth": "Connexion requise",
+    "requiresAuthTip": "Les utilisateurs doivent se connecter pour lire ou publier",
     "guestVisible": "Visible aux invités",
-    "minPosts": "Posts minimum"
+    "guestVisibleTip": "Visible et lisible sans connexion",
+    "minPosts": "Posts minimum",
+    "minPostsTip": "Le membre doit avoir ce nombre de messages pour accéder",
+    "board": "Tableau"
   },
   "social": {
     "follow": "Suivre",

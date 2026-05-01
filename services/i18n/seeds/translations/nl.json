@@ -369,8 +369,12 @@
     "forumBoards": "Forumboarden",
     "forumBoardsDesc": "Boarden configureren",
     "requiresAuth": "Aanmelden vereist",
+    "requiresAuthTip": "Gebruikers moeten inloggen om te lezen of te posten",
     "guestVisible": "Zichtbaar voor gasten",
-    "minPosts": "Min. berichten"
+    "guestVisibleTip": "Zichtbaar en leesbaar zonder inloggen",
+    "minPosts": "Min. berichten",
+    "minPostsTip": "Lid moet dit aantal berichten hebben voor toegang",
+    "board": "Board"
   },
   "social": {
     "follow": "Volgen",

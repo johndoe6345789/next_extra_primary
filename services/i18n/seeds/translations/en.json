@@ -345,9 +345,13 @@
     "noApiCalls": "No API calls recorded yet.",
     "forumBoards": "Forum Boards",
     "forumBoardsDesc": "Configure board visibility and access rules",
-    "requiresAuth": "Requires sign-in",
-    "guestVisible": "Visible to guests",
-    "minPosts": "Min posts to access"
+    "requiresAuth": "Requires auth",
+    "requiresAuthTip": "Users must sign in to read or post",
+    "guestVisible": "Guest visible",
+    "guestVisibleTip": "Listed and readable without signing in",
+    "minPosts": "Min posts",
+    "minPostsTip": "Member must have this many posts to access",
+    "board": "Board"
   },
   "social": {
     "follow": "Follow",

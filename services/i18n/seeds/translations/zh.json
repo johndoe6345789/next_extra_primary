@@ -369,8 +369,12 @@
     "forumBoards": "论坛版块",
     "forumBoardsDesc": "配置版块",
     "requiresAuth": "需要登录",
+    "requiresAuthTip": "用户必须登录才能阅读或发帖",
     "guestVisible": "对访客可见",
-    "minPosts": "最低发帖数"
+    "guestVisibleTip": "无需登录即可列出和阅读",
+    "minPosts": "最低发帖数",
+    "minPostsTip": "成员需要达到此发帖数才能访问",
+    "board": "版块"
   },
   "social": {
     "follow": "关注",

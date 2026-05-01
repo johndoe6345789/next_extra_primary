@@ -346,8 +346,12 @@
     "forumBoards": "Byrddau Fforwm",
     "forumBoardsDesc": "Ffurfweddu byrddau",
     "requiresAuth": "Angen mewngofnodi",
+    "requiresAuthTip": "Rhaid i ddefnyddwyr fewngofnodi i ddarllen neu bostio",
     "guestVisible": "Gweladwy i westeion",
-    "minPosts": "Lleiafswm postiadau"
+    "guestVisibleTip": "Rhestredig a darllenadwy heb fewngofnodi",
+    "minPosts": "Lleiafswm postiadau",
+    "minPostsTip": "Rhaid i'r aelod gael y nifer hwn o bostiau i gael mynediad",
+    "board": "Bwrdd"
   },
   "social": {
     "follow": "Dilyn",

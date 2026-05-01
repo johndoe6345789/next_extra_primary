@@ -369,8 +369,12 @@
     "forumBoards": "フォーラムボード",
     "forumBoardsDesc": "ボードを設定",
     "requiresAuth": "サインインが必要",
+    "requiresAuthTip": "読み込みや投稿にはサインインが必要です",
     "guestVisible": "ゲストに表示",
-    "minPosts": "最低投稿数"
+    "guestVisibleTip": "サインインなしで表示・閲覧可能",
+    "minPosts": "最低投稿数",
+    "minPostsTip": "アクセスに必要な最低投稿数",
+    "board": "ボード"
   },
   "social": {
     "follow": "フォロー",
