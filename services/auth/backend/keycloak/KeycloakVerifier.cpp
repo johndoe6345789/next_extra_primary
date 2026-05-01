@@ -49,18 +49,25 @@ std::optional<KeycloakClaims> KeycloakVerifier::verify(
         KeycloakClaims c;
         c.sub = decoded.get_subject();
         const auto& payload = decoded.get_payload_json();
-        if (payload.contains("preferred_username"))
+        const auto has = [&](const std::string& k) {
+            return payload.count(k) > 0;
+        };
+        if (has("preferred_username"))
             c.preferredUsername =
-                payload["preferred_username"]
+                payload.at("preferred_username")
                     .get<std::string>();
-        if (payload.contains("email"))
-            c.email = payload["email"].get<std::string>();
-        if (payload.contains("name"))
-            c.name = payload["name"].get<std::string>();
-        if (payload.contains("realm_access")
-            && payload["realm_access"].contains("roles")) {
+        if (has("email"))
+            c.email = payload.at("email")
+                .get<std::string>();
+        if (has("name"))
+            c.name = payload.at("name")
+                .get<std::string>();
+        if (has("realm_access")
+            && payload.at("realm_access")
+                .contains("roles")) {
             for (const auto& r :
-                 payload["realm_access"]["roles"]) {
+                 payload.at("realm_access")
+                     .at("roles")) {
                 if (r.is_string())
                     c.roles.push_back(
                         r.get<std::string>());

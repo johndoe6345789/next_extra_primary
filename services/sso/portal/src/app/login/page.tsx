@@ -28,16 +28,12 @@ export default async function LoginPage({
 }: LoginPageProps) {
   const { next: raw } = await searchParams;
   const next = safeNext(raw);
-  const params = new URLSearchParams({
-    client_id: 'nextra-app',
-    response_type: 'code',
-    scope: 'openid profile email',
-    redirect_uri:
-      'http://localhost:8889/app/en/auth/callback',
-    state: next,
-  });
-  const target =
-    '/auth/realms/nextra/protocol/openid-connect/auth?' +
-    params.toString();
+  // Bounce to the frontend login page rather than directly
+  // to Keycloak — the frontend's `login()` sets up the PKCE
+  // verifier+state cookies that the callback page validates.
+  // Absolute URL because basePath '/sso' would prepend.
+  const target = 'http://localhost:8889'
+    + '/app/en/login?next='
+    + encodeURIComponent(next);
   redirect(target);
 }

@@ -39,15 +39,22 @@ ReactElement {
     } catch {
       parsed = { state: '', next: '' };
     }
-    const fail = (): void => {
+    const fail = (reason: string): void => {
+      // eslint-disable-next-line no-console
+      console.error('[kc-callback] fail:', reason, {
+        code: !!code, recvState,
+        cookieState: parsed.state,
+        hasVerifier: !!verifier,
+      });
       clearCookie(COOKIE.state);
       clearCookie(COOKIE.verifier);
       router.replace(`/${locale}/login?error=oidc`);
     };
-    if (!code || parsed.state !== recvState || !verifier) {
-      fail();
-      return;
+    if (!code) { fail('no code'); return; }
+    if (parsed.state !== recvState) {
+      fail('state mismatch'); return;
     }
+    if (!verifier) { fail('no verifier'); return; }
     void (async () => {
       try {
         const tok = await exchangeCode(code, verifier);
@@ -62,12 +69,18 @@ ReactElement {
         }
         clearCookie(COOKIE.state);
         clearCookie(COOKIE.verifier);
-        const next = parsed.next
-          ? parsed.next
-          : `/${locale}/dashboard`;
+        // Strip the basePath ('/app') from next if it
+        // was passed in already-prefixed form, since
+        // Next.js's router.replace() will re-prefix.
+        let next = parsed.next || `/${locale}/dashboard`;
+        if (next.startsWith('/app/')) {
+          next = next.slice(4);
+        } else if (next === '/app') {
+          next = '/';
+        }
         router.replace(next);
-      } catch {
-        fail();
+      } catch (e) {
+        fail('exchange failed: ' + String(e));
       }
     })();
   }, [router, locale, search]);

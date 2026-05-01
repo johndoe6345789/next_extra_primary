@@ -3,7 +3,7 @@
   "clientId": "nextra-app",
   "redirectUri": "http://localhost:8889/app/en/auth/callback",
   "postLogoutRedirectUri": "http://localhost:8889/app/en/login",
-  "scopes": "openid profile email offline_access",
+  "scopes": "openid profile email",
   "endpoints": {
     "authorization":
       "http://localhost:8889/auth/realms/nextra/protocol/openid-connect/auth",

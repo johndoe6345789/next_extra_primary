@@ -12,16 +12,11 @@ import { redirect } from 'next/navigation';
  * fix in place, never strip features.
  */
 export default function SsoIndexPage() {
-  const params = new URLSearchParams({
-    client_id: 'nextra-app',
-    response_type: 'code',
-    scope: 'openid profile email',
-    redirect_uri:
-      'http://localhost:8889/app/en/auth/callback',
-    state: '/',
-  });
+  // Bounce to frontend login so PKCE cookies are set up
+  // before hitting Keycloak. Absolute URL needed because
+  // SSO portal basePath '/sso' would prepend a relative one.
   redirect(
-    '/auth/realms/nextra/protocol/openid-connect/auth?' +
-      params.toString(),
+    'http://localhost:8889'
+    + '/app/en/login?next=%2F',
   );
 }

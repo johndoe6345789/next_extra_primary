@@ -5,8 +5,8 @@ import { setRequestLocale } from 'next-intl/server';
 // legacy form remains available in this template repo.
 // import { LoginForm } from
 //   '@/components/organisms/LoginForm';
-import KeycloakLoginButton from
-  '@/components/molecules/KeycloakLoginButton';
+import KeycloakAutoLogin from
+  '@/components/molecules/KeycloakAutoLogin';
 import { AuthHero } from '@shared/ui';
 import s from '@shared/scss/modules/AuthPage.module.scss';
 
@@ -43,7 +43,7 @@ export default async function LoginPage({
       <div className={s.formPane}>
         {/* Phased out — kept for template parity:
         <LoginForm /> */}
-        <KeycloakLoginButton />
+        <KeycloakAutoLogin />
       </div>
     </main>
   );
