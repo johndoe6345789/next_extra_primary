@@ -17,6 +17,7 @@
   "auth": ["users"],
   "pdf": ["users"],
   "search": [],
+  "alerts": ["users"],
   "video": ["users"],
   "webhooks": ["users"],
   "wiki": ["users"],

@@ -6,6 +6,7 @@
 
 #include "ecommerce/controllers/ShopController.h"
 #include "ecommerce/controllers/shop_json.h"
+#include "ecommerce/controllers/shop_search_emit.h"
 #include "ecommerce/controllers/shop_services.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
 
@@ -86,6 +87,7 @@ void ShopController::createProduct(
                                     std::string{});
         p.active      = body.value("active", true);
         p.id = shop::products()->insert(p);
+        emitProduct(p);
         cb(utils::jsonCreated(shop::toJson(p)));
     } catch (const std::exception& e) {
         cb(utils::jsonError(drogon::k400BadRequest,

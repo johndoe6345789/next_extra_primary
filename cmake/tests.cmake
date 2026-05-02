@@ -4,6 +4,7 @@
 ##
 
 set(NEXTRA_TEST_DIRS
+    alerts/tests
     audit/tests
     auth/tests
     blog/tests

@@ -1,4 +1,4 @@
--- 013_search_indexes.sql
+-- 001_search_indexes.sql
 -- Registry of Elasticsearch indexes maintained by the
 -- search-indexer daemon (Phase 4.5).
 --
@@ -22,13 +22,22 @@ CREATE TABLE IF NOT EXISTS search_indexes (
 CREATE INDEX IF NOT EXISTS idx_search_indexes_status
     ON search_indexes (status);
 
--- Seed the four definitions shipped in
--- constants/search-indexer.json.  ON CONFLICT makes
--- this migration idempotent across reruns.
+-- Drop any rows from the old 4-index registry that are not
+-- in the new authoritative 6-index list. Safe on first run.
+DELETE FROM search_indexes
+ WHERE name IN ('comments', 'blog_articles', 'packages');
+
+-- Authoritative list — keep in sync with
+-- services/search/constants.json.
 INSERT INTO search_indexes (name, target_table, es_index)
 VALUES
-    ('users',         'users',         'nextra-users'),
-    ('comments',      'comments',      'nextra-comments'),
-    ('blog_articles', 'blog_articles', 'nextra-blog'),
-    ('packages',      'packages',      'nextra-packages')
-ON CONFLICT (name) DO NOTHING;
+    ('forum_posts',   'comments_v2', 'nextra-forum'),
+    ('wiki_pages',    'wiki_pages',  'nextra-wiki'),
+    ('articles',      'articles',    'nextra-blog'),
+    ('products',      'products',    'nextra-products'),
+    ('gallery_items', 'galleries',   'nextra-gallery'),
+    ('users',         'users',       'nextra-users')
+ON CONFLICT (name) DO UPDATE
+   SET target_table = EXCLUDED.target_table,
+       es_index     = EXCLUDED.es_index,
+       updated_at   = now();

@@ -1,6 +1,7 @@
 /** @brief POST /api/forum/threads handler. */
 #include "ForumController.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
+#include "search/backend/SearchEventPublisher.h"
 #include <drogon/drogon.h>
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
@@ -52,21 +53,27 @@ void ForumController::create(
            "RETURNING id, title, author_id, "
            "          created_at"
         << userId << bodyText << title << board
-        >> [cb](const Result& r) {
+        >> [cb, title, bodyText, userId](
+                const Result& r) {
             const auto& row = r[0];
+            const auto idStr = std::to_string(
+                row["id"].as<std::int64_t>());
+            const auto createdAt =
+                row["created_at"].as<std::string>();
+            json doc;
+            doc["target_type"] = "forum_board";
+            doc["author_id"] = userId;
+            doc["title"] = title;
+            doc["body"] = bodyText;
+            doc["created_at"] = createdAt;
+            nextra::search::SearchEventPublisher
+                ::publish("upsert", "forum_posts",
+                          idStr, doc);
             cb(::utils::jsonOk({
-                {"id", std::to_string(
-                    row["id"]
-                        .as<std::int64_t>())},
-                {"title",
-                    row["title"]
-                        .as<std::string>()},
-                {"author",
-                    row["author_id"]
-                        .as<std::string>()},
-                {"createdAt",
-                    row["created_at"]
-                        .as<std::string>()},
+                {"id", idStr},
+                {"title", title},
+                {"author", userId},
+                {"createdAt", createdAt},
                 {"replyCount", 0},
             }));
         }

@@ -1,6 +1,9 @@
 import type { ReactNode } from 'react'
 import type { Metadata } from 'next'
+import { NextIntlClientProvider } from 'next-intl'
 
+import { DEFAULT_LOCALE, MESSAGES } from
+  '@/i18n/messages'
 import './globals.scss'
 
 export const metadata: Metadata = {
@@ -14,8 +17,9 @@ export default function RootLayout({
 }: {
   children: ReactNode
 }) {
+  const locale = DEFAULT_LOCALE
   return (
-    <html lang="en" data-theme="dark">
+    <html lang={locale} data-theme="dark">
       <head>
         <link
           rel="stylesheet"
@@ -28,7 +32,14 @@ export default function RootLayout({
           }
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <NextIntlClientProvider
+          locale={locale}
+          messages={MESSAGES[locale]}
+        >
+          {children}
+        </NextIntlClientProvider>
+      </body>
     </html>
   )
 }

@@ -5,6 +5,7 @@
 
 #include "UserController.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
+#include "search/backend/SearchEventPublisher.h"
 
 #include <drogon/drogon.h>
 #include <nlohmann/json.hpp>
@@ -53,16 +54,20 @@ void UserController::updateProfile(
     )";
 
     *db << sql << displayName << id
-        >> [cb](const Result& r) {
+        >> [cb, displayName](const Result& r) {
             if (r.empty()) {
                 cb(::utils::jsonError(
                     drogon::k404NotFound,
                     "User not found"));
                 return;
             }
+            const auto uid =
+                r[0]["id"].as<std::string>();
+            nextra::search::SearchEventPublisher
+                ::publish("upsert", "users", uid,
+                    {{"display_name", displayName}});
             cb(::utils::jsonOk(
-                {{"id", r[0]["id"]
-                      .as<std::string>()},
+                {{"id", uid},
                  {"message",
                   "Profile updated"}}));
         }

@@ -10,6 +10,7 @@ import {
   useState, useEffect, useCallback,
 } from 'react'
 import { pollEmail } from './pollEmailAlerts'
+import { pollSystem } from './pollSystemAlerts'
 import type { AlertEntry } from './alertTypes'
 
 export type { AlertEntry } from './alertTypes'
@@ -26,8 +27,12 @@ export function useAlerts() {
 
   const refresh = useCallback(async () => {
     try {
-      const emailAlerts = await pollEmail()
-      setAlerts(emailAlerts)
+      const [emailAlerts, sysAlerts] =
+        await Promise.all([
+          pollEmail().catch(() => []),
+          pollSystem().catch(() => []),
+        ])
+      setAlerts([...sysAlerts, ...emailAlerts])
       setError(null)
     } catch (e) {
       // Existing behaviour preserved: loading

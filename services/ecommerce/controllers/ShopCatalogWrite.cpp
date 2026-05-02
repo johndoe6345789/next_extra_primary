@@ -6,6 +6,7 @@
 
 #include "ecommerce/controllers/ShopController.h"
 #include "ecommerce/controllers/shop_json.h"
+#include "ecommerce/controllers/shop_search_emit.h"
 #include "ecommerce/controllers/shop_services.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
 
@@ -34,6 +35,7 @@ void ShopController::updateProduct(
         cur->stock  = body.value("stock", cur->stock);
         cur->active = body.value("active", cur->active);
         shop::products()->update(*cur);
+        emitProduct(*cur);
         cb(utils::jsonOk(shop::toJson(*cur)));
     } catch (const std::exception& e) {
         cb(utils::jsonError(drogon::k400BadRequest,

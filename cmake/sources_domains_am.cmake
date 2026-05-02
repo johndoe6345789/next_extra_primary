@@ -7,6 +7,8 @@
 list(APPEND NEXTRA_DOMAIN_DIRS
     ai-chat/backend
     ai-chat/controllers
+    alerts/backend
+    alerts/controllers
     analytics/backend
     analytics/controllers
     api-documentation/backend

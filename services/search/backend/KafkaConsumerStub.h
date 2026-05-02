@@ -4,12 +4,8 @@
  * @brief Adapter implementing the search-local
  *        @ref nextra::search::IKafkaConsumer (start/stop) on
  *        top of the unified @ref nextra::infra::IKafkaConsumer
- *        factory.
- *
- * The name is kept for backwards compatibility with existing
- * include sites — the class is no longer a stub when
- * @c NEXTRA_HAVE_KAFKA is defined, it is a real librdkafka
- * consumer via @ref nextra::infra::makeKafkaConsumer.
+ *        factory. Includes a 5-min error-rate canary that
+ *        emits an alert when poll errors exceed a threshold.
  */
 
 #include "infra/backend/IKafkaConsumer.h"
@@ -19,6 +15,7 @@
 #include <spdlog/spdlog.h>
 
 #include <atomic>
+#include <chrono>
 #include <memory>
 #include <string>
 #include <thread>
@@ -27,14 +24,14 @@
 namespace nextra::search
 {
 
+/// Tick the per-poll error counter and emit a warning
+/// alert if errors > kThreshold within the last window.
+void noteKafkaPoll(bool ok, std::atomic<int>& errCount,
+    std::atomic<long long>& windowStartMs);
+
 /**
  * @class KafkaConsumerStub
  * @brief Thin start/stop wrapper around an infra consumer.
- *
- * Spawns a background thread that polls the infra consumer
- * in a loop until @ref stop is called. Search-indexer will
- * enrich the handler once @c search.reindex message shapes
- * stabilise; for now it just logs receipts.
  */
 class KafkaConsumerStub : public IKafkaConsumer
 {
@@ -44,20 +41,36 @@ class KafkaConsumerStub : public IKafkaConsumer
 
     ~KafkaConsumerStub() override { stop(); }
 
+    void setHandler(nextra::infra::KafkaMessageHandler h)
+    { handler_ = std::move(h); }
+
     void start() override
     {
         inner_ = nextra::infra::makeKafkaConsumer(
             std::string{}, "search-indexer", topic_);
-        inner_->setHandler(
-            [this](const std::string& k,
-                   const std::string& v) {
-                spdlog::debug(
-                    "search reindex msg key={} len={}",
-                    k, v.size());
-            });
+        if (handler_) {
+            inner_->setHandler(handler_);
+        } else {
+            inner_->setHandler(
+                [this](const std::string& k,
+                       const std::string& v) {
+                    spdlog::debug(
+                        "search reindex msg key={} "
+                        "len={}", k, v.size());
+                });
+        }
         running_.store(true);
         worker_ = std::thread([this] {
-            while (running_.load()) inner_->poll(500);
+            while (running_.load()) {
+                try {
+                    inner_->poll(500);
+                    noteKafkaPoll(true, errCount_,
+                                  windowStart_);
+                } catch (...) {
+                    noteKafkaPoll(false, errCount_,
+                                  windowStart_);
+                }
+            }
         });
         spdlog::info(
             "search consumer started (topic={})",
@@ -76,8 +89,11 @@ class KafkaConsumerStub : public IKafkaConsumer
 
   private:
     std::string topic_;
+    nextra::infra::KafkaMessageHandler handler_;
     std::unique_ptr<nextra::infra::IKafkaConsumer> inner_;
     std::atomic<bool> running_{false};
+    std::atomic<int> errCount_{0};
+    std::atomic<long long> windowStart_{0};
     std::thread worker_;
 };
 

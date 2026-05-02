@@ -8,35 +8,54 @@
   "httpPort": 8086,
   "indexes": [
     {
+      "name": "forum_posts",
+      "targetTable": "comments_v2",
+      "esIndex": "nextra-forum",
+      "fields": ["id", "target_type", "target_id",
+                 "author_id", "body", "title",
+                 "created_at"],
+      "idField": "id"
+    },
+    {
+      "name": "wiki_pages",
+      "targetTable": "wiki_pages",
+      "esIndex": "nextra-wiki",
+      "fields": ["id", "slug", "title", "body_md",
+                 "updated_at"],
+      "idField": "id"
+    },
+    {
+      "name": "articles",
+      "targetTable": "articles",
+      "esIndex": "nextra-blog",
+      "fields": ["id", "slug", "title", "body_md",
+                 "author_id", "status",
+                 "published_at"],
+      "idField": "id"
+    },
+    {
+      "name": "products",
+      "targetTable": "products",
+      "esIndex": "nextra-products",
+      "fields": ["id", "sku", "name", "description",
+                 "active"],
+      "idField": "id"
+    },
+    {
+      "name": "gallery_items",
+      "targetTable": "galleries",
+      "esIndex": "nextra-gallery",
+      "fields": ["id", "slug", "title",
+                 "description", "owner_id",
+                 "created_at"],
+      "idField": "id"
+    },
+    {
       "name": "users",
       "targetTable": "users",
       "esIndex": "nextra-users",
-      "fields": ["id", "email", "username",
-                 "display_name", "bio"],
-      "idField": "id"
-    },
-    {
-      "name": "comments",
-      "targetTable": "comments",
-      "esIndex": "nextra-comments",
-      "fields": ["id", "author_id", "resource_type",
-                 "resource_id", "body", "created_at"],
-      "idField": "id"
-    },
-    {
-      "name": "blog_articles",
-      "targetTable": "blog_articles",
-      "esIndex": "nextra-blog",
-      "fields": ["id", "slug", "title", "body",
-                 "author_id", "published_at"],
-      "idField": "id"
-    },
-    {
-      "name": "packages",
-      "targetTable": "packages",
-      "esIndex": "nextra-packages",
-      "fields": ["id", "name", "version",
-                 "description", "owner_id"],
+      "fields": ["id", "username", "email",
+                 "display_name", "role"],
       "idField": "id"
     }
   ]

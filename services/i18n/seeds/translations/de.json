@@ -402,5 +402,54 @@
   },
   "blog": {
     "posts": "Beiträge"
+  },
+  "search": {
+    "pageTitle": "Suche",
+    "placeholder": "Suchen…",
+    "suggestions": "Suchvorschläge",
+    "viewAll": "Alle Ergebnisse für {query} anzeigen",
+    "resultsFor": "Ergebnisse für <b>{query}</b>",
+    "resultCount": "{count, plural, =0 {Keine Ergebnisse} one {# Ergebnis} other {# Ergebnisse}}",
+    "noResults": "Keine Ergebnisse gefunden.",
+    "backHome": "Zurück zur Startseite",
+    "prev": "Zurück",
+    "next": "Weiter",
+    "tabs": {
+      "all": "Alle",
+      "forum": "Forum",
+      "wiki": "Wiki",
+      "blog": "Blog",
+      "shop": "Shop",
+      "gallery": "Galerie",
+      "people": "Personen"
+    }
+  },
+  "alerts": {
+    "pageTitle": "Warnungen",
+    "noneOpen": "Derzeit keine Warnungen",
+    "noneAria": "Keine Warnungen",
+    "loading": "Wird geladen…",
+    "error": "Warnungen konnten nicht geladen werden",
+    "unread": "{count} ungelesen",
+    "acknowledge": "Bestätigen",
+    "resolve": "Beheben",
+    "ariaList": "Warnungen",
+    "time": {
+      "justNow": "gerade eben",
+      "minutes": "vor {m} Min.",
+      "hours": "vor {h} Std.",
+      "days": "vor {d} T."
+    },
+    "severity": {
+      "info": "Info",
+      "warning": "Warnung",
+      "error": "Fehler",
+      "critical": "Kritisch"
+    },
+    "status": {
+      "open": "Offen",
+      "acknowledged": "Bestätigt",
+      "resolved": "Behoben"
+    }
   }
 }

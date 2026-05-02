@@ -7,6 +7,7 @@
 
 #include "search/backend/Indexer.h"
 
+#include <drogon/orm/Exception.h>
 #include <spdlog/spdlog.h>
 
 #include <sstream>
@@ -37,18 +38,20 @@ void Indexer::writeStatus(
     const std::string& status,
     std::int64_t docCount)
 {
-    try {
-        db_->execSqlSync(
-            "UPDATE search_indexes SET "
-            "status = $1, doc_count = $2, "
-            "last_reindex_at = now(), "
-            "updated_at = now() WHERE name = $3",
-            status, docCount, def_.name);
-    } catch (const std::exception& e) {
-        spdlog::warn(
-            "search: status update failed: {}",
-            e.what());
-    }
+    auto name = def_.name;
+    db_->execSqlAsync(
+        "UPDATE search_indexes SET "
+        "status = $1, doc_count = $2, "
+        "last_reindex_at = now(), "
+        "updated_at = now() WHERE name = $3",
+        [](const drogon::orm::Result&) {},
+        [name](
+            const drogon::orm::DrogonDbException& e) {
+            spdlog::warn(
+                "search: status update {}: {}",
+                name, e.base().what());
+        },
+        status, docCount, def_.name);
 }
 
 } // namespace nextra::search

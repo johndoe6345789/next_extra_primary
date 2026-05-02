@@ -1,28 +1,28 @@
 'use client'
 
-/**
- * Renders the list of alert entries using
- * the shared M3 component library.
- */
-
+/** Renders the alert list with M3 components. */
 import {
   List, ListItemButton, ListItemText, Typography,
 } from '@shared/m3'
+import { useTranslations } from 'next-intl'
 import type { AlertEntry } from '@/hooks/alertTypes'
-
-/** Format relative time (e.g. "2m ago"). */
-function timeAgo(ts: number): string {
-  const s = Math.floor((Date.now() - ts) / 1000)
-  if (s < 60) return 'just now'
-  const m = Math.floor(s / 60)
-  if (m < 60) return `${m}m ago`
-  const h = Math.floor(m / 60)
-  if (h < 24) return `${h}h ago`
-  return `${Math.floor(h / 24)}d ago`
-}
 
 const ICONS: Record<string, string> = {
   email: 'mail', system: 'info',
+}
+
+/** Format relative time via i18n. */
+function useTimeAgo() {
+  const t = useTranslations('alerts.time')
+  return (ts: number): string => {
+    const s = Math.floor((Date.now() - ts) / 1000)
+    if (s < 60) return t('justNow')
+    const m = Math.floor(s / 60)
+    if (m < 60) return t('minutes', { m })
+    const h = Math.floor(m / 60)
+    if (h < 24) return t('hours', { h })
+    return t('days', { d: Math.floor(h / 24) })
+  }
 }
 
 /** Props for the AlertList component. */
@@ -37,11 +37,13 @@ export interface AlertListProps {
 export function AlertList({
   alerts, onMarkRead,
 }: AlertListProps) {
+  const t = useTranslations('alerts')
+  const timeAgo = useTimeAgo()
   if (alerts.length === 0) {
     return (
       <div className="alerts-empty"
         data-testid="alerts-empty"
-        aria-label="No alerts">
+        aria-label={t('noneAria')}>
         <span className={
           'material-symbols-outlined ' +
           'alerts-empty-icon'
@@ -49,7 +51,7 @@ export function AlertList({
           notifications_off
         </span>
         <Typography variant="body1">
-          No alerts right now
+          {t('noneOpen')}
         </Typography>
       </div>
     )
@@ -58,7 +60,7 @@ export function AlertList({
   return (
     <List
       className="alerts-list"
-      aria-label="Alerts"
+      aria-label={t('ariaList')}
       testId="alerts-list"
     >
       {alerts.map(a => (

@@ -1,0 +1,30 @@
+{
+  "alerts": {
+    "pageTitle": "Alerts",
+    "noneOpen": "No alerts right now",
+    "noneAria": "No alerts",
+    "loading": "Loading…",
+    "error": "Could not load alerts",
+    "unread": "{count} unread",
+    "acknowledge": "Acknowledge",
+    "resolve": "Resolve",
+    "ariaList": "Alerts",
+    "time": {
+      "justNow": "just now",
+      "minutes": "{m}m ago",
+      "hours": "{h}h ago",
+      "days": "{d}d ago"
+    },
+    "severity": {
+      "info": "Info",
+      "warning": "Warning",
+      "error": "Error",
+      "critical": "Critical"
+    },
+    "status": {
+      "open": "Open",
+      "acknowledged": "Acknowledged",
+      "resolved": "Resolved"
+    }
+  }
+}

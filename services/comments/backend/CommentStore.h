@@ -44,6 +44,10 @@ class CommentStore
     void insert(const CreateCommentInput& in,
                 RowCb ok, ErrCb err);
 
+    /** @brief Look up one comment by id. */
+    void findById(std::int64_t id,
+                  RowCb ok, ErrCb err);
+
     /** @brief Flag a comment. */
     void flag(std::int64_t commentId,
               const std::string& reporterId,

@@ -458,5 +458,54 @@
     "cart": "Winkelwagen",
     "cartEmpty": "Uw winkelwagen is leeg.",
     "removeItem": "Verwijderen"
+  },
+  "search": {
+    "pageTitle": "Zoeken",
+    "placeholder": "Zoeken…",
+    "suggestions": "Zoeksuggesties",
+    "viewAll": "Alle resultaten voor {query} bekijken",
+    "resultsFor": "Resultaten voor <b>{query}</b>",
+    "resultCount": "{count, plural, =0 {Geen resultaten} one {# resultaat} other {# resultaten}}",
+    "noResults": "Geen resultaten gevonden.",
+    "backHome": "Terug naar home",
+    "prev": "Vorige",
+    "next": "Volgende",
+    "tabs": {
+      "all": "Alles",
+      "forum": "Forum",
+      "wiki": "Wiki",
+      "blog": "Blog",
+      "shop": "Shop",
+      "gallery": "Galerij",
+      "people": "Mensen"
+    }
+  },
+  "alerts": {
+    "pageTitle": "Meldingen",
+    "noneOpen": "Op dit moment geen meldingen",
+    "noneAria": "Geen meldingen",
+    "loading": "Laden…",
+    "error": "Meldingen konden niet worden geladen",
+    "unread": "{count} ongelezen",
+    "acknowledge": "Bevestigen",
+    "resolve": "Oplossen",
+    "ariaList": "Meldingen",
+    "time": {
+      "justNow": "zojuist",
+      "minutes": "{m} min geleden",
+      "hours": "{h} u geleden",
+      "days": "{d} d geleden"
+    },
+    "severity": {
+      "info": "Info",
+      "warning": "Waarschuwing",
+      "error": "Fout",
+      "critical": "Kritiek"
+    },
+    "status": {
+      "open": "Open",
+      "acknowledged": "Bevestigd",
+      "resolved": "Opgelost"
+    }
   }
 }

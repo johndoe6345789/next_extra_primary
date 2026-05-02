@@ -12,11 +12,11 @@ namespace controllers
 
 /**
  * @class SearchController
- * @brief Public GET /api/search endpoint.
+ * @brief Public read-only search endpoints.
  *
- * Accepts a free-text @c q parameter, an optional
- * @c type filter, and returns hits across every
- * registered ES index.
+ * - GET /api/search          full-result query
+ * - GET /api/search/suggest  top-N autocomplete
+ * - GET /api/search/health   indexer status probe
  */
 class SearchController
     : public drogon::HttpController<SearchController>
@@ -26,14 +26,28 @@ class SearchController
     ADD_METHOD_TO(
         SearchController::search,
         "/api/search", drogon::Get);
+    ADD_METHOD_TO(
+        SearchController::suggest,
+        "/api/search/suggest", drogon::Get);
+    ADD_METHOD_TO(
+        SearchController::health,
+        "/api/search/health", drogon::Get);
     METHOD_LIST_END
 
-    /**
-     * @brief Handle a public search request.
-     * @param req incoming request.
-     * @param cb  response callback.
-     */
+    /// Handle a public full-result search.
     void search(
+        const drogon::HttpRequestPtr& req,
+        std::function<void(
+            const drogon::HttpResponsePtr&)>&& cb);
+
+    /// Federated top-N autocomplete handler.
+    void suggest(
+        const drogon::HttpRequestPtr& req,
+        std::function<void(
+            const drogon::HttpResponsePtr&)>&& cb);
+
+    /// Indexer health probe used by alerts.
+    void health(
         const drogon::HttpRequestPtr& req,
         std::function<void(
             const drogon::HttpResponsePtr&)>&& cb);
@@ -65,10 +79,7 @@ class SearchAdminController
         std::function<void(
             const drogon::HttpResponsePtr&)>&& cb);
 
-    /**
-     * @brief Trigger a reindex for a named index.
-     * @param name The logical index name.
-     */
+    /// Trigger a reindex for a named index.
     void reindex(
         const drogon::HttpRequestPtr& req,
         std::function<void(

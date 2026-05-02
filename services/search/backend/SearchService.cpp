@@ -12,8 +12,8 @@ namespace services
 {
 
 static const std::vector<std::string> kAllIndices = {
-    "nextra-users", "nextra-chat", "nextra-badges",
-    "nextra-notifications", "nextra-leaderboard"};
+    "nextra-forum", "nextra-wiki", "nextra-blog",
+    "nextra-products", "nextra-gallery", "nextra-users"};
 
 static constexpr std::int32_t kMaxSize = 100;
 static constexpr std::int32_t kDefaultSize = 20;

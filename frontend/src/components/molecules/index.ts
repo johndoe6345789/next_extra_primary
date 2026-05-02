@@ -30,6 +30,8 @@ export type { PointsDisplayProps }
 
 export { SearchBar } from './SearchBar';
 export type { SearchBarProps } from './SearchBar';
+export { SearchSuggestDropdown }
+  from './SearchSuggestDropdown';
 
 export { HeroCta } from '@shared/components/ui/HeroCta';
 export type { HeroCtaProps }

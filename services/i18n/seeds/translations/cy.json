@@ -435,5 +435,54 @@
     "cart": "Trol",
     "cartEmpty": "Mae eich trol yn wag.",
     "removeItem": "Tynnu"
+  },
+  "search": {
+    "pageTitle": "Chwilio",
+    "placeholder": "Chwilio…",
+    "suggestions": "Awgrymiadau chwilio",
+    "viewAll": "Gweld pob canlyniad ar gyfer {query}",
+    "resultsFor": "Canlyniadau ar gyfer <b>{query}</b>",
+    "resultCount": "{count, plural, =0 {Dim canlyniadau} one {# canlyniad} other {# canlyniad}}",
+    "noResults": "Heb ddod o hyd i ganlyniadau.",
+    "backHome": "Yn ôl i’r hafan",
+    "prev": "Blaenorol",
+    "next": "Nesaf",
+    "tabs": {
+      "all": "Pob un",
+      "forum": "Fforwm",
+      "wiki": "Wici",
+      "blog": "Blog",
+      "shop": "Siop",
+      "gallery": "Oriel",
+      "people": "Pobl"
+    }
+  },
+  "alerts": {
+    "pageTitle": "Rhybuddion",
+    "noneOpen": "Dim rhybuddion ar hyn o bryd",
+    "noneAria": "Dim rhybuddion",
+    "loading": "Yn llwytho…",
+    "error": "Methu llwytho rhybuddion",
+    "unread": "{count} heb eu darllen",
+    "acknowledge": "Cydnabod",
+    "resolve": "Datrys",
+    "ariaList": "Rhybuddion",
+    "time": {
+      "justNow": "nawr",
+      "minutes": "{m} mun yn ôl",
+      "hours": "{h} awr yn ôl",
+      "days": "{d} d yn ôl"
+    },
+    "severity": {
+      "info": "Gwybodaeth",
+      "warning": "Rhybudd",
+      "error": "Gwall",
+      "critical": "Critigol"
+    },
+    "status": {
+      "open": "Ar agor",
+      "acknowledged": "Cydnabyddedig",
+      "resolved": "Datryswyd"
+    }
   }
 }

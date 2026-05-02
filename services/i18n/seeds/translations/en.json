@@ -435,5 +435,54 @@
     "cart": "Cart",
     "cartEmpty": "Your cart is empty.",
     "removeItem": "Remove"
+  },
+  "search": {
+    "pageTitle": "Search",
+    "placeholder": "Search…",
+    "suggestions": "Search suggestions",
+    "viewAll": "View all results for {query}",
+    "resultsFor": "Showing results for <b>{query}</b>",
+    "resultCount": "{count, plural, =0 {No results} one {# result} other {# results}}",
+    "noResults": "No results found.",
+    "backHome": "Back to home",
+    "prev": "Previous",
+    "next": "Next",
+    "tabs": {
+      "all": "All",
+      "forum": "Forum",
+      "wiki": "Wiki",
+      "blog": "Blog",
+      "shop": "Shop",
+      "gallery": "Gallery",
+      "people": "People"
+    }
+  },
+  "alerts": {
+    "pageTitle": "Alerts",
+    "noneOpen": "No alerts right now",
+    "noneAria": "No alerts",
+    "loading": "Loading…",
+    "error": "Could not load alerts",
+    "unread": "{count} unread",
+    "acknowledge": "Acknowledge",
+    "resolve": "Resolve",
+    "ariaList": "Alerts",
+    "time": {
+      "justNow": "just now",
+      "minutes": "{m}m ago",
+      "hours": "{h}h ago",
+      "days": "{d}d ago"
+    },
+    "severity": {
+      "info": "Info",
+      "warning": "Warning",
+      "error": "Error",
+      "critical": "Critical"
+    },
+    "status": {
+      "open": "Open",
+      "acknowledged": "Acknowledged",
+      "resolved": "Resolved"
+    }
   }
 }

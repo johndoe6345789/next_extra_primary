@@ -7,6 +7,7 @@
 #include "gallery_controller_json.h"
 #include "gallery/backend/GalleryStore.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
+#include "search/backend/SearchEventPublisher.h"
 
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
@@ -47,6 +48,13 @@ void GalleryController::patch(
                 k404NotFound, "gallery not found"));
             return;
         }
+        nextra::search::SearchEventPublisher::publish(
+            "upsert", "gallery_items",
+            std::to_string(g->id),
+            {{"slug", g->slug},
+             {"title", g->title},
+             {"description", g->description},
+             {"owner_id", g->ownerId}});
         cb(::utils::jsonOk(
             {{"gallery", galleryToJson(*g)}}));
     } catch (const std::exception& e) {
@@ -66,6 +74,8 @@ void GalleryController::remove(
             k404NotFound, "gallery not found"));
         return;
     }
+    nextra::search::SearchEventPublisher
+        ::publishDelete("gallery_items", id);
     cb(::utils::jsonOk({{"deleted", true}}));
 }
 

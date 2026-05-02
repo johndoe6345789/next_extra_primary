@@ -18,8 +18,6 @@ import type { NavLink } from './MobileDrawer';
 export interface DrawerContentProps {
   /** Navigation links. */
   links: NavLink[];
-  /** Search callback. */
-  onSearch: (q: string) => void;
   /** Close the drawer on link click. */
   onClose: () => void;
 }
@@ -33,12 +31,12 @@ export interface DrawerContentProps {
  */
 export const DrawerContent: React.FC<
   DrawerContentProps
-> = ({ links, onSearch, onClose }) => (
+> = ({ links, onClose }) => (
   <>
     <div style={{
       flex: 1, overflowY: 'auto',
     }}>
-      <DrawerSearch onSearch={onSearch} />
+      <DrawerSearch />
       <Divider />
       <List sx={{ py: 1 }} role="menu">
         {links.map((l) => (

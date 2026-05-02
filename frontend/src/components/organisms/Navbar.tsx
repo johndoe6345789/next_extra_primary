@@ -21,13 +21,11 @@ import { FeatureFlagGate } from
 
 /** Props for the Navbar organism. */
 export interface NavbarProps {
-  onSearch?: (q: string) => void;
   testId?: string;
 }
 
 /** App bar with drawer, logo, actions, balloon. */
 export const Navbar: React.FC<NavbarProps> = ({
-  onSearch,
   testId = 'navbar',
 }) => {
   const [panelOpen, setPanelOpen] = useState(false);
@@ -54,10 +52,10 @@ export const Navbar: React.FC<NavbarProps> = ({
         data-testid={testId}
       >
         <Toolbar>
-          <MobileDrawer links={LINKS} onSearch={onSearch} />
+          <MobileDrawer links={LINKS} />
           <NavbarLogo label={tCommon('appName')} />
           <div className="spacer" />
-          <DesktopActions onSearch={onSearch ?? (() => {})} />
+          <DesktopActions />
           {isAuthenticated ? (
             <>
               <FeatureFlagGate flag="ecommerce">

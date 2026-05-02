@@ -6,7 +6,7 @@
 #include "BlogController.h"
 #include "blog/backend/ArticleStore.h"
 #include "blog/backend/MarkdownRenderer.h"
-
+#include "blog/controllers/blog_search_emit.h"
 #include <drogon/drogon.h>
 
 namespace nextra::blog
@@ -52,6 +52,7 @@ void BlogController::create(
     { cb(bad("slug and title required")); return; }
     ArticleStore store(app().getDbClient());
     auto id = store.create(a);
+    emitArticle(id, a);
     Json::Value b;
     b["id"] = static_cast<Json::Int64>(id);
     auto r = HttpResponse::newHttpJsonResponse(b);
@@ -69,6 +70,7 @@ void BlogController::update(
     auto a = fromJson(*j);
     ArticleStore store(app().getDbClient());
     if (!store.update(id, a)) { cb(bad("not found")); return; }
+    emitArticle(id, a);
     Json::Value b;
     b["id"] = static_cast<Json::Int64>(id);
     cb(HttpResponse::newHttpJsonResponse(b));
@@ -81,6 +83,7 @@ void BlogController::remove(
 {
     ArticleStore store(app().getDbClient());
     if (!store.remove(id)) { cb(bad("not found")); return; }
+    emitArticleDelete(id);
     auto r = HttpResponse::newHttpResponse();
     r->setStatusCode(k204NoContent);
     cb(r);

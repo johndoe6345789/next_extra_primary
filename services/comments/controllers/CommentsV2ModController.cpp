@@ -5,6 +5,7 @@
 
 #include "CommentsV2ModController.h"
 #include "comments/backend/CommentStore.h"
+#include "comments/controllers/comments_search_emit.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
 
 namespace controllers
@@ -19,15 +20,21 @@ static void runModAction(
     std::function<void(
         const drogon::HttpResponsePtr&)> cb)
 {
+    const auto numericId = std::stoll(id);
     CommentStore store;
     store.moderate(
-        std::stoll(id), act,
-        [cb](drogon::HttpStatusCode c,
-             const std::string& m) {
-            if (c == drogon::k200OK)
+        numericId, act,
+        [cb, numericId, act](
+            drogon::HttpStatusCode c,
+            const std::string& m) {
+            if (c == drogon::k200OK) {
+                if (act == ModAction::Hide)
+                    emitForumPostDelete(numericId);
+                else
+                    emitForumPostReindex(numericId);
                 cb(::utils::jsonOk(
                     {{"ok", true}}));
-            else
+            } else
                 cb(::utils::jsonError(c, m));
         });
 }

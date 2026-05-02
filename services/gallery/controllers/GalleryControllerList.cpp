@@ -7,6 +7,7 @@
 #include "gallery_controller_json.h"
 #include "gallery/backend/GalleryStore.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
+#include "search/backend/SearchEventPublisher.h"
 
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
@@ -61,6 +62,13 @@ void GalleryController::create(
         }
         services::gallery::GalleryStore store;
         auto out = store.create(g);
+        nextra::search::SearchEventPublisher::publish(
+            "upsert", "gallery_items",
+            std::to_string(out.id),
+            {{"slug", out.slug},
+             {"title", out.title},
+             {"description", out.description},
+             {"owner_id", out.ownerId}});
         cb(::utils::jsonCreated(
             {{"gallery", galleryToJson(out)}}));
     } catch (const std::exception& e) {

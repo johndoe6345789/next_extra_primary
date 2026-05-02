@@ -23,8 +23,6 @@ export interface NavLink {
 /** Props for MobileDrawer. */
 export interface MobileDrawerProps {
   links: NavLink[];
-  /** Search callback for drawer search. */
-  onSearch?: (q: string) => void;
 }
 
 /**
@@ -35,7 +33,7 @@ export interface MobileDrawerProps {
  */
 export const MobileDrawer: React.FC<
   MobileDrawerProps
-> = ({ links, onSearch }) => {
+> = ({ links }) => {
   const { open, setOpen, close } =
     useDrawer();
   useScrollLock(open);
@@ -60,7 +58,6 @@ export const MobileDrawer: React.FC<
         <Divider />
         <DrawerContent
           links={links}
-          onSearch={onSearch ?? (() => {})}
           onClose={close}
         />
       </Drawer>

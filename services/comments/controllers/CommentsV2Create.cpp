@@ -7,6 +7,9 @@
 #include "CommentsV2Controller.h"
 #include "comments/backend/CommentStore.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
+#include "search/backend/SearchEventPublisher.h"
+
+#include <nlohmann/json.hpp>
 
 namespace controllers
 {
@@ -51,6 +54,16 @@ void CommentsV2Controller::create(
     store.insert(
         in,
         [cb](auto row) {
+            nlohmann::json doc;
+            doc["target_type"] = row.targetType;
+            doc["target_id"] = row.targetId;
+            doc["author_id"] = row.authorId;
+            doc["body"] = row.body;
+            doc["created_at"] = row.createdAt;
+            nextra::search::SearchEventPublisher
+                ::publish(
+                    "upsert", "forum_posts",
+                    std::to_string(row.id), doc);
             cb(::utils::jsonOk(row.toJson()));
         },
         [cb](drogon::HttpStatusCode c,

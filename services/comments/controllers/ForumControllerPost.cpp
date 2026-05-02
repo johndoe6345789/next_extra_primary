@@ -2,6 +2,7 @@
 #include "ForumController.h"
 #include "comments/backend/CommentStore.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
+#include "search/backend/SearchEventPublisher.h"
 #include <drogon/drogon.h>
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
@@ -55,6 +56,14 @@ void ForumController::createPost(
     store.insert(
         in,
         [cb, id](CommentRow row) {
+            nextra::search::SearchEventPublisher
+                ::publish("upsert", "forum_posts",
+                    std::to_string(row.id),
+                    {{"target_type", row.targetType},
+                     {"target_id", row.targetId},
+                     {"author_id", row.authorId},
+                     {"body", row.body},
+                     {"created_at", row.createdAt}});
             cb(::utils::jsonOk({
                 {"id", std::to_string(row.id)},
                 {"threadId", id},

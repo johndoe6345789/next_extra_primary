@@ -1,6 +1,14 @@
 import { render, screen } from
   '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { NextIntlClientProvider } from 'next-intl';
+import messages from '@/messages/en.json';
+
+const wrap = (ui: React.ReactElement) => render(
+  <NextIntlClientProvider
+    locale="en" messages={messages}
+  >{ui}</NextIntlClientProvider>,
+);
 
 jest.mock('@shared/m3', () => ({
   List: (p: {
@@ -48,7 +56,7 @@ const entry = {
 
 describe('AlertList', () => {
   it('renders empty label', () => {
-    render(
+    wrap(
       <AlertList
         alerts={[]}
         onMarkRead={jest.fn()}
@@ -61,7 +69,7 @@ describe('AlertList', () => {
 
   it('renders row and fires mark read', async () => {
     const cb = jest.fn();
-    render(
+    wrap(
       <AlertList
         alerts={[entry]}
         onMarkRead={cb}

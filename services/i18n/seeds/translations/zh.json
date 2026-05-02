@@ -458,5 +458,54 @@
     "cart": "购物车",
     "cartEmpty": "购物车为空。",
     "removeItem": "移除"
+  },
+  "search": {
+    "pageTitle": "搜索",
+    "placeholder": "搜索…",
+    "suggestions": "搜索建议",
+    "viewAll": "查看 {query} 的所有结果",
+    "resultsFor": "<b>{query}</b> 的结果",
+    "resultCount": "{count, plural, other {# 条结果}}",
+    "noResults": "未找到结果。",
+    "backHome": "返回首页",
+    "prev": "上一页",
+    "next": "下一页",
+    "tabs": {
+      "all": "全部",
+      "forum": "论坛",
+      "wiki": "Wiki",
+      "blog": "博客",
+      "shop": "商店",
+      "gallery": "图库",
+      "people": "用户"
+    }
+  },
+  "alerts": {
+    "pageTitle": "警报",
+    "noneOpen": "当前没有警报",
+    "noneAria": "无警报",
+    "loading": "加载中…",
+    "error": "无法加载警报",
+    "unread": "{count} 条未读",
+    "acknowledge": "确认",
+    "resolve": "解决",
+    "ariaList": "警报",
+    "time": {
+      "justNow": "刚刚",
+      "minutes": "{m} 分钟前",
+      "hours": "{h} 小时前",
+      "days": "{d} 天前"
+    },
+    "severity": {
+      "info": "信息",
+      "warning": "警告",
+      "error": "错误",
+      "critical": "严重"
+    },
+    "status": {
+      "open": "未处理",
+      "acknowledged": "已确认",
+      "resolved": "已解决"
+    }
   }
 }

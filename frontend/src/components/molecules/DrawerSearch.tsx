@@ -6,21 +6,12 @@ import { SearchBar } from './SearchBar';
 import s from
   '@shared/scss/modules/DrawerSearch.module.scss';
 
-/** Props for DrawerSearch. */
-export interface DrawerSearchProps {
-  /** Search callback. */
-  onSearch: (q: string) => void;
-}
-
 /**
- * Full-width search field for the mobile
- * drawer. Mirrors DesktopActions search.
- *
- * @param props - Component props.
+ * Full-width search field for the mobile drawer.
+ * The SearchBar is self-contained — it owns its
+ * query state and submit/suggest behaviour.
  */
-export const DrawerSearch: React.FC<
-  DrawerSearchProps
-> = ({ onSearch }) => {
+export const DrawerSearch: React.FC = () => {
   const t = useTranslations('common');
   return (
     <div
@@ -28,7 +19,6 @@ export const DrawerSearch: React.FC<
       data-testid="drawer-search"
     >
       <SearchBar
-        onSearch={onSearch}
         placeholder={`${t('search')}...`}
         testId="drawer-search-input"
       />

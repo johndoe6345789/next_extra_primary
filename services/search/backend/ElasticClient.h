@@ -56,6 +56,17 @@ class ElasticClient
                 const json& query,
                 EsOk onOk, EsErr onErr);
 
+    /// PUT /{index}/_doc/{id} with JSON body.
+    void indexDoc(const std::string& index,
+                  const std::string& id,
+                  const json& body,
+                  EsOk onOk, EsErr onErr);
+
+    /// DELETE /{index}/_doc/{id}.
+    void deleteDoc(const std::string& index,
+                   const std::string& id,
+                   EsOk onOk, EsErr onErr);
+
   private:
     std::string host_;
     std::uint16_t port_;

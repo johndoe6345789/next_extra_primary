@@ -7,6 +7,7 @@
 #include "WikiController.h"
 #include "wiki/backend/WikiStore.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
+#include "search/backend/SearchEventPublisher.h"
 
 namespace controllers
 {
@@ -34,7 +35,10 @@ void WikiController::updatePage(
         body.value("title", std::string{}),
         body.value("bodyMd", std::string{}),
         req->getHeader("X-User-Id"),
-        [cb](const json& d) {
+        [cb, id](const json& d) {
+            nextra::search::SearchEventPublisher
+                ::publish("upsert", "wiki_pages",
+                          id, d);
             cb(::utils::jsonOk(d));
         },
         [cb](drogon::HttpStatusCode c,
@@ -52,7 +56,9 @@ void WikiController::deletePage(
     WikiStore store;
     store.deletePage(
         std::stoll(id),
-        [cb](const json& d) {
+        [cb, id](const json& d) {
+            nextra::search::SearchEventPublisher
+                ::publishDelete("wiki_pages", id);
             cb(::utils::jsonOk(d));
         },
         [cb](drogon::HttpStatusCode c,

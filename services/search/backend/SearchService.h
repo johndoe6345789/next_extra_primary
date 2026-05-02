@@ -42,6 +42,20 @@ class SearchService
                    Callback onOk, ErrCallback onErr);
 
     /**
+     * @brief Federated top-N autocomplete across
+     *        every registered index.
+     * @param query Free-text search term.
+     * @param limit Max items, clamped to [1, 50].
+     * @param onOk  Receives `{"items": [...]}`
+     *              with each hit shaped as
+     *              `{type,id,title,snippet,url}`.
+     * @param onErr Error callback.
+     */
+    void suggest(const std::string& query,
+                 std::int32_t limit,
+                 Callback onOk, ErrCallback onErr);
+
+    /**
      * @brief Index a user document into nextra-users.
      * @param userId   Document ID for the user.
      * @param userData JSON with user fields.

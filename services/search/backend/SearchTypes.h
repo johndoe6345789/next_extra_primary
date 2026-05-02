@@ -63,6 +63,9 @@ struct SearchQueryParams
                           std::string>> filters;
 };
 
+// Wire shape of `search.reindex` Kafka events is
+// documented in KAFKA_EVENT.md alongside this file.
+
 /**
  * @brief Interface for the Kafka consumer. The
  *        real librdkafka-backed impl lives behind

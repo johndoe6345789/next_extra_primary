@@ -8,6 +8,7 @@
 #include "WikiController.h"
 #include "wiki/backend/WikiStore.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
+#include "search/backend/SearchEventPublisher.h"
 
 namespace controllers
 {
@@ -70,6 +71,14 @@ void WikiController::createPage(
         body.value("bodyMd", std::string{}),
         req->getHeader("X-User-Id"),
         [cb](const json& d) {
+            const auto idStr = d.contains("id")
+                ? std::to_string(
+                    d["id"].get<std::int64_t>())
+                : std::string{};
+            if (!idStr.empty())
+                nextra::search::SearchEventPublisher
+                    ::publish("upsert", "wiki_pages",
+                              idStr, d);
             cb(::utils::jsonCreated(d));
         },
         [cb](drogon::HttpStatusCode c,
