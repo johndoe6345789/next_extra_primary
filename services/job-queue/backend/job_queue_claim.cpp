@@ -27,13 +27,16 @@ std::vector<QueuedJob> JobQueue::claimBatch(const std::string& workerId,
         return claimed;
     }
 
+    // Inline the limit to avoid parameterised-query issues on
+    // transaction execSqlSync (Drogon extended-protocol bug).
+    // limit is our own integer — no injection risk.
     const std::string selectSql =
         "SELECT id, name, handler, payload, priority, attempts, "
         "       max_attempts, backoff_strategy, scheduled_job_id "
         "FROM job_queue "
         "WHERE status IN ('queued','retrying') AND run_at <= now() "
         "ORDER BY priority ASC, run_at ASC "
-        "LIMIT $1 "
+        "LIMIT " + std::to_string(limit) + " "
         "FOR UPDATE SKIP LOCKED";
 
     const std::string updateSql =
@@ -45,7 +48,7 @@ std::vector<QueuedJob> JobQueue::claimBatch(const std::string& workerId,
     try
     {
         auto trans = db_->newTransaction();
-        auto rows = trans->execSqlSync(selectSql, static_cast<int>(limit));
+        auto rows = trans->execSqlSync(selectSql);
 
         if (rows.empty())
         {

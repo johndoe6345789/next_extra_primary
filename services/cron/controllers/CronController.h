@@ -30,19 +30,26 @@ class CronController : public drogon::HttpController<CronController>
 public:
     METHOD_LIST_BEGIN
     ADD_METHOD_TO(CronController::list,
-                  "/api/cron/schedules", drogon::Get, "JwtFilter");
+                  "/api/cron/schedules", drogon::Get,
+                  "filters::JwtAuthFilter");
     ADD_METHOD_TO(CronController::create,
-                  "/api/cron/schedules", drogon::Post, "JwtFilter");
+                  "/api/cron/schedules", drogon::Post,
+                  "filters::JwtAuthFilter");
     ADD_METHOD_TO(CronController::update,
-                  "/api/cron/schedules/{id}", drogon::Put, "JwtFilter");
+                  "/api/cron/schedules/{id}", drogon::Put,
+                  "filters::JwtAuthFilter");
     ADD_METHOD_TO(CronController::remove,
-                  "/api/cron/schedules/{id}", drogon::Delete, "JwtFilter");
+                  "/api/cron/schedules/{id}", drogon::Delete,
+                  "filters::JwtAuthFilter");
     ADD_METHOD_TO(CronController::fireNow,
-                  "/api/cron/schedules/{id}/fire", drogon::Post, "JwtFilter");
+                  "/api/cron/schedules/{id}/fire", drogon::Post,
+                  "filters::JwtAuthFilter");
     ADD_METHOD_TO(CronController::forceTick,
-                  "/api/cron/tick", drogon::Post, "JwtFilter");
+                  "/api/cron/tick", drogon::Post,
+                  "filters::JwtAuthFilter");
     ADD_METHOD_TO(CronController::preview,
-                  "/api/cron/preview", drogon::Post, "JwtFilter");
+                  "/api/cron/preview", drogon::Post,
+                  "filters::JwtAuthFilter");
     METHOD_LIST_END
 
     void list(const drogon::HttpRequestPtr& req,

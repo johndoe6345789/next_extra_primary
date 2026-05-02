@@ -28,17 +28,23 @@ class JobController : public drogon::HttpController<JobController>
 public:
     METHOD_LIST_BEGIN
     ADD_METHOD_TO(JobController::listQueue,
-                  "/api/jobs/queue", drogon::Get, "JwtFilter");
+                  "/api/jobs/queue", drogon::Get,
+                  "filters::JwtAuthFilter");
     ADD_METHOD_TO(JobController::listRuns,
-                  "/api/jobs/runs", drogon::Get, "JwtFilter");
+                  "/api/jobs/runs", drogon::Get,
+                  "filters::JwtAuthFilter");
     ADD_METHOD_TO(JobController::listDeadLetter,
-                  "/api/jobs/dead_letter", drogon::Get, "JwtFilter");
+                  "/api/jobs/dead_letter", drogon::Get,
+                  "filters::JwtAuthFilter");
     ADD_METHOD_TO(JobController::enqueue,
-                  "/api/jobs/enqueue", drogon::Post, "JwtFilter");
+                  "/api/jobs/enqueue", drogon::Post,
+                  "filters::JwtAuthFilter");
     ADD_METHOD_TO(JobController::retryDead,
-                  "/api/jobs/retry_dead/{id}", drogon::Post, "JwtFilter");
+                  "/api/jobs/retry_dead/{id}", drogon::Post,
+                  "filters::JwtAuthFilter");
     ADD_METHOD_TO(JobController::cancelQueued,
-                  "/api/jobs/queue/{id}", drogon::Delete, "JwtFilter");
+                  "/api/jobs/queue/{id}", drogon::Delete,
+                  "filters::JwtAuthFilter");
     METHOD_LIST_END
 
     void listQueue(const drogon::HttpRequestPtr& req,
