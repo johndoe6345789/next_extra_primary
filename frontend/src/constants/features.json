@@ -17,16 +17,16 @@
   {
     "key": "darkMode",
     "icon": "dark_mode",
-    "href": "/dashboard"
+    "href": "/settings"
   },
   {
     "key": "multiLang",
     "icon": "translate",
-    "href": "/about"
+    "href": "/settings"
   },
   {
     "key": "secureAuth",
     "icon": "lock",
-    "href": "/register"
+    "href": "/login"
   }
 ]

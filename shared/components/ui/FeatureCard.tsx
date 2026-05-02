@@ -7,6 +7,7 @@ import {
   CardContent,
   Typography,
 } from '@shared/m3';
+import { useLink } from './LinkContext';
 import s from '@shared/scss/modules/FeatureCard.module.scss';
 
 /** Props for the FeatureCard sub-component. */
@@ -30,6 +31,7 @@ export const FeatureCard: React.FC<
   const testId = `feature-${title
     .toLowerCase()
     .replace(/\s/g, '-')}`;
+  const Link = useLink();
   return (
     <Card
       className={s.root}
@@ -40,7 +42,7 @@ export const FeatureCard: React.FC<
     >
       <CardActionArea
         {...(href
-          ? { component: 'a', href }
+          ? { component: Link, href }
           : {})}
         style={{ height: '100%' }}
       >
