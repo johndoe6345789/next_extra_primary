@@ -2,14 +2,16 @@
   "realm": "nextra",
   "enabled": true,
   "sslRequired": "none",
-  "registrationAllowed": false,
+  "registrationAllowed": true,
+  "registrationEmailAsUsername": false,
   "loginWithEmailAllowed": true,
   "duplicateEmailsAllowed": false,
   "resetPasswordAllowed": true,
   "editUsernameAllowed": false,
   "bruteForceProtected": true,
+  "loginTheme": "nextra",
   "attributes": {
-    "frontendUrl": "http://localhost:8889/auth"
+    "frontendUrl": "http://localhost:8889/sso"
   },
   "verifyEmail": false,
   "webAuthnPolicyRpEntityName": "Nextra",
@@ -115,7 +117,6 @@
       "redirectUris": ["http://localhost:8889/*"],
       "webOrigins": ["http://localhost:8889"],
       "attributes": {
-        "pkce.code.challenge.method": "S256",
         "post.logout.redirect.uris": "http://localhost:8889/*"
       },
       "fullScopeAllowed": true

@@ -22,7 +22,7 @@ void AuthController::registerUser(
         const drogon::HttpResponsePtr&)>&& cb)
 {
     static constexpr const char* kKcRegister =
-        "http://localhost:8889/auth/realms/nextra"
+        "http://localhost:8889/sso/realms/nextra"
         "/protocol/openid-connect/registrations"
         "?client_id=nextra-app&response_type=code"
         "&scope=openid+profile+email"

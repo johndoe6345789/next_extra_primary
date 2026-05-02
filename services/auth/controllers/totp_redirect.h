@@ -18,7 +18,7 @@ namespace controllers
 inline drogon::HttpResponsePtr totpKeycloakRedirect()
 {
     static constexpr const char* kUrl =
-        "http://localhost:8889/auth/realms/nextra"
+        "http://localhost:8889/sso/realms/nextra"
         "/protocol/openid-connect/auth"
         "?client_id=nextra-app&response_type=code"
         "&scope=openid"

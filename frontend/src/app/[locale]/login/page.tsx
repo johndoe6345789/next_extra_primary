@@ -1,50 +1,49 @@
-import type { ReactElement } from 'react';
-import { setRequestLocale } from 'next-intl/server';
-// Email/password login is being phased out in favour of
-// Keycloak SSO. The LoginForm import below stays so the
-// legacy form remains available in this template repo.
-// import { LoginForm } from
-//   '@/components/organisms/LoginForm';
-import KeycloakAutoLogin from
-  '@/components/molecules/KeycloakAutoLogin';
-import { AuthHero } from '@shared/ui';
-import s from '@shared/scss/modules/AuthPage.module.scss';
+/**
+ * @file page.tsx (login)
+ * @brief Server-side 302 redirector to Keycloak.
+ *
+ * Phase 5 migration: Keycloak owns the visible login UI
+ * at /sso/. Visiting /app/en/login simply 302s straight
+ * to Keycloak's branded authorize endpoint — no PKCE
+ * verifier is generated here because the realm client
+ * accepts non-PKCE auth flows (the SPA still uses PKCE
+ * via useKeycloak().login() when triggered from inside
+ * the app, e.g. AvatarMenu's switch-account or token
+ * recovery).
+ *
+ * The state param carries the original `?next=` so the
+ * /app/en/auth/callback can land the user there after
+ * code exchange.
+ *
+ * Source kept per template-repo policy.
+ */
+import { redirect } from 'next/navigation';
 
-export const dynamic = 'force-dynamic';
+const KC_AUTH =
+  'http://localhost:8889/sso/realms/nextra/protocol/openid-connect/auth';
 
 interface LoginPageProps {
-  readonly params: Promise<{ locale: string }>;
+  readonly searchParams: Promise<{ next?: string }>;
 }
 
 /**
- * 2-pane login: marketing pane + Keycloak SSO trigger.
+ * 302 redirect to Keycloak's authorize endpoint.
  *
- * The legacy email/password `<LoginForm />` is kept in
- * the codebase (see commented import above) but is no
- * longer rendered — visitors authenticate against
- * Keycloak instead.
- *
- * @param props - Page props with locale.
- * @returns Login page UI.
+ * @param props - Page props with searchParams.
  */
 export default async function LoginPage({
-  params,
-}: LoginPageProps): Promise<ReactElement> {
-  const { locale } = await params;
-  setRequestLocale(locale);
-
-  return (
-    <main
-      className={s.root}
-      role="main"
-      aria-label="Login"
-    >
-      <AuthHero />
-      <div className={s.formPane}>
-        {/* Phased out — kept for template parity:
-        <LoginForm /> */}
-        <KeycloakAutoLogin />
-      </div>
-    </main>
-  );
+  searchParams,
+}: LoginPageProps): Promise<never> {
+  const { next: rawNext } = await searchParams;
+  const next = rawNext && rawNext.startsWith('/')
+    ? rawNext : '/app/en';
+  const params = new URLSearchParams({
+    client_id: 'nextra-app',
+    response_type: 'code',
+    scope: 'openid profile email',
+    redirect_uri:
+      'http://localhost:8889/app/en/auth/callback',
+    state: next,
+  });
+  redirect(`${KC_AUTH}?${params.toString()}`);
 }

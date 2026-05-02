@@ -3,12 +3,24 @@
 /**
  * @file page.tsx (auth/callback)
  * @brief Handles the Keycloak OIDC redirect.
- *        Exchanges `code` for tokens and lands the user
- *        on the dashboard (or `next` query param).
+ *
+ * Two entry paths converge here:
+ *
+ *  1. Server-side 302 from /app/en/login (no PKCE).
+ *     `state` is the original `next` URL (a path).
+ *  2. Client-side login() from useKeycloak() (with
+ *     PKCE). `state` is a random token persisted in
+ *     the nextra_sso_state cookie alongside the
+ *     PKCE verifier.
+ *
+ * The callback distinguishes by whether the verifier
+ * cookie is present.
  */
 import { useEffect, useRef } from 'react';
 import type { ReactElement } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import {
+  useRouter, useSearchParams,
+} from 'next/navigation';
 import { useLocale } from 'next-intl';
 import { CircularProgress } from '@shared/m3';
 import { exchangeCode } from '@/lib/keycloakClient';
@@ -16,9 +28,11 @@ import {
   COOKIE, readCookie, writeCookie, clearCookie,
 } from '@/lib/keycloakCookies';
 
-/** Persisted state cookie shape. */
 interface StateCookie { state: string; next: string }
 
+/**
+ * @returns Spinner shown while exchange is in flight.
+ */
 export default function KeycloakCallbackPage():
 ReactElement {
   const router = useRouter();
@@ -31,56 +45,49 @@ ReactElement {
     ran.current = true;
     const code = search.get('code') ?? '';
     const recvState = search.get('state') ?? '';
-    const verifier = readCookie(COOKIE.verifier) ?? '';
-    const stRaw = readCookie(COOKIE.state) ?? '{}';
-    let parsed: StateCookie;
-    try {
-      parsed = JSON.parse(stRaw) as StateCookie;
-    } catch {
-      parsed = { state: '', next: '' };
-    }
-    const fail = (reason: string): void => {
-      // eslint-disable-next-line no-console
-      console.error('[kc-callback] fail:', reason, {
-        code: !!code, recvState,
-        cookieState: parsed.state,
-        hasVerifier: !!verifier,
-      });
-      clearCookie(COOKIE.state);
-      clearCookie(COOKIE.verifier);
+    if (!code) {
       router.replace(`/${locale}/login?error=oidc`);
-    };
-    if (!code) { fail('no code'); return; }
-    if (parsed.state !== recvState) {
-      fail('state mismatch'); return;
+      return;
     }
-    if (!verifier) { fail('no verifier'); return; }
+    const verifier = readCookie(COOKIE.verifier) ?? '';
+    const stRaw = readCookie(COOKIE.state);
+    let next = recvState;
+    if (verifier && stRaw) {
+      let parsed: StateCookie;
+      try {
+        parsed = JSON.parse(stRaw) as StateCookie;
+      } catch {
+        parsed = { state: '', next: '' };
+      }
+      if (parsed.state !== recvState) {
+        router.replace(`/${locale}/login?error=oidc`);
+        return;
+      }
+      next = parsed.next || `/${locale}/dashboard`;
+    }
     void (async () => {
       try {
-        const tok = await exchangeCode(code, verifier);
-        writeCookie(
-          COOKIE.access, tok.access_token, tok.expires_in,
-        );
+        const tok =
+          await exchangeCode(code, verifier);
+        writeCookie(COOKIE.access,
+          tok.access_token, tok.expires_in);
         if (tok.refresh_token) {
-          writeCookie(
-            COOKIE.refresh, tok.refresh_token,
-            tok.refresh_expires_in ?? tok.expires_in,
-          );
+          writeCookie(COOKIE.refresh,
+            tok.refresh_token,
+            tok.refresh_expires_in
+              ?? tok.expires_in);
         }
         clearCookie(COOKIE.state);
         clearCookie(COOKIE.verifier);
-        // Strip the basePath ('/app') from next if it
-        // was passed in already-prefixed form, since
-        // Next.js's router.replace() will re-prefix.
-        let next = parsed.next || `/${locale}/dashboard`;
-        if (next.startsWith('/app/')) {
-          next = next.slice(4);
-        } else if (next === '/app') {
-          next = '/';
+        let target = next || `/${locale}/dashboard`;
+        if (target.startsWith('/app/')) {
+          target = target.slice(4);
+        } else if (target === '/app') {
+          target = '/';
         }
-        router.replace(next);
-      } catch (e) {
-        fail('exchange failed: ' + String(e));
+        router.replace(target);
+      } catch {
+        router.replace(`/${locale}/login?error=oidc`);
       }
     })();
   }, [router, locale, search]);

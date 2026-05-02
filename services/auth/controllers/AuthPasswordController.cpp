@@ -20,7 +20,7 @@ namespace controllers
 namespace
 {
 constexpr const char* kKcUpdatePassword =
-    "http://localhost:8889/auth/realms/nextra"
+    "http://localhost:8889/sso/realms/nextra"
     "/protocol/openid-connect/auth"
     "?client_id=nextra-app&response_type=code"
     "&scope=openid"
@@ -29,7 +29,7 @@ constexpr const char* kKcUpdatePassword =
     "&kc_action=UPDATE_PASSWORD";
 
 constexpr const char* kKcAccount =
-    "http://localhost:8889/auth/realms/nextra/account/";
+    "http://localhost:8889/sso/realms/nextra/account/";
 
 drogon::HttpResponsePtr redirect(const char* url)
 {

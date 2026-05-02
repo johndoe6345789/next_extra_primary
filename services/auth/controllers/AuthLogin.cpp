@@ -29,7 +29,7 @@ void AuthController::login(
 {
     static const std::string kTarget =
         "http://localhost:8889"
-        "/auth/realms/nextra/"
+        "/sso/realms/nextra/"
         "protocol/openid-connect/auth"
         "?client_id=nextra-app"
         "&response_type=code"

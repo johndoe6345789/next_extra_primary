@@ -24,8 +24,12 @@ export async function exchangeCode(
     client_id: cfg.clientId,
     code,
     redirect_uri: cfg.redirectUri,
-    code_verifier: codeVerifier,
   });
+  // PKCE is optional — the server-side 302 path from
+  // /app/en/login doesn't generate a verifier.
+  if (codeVerifier) {
+    body.set('code_verifier', codeVerifier);
+  }
   const r = await fetch(cfg.endpoints.token, {
     method: 'POST',
     headers: HEADERS,

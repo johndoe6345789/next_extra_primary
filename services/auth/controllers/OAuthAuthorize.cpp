@@ -24,7 +24,7 @@ void OAuthController::authorize(
     const std::string& provider)
 {
     std::string url =
-        "http://localhost:8889/auth/realms/nextra"
+        "http://localhost:8889/sso/realms/nextra"
         "/protocol/openid-connect/auth"
         "?client_id=nextra-app&response_type=code"
         "&scope=openid+profile+email"

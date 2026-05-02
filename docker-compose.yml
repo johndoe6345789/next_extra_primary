@@ -66,8 +66,8 @@ services:
       KC_DB_PASSWORD: keycloak_dev
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_HOSTNAME_URL: http://localhost:8889/auth
-      KC_HTTP_RELATIVE_PATH: /auth
+      KC_HOSTNAME_URL: http://localhost:8889/sso
+      KC_HTTP_RELATIVE_PATH: /sso
       KC_PROXY_HEADERS: xforwarded
       KC_HOSTNAME_STRICT: "false"
       KC_GITHUB_CLIENT_ID: ${KC_GITHUB_CLIENT_ID:-}
