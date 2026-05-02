@@ -31,7 +31,7 @@ export interface ProductReviewsProps {
 export const ProductReviews: React.FC<
   ProductReviewsProps
 > = ({ slug }) => {
-  const t = useTranslations('shop.reviews');
+  const t = useTranslations('shop');
   const { data, isLoading } =
     useGetProductReviewsQuery(slug);
   const { user, isAuthenticated } = useAuth();
@@ -51,12 +51,12 @@ export const ProductReviews: React.FC<
       sx={{ mt: 4 }}>
       <Typography variant="h6"
         sx={{ marginBottom: '16px' }}>
-        {t('title')} ({reviews.length})
+        {t('reviews.title')} ({reviews.length})
       </Typography>
       {reviews.length === 0 && (
         <Typography color="text.secondary"
           variant="body2">
-          {t('title')}
+          {t('reviews.title')}
         </Typography>
       )}
       {reviews.map((r) => (

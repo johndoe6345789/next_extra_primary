@@ -26,7 +26,7 @@ export interface WriteReviewFormProps {
 export const WriteReviewForm: React.FC<
   WriteReviewFormProps
 > = ({ productKey, ownReview }) => {
-  const t = useTranslations('shop.reviews');
+  const t = useTranslations('shop');
   const {
     rating, setRating, body, setBody,
     isLoading, successMsg, errorMsg,
@@ -36,41 +36,45 @@ export const WriteReviewForm: React.FC<
   return (
     <Box data-testid="write-review-form"
       sx={{ mt: 3, mb: 1 }}
-      aria-label={t('writeYours')}>
+      aria-label={t('reviews.writeYours')}>
       <Typography variant="subtitle1"
         fontWeight={600} sx={{ mb: 1 }}>
-        {isEditing ? t('edit') : t('writeYours')}
+        {isEditing
+          ? t('reviews.edit')
+          : t('reviews.writeYours')}
       </Typography>
       <Box sx={{ mb: 1.5 }}>
         <Typography variant="caption"
           color="text.secondary">
-          {t('rating')}
+          {t('reviews.rating')}
         </Typography>
         <Rating value={rating}
           onChange={(_, v) => setRating(v)}
           max={5} size="large" name="review-rating"
           testId="review-rating"
-          aria-label={t('rating')} />
+          aria-label={t('reviews.rating')} />
       </Box>
-      <TextField label={t('body')} value={body}
+      <TextField label={t('reviews.body')}
+        value={body}
         onChange={(
           e: React.ChangeEvent<HTMLInputElement>,
         ) => setBody(e.target.value)}
         fullWidth multiline rows={3} size="small"
         sx={{ mb: 1.5 }} data-testid="review-body"
-        aria-label={t('body')} />
+        aria-label={t('reviews.body')} />
       {successMsg && (
         <Typography variant="body2"
           color="success.main" sx={{ mb: 1 }}
           data-testid="review-success">
-          {t(successMsg as 'saved' | 'deleted')}
+          {t(`reviews.${successMsg}` as
+            'reviews.saved' | 'reviews.deleted')}
         </Typography>
       )}
       {errorMsg && (
         <Typography variant="body2"
           color="error.main" sx={{ mb: 1 }}
           data-testid="review-error">
-          {t('errorBody')}
+          {t('reviews.errorBody')}
         </Typography>
       )}
       <Box sx={{ display: 'inline-flex',
@@ -78,18 +82,18 @@ export const WriteReviewForm: React.FC<
         <Button variant="filled"
           disabled={isLoading || rating < 1}
           onClick={handleSubmit}
-          aria-label={t('submit')}
+          aria-label={t('reviews.submit')}
           data-testid="review-submit"
           sx={{ px: 3 }}>
-          {t('submit')}
+          {t('reviews.submit')}
         </Button>
         {isEditing && (
           <Button variant="outlined"
             disabled={isLoading}
             onClick={handleDelete}
-            aria-label={t('delete')}
+            aria-label={t('reviews.delete')}
             data-testid="review-delete">
-            {t('delete')}
+            {t('reviews.delete')}
           </Button>
         )}
       </Box>
