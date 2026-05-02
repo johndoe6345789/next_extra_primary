@@ -1,60 +1,35 @@
 /**
  * @file AuthController.cpp
- * @brief User registration endpoint.
+ * @brief DEPRECATED registerUser: Keycloak migration phase 3.
  *
- * Login is in AuthLogin.cpp.
+ * The legacy registration endpoint now 302-redirects to
+ * Keycloak's hosted registration page. Login remains in
+ * AuthLogin.cpp (legacy token flow still supported during
+ * the soak window). File retained per template-repo policy.
  */
 
 #include "AuthController.h"
-#include "auth/backend/AuthService.h"
-#include "drogon-host/backend/utils/JsonResponse.h"
 
-#include <nlohmann/json.hpp>
+#include <drogon/HttpResponse.h>
 #include <string>
-
-using json = nlohmann::json;
-using Cb = std::function<void(
-    const drogon::HttpResponsePtr&)>;
 
 namespace controllers
 {
 
 void AuthController::registerUser(
-    const drogon::HttpRequestPtr& req, Cb&& cb)
+    const drogon::HttpRequestPtr&,
+    std::function<void(
+        const drogon::HttpResponsePtr&)>&& cb)
 {
-    auto body = json::parse(
-        req->bodyData(),
-        req->bodyData() + req->bodyLength(),
-        nullptr, false);
-    if (body.is_discarded() ||
-        !body.contains("email") ||
-        !body.contains("username") ||
-        !body.contains("password")) {
-        cb(::utils::jsonError(
-            drogon::k400BadRequest,
-            "Missing required fields", "VAL_004"));
-        return;
-    }
-
-    auto email =
-        body["email"].get<std::string>();
-    auto username =
-        body["username"].get<std::string>();
-    auto password =
-        body["password"].get<std::string>();
-    auto displayName =
-        body.value("display_name", username);
-
-    services::AuthService auth;
-    auth.registerUser(
-        email, username, password, displayName,
-        [cb](const services::json& payload) {
-            cb(::utils::jsonCreated(payload));
-        },
-        [cb](drogon::HttpStatusCode code,
-             const std::string& msg) {
-            cb(::utils::jsonError(code, msg));
-        });
+    static constexpr const char* kKcRegister =
+        "http://localhost:8889/auth/realms/nextra"
+        "/protocol/openid-connect/registrations"
+        "?client_id=nextra-app&response_type=code"
+        "&scope=openid+profile+email"
+        "&redirect_uri=http%3A%2F%2Flocalhost%3A8889"
+        "%2Fapp%2Fen%2Fauth%2Fcallback";
+    cb(drogon::HttpResponse::newRedirectionResponse(
+        kKcRegister, drogon::k302Found));
 }
 
 } // namespace controllers

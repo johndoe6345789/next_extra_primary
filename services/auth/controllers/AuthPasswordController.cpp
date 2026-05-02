@@ -1,83 +1,67 @@
 /**
  * @file AuthPasswordController.cpp
- * @brief Password recovery and email confirmation.
+ * @brief DEPRECATED: Keycloak migration phase 3.
+ *
+ * Password recovery and email confirmation endpoints are
+ * now owned by Keycloak. The function bodies below have
+ * been replaced with 302 redirects so existing clients and
+ * tests continue to receive a 3xx. The files are retained
+ * per template-repo policy (every character is a feature).
  */
 
 #include "AuthPasswordController.h"
-#include "auth/backend/AuthService.h"
-#include "drogon-host/backend/utils/JsonResponse.h"
-#include "drogon-host/backend/utils/Validators.h"
-#include "auth_password_helpers.h"
 
-#include <nlohmann/json.hpp>
+#include <drogon/HttpResponse.h>
 #include <string>
-
-using json = nlohmann::json;
 
 namespace controllers
 {
 
-void AuthPasswordController::forgotPassword(
-    const drogon::HttpRequestPtr& req, Cb&& cb)
+namespace
 {
-    auto body = json::parse(
-        req->bodyData(),
-        req->bodyData() + req->bodyLength(),
-        nullptr, false);
-    if (body.is_discarded()
-        || !body.contains("email")) {
-        cb(::utils::jsonError(
-            drogon::k400BadRequest,
-            "Email required"));
-        return;
-    }
-    services::AuthService auth;
-    auth.requestPasswordReset(
-        body["email"].get<std::string>(),
-        okCb(cb), errCb(cb));
+constexpr const char* kKcUpdatePassword =
+    "http://localhost:8889/auth/realms/nextra"
+    "/protocol/openid-connect/auth"
+    "?client_id=nextra-app&response_type=code"
+    "&scope=openid"
+    "&redirect_uri=http%3A%2F%2Flocalhost%3A8889"
+    "%2Fapp%2Fen%2Fauth%2Fcallback"
+    "&kc_action=UPDATE_PASSWORD";
+
+constexpr const char* kKcAccount =
+    "http://localhost:8889/auth/realms/nextra/account/";
+
+drogon::HttpResponsePtr redirect(const char* url)
+{
+    return drogon::HttpResponse::newRedirectionResponse(
+        url, drogon::k302Found);
+}
+} // namespace
+
+void AuthPasswordController::forgotPassword(
+    const drogon::HttpRequestPtr&,
+    std::function<void(
+        const drogon::HttpResponsePtr&)>&& cb)
+{
+    cb(redirect(kKcUpdatePassword));
 }
 
 void AuthPasswordController::resetPassword(
-    const drogon::HttpRequestPtr& req, Cb&& cb,
-    const std::string& token)
+    const drogon::HttpRequestPtr&,
+    std::function<void(
+        const drogon::HttpResponsePtr&)>&& cb,
+    const std::string& /*token*/)
 {
-    auto body = json::parse(
-        req->bodyData(),
-        req->bodyData() + req->bodyLength(),
-        nullptr, false);
-    if (body.is_discarded()
-        || !body.contains("password")) {
-        cb(::utils::jsonError(
-            drogon::k400BadRequest,
-            "New password required"));
-        return;
-    }
-    auto pw = body["password"].get<std::string>();
-    if (!::utils::isValidPassword(pw)) {
-        cb(::utils::jsonError(
-            drogon::k400BadRequest,
-            "Password too weak"));
-        return;
-    }
-    services::AuthService auth;
-    auth.resetPassword(
-        token, pw, okCb(cb), errCb(cb));
+    cb(redirect(kKcUpdatePassword));
 }
 
 void AuthPasswordController::confirmEmail(
-    const drogon::HttpRequestPtr& /*req*/,
-    Cb&& cb,
-    const std::string& token)
+    const drogon::HttpRequestPtr&,
+    std::function<void(
+        const drogon::HttpResponsePtr&)>&& cb,
+    const std::string& /*token*/)
 {
-    if (token.empty()) {
-        cb(::utils::jsonError(
-            drogon::k400BadRequest,
-            "Confirmation token required"));
-        return;
-    }
-    services::AuthService auth;
-    auth.confirmEmail(
-        token, okCb(cb), errCb(cb));
+    cb(redirect(kKcAccount));
 }
 
 } // namespace controllers

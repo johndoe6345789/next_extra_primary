@@ -11,6 +11,90 @@
   "attributes": {
     "frontendUrl": "http://localhost:8889/auth"
   },
+  "verifyEmail": false,
+  "webAuthnPolicyRpEntityName": "Nextra",
+  "webAuthnPolicyRpId": "localhost",
+  "webAuthnPolicySignatureAlgorithms": ["ES256", "RS256"],
+  "webAuthnPolicyPasswordlessRpEntityName": "Nextra",
+  "webAuthnPolicyPasswordlessRpId": "localhost",
+  "webAuthnPolicyPasswordlessSignatureAlgorithms": ["ES256", "RS256"],
+  "otpPolicyType": "totp",
+  "otpPolicyAlgorithm": "HmacSHA1",
+  "otpPolicyDigits": 6,
+  "otpPolicyPeriod": 30,
+  "otpPolicyInitialCounter": 0,
+  "otpPolicyLookAheadWindow": 1,
+  "requiredActions": [
+    { "alias": "CONFIGURE_TOTP", "name": "Configure OTP",
+      "providerId": "CONFIGURE_TOTP", "enabled": true,
+      "defaultAction": false, "priority": 10, "config": {} },
+    { "alias": "webauthn-register", "name": "Webauthn Register",
+      "providerId": "webauthn-register", "enabled": true,
+      "defaultAction": false, "priority": 70, "config": {} },
+    { "alias": "webauthn-register-passwordless",
+      "name": "Webauthn Register Passwordless",
+      "providerId": "webauthn-register-passwordless",
+      "enabled": true, "defaultAction": false,
+      "priority": 80, "config": {} }
+  ],
+  "smtpServer": {
+    "host": "mailserver",
+    "port": "587",
+    "from": "noreply@nextra.local",
+    "fromDisplayName": "Nextra",
+    "replyTo": "noreply@nextra.local",
+    "ssl": "false",
+    "starttls": "false",
+    "auth": "false",
+    "user": "",
+    "password": ""
+  },
+  "identityProviders": [
+    {
+      "alias": "github",
+      "providerId": "github",
+      "enabled": false,
+      "trustEmail": false,
+      "storeToken": false,
+      "addReadTokenRoleOnCreate": false,
+      "firstBrokerLoginFlowAlias": "first broker login",
+      "config": {
+        "clientId": "${env.KC_GITHUB_CLIENT_ID:}",
+        "clientSecret": "${env.KC_GITHUB_CLIENT_SECRET:}",
+        "syncMode": "IMPORT"
+      }
+    },
+    {
+      "alias": "google",
+      "providerId": "google",
+      "enabled": false,
+      "trustEmail": false,
+      "storeToken": false,
+      "addReadTokenRoleOnCreate": false,
+      "firstBrokerLoginFlowAlias": "first broker login",
+      "config": {
+        "clientId": "${env.KC_GOOGLE_CLIENT_ID:}",
+        "clientSecret": "${env.KC_GOOGLE_CLIENT_SECRET:}",
+        "defaultScope": "openid email profile",
+        "syncMode": "IMPORT"
+      }
+    },
+    {
+      "alias": "microsoft",
+      "providerId": "microsoft",
+      "enabled": false,
+      "trustEmail": false,
+      "storeToken": false,
+      "addReadTokenRoleOnCreate": false,
+      "firstBrokerLoginFlowAlias": "first broker login",
+      "config": {
+        "clientId": "${env.KC_MICROSOFT_CLIENT_ID:}",
+        "clientSecret": "${env.KC_MICROSOFT_CLIENT_SECRET:}",
+        "defaultScope": "openid email profile",
+        "syncMode": "IMPORT"
+      }
+    }
+  ],
   "roles": {
     "realm": [
       { "name": "admin",     "description": "Administrator role" },

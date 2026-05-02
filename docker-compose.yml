@@ -70,6 +70,12 @@ services:
       KC_HTTP_RELATIVE_PATH: /auth
       KC_PROXY_HEADERS: xforwarded
       KC_HOSTNAME_STRICT: "false"
+      KC_GITHUB_CLIENT_ID: ${KC_GITHUB_CLIENT_ID:-}
+      KC_GITHUB_CLIENT_SECRET: ${KC_GITHUB_CLIENT_SECRET:-}
+      KC_GOOGLE_CLIENT_ID: ${KC_GOOGLE_CLIENT_ID:-}
+      KC_GOOGLE_CLIENT_SECRET: ${KC_GOOGLE_CLIENT_SECRET:-}
+      KC_MICROSOFT_CLIENT_ID: ${KC_MICROSOFT_CLIENT_ID:-}
+      KC_MICROSOFT_CLIENT_SECRET: ${KC_MICROSOFT_CLIENT_SECRET:-}
     restart: unless-stopped
 
   # ---- Elasticsearch -----------------------------------------
@@ -771,6 +777,10 @@ services:
       DB_NAME: nextra_db
       DB_USER: nextra
       DB_PASSWORD: nextra_dev
+      # Legacy in-house JWT secret. Required during the
+      # Keycloak migration soak — Keycloak verifier is
+      # the primary path, this remains as fallback.
+      JWT_SECRET: ${JWT_SECRET:-nextra_dev_jwt_secret_change_me}
       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
       STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
     restart: unless-stopped
