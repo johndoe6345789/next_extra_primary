@@ -383,7 +383,20 @@
     "total": "Gesamt",
     "cart": "Warenkorb",
     "cartEmpty": "Ihr Warenkorb ist leer.",
-    "removeItem": "Entfernen"
+    "removeItem": "Entfernen",
+    "reviews": {
+      "title": "Bewertungen",
+      "writeYours": "Bewertung schreiben",
+      "rating": "Bewertung",
+      "body": "Ihre Bewertung",
+      "submit": "Bewertung senden",
+      "edit": "Bearbeiten",
+      "delete": "Löschen",
+      "saved": "Bewertung gespeichert.",
+      "deleted": "Bewertung gelöscht.",
+      "errorRating": "Bewertung muss zwischen 1 und 5 liegen.",
+      "errorBody": "Text muss 1 bis 5000 Zeichen lang sein."
+    }
   },
   "gallery": {
     "title": "Galerie",

@@ -434,7 +434,20 @@
     "total": "Total",
     "cart": "Panier",
     "cartEmpty": "Votre panier est vide.",
-    "removeItem": "Supprimer"
+    "removeItem": "Supprimer",
+    "reviews": {
+      "title": "Avis",
+      "writeYours": "Rédiger un avis",
+      "rating": "Note",
+      "body": "Votre avis",
+      "submit": "Envoyer l'avis",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "saved": "Avis enregistré.",
+      "deleted": "Avis supprimé.",
+      "errorRating": "La note doit être entre 1 et 5.",
+      "errorBody": "L'avis doit faire 1 à 5000 caractères."
+    }
   },
   "search": {
     "pageTitle": "Rechercher",

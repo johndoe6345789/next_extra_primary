@@ -457,7 +457,20 @@
     "total": "Totaal",
     "cart": "Winkelwagen",
     "cartEmpty": "Uw winkelwagen is leeg.",
-    "removeItem": "Verwijderen"
+    "removeItem": "Verwijderen",
+    "reviews": {
+      "title": "Beoordelingen",
+      "writeYours": "Schrijf een beoordeling",
+      "rating": "Beoordeling",
+      "body": "Uw beoordeling",
+      "submit": "Beoordeling versturen",
+      "edit": "Bewerken",
+      "delete": "Verwijderen",
+      "saved": "Beoordeling opgeslagen.",
+      "deleted": "Beoordeling verwijderd.",
+      "errorRating": "Beoordeling moet tussen 1 en 5 zijn.",
+      "errorBody": "Tekst moet 1 tot 5000 tekens zijn."
+    }
   },
   "search": {
     "pageTitle": "Zoeken",

@@ -434,7 +434,20 @@
     "total": "Cyfanswm",
     "cart": "Trol",
     "cartEmpty": "Mae eich trol yn wag.",
-    "removeItem": "Tynnu"
+    "removeItem": "Tynnu",
+    "reviews": {
+      "title": "Adolygiadau",
+      "writeYours": "Ysgrifennu adolygiad",
+      "rating": "Sgôr",
+      "body": "Eich adolygiad",
+      "submit": "Cyflwyno adolygiad",
+      "edit": "Golygu",
+      "delete": "Dileu",
+      "saved": "Adolygiad wedi'i gadw.",
+      "deleted": "Adolygiad wedi'i ddileu.",
+      "errorRating": "Rhaid i'r sgôr fod rhwng 1 a 5.",
+      "errorBody": "Rhaid bod yn 1 i 5000 nod."
+    }
   },
   "search": {
     "pageTitle": "Chwilio",

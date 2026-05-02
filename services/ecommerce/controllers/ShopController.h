@@ -48,6 +48,15 @@ class ShopController
         "filters::JwtAuthFilter");
     ADD_METHOD_TO(ShopController::stripeWebhook,
         "/api/stripe/webhook", drogon::Post);
+    ADD_METHOD_TO(ShopController::createReview,
+        "/api/shop/products/{id}/reviews", drogon::Post,
+        "filters::JwtAuthFilter");
+    ADD_METHOD_TO(ShopController::updateReview,
+        "/api/shop/reviews/{rid}", drogon::Patch,
+        "filters::JwtAuthFilter");
+    ADD_METHOD_TO(ShopController::deleteReview,
+        "/api/shop/reviews/{rid}", drogon::Delete,
+        "filters::JwtAuthFilter");
     METHOD_LIST_END
 
     using Cb = std::function<void(
@@ -69,6 +78,12 @@ class ShopController
     void listOrders(const Req& req, Cb&& cb);
     void adminListOrders(const Req& req, Cb&& cb);
     void stripeWebhook(const Req& req, Cb&& cb);
+    void createReview(const Req& req, Cb&& cb,
+                      const std::string& id);
+    void updateReview(const Req& req, Cb&& cb,
+                      const std::string& rid);
+    void deleteReview(const Req& req, Cb&& cb,
+                      const std::string& rid);
 };
 
 }  // namespace controllers

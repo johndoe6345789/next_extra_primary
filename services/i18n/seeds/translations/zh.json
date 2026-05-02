@@ -457,7 +457,20 @@
     "total": "总计",
     "cart": "购物车",
     "cartEmpty": "购物车为空。",
-    "removeItem": "移除"
+    "removeItem": "移除",
+    "reviews": {
+      "title": "评价",
+      "writeYours": "撰写评价",
+      "rating": "评分",
+      "body": "您的评价",
+      "submit": "提交评价",
+      "edit": "编辑",
+      "delete": "删除",
+      "saved": "评价已保存。",
+      "deleted": "评价已删除。",
+      "errorRating": "评分必须在 1 到 5 之间。",
+      "errorBody": "评价必须为 1 到 5000 个字符。"
+    }
   },
   "search": {
     "pageTitle": "搜索",

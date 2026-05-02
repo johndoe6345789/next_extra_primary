@@ -457,7 +457,20 @@
     "total": "合計",
     "cart": "カート",
     "cartEmpty": "カートは空です。",
-    "removeItem": "削除"
+    "removeItem": "削除",
+    "reviews": {
+      "title": "レビュー",
+      "writeYours": "レビューを書く",
+      "rating": "評価",
+      "body": "あなたのレビュー",
+      "submit": "レビューを送信",
+      "edit": "編集",
+      "delete": "削除",
+      "saved": "レビューを保存しました。",
+      "deleted": "レビューを削除しました。",
+      "errorRating": "評価は1〜5で入力してください。",
+      "errorBody": "本文は1〜5000文字で入力してください。"
+    }
   },
   "search": {
     "pageTitle": "検索",

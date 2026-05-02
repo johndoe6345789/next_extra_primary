@@ -434,7 +434,20 @@
     "total": "Total",
     "cart": "Carrito",
     "cartEmpty": "Tu carrito está vacío.",
-    "removeItem": "Eliminar"
+    "removeItem": "Eliminar",
+    "reviews": {
+      "title": "Reseñas",
+      "writeYours": "Escribir una reseña",
+      "rating": "Valoración",
+      "body": "Tu reseña",
+      "submit": "Enviar reseña",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "saved": "Reseña guardada.",
+      "deleted": "Reseña eliminada.",
+      "errorRating": "La valoración debe ser de 1 a 5.",
+      "errorBody": "Debe tener entre 1 y 5000 caracteres."
+    }
   },
   "search": {
     "pageTitle": "Buscar",

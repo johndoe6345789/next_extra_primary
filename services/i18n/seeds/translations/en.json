@@ -434,7 +434,20 @@
     "total": "Total",
     "cart": "Cart",
     "cartEmpty": "Your cart is empty.",
-    "removeItem": "Remove"
+    "removeItem": "Remove",
+    "reviews": {
+      "title": "Reviews",
+      "writeYours": "Write a review",
+      "rating": "Rating",
+      "body": "Your review",
+      "submit": "Submit review",
+      "edit": "Edit",
+      "delete": "Delete",
+      "saved": "Review saved.",
+      "deleted": "Review deleted.",
+      "errorRating": "Rating must be 1 to 5.",
+      "errorBody": "Review must be 1 to 5000 characters."
+    }
   },
   "search": {
     "pageTitle": "Search",
