@@ -39,15 +39,25 @@ void MentionsController::list(
     const int offset = (page - 1) * limit;
 
     auto db = drogon::app().getDbClient();
+    // Schema: mentions(id, source_type, source_id,
+    // mentioned_user_id, created_at). No read_at column —
+    // mentions are an ephemeral stream surfaced via the
+    // notifications service for unread tracking.
+    //
+    // limit/offset are string-interpolated (trusted ints)
+    // because Drogon's PgBatchConnection has a bug with
+    // multi-int params that surfaces here as
+    // "insufficient data left in message".
     const std::string sql =
         "SELECT id, source_type, source_id, "
-        "  mentioned_user_id, created_at, read_at "
+        "  mentioned_user_id, created_at "
         "FROM mentions "
-        "WHERE user_id = $1 "
+        "WHERE mentioned_user_id = $1 "
         "ORDER BY created_at DESC "
-        "LIMIT $2 OFFSET $3";
+        "LIMIT " + std::to_string(limit)
+        + " OFFSET " + std::to_string(offset);
 
-    *db << sql << userId << limit << offset
+    *db << sql << userId
         >> [cb](const Result& r) {
             nlohmann::json arr =
                 nlohmann::json::array();
@@ -67,12 +77,6 @@ void MentionsController::list(
                 m["createdAt"] =
                     row["created_at"]
                         .as<std::string>();
-                m["readAt"] =
-                    row["read_at"].isNull()
-                        ? nlohmann::json(nullptr)
-                        : nlohmann::json(
-                            row["read_at"]
-                                .as<std::string>());
                 arr.push_back(m);
             }
             cb(::utils::jsonOk(

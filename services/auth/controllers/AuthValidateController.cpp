@@ -1,21 +1,24 @@
 /**
  * @file AuthValidateController.cpp
- * @brief SSO token-validation endpoint for nginx auth_request.
+ * @brief SSO token-validation endpoint for nginx
+ *        auth_request.
  *
- * Reads the `nextra_sso` cookie. The cookie value may be either
- * a Keycloak RS256 access token (new path) or the in-house
- * HS256 token (legacy path). Both are accepted during the
- * Keycloak migration.
+ * Reads the `nextra_sso` cookie which carries a
+ * Keycloak-issued RS256 access token. Returns 200 with
+ * X-User-Id / X-User-Email / X-User-Roles headers on
+ * success, 401 otherwise.
+ *
+ * The legacy in-house HS256 fallback was removed in
+ * Phase 4 of the Keycloak migration.
  */
 
 #include "AuthValidateController.h"
-#include "auth/backend/AuthService.h"
 #include "auth/backend/keycloak/KeycloakVerifier.h"
-#include "drogon-host/backend/utils/JwtUtil.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
 
 #include <drogon/HttpResponse.h>
 #include <string>
+#include <vector>
 
 using Cb = std::function<void(
     const drogon::HttpResponsePtr&)>;
@@ -60,40 +63,18 @@ void AuthValidateController::validate(
         return;
     }
 
-    // 1. Try Keycloak RS256 path.
     auto kc = services::auth::keycloak::defaultVerifier()
                   .verify(token);
-    if (kc) {
-        cb(buildOk(kc->sub, kc->email,
-                   joinRoles(kc->roles)));
-        return;
-    }
-
-    // 2. Fallback: legacy in-house HS256 token.
-    utils::JwtClaims claims;
-    try {
-        claims = ::utils::verifyToken(token);
-    } catch (...) {
+    if (!kc) {
         cb(::utils::jsonError(
             drogon::k401Unauthorized,
-            "Invalid SSO token", "AUTH_005"));
+            "Invalid or expired SSO token",
+            "AUTH_005"));
         return;
     }
 
-    services::AuthService auth;
-    auto userId = claims.userId;
-    auto role = claims.role;
-    auth.isTokenBlocked(
-        token,
-        [cb, userId, role](bool blocked) mutable {
-            if (blocked) {
-                cb(::utils::jsonError(
-                    drogon::k401Unauthorized,
-                    "Token revoked", "AUTH_004"));
-                return;
-            }
-            cb(buildOk(userId, "", role));
-        });
+    cb(buildOk(kc->sub, kc->email,
+               joinRoles(kc->roles)));
 }
 
-} // namespace controllers
+}  // namespace controllers
