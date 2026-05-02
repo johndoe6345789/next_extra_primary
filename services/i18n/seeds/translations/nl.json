@@ -102,7 +102,8 @@
     "chooseAvatar": "Kies avatar",
     "removeAvatar": "Avatar verwijderen",
     "guest": "Gast",
-    "messages": "Berichten"
+    "messages": "Berichten",
+    "features": "Functies"
   },
   "hero": {
     "title": "Breng je leertraject naar een hoger niveau",
@@ -172,7 +173,8 @@
     "secureAuth": {
       "title": "Veilige verificatie",
       "desc": "JWT met vernieuwingstokens."
-    }
+    },
+    "pageTitle": "Functies"
   },
   "dashboard": {
     "title": "Dashboard",

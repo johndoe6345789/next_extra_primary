@@ -13,6 +13,7 @@
     "href": "/notifications"
   },
   { "labelKey": "profile", "href": "/profile" },
+  { "labelKey": "features", "href": "/features" },
   { "labelKey": "about", "href": "/about" },
   { "labelKey": "contact", "href": "/contact" }
 ]

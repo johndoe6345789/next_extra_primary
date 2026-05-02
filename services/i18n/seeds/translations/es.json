@@ -84,7 +84,8 @@
     "role": "{role}",
     "chooseAvatar": "Elegir avatar",
     "removeAvatar": "Quitar avatar",
-    "guest": "Invitado"
+    "guest": "Invitado",
+    "features": "Características"
   },
   "hero": {
     "title": "Sube de nivel en tu camino de aprendizaje",
@@ -149,7 +150,8 @@
     "secureAuth": {
       "title": "Autenticación segura",
       "desc": "JWT con tokens de refresco."
-    }
+    },
+    "pageTitle": "Características"
   },
   "dashboard": {
     "title": "Panel",

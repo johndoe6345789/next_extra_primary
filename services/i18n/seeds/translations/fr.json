@@ -84,7 +84,8 @@
     "chooseAvatar": "Choisir un avatar",
     "removeAvatar": "Supprimer l'avatar",
     "guest": "Invité",
-    "messages": "Messages"
+    "messages": "Messages",
+    "features": "Fonctionnalités"
   },
   "hero": {
     "title": "Passez au niveau supérieur",
@@ -149,7 +150,8 @@
     "secureAuth": {
       "title": "Authentification sécurisée",
       "desc": "JWT avec jetons de rafraîchissement."
-    }
+    },
+    "pageTitle": "Fonctionnalités"
   },
   "dashboard": {
     "title": "Tableau de bord",

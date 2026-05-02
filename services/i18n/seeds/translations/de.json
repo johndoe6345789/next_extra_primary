@@ -84,7 +84,8 @@
     "chooseAvatar": "Avatar wählen",
     "removeAvatar": "Avatar entfernen",
     "guest": "Gast",
-    "messages": "Nachrichten"
+    "messages": "Nachrichten",
+    "features": "Funktionen"
   },
   "hero": {
     "title": "Bringe dein Lernen auf das nächste Level",
@@ -149,7 +150,8 @@
     "secureAuth": {
       "title": "Sichere Authentifizierung",
       "desc": "JWT mit Aktualisierungstoken."
-    }
+    },
+    "pageTitle": "Funktionen"
   },
   "dashboard": {
     "title": "Übersicht",

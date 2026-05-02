@@ -102,7 +102,8 @@
     "chooseAvatar": "アバターを選ぶ",
     "removeAvatar": "アバターを削除",
     "guest": "ゲスト",
-    "messages": "メッセージ"
+    "messages": "メッセージ",
+    "features": "機能"
   },
   "hero": {
     "title": "学びをレベルアップしよう",
@@ -172,7 +173,8 @@
     "secureAuth": {
       "title": "セキュア認証",
       "desc": "JWTリフレッシュトークン。"
-    }
+    },
+    "pageTitle": "機能"
   },
   "dashboard": {
     "title": "ダッシュボード",

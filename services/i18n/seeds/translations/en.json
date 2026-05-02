@@ -84,7 +84,8 @@
     "role": "{role}",
     "chooseAvatar": "Choose avatar",
     "removeAvatar": "Remove avatar",
-    "guest": "Guest"
+    "guest": "Guest",
+    "features": "Features"
   },
   "hero": {
     "title": "Level up your learning journey",
@@ -149,7 +150,8 @@
     "secureAuth": {
       "title": "Secure Auth",
       "desc": "JWT with refresh tokens."
-    }
+    },
+    "pageTitle": "Features"
   },
   "dashboard": {
     "title": "Dashboard",

@@ -84,7 +84,8 @@
     "chooseAvatar": "Dewis afatar",
     "removeAvatar": "Tynnu afatar",
     "guest": "Gwestai",
-    "messages": "Negeseuon"
+    "messages": "Negeseuon",
+    "features": "Nodweddion"
   },
   "hero": {
     "title": "Codwch lefel eich taith ddysgu",
@@ -149,7 +150,8 @@
     "secureAuth": {
       "title": "Dilysu Diogel",
       "desc": "JWT gyda thocynnau adnewyddu."
-    }
+    },
+    "pageTitle": "Nodweddion"
   },
   "dashboard": {
     "title": "Dangosfwrdd",

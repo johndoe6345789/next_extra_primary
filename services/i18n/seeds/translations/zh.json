@@ -102,7 +102,8 @@
     "chooseAvatar": "选择头像",
     "removeAvatar": "移除头像",
     "guest": "访客",
-    "messages": "消息"
+    "messages": "消息",
+    "features": "功能"
   },
   "hero": {
     "title": "提升你的学习之旅",
@@ -172,7 +173,8 @@
     "secureAuth": {
       "title": "安全认证",
       "desc": "JWT刷新令牌。"
-    }
+    },
+    "pageTitle": "功能"
   },
   "dashboard": {
     "title": "仪表盘",
