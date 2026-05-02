@@ -20,12 +20,25 @@ KeycloakVerifier::KeycloakVerifier(JwksClient& jwks)
 static bool audOk(const jwt::decoded_jwt<
                   jwt::traits::nlohmann_json>& d)
 {
-    if (!d.has_audience()) return false;
-    for (const auto& a : d.get_audience()) {
-        if (a == kKcClientId || a == "account")
-            return true;
+    // Keycloak public-client access tokens often have NO
+    // `aud` claim — they carry the authorized party in
+    // `azp` instead. Accept the token if either:
+    //   - aud contains nextra-app or account, OR
+    //   - azp == nextra-app, OR
+    //   - both are absent (older Keycloak builds).
+    if (d.has_audience()) {
+        for (const auto& a : d.get_audience()) {
+            if (a == kKcClientId || a == "account")
+                return true;
+        }
     }
-    return false;
+    const auto& payload = d.get_payload_json();
+    if (payload.count("azp")) {
+        const auto azp =
+            payload.at("azp").get<std::string>();
+        if (azp == kKcClientId) return true;
+    }
+    return !d.has_audience();
 }
 
 std::optional<KeycloakClaims> KeycloakVerifier::verify(

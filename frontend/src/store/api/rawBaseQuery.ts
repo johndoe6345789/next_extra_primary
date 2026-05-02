@@ -36,9 +36,14 @@ export const rawBaseQuery = fetchBaseQuery({
     process.env.NEXT_PUBLIC_API_URL ?? API_BASE,
   timeout: REQUEST_TIMEOUT_MS,
   prepareHeaders: (headers, { getState }) => {
+    // Keycloak access token (nextra_sso cookie) is the
+    // primary auth source. Fall back to the legacy Redux
+    // access token only when the Keycloak cookie is
+    // absent — the in-house auth path remains a viable
+    // fallback per template policy.
     const token =
-      (getState() as RootState).auth.accessToken
-      ?? readCookie(COOKIE.access);
+      readCookie(COOKIE.access)
+      ?? (getState() as RootState).auth.accessToken;
     if (token) {
       headers.set(
         'Authorization', `Bearer ${token}`,

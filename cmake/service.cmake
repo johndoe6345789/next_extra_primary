@@ -17,6 +17,7 @@
 set(NEXTRA_SERVICE_SHARED_DIRS
     drogon-host/backend/utils
     http-filters/backend
+    auth/backend/keycloak
     infra/backend
     orm-models/backend
     rate-limit/backend

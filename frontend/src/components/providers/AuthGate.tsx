@@ -6,6 +6,7 @@ import {
   Box, CircularProgress,
 } from '@shared/m3';
 import type { RootState } from '@/store/store';
+import { useKeycloak } from '@/hooks/useKeycloak';
 
 /** Props for the authentication gate. */
 interface AuthGateProps {
@@ -28,8 +29,14 @@ interface AuthGateProps {
 export function AuthGate(
   { children }: AuthGateProps,
 ): ReactElement {
-  const { isInitializing } =
+  const { isInitializing, isAuthenticated: legacyAuthed } =
     useSelector((s: RootState) => s.auth);
+  const { isAuthenticated: kcAuthed } = useKeycloak();
+
+  // Either auth source counts as authenticated. Phase 2
+  // treats Keycloak as primary; the legacy slice path is
+  // preserved as a fallback per template policy.
+  const isAuthenticated = kcAuthed || legacyAuthed;
 
   // Don't block rendering on init — components that need
   // auth read isAuthenticated themselves. Showing a global
@@ -37,5 +44,8 @@ export function AuthGate(
   // appearing on first paint, which compounds with slow
   // client hydration to feel like the app is broken.
   void isInitializing;
+  void isAuthenticated;
+  void Box;
+  void CircularProgress;
   return <>{children}</>;
 }

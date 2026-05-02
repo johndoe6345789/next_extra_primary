@@ -9,17 +9,9 @@ import type {
   TotpChallengeResponse,
 } from '../../types/auth';
 import { addAuthMatchers } from './authMatchers';
+import { buildInitialAuthState } from './authInitialState';
 
-const initialState: AuthState = {
-  user: null,
-  accessToken: null,
-  refreshToken: null,
-  isAuthenticated: false,
-  isLoading: false,
-  isInitializing: true,
-  requireTotp: false,
-  totpSessionToken: null,
-};
+const initialState: AuthState = buildInitialAuthState();
 
 /** Payload accepted by setCredentials. */
 interface CredentialsPayload {

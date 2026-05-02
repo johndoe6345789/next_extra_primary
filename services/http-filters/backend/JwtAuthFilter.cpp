@@ -1,7 +1,10 @@
-/** @brief JWT filter — self-contained, no auth/backend dep. */
+/** @brief JWT filter — supports both legacy in-house
+ *         HS256 tokens and Keycloak-issued RS256 access
+ *         tokens during the auth migration. */
 #include "JwtAuthFilter.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
 #include "drogon-host/backend/utils/JwtUtil.h"
+#include "auth/backend/keycloak/KeycloakVerifier.h"
 
 #include <drogon/drogon.h>
 #include <spdlog/spdlog.h>
@@ -60,6 +63,21 @@ void JwtAuthFilter::doFilter(
 
     const auto token =
         authHeader.substr(kBearerPrefix.size());
+
+    // Try Keycloak first; on success, skip blocklist
+    // (Keycloak revocation is via realm session ops).
+    if (auto kc =
+            services::auth::keycloak::defaultVerifier()
+                .verify(token)) {
+        req->attributes()->insert("user_id", kc->sub);
+        const std::string role =
+            kc->roles.empty() ? std::string{"user"}
+                              : kc->roles.front();
+        req->attributes()->insert("user_role", role);
+        ccb();
+        return;
+    }
+
     try {
         auto claims = ::utils::verifyToken(token);
         if (claims.isRefresh) {

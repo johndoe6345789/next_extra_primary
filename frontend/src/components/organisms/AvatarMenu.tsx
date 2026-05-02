@@ -21,6 +21,7 @@ import {
   menuStyle, linkStyle, menuLinks,
   resolveAvatar,
 } from './avatarMenuStyles';
+import { runLogout } from './avatarMenuLogout';
 import type { User } from '@/types/auth';
 
 /** Props for AvatarMenu. */
@@ -87,7 +88,7 @@ export const AvatarMenu: React.FC<
           </Link>
         ))}
         <MenuItem
-          onClick={() => { close(); onLogout(); }}
+          onClick={() => { close(); void runLogout(onLogout); }}
         >
           {tAuth('logout')}
         </MenuItem>
