@@ -14,6 +14,7 @@
 
 #include "AuthValidateController.h"
 #include "auth/backend/keycloak/KeycloakVerifier.h"
+#include "auth/backend/keycloak/UserProvision.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
 
 #include <drogon/HttpResponse.h>
@@ -73,6 +74,7 @@ void AuthValidateController::validate(
         return;
     }
 
+    services::auth::keycloak::ensureUserRow(*kc);
     cb(buildOk(kc->sub, kc->email,
                joinRoles(kc->roles)));
 }

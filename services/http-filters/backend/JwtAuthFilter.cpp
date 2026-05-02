@@ -12,6 +12,7 @@
 #include "JwtAuthFilter.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
 #include "auth/backend/keycloak/KeycloakVerifier.h"
+#include "auth/backend/keycloak/UserProvision.h"
 
 #include <drogon/drogon.h>
 #include <string>
@@ -68,6 +69,10 @@ void JwtAuthFilter::doFilter(
         kc->roles.empty() ? std::string{"user"}
                           : kc->roles.front();
     req->attributes()->insert("user_role", role);
+    // JIT-provision the in-house users row for new
+    // Keycloak identities (e.g. self-registered or
+    // federated). Idempotent + cached per process.
+    services::auth::keycloak::ensureUserRow(*kc);
     ccb();
 }
 
