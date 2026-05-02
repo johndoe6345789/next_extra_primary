@@ -11,15 +11,17 @@ export interface NextExtraLogoProps {
 }
 
 /**
- * NextExtra SVG wordmark with star accent.
- * Split "Next" + italic "Extra" with glow.
+ * NextExtra SVG wordmark — purple diamond mark + bold
+ * "Next" with italic "Extra" in lighter purple. Matches
+ * the Keycloak login theme's logo so the brand is
+ * consistent across the app and auth surfaces.
  *
  * @param props - Component props.
  */
 export const NextExtraLogo: React.FC<
   NextExtraLogoProps
 > = ({ height = 40, ariaLabel = 'NextExtra' }) => {
-  const w = height * 5.6;
+  const w = height * 5;
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -28,40 +30,56 @@ export const NextExtraLogo: React.FC<
       height={height}
       role="img"
       aria-label={ariaLabel}
-      fill="none"
     >
       <title>{ariaLabel}</title>
+      <defs>
+        <linearGradient
+          id="nx-d-grad" x1="0" y1="0" x2="1" y2="1"
+        >
+          <stop offset="0%" stopColor="#a78bfa" />
+          <stop offset="100%" stopColor="#7c3aed" />
+        </linearGradient>
+        <filter
+          id="nx-d-glow"
+          x="-30%" y="-30%" width="160%" height="160%"
+        >
+          <feGaussianBlur stdDeviation="3" result="b" />
+          <feMerge>
+            <feMergeNode in="b" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <g filter="url(#nx-d-glow)">
+        <polygon
+          points="28,8 44,28 28,48 12,28"
+          fill="url(#nx-d-grad)"
+        />
+        <polygon
+          points="28,16 38,28 28,40 18,28"
+          fill="#0c0a14"
+          opacity="0.4"
+        />
+      </g>
       <text
-        x="36"
-        y="41"
-        fontFamily="'Segoe UI', system-ui, sans-serif"
-        fontWeight="600"
-        fontSize="38"
-        letterSpacing="-0.5"
-        fill="#7C3AED"
+        x="60" y="36"
+        fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif"
+        fontSize="26" fontWeight="800"
+        fill="currentColor"
+        letterSpacing="-0.02em"
       >
         Next
       </text>
       <text
-        x="124"
-        y="41"
-        fontFamily="'Segoe UI', system-ui, sans-serif"
-        fontWeight="600"
+        x="135" y="36"
+        fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif"
+        fontSize="26" fontWeight="600"
         fontStyle="italic"
-        fontSize="38"
-        letterSpacing="-0.5"
-        fill="#7C3AED"
+        fill="#c4b5fd"
+        letterSpacing="-0.02em"
       >
         Extra
       </text>
-      <path
-        d="M16,6 C17.5,18 25,24 25,28
-           C25,32 17.5,38 16,50
-           C14.5,38 7,32 7,28
-           C7,24 14.5,18 16,6Z"
-        fill="#7C3AED"
-        opacity="0.75"
-      />
     </svg>
   );
 };

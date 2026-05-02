@@ -112,27 +112,43 @@ a:hover { color: var(--nx-primary-hover) !important; }
 
 /* Register / sign-up link below the form. Keycloak
    renders this as a sibling div with id #kc-registration
-   when registrationAllowed=true on the realm. */
+   when registrationAllowed=true on the realm. No
+   dividers — just space. */
 #kc-registration,
 #kc-registration-container,
 #kc-info-wrapper {
   background: transparent !important;
   margin-top: 20px;
-  padding-top: 18px;
-  border-top: 1px solid var(--nx-border);
+  padding-top: 0;
+  border: none !important;
   text-align: center;
   color: var(--nx-text-muted) !important;
   font-size: 0.95rem;
 }
 
-/* Some Keycloak themes wrap the registration block in
-   a card-pf-footer with its own background — null it. */
+/* Keycloak puts the registration block inside
+   .card-pf-footer / .login-pf-signup / #kc-info. All
+   of these can carry their own background, border,
+   or hr-style divider — neutralise everything. */
 .card-pf-footer,
 .login-pf-page .login-pf-signup,
-#kc-info {
+#kc-info,
+#kc-info hr,
+.card-pf-footer hr {
   background: transparent !important;
   border: none !important;
+  box-shadow: none !important;
   color: var(--nx-text-muted) !important;
+}
+
+/* Belt-and-braces: the parent stock theme renders
+   horizontal-rule dividers via ::before / ::after on
+   the form's footer. Strip them. */
+.card-pf-footer::before,
+.card-pf-footer::after,
+#kc-form-buttons::after {
+  display: none !important;
+  content: none !important;
 }
 
 #kc-registration a,
