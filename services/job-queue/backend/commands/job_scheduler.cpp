@@ -7,6 +7,7 @@
 
 #include "job-queue/backend/JobScheduler.h"
 #include "blog/backend/ScheduledPublisher.h"
+#include "job-queue/backend/RouteHealthHandler.h"
 
 #include <drogon/drogon.h>
 #include <nlohmann/json.hpp>
@@ -75,6 +76,9 @@ void cmdJobScheduler(const std::string& config)
     scheduler.registerHandler(
         "blog.publish_due",
         nextra::blog::ScheduledPublisher::makeHandler(db));
+    scheduler.registerHandler(
+        "routes.health_check",
+        nextra::health::RouteHealthHandler::makeHandler());
     scheduler.start();
     spdlog::info("job-scheduler daemon ready ({} workers)", cfg.workers);
 

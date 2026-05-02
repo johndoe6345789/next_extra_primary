@@ -50,6 +50,25 @@
       "cron": "* * * * *",
       "handler": "blog.publish_due",
       "description": "Transition scheduled posts to published when due"
+    },
+    {
+      "name": "routes.health_check",
+      "cron": "0 2 * * *",
+      "handler": "routes.health_check",
+      "description": "Nightly smoke test — alert on 404/5xx",
+      "payload": {
+        "portalBase": "http://portal",
+        "locale": "en",
+        "routes": [
+          "/", "/dashboard", "/leaderboard",
+          "/chat", "/messages", "/blog",
+          "/wiki", "/forum", "/gallery",
+          "/shop", "/notifications", "/profile",
+          "/about", "/contact", "/search",
+          "/features", "/login", "/register",
+          "/settings"
+        ]
+      }
     }
   ]
 }
