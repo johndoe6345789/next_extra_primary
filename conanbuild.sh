@@ -1,0 +1,1 @@
+. "/src/conanbuildenv-release-armv8.sh"
