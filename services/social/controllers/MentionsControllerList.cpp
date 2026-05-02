@@ -79,8 +79,15 @@ void MentionsController::list(
                         .as<std::string>();
                 arr.push_back(m);
             }
-            cb(::utils::jsonOk(
-                {{"data", arr}}));
+            // Frontend Mention[] type expects bare
+            // array, not a {data: [...]} wrapper.
+            auto resp = drogon::HttpResponse::
+                newHttpResponse();
+            resp->setStatusCode(k200OK);
+            resp->setContentTypeCode(
+                CT_APPLICATION_JSON);
+            resp->setBody(arr.dump());
+            cb(resp);
         }
         >> [cb](const DrogonDbException& e) {
             spdlog::error(

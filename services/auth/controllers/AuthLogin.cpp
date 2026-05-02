@@ -1,27 +1,23 @@
 /**
  * @file AuthLogin.cpp
- * @brief Login endpoint implementation.
+ * @brief Legacy email/password login endpoint.
  *
- * Sets the `nextra_sso` HttpOnly cookie for users
- * with role >= user so nginx auth_request can gate
- * all portal tools. Guest-role users authenticate
- * normally but receive no SSO cookie.
+ * Phase 4 of the Keycloak migration: Keycloak owns the
+ * login flow end-to-end. This endpoint used to verify a
+ * password and issue an in-house JWT + set the legacy
+ * `nextra_sso` HttpOnly cookie carrying the refresh
+ * token. That bypassed Keycloak entirely.
  *
- * Role is checked here at login time because refresh
- * tokens carry no role claim (only userId + type).
+ * The route is retained per template-repo policy but
+ * any caller is now 302'd to Keycloak's authorize
+ * endpoint to enrol them in the proper PKCE flow.
  */
 
 #include "AuthController.h"
-#include "auth/backend/AuthService.h"
-#include "drogon-host/backend/utils/JsonResponse.h"
-#include "drogon-host/backend/utils/RoleCheck.h"
 
-#include <drogon/Cookie.h>
 #include <drogon/HttpResponse.h>
-#include <nlohmann/json.hpp>
 #include <string>
 
-using json = nlohmann::json;
 using Cb = std::function<void(
     const drogon::HttpResponsePtr&)>;
 
@@ -29,62 +25,22 @@ namespace controllers
 {
 
 void AuthController::login(
-    const drogon::HttpRequestPtr& req, Cb&& cb)
+    const drogon::HttpRequestPtr&, Cb&& cb)
 {
-    auto body = json::parse(
-        req->bodyData(),
-        req->bodyData() + req->bodyLength(),
-        nullptr, false);
-    if (body.is_discarded() ||
-        !body.contains("email") ||
-        !body.contains("password")) {
-        cb(::utils::jsonError(
-            drogon::k400BadRequest,
-            "Email and password required",
-            "VAL_004"));
-        return;
-    }
-
-    auto email =
-        body["email"].get<std::string>();
-    auto password =
-        body["password"].get<std::string>();
-
-    services::AuthService auth;
-    auth.loginUser(
-        email, password,
-        [cb](const services::json& payload) {
-            auto resp = ::utils::jsonOk(payload);
-            auto userRole =
-                (payload.contains("user") &&
-                 payload["user"].contains("role"))
-                ? payload["user"]["role"]
-                    .get<std::string>() : "";
-            if (utils::hasRole(userRole, "user") &&
-                payload.contains("tokens") &&
-                payload["tokens"]
-                    .contains("refreshToken")) {
-                auto rt =
-                    payload["tokens"]["refreshToken"]
-                    .get<std::string>();
-                drogon::Cookie sso("nextra_sso", rt);
-                sso.setHttpOnly(true);
-                sso.setPath("/");
-                sso.setSameSite(
-                    drogon::Cookie::SameSite::kLax);
-                sso.setMaxAge(30 * 24 * 3600);
-                resp->addCookie(sso);
-            }
-            cb(resp);
-        },
-        [cb](drogon::HttpStatusCode code,
-             const std::string& msg) {
-            std::string errCode = "AUTH_001";
-            if (code == drogon::k403Forbidden)
-                errCode = "AUTH_008";
-            cb(::utils::jsonError(
-                code, msg, errCode));
-        });
+    static const std::string kTarget =
+        "http://localhost:8889"
+        "/auth/realms/nextra/"
+        "protocol/openid-connect/auth"
+        "?client_id=nextra-app"
+        "&response_type=code"
+        "&scope=openid+profile+email"
+        "&redirect_uri="
+        "http%3A%2F%2Flocalhost%3A8889"
+        "%2Fapp%2Fen%2Fauth%2Fcallback";
+    auto resp = drogon::HttpResponse::
+        newRedirectionResponse(kTarget,
+            drogon::k302Found);
+    cb(resp);
 }
 
-} // namespace controllers
+}  // namespace controllers
