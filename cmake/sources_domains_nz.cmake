@@ -22,6 +22,7 @@ list(APPEND NEXTRA_DOMAIN_DIRS
     search/backend
     search/backend/commands
     search/controllers
+    search/events
     social/backend
     social/backend/dm
     social/backend/follows

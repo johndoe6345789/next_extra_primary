@@ -1,7 +1,7 @@
 /** @brief POST /api/forum/threads handler. */
 #include "ForumController.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
-#include "search/backend/SearchEventPublisher.h"
+#include "search/events/SearchEventPublisher.h"
 #include <drogon/drogon.h>
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>

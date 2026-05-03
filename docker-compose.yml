@@ -159,7 +159,7 @@ services:
       ENABLE_FAIL2BAN: 0
       ENABLE_POSTGREY: 0
       ENABLE_AMAVIS: 0
-      SSL_TYPE: "self-signed"
+      SSL_TYPE: ""
       PERMIT_DOCKER: network
       ONE_DIR: 1
       OVERRIDE_HOSTNAME: mail.nextra.local

@@ -14,4 +14,5 @@ nextra_service(
     DIRS
         comments/backend
         comments/controllers
+        search/events
 )

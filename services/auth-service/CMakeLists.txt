@@ -28,4 +28,5 @@ nextra_service(
         email/backend
         badges/backend
         drogon-host/backend/commands
+        search/events
 )

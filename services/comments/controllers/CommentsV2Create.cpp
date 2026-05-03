@@ -7,7 +7,7 @@
 #include "CommentsV2Controller.h"
 #include "comments/backend/CommentStore.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
-#include "search/backend/SearchEventPublisher.h"
+#include "search/events/SearchEventPublisher.h"
 
 #include <nlohmann/json.hpp>
 

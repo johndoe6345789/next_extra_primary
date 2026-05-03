@@ -1,6 +1,6 @@
 #pragma once
 /**
- * @file services/search/SearchEventPublisher.h
+ * @file services/search/events/SearchEventPublisher.h
  * @brief Process-wide helper that emits one
  *        @c search.reindex Kafka message per
  *        domain-table mutation.

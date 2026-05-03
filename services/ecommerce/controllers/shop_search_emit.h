@@ -8,7 +8,7 @@
  */
 
 #include "ecommerce/backend/EcommerceTypes.h"
-#include "search/backend/SearchEventPublisher.h"
+#include "search/events/SearchEventPublisher.h"
 
 #include <string>
 

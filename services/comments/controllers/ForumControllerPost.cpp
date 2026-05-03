@@ -2,7 +2,7 @@
 #include "ForumController.h"
 #include "comments/backend/CommentStore.h"
 #include "drogon-host/backend/utils/JsonResponse.h"
-#include "search/backend/SearchEventPublisher.h"
+#include "search/events/SearchEventPublisher.h"
 #include <drogon/drogon.h>
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>

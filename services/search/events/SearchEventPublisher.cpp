@@ -1,10 +1,10 @@
 /**
- * @file services/search/SearchEventPublisher.cpp
+ * @file services/search/events/SearchEventPublisher.cpp
  * @brief Lazy singleton wrapper around
  *        @ref nextra::infra::IKafkaProducer.
  */
 
-#include "search/backend/SearchEventPublisher.h"
+#include "search/events/SearchEventPublisher.h"
 
 #include "infra/backend/IKafkaProducer.h"
 #include "infra/backend/KafkaFactory.h"

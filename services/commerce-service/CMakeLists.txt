@@ -15,4 +15,5 @@ nextra_service(
         ecommerce/backend
         ecommerce/backend/commands
         ecommerce/controllers
+        search/events
 )

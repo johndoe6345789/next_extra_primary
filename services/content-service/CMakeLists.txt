@@ -21,4 +21,5 @@ nextra_service(
         gallery/backend
         gallery/controllers
         job-queue/backend
+        search/events
 )

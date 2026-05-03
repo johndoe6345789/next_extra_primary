@@ -8,7 +8,7 @@
  */
 
 #include "blog/backend/ArticleStore.h"
-#include "search/backend/SearchEventPublisher.h"
+#include "search/events/SearchEventPublisher.h"
 
 #include <cstdint>
 #include <string>

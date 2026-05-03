@@ -15,5 +15,7 @@ nextra_service(
         search/backend
         search/backend/commands
         search/controllers
+        search/events
         elasticsearch/backend
+        alerts/backend
 )
