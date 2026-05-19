@@ -4,9 +4,13 @@
  */
 
 #include "migration-runner/backend/migration_runner_bootstrap.h"
+#include "migration-runner/backend/MigrationFileUtils.h"
 #include "migration-runner/backend/MigrationStateStore.h"
+#include "migration-runner/backend/migration_runner_stmt.h"
 
 #include <spdlog/spdlog.h>
+
+#include <utility>
 
 namespace services::migrations
 {
@@ -38,17 +42,21 @@ static void applyBootstrap(
     std::function<void()> then,
     services::ErrCallback onError)
 {
+    // Drogon 1.9.3 execSqlAsync always uses the
+    // extended-query protocol (prepared), which
+    // rejects multi-command strings. Split the
+    // bootstrap into single statements (the splitter
+    // is $$-aware so the DO block stays intact) and
+    // apply them one at a time, mirroring the domain
+    // path.
     auto db = services::MigrationStateStore::db();
-    *db << bootstrapSql
-        >> [then, onError](const Result&) {
-            retroStamp(then, onError);
-        }
-        >> [onError](const DrogonDbException& e) {
-            spdlog::error("bootstrap sql: {}",
-                          e.base().what());
-            onError(k500InternalServerError,
-                    "Failed to apply bootstrap SQL");
-        };
+    auto stmts =
+        services::MigrationFileUtils::splitStatements(
+            bootstrapSql);
+    applyStmts(
+        db, std::move(stmts), 0,
+        [then, onError]() { retroStamp(then, onError); },
+        onError);
 }
 
 void MigrationRunnerBootstrap::run(
@@ -66,7 +74,7 @@ void MigrationRunnerBootstrap::run(
         >> [bootstrapSql, then, onError](
                const Result& r) {
             if (!r.empty()) {
-                spdlog::info(
+                spdlog::debug(
                     "Bootstrap already applied");
                 then();
                 return;

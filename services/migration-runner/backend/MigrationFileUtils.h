@@ -64,6 +64,21 @@ class MigrationFileUtils
      */
     [[nodiscard]] static auto
     extractDown(const std::string& sql) -> std::string;
+
+    /**
+     * @brief Split a multi-statement SQL string into individual
+     *        statements.
+     *
+     * Splits on `;` boundaries and trims leading whitespace from
+     * each fragment. Empty fragments are discarded. No semicolons
+     * are included in the returned strings.
+     *
+     * @param sql One or more SQL statements separated by `;`.
+     * @return Non-empty individual statements, semicolons removed.
+     */
+    [[nodiscard]] static auto
+    splitStatements(const std::string& sql)
+        -> std::vector<std::string>;
 };
 
 } // namespace services

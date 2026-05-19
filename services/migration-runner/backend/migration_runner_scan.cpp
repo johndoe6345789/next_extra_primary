@@ -30,9 +30,13 @@ void MigrationRunnerScan::pending(
         services::MigrationFileUtils::discoverFiles(dir);
 
     auto db = services::MigrationStateStore::db();
+    // Include 'legacy' rows: pre-domain-column
+    // migrations were retro-stamped 'legacy' by the
+    // bootstrap step and must not be re-applied.
     const std::string sql =
         "SELECT filename FROM schema_migrations "
-        "WHERE domain=$1 ORDER BY filename";
+        "WHERE domain=$1 OR domain='legacy' "
+        "ORDER BY filename";
 
     *db << sql << domain
         >> [allFiles, onReady](const Result& r) {

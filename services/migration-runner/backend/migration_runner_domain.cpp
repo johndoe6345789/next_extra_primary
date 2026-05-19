@@ -6,6 +6,7 @@
 #include "migration-runner/backend/migration_runner_domain.h"
 #include "migration-runner/backend/MigrationFileUtils.h"
 #include "migration-runner/backend/MigrationStateStore.h"
+#include "migration-runner/backend/migration_runner_stmt.h"
 
 #include <fmt/format.h>
 #include <spdlog/spdlog.h>
@@ -43,38 +44,43 @@ static void applyOne(
                 fmt::format("Read {}: {}", fn, e.what()));
         return;
     }
-    auto trans =
-        services::MigrationStateStore::db()->newTransaction();
-    const std::string ins =
-        "INSERT INTO schema_migrations(domain,filename)"
-        " VALUES($1,$2)";
-    *trans << sql
-        >> [trans, ins, domain, fn, pending, idx,
-            servicesRoot, onDone, onError](const Result&) {
-            *trans << ins << domain << fn
-                >> [pending, idx, servicesRoot, domain,
-                    fn, onDone, onError](const Result&) {
+
+    // Split into individual statements so each execSqlAsync
+    // call gets exactly one statement — required because the
+    // extended-query protocol rejects multi-statement SQL.
+    auto stmts =
+        services::MigrationFileUtils::splitStatements(sql);
+    auto db = services::MigrationStateStore::db();
+
+    applyStmts(
+        db, std::move(stmts), 0,
+        [db, domain, fn, pending, idx,
+         servicesRoot, onDone, onError]() {
+            const std::string ins =
+                "INSERT INTO schema_migrations"
+                "(domain,filename) VALUES($1,$2)";
+            db->execSqlAsync(
+                ins,
+                [pending, idx, servicesRoot,
+                 domain, fn, onDone, onError](
+                    const Result&) {
                     spdlog::info("Applied {}/{}",
                                  domain, fn);
                     applyOne(servicesRoot, domain,
-                              pending, idx + 1,
-                              onDone, onError);
-                }
-                >> [fn, onError](
-                       const DrogonDbException& e) {
+                             pending, idx + 1,
+                             onDone, onError);
+                },
+                [fn, onError](
+                    const DrogonDbException& e) {
                     spdlog::error("Record {}: {}",
                                   fn, e.base().what());
                     onError(k500InternalServerError,
-                            fmt::format("Record {}", fn));
-                };
-        }
-        >> [fn, onError](const DrogonDbException& e) {
-            spdlog::error("Apply {}: {}",
-                          fn, e.base().what());
-            onError(k500InternalServerError,
-                    fmt::format("Apply {}: {}",
-                                fn, e.base().what()));
-        };
+                            fmt::format(
+                                "Record {}", fn));
+                },
+                domain, fn);
+        },
+        onError);
 }
 
 void MigrationRunnerDomain::applyAll(

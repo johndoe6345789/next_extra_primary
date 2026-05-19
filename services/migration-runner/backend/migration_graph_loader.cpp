@@ -46,7 +46,7 @@ DomainGraph loadMigrationGraph(const std::string& path)
         }
         graph.emplace(domain, std::move(deps));
     }
-    spdlog::info("Loaded migration graph: {} domain(s)", graph.size());
+    spdlog::debug("Loaded migration graph: {} domain(s)", graph.size());
     return graph;
 }
 

@@ -4,6 +4,7 @@
  */
 
 #include "migration-runner/backend/MigrationFileUtils.h"
+#include "migration-runner/backend/sql_statement_split.h"
 
 #include <fmt/format.h>
 #include <spdlog/spdlog.h>
@@ -24,7 +25,7 @@ auto MigrationFileUtils::discoverFiles(const std::string& dir)
 {
     std::vector<std::string> files;
     if (!fs::exists(dir) || !fs::is_directory(dir)) {
-        spdlog::warn("Migrations directory not found: {}", dir);
+        spdlog::debug("Migrations directory not found: {}", dir);
         return files;
     }
 
@@ -68,6 +69,15 @@ auto MigrationFileUtils::extractDown(const std::string& sql) -> std::string
         return {};
     }
     return sql.substr(lineEnd + 1);
+}
+
+auto MigrationFileUtils::splitStatements(const std::string& sql)
+    -> std::vector<std::string>
+{
+    // Delegate to the quote/comment/$$-aware splitter so
+    // DO $$ ... $$ blocks (and ; inside string literals)
+    // are not shattered into broken fragments.
+    return services::splitSqlStatements(sql);
 }
 
 } // namespace services

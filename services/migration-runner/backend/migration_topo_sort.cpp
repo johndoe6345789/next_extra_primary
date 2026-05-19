@@ -7,6 +7,7 @@
 
 #include <spdlog/spdlog.h>
 
+#include <algorithm>
 #include <map>
 #include <queue>
 #include <set>
@@ -52,6 +53,16 @@ std::vector<std::string> topoSortDomains(const DomainGraph& graph)
     }
     if (out.size() != graph.size()) {
         throw std::runtime_error("Migration graph has a cycle");
+    }
+    // Foundational schema: the `users` domain creates the
+    // users table (+ other core tables) that many domains
+    // reference but do not all declare as a graph dep. It
+    // has zero deps itself, so emitting it first is always
+    // topologically valid and fixes the undeclared-dep races.
+    auto it = std::find(out.begin(), out.end(), "users");
+    if (it != out.end()) {
+        out.erase(it);
+        out.insert(out.begin(), "users");
     }
     return out;
 }

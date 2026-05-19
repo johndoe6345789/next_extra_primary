@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include <string>
+
 namespace commands
 {
 
@@ -18,7 +20,11 @@ namespace commands
  * @param up     Apply all pending migrations.
  * @param down   Roll back the most recent migration.
  * @param status Print current migration state.
+ * @param config Path to the Drogon JSON config file.
  */
-void cmdMigrate(bool up, bool down, bool status);
+void cmdMigrate(
+    bool up, bool down, bool status,
+    const std::string& config =
+        "config/config.json");
 
 } // namespace commands

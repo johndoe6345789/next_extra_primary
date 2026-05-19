@@ -48,6 +48,20 @@ RUN cd /src/services/drogon-host && \
     -DCMAKE_TOOLCHAIN_FILE=services/drogon-host/build/build/Release/generators/conan_toolchain.cmake && \
     cmake --build build -j"$(nproc)"
 
+# ── Extract migration SQL files only ──────────────────────────────
+# Mirrors docker/nextra-api.Dockerfile: copies only *.sql from
+# services/<domain>/migrations/ so the runtime image can run
+# `nextra-api migrate` without bundling all C++ source.
+FROM build AS migration-files
+
+RUN find /src/services -type f -name "*.sql" \
+        -path "*/migrations/*" | \
+    while read -r f; do \
+        rel="${f#/src/}"; \
+        mkdir -p "/out/$(dirname "$rel")"; \
+        cp "$f" "/out/$rel"; \
+    done
+
 FROM ${RUNTIME_IMAGE} AS runtime
 
 RUN apt-get update && \
@@ -88,6 +102,15 @@ COPY --from=build /src/services/video/constants.json \
     ./constants/video-transcoder.json
 COPY --from=build /src/services/webhooks/constants.json \
     ./constants/webhook-dispatcher.json
+COPY --from=build \
+    /src/services/http-filters/constants/security-headers.json \
+    ./constants/security-headers.json
+
+# Migration SQL files + dependency graph (needed by `nextra-api
+# migrate`) — without these the migrate sidecar cannot bootstrap.
+COPY --from=migration-files /out/services ./services
+COPY services/migration-graph.json \
+    ./services/migration-graph.json
 
 RUN mkdir -p logs public uploads && \
     chown -R nextra:nextra /app

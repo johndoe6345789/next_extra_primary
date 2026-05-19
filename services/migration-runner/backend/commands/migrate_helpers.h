@@ -26,12 +26,14 @@ constexpr auto BOOTSTRAP_SQL =
 /**
  * @brief Load Drogon config and run one async task,
  *        then call drogon::app().quit() inside @p task.
- * @param task Callable queued into the Drogon event loop.
+ * @param task   Callable queued into the event loop.
+ * @param config Drogon JSON config file path.
  */
-inline void runMigrateLoop(std::function<void()> task)
+inline void runMigrateLoop(
+    std::function<void()> task,
+    const std::string& config = "config/config.json")
 {
-    drogon::app().loadConfigFile(
-        "config/config.json");
+    drogon::app().loadConfigFile(config);
     drogon::app().getLoop()->queueInLoop(
         std::move(task));
     drogon::app().run();

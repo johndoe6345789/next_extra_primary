@@ -22,20 +22,37 @@ void MigrationStateStore::ensureTable(std::function<void()> then,
                                       ErrCallback onError)
 {
     auto dbClient = db();
-    const std::string sql = R"(
-        CREATE TABLE IF NOT EXISTS schema_migrations (
-            id         SERIAL PRIMARY KEY,
-            filename   TEXT UNIQUE NOT NULL,
-            applied_at TIMESTAMPTZ NOT NULL
-                       DEFAULT NOW()
-        )
-    )";
-
-    *dbClient << sql >> [then](const Result&) { then(); } >>
-        [onError](const DrogonDbException& e) {
-            spdlog::error("ensureTable error: {}", e.base().what());
+    const std::string check =
+        "SELECT 1 FROM information_schema.tables "
+        "WHERE table_schema='public' "
+        "  AND table_name='schema_migrations'";
+    *dbClient << check
+        >> [dbClient, then, onError](const Result& r) {
+            if (!r.empty()) { then(); return; }
+            const std::string create = R"(
+                CREATE TABLE schema_migrations (
+                    id         SERIAL PRIMARY KEY,
+                    filename   TEXT UNIQUE NOT NULL,
+                    applied_at TIMESTAMPTZ NOT NULL
+                               DEFAULT NOW()
+                )
+            )";
+            *dbClient << create
+                >> [then](const Result&) { then(); }
+                >> [onError](const DrogonDbException& e) {
+                    spdlog::error("ensureTable: {}",
+                                  e.base().what());
+                    onError(k500InternalServerError,
+                            "Failed to create "
+                            "schema_migrations");
+                };
+        }
+        >> [onError](const DrogonDbException& e) {
+            spdlog::error("ensureTable check: {}",
+                          e.base().what());
             onError(k500InternalServerError,
-                    "Failed to create schema_migrations table");
+                    "Failed to check "
+                    "schema_migrations");
         };
 }
 

@@ -19,79 +19,75 @@
 namespace commands
 {
 
-static void doStatus()
+namespace
 {
-    runMigrateLoop([] {
+auto okPrint()
+{
+    return [](const nlohmann::json& j) {
+        fmt::print("{}\n", j.dump(2));
+        drogon::app().quit();
+    };
+}
+auto errQuit(std::string tag)
+{
+    return [tag](drogon::HttpStatusCode,
+                 const std::string& msg) {
+        spdlog::error("{}: {}", tag, msg);
+        drogon::app().quit();
+    };
+}
+} // anonymous namespace
+
+static void doStatus(const std::string& cfg)
+{
+    runMigrateLoop([]{
         services::MigrationStatusQuery::getStatus(
             SERVICES_ROOT,
-            [](const nlohmann::json& j) {
-                fmt::print("{}\n", j.dump(2));
-                drogon::app().quit();
-            },
-            [](drogon::HttpStatusCode,
-               const std::string& msg) {
-                spdlog::error("status: {}", msg);
-                drogon::app().quit();
-            });
-    });
+            okPrint(), errQuit("status"));
+    }, cfg);
 }
 
-static void doDown()
+static void doDown(const std::string& cfg)
 {
-    runMigrateLoop([] {
+    runMigrateLoop([]{
         services::MigrationRollback::rollbackLast(
             SERVICES_ROOT,
-            [](const nlohmann::json& j) {
-                fmt::print("{}\n", j.dump(2));
-                drogon::app().quit();
-            },
-            [](drogon::HttpStatusCode,
-               const std::string& msg) {
-                spdlog::error("rollback: {}", msg);
-                drogon::app().quit();
-            });
-    });
+            okPrint(), errQuit("rollback"));
+    }, cfg);
 }
 
-static void doUp()
+static void doUp(const std::string& cfg)
 {
-    runMigrateLoop([] {
+    runMigrateLoop([]{
         services::MigrationRunner runner{
-            SERVICES_ROOT,
-            GRAPH_PATH,
-            BOOTSTRAP_SQL};
+            SERVICES_ROOT, GRAPH_PATH, BOOTSTRAP_SQL};
         runner.runMigrations(
-            [](const nlohmann::json& j) {
-                fmt::print("{}\n", j.dump(2));
-                drogon::app().quit();
-            },
-            [](drogon::HttpStatusCode,
-               const std::string& msg) {
-                spdlog::error("migrate up: {}", msg);
-                drogon::app().quit();
-            });
-    });
+            okPrint(), errQuit("migrate up"));
+    }, cfg);
 }
 
-void cmdMigrate(bool up, bool down, bool status)
+void cmdMigrate(
+    bool up, bool down, bool status,
+    const std::string& config)
 {
     if (status) {
         spdlog::info("Checking migration status...");
-        doStatus();
+        doStatus(config);
         return;
     }
     if (down) {
         spdlog::info("Rolling back last migration...");
-        doDown();
+        doDown(config);
         return;
     }
     if (up) {
         spdlog::info("Applying pending migrations...");
-        doUp();
+        doUp(config);
         return;
     }
-    fmt::print("No action specified.  "
-               "Use --up, --down, or --status.\n");
+    fmt::print(
+        "No action specified. "
+        "Use --up, --down, or --status.\n");
 }
 
 } // namespace commands

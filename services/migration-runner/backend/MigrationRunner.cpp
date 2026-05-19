@@ -41,15 +41,19 @@ void MigrationRunner::runMigrations(
         return;
     }
 
+    // Capture paths by value — the MigrationRunner
+    // stack object may be destroyed before the async
+    // DB callbacks fire.
     MigrationStateStore::ensureTable(
-        [this, bsql, onSuccess, onError]() {
+        [gp = graphPath_, sr = servicesRoot_,
+         bsql, onSuccess, onError]() {
             migrations::MigrationRunnerBootstrap::run(
                 bsql,
-                [this, onSuccess, onError]() {
+                [gp, sr, onSuccess, onError]() {
                     migrations::DomainGraph graph;
                     try {
                         graph = migrations::
-                            loadMigrationGraph(graphPath_);
+                            loadMigrationGraph(gp);
                     } catch (const std::exception& e) {
                         spdlog::error("Load graph: {}",
                                       e.what());
@@ -74,7 +78,7 @@ void MigrationRunner::runMigrations(
                         std::make_shared<json>(
                             json::array());
                     migrations::runDomainLoop(
-                        servicesRoot_, order, 0,
+                        sr, order, 0,
                         applied, onSuccess, onError);
                 },
                 onError);
