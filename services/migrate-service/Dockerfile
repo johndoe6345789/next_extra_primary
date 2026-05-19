@@ -78,6 +78,18 @@ RUN cmake -B /build \
     cmake --build /build --clean-first \
         -j"$(( $(nproc) > 4 ? 4 : $(nproc) ))"
 
+# ── Stage 3b: extract migration SQL (migrate one-shot) ─
+# nextra-migrate runs the migrator, so unlike the other
+# services it must carry the per-domain *.sql + the graph.
+FROM build AS migration-files
+RUN find /src/services -type f -name "*.sql" \
+        -path "*/migrations/*" | \
+    while read -r f; do \
+        rel="${f#/src/}"; \
+        mkdir -p "/out/$(dirname "$rel")"; \
+        cp "$f" "/out/$rel"; \
+    done
+
 # ── Stage 4: slim runtime base ───────────────────────
 # Cached forever; shared by all service runtime images.
 FROM ${RUNTIME_IMAGE} AS runtime-base
@@ -104,6 +116,12 @@ WORKDIR /app
 COPY --from=build "/build/${SVC_NAME}" ./bin/svc
 COPY "services/${SVC_DIR}/config/config.json" \
     ./config/config.json
+
+# Migration SQL + dependency graph (read relative to /app
+# at runtime by the migrate command).
+COPY --from=migration-files /out/services ./services
+COPY services/migration-graph.json \
+    ./services/migration-graph.json
 
 RUN mkdir -p logs && \
     chown -R nextra:nextra /app
