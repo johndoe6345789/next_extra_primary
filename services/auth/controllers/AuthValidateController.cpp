@@ -19,6 +19,7 @@
 
 #include <drogon/HttpResponse.h>
 #include <string>
+#include <string_view>
 #include <vector>
 
 using Cb = std::function<void(
@@ -56,11 +57,21 @@ static std::string joinRoles(
 void AuthValidateController::validate(
     const drogon::HttpRequestPtr& req, Cb&& cb)
 {
-    const auto token = req->getCookie("nextra_sso");
+    // Credential may arrive as the SSO cookie (browser /
+    // nginx auth_request) or as a Bearer header (forwarded
+    // by another service's http-filters auth_client).
+    auto token = req->getCookie("nextra_sso");
+    if (token.empty()) {
+        const auto h = req->getHeader("Authorization");
+        constexpr std::string_view kBearer = "Bearer ";
+        if (h.size() > kBearer.size()
+            && h.compare(0, kBearer.size(), kBearer) == 0)
+            token = h.substr(kBearer.size());
+    }
     if (token.empty()) {
         cb(::utils::jsonError(
             drogon::k401Unauthorized,
-            "No SSO cookie", "AUTH_006"));
+            "No credential", "AUTH_006"));
         return;
     }
 
