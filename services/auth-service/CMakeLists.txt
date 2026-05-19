@@ -14,6 +14,7 @@ nextra_service(
     NAME nextra-auth
     DIRS
         auth/backend
+        auth/backend/keycloak
         auth/backend/oauth
         auth/backend/passkeys
         auth/backend/totp
