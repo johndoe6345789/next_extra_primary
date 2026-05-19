@@ -59,7 +59,8 @@ void MigrationApplier::applyAll(
              onSuccess, onError, next](const Result&) {
                 const std::string ins =
                     "INSERT INTO schema_migrations"
-                    "(filename) VALUES ($1)";
+                    "(filename) VALUES ($1) "
+                    "ON CONFLICT DO NOTHING";
                 db->execSqlAsync(
                     ins,
                     [fn, idx, done, onSuccess,

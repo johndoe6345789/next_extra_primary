@@ -58,7 +58,8 @@ static void applyOne(
          servicesRoot, onDone, onError]() {
             const std::string ins =
                 "INSERT INTO schema_migrations"
-                "(domain,filename) VALUES($1,$2)";
+                "(domain,filename) VALUES($1,$2) "
+                "ON CONFLICT DO NOTHING";
             db->execSqlAsync(
                 ins,
                 [pending, idx, servicesRoot,
