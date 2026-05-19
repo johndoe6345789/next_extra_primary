@@ -30,7 +30,6 @@ variable "TAG" {
 # -----------------------------------------------------------------
 group "default" {
   targets = [
-    "nextra-api",
     "nextra-auth",
     "nextra-social",
     "nextra-notifications",
@@ -82,23 +81,6 @@ group "default" {
 # nextra-api — Drogon C++ backend (shared by 13 compose services)
 # Not in docker-compose.yml, so full build config is specified here.
 # -----------------------------------------------------------------
-target "nextra-api" {
-  context    = "."
-  dockerfile = "services/drogon-host/Dockerfile"
-  contexts = {
-    manager  = "services/manager-cli/cli"
-    commands = ".local/commands"
-  }
-  args = {
-    DEPS_IMAGE    = "${REGISTRY}/nextra-base-conan:latest"
-    APT_IMAGE     = "${REGISTRY}/nextra-base-apt:latest"
-    RUNTIME_IMAGE = "debian:sid-slim"
-  }
-  tags = [
-    "${REGISTRY}/nextra-api:${TAG}",
-    "${REGISTRY}/nextra-api:latest",
-  ]
-}
 
 # -----------------------------------------------------------------
 # frontend — Next.js app (production Dockerfile)
