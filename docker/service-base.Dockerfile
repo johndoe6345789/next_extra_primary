@@ -19,8 +19,10 @@ ARG APT_PROXY=http://host.docker.internal:3128
 FROM ${BASE_IMAGE} AS toolchain
 ARG APT_PROXY
 
-RUN printf 'Acquire::http::Proxy "%s";\n' "${APT_PROXY}" \
-        > /etc/apt/apt.conf.d/00proxy && \
+RUN if [ -n "${APT_PROXY}" ]; then \
+        printf 'Acquire::http::Proxy "%s";\n' "${APT_PROXY}" \
+        > /etc/apt/apt.conf.d/00proxy; \
+    fi && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
         bison ca-certificates cmake flex \
@@ -74,8 +76,10 @@ RUN cmake -B /build \
 FROM ${RUNTIME_IMAGE} AS runtime-base
 ARG APT_PROXY
 
-RUN printf 'Acquire::http::Proxy "%s";\n' "${APT_PROXY}" \
-        > /etc/apt/apt.conf.d/00proxy && \
+RUN if [ -n "${APT_PROXY}" ]; then \
+        printf 'Acquire::http::Proxy "%s";\n' "${APT_PROXY}" \
+        > /etc/apt/apt.conf.d/00proxy; \
+    fi && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
         ca-certificates libpq5 libssl3 && \
