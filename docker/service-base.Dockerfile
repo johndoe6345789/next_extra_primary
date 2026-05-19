@@ -12,7 +12,7 @@
 
 ARG BASE_IMAGE=debian:sid
 ARG RUNTIME_IMAGE=debian:sid-slim
-ARG APT_PROXY=http://host.docker.internal:3128
+ARG APT_PROXY=
 
 # ── Stage 1: system toolchain ───────────────────────
 # Cached forever; rebuilds only when apt packages change.
