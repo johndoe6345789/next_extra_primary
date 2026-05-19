@@ -16,6 +16,7 @@ include(
 
 nextra_service(
     NAME nextra-migrate
+    NO_HTTP
     DIRS
         migration-runner/backend
         migration-runner/backend/commands

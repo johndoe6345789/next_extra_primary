@@ -14,6 +14,8 @@
 ## orm-models/backend, service-host) are always
 ## added automatically.
 
+## HTTP services: full shared kernel (auth filters need
+## auth/backend; every request authenticates).
 set(NEXTRA_SERVICE_SHARED_DIRS
     drogon-host/backend/utils
     http-filters/backend
@@ -25,8 +27,19 @@ set(NEXTRA_SERVICE_SHARED_DIRS
     service-host
 )
 
+## CLI one-shots (NO_HTTP): minimal set — no http-filters /
+## auth / keycloak / rate-limit, so the auth dependency
+## cascade (auth -> email -> ...) is not dragged into a
+## non-serving binary like nextra-migrate.
+set(NEXTRA_SERVICE_CLI_DIRS
+    drogon-host/backend/utils
+    infra/backend
+    orm-models/backend
+    service-host
+)
+
 macro(nextra_service)
-    cmake_parse_arguments(SVC "" "NAME" "DIRS" ${ARGN})
+    cmake_parse_arguments(SVC "NO_HTTP" "NAME" "DIRS" ${ARGN})
 
     set(_root "${CMAKE_CURRENT_SOURCE_DIR}/../..")
 
@@ -46,7 +59,12 @@ macro(nextra_service)
 
     set(_srcs "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp")
 
-    set(_all_dirs ${NEXTRA_SERVICE_SHARED_DIRS} ${SVC_DIRS})
+    if(SVC_NO_HTTP)
+        set(_shared ${NEXTRA_SERVICE_CLI_DIRS})
+    else()
+        set(_shared ${NEXTRA_SERVICE_SHARED_DIRS})
+    endif()
+    set(_all_dirs ${_shared} ${SVC_DIRS})
     # A service may also list a shared dir explicitly; dedupe
     # so it is not globbed twice (multiple-definition link err).
     list(REMOVE_DUPLICATES _all_dirs)
