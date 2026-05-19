@@ -18,9 +18,19 @@
 ## auth/backend; every request authenticates).
 set(NEXTRA_SERVICE_SHARED_DIRS
     drogon-host/backend/utils
+    drogon-host/backend/commands
     http-filters/backend
     auth/backend
     auth/backend/keycloak
+    auth/backend/oauth
+    auth/backend/passkeys
+    auth/backend/totp
+    users/backend
+    users/backend/commands
+    api-keys/backend
+    user-preferences/backend
+    email/backend
+    badges/backend
     infra/backend
     orm-models/backend
     rate-limit/backend
