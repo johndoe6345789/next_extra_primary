@@ -15,6 +15,12 @@ variable "REGISTRY" {
   default = "ghcr.io/johndoe6345789/next_extra_primary"
 }
 
+variable "BASE_REGISTRY" {
+  # Shared base images (nextra-base-*) always live under the
+  # next_extra_primary slug even when app images use another.
+  default = "ghcr.io/johndoe6345789/next_extra_primary"
+}
+
 variable "TAG" {
   default = "latest"
 }
@@ -328,6 +334,7 @@ target "nextra-auth" {
   context    = "."
   dockerfile = "services/auth-service/Dockerfile"
   args = {
+    BASE_IMAGE    = "${BASE_REGISTRY}/nextra-base-conan:latest"
     RUNTIME_IMAGE = "debian:sid-slim"
     SVC_NAME      = "nextra-auth"
     SVC_DIR       = "auth-service"
@@ -343,6 +350,7 @@ target "nextra-social" {
   context    = "."
   dockerfile = "services/social-service/Dockerfile"
   args = {
+    BASE_IMAGE    = "${BASE_REGISTRY}/nextra-base-conan:latest"
     RUNTIME_IMAGE = "debian:sid-slim"
     SVC_NAME      = "nextra-social"
     SVC_DIR       = "social-service"
@@ -358,6 +366,7 @@ target "nextra-notifications" {
   context    = "."
   dockerfile = "services/notifications-service/Dockerfile"
   args = {
+    BASE_IMAGE    = "${BASE_REGISTRY}/nextra-base-conan:latest"
     RUNTIME_IMAGE = "debian:sid-slim"
     SVC_NAME      = "nextra-notifications"
     SVC_DIR       = "notifications-service"
@@ -373,6 +382,7 @@ target "nextra-comments" {
   context    = "."
   dockerfile = "services/comments-service/Dockerfile"
   args = {
+    BASE_IMAGE    = "${BASE_REGISTRY}/nextra-base-conan:latest"
     RUNTIME_IMAGE = "debian:sid-slim"
     SVC_NAME      = "nextra-comments"
     SVC_DIR       = "comments-service"
@@ -388,6 +398,7 @@ target "nextra-analytics" {
   context    = "."
   dockerfile = "services/analytics-service/Dockerfile"
   args = {
+    BASE_IMAGE    = "${BASE_REGISTRY}/nextra-base-conan:latest"
     RUNTIME_IMAGE = "debian:sid-slim"
     SVC_NAME      = "nextra-analytics"
     SVC_DIR       = "analytics-service"
@@ -403,6 +414,7 @@ target "nextra-gamification" {
   context    = "."
   dockerfile = "services/gamification-service/Dockerfile"
   args = {
+    BASE_IMAGE    = "${BASE_REGISTRY}/nextra-base-conan:latest"
     RUNTIME_IMAGE = "debian:sid-slim"
     SVC_NAME      = "nextra-gamification"
     SVC_DIR       = "gamification-service"
@@ -418,6 +430,7 @@ target "nextra-content" {
   context    = "."
   dockerfile = "services/content-service/Dockerfile"
   args = {
+    BASE_IMAGE    = "${BASE_REGISTRY}/nextra-base-conan:latest"
     RUNTIME_IMAGE = "debian:sid-slim"
     SVC_NAME      = "nextra-content"
     SVC_DIR       = "content-service"
@@ -433,6 +446,7 @@ target "nextra-media" {
   context    = "."
   dockerfile = "services/media-service/Dockerfile"
   args = {
+    BASE_IMAGE    = "${BASE_REGISTRY}/nextra-base-conan:latest"
     RUNTIME_IMAGE = "debian:sid-slim"
     SVC_NAME      = "nextra-media"
     SVC_DIR       = "media-service"
@@ -448,6 +462,7 @@ target "nextra-search" {
   context    = "."
   dockerfile = "services/search-service/Dockerfile"
   args = {
+    BASE_IMAGE    = "${BASE_REGISTRY}/nextra-base-conan:latest"
     RUNTIME_IMAGE = "debian:sid-slim"
     SVC_NAME      = "nextra-search"
     SVC_DIR       = "search-service"
@@ -463,6 +478,7 @@ target "nextra-infra" {
   context    = "."
   dockerfile = "services/infra-service/Dockerfile"
   args = {
+    BASE_IMAGE    = "${BASE_REGISTRY}/nextra-base-conan:latest"
     RUNTIME_IMAGE = "debian:sid-slim"
     SVC_NAME      = "nextra-infra"
     SVC_DIR       = "infra-service"
@@ -478,6 +494,7 @@ target "nextra-ai" {
   context    = "."
   dockerfile = "services/ai-service/Dockerfile"
   args = {
+    BASE_IMAGE    = "${BASE_REGISTRY}/nextra-base-conan:latest"
     RUNTIME_IMAGE = "debian:sid-slim"
     SVC_NAME      = "nextra-ai"
     SVC_DIR       = "ai-service"
@@ -493,6 +510,7 @@ target "nextra-platform" {
   context    = "."
   dockerfile = "services/platform-service/Dockerfile"
   args = {
+    BASE_IMAGE    = "${BASE_REGISTRY}/nextra-base-conan:latest"
     RUNTIME_IMAGE = "debian:sid-slim"
     SVC_NAME      = "nextra-platform"
     SVC_DIR       = "platform-service"
@@ -508,6 +526,7 @@ target "nextra-commerce" {
   context    = "."
   dockerfile = "services/commerce-service/Dockerfile"
   args = {
+    BASE_IMAGE    = "${BASE_REGISTRY}/nextra-base-conan:latest"
     RUNTIME_IMAGE = "debian:sid-slim"
     SVC_NAME      = "nextra-commerce"
     SVC_DIR       = "commerce-service"
@@ -523,6 +542,7 @@ target "nextra-migrate" {
   context    = "."
   dockerfile = "services/migrate-service/Dockerfile"
   args = {
+    BASE_IMAGE    = "${BASE_REGISTRY}/nextra-base-conan:latest"
     RUNTIME_IMAGE = "debian:sid-slim"
     SVC_NAME      = "nextra-migrate"
     SVC_DIR       = "migrate-service"
