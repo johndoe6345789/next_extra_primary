@@ -17,6 +17,7 @@
 set(NEXTRA_SERVICE_SHARED_DIRS
     drogon-host/backend/utils
     http-filters/backend
+    auth/backend
     auth/backend/keycloak
     infra/backend
     orm-models/backend
@@ -46,11 +47,15 @@ macro(nextra_service)
     set(_srcs "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp")
 
     set(_all_dirs ${NEXTRA_SERVICE_SHARED_DIRS} ${SVC_DIRS})
+    # A service may also list a shared dir explicitly; dedupe
+    # so it is not globbed twice (multiple-definition link err).
+    list(REMOVE_DUPLICATES _all_dirs)
     foreach(_dir IN LISTS _all_dirs)
         file(GLOB _d
             "${_root}/services/${_dir}/*.cpp")
         list(APPEND _srcs ${_d})
     endforeach()
+    list(REMOVE_DUPLICATES _srcs)
 
     add_executable(${SVC_NAME} ${_srcs})
 
