@@ -3,7 +3,7 @@
     "labelKey": "portal",
     "label": "Portal Home",
     "url": "/",
-    "statusUrl": "/health",
+    "statusUrl": "/",
     "icon": "home",
     "emoji": "🏠",
     "port": "portal :8889",
