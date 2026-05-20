@@ -50,11 +50,17 @@ inline void renderCard(
         t.value("port", std::string{});
     const auto desc =
         t.value("description", std::string{});
+    const auto statusUrl =
+        t.value("statusUrl", url);
 
     const auto href = url.empty() ? std::string{"/"} :
         (url.back() == '/' ? url : url + "/");
     os << "    <a class=\"card\" href=\""
        << esc(href) << "\">\n"
+       << "      <span class=\"status-dot\""
+       << " data-status-url=\""
+       << esc(statusUrl) << "\""
+       << " aria-label=\"service status\"></span>\n"
        << "      <div class=\"icon\">"
        << esc(emoji) << "</div>\n"
        << "      <h2>" << esc(label) << "</h2>\n"

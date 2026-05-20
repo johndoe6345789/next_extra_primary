@@ -3,18 +3,20 @@
     "labelKey": "portal",
     "label": "Portal Home",
     "url": "/",
+    "statusUrl": "/health",
     "icon": "home",
-    "emoji": "\ud83c\udfe0",
+    "emoji": "🏠",
     "port": "portal :8889",
     "description":
-      "Developer portal — jump to any Businessplanner service in one click."
+      "Developer portal — jump to any Nextra service in one click."
   },
   {
     "labelKey": "mainApp",
     "label": "Main Application",
     "url": "/app",
+    "statusUrl": "/app",
     "icon": "rocket_launch",
-    "emoji": "\ud83d\ude80",
+    "emoji": "🚀",
     "port": "frontend :3000",
     "description":
       "Gamified learning platform with AI chat, badges, streaks, and leaderboards."
@@ -23,8 +25,9 @@
     "labelKey": "apiDocs",
     "label": "API Docs",
     "url": "/apidocs",
+    "statusUrl": "/apidocs/",
     "icon": "menu_book",
-    "emoji": "\ud83d\udcd6",
+    "emoji": "📖",
     "port": "backend :8080",
     "description":
       "Interactive OpenAPI documentation. Try endpoints, inspect schemas."
@@ -33,8 +36,9 @@
     "labelKey": "backendApi",
     "label": "Backend API",
     "url": "/api/health",
+    "statusUrl": "/api/health",
     "icon": "settings_suggest",
-    "emoji": "\u2699\ufe0f",
+    "emoji": "⚙️",
     "port": "backend :8080",
     "description":
       "C++ Drogon REST API. Authentication, gamification, notifications, AI."
@@ -43,8 +47,9 @@
     "labelKey": "webmail",
     "label": "Webmail",
     "url": "/emailclient",
+    "statusUrl": "/emailclient/",
     "icon": "mail",
-    "emoji": "\u2709\ufe0f",
+    "emoji": "✉️",
     "port": "emailclient :8025",
     "description":
       "In-house webmail client for the local Postfix/Dovecot mail server."
@@ -53,18 +58,20 @@
     "labelKey": "alerts",
     "label": "Alerts Centre",
     "url": "/alerts",
+    "statusUrl": "/alerts/",
     "icon": "notifications",
-    "emoji": "\ud83d\udd14",
+    "emoji": "🔔",
     "port": "alerts :8999",
     "description":
-      "Unified notification feed across all Businessplanner services."
+      "Unified notification feed across all Nextra services."
   },
   {
     "labelKey": "pgadmin",
     "label": "DB Admin",
     "url": "/db",
+    "statusUrl": "/db/",
     "icon": "storage",
-    "emoji": "\ud83d\uddc4\ufe0f",
+    "emoji": "🗄️",
     "port": "pgadmin :3002",
     "description":
       "PostgreSQL dashboard. Run queries, browse tables, inspect schema."
@@ -73,8 +80,9 @@
     "labelKey": "packageRepo",
     "label": "Package Repo",
     "url": "/repo",
+    "statusUrl": "/repo/v1/packages",
     "icon": "inventory_2",
-    "emoji": "\ud83d\udce6",
+    "emoji": "📦",
     "port": "packagerepo :5051",
     "description":
       "Browse, upload, and manage versioned packages with S3-backed storage."
@@ -83,8 +91,9 @@
     "labelKey": "s3server",
     "label": "S3 Storage",
     "url": "/s3",
+    "statusUrl": "/s3/",
     "icon": "cloud",
-    "emoji": "\ud83e\udea3",
+    "emoji": "🪣",
     "port": "s3-frontend :3001",
     "description":
       "S3-compatible bucket browser. Upload, download, and manage objects."

@@ -12,9 +12,17 @@ header p{color:#94a3b8;margin-top:.5rem;font-size:.95rem}
   gap:1.25rem;max-width:960px;margin:2rem auto;
   padding:0 1.5rem}
 .card{background:#1e293b;border:1px solid #334155;
-  border-radius:12px;padding:1.5rem;
+  border-radius:12px;padding:1.5rem;position:relative;
   text-decoration:none;color:#e2e8f0;
   transition:transform .15s,border-color .15s}
+.status-dot{position:absolute;top:1rem;right:1rem;
+  width:10px;height:10px;border-radius:50%;
+  background:#64748b;transition:background .25s,
+  box-shadow .25s}
+.status-dot.up{background:#22c55e;
+  box-shadow:0 0 8px rgba(34,197,94,.5)}
+.status-dot.down{background:#ef4444;
+  box-shadow:0 0 8px rgba(239,68,68,.5)}
 .card:hover{transform:translateY(-3px);
   border-color:#60a5fa}
 .card .icon{font-size:2rem;margin-bottom:.75rem}

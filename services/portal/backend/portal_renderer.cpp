@@ -42,7 +42,19 @@ std::string renderPortalHtml(
     os << "  </div>\n  <footer>\n"
        << "    Nextra &mdash; "
        << "docker compose --profile tools up\n"
-       << "  </footer>\n</body>\n</html>\n";
+       << "  </footer>\n"
+       << "  <script>"
+       << "function p(){document.querySelectorAll("
+       << "'.status-dot').forEach(d=>{"
+       << "const u=d.dataset.statusUrl;if(!u)return;"
+       << "fetch(u,{method:'GET',cache:'no-store',"
+       << "redirect:'follow'}).then(r=>"
+       << "d.className='status-dot '+("
+       << "r.ok?'up':'down')).catch(()=>"
+       << "d.className='status-dot down');});}"
+       << "p();setInterval(p,10000);"
+       << "</script>\n"
+       << "</body>\n</html>\n";
     return os.str();
 }
 
