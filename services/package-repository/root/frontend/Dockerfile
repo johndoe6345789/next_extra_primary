@@ -18,6 +18,10 @@ COPY --from=shared . /build/shared/
 WORKDIR /build/services/package-repository/root/frontend
 COPY package.json package-lock.json* ./
 RUN npm ci || npm install
+# Hoist node_modules so /build/shared/*.tsx imports of
+# 'react' resolve via the upward node_modules walk (mirrors
+# the main frontend's ln in frontend/Dockerfile).
+RUN ln -s /build/services/package-repository/root/frontend/node_modules /build/node_modules
 
 # -- Stage 2: build ----------------------------------------
 FROM deps AS build
