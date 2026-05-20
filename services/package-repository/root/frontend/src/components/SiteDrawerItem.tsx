@@ -4,13 +4,8 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  OpenInNew,
-  Home,
-  Email,
-  Storage,
-  Package,
-  CloudQueue,
 } from '@shared/m3';
+import { OpenInNew, Home, Email, Storage, Package, CloudQueue } from '@shared/icons';
 
 /** Map of icon name to M3 icon component. */
 const iconMap: Record<string, React.ReactNode> = {
