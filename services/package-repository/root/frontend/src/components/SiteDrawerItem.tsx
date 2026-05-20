@@ -48,7 +48,7 @@ export default function SiteDrawerItem(
       </ListItemIcon>
       <ListItemText primary={link.label} />
       {!link.current && (
-        <OpenInNew fontSize="small" />
+        <OpenInNew size={16} />
       )}
     </ListItemButton>
   );
