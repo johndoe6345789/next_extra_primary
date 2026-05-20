@@ -3,7 +3,7 @@ import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const monorepoRoot = path.resolve(__dirname, "../../..");
+const monorepoRoot = path.resolve(__dirname, "../../../..");
 
 const backendUrl = process.env.BACKEND_URL ?? "http://localhost:5050";
 
@@ -11,6 +11,7 @@ const backendUrl = process.env.BACKEND_URL ?? "http://localhost:5050";
 const nextConfig = {
   basePath: process.env.NEXT_BASE_PATH || "",
   output: "standalone",
+  outputFileTracingRoot: monorepoRoot,
   transpilePackages: [
     "@shared/m3",
     "@shared/components",
@@ -25,10 +26,12 @@ const nextConfig = {
   sassOptions: {
     silenceDeprecations: ["legacy-js-api"],
     includePaths: [
+      path.join(__dirname, "src", "styles"),
       path.join(monorepoRoot, "shared", "scss"),
       path.join(monorepoRoot, "shared", "scss", "m3-scss"),
     ],
     loadPaths: [
+      path.join(__dirname, "src", "styles"),
       path.join(monorepoRoot, "shared", "scss", "m3-scss"),
       path.join(monorepoRoot, "shared", "scss"),
     ],

@@ -7,8 +7,8 @@ import {
   IconButton,
   Divider,
   List,
-  Close,
 } from '@shared/m3';
+import { Close } from '@shared/icons';
 import siteLinks from '@/constants/site-links.json';
 import SiteDrawerItem from './SiteDrawerItem';
 import type { SiteLink } from './SiteDrawerItem';
