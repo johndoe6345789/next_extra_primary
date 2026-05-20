@@ -27,7 +27,11 @@ export function getApiUrl(): string {
   }
 
   if (typeof window !== 'undefined') {
-    return '';
+    // Prefix with basePath so `${apiUrl}/v1/...` resolves to
+    // `/repo/v1/...` (nginx /repo route + Next.js standalone
+    // rewrite to the backend). Without this, `fetch('/v1/...')`
+    // bypasses the basePath and 404s on the host root.
+    return process.env.NEXT_PUBLIC_BASE_PATH || '';
   }
 
   return DEFAULT_LOCAL_URL;
