@@ -7,7 +7,7 @@
     "emoji": "\ud83c\udfe0",
     "port": "portal :8889",
     "description":
-      "Developer portal — jump to any Nextra service in one click."
+      "Developer portal — jump to any Businessplanner service in one click."
   },
   {
     "labelKey": "mainApp",
@@ -22,7 +22,7 @@
   {
     "labelKey": "apiDocs",
     "label": "API Docs",
-    "url": "/api/docs",
+    "url": "/apidocs",
     "icon": "menu_book",
     "emoji": "\ud83d\udcd6",
     "port": "backend :8080",
@@ -57,7 +57,7 @@
     "emoji": "\ud83d\udd14",
     "port": "alerts :8999",
     "description":
-      "Unified notification feed across all Nextra services."
+      "Unified notification feed across all Businessplanner services."
   },
   {
     "labelKey": "pgadmin",
