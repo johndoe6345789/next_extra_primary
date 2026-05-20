@@ -15,6 +15,7 @@ export * from './_exports_core'
 export * from './_exports_display'
 export * from './_exports_nav'
 export * from './_exports_utils'
+export * from './_exports_icons'
 
 // `_exports_domain` (Monaco, Terminal, full DB query UI) is
 // NOT re-exported here. It pulls multi-MB chunks (Monaco)
