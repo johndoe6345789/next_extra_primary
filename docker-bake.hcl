@@ -51,6 +51,7 @@ group "default" {
     "businessplanner-platform",
     "businessplanner-commerce",
     "businessplanner-migrate",
+    "nextra-migrate",
     "emailclient",
     "notifications",
     "image-processor-frontend",
@@ -745,5 +746,21 @@ target "businessplanner-migrate" {
   tags = [
     "${REGISTRY}/businessplanner-migrate:${TAG}",
     "${REGISTRY}/businessplanner-migrate:latest",
+  ]
+}
+
+target "nextra-migrate" {
+  context    = "."
+  dockerfile = "services/migrate-service/Dockerfile"
+  args = {
+    BASE_IMAGE    = "${BASE_REGISTRY}/businessplanner-base-conan:latest"
+    RUNTIME_IMAGE = "debian:sid-slim"
+    SVC_NAME      = "nextra-migrate"
+    SVC_DIR       = "migrate-service"
+    SVC_PORT      = "9099"
+  }
+  tags = [
+    "${REGISTRY}/nextra-migrate:${TAG}",
+    "${REGISTRY}/nextra-migrate:latest",
   ]
 }
