@@ -16,18 +16,18 @@
     "plugins": [{ "name": "next" }],
     "paths": {
       "@/*": ["./src/*"],
-      "@scss/*": ["../../../shared/scss/*"],
+      "@scss/*": ["../../../../shared/scss/*"],
       "@shared/m3": [
-        "../../../shared/components/m3/index.ts"
+        "../../../../shared/components/m3/index.ts"
       ],
       "@shared/m3/*": [
-        "../../../shared/components/m3/*"
+        "../../../../shared/components/m3/*"
       ],
       "@shared/types": [
-        "../../../shared/redux/core/src/types/index.ts"
+        "../../../../shared/redux/core/src/types/index.ts"
       ],
       "@shared/types/*": [
-        "../../../shared/redux/core/src/types/*.ts"
+        "../../../../shared/redux/core/src/types/*.ts"
       ]
     }
   },

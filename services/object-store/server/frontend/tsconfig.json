@@ -27,10 +27,10 @@
         "./src/*"
       ],
       "@shared/types": [
-        "../../../shared/redux/core/src/types/index.ts"
+        "../../../../shared/redux/core/src/types/index.ts"
       ],
       "@shared/types/*": [
-        "../../../shared/redux/core/src/types/*.ts"
+        "../../../../shared/redux/core/src/types/*.ts"
       ]
     }
   },
