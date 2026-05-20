@@ -43,5 +43,5 @@
 
 // Legacy class support
 .icon-button {
-  @extend .icon-btn;
+  @extend .icon-btn !optional;
 }

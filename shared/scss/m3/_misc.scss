@@ -26,7 +26,7 @@
 // Burger / menu button
 // ============================================
 .burger-btn {
-  @extend .icon-btn;
+  @extend .icon-btn !optional;
   color: var(--mat-sys-on-surface);
   width: 44px;
   height: 44px;
