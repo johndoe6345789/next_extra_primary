@@ -3,7 +3,7 @@ import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const monorepoRoot = path.resolve(__dirname, "../../..");
+const monorepoRoot = path.resolve(__dirname, "../../../..");
 
 const backend = process.env.BACKEND_URL || "http://localhost:5060";
 
