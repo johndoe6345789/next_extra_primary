@@ -1060,6 +1060,7 @@ services:
 
   # ---- Next.js frontend (dev mode) ----------------------------
   frontend:
+    image: localhost:5001/johndoe6345789/next_extra_primary/frontend:latest
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
@@ -1078,6 +1079,7 @@ services:
 
   # ---- SSO portal (login gate for all tools) -----------------
   sso:
+    image: localhost:5001/johndoe6345789/next_extra_primary/sso:latest
     build:
       context: ./services/sso/portal
       dockerfile: Dockerfile
@@ -1383,6 +1385,7 @@ services:
 
   # ---- S3 server frontend ------------------------------------
   s3-frontend:
+    image: localhost:5001/johndoe6345789/next_extra_primary/s3-frontend:latest
     build:
       context: ./services/object-store/server/frontend
       dockerfile: Dockerfile
@@ -1479,6 +1482,7 @@ services:
 
   # ---- PgAdmin frontend -------------------------------------
   pgadmin-frontend:
+    image: localhost:5001/johndoe6345789/next_extra_primary/pgadmin-frontend:latest
     build:
       context: ./services/database/admin/frontend
       dockerfile: Dockerfile
