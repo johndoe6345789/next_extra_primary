@@ -43,9 +43,10 @@ export function PhotoLightbox({
 
   useEffect(() => {
     if (!open) return;
-    const h = (e: KeyboardEvent) =>
-      ({ ArrowLeft: prev, ArrowRight: next,
-        Escape: onClose })[e.key]?.();
+    const keyMap: Record<string, (() => void) | undefined> = {
+      ArrowLeft: prev, ArrowRight: next, Escape: onClose,
+    };
+    const h = (e: KeyboardEvent) => keyMap[e.key]?.();
     window.addEventListener('keydown', h);
     return () => window.removeEventListener('keydown', h);
   }, [open, prev, next, onClose]);
