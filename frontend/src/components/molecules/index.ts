@@ -46,8 +46,6 @@ export type { NavbarLogoProps }
   from '@shared/components/ui/NavbarLogo';
 
 export { DesktopActions } from './DesktopActions';
-export type { DesktopActionsProps }
-  from './DesktopActions';
 
 export { DrawerHeader } from './DrawerHeader';
 export type { DrawerHeaderProps } from './DrawerHeader';
