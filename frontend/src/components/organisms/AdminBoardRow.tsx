@@ -61,8 +61,8 @@ export function AdminBoardRow({
         justifyContent: 'center', flexShrink: 0 }}>
         <Switch
           checked={board.requiresAuth}
-          onChange={(_, v) =>
-            update(slug, { requiresAuth: v })}
+          onChange={(e) =>
+            update(slug, { requiresAuth: e.target.checked })}
           aria-label={t('requiresAuth')}
           data-testid={`board-${slug}-requires-auth`}
         />
@@ -73,8 +73,8 @@ export function AdminBoardRow({
         justifyContent: 'center', flexShrink: 0 }}>
         <Switch
           checked={board.isGuestVisible}
-          onChange={(_, v) =>
-            update(slug, { isGuestVisible: v })}
+          onChange={(e) =>
+            update(slug, { isGuestVisible: e.target.checked })}
           aria-label={t('guestVisible')}
           data-testid={`board-${slug}-guest-visible`}
         />
