@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Box, Typography } from '@shared/m3';
+import { Box, Typography, Link as M3Link } from '@shared/m3';
 import { Button } from '@shared/m3/Button';
 import { Link } from '@/i18n/navigation';
 import {
@@ -52,13 +52,12 @@ export default function ForumBoardPage(): React.ReactElement {
         display: 'flex', alignItems: 'center',
         justifyContent: 'space-between', mb: 1,
       }}>
-        <Typography component={Link} href="/forum" sx={{
-          color: 'text.secondary', textDecoration: 'none',
-          fontSize: '0.875rem',
-          '&:hover': { color: 'primary.main' },
-        }}>
+        <M3Link component={Link} href="/forum"
+          underline="hover"
+          style={{ fontSize: '0.875rem' }}
+        >
           ← {t('title')}
-        </Typography>
+        </M3Link>
         {user && (
           <Button variant="contained"
             onClick={() => setDialogOpen(true)}

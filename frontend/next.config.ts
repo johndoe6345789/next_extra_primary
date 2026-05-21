@@ -18,6 +18,7 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: MONOREPO_ROOT,
   turbopack: { root: MONOREPO_ROOT },
   sassOptions: {
+    silenceDeprecations: ['legacy-js-api', 'import'],
     includePaths: [
       path.join(__dirname, '..', 'shared', 'scss', 'm3-scss'),
       path.join(__dirname, '..', 'shared', 'scss'),
