@@ -32,7 +32,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const describedBy = parts.length > 0 ? parts.join(' ') : undefined
 
   const inputEl = (
-    <div className={classNames(styles.inputWrapper, fullWidth && styles.inputWrapperFullWidth)}>
+    <div className={classNames(styles.inputWrapper, fullWidth && styles.inputWrapperFullWidth)} suppressHydrationWarning>
       {startAdornment && <span className={classNames(styles.inputAdornment, styles.inputAdornmentStart)}>{startAdornment}</span>}
       <input ref={ref} id={id} className={classes} aria-invalid={error} aria-describedby={describedBy} data-testid={testId} {...restProps} />
       {endAdornment && <span className={classNames(styles.inputAdornment, styles.inputAdornmentEnd)}>{endAdornment}</span>}
