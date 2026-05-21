@@ -49,10 +49,13 @@ function SidebarItem({ node, basePath, isActive }: {
         }}
       >
         <ListItemText
-          primary={node.title}
-          primaryTypographyProps={{
-            fontWeight: isActive ? 700 : 400,
-          }}
+          primary={
+            <span style={{
+              fontWeight: isActive ? 700 : 400,
+            }}>
+              {node.title}
+            </span>
+          }
         />
       </ListItemButton>
     </ListItem>
