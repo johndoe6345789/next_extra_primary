@@ -59,7 +59,7 @@ export function useWikiMutations(
   const updatePage = async (
     slug: string, p: WikiPagePayload,
   ): Promise<void> => {
-    await update({ slug, ...p }).unwrap();
+    await update({ ...p, slug }).unwrap();
     router.push(`/${locale}/wiki/${p.slug}`);
   };
 
