@@ -49,10 +49,10 @@ export const wikiApi = baseApi.injectEndpoints({
       providesTags: (_r, _e, id) =>
         [{ type: 'Wiki', id }],
     }),
-    getWikiRevisions: build.query<WikiRevision[], number>({
-      query: (id) => `/wiki/pages/${id}/revisions`,
-      providesTags: (_r, _e, id) =>
-        [{ type: 'Wiki', id: `rev-${id}` }],
+    getWikiRevisions: build.query<WikiRevision[], string>({
+      query: (slug) => `/wiki/pages/${slug}/revisions`,
+      providesTags: (_r, _e, slug) =>
+        [{ type: 'Wiki', id: `rev-${slug}` }],
     }),
     createWikiPage: build.mutation<
       WikiPage, WikiPagePayload
