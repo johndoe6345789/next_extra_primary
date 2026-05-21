@@ -77,7 +77,7 @@ const KEY_ACTIONS: Record<string, MdAction> = {
 };
 
 export function handleMdKeyDown(
-  e: React.KeyboardEvent<HTMLTextAreaElement>,
+  e: React.KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>,
   ref: React.RefObject<HTMLTextAreaElement | null>,
   onChange: (next: string) => void,
 ): boolean {
