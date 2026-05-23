@@ -1084,9 +1084,11 @@ services:
     build:
       context: ./services/sso/portal
       dockerfile: Dockerfile
+      additional_contexts:
+        shared: ./shared
     volumes:
-      - sso_node_modules:/build/sso/node_modules
-      - sso_next:/build/sso/.next
+      - sso_node_modules:/build/services/sso/portal/node_modules
+      - sso_next:/build/services/sso/portal/.next
     ports:
       - "3099:3000"
     depends_on:
