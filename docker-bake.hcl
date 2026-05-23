@@ -481,7 +481,7 @@ target "packagerepo-backend" {
   context    = "./services/package-repository/root"
   dockerfile = "backend/Dockerfile"
   args = {
-    DEPS_IMAGE    = "${REGISTRY}/businessplanner-base-conan:latest"
+    DEPS_IMAGE    = "${BASE_REGISTRY}/businessplanner-base-conan:latest"
     RUNTIME_IMAGE = "debian:sid-slim"
   }
   tags = [

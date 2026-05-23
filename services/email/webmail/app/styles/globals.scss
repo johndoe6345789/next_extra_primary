@@ -1,3 +1,16 @@
+@use 'foundation';
+@use 'layout';
+@use 'responsive';
+@use 'header';
+@use 'header-actions';
+@use 'search';
+@use 'folder-nav';
+@use 'email-card';
+@use 'email-detail';
+@use 'star-button';
+@use 'thread-panel';
+@use 'compose';
+@use 'compose-form';
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block');
 // =============================================
 // MetaMail Global Styles
@@ -5,26 +18,13 @@
 // =============================================
 
 // Shared M3 design system
-@use 'foundation';
 
 // Layout
-@use 'layout';
-@use 'responsive';
 
 // Header
-@use 'header';
-@use 'header-actions';
-@use 'search';
 
 // Sidebar
-@use 'folder-nav';
 
 // Email views
-@use 'email-card';
-@use 'email-detail';
-@use 'star-button';
-@use 'thread-panel';
 
 // Compose
-@use 'compose';
-@use 'compose-form';
