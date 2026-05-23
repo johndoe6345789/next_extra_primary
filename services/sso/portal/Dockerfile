@@ -1,18 +1,22 @@
 # syntax=docker/dockerfile:1.7
 # Dev-mode Next.js — source baked in, next dev runs on start.
 # Named volumes preserve node_modules + .next across restarts.
-
+# Contexts: default=<service>, shared=shared
 
 FROM node:20-alpine
 ARG NPM_REGISTRY=http://host.docker.internal:4873
 ENV NPM_CONFIG_REGISTRY=$NPM_REGISTRY
 
-WORKDIR /build/sso
+COPY --from=shared . /build/shared/
+WORKDIR /build/services/sso/portal
 COPY package.json package-lock.json* ./
 RUN npm config set fetch-retries 5 && \
     npm config set fetch-retry-mintimeout 20000 && \
     npm config set fetch-retry-maxtimeout 120000 && \
     npm install --prefer-offline --no-audit --no-fund
+RUN ln -s \
+    /build/services/sso/portal/node_modules \
+    /build/node_modules
 
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=development

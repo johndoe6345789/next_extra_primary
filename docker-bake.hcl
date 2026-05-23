@@ -112,6 +112,13 @@ target "frontend" {
 # (service `sso`, context ./services/sso/portal). Tags only here.
 # -----------------------------------------------------------------
 target "sso" {
+  context    = "./services/sso/portal"
+  dockerfile = "Dockerfile"
+  contexts   = { shared = "./shared" }
+  args = {
+    NODE_OPTIONS = "--max-old-space-size=2048"
+    NPM_REGISTRY = "https://registry.npmjs.org"
+  }
   tags = [
     "${REGISTRY}/sso:${TAG}",
     "${REGISTRY}/sso:latest",
