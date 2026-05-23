@@ -37,6 +37,7 @@ variable "TAG" {
 # -----------------------------------------------------------------
 group "default" {
   targets = [
+    "backend",
     "businessplanner-auth",
     "businessplanner-social",
     "businessplanner-notifications",
@@ -85,8 +86,21 @@ group "default" {
 }
 
 # -----------------------------------------------------------------
-# businessplanner-api — Drogon C++ backend (shared by 13 compose services)
+# backend — nextra-api monolith (serves API + all worker daemons reuse this image)
 # -----------------------------------------------------------------
+target "backend" {
+  context    = "."
+  dockerfile = "docker/nextra-api.Dockerfile"
+  args = {
+    BASE_IMAGE    = "${BASE_REGISTRY}/businessplanner-base-conan:latest"
+    RUNTIME_IMAGE = "debian:sid-slim"
+    APT_PROXY     = ""
+  }
+  tags = [
+    "${REGISTRY}/backend:${TAG}",
+    "${REGISTRY}/backend:latest",
+  ]
+}
 
 # -----------------------------------------------------------------
 # frontend — Next.js app (production Dockerfile)
