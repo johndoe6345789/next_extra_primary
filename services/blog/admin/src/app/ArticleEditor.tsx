@@ -52,16 +52,16 @@ export function ArticleEditor(
       <TextField
         label="Title"
         value={draft.title}
-        onChange={(v) =>
-          setDraft({ ...draft, title: v })
+        onChange={(e) =>
+          setDraft({ ...draft, title: e.target.value })
         }
         data-testid="article-title"
       />
       <Textarea
-        label="Body (Markdown)"
+        aria-label="Body (Markdown)"
         value={draft.body_md}
-        onChange={(v) =>
-          setDraft({ ...draft, body_md: v })
+        onChange={(e) =>
+          setDraft({ ...draft, body_md: e.target.value })
         }
         data-testid="article-body"
         rows={18}
