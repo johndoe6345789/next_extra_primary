@@ -5,7 +5,7 @@
  * bulk upload via UploadDrop and click-to-open Lightbox.
  */
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import {
   Alert, Box, Button, Typography,
 } from '@shared/m3'
@@ -65,7 +65,7 @@ export function AlbumDetail(
               data-testid={`item-${it.asset_id}`}
               aria-label={`Open photo ${it.asset_id}`}
               onClick={() => setLightboxIdx(i)}
-              onKeyDown={e => {
+              onKeyDown={(e: React.KeyboardEvent) => {
                 if (e.key === 'Enter')
                   setLightboxIdx(i)
               }}

@@ -5,6 +5,7 @@
  * thumbnail and opens the AlbumDetail on click.
  */
 
+import React from 'react'
 import { Box, Typography } from '@shared/m3'
 import type { Gallery } from '@/hooks/useGalleries'
 
@@ -46,7 +47,7 @@ export function AlbumGrid(
           data-testid={`gallery-card-${g.id}`}
           aria-label={`Open ${g.title}`}
           onClick={() => onOpen(g.id)}
-          onKeyDown={e => {
+          onKeyDown={(e: React.KeyboardEvent) => {
             if (e.key === 'Enter') onOpen(g.id)
           }}
         >
