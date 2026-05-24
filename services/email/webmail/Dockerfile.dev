@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.7
-# Email client frontend — production build; use Dockerfile.dev for local dev.
+# Email client frontend — dev mode with next dev.
 # Contexts: default=services/email/webmail, shared=shared
 # Source is baked into the image; named volumes preserve
 # node_modules and .next cache across restarts.
@@ -29,11 +29,9 @@ COPY . .
 ARG NEXT_BASE_PATH=/emailclient
 ENV NEXT_BASE_PATH=${NEXT_BASE_PATH}
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV NODE_ENV=production
+ENV NODE_ENV=development
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
-
-RUN npx next build --turbopack
 
 EXPOSE 3000
 
@@ -44,4 +42,4 @@ HEALTHCHECK --interval=15s --timeout=5s \
     r=>process.exit(r.statusCode<400?0:1)\
     ).on('error',()=>process.exit(1))"
 
-CMD ["npx", "next", "start"]
+CMD ["npx", "next", "dev", "--webpack"]

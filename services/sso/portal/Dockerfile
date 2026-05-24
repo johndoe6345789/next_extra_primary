@@ -1,6 +1,5 @@
 # syntax=docker/dockerfile:1.7
-# Dev-mode Next.js — source baked in, next dev runs on start.
-# Named volumes preserve node_modules + .next across restarts.
+# Production Next.js — built at image creation; use Dockerfile.dev for local dev.
 # Contexts: default=<service>, shared=shared
 
 FROM node:20-alpine
@@ -19,11 +18,13 @@ RUN ln -s \
     /build/node_modules
 
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV NODE_ENV=development
+ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 
 COPY . .
 
+RUN npx next build --turbopack
+
 EXPOSE 3000
-CMD ["npx", "next", "dev", "--turbopack"]
+CMD ["npx", "next", "start"]
