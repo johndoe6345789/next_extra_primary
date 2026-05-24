@@ -114,8 +114,10 @@ target "frontend" {
     shared = "./shared"
   }
   args = {
-    NODE_OPTIONS = "--max-old-space-size=2048"
-    NPM_REGISTRY = "https://registry.npmjs.org"
+    NODE_OPTIONS    = "--max-old-space-size=2048"
+    NPM_REGISTRY    = "https://registry.npmjs.org"
+    NEXT_BASE_PATH  = "/app"
+    BACKEND_URL     = "http://backend:8080"
   }
   tags = [
     "${REGISTRY}/frontend:${TAG}",
