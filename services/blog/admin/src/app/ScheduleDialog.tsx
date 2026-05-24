@@ -9,9 +9,9 @@
 import { useState } from 'react'
 
 import {
-  M3Button,
-  M3Dialog,
-  M3TextField,
+  Button,
+  Dialog,
+  TextField,
 } from '@shared/m3'
 
 export interface ScheduleDialogProps {
@@ -26,30 +26,30 @@ export function ScheduleDialog(
 ) {
   const [when, setWhen] = useState('')
   return (
-    <M3Dialog
+    <Dialog
       open
       onClose={onCancel}
       data-testid="schedule-dialog"
       aria-label="Schedule article"
     >
-      <M3TextField
+      <TextField
         label="Publish at (ISO 8601)"
         value={when}
         onChange={setWhen}
         data-testid="schedule-when"
       />
-      <M3Button
+      <Button
         data-testid="schedule-cancel"
         onClick={onCancel}
       >
         Cancel
-      </M3Button>
-      <M3Button
+      </Button>
+      <Button
         data-testid="schedule-confirm"
         onClick={() => onConfirm(when)}
       >
         Schedule
-      </M3Button>
-    </M3Dialog>
+      </Button>
+    </Dialog>
   )
 }

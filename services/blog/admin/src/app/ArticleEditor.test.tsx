@@ -3,13 +3,13 @@ import { render, screen } from
 import userEvent from '@testing-library/user-event';
 
 jest.mock('@shared/m3', () => ({
-  M3Button: (p: {
+  Button: (p: {
     children: React.ReactNode;
     onClick?: () => void;
   }) => (
     <button onClick={p.onClick}>{p.children}</button>
   ),
-  M3TextField: (p: {
+  TextField: (p: {
     label: string;
     value: string;
     onChange: (v: string) => void;
@@ -22,7 +22,7 @@ jest.mock('@shared/m3', () => ({
       />
     </label>
   ),
-  M3TextArea: (p: {
+  Textarea: (p: {
     label: string;
     value: string;
     onChange: (v: string) => void;

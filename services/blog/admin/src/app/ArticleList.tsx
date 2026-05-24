@@ -8,9 +8,9 @@
  */
 
 import {
-  M3Button,
-  M3List,
-  M3ListItem,
+  Button,
+  List,
+  ListItem,
 } from '@shared/m3'
 
 import type { Article } from '@/hooks/useArticles'
@@ -37,16 +37,16 @@ export function ArticleList({
       data-testid="article-list"
       aria-label="Article list"
     >
-      <M3Button
+      <Button
         data-testid="article-new"
         aria-label="Create new draft"
         onClick={onCreate}
       >
         New draft
-      </M3Button>
-      <M3List>
+      </Button>
+      <List>
         {rows.map((row) => (
-          <M3ListItem
+          <ListItem
             key={row.id}
             selected={row.id === activeId}
             onClick={() => onSelect(row.id)}
@@ -55,9 +55,9 @@ export function ArticleList({
           >
             <strong>{row.title || '(untitled)'}</strong>
             <span>{row.status}</span>
-          </M3ListItem>
+          </ListItem>
         ))}
-      </M3List>
+      </List>
     </aside>
   )
 }

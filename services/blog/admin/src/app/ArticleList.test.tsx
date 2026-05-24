@@ -3,7 +3,7 @@ import { render, screen } from
 import userEvent from '@testing-library/user-event';
 
 jest.mock('@shared/m3', () => ({
-  M3Button: (p: {
+  Button: (p: {
     children: React.ReactNode;
     onClick?: () => void;
     'aria-label'?: string;
@@ -15,10 +15,10 @@ jest.mock('@shared/m3', () => ({
       {p.children}
     </button>
   ),
-  M3List: (p: { children: React.ReactNode }) => (
+  List: (p: { children: React.ReactNode }) => (
     <ul>{p.children}</ul>
   ),
-  M3ListItem: (p: {
+  ListItem: (p: {
     children: React.ReactNode;
     onClick?: () => void;
     'aria-label'?: string;

@@ -2,16 +2,16 @@
 
 /**
  * ArticleEditor — dual-pane markdown editor.
- * Left: M3TextArea input; right: rendered
+ * Left: Textarea input; right: rendered
  * preview.  Toolbar uses only M3 components.
  */
 
 import { useState, useEffect } from 'react'
 
 import {
-  M3Button,
-  M3TextField,
-  M3TextArea,
+  Button,
+  TextField,
+  Textarea,
 } from '@shared/m3'
 
 import type { Article } from '@/hooks/useArticles'
@@ -49,7 +49,7 @@ export function ArticleEditor(
       data-testid="article-editor"
       aria-label="Article editor"
     >
-      <M3TextField
+      <TextField
         label="Title"
         value={draft.title}
         onChange={(v) =>
@@ -57,7 +57,7 @@ export function ArticleEditor(
         }
         data-testid="article-title"
       />
-      <M3TextArea
+      <Textarea
         label="Body (Markdown)"
         value={draft.body_md}
         onChange={(v) =>
@@ -67,24 +67,24 @@ export function ArticleEditor(
         rows={18}
       />
       <MarkdownPreview source={draft.body_md} />
-      <M3Button
+      <Button
         data-testid="article-save"
         onClick={() => p.onSave(draft)}
       >
         Save draft
-      </M3Button>
-      <M3Button
+      </Button>
+      <Button
         data-testid="article-publish"
         onClick={() => p.onPublish(draft)}
       >
         Publish now
-      </M3Button>
-      <M3Button
+      </Button>
+      <Button
         data-testid="article-schedule"
         onClick={() => setScheduling(true)}
       >
         Schedule
-      </M3Button>
+      </Button>
       {scheduling && (
         <ScheduleDialog
           onCancel={() => setScheduling(false)}
