@@ -21,7 +21,7 @@ done
 
 # Build the app
 RUN cd tools/apidocs/frontend \
-    && npx next build --webpack
+    && npx next build --turbopack
 
 # Runtime stage
 FROM node:24-alpine
