@@ -35,7 +35,7 @@ export function ScheduleDialog(
       <TextField
         label="Publish at (ISO 8601)"
         value={when}
-        onChange={setWhen}
+        onChange={(e) => setWhen(e.target.value)}
         data-testid="schedule-when"
       />
       <Button
