@@ -1,0 +1,47 @@
+[
+  {
+    "id": "acceptance",
+    "title": "1. Acceptance of Terms",
+    "body": "By accessing or using Nextra you agree to be bound by these Terms of Service. If you do not agree to all of these terms, do not use the service."
+  },
+  {
+    "id": "service",
+    "title": "2. Service Description",
+    "body": "Nextra is a gamified web application with AI chat integration, community tools, and collaborative features. The service includes a leaderboard, achievement system, blog, wiki, forums, polls, and AI-assisted chat."
+  },
+  {
+    "id": "free",
+    "title": "3. Free Service Terms",
+    "body": "Nextra is provided free of charge. We reserve the right to introduce optional paid features in the future. Your continued use of free features will never require payment without explicit consent."
+  },
+  {
+    "id": "ai",
+    "title": "4. AI Features",
+    "body": "AI chat features are powered by third-party models. Your API keys are stored encrypted and are never used to train any model. Conversations are not retained beyond your session unless you explicitly save them."
+  },
+  {
+    "id": "conduct",
+    "title": "5. Community Conduct",
+    "body": "Users must not post content that is unlawful, abusive, threatening, defamatory, or otherwise objectionable. We reserve the right to moderate or remove content and suspend accounts that violate these rules."
+  },
+  {
+    "id": "ip",
+    "title": "6. Intellectual Property",
+    "body": "You retain full ownership of any content you create using Nextra. We claim no ownership over your data. By posting content publicly you grant other users a non-exclusive right to read and interact with it."
+  },
+  {
+    "id": "termination",
+    "title": "7. Termination",
+    "body": "You may delete your account at any time via Settings. We may suspend accounts that violate these terms. Upon deletion, your personal data is removed within 30 days."
+  },
+  {
+    "id": "liability",
+    "title": "8. Limitation of Liability",
+    "body": "Nextra is provided 'as is' without warranty of any kind. To the fullest extent permitted by law, we are not liable for any indirect, incidental, or consequential damages arising from your use of the service."
+  },
+  {
+    "id": "governing",
+    "title": "9. Governing Law",
+    "body": "These terms are governed by the laws of England and Wales. Any disputes shall be subject to the exclusive jurisdiction of the courts of England and Wales."
+  }
+]
