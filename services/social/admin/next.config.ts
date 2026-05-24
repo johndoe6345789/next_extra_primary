@@ -6,7 +6,7 @@
 import path from 'path'
 import type { NextConfig } from 'next'
 
-const monorepoRoot = path.resolve(__dirname, '../..')
+const monorepoRoot = path.resolve(__dirname, '../../..')
 
 const nextConfig: NextConfig = {
   basePath:

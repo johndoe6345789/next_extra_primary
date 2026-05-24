@@ -6,7 +6,7 @@ import type { NextConfig } from 'next'
  * basePath is '/shop-admin' because nginx mounts
  * this app under /shop-admin in the portal.
  */
-const monorepoRoot = path.resolve(__dirname, '../..')
+const monorepoRoot = path.resolve(__dirname, '../../..')
 
 const nextConfig: NextConfig = {
   basePath:
