@@ -5,7 +5,7 @@
  * Delegates HTTP work to the useUpload hook.
  */
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Box, Typography } from '@shared/m3'
 import { useUpload } from '@/hooks/useUpload'
 
@@ -39,7 +39,7 @@ export function UploadDrop(
       data-testid="upload-drop"
       data-active={active}
       aria-label="Drop files to upload"
-      onDragOver={e => {
+      onDragOver={(e: React.DragEvent) => {
         e.preventDefault()
         setActive(true)
       }}
