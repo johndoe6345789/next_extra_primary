@@ -19,7 +19,7 @@ RUN ln -s \
 
 # -- Stage 2: build -------------------------
 FROM deps AS build
-ARG NEXT_BASE_PATH=/sso
+ARG NEXT_BASE_PATH=/sso-portal
 WORKDIR /build/services/sso/portal
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
