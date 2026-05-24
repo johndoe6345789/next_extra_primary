@@ -5,7 +5,7 @@
 # node_modules and .next cache across restarts.
 
 FROM node:20-alpine
-ARG NPM_REGISTRY=http://host.docker.internal:4873
+ARG NPM_REGISTRY=https://registry.npmjs.org
 ENV NPM_CONFIG_REGISTRY=$NPM_REGISTRY
 
 # Place shared at the path file:../../../shared/* resolves to
