@@ -22,7 +22,7 @@ function renderLine(
   const m = /^(#{1,6}) (.*)$/.exec(line)
   if (m) {
     const n = m[1].length
-    const Tag = ('h' + n) as keyof JSX.IntrinsicElements
+    const Tag = `h${n}` as 'h1'|'h2'|'h3'|'h4'|'h5'|'h6'
     return <Tag key={key}>{m[2]}</Tag>
   }
   if (line.trim() === '') return null
