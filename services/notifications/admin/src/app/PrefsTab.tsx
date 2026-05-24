@@ -52,8 +52,8 @@ export function PrefsTab() {
           </Typography>
           <Switch
             checked={enabled(c)}
-            onChange={(_, v) =>
-              toggle(user, c, v)}
+            onChange={(e) =>
+              toggle(user, c, e.target.checked)}
             testId={`prefs-${c}`}
             aria-label={`${c} channel`}
           />
