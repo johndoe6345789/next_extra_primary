@@ -25,7 +25,7 @@ export interface TextFieldProps
   /** Props passed to the underlying input */
   inputProps?: React.InputHTMLAttributes<
     HTMLInputElement
-  >
+  > & Record<`data-${string}`, string | undefined>
   /** Props passed to the helper text element */
   FormHelperTextProps?: Record<string, unknown>
   /** Input size */

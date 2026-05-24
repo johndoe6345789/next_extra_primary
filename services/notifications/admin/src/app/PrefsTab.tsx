@@ -54,10 +54,8 @@ export function PrefsTab() {
             checked={enabled(c)}
             onChange={(_, v) =>
               toggle(user, c, v)}
-            inputProps={{
-              'data-testid': `prefs-${c}`,
-              'aria-label': `${c} channel`,
-            }}
+            testId={`prefs-${c}`}
+            aria-label={`${c} channel`}
           />
         </div>
       ))}
