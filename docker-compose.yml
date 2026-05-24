@@ -144,6 +144,7 @@ services:
 
   # ---- Mail server (Postfix + Dovecot) -----------------------
   mailserver:
+    image: localhost:5001/johndoe6345789/next_extra_primary/mailserver:latest
     build:
       context: docker/mail
       dockerfile: Dockerfile
@@ -193,6 +194,7 @@ services:
 
   # ---- Email client API (Flask backend) ----------------------
   emailclient-api:
+    image: localhost:5001/johndoe6345789/next_extra_primary/emailclient-api:latest
     build:
       context: ./services/email/webmail
       dockerfile: deployment/docker/email-service/Dockerfile
