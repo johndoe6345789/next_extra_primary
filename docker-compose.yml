@@ -250,8 +250,9 @@ services:
       context: .
       dockerfile: docker/nextra-api.Dockerfile
       args:
-        BASE_IMAGE: debian:sid
+        BASE_IMAGE: localhost:5001/johndoe6345789/businessplanner/businessplanner-base-conan:latest
         RUNTIME_IMAGE: debian:sid-slim
+        APT_PROXY: ""
     ports:
       - "8080:8080"
     depends_on:
