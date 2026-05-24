@@ -483,8 +483,9 @@ target "s3-frontend" {
   dockerfile = "Dockerfile"
   contexts   = { shared = "./shared" }
   args = {
-    NODE_OPTIONS = "--max-old-space-size=2048"
-    NPM_REGISTRY = "https://registry.npmjs.org"
+    NODE_OPTIONS   = "--max-old-space-size=2048"
+    NPM_REGISTRY   = "https://registry.npmjs.org"
+    NEXT_BASE_PATH = "/s3"
   }
   tags = [
     "${REGISTRY}/s3-frontend:${TAG}",
@@ -539,8 +540,9 @@ target "pgadmin-frontend" {
   dockerfile = "Dockerfile"
   contexts   = { shared = "./shared" }
   args = {
-    NODE_OPTIONS = "--max-old-space-size=2048"
-    NPM_REGISTRY = "https://registry.npmjs.org"
+    NODE_OPTIONS   = "--max-old-space-size=2048"
+    NPM_REGISTRY   = "https://registry.npmjs.org"
+    NEXT_BASE_PATH = "/db"
   }
   tags = [
     "${REGISTRY}/pgadmin-frontend:${TAG}",

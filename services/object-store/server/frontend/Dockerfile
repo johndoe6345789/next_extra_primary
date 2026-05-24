@@ -19,6 +19,8 @@ RUN ln -s \
 
 # -- Stage 2: build -------------------------
 FROM deps AS build
+ARG NEXT_BASE_PATH=
+ENV NEXT_BASE_PATH=${NEXT_BASE_PATH}
 WORKDIR /build/services/object-store/server/frontend
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
