@@ -13,9 +13,10 @@
  * @module i18n/fetchRetry
  */
 
-const MAX = 4;
+const MAX = 2;
 const BASE_MS = 200;
 const CAP_MS = 2000;
+const TIMEOUT_MS = 4000;
 
 const sleep = (ms: number): Promise<void> =>
   new Promise((r) => setTimeout(r, ms));
@@ -39,13 +40,20 @@ export async function fetchWithRetry(
 ): Promise<Response> {
   let lastErr: unknown = null;
   for (let attempt = 1; attempt <= MAX; attempt++) {
+    const controller = new AbortController();
+    const tid = setTimeout(() => controller.abort(), TIMEOUT_MS);
     try {
-      const res = await fetch(input, init);
+      const res = await fetch(input, {
+        ...init,
+        signal: controller.signal,
+      });
+      clearTimeout(tid);
       if (res.ok || res.status < 500) return res;
       // 5xx → retry
       if (attempt < MAX) await sleep(backoffMs(attempt));
       else return res;
     } catch (e) {
+      clearTimeout(tid);
       lastErr = e;
       if (attempt < MAX) await sleep(backoffMs(attempt));
     }
