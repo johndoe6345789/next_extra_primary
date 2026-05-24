@@ -55,3 +55,24 @@ services:
   pgadmin-frontend:
     build:
       dockerfile: Dockerfile.dev
+  jobs:
+    build:
+      dockerfile: Dockerfile.dev
+  search:
+    build:
+      dockerfile: Dockerfile.dev
+  streams:
+    build:
+      dockerfile: Dockerfile.dev
+  cron:
+    build:
+      dockerfile: Dockerfile.dev
+  backups:
+    build:
+      dockerfile: Dockerfile.dev
+  webhooks:
+    build:
+      dockerfile: Dockerfile.dev
+  polls:
+    build:
+      dockerfile: Dockerfile.dev
