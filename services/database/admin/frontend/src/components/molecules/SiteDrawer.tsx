@@ -3,14 +3,14 @@
 import {
   Drawer, List, ListItemButton, ListItemIcon,
   ListItemText, Typography, Divider, IconButton,
-  Box, Close, Home, Email, Storage, Package,
+  Box, Close, Home, Email, Storage, Archive,
   CloudQueue, OpenInNew,
 } from '@shared/m3';
 import siteLinks from '@/constants/site-links.json';
 
 const iconMap: Record<string, React.ReactElement> = {
   Home: <Home />, Email: <Email />,
-  Storage: <Storage />, Inventory: <Package />,
+  Storage: <Storage />, Inventory: <Archive />,
   CloudQueue: <CloudQueue />,
 };
 
