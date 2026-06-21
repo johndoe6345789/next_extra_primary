@@ -13,6 +13,8 @@
 
 #include <drogon/HttpClient.h>
 
+#include <chrono>
+#include <future>
 #include <string>
 
 namespace repo
@@ -31,7 +33,8 @@ class S3BlobStore
     static std::string sha256(const std::string& data);
 
     /// @brief Store blob, return {digest, size}.
-    std::pair<std::string, size_t> store(const std::string& data);
+    /// @param knownDigest Pre-computed "sha256:hex" digest; skips redundant hash.
+    std::pair<std::string, size_t> store(std::string data, const std::string& knownDigest = {});
 
     /// @brief Read blob by digest, empty if missing.
     std::string read(const std::string& digest) const;

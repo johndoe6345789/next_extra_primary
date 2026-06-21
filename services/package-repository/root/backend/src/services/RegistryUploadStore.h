@@ -6,6 +6,7 @@
 
 #include <filesystem>
 #include <fstream>
+#include <string_view>
 
 namespace repo::registry_upload
 {
@@ -35,7 +36,9 @@ inline int64_t size(const std::string& uuid)
     return fs::exists(path) ? (int64_t)fs::file_size(path) : -1;
 }
 
-inline int64_t append(const std::string& uuid, const std::string& chunk)
+// Accept string_view so callers can pass Drogon's request body directly
+// without making an intermediate copy of potentially large blobs.
+inline int64_t append(const std::string& uuid, std::string_view chunk)
 {
     std::ofstream(pathFor(uuid), std::ios::binary | std::ios::app).write(
         chunk.data(), (long)chunk.size());
@@ -43,22 +46,26 @@ inline int64_t append(const std::string& uuid, const std::string& chunk)
 }
 
 inline std::string finalize(const std::string& uuid, const std::string& digest,
-                            const std::string& tail)
+                            std::string tail)
 {
     if (size(uuid) < 0) return {};
     if (!tail.empty()) append(uuid, tail);
+    // Free tail before the large file read so peak memory = file size only.
+    tail.clear();
+    tail.shrink_to_fit();
     std::ifstream f(pathFor(uuid), std::ios::binary);
     std::string data{std::istreambuf_iterator<char>(f), {}};
+    f.close();
     const auto actual = S3BlobStore::sha256(data);
     if (actual != digest) {
         fs::remove(pathFor(uuid));
         return {};
     }
-    // Only remove the staging file if the store succeeds.
-    // Empty first element of the pair signals S3 failure;
-    // callers must return 400/500 so buildx retries and
-    // we never advertise a blob we can't serve.
-    auto stored = Globals::blobs->store(data);
+    // Pass the pre-verified digest and move the blob into the store to avoid
+    // a redundant SHA256 pass and a second copy of the blob body.
+    // Only remove the staging file if the store succeeds; an empty first element
+    // signals S3 failure so buildx can retry without us advertising a missing blob.
+    auto stored = Globals::blobs->store(std::move(data), actual);
     if (stored.first.empty()) return {};
     fs::remove(pathFor(uuid));
     return stored.first;

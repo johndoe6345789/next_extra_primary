@@ -5,6 +5,31 @@ project. Read this before making any changes.
 
 ---
 
+## Local Docker Registry
+
+Nextra runs its own Docker image registry via the `packagerepo-backend`
+service (the custom package repository). It is exposed on **host port 5050**.
+
+- Local image prefix: `localhost:5050/next_extra_primary/<service>:latest`
+- Under `act` (GitHub Actions locally): `host.docker.internal:5050/next_extra_primary/<service>:latest`
+- Production (CI push): `ghcr.io/<owner>/next_extra_primary/<service>:latest`
+
+**Do not use localhost:5001 (the jenkins registry) for nextra images.**
+
+Base images are pre-baked and stored in this registry:
+- `localhost:5050/next_extra_primary/nextra-base-apt:latest`
+- `localhost:5050/next_extra_primary/nextra-base-conan:latest`
+- `localhost:5050/next_extra_primary/nextra-base-node:latest`
+
+All C++ service builds (`service-base.Dockerfile` and `nextra-api.Dockerfile`)
+use `nextra-base-conan` as `BASE_IMAGE` — this pre-warms the Conan cache
+so `conan install` is a no-op during service builds.
+
+To rebuild base images: run the `nextra-base-images` workflow (or `act`)
+— it pushes to `host.docker.internal:5050/next_extra_primary/`.
+
+---
+
 ## Project Overview
 
 Nextra is a full-stack gamified web application with AI chat integration.

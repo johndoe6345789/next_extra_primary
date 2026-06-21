@@ -6,6 +6,8 @@
 #include "S3BlobStore.h"
 
 #include <algorithm>
+#include <future>
+#include <memory>
 #include <drogon/HttpAppFramework.h>
 
 namespace repo
@@ -33,41 +35,67 @@ std::string S3BlobStore::sha256(const std::string& data)
     return sha256hex(data);
 }
 
-std::pair<std::string, size_t> S3BlobStore::store(const std::string& data)
+std::pair<std::string, size_t> S3BlobStore::store(std::string data,
+                                                   const std::string& knownDigest)
 {
-    auto digest = sha256(data);
-    auto key = stripPrefix(digest);
+    // Use pre-computed digest when available to avoid a second SHA256 pass over
+    // a potentially large blob.
+    const auto digest = knownDigest.empty() ? sha256(data) : knownDigest;
+    const auto key = stripPrefix(digest);
+    const auto sz = data.size();
 
-    auto client = drogon::HttpClient::newHttpClient(endpoint_);
-    auto req = drogon::HttpRequest::newHttpRequest();
-    req->setPath("/" + bucket_ + "/" + key);
-    req->setMethod(drogon::Put);
-    req->addHeader("Authorization", "Bearer " + accessKey_);
-    req->setContentTypeString("application/octet-stream");
-    req->setBody(data);
-
-    // Timeout scales with payload size: 30 s + 1 s per MB,
-    // capped at 600 s. A fresh nextra-base-conan layer is
-    // ~500 MB and must fit inside this window.
-    const auto sizeMb = static_cast<double>(data.size()) /
-                        (1024.0 * 1024.0);
+    // Timeout scales with payload size: 30 s + 1 s per MB, capped at 600 s.
+    // A fresh nextra-base-conan layer is ~500 MB and must fit inside this window.
+    const auto sizeMb = static_cast<double>(sz) / (1024.0 * 1024.0);
     const auto timeout = std::min(600.0, 30.0 + sizeMb);
 
-    auto [result, resp] = client->sendRequest(req, timeout);
-    if (result != drogon::ReqResult::Ok || !resp) {
-        LOG_ERROR << "S3 PUT failed key=" << key
-                  << " size=" << data.size()
-                  << " result=" << static_cast<int>(result);
+    // Drogon's HttpClient must be created and used on one of its own event loop
+    // threads. When store() is called from a background std::thread (e.g. from
+    // completeUpload), we post the PUT to the event loop via queueInLoop and
+    // block on a promise so we don't race on the async TCP connect.
+    auto dataPtr = std::make_shared<std::string>(std::move(data));
+    auto prom = std::make_shared<std::promise<bool>>();
+    auto fut = prom->get_future();
+
+    auto ep = endpoint_;
+    auto bkt = bucket_;
+    auto ak = accessKey_;
+
+    drogon::app().getLoop()->queueInLoop(
+        [ep, bkt, ak, key, sz, timeout, dataPtr, prom]() mutable {
+            auto client = drogon::HttpClient::newHttpClient(ep);
+            auto req = drogon::HttpRequest::newHttpRequest();
+            req->setPath("/" + bkt + "/" + key);
+            req->setMethod(drogon::Put);
+            req->addHeader("Authorization", "Bearer " + ak);
+            req->setContentTypeString("application/octet-stream");
+            // Move the blob into the request body — avoids a second copy of
+            // potentially hundreds of MB.
+            req->setBody(std::move(*dataPtr));
+
+            client->sendRequest(req,
+                [key, sz, prom](drogon::ReqResult r,
+                                const drogon::HttpResponsePtr& resp) {
+                    const bool ok =
+                        r == drogon::ReqResult::Ok && resp &&
+                        resp->statusCode() >= drogon::k200OK &&
+                        resp->statusCode() < drogon::k300MultipleChoices;
+                    if (!ok)
+                        LOG_ERROR << "S3 PUT failed key=" << key
+                                  << " size=" << sz
+                                  << " result=" << static_cast<int>(r);
+                    prom->set_value(ok);
+                },
+                timeout);
+        });
+
+    if (fut.wait_for(std::chrono::duration<double>(timeout + 5.0)) !=
+        std::future_status::ready) {
+        LOG_ERROR << "S3 PUT timed out key=" << key << " size=" << sz;
         return {"", 0};
     }
-    const auto code = resp->statusCode();
-    if (code < drogon::k200OK || code >= drogon::k300MultipleChoices) {
-        LOG_ERROR << "S3 PUT rejected key=" << key
-                  << " size=" << data.size()
-                  << " status=" << static_cast<int>(code);
-        return {"", 0};
-    }
-    return {digest, data.size()};
+    if (!fut.get()) return {"", 0};
+    return {digest, sz};
 }
 
 std::string S3BlobStore::read(const std::string& digest) const

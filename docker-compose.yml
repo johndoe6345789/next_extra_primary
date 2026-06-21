@@ -145,7 +145,7 @@ services:
 
   # ---- Mail server (Postfix + Dovecot) -----------------------
   mailserver:
-    image: localhost:5001/johndoe6345789/next_extra_primary/mailserver:latest
+    image: localhost:5050/next_extra_primary/mailserver:latest
     build:
       context: docker/mail
       dockerfile: Dockerfile
@@ -195,7 +195,7 @@ services:
 
   # ---- Email client API (Flask backend) ----------------------
   emailclient-api:
-    image: localhost:5001/johndoe6345789/next_extra_primary/emailclient-api:latest
+    image: localhost:5050/next_extra_primary/emailclient-api:latest
     build:
       context: ./services/email/webmail
       dockerfile: deployment/docker/email-service/Dockerfile
@@ -223,7 +223,7 @@ services:
 
   # ---- Email client frontend (Next.js) -----------------------
   emailclient:
-    image: localhost:5001/johndoe6345789/next_extra_primary/emailclient:latest
+    image: localhost:5050/next_extra_primary/emailclient:latest
     build:
       context: ./services/email/webmail
       dockerfile: Dockerfile
@@ -249,12 +249,12 @@ services:
 
   # ---- C++ API backend ---------------------------------------
   backend:
-    image: localhost:5001/johndoe6345789/next_extra_primary/backend:latest
+    image: localhost:5050/next_extra_primary/backend:latest
     build:
       context: .
       dockerfile: docker/nextra-api.Dockerfile
       args:
-        BASE_IMAGE: localhost:5001/johndoe6345789/businessplanner/businessplanner-base-conan:latest
+        BASE_IMAGE: localhost:5050/next_extra_primary/nextra-base-conan:latest
         RUNTIME_IMAGE: debian:sid-slim
         APT_PROXY: ""
     ports:
@@ -299,11 +299,12 @@ services:
   # ==============================================================
 
   nextra-auth:
-    image: localhost:5001/johndoe6345789/next_extra_primary/nextra-auth:latest
+    image: localhost:5050/next_extra_primary/nextra-auth:latest
     build:
       context: .
       dockerfile: docker/service-base.Dockerfile
       args:
+        BASE_IMAGE: localhost:5050/next_extra_primary/nextra-base-conan:latest
         SVC_NAME: nextra-auth
         SVC_DIR: auth-service
         SVC_PORT: "9001"
@@ -319,11 +320,12 @@ services:
     restart: unless-stopped
 
   nextra-social:
-    image: localhost:5001/johndoe6345789/next_extra_primary/nextra-social:latest
+    image: localhost:5050/next_extra_primary/nextra-social:latest
     build:
       context: .
       dockerfile: docker/service-base.Dockerfile
       args:
+        BASE_IMAGE: localhost:5050/next_extra_primary/nextra-base-conan:latest
         SVC_NAME: nextra-social
         SVC_DIR: social-service
         SVC_PORT: "9002"
@@ -342,11 +344,12 @@ services:
     restart: unless-stopped
 
   nextra-notifications:
-    image: localhost:5001/johndoe6345789/next_extra_primary/nextra-notifications:latest
+    image: localhost:5050/next_extra_primary/nextra-notifications:latest
     build:
       context: .
       dockerfile: docker/service-base.Dockerfile
       args:
+        BASE_IMAGE: localhost:5050/next_extra_primary/nextra-base-conan:latest
         SVC_NAME: nextra-notifications
         SVC_DIR: notifications-service
         SVC_PORT: "9003"
@@ -365,11 +368,12 @@ services:
     restart: unless-stopped
 
   nextra-comments:
-    image: localhost:5001/johndoe6345789/next_extra_primary/nextra-comments:latest
+    image: localhost:5050/next_extra_primary/nextra-comments:latest
     build:
       context: .
       dockerfile: docker/service-base.Dockerfile
       args:
+        BASE_IMAGE: localhost:5050/next_extra_primary/nextra-base-conan:latest
         SVC_NAME: nextra-comments
         SVC_DIR: comments-service
         SVC_PORT: "9004"
@@ -391,11 +395,12 @@ services:
     restart: unless-stopped
 
   nextra-analytics:
-    image: localhost:5001/johndoe6345789/next_extra_primary/nextra-analytics:latest
+    image: localhost:5050/next_extra_primary/nextra-analytics:latest
     build:
       context: .
       dockerfile: docker/service-base.Dockerfile
       args:
+        BASE_IMAGE: localhost:5050/next_extra_primary/nextra-base-conan:latest
         SVC_NAME: nextra-analytics
         SVC_DIR: analytics-service
         SVC_PORT: "9005"
@@ -414,11 +419,12 @@ services:
     restart: unless-stopped
 
   nextra-gamification:
-    image: localhost:5001/johndoe6345789/next_extra_primary/nextra-gamification:latest
+    image: localhost:5050/next_extra_primary/nextra-gamification:latest
     build:
       context: .
       dockerfile: docker/service-base.Dockerfile
       args:
+        BASE_IMAGE: localhost:5050/next_extra_primary/nextra-base-conan:latest
         SVC_NAME: nextra-gamification
         SVC_DIR: gamification-service
         SVC_PORT: "9006"
@@ -434,11 +440,12 @@ services:
     restart: unless-stopped
 
   nextra-content:
-    image: localhost:5001/johndoe6345789/next_extra_primary/nextra-content:latest
+    image: localhost:5050/next_extra_primary/nextra-content:latest
     build:
       context: .
       dockerfile: docker/service-base.Dockerfile
       args:
+        BASE_IMAGE: localhost:5050/next_extra_primary/nextra-base-conan:latest
         SVC_NAME: nextra-content
         SVC_DIR: content-service
         SVC_PORT: "9007"
@@ -454,11 +461,12 @@ services:
     restart: unless-stopped
 
   nextra-media:
-    image: localhost:5001/johndoe6345789/next_extra_primary/nextra-media:latest
+    image: localhost:5050/next_extra_primary/nextra-media:latest
     build:
       context: .
       dockerfile: docker/service-base.Dockerfile
       args:
+        BASE_IMAGE: localhost:5050/next_extra_primary/nextra-base-conan:latest
         SVC_NAME: nextra-media
         SVC_DIR: media-service
         SVC_PORT: "9008"
@@ -474,11 +482,12 @@ services:
     restart: unless-stopped
 
   nextra-search:
-    image: localhost:5001/johndoe6345789/next_extra_primary/nextra-search:latest
+    image: localhost:5050/next_extra_primary/nextra-search:latest
     build:
       context: .
       dockerfile: docker/service-base.Dockerfile
       args:
+        BASE_IMAGE: localhost:5050/next_extra_primary/nextra-base-conan:latest
         SVC_NAME: nextra-search
         SVC_DIR: search-service
         SVC_PORT: "9009"
@@ -498,11 +507,12 @@ services:
     restart: unless-stopped
 
   nextra-infra:
-    image: localhost:5001/johndoe6345789/next_extra_primary/nextra-infra:latest
+    image: localhost:5050/next_extra_primary/nextra-infra:latest
     build:
       context: .
       dockerfile: docker/service-base.Dockerfile
       args:
+        BASE_IMAGE: localhost:5050/next_extra_primary/nextra-base-conan:latest
         SVC_NAME: nextra-infra
         SVC_DIR: infra-service
         SVC_PORT: "9010"
@@ -528,11 +538,12 @@ services:
     restart: unless-stopped
 
   nextra-ai:
-    image: localhost:5001/johndoe6345789/next_extra_primary/nextra-ai:latest
+    image: localhost:5050/next_extra_primary/nextra-ai:latest
     build:
       context: .
       dockerfile: docker/service-base.Dockerfile
       args:
+        BASE_IMAGE: localhost:5050/next_extra_primary/nextra-base-conan:latest
         SVC_NAME: nextra-ai
         SVC_DIR: ai-service
         SVC_PORT: "9011"
@@ -550,11 +561,12 @@ services:
     restart: unless-stopped
 
   nextra-platform:
-    image: localhost:5001/johndoe6345789/next_extra_primary/nextra-platform:latest
+    image: localhost:5050/next_extra_primary/nextra-platform:latest
     build:
       context: .
       dockerfile: docker/service-base.Dockerfile
       args:
+        BASE_IMAGE: localhost:5050/next_extra_primary/nextra-base-conan:latest
         SVC_NAME: nextra-platform
         SVC_DIR: platform-service
         SVC_PORT: "9012"
@@ -570,11 +582,12 @@ services:
     restart: unless-stopped
 
   nextra-commerce:
-    image: localhost:5001/johndoe6345789/next_extra_primary/nextra-commerce:latest
+    image: localhost:5050/next_extra_primary/nextra-commerce:latest
     build:
       context: .
       dockerfile: docker/service-base.Dockerfile
       args:
+        BASE_IMAGE: localhost:5050/next_extra_primary/nextra-base-conan:latest
         SVC_NAME: nextra-commerce
         SVC_DIR: commerce-service
         SVC_PORT: "9013"
@@ -591,7 +604,7 @@ services:
 
   # ---- Job scheduler daemon (durable ad-hoc queue) -----------
   job-scheduler:
-    image: localhost:5001/johndoe6345789/next_extra_primary/backend:latest
+    image: localhost:5050/next_extra_primary/backend:latest
     command: ["job-scheduler",
               "--config", "config/config.worker.prod.json"]
     depends_on:
@@ -621,7 +634,7 @@ services:
   #   RUN apt-get update && apt-get install -y --no-install-recommends \
   #       ffmpeg && rm -rf /var/lib/apt/lists/*
   video-transcoder:
-    image: localhost:5001/johndoe6345789/next_extra_primary/backend:latest
+    image: localhost:5050/next_extra_primary/backend:latest
     command: ["video-transcoder",
               "--config", "config/config.worker.prod.json"]
     depends_on:
@@ -642,7 +655,7 @@ services:
 
   # ---- Cron manager daemon (scheduled_jobs -> job_queue) -----
   cron-manager:
-    image: localhost:5001/johndoe6345789/next_extra_primary/backend:latest
+    image: localhost:5050/next_extra_primary/backend:latest
     command: ["cron-manager",
               "--config", "config/config.worker.prod.json"]
     depends_on:
@@ -667,7 +680,7 @@ services:
 
   # ---- Notification router daemon (Phase 1.3) ----------------
   notification-router:
-    image: localhost:5001/johndoe6345789/next_extra_primary/backend:latest
+    image: localhost:5050/next_extra_primary/backend:latest
     command: ["notification-router",
               "--config", "config/config.worker.prod.json"]
     depends_on:
@@ -689,7 +702,7 @@ services:
 
   # ---- Notifications operator tool (Phase 1.3) ---------------
   notifications:
-    image: localhost:5001/johndoe6345789/next_extra_primary/notifications:latest
+    image: localhost:5050/next_extra_primary/notifications:latest
     build:
       context: ./services/notifications/admin
       dockerfile: Dockerfile
@@ -709,7 +722,7 @@ services:
 
   # ---- Image processor daemon (Phase 4.3) --------------------
   image-processor:
-    image: localhost:5001/johndoe6345789/next_extra_primary/backend:latest
+    image: localhost:5050/next_extra_primary/backend:latest
     command: ["image-processor",
               "--config", "config/config.worker.prod.json"]
     depends_on:
@@ -731,7 +744,7 @@ services:
 
   # ---- Image processor operator tool (Phase 4.3) -------------
   image-processor-frontend:
-    image: localhost:5001/johndoe6345789/next_extra_primary/image-processor-frontend:latest
+    image: localhost:5050/next_extra_primary/image-processor-frontend:latest
     build:
       context: ./services/image/admin
       dockerfile: Dockerfile
@@ -760,7 +773,7 @@ services:
 
   # ---- PDF generator daemon (Phase 6.2) ----------------------
   pdf-generator:
-    image: localhost:5001/johndoe6345789/next_extra_primary/backend:latest
+    image: localhost:5050/next_extra_primary/backend:latest
     command: ["pdf-generator",
               "--config", "config/config.worker.prod.json"]
     depends_on:
@@ -784,7 +797,7 @@ services:
 
   # ---- Ecommerce daemon (products, cart, Stripe) -------------
   ecommerce-api:
-    image: localhost:5001/johndoe6345789/next_extra_primary/backend:latest
+    image: localhost:5050/next_extra_primary/backend:latest
     command: ["ecommerce-api",
               "--config", "config/config.worker.prod.json"]
     depends_on:
@@ -808,7 +821,7 @@ services:
 
   # ---- Shop admin operator tool ------------------------------
   shop-admin:
-    image: localhost:5001/johndoe6345789/next_extra_primary/shop-admin:latest
+    image: localhost:5050/next_extra_primary/shop-admin:latest
     build:
       context: ./services/ecommerce/admin
       dockerfile: Dockerfile
@@ -828,7 +841,7 @@ services:
 
   # ---- Jobs operator tool (T3 Next.js frontend) --------------
   jobs:
-    image: localhost:5001/johndoe6345789/next_extra_primary/jobs:latest
+    image: localhost:5050/next_extra_primary/jobs:latest
     build:
       context: ./services/job-queue/admin
       dockerfile: Dockerfile
@@ -845,7 +858,7 @@ services:
 
   # ---- Search indexer daemon (Phase 4.5) --------------------
   search-indexer:
-    image: localhost:5001/johndoe6345789/next_extra_primary/backend:latest
+    image: localhost:5050/next_extra_primary/backend:latest
     command: ["search-indexer",
               "--config", "config/config.worker.prod.json"]
     depends_on:
@@ -867,7 +880,7 @@ services:
 
   # ---- Search operator tool (Next.js frontend) --------------
   search:
-    image: localhost:5001/johndoe6345789/next_extra_primary/search:latest
+    image: localhost:5050/next_extra_primary/search:latest
     build:
       context: ./services/search/admin
       dockerfile: Dockerfile
@@ -902,7 +915,7 @@ services:
 
   # ---- media-streaming daemon (control plane) ---------------
   media-streaming:
-    image: localhost:5001/johndoe6345789/next_extra_primary/backend:latest
+    image: localhost:5050/next_extra_primary/backend:latest
     command: ["media-streaming",
               "--config", "config/config.worker.prod.json"]
     depends_on:
@@ -923,7 +936,7 @@ services:
 
   # ---- Streams operator tool (Next.js frontend) -------------
   streams:
-    image: localhost:5001/johndoe6345789/next_extra_primary/streams:latest
+    image: localhost:5050/next_extra_primary/streams:latest
     build:
       context: ./services/streaming/admin
       dockerfile: Dockerfile
@@ -940,7 +953,7 @@ services:
 
   # ---- Cron operator tool (schedule CRUD + preview) ----------
   cron:
-    image: localhost:5001/johndoe6345789/next_extra_primary/cron:latest
+    image: localhost:5050/next_extra_primary/cron:latest
     build:
       context: ./services/cron/admin
       dockerfile: Dockerfile
@@ -957,7 +970,7 @@ services:
 
   # ---- Backup manager daemon (pg_dump + encrypt + upload) ---
   backup-manager:
-    image: localhost:5001/johndoe6345789/next_extra_primary/backend:latest
+    image: localhost:5050/next_extra_primary/backend:latest
     command: ["backup-manager",
               "--config", "config/config.worker.prod.json"]
     depends_on:
@@ -979,7 +992,7 @@ services:
 
   # ---- Webhook dispatcher daemon -----------------------------
   webhook-dispatcher:
-    image: localhost:5001/johndoe6345789/next_extra_primary/backend:latest
+    image: localhost:5050/next_extra_primary/backend:latest
     command: ["webhook-dispatcher",
               "--config", "config/config.worker.prod.json"]
     depends_on:
@@ -1000,7 +1013,7 @@ services:
 
   # ---- Backups operator tool (Next.js frontend) -------------
   backups:
-    image: localhost:5001/johndoe6345789/next_extra_primary/backups:latest
+    image: localhost:5050/next_extra_primary/backups:latest
     build:
       context: ./services/backup/admin
       dockerfile: Dockerfile
@@ -1017,7 +1030,7 @@ services:
 
   # ---- Wiki tool (collaborative editor + history) ------------
   wiki:
-    image: localhost:5001/johndoe6345789/next_extra_primary/wiki:latest
+    image: localhost:5050/next_extra_primary/wiki:latest
     build:
       context: ./services/wiki/admin
       dockerfile: Dockerfile
@@ -1037,7 +1050,7 @@ services:
 
   # ---- Webhooks operator tool (T3 Next.js frontend) ----------
   webhooks:
-    image: localhost:5001/johndoe6345789/next_extra_primary/webhooks:latest
+    image: localhost:5050/next_extra_primary/webhooks:latest
     build:
       context: ./services/webhooks/admin
       dockerfile: Dockerfile
@@ -1054,7 +1067,7 @@ services:
 
   # ---- Polls operator tool (Phase 3.2) -----------------------
   polls:
-    image: localhost:5001/johndoe6345789/next_extra_primary/polls:latest
+    image: localhost:5050/next_extra_primary/polls:latest
     build:
       context: ./services/polls/admin
       dockerfile: Dockerfile
@@ -1071,7 +1084,7 @@ services:
 
   # ---- Blog operator tool (markdown editor + scheduler) -----
   blog:
-    image: localhost:5001/johndoe6345789/next_extra_primary/blog:latest
+    image: localhost:5050/next_extra_primary/blog:latest
     build:
       context: ./services/blog/admin
       dockerfile: Dockerfile
@@ -1091,7 +1104,7 @@ services:
 
   # ---- Next.js frontend (dev mode) ----------------------------
   frontend:
-    image: localhost:5001/johndoe6345789/next_extra_primary/frontend:latest
+    image: localhost:5050/next_extra_primary/frontend:latest
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
@@ -1110,7 +1123,7 @@ services:
 
   # ---- SSO portal (login gate for all tools) -----------------
   sso:
-    image: localhost:5001/johndoe6345789/next_extra_primary/sso:latest
+    image: localhost:5050/next_extra_primary/sso:latest
     build:
       context: ./services/sso/portal
       dockerfile: Dockerfile
@@ -1130,7 +1143,7 @@ services:
 
   # ---- Audit manager daemon (Kafka → PG hash chain) ----------
   audit-manager:
-    image: localhost:5001/johndoe6345789/next_extra_primary/backend:latest
+    image: localhost:5050/next_extra_primary/backend:latest
     command: ["audit-manager",
               "--config", "config/config.worker.prod.json"]
     depends_on:
@@ -1149,7 +1162,7 @@ services:
 
   # ---- Audit operator tool (T2 Next.js frontend) -------------
   audit:
-    image: localhost:5001/johndoe6345789/next_extra_primary/audit:latest
+    image: localhost:5050/next_extra_primary/audit:latest
     build:
       context: ./services/audit/admin
       dockerfile: Dockerfile
@@ -1208,7 +1221,7 @@ services:
 
   # ---- Social admin operator tool (Phase 7) -----------------
   social-admin:
-    image: localhost:5001/johndoe6345789/next_extra_primary/social-admin:latest
+    image: localhost:5050/next_extra_primary/social-admin:latest
     build:
       context: ./services/social/admin
       dockerfile: Dockerfile
@@ -1232,7 +1245,7 @@ services:
 
   # ---- Photo gallery operator tool (Phase 4.4) --------------
   gallery:
-    image: localhost:5001/johndoe6345789/next_extra_primary/gallery:latest
+    image: localhost:5050/next_extra_primary/gallery:latest
     build:
       context: ./services/gallery/admin
       dockerfile: Dockerfile
@@ -1256,7 +1269,7 @@ services:
 
   # ---- Feature flags operator tool ---------------------------
   flags:
-    image: localhost:5001/johndoe6345789/next_extra_primary/flags:latest
+    image: localhost:5050/next_extra_primary/flags:latest
     build:
       context: ./services/feature-flags/admin
       dockerfile: Dockerfile
@@ -1280,7 +1293,7 @@ services:
 
   # ---- Analytics dashboard (admin tool) ---------------------
   analytics:
-    image: localhost:5001/johndoe6345789/next_extra_primary/analytics:latest
+    image: localhost:5050/next_extra_primary/analytics:latest
     build:
       context: ./services/analytics/admin
       dockerfile: Dockerfile
@@ -1303,7 +1316,7 @@ services:
 
   # ---- Public status page (NOT SSO gated) -------------------
   status:
-    image: localhost:5001/johndoe6345789/next_extra_primary/status:latest
+    image: localhost:5050/next_extra_primary/status:latest
     build:
       context: ./services/status-page/public
       dockerfile: Dockerfile
@@ -1326,7 +1339,7 @@ services:
 
   # ---- Alerts centre -----------------------------------------
   alerts:
-    image: localhost:5001/johndoe6345789/next_extra_primary/alerts:latest
+    image: localhost:5050/next_extra_primary/alerts:latest
     build:
       context: ./services/alerts/admin
       dockerfile: Dockerfile
@@ -1349,7 +1362,7 @@ services:
 
   # ---- Forum moderation tool ---------------------------------
   forum:
-    image: localhost:5001/johndoe6345789/next_extra_primary/forum:latest
+    image: localhost:5050/next_extra_primary/forum:latest
     build:
       context: ./services/comments/admin
       dockerfile: Dockerfile
@@ -1398,7 +1411,7 @@ services:
 
   # ---- S3-compatible object store ----------------------------
   s3:
-    image: localhost:5001/johndoe6345789/next_extra_primary/s3:latest
+    image: localhost:5050/next_extra_primary/s3:latest
     build:
       context: ./services/object-store/server
       dockerfile: backend/Dockerfile
@@ -1427,7 +1440,7 @@ services:
 
   # ---- S3 server frontend ------------------------------------
   s3-frontend:
-    image: localhost:5001/johndoe6345789/next_extra_primary/s3-frontend:latest
+    image: localhost:5050/next_extra_primary/s3-frontend:latest
     build:
       context: ./services/object-store/server/frontend
       dockerfile: Dockerfile
@@ -1448,7 +1461,7 @@ services:
 
   # ---- Package repo backend ----------------------------------
   packagerepo-backend:
-    image: localhost:5001/johndoe6345789/next_extra_primary/packagerepo-backend:latest
+    image: localhost:5050/next_extra_primary/packagerepo-backend:latest
     build:
       context: ./services/package-repository/root
       dockerfile: backend/Dockerfile
@@ -1481,7 +1494,7 @@ services:
 
   # ---- Package repo frontend ---------------------------------
   packagerepo-frontend:
-    image: localhost:5001/johndoe6345789/next_extra_primary/packagerepo-frontend:latest
+    image: localhost:5050/next_extra_primary/packagerepo-frontend:latest
     build:
       context: ./services/package-repository/root/frontend
       dockerfile: Dockerfile
@@ -1503,7 +1516,7 @@ services:
 
   # ---- PgAdmin backend (connects to main app DB) -------------
   pgadmin-backend:
-    image: localhost:5001/johndoe6345789/next_extra_primary/pgadmin-backend:latest
+    image: localhost:5050/next_extra_primary/pgadmin-backend:latest
     build:
       context: ./services/database/admin
       dockerfile: backend/Dockerfile
@@ -1527,7 +1540,7 @@ services:
 
   # ---- PgAdmin frontend -------------------------------------
   pgadmin-frontend:
-    image: localhost:5001/johndoe6345789/next_extra_primary/pgadmin-frontend:latest
+    image: localhost:5050/next_extra_primary/pgadmin-frontend:latest
     build:
       context: ./services/database/admin/frontend
       dockerfile: Dockerfile

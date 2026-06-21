@@ -2,6 +2,9 @@
 #include "../services/RegistryAuth.h"
 #include "../services/RegistryUploadStore.h"
 
+#include <memory>
+#include <thread>
+
 using namespace drogon;
 
 namespace repo
@@ -28,17 +31,23 @@ void RegistryV2Ctrl::startUpload(const HttpRequestPtr& req,
     if (!registry_auth::hasScope(principal, "write")) return cb(registry_auth::denied());
     const auto digest = req->getParameter("digest");
     if (!digest.empty()) {
-        const auto stored =
-            Globals::blobs->store(std::string(req->body())).first;
-        auto resp = HttpResponse::newHttpResponse();
-        resp->setStatusCode(stored == digest ? k201Created : k400BadRequest);
-        registry_auth::addHeaders(resp);
-        if (stored == digest) {
-            resp->addHeader("Docker-Content-Digest", stored);
-            resp->addHeader("Location",
-                            "/v2/" + ns + "/" + name + "/blobs/" + stored);
-        }
-        return cb(resp);
+        // Monolithic single-request upload: body IS the blob.
+        // Run off the IO thread — store() does a blocking S3 PUT.
+        auto cbPtr = std::make_shared<std::function<void(const HttpResponsePtr&)>>(std::move(cb));
+        std::thread([ns, name, digest, req, cbPtr]() {
+            const auto stored =
+                Globals::blobs->store(std::string(req->body())).first;
+            auto resp = HttpResponse::newHttpResponse();
+            resp->setStatusCode(stored == digest ? k201Created : k400BadRequest);
+            registry_auth::addHeaders(resp);
+            if (stored == digest) {
+                resp->addHeader("Docker-Content-Digest", stored);
+                resp->addHeader("Location",
+                                "/v2/" + ns + "/" + name + "/blobs/" + stored);
+            }
+            (*cbPtr)(resp);
+        }).detach();
+        return;
     }
     const auto mount = req->getParameter("mount");
     if (!mount.empty() && Globals::blobs->exists(mount)) {
@@ -79,11 +88,17 @@ void RegistryV2Ctrl::patchUpload(const HttpRequestPtr& req,
     auto principal = registry_auth::authenticate(req);
     if (principal.isNull()) return cb(registry_auth::challenge());
     if (!registry_auth::hasScope(principal, "write")) return cb(registry_auth::denied());
-    auto resp = HttpResponse::newHttpResponse();
-    resp->setStatusCode(k202Accepted);
-    setUploadHeaders(resp, ns, name, uuid,
-                     registry_upload::append(uuid, std::string(req->body())));
-    cb(resp);
+    // Run disk write off the IO thread — for large blobs (100s of MB) the
+    // ofstream write can stall the event loop long enough for postgres to drop
+    // its idle connection. Capture `req` to keep the body buffer alive.
+    auto cbPtr = std::make_shared<std::function<void(const HttpResponsePtr&)>>(std::move(cb));
+    std::thread([ns, name, uuid, req, cbPtr]() {
+        auto resp = HttpResponse::newHttpResponse();
+        resp->setStatusCode(k202Accepted);
+        setUploadHeaders(resp, ns, name, uuid,
+                         registry_upload::append(uuid, req->body()));
+        (*cbPtr)(resp);
+    }).detach();
 }
 
 void RegistryV2Ctrl::completeUpload(const HttpRequestPtr& req,
@@ -101,15 +116,23 @@ void RegistryV2Ctrl::completeUpload(const HttpRequestPtr& req,
         registry_auth::addHeaders(resp);
         return cb(resp);
     }
-    const auto stored = registry_upload::finalize(uuid, digest, std::string(req->body()));
-    auto resp = HttpResponse::newHttpResponse();
-    resp->setStatusCode(stored.empty() ? k400BadRequest : k201Created);
-    registry_auth::addHeaders(resp);
-    if (!stored.empty()) {
-        resp->addHeader("Docker-Content-Digest", stored);
-        resp->addHeader("Location", "/v2/" + ns + "/" + name + "/blobs/" + stored);
-    }
-    cb(resp);
+    // Copy the (usually empty) finalize body before launching the thread so
+    // the request can be freed by Drogon independently.
+    auto tail = std::string(req->body());
+    auto cbPtr = std::make_shared<std::function<void(const HttpResponsePtr&)>>(std::move(cb));
+    // Run finalize + S3 PUT off the IO thread — the S3 upload is a blocking
+    // call that can take tens of seconds for large layers.
+    std::thread([ns, name, uuid, digest, tail = std::move(tail), cbPtr]() mutable {
+        const auto stored = registry_upload::finalize(uuid, digest, std::move(tail));
+        auto resp = HttpResponse::newHttpResponse();
+        resp->setStatusCode(stored.empty() ? k400BadRequest : k201Created);
+        registry_auth::addHeaders(resp);
+        if (!stored.empty()) {
+            resp->addHeader("Docker-Content-Digest", stored);
+            resp->addHeader("Location", "/v2/" + ns + "/" + name + "/blobs/" + stored);
+        }
+        (*cbPtr)(resp);
+    }).detach();
 }
 
 void RegistryV2Ctrl::cancelUpload(const HttpRequestPtr& req,
