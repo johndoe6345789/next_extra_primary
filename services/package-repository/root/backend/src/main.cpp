@@ -33,6 +33,9 @@ int main()
         "user=packagerepo password=packagerepo");
 
     repo::Globals::initConfig(s3Ep, s3Bk, s3Ak, jwt, db);
+    // Upstream registries for pull-through proxying (empty disables it).
+    repo::Globals::npmUpstream = env("NPM_UPSTREAM", "https://registry.npmjs.org");
+    repo::Globals::conanUpstream = env("CONAN_UPSTREAM", "https://center.conan.io");
     repo::AdapterGlobals::init(repo::Globals::repoType);
 
     for (auto p : {fs::path("/app/schema.json"),
@@ -49,11 +52,14 @@ int main()
     repo::registerAdapterRoutes();
 
     auto port = std::stoi(env("PORT", "5000"));
+    // 120 s idle timeout so large S3 blob uploads (1-2 GB layers)
+    // finish before the HTTP connection is closed by Drogon.
     drogon::app()
         .setLogLevel(trantor::Logger::kTrace)
         .setClientMaxBodySize(2ULL * 1024 * 1024 * 1024)
+        .setIdleConnectionTimeout(120)
         .addListener("0.0.0.0", (uint16_t)port)
-        .setThreadNum(4)
+        .setThreadNum(8)
         .registerBeginningAdvice(
             [] { repo::Globals::initS3(); })
         .run();

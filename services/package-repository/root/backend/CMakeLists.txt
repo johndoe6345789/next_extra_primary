@@ -25,8 +25,10 @@ add_executable(packagerepo-server
     src/controllers/RegistryV2Upload.cpp
     src/controllers/AdapterHandlers.cpp
     src/controllers/AdapterHandlersDownload.cpp
+    src/controllers/AdapterProxy.cpp
     src/filters/AuthFilter.cpp
     src/services/S3BlobStore.cpp
+    src/services/ProxyCache.cpp
     src/services/PgAdapterStore.cpp
 )
 

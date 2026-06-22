@@ -24,6 +24,10 @@ struct Globals {
     static inline std::string schemaJson;
     static inline int repoType = 0;
 
+    // Upstream registries for pull-through proxying (empty = disabled).
+    static inline std::string npmUpstream;   // e.g. https://registry.npmjs.org
+    static inline std::string conanUpstream; // e.g. https://center.conan.io
+
     // Stored for deferred S3 init
     static inline std::string s3Ep_;
     static inline std::string s3Bkt_;

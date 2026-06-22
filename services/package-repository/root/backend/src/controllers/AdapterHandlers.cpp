@@ -7,6 +7,7 @@
  */
 
 #include "AdapterHandlers.h"
+#include "AdapterProxy.h"
 #include "../services/AdapterTemplate.h"
 #include "../services/Globals.h"
 #include "../services/PgArtifactQuery.h"
@@ -57,7 +58,8 @@ void handlePackageMeta(
     auto vers = pg_artifact::versions(
         Globals::repoType, a.ns, name);
     if (vers.empty()) {
-        cb(HttpResponse::newNotFoundResponse());
+        auto r = proxyNpmMeta(a, req, name);
+        cb(r ? r : HttpResponse::newNotFoundResponse());
         return;
     }
     auto body = renderMeta(

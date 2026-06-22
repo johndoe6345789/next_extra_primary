@@ -6,6 +6,7 @@
  */
 
 #include "AdapterHandlers.h"
+#include "AdapterProxy.h"
 #include "../services/AdapterTemplate.h"
 #include "../services/Globals.h"
 #include "../services/PgArtifactStore.h"
@@ -27,7 +28,8 @@ void handleDownload(
         Globals::repoType, a.ns, name, ver,
         "default");
     if (meta.isNull()) {
-        cb(HttpResponse::newNotFoundResponse());
+        auto r = proxyNpmDownload(a, name, ver);
+        cb(r ? r : HttpResponse::newNotFoundResponse());
         return;
     }
     auto data = Globals::blobs->read(
