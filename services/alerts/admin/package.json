@@ -20,7 +20,7 @@
     "@shared/service-adapters": "file:../../../shared/redux/adapters",
     "@reduxjs/toolkit": "^2.11.2",
     "react-redux": "^9.2.0",
-    "next": "^16.2.3",
+    "next": "^16.2.6",
     "next-intl": "^4.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
