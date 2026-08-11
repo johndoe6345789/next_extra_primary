@@ -1,3 +1,0 @@
-# streaks
-
-Daily streak computation.
