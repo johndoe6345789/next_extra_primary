@@ -24,6 +24,6 @@ See the [reposplit README](https://github.com/johndoe6345789/reposplit#readme) f
 - Analytics → [analytics](https://github.com/johndoe6345789/analytics)
 - Notifications (`notifications`, `email`, `webhooks`, `imap-sync`, `alerts`) → [notifications](https://github.com/johndoe6345789/notifications)
 - Ecommerce → [ecommerce](https://github.com/johndoe6345789/ecommerce)
-- CMS-adjacent (`wiki`, `comments`, `polls`) → [pyracms_core](https://github.com/johndoe6345789/pyracms_core), `gallery` → [pyracms_gallery](https://github.com/johndoe6345789/pyracms_gallery), `blog` → [pyracms_article](https://github.com/johndoe6345789/pyracms_article)
+- `wiki` → [wiki](https://github.com/johndoe6345789/wiki), `comments` → [comments](https://github.com/johndoe6345789/comments), `polls` → [polls](https://github.com/johndoe6345789/polls), `gallery` → [gallery](https://github.com/johndoe6345789/gallery), `blog` → [blog](https://github.com/johndoe6345789/blog) — not pyracms, which is a separate existing project
 - `package-repository` → [goodpackagerepo](https://github.com/johndoe6345789/goodpackagerepo)
 - `streaming` → [media_center](https://github.com/johndoe6345789/media_center)
