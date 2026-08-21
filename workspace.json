@@ -71,8 +71,8 @@
       "path": ""
     },
     "services/comments-service": {
-      "repo": "businessplanner",
-      "path": "services/comments-service"
+      "repo": "comments",
+      "path": "comments-service"
     },
     "services/commerce-service": {
       "repo": "ecommerce",
@@ -279,5 +279,5 @@
       "path": "shared"
     }
   },
-  "_comment_daemons": "The *-service entries are the standalone nextra-* daemons built from docker/service-base.Dockerfile via its SVC_DIR build arg -- separate binaries from the nextra-api monolith, so they are not in cmake/sources_domains_*.cmake. comments-service exists only in businessplanner: the comments repo holds the admin/backend/controllers for the monolith domain but no standalone daemon."
+  "_comment_daemons": "The *-service entries are the standalone nextra-* daemons built from docker/service-base.Dockerfile via its SVC_DIR build arg -- separate binaries from the nextra-api monolith, so they are not in cmake/sources_domains_*.cmake. Each one's CMakeLists.txt calls nextra_service() from cmake/service.cmake, so businessplanner's same-named services are not substitutes: they call businessplanner_service() instead."
 }
