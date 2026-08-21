@@ -166,6 +166,10 @@
       "repo": "content-service",
       "path": "media-service"
     },
+    "services/migrate-service": {
+      "repo": "platform-core",
+      "path": "services/migrate-service"
+    },
     "services/migration-runner": {
       "repo": "platform-core",
       "path": "services/migration-runner"
@@ -217,6 +221,10 @@
     "services/search-service": {
       "repo": "search",
       "path": "search-service"
+    },
+    "services/service-host": {
+      "repo": "platform-core",
+      "path": "services/service-host"
     },
     "services/social": {
       "repo": "social",
