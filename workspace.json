@@ -10,9 +10,17 @@
     "_build"
   ],
   "targets": {
+    "frontend": {
+      "repo": "nextra-frontend",
+      "path": ""
+    },
     "services/ai-chat": {
       "repo": "ai-chat",
       "path": "ai-chat"
+    },
+    "services/ai-service": {
+      "repo": "ai-chat",
+      "path": "ai-service"
     },
     "services/alerts": {
       "repo": "notifications",
@@ -21,6 +29,10 @@
     "services/analytics": {
       "repo": "analytics",
       "path": "services/analytics"
+    },
+    "services/analytics-service": {
+      "repo": "analytics",
+      "path": "analytics-service"
     },
     "services/api-documentation": {
       "repo": "analytics",
@@ -38,6 +50,10 @@
       "repo": "platform-core",
       "path": "services/auth"
     },
+    "services/auth-service": {
+      "repo": "platform-core",
+      "path": "services/auth-service"
+    },
     "services/backup": {
       "repo": "platform-core",
       "path": "services/backup"
@@ -54,9 +70,29 @@
       "repo": "comments",
       "path": ""
     },
+    "services/comments-service": {
+      "repo": "businessplanner",
+      "path": "services/comments-service"
+    },
+    "services/commerce-service": {
+      "repo": "ecommerce",
+      "path": "services/commerce-service"
+    },
+    "services/content-service": {
+      "repo": "content-service",
+      "path": "content-service"
+    },
     "services/cron": {
       "repo": "platform-core",
       "path": "services/cron"
+    },
+    "services/database": {
+      "repo": "platform-core",
+      "path": "services/database"
+    },
+    "services/design-system": {
+      "repo": "design-system",
+      "path": "services/design-system"
     },
     "services/drogon-host": {
       "repo": "platform-core",
@@ -86,6 +122,10 @@
       "repo": "gamification",
       "path": "gamification"
     },
+    "services/gamification-service": {
+      "repo": "gamification",
+      "path": "gamification-service"
+    },
     "services/http-filters": {
       "repo": "platform-core",
       "path": "services/http-filters"
@@ -106,6 +146,10 @@
       "repo": "platform-core",
       "path": "services/infra"
     },
+    "services/infra-service": {
+      "repo": "platform-core",
+      "path": "services/infra-service"
+    },
     "services/job-queue": {
       "repo": "platform-core",
       "path": "services/job-queue"
@@ -118,6 +162,10 @@
       "repo": "gamification",
       "path": "levels"
     },
+    "services/media-service": {
+      "repo": "content-service",
+      "path": "media-service"
+    },
     "services/migration-runner": {
       "repo": "platform-core",
       "path": "services/migration-runner"
@@ -126,9 +174,25 @@
       "repo": "notifications",
       "path": "services/notifications"
     },
+    "services/notifications-service": {
+      "repo": "notifications",
+      "path": "notifications-service"
+    },
+    "services/object-store": {
+      "repo": "platform-core",
+      "path": "services/object-store"
+    },
+    "services/package-repository": {
+      "repo": "goodpackagerepo",
+      "path": "_new/package-repository"
+    },
     "services/pdf": {
       "repo": "content-service",
       "path": "pdf"
+    },
+    "services/platform-service": {
+      "repo": "platform-core",
+      "path": "services/platform-service"
     },
     "services/polls": {
       "repo": "polls",
@@ -150,9 +214,25 @@
       "repo": "search",
       "path": "search"
     },
+    "services/search-service": {
+      "repo": "search",
+      "path": "search-service"
+    },
     "services/social": {
       "repo": "social",
       "path": ""
+    },
+    "services/social-service": {
+      "repo": "social",
+      "path": "social-service"
+    },
+    "services/sso": {
+      "repo": "platform-core",
+      "path": "services/sso"
+    },
+    "services/status-page": {
+      "repo": "platform-core",
+      "path": "services/status-page"
     },
     "services/streaks": {
       "repo": "gamification",
@@ -186,37 +266,10 @@
       "repo": "gamification",
       "path": "xp"
     },
-    "frontend": {
-      "repo": "nextra-frontend",
-      "path": ""
-    },
     "shared": {
       "repo": "design-system",
       "path": "shared"
-    },
-    "services/design-system": {
-      "repo": "design-system",
-      "path": "services/design-system"
-    },
-    "services/database": {
-      "repo": "platform-core",
-      "path": "services/database"
-    },
-    "services/object-store": {
-      "repo": "platform-core",
-      "path": "services/object-store"
-    },
-    "services/status-page": {
-      "repo": "platform-core",
-      "path": "services/status-page"
-    },
-    "services/sso": {
-      "repo": "platform-core",
-      "path": "services/sso"
-    },
-    "services/package-repository": {
-      "repo": "goodpackagerepo",
-      "path": "_new/package-repository"
     }
-  }
+  },
+  "_comment_daemons": "The *-service entries are the standalone nextra-* daemons built from docker/service-base.Dockerfile via its SVC_DIR build arg -- separate binaries from the nextra-api monolith, so they are not in cmake/sources_domains_*.cmake. comments-service exists only in businessplanner: the comments repo holds the admin/backend/controllers for the monolith domain but no standalone daemon."
 }
