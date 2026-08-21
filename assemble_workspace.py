@@ -13,6 +13,7 @@ import argparse
 import json
 import os
 import shutil
+import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -28,6 +29,25 @@ def source_of(cfg, repos_root, spec):
     if spec["path"]:
         parts.append(spec["path"])
     return os.path.normpath(os.path.join(*parts))
+
+
+def pull_repos(cfg, repos_root, verbose):
+    """git pull each micro-repo, so a deploy picks up their latest code."""
+    repos = sorted({spec["repo"] for spec in cfg["targets"].values()})
+    failed = []
+    for repo in repos:
+        path = os.path.join(repos_root, repo)
+        if not os.path.isdir(os.path.join(path, ".git")):
+            failed.append((repo, "not a git checkout"))
+            continue
+        done = subprocess.run(["git", "-C", path, "pull", "--ff-only", "--quiet"],
+                              capture_output=True, text=True)
+        if done.returncode != 0:
+            failed.append((repo, done.stderr.strip().splitlines()[-1:] or ["failed"]))
+        elif verbose:
+            print("  pulled %s" % repo)
+    print("pulled %d/%d repos" % (len(repos) - len(failed), len(repos)))
+    return failed
 
 
 def assemble(cfg, repos_root, dry_run, verbose):
@@ -71,6 +91,8 @@ def main():
     ap.add_argument("--check", action="store_true",
                     help="report what would be copied and whether every "
                          "source exists; make no changes")
+    ap.add_argument("--pull", action="store_true",
+                    help="git pull every micro-repo before assembling")
     ap.add_argument("--clean", action="store_true",
                     help="remove every assembled path instead of creating it")
     ap.add_argument("-v", "--verbose", action="store_true")
@@ -83,6 +105,11 @@ def main():
     if args.clean:
         print("removed %d assembled paths" % clean(cfg, args.verbose))
         return 0
+
+    if args.pull:
+        stale = pull_repos(cfg, repos_root, args.verbose)
+        for repo, why in stale:
+            print("  could not pull %s: %s" % (repo, why), file=sys.stderr)
 
     print("assembling from %s" % repos_root)
     copied, missing = assemble(cfg, repos_root, args.check, args.verbose)
