@@ -1,0 +1,222 @@
+{
+  "_comment": "Maps each path this repo's build expects onto the micro-repo that now owns it. next_extra_primary keeps the build system (CMakeLists, docker/, compose, bake); the source lives in sibling repos since commit 572da45. Run assemble_workspace.py to materialise them before building.",
+  "repos_root": "..",
+  "ignore": [
+    ".git",
+    "node_modules",
+    "__pycache__",
+    ".next",
+    "build",
+    "_build"
+  ],
+  "targets": {
+    "services/ai-chat": {
+      "repo": "ai-chat",
+      "path": "ai-chat"
+    },
+    "services/alerts": {
+      "repo": "notifications",
+      "path": "alerts"
+    },
+    "services/analytics": {
+      "repo": "analytics",
+      "path": "services/analytics"
+    },
+    "services/api-documentation": {
+      "repo": "analytics",
+      "path": "services/api-documentation"
+    },
+    "services/api-keys": {
+      "repo": "platform-core",
+      "path": "services/api-keys"
+    },
+    "services/audit": {
+      "repo": "platform-core",
+      "path": "services/audit"
+    },
+    "services/auth": {
+      "repo": "platform-core",
+      "path": "services/auth"
+    },
+    "services/backup": {
+      "repo": "platform-core",
+      "path": "services/backup"
+    },
+    "services/badges": {
+      "repo": "gamification",
+      "path": "badges"
+    },
+    "services/blog": {
+      "repo": "blog",
+      "path": ""
+    },
+    "services/comments": {
+      "repo": "comments",
+      "path": ""
+    },
+    "services/cron": {
+      "repo": "platform-core",
+      "path": "services/cron"
+    },
+    "services/drogon-host": {
+      "repo": "platform-core",
+      "path": "services/drogon-host"
+    },
+    "services/ecommerce": {
+      "repo": "ecommerce",
+      "path": "services/ecommerce"
+    },
+    "services/elasticsearch": {
+      "repo": "search",
+      "path": "elasticsearch"
+    },
+    "services/email": {
+      "repo": "notifications",
+      "path": "services/email"
+    },
+    "services/feature-flags": {
+      "repo": "platform-core",
+      "path": "services/feature-flags"
+    },
+    "services/gallery": {
+      "repo": "gallery",
+      "path": ""
+    },
+    "services/gamification": {
+      "repo": "gamification",
+      "path": "gamification"
+    },
+    "services/http-filters": {
+      "repo": "platform-core",
+      "path": "services/http-filters"
+    },
+    "services/i18n": {
+      "repo": "platform-core",
+      "path": "services/i18n"
+    },
+    "services/image": {
+      "repo": "content-service",
+      "path": "image"
+    },
+    "services/imap-sync": {
+      "repo": "notifications",
+      "path": "services/imap-sync"
+    },
+    "services/infra": {
+      "repo": "platform-core",
+      "path": "services/infra"
+    },
+    "services/job-queue": {
+      "repo": "platform-core",
+      "path": "services/job-queue"
+    },
+    "services/leaderboards": {
+      "repo": "gamification",
+      "path": "leaderboards"
+    },
+    "services/levels": {
+      "repo": "gamification",
+      "path": "levels"
+    },
+    "services/migration-runner": {
+      "repo": "platform-core",
+      "path": "services/migration-runner"
+    },
+    "services/notifications": {
+      "repo": "notifications",
+      "path": "services/notifications"
+    },
+    "services/pdf": {
+      "repo": "content-service",
+      "path": "pdf"
+    },
+    "services/polls": {
+      "repo": "polls",
+      "path": ""
+    },
+    "services/portal": {
+      "repo": "platform-core",
+      "path": "services/portal"
+    },
+    "services/progress": {
+      "repo": "gamification",
+      "path": "progress"
+    },
+    "services/rate-limit": {
+      "repo": "platform-core",
+      "path": "services/rate-limit"
+    },
+    "services/search": {
+      "repo": "search",
+      "path": "search"
+    },
+    "services/social": {
+      "repo": "social",
+      "path": ""
+    },
+    "services/streaks": {
+      "repo": "gamification",
+      "path": "streaks"
+    },
+    "services/streaming": {
+      "repo": "media_center",
+      "path": "streaming"
+    },
+    "services/user-preferences": {
+      "repo": "platform-core",
+      "path": "services/user-preferences"
+    },
+    "services/users": {
+      "repo": "platform-core",
+      "path": "services/users"
+    },
+    "services/video": {
+      "repo": "content-service",
+      "path": "video"
+    },
+    "services/webhooks": {
+      "repo": "notifications",
+      "path": "services/webhooks"
+    },
+    "services/wiki": {
+      "repo": "wiki",
+      "path": ""
+    },
+    "services/xp": {
+      "repo": "gamification",
+      "path": "xp"
+    },
+    "frontend": {
+      "repo": "nextra-frontend",
+      "path": ""
+    },
+    "shared": {
+      "repo": "design-system",
+      "path": "shared"
+    },
+    "services/design-system": {
+      "repo": "design-system",
+      "path": "services/design-system"
+    },
+    "services/database": {
+      "repo": "platform-core",
+      "path": "services/database"
+    },
+    "services/object-store": {
+      "repo": "platform-core",
+      "path": "services/object-store"
+    },
+    "services/status-page": {
+      "repo": "platform-core",
+      "path": "services/status-page"
+    },
+    "services/sso": {
+      "repo": "platform-core",
+      "path": "services/sso"
+    },
+    "services/package-repository": {
+      "repo": "goodpackagerepo",
+      "path": "_new/package-repository"
+    }
+  }
+}

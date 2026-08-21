@@ -86,3 +86,10 @@ replay_pid*
 /.claude/worktrees
 /.claude/scheduled_tasks.lock
 /.playwright-mcp
+
+# Assembled workspace -- materialised by assemble_workspace.py from the
+# micro-repos listed in workspace.json. Commit 572da45 deliberately emptied
+# these; the source of truth is each sibling repo, never this tree.
+/services/
+/shared/
+/frontend/
