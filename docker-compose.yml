@@ -33,51 +33,6 @@ services:
       retries: 5
     restart: unless-stopped
 
-  # ---- Keycloak Postgres (identity store, internal only) ----
-  keycloak-db:
-    image: postgres:16-alpine
-    environment:
-      POSTGRES_DB: keycloak
-      POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: keycloak_dev
-    volumes:
-      - keycloak_pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U keycloak -d keycloak"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
-
-  # ---- Keycloak (OIDC identity provider) --------------------
-  keycloak:
-    build:
-      context: ./docker/keycloak
-      dockerfile: Dockerfile
-    ports:
-      - "8088:8080"
-    depends_on:
-      keycloak-db:
-        condition: service_healthy
-    environment:
-      KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak
-      KC_DB_USERNAME: keycloak
-      KC_DB_PASSWORD: keycloak_dev
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_HOSTNAME_URL: http://localhost:8889/sso
-      KC_HTTP_RELATIVE_PATH: /sso
-      KC_PROXY_HEADERS: xforwarded
-      KC_HOSTNAME_STRICT: "false"
-      KC_GITHUB_CLIENT_ID: ${KC_GITHUB_CLIENT_ID:-}
-      KC_GITHUB_CLIENT_SECRET: ${KC_GITHUB_CLIENT_SECRET:-}
-      KC_GOOGLE_CLIENT_ID: ${KC_GOOGLE_CLIENT_ID:-}
-      KC_GOOGLE_CLIENT_SECRET: ${KC_GOOGLE_CLIENT_SECRET:-}
-      KC_MICROSOFT_CLIENT_ID: ${KC_MICROSOFT_CLIENT_ID:-}
-      KC_MICROSOFT_CLIENT_SECRET: ${KC_MICROSOFT_CLIENT_SECRET:-}
-    restart: unless-stopped
-
   # ---- Elasticsearch -----------------------------------------
   elasticsearch:
     image: elasticsearch:8.17.0
@@ -291,6 +246,11 @@ services:
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       FRONTEND_VERSION: "0.1.0"
+      OIDC_ISSUER: ${OIDC_ISSUER:-http://localhost:8889/api/dbal}
+      OIDC_CLIENT_ID: nextra-app
+      OIDC_JWKS_URL: ${OIDC_JWKS_URL:-http://dbal:8080/oidc/jwks.json}
+      SSO_COOKIE_NAME: nextra_sso
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-http://localhost:8889}
     restart: unless-stopped
 
   # ==============================================================
@@ -317,6 +277,11 @@ services:
         condition: service_healthy
     environment:
       JWT_SECRET: change-me-in-production
+      OIDC_ISSUER: ${OIDC_ISSUER:-http://localhost:8889/api/dbal}
+      OIDC_CLIENT_ID: nextra-app
+      OIDC_JWKS_URL: ${OIDC_JWKS_URL:-http://dbal:8080/oidc/jwks.json}
+      SSO_COOKIE_NAME: nextra_sso
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-http://localhost:8889}
     restart: unless-stopped
 
   nextra-social:
@@ -811,9 +776,9 @@ services:
       DB_NAME: nextra_db
       DB_USER: nextra
       DB_PASSWORD: nextra_dev
-      # Legacy in-house JWT secret. Required during the
-      # Keycloak migration soak — Keycloak verifier is
-      # the primary path, this remains as fallback.
+      # Legacy in-house JWT secret, kept as a fallback for
+      # the in-house token path; the OIDC verifier
+      # (dbal) is the primary one.
       JWT_SECRET: ${JWT_SECRET:-nextra_dev_jwt_secret_change_me}
       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
       STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
@@ -1138,6 +1103,7 @@ services:
       - backend
     environment:
       NEXT_PUBLIC_ORIGIN: http://localhost:8889
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-http://localhost:8889}
       NODE_ENV: development
     restart: unless-stopped
 
@@ -1178,6 +1144,30 @@ services:
     environment:
       NEXT_PUBLIC_BASE_PATH: /audit
       BACKEND_URL: http://backend:8080
+    restart: unless-stopped
+
+  # ---- dbal: local OIDC provider (docker compose --profile local-sso) ----
+  # SQLite, the stock demo users (<username>-Demo1!), and a client list that
+  # allows http://localhost:8889. A deployment uses a shared dbal instead.
+  dbal:
+    profiles: ["local-sso"]
+    image: ghcr.io/johndoe6345789/dbal:latest
+    environment:
+      DBAL_ADAPTER: sqlite
+      DATABASE_URL: /app/data/dbal.sqlite
+      DBAL_AUTO_CREATE_TABLES: "true"
+      DBAL_SEED_ON_STARTUP: "true"
+      DBAL_SEED_DIR: /app/seeds/database
+      DBAL_OIDC_ISSUER: http://localhost:8889/api/dbal
+      DBAL_PUBLIC_PATH_PREFIX: /api/dbal
+      DBAL_OIDC_CLIENTS_CONFIG: /app/schemas/oidc/clients.json
+      DBAL_OIDC_PRIVATE_KEY_PATH: /app/keys/oidc_signing_key.pem
+      JWT_SECRET_KEY: dev-only-change-me
+      DBAL_ADMIN_TOKEN: dev-only-change-me
+    volumes:
+      - ./docker/dbal/clients.json:/app/schemas/oidc/clients.json:ro
+      - dbal_data:/app/data
+      - dbal_keys:/app/keys
     restart: unless-stopped
 
   # ---- Nginx reverse proxy -----------------------------------
@@ -1592,8 +1582,9 @@ services:
 #  Volumes
 # ==============================================================
 volumes:
+  dbal_data:
+  dbal_keys:
   pgdata:
-  keycloak_pgdata:
   esdata:
   redisdata:
   kafkadata:

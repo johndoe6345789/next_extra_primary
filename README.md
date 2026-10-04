@@ -27,3 +27,11 @@ See the [reposplit README](https://github.com/johndoe6345789/reposplit#readme) f
 - `wiki` → [wiki](https://github.com/johndoe6345789/wiki), `comments` → [comments](https://github.com/johndoe6345789/comments), `polls` → [polls](https://github.com/johndoe6345789/polls), `gallery` → [gallery](https://github.com/johndoe6345789/gallery), `blog` → [blog](https://github.com/johndoe6345789/blog) — not pyracms, which is a separate existing project
 - `package-repository` → [goodpackagerepo](https://github.com/johndoe6345789/goodpackagerepo)
 - `streaming` → [media_center](https://github.com/johndoe6345789/media_center)
+
+## Login
+
+Login is OIDC against [dbal](https://github.com/johndoe6345789/dbal) (authorization code + PKCE,
+RS256). `docker compose --profile local-sso up` runs one locally with the stock demo users
+(`<username>-Demo1!`); a deployment points `OIDC_ISSUER` / `OIDC_JWKS_URL` at a shared instance
+and registers the `nextra-app` client with it. Shared code lives in the micro-repos listed in
+`workspace.json` (also used by LaunchPad, [businessplanner](https://github.com/johndoe6345789/businessplanner)).
